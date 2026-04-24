@@ -1,0 +1,417 @@
+<!-- ═══════════════════════════════════════════════════════════════
+     BBW4LIFE — HEADER ULTRA PREMIUM — FINAL FIXED
+═══════════════════════════════════════════════════════════════ -->
+
+<header class="bbw-header" id="bbw-header">
+
+  <div class="bbw-header__topline" aria-hidden="true"></div>
+  <div class="bbw-header__particles" id="bbwHeaderParticles" aria-hidden="true"></div>
+
+  <div class="bbw-header__inner">
+
+    <!-- ══ GAUCHE : Hamburger + Search (mobile uniquement) ══ -->
+    <div class="bbw-header__left">
+
+      <!-- Hamburger -->
+      <button class="bbw-burger" id="bbwBurger" aria-label="Open navigation" aria-expanded="false">
+        <span class="bbw-burger__bar"></span>
+        <span class="bbw-burger__bar"></span>
+        <span class="bbw-burger__bar"></span>
+        <span class="bbw-burger__ripple"></span>
+      </button>
+
+      <!-- Search toggle icon -->
+      <div class="bbw-search" id="bbwSearch" data-always-visible="no">
+        <button class="bbw-search__icon" id="bbwSearchToggle" aria-label="Search">
+          <i class="fi fi-rr-search"></i>
+        </button>
+        <!-- Barre search mobile -->
+        <div class="bbw-search__bar" id="bbwSearchBar">
+          <input type="text" class="bbw-search__input" id="bbwSearchInput"
+            placeholder="Search products, collections…" autocomplete="off" list="bbw-search-suggestions">
+          <datalist id="bbw-search-suggestions">
+            <option value="Dresses">
+            <option value="Plus Size">
+            <option value="Shop">
+            <option value="New Arrivals">
+            <option value="Sale">
+            <option value="Collections">
+            <option value="Tops">
+            <option value="Swimwear">
+            <option value="Activewear">
+          </datalist>
+          <button class="bbw-search__submit" aria-label="Submit search">
+            <i class="fi fi-rr-search"></i>
+          </button>
+          <button class="bbw-search__close" id="bbwSearchClose" aria-label="Close search">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ CENTRE : Logo ══ -->
+    <div class="bbw-header__logo">
+      <a href="/index.html" class="bbw-logo" aria-label="BBW4LIFE Home">
+        <img src="/src-images/LogoBBW4LIFE.png" alt="BBW4LIFE" class="bbw-logo__img"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="bbw-logo__text" style="display:none">BBW<span>4</span>LIFE</span>
+        <span class="bbw-logo__glow" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <!-- ══ DROITE : Search always-visible (desktop) + Language + Account + Wishlist + Cart ══ -->
+    <div class="bbw-header__right">
+
+      <!-- Search always-visible desktop -->
+      <div class="bbw-search-desktop" id="bbwSearchDesktop" aria-label="Search" style="display:none;">
+        <div class="bbw-search-desktop__bar">
+          <i class="fi fi-rr-search bbw-search-desktop__icon"></i>
+          <input type="text" class="bbw-search-desktop__input" id="bbwSearchDesktopInput"
+            placeholder="Search products…" autocomplete="off" list="bbw-search-suggestions">
+          <button class="bbw-search-desktop__submit" id="bbwSearchDesktopSubmit" aria-label="Submit search">
+            <i class="fi fi-rr-search"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Language desktop -->
+      <div class="bbw-lang bbw-lang--desktop" id="bbwLang">
+        <button class="bbw-lang__btn" aria-label="Language">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
+          </svg>
+          <span class="bbw-lang__label">EN</span>
+          <svg class="bbw-lang__caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="bbw-lang__dropdown">
+          <button class="bbw-lang__option active" data-lang="en">🇺🇸 English</button>
+          <button class="bbw-lang__option" data-lang="fr">🇫🇷 Français</button>
+          <button class="bbw-lang__option" data-lang="es">🇪🇸 Español</button>
+          <button class="bbw-lang__option" data-lang="pt">🇧🇷 Português</button>
+        </div>
+      </div>
+
+      <!-- Account
+           script.js attend : #paulTrigger  (via bbwAccountTrigger → paulTrigger.click())
+           header.js gère le clic sur bbwAccountTrigger et appelle paulTrigger.click()
+      -->
+      <button class="bbw-icon-btn" id="bbwAccountTrigger" aria-label="Account">
+        <i class="fi fi-rr-user"></i>
+      </button>
+
+      <!-- Wishlist
+           script.js attend : .icon-wrapper:has(.wishlist-icon)  ET  .wishlist-badge
+           On garde id="bbwWishlistTrigger" ET on ajoute class="icon-wrapper"
+      -->
+      <div class="bbw-icon-btn icon-wrapper" id="bbwWishlistTrigger" aria-label="Wishlist" role="button" tabindex="0">
+        <i class="fas fa-heart wishlist-icon"></i>
+        <span class="bbw-badge wishlist-badge">0</span>
+      </div>
+
+      <!-- Cart
+           script.js attend : .icon-wrapper:has(.cart-icon)  ET  .cart-badge
+           On garde id="bbwCartTrigger" ET on ajoute class="icon-wrapper"
+      -->
+      <div class="bbw-icon-btn icon-wrapper" id="bbwCartTrigger" aria-label="Cart" role="button" tabindex="0">
+        <i class="fas fa-shopping-cart cart-icon"></i>
+        <span class="bbw-badge cart-badge">0</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bbw-header__bottomline" aria-hidden="true"></div>
+
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════
+     OVERLAY
+══════════════════════════════════════════════════════════════ -->
+<div class="bbw-drawer-overlay" id="bbwDrawerOverlay" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     DRAWER NAV COMPLET
+══════════════════════════════════════════════════════════════ -->
+<nav class="bbw-drawer" id="bbwDrawer" aria-hidden="true" aria-label="Main navigation">
+
+  <!-- ── Head — flex-shrink:0, ne scroll jamais ── -->
+  <div class="bbw-drawer__head">
+    <a href="/index.html" class="bbw-drawer__logo">
+      <img src="/src-images/LogoBBW4LIFE.png" alt="BBW4LIFE"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span style="display:none" class="bbw-drawer__logo-text">BBW<em>4</em>LIFE</span>
+    </a>
+    <button class="bbw-drawer__close" id="bbwDrawerClose" aria-label="Close navigation">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="bbw-drawer__scanline" aria-hidden="true"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       BODY SCROLLABLE
+  ══════════════════════════════════════════════════════════ -->
+  <div class="bbw-drawer__body">
+
+    <!-- NAV LINKS -->
+    <ul class="bbw-drawer__nav">
+      <li class="bbw-drawer__item">
+        <a href="/index.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-home"></i></span>
+          <span class="bbw-drawer__link-label">Home</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/shop.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-shopping-bag"></i></span>
+          <span class="bbw-drawer__link-label">Shop</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/collection.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-gem"></i></span>
+          <span class="bbw-drawer__link-label">Collections</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/new-arrivals.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-star"></i></span>
+          <span class="bbw-drawer__link-label">New Arrivals</span>
+          <span class="bbw-drawer__link-badge">NEW</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/sale.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-badge-percent"></i></span>
+          <span class="bbw-drawer__link-label">Sale</span>
+          <span class="bbw-drawer__link-badge bbw-drawer__link-badge--hot">SALE</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/plus-size.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-heart"></i></span>
+          <span class="bbw-drawer__link-label">Plus Size</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/dresses.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-dress"></i></span>
+          <span class="bbw-drawer__link-label">Dresses</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/tops.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-vest"></i></span>
+          <span class="bbw-drawer__link-label">Tops &amp; Blouses</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/bottoms.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-layers"></i></span>
+          <span class="bbw-drawer__link-label">Bottoms</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/swimwear.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-water"></i></span>
+          <span class="bbw-drawer__link-label">Swimwear</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/activewear.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-running"></i></span>
+          <span class="bbw-drawer__link-label">Activewear</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/blog/blog.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-edit"></i></span>
+          <span class="bbw-drawer__link-label">Blog</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/about.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-info"></i></span>
+          <span class="bbw-drawer__link-label">About Us</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/contact.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-envelope"></i></span>
+          <span class="bbw-drawer__link-label">Contact</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/account.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-user"></i></span>
+          <span class="bbw-drawer__link-label">My Account</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+      <li class="bbw-drawer__item">
+        <a href="/checkout/checkout.html" class="bbw-drawer__link">
+          <span class="bbw-drawer__link-icon"><i class="fi fi-rr-credit-card"></i></span>
+          <span class="bbw-drawer__link-label">Checkout</span>
+          <span class="bbw-drawer__link-arrow">→</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- ══ DRAWER FOOTER ══ -->
+    <div class="bbw-drawer__footer">
+
+      <!-- STATS -->
+      <div class="bbw-drawer__stats">
+        <div class="bbw-drawer__stat">
+          <strong>12K+</strong>
+          <span>Happy Clients</span>
+        </div>
+        <div class="bbw-drawer__stat">
+          <strong>98%</strong>
+          <span>Satisfaction</span>
+        </div>
+        <div class="bbw-drawer__stat">
+          <strong>54</strong>
+          <span>Countries</span>
+        </div>
+      </div>
+
+      <!-- TRUST -->
+      <div class="bbw-drawer__divider"><span>Our Promise</span></div>
+      <div class="bbw-drawer__trust">
+        <div class="bbw-drawer__trust-item">
+          <i class="fi fi-rr-shield-check"></i>
+          <div>
+            <strong>30-Day Returns</strong>
+            <span>No questions asked</span>
+          </div>
+        </div>
+        <div class="bbw-drawer__trust-item">
+          <i class="fi fi-rr-lock"></i>
+          <div>
+            <strong>Secure Payment</strong>
+            <span>256-bit SSL encrypted</span>
+          </div>
+        </div>
+        <div class="bbw-drawer__trust-item">
+          <i class="fi fi-rr-truck-side"></i>
+          <div>
+            <strong>Free Shipping</strong>
+            <span>On orders over $75</span>
+          </div>
+        </div>
+        <div class="bbw-drawer__trust-item">
+          <i class="fi fi-rr-headset"></i>
+          <div>
+            <strong>24/7 Support</strong>
+            <span>Real humans, fast replies</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="bbw-drawer__divider"><span>Quick Links</span></div>
+      <div class="bbw-drawer__quicklinks">
+        <a href="/policies/privacy.html"  class="bbw-drawer__quicklink"><i class="fi fi-rr-document"></i> Privacy Policy</a>
+        <a href="/policies/returns.html"  class="bbw-drawer__quicklink"><i class="fi fi-rr-undo"></i> Returns Policy</a>
+        <a href="/policies/shipping.html" class="bbw-drawer__quicklink"><i class="fi fi-rr-truck-side"></i> Shipping Info</a>
+        <a href="/policies/terms.html"    class="bbw-drawer__quicklink"><i class="fi fi-rr-gavel"></i> Terms of Shop</a>
+        <a href="/order-tracking.html"    class="bbw-drawer__quicklink"><i class="fi fi-rr-search"></i> Order Tracking</a>
+        <a href="/faq.html"               class="bbw-drawer__quicklink"><i class="fi fi-rr-question"></i> FAQ</a>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="bbw-drawer__divider"><span>Need Help?</span></div>
+      <div class="bbw-drawer__contact">
+        <div class="bbw-drawer__contact-item">
+          <i class="fi fi-rr-clock"></i>
+          <span>Mon–Fri · 7:00 AM – 10:00 PM</span>
+        </div>
+        <a href="tel:18093770077" class="bbw-drawer__contact-item">
+          <i class="fi fi-rr-phone-call"></i>
+          <span>1 (809) 377-0077 <em>text only</em></span>
+        </a>
+        <a href="mailto:support@bbw4life.com" class="bbw-drawer__contact-item">
+          <i class="fi fi-rr-envelope"></i>
+          <span>support@bbw4life.com</span>
+        </a>
+      </div>
+
+      <!-- SOCIALS -->
+      <div class="bbw-drawer__divider"><span>Follow Us</span></div>
+      <div class="bbw-drawer__socials">
+        <a href="" class="bbw-drawer__social" data-social="facebook"  target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="" class="bbw-drawer__social" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="" class="bbw-drawer__social" data-social="tiktok"    target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="" class="bbw-drawer__social" data-social="youtube"   target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="" class="bbw-drawer__social" data-social="pinterest" target="_blank" rel="noopener" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+        <a href="" class="bbw-drawer__social" data-social="whatsapp"  target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="" class="bbw-drawer__social" data-social="twitter"   target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+      </div>
+
+      <!-- PAYMENTS -->
+      <div class="bbw-drawer__divider"><span>Accepted Payments</span></div>
+      <div class="bbw-drawer__payments">
+        <span>VISA</span>
+        <span>Mastercard</span>
+        <span>PayPal</span>
+        <span>AMEX</span>
+        <span>Apple Pay</span>
+        <span>Google Pay</span>
+        <span>Discover</span>
+        <span>JCB</span>
+      </div>
+
+      <!-- LANGUAGE dans le drawer -->
+      <div class="bbw-drawer__divider"><span>Language</span></div>
+      <div class="bbw-drawer__lang-block" id="bbwDrawerLang">
+        <button class="bbw-drawer__lang-opt active" data-lang="en">🇺🇸 English</button>
+        <button class="bbw-drawer__lang-opt" data-lang="fr">🇫🇷 Français</button>
+        <button class="bbw-drawer__lang-opt" data-lang="es">🇪🇸 Español</button>
+        <button class="bbw-drawer__lang-opt" data-lang="pt">🇧🇷 Português</button>
+      </div>
+
+      <!-- LEGAL -->
+      <div class="bbw-drawer__legal">
+        <a href="/policies/privacy.html">Privacy</a>
+        <span>·</span>
+        <a href="/policies/terms.html">Terms</a>
+        <span>·</span>
+        <a href="/policies/refund.html">Refund</a>
+        <span>·</span>
+        <a href="/disclaimer.html">Disclaimer</a>
+      </div>
+
+      <!-- COPYRIGHT -->
+      <p class="bbw-drawer__copy">
+        &copy; 2026 <strong>BBW4LIFE</strong>. All rights reserved.<br>
+        <em>Beauty Has No Size.</em>
+      </p>
+
+    </div>
+
+  </div>
+
+</nav>

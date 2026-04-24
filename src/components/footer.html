@@ -1,0 +1,165 @@
+<!--
+  BBW4LIFE — FOOTER.HTML
+  Mirrors the footer-links-section.liquid structure
+  Settings: mobile_links_behavior = "two_columns_mobile"
+-->
+
+<footer id="bbw-footer" class="bbw-footer">
+
+  <!-- TOP SECTION TITLE -->
+  <div class="bbw-footer__section-title" id="bbwFooterSectionTitle">
+    QUICK LINKS FOR OUR CUSTOMERS
+  </div>
+
+  <!-- MAIN COLUMNS GRID -->
+  <div class="bbw-footer__grid" id="bbwFooterGrid">
+
+    <!-- ══ WRAPPER for col 1 & col 2 (two-columns mobile) ══ -->
+    <div class="bbw-footer__first-two" id="bbwFooterFirstTwo">
+
+      <!-- COL 1 — EXPLORE MORE -->
+      <div class="bbw-footer__col bbw-footer__col--first" id="bbwFooterCol1">
+        <h3 class="bbw-footer__col-title" data-col="1">
+          <span class="bbw-footer__col-title-text" id="bbwCol1Title">EXPLORE MORE</span>
+          <span class="bbw-footer__col-icon">+</span>
+        </h3>
+        <ul class="bbw-footer__links" id="bbwCol1Links">
+          <!-- populated by footer.js from products.data.json settings -->
+        </ul>
+      </div>
+
+      <!-- COL 2 — CUSTOMERS CARE -->
+      <div class="bbw-footer__col bbw-footer__col--second" id="bbwFooterCol2">
+        <h3 class="bbw-footer__col-title" data-col="2">
+          <span class="bbw-footer__col-title-text" id="bbwCol2Title">CUSTOMERS CARE</span>
+          <span class="bbw-footer__col-icon">+</span>
+        </h3>
+        <ul class="bbw-footer__links" id="bbwCol2Links">
+          <!-- populated by footer.js -->
+        </ul>
+      </div>
+
+    </div><!-- /.bbw-footer__first-two -->
+
+    <!-- COL 3 — BEAUTY HAS NO SIZE (info + logo) -->
+    <div class="bbw-footer__col bbw-footer__col--info" id="bbwFooterCol3">
+      <h3 class="bbw-footer__col-title" data-col="3">
+        <span class="bbw-footer__col-title-text" id="bbwCol3Title">BEAUTY HAS NO SIZE</span>
+        <span class="bbw-footer__col-icon">+</span>
+      </h3>
+      <div class="bbw-footer__col-content" id="bbwCol3Content">
+        <div class="bbw-footer__info-text" id="bbwInfoText">
+          <!-- populated by footer.js -->
+        </div>
+        <div class="bbw-footer__logo-wrapper">
+          <a href="/" class="bbw-footer__logo-link" id="bbwFooterLogoLink">
+            <div id="bbwFooterLogoSvg">
+              <!-- SVG injected by footer.js -->
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 4 — NEED HELP? CONTACT US -->
+    <div class="bbw-footer__col bbw-footer__col--contact" id="bbwFooterCol4">
+      <h3 class="bbw-footer__col-title" data-col="4">
+        <span class="bbw-footer__col-title-text" id="bbwCol4Title">NEED HELP? CONTACT US</span>
+        <span class="bbw-footer__col-icon">+</span>
+      </h3>
+      <div class="bbw-footer__col-content" id="bbwCol4Content">
+        <ul class="bbw-footer__links" id="bbwContactLinks">
+          <li id="bbwContactText"></li>
+          <li><a href="#" id="bbwEmailLink">✉ Email</a></li>
+          <li>
+            <a href="javascript:void(0)" id="bbwChatNowBtn" class="bbw-footer__chatnow">💬 Chat With Us</a>
+            <select id="bbwProblemSelect" class="bbw-footer__select" style="display:none;">
+              <option value="">-- Select an issue --</option>
+              <option value="Hello! I have a problem with the payment.">Payment issue</option>
+              <option value="Hello! I have a problem with the delivery.">Delivery issue</option>
+              <option value="Hello! My promo code is not working.">Promo code issue</option>
+              <option value="Hello! I found an error on the product page.">Error on product page</option>
+              <option value="Hello! I have a question about returns or refunds.">Question about returns or refunds</option>
+              <option value="Hello! I have a problem with my customer account.">Problem with my account</option>
+              <option value="Hello! I want more information about a product.">Request for product info</option>
+            </select>
+            <button id="bbwSendBtn" class="bbw-footer__send-btn" style="display:none;">Send</button>
+          </li>
+          <li><a href="#" id="bbwPhoneLink">📞 <span id="bbwPhoneNumber"></span></a> <span id="bbwPhoneSuffix" class="bbw-footer__phone-suffix"></span></li>
+        </ul>
+
+        <!-- SOCIAL SECTION -->
+        <div class="bbw-footer__social-wrapper" id="bbwSocialWrapper">
+          <p class="bbw-footer__social-title" id="bbwSocialTitle">Follow us in social Media</p>
+          <div class="bbw-footer__social-icons" id="bbwSocialIcons">
+            <a href="#" id="bbwSocFacebook" target="_blank" class="bbw-footer__social-icon" data-social="facebook"></a>
+            <a href="#" id="bbwSocTwitter"  target="_blank" class="bbw-footer__social-icon" data-social="twitter"></a>
+            <a href="#" id="bbwSocInstagram" target="_blank" class="bbw-footer__social-icon" data-social="instagram"></a>
+            <a href="#" id="bbwSocYoutube"  target="_blank" class="bbw-footer__social-icon" data-social="youtube"></a>
+            <a href="#" id="bbwSocTiktok"   target="_blank" class="bbw-footer__social-icon" data-social="tiktok"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 5 — NEW IN / NEW GEMS TO DISCOVER -->
+    <div class="bbw-footer__col bbw-footer__col--newin" id="bbwFooterCol5">
+      <h3 class="bbw-footer__col-title" data-col="5">
+        <span class="bbw-footer__col-title-text" id="bbwCol5Title">NEW GEMS TO DISCOVER</span>
+        <span class="bbw-footer__col-icon">+</span>
+      </h3>
+      <div class="bbw-footer__col-content bbw-footer__newin-slider" id="bbwCol5Content">
+        <div class="bbw-footer__newin-wrapper" id="bbwNewInWrapper">
+          <!-- slides injected by footer.js -->
+        </div>
+        <div class="bbw-footer__newin-nav" id="bbwNewInNav" style="display:none;">
+          <button class="bbw-footer__newin-btn bbw-footer__newin-prev" id="bbwNewInPrev">❮</button>
+          <button class="bbw-footer__newin-btn bbw-footer__newin-next" id="bbwNewInNext">❯</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.bbw-footer__grid -->
+
+  <!-- BOTTOM BAR -->
+  <div class="bbw-footer__bottom" id="bbwFooterBottom">
+    <div class="bbw-footer__bottom-left">
+      <div class="bbw-footer__country-selector">
+        <label>Country/region</label>
+        <select id="bbwCountrySelect">
+          <option value="DO">Dominican Republic | USD $</option>
+          <option value="US">United States | USD $</option>
+          <option value="FR">France | EUR €</option>
+        </select>
+      </div>
+      <div class="bbw-footer__lang-selector">
+        <label>Language</label>
+        <select id="bbwLangSelect">
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+        </select>
+      </div>
+    </div>
+   <div class="bbw-footer__bottom-center">
+      <p id="bbwCopyright">© 2026, <a href="/index.html" class="bbw-footer__brand-link">bbw4life</a> All Rights Reserved</p>
+      <p class="bbw-footer__powered-by">Powered by <span class="bbw-footer__powered-name">Pdg Francenel</span></p>
+    </div>
+    <div class="bbw-footer__bottom-right">
+      <div class="bbw-footer__payments" id="bbwPayments">
+       <!-- payment icons -->
+        <i class="bbw-footer__pay-icon fa-brands fa-cc-amex"       title="American Express"></i>
+        <i class="bbw-footer__pay-icon fa-brands fa-apple-pay"     title="Apple Pay"></i>
+        <i class="bbw-footer__pay-icon fa-brands fa-cc-diners-club" title="Diners Club"></i>
+        <i class="bbw-footer__pay-icon fa-brands fa-cc-discover"   title="Discover"></i>
+        <i class="bbw-footer__pay-icon fa-brands fa-google-pay"    title="Google Pay"></i>
+        <i class="bbw-footer__pay-icon fa-brands fa-cc-jcb"        title="JCB"></i>
+        <i class="bbw-footer__pay-icon fa-brands fa-cc-mastercard" title="Mastercard"></i>
+        <i class="bbw-footer__pay-icon fa-brands fa-cc-paypal"     title="PayPal"></i>
+        <i class="bbw-footer__pay-icon fa-brands fa-cc-visa"       title="Visa"></i>
+      </div>
+      <p class="bbw-footer__secure-text">🔒 100% secure and verified payment</p>
+    </div>
+  </div>
+
+</footer>

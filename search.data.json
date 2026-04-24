@@ -1,0 +1,553 @@
+[
+  {
+    "title": "Home",
+    "url": "/index.html",
+    "keywords": [
+      "home", "accueil", "curvafit", "weight loss", "curvy women", "start",
+      "landing", "main page", "welcome", "fat burn", "slim", "transform",
+      "lose weight", "belly fat", "waist", "fitness", "health", "wellness",
+      "women", "plus size", "body", "shape", "début", "démarrer"
+    ],
+    "type": "page",
+    "icon": "fas fa-home"
+  },
+  {
+    "title": "Method — The CurvaFit Approach",
+    "url": "/method.html",
+    "keywords": [
+      "method", "approach", "how it works", "process", "program", "system",
+      "méthode", "technique", "strategy", "science", "fat loss science",
+      "curvafit method", "philosophy", "framework", "steps", "étapes",
+      "weight loss method", "slimming approach", "body transformation system"
+    ],
+    "type": "page",
+    "icon": "fas fa-cogs"
+  },
+  {
+    "title": "Programs — Weight Loss Plans",
+    "url": "/programs.html",
+    "keywords": [
+      "programs", "plans", "workout", "beginner", "intermediate", "maintenance",
+      "slimmer", "curve", "programme", "plan", "training plan", "exercise plan",
+      "coaching", "fitness plan", "weight loss program", "slim program",
+      "belly fat program", "waist program", "curvy program", "women program",
+      "séance", "entraînement", "minceur", "programme minceur"
+    ],
+    "type": "page",
+    "icon": "fas fa-dumbbell"
+  },
+  {
+    "title": "Nutrition — Healthy Eating Guide",
+    "url": "/nutrition.html",
+    "keywords": [
+      "nutrition", "food", "eating", "diet", "meals", "recipes", "healthy",
+      "nourriture", "alimentation", "meal plan", "calories", "protein",
+      "carbs", "fat", "fiber", "vitamins", "minerals", "hydration",
+      "intermittent fasting", "clean eating", "portion control",
+      "weight loss diet", "slim diet", "belly fat diet", "régime", "diète",
+      "repas", "recette", "manger sainement", "cuisine saine"
+    ],
+    "type": "page",
+    "icon": "fas fa-apple-alt"
+  },
+  {
+    "title": "Shop — Fitness Gear",
+    "url": "/shop.html",
+    "keywords": [
+      "shop", "store", "buy", "gear", "products", "boutique", "acheter",
+      "purchase", "order", "cart", "checkout", "fitness products",
+      "workout gear", "equipment", "accessories", "apparel", "clothing",
+      "hoop", "bands", "weights", "leggings", "bra", "bottle", "tracker",
+      "panier", "commande", "achat", "équipement", "matériel"
+    ],
+    "type": "page",
+    "icon": "fas fa-shopping-bag"
+  },
+  {
+    "title": "Success Stories",
+    "url": "/success.html",
+    "keywords": [
+      "success", "stories", "results", "transformations", "before after",
+      "témoignages", "résultats", "real results", "testimonials", "reviews",
+      "customer stories", "weight loss results", "before and after",
+      "transformation photos", "inches lost", "waist lost", "community wins",
+      "women results", "real women", "histoires", "avant après", "réussite"
+    ],
+    "type": "page",
+    "icon": "fas fa-trophy"
+  },
+  {
+    "title": "Community — Curvy Support Circle",
+    "url": "/community.html",
+    "keywords": [
+      "community", "sisterhood", "support", "circle", "group", "members",
+      "communauté", "forum", "network", "connect", "women support",
+      "accountability", "motivation", "challenges", "curvy community",
+      "plus size community", "women empowerment", "body positivity",
+      "soutien", "groupe", "réseau", "motivation", "femmes"
+    ],
+    "type": "page",
+    "icon": "fas fa-users"
+  },
+  {
+    "title": "Blog — Tips & Wellness Articles",
+    "url": "/blog/blog.html",
+    "keywords": [
+      "blog", "articles", "tips", "insights", "wellness", "stories", "conseils",
+      "read", "guides", "tutorials", "advice", "weight loss tips",
+      "nutrition tips", "fitness tips", "motivation tips", "lifestyle",
+      "health articles", "curvy lifestyle", "body positivity articles",
+      "lire", "article", "guide", "astuce", "santé"
+    ],
+    "type": "page",
+    "icon": "fas fa-pen-alt"
+  },
+  {
+    "title": "About CurvaFit",
+    "url": "/about.html",
+    "keywords": [
+      "about", "who we are", "mission", "team", "story", "à propos",
+      "our values", "founders", "vision", "company", "brand",
+      "curvafit story", "why curvafit", "our philosophy", "our goal",
+      "women empowerment", "body positive brand", "histoire", "équipe",
+      "fondateurs", "valeurs", "mission"
+    ],
+    "type": "page",
+    "icon": "fas fa-info-circle"
+  },
+  {
+    "title": "Contact Us",
+    "url": "/contact.html",
+    "keywords": [
+      "contact", "support", "help", "email", "message", "aide",
+      "customer service", "reach us", "get in touch", "inquiry",
+      "question", "assistance", "live chat", "whatsapp", "telegram",
+      "response time", "support team", "contacter", "joindre", "aide",
+      "service client", "demande"
+    ],
+    "type": "page",
+    "icon": "fas fa-envelope"
+  },
+  {
+    "title": "FAQ — Frequently Asked Questions",
+    "url": "/faq.html",
+    "keywords": [
+      "faq", "questions", "answers", "help", "how to", "beginner",
+      "foire aux questions", "common questions", "shipping faq",
+      "return faq", "product faq", "program faq", "payment faq",
+      "delivery faq", "size faq", "how does it work", "is it safe",
+      "does it work", "results faq", "comment", "réponse", "question fréquente"
+    ],
+    "type": "page",
+    "icon": "fas fa-question-circle"
+  },
+  {
+    "title": "My Account",
+    "url": "/account.html",
+    "keywords": [
+      "account", "login", "profile", "orders", "history", "compte",
+      "connexion", "sign in", "register", "sign up", "my orders",
+      "order history", "saved items", "wishlist", "address", "password",
+      "personal info", "dashboard", "mon compte", "se connecter", "s'inscrire",
+      "historique commandes", "profil"
+    ],
+    "type": "page",
+    "icon": "fas fa-user-circle"
+  },
+  {
+    "title": "Checkout",
+    "url": "/checkout.html",
+    "keywords": [
+      "checkout", "payment", "order", "buy", "paiement", "commande",
+      "pay now", "complete order", "credit card", "visa", "mastercard",
+      "paypal", "apple pay", "google pay", "secure payment", "place order",
+      "shipping address", "billing", "payer", "valider commande", "paiement sécurisé"
+    ],
+    "type": "page",
+    "icon": "fas fa-credit-card"
+  },
+  {
+    "title": "Privacy Policy",
+    "url": "/policies/privacy.html",
+    "keywords": [
+      "privacy", "policy", "data", "gdpr", "confidentialité",
+      "personal data", "cookies", "data protection", "user rights",
+      "data collection", "privacy rights", "opt out", "consent",
+      "données personnelles", "protection", "vie privée", "rgpd"
+    ],
+    "type": "policy",
+    "icon": "fas fa-lock"
+  },
+  {
+    "title": "Terms & Conditions",
+    "url": "/policies/terms.html",
+    "keywords": [
+      "terms", "conditions", "legal", "agreement", "cgu",
+      "terms of service", "user agreement", "rules", "policies",
+      "terms of use", "legal notice", "liability", "intellectual property",
+      "conditions générales", "mentions légales", "règles", "accord"
+    ],
+    "type": "policy",
+    "icon": "fas fa-file-alt"
+  },
+  {
+    "title": "Refund Policy",
+    "url": "/policies/refund.html",
+    "keywords": [
+      "refund", "return", "money back", "remboursement", "retour",
+      "30 day guarantee", "return policy", "exchange", "damaged item",
+      "wrong item", "refund request", "how to return", "return process",
+      "guarantee", "satisfaction guarantee", "politique de retour",
+      "garantie", "échange", "remboursé"
+    ],
+    "type": "policy",
+    "icon": "fas fa-undo"
+  },
+  {
+    "title": "Medical Disclaimer",
+    "url": "/disclaimer.html",
+    "keywords": [
+      "disclaimer", "medical", "health", "avertissement",
+      "medical advice", "not a doctor", "consult doctor", "health warning",
+      "safety", "results disclaimer", "individual results", "health risks",
+      "avertissement médical", "santé", "mise en garde", "résultats individuels"
+    ],
+    "type": "policy",
+    "icon": "fas fa-hospital"
+  },
+  {
+    "title": "Careers",
+    "url": "/careers.html",
+    "keywords": [
+      "careers", "jobs", "hiring", "work with us", "emploi",
+      "job openings", "positions", "remote work", "join the team",
+      "apply", "job application", "internship", "freelance",
+      "offres d'emploi", "rejoindre", "candidature", "poste"
+    ],
+    "type": "page",
+    "icon": "fas fa-briefcase"
+  },
+  {
+    "title": "Soft Start Curve Slimmer — Beginner Program",
+    "url": "/programs.html",
+    "keywords": [
+      "soft start", "beginner", "gentle", "slimmer", "entry level", "débutant",
+      "first program", "easy workout", "low impact", "start fitness",
+      "beginner weight loss", "gentle exercise", "no experience needed",
+      "total beginner", "start from scratch", "premiers pas", "facile",
+      "doux", "programme débutant", "perte de poids débutant"
+    ],
+    "type": "program",
+    "icon": "fas fa-seedling"
+  },
+  {
+    "title": "Deeper Curve Refiner — Intermediate Program",
+    "url": "/programs.html",
+    "keywords": [
+      "curve refiner", "intermediate", "deeper", "progress", "intermédiaire",
+      "level up", "next step", "advanced beginner", "push harder",
+      "more results", "accelerate", "plateau buster", "intermediate workout",
+      "deeper results", "niveau intermédiaire", "progresser", "avancer",
+      "intensifier", "résultats plus rapides"
+    ],
+    "type": "program",
+    "icon": "fas fa-fire"
+  },
+  {
+    "title": "Forever Fit Maintainer — Maintenance Program",
+    "url": "/programs.html",
+    "keywords": [
+      "forever fit", "maintenance", "maintain", "sustain", "maintien",
+      "keep results", "stay slim", "long term", "lifestyle", "forever",
+      "sustain weight loss", "keep weight off", "maintain shape",
+      "ongoing fitness", "permanent results", "garder les résultats",
+      "maintenir", "long terme", "forme durable", "résultats permanents"
+    ],
+    "type": "program",
+    "icon": "fas fa-star"
+  },
+  {
+    "title": "Kind Tips for Steady Slimming",
+    "url": "/blog/blog.html",
+    "keywords": [
+      "tips", "slimming", "weight loss", "steady", "gentle", "wellness",
+      "conseils minceur", "slimming tips", "fat loss tips", "daily tips",
+      "healthy habits", "lifestyle tips", "weight loss advice",
+      "natural slimming", "belly tips", "waist tips", "astuces minceur",
+      "habitudes saines", "conseils quotidiens", "amincissement naturel"
+    ],
+    "type": "blog",
+    "icon": "fas fa-pen-alt"
+  },
+  {
+    "title": "Busting Food Fables for Curves",
+    "url": "/blog/blog.html",
+    "keywords": [
+      "food", "myths", "fables", "nutrition", "curves", "diet myths",
+      "mythes alimentaires", "food myths debunked", "nutrition facts",
+      "diet facts", "what to eat", "what not to eat", "food truth",
+      "carbs myth", "fat myth", "sugar myth", "fasting myth",
+      "mythes régime", "vérité nutrition", "idées reçues alimentaires"
+    ],
+    "type": "blog",
+    "icon": "fas fa-pen-alt"
+  },
+  {
+    "title": "Inspiring Curve Stories",
+    "url": "/blog/blog.html",
+    "keywords": [
+      "stories", "inspiration", "success", "curves", "transformation",
+      "histoires inspirantes", "real stories", "customer journey",
+      "weight loss journey", "before after stories", "curvy women success",
+      "body transformation stories", "motivating stories", "real people",
+      "parcours", "témoignage", "voyage minceur", "femmes courbes"
+    ],
+    "type": "blog",
+    "icon": "fas fa-pen-alt"
+  },
+  {
+    "title": "Product 1",
+    "url": "/products/product1.html",
+    "keywords": [
+      "product1", "hula hoop", "waist", "slim waist", "belly fat",
+      "hoop workout", "smart hoop", "gravity lock", "no gym",
+      "10 min workout", "home workout", "waist trainer hoop"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 2",
+    "url": "/products/product2.html",
+    "keywords": [
+      "product2", "waist trainer", "slimming belt", "corset",
+      "compression", "shapewear", "back support", "posture"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 3",
+    "url": "/products/product3.html",
+    "keywords": [
+      "product3", "jump rope", "skipping", "cardio", "fat burn",
+      "calorie burn", "counter", "smart rope"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 4",
+    "url": "/products/product4.html",
+    "keywords": [
+      "product4", "leggings", "yoga pants", "workout pants",
+      "tie dye", "curvy leggings", "high waist", "stretchy"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 5",
+    "url": "/products/product5.html",
+    "keywords": [
+      "product5", "jumpsuit", "one piece", "yoga outfit",
+      "pilates", "workout suit", "zen", "stretchy"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 6",
+    "url": "/products/product6.html",
+    "keywords": [
+      "product6", "ankle weights", "leg weights", "walk workout",
+      "tone legs", "resistance", "clip on weights"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 7",
+    "url": "/products/product7.html",
+    "keywords": [
+      "product7", "sports bra", "support bra", "high impact",
+      "workout bra", "plus size bra", "breathable", "comfortable"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 8",
+    "url": "/products/product8.html",
+    "keywords": [
+      "product8", "knee pads", "knee support", "joint protection",
+      "workout safety", "training pads", "cushion"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 9",
+    "url": "/products/product9.html",
+    "keywords": [
+      "product9", "posture strap", "back support", "posture corrector",
+      "invisible", "under clothes", "back pain"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 10",
+    "url": "/products/product10.html",
+    "keywords": [
+      "product10", "smart band", "fitness tracker", "heart rate",
+      "sleep tracker", "oxygen", "wristband", "health monitor"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 11",
+    "url": "/products/product11.html",
+    "keywords": [
+      "product11", "acupressure mat", "acurelief", "relaxation",
+      "stress relief", "tension", "muscle relief", "sleep better"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 12",
+    "url": "/products/product12.html",
+    "keywords": [
+      "product12", "warm belt", "heating belt", "cramps relief",
+      "menstrual pain", "belly warmth", "heat therapy", "period pain"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 13",
+    "url": "/products/product13.html",
+    "keywords": [
+      "product13", "water bottle", "hydration bottle", "sport bottle",
+      "leak proof", "650ml", "stay hydrated", "aquaflow"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 14",
+    "url": "/products/product14.html",
+    "keywords": [
+      "product14", "running shoes", "sneakers", "lightweight shoes",
+      "breathable shoes", "sport shoes", "women shoes", "airStep"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 15",
+    "url": "/products/product15.html",
+    "keywords": [
+      "product15", "pillow", "water pillow", "neck pillow",
+      "sleep pillow", "cervical", "aquapillow", "pain free sleep"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Product 16",
+    "url": "/products/product16.html",
+    "keywords": [
+      "product16", "earbuds", "airbuds", "wireless", "bluetooth",
+      "music", "workout music", "j18", "sound"
+    ],
+    "type": "product",
+    "icon": "fas fa-tag"
+  },
+  {
+    "title": "Gentle Movements for Your Shape",
+    "url": "/programs.html",
+    "keywords": [
+      "movements", "exercise", "gentle", "workout", "shape", "mouvements doux",
+      "low impact exercise", "body movement", "curvy workout", "safe exercise",
+      "joint friendly", "no pain workout", "soft workout", "mouvement doux",
+      "exercice adapté", "sport sans douleur"
+    ],
+    "type": "feature",
+    "icon": "fas fa-running"
+  },
+  {
+    "title": "Nourishing Food Wisdom",
+    "url": "/nutrition.html",
+    "keywords": [
+      "food", "nutrition", "nourishing", "meals", "wisdom", "nourriture",
+      "balanced diet", "wholesome food", "healthy eating", "clean food",
+      "anti inflammatory", "gut health", "food wisdom", "eating smart",
+      "alimentation équilibrée", "manger intelligent", "nourriture saine"
+    ],
+    "type": "feature",
+    "icon": "fas fa-leaf"
+  },
+  {
+    "title": "Sisterly Encouragement — Community",
+    "url": "/community.html",
+    "keywords": [
+      "sisterhood", "encouragement", "support", "community", "women", "soutien",
+      "accountability partner", "workout buddy", "women network", "curvy sisterhood",
+      "body positivity community", "plus size support", "women health community",
+      "partenaire", "accompagnement", "entraide", "sœurs"
+    ],
+    "type": "feature",
+    "icon": "fas fa-heart"
+  },
+  {
+    "title": "Progress Tracking",
+    "url": "/index.html#progress-evolution",
+    "keywords": [
+      "progress", "tracking", "chart", "data", "evolution", "suivi",
+      "measure progress", "track results", "weight chart", "inches chart",
+      "weekly progress", "monthly progress", "track weight loss",
+      "suivi progression", "mesurer résultats", "courbe de progression"
+    ],
+    "type": "feature",
+    "icon": "fas fa-chart-line"
+  },
+  {
+    "title": "Coach Anna — Strength Expert",
+    "url": "/programs.html",
+    "keywords": [
+      "coach anna", "coach", "strength", "trainer", "expert", "entraîneur",
+      "strength training coach", "weight training", "toning coach",
+      "fitness coach", "anna trainer", "body sculpting", "coach force",
+      "entraîneur musculation", "sculpture corporelle"
+    ],
+    "type": "coach",
+    "icon": "fas fa-chalkboard-teacher"
+  },
+  {
+    "title": "Coach Maria — Nutrition Expert",
+    "url": "/nutrition.html",
+    "keywords": [
+      "coach maria", "nutrition", "food", "coach", "diet", "nutritionniste",
+      "nutrition coach", "meal planning coach", "diet coach", "food expert",
+      "maria nutritionist", "healthy eating coach", "coach nutrition",
+      "planification repas", "experte alimentation"
+    ],
+    "type": "coach",
+    "icon": "fas fa-chalkboard-teacher"
+  },
+  {
+    "title": "Coach Lisa — Yoga & Wellness",
+    "url": "/programs.html",
+    "keywords": [
+      "coach lisa", "yoga", "wellness", "calm", "mindfulness", "bien-être",
+      "yoga coach", "meditation", "breathing", "flexibility", "stress relief",
+      "mind body", "yoga for curves", "coach yoga", "méditation",
+      "flexibilité", "respiration", "gestion du stress"
+    ],
+    "type": "coach",
+    "icon": "fas fa-spa"
+  }
+]

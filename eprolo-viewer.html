@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eprolo Product Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #080b10;
+      --surface:   #0f1318;
+      --border:    #1e2530;
+      --accent:    #00e5ff;
+      --accent2:   #ff3d7f;
+      --green:     #00ff9d;
+      --yellow:    #ffd600;
+      --muted:     #4a5568;
+      --text:      #c8d6e5;
+      --text-dim:  #5a6a7e;
+      --mono:      'Space Mono', monospace;
+      --display:   'Syne', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 48px 28px 80px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      margin-bottom: 40px;
+      border-left: 3px solid var(--accent);
+      padding-left: 18px;
+    }
+
+    header .label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    header h1 {
+      font-family: var(--display);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    header h1 span {
+      color: var(--accent2);
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--text-dim);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── CONTROLS ── */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: white;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover::after { opacity: 0.07; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .btn-run {
+      background: var(--accent);
+      color: #000;
+      box-shadow: 0 0 20px rgba(0,229,255,0.25);
+    }
+
+    .btn-run:hover:not(:disabled) {
+      box-shadow: 0 0 30px rgba(0,229,255,0.45);
+    }
+
+    .btn-copy {
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--green);
+      display: none;
+    }
+
+    .btn-copy:hover { box-shadow: 0 0 16px rgba(0,255,157,0.2); }
+    .btn-copy.copied { color: #fff; border-color: var(--green); background: rgba(0,255,157,0.12); }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      font-size: 11px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      min-height: 20px;
+    }
+
+    .status-bar .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .status-bar.running .dot {
+      background: var(--accent);
+      animation: pulse 1s infinite;
+    }
+
+    .status-bar.ok .dot { background: var(--green); }
+    .status-bar.err .dot { background: var(--accent2); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── STATS ROW ── */
+    .stats {
+      display: none;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 20px;
+      min-width: 130px;
+    }
+
+    .stat-card .s-label {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .stat-card .s-value {
+      font-family: var(--display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-card .s-value.green { color: var(--green); }
+    .stat-card .s-value.pink  { color: var(--accent2); }
+
+    /* ── PRODUCT CARDS ── */
+    #product-view {
+      display: none;
+    }
+
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .product-card:hover { border-color: var(--accent); }
+
+    .product-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      cursor: pointer;
+      user-select: none;
+      gap: 12px;
+    }
+
+    .product-header:hover { background: rgba(255,255,255,0.02); }
+
+    .p-index {
+      font-size: 10px;
+      color: var(--text-dim);
+      min-width: 26px;
+    }
+
+    .p-title {
+      font-family: var(--display);
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      flex: 1;
+      letter-spacing: -0.01em;
+    }
+
+    .p-id {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+    }
+
+    .p-badges {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .badge {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-weight: 700;
+    }
+
+    .badge-variants {
+      background: rgba(0,229,255,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(0,229,255,0.2);
+    }
+
+    .badge-ok {
+      background: rgba(0,255,157,0.1);
+      color: var(--green);
+      border: 1px solid rgba(0,255,157,0.2);
+    }
+
+    .badge-err {
+      background: rgba(255,61,127,0.1);
+      color: var(--accent2);
+      border: 1px solid rgba(255,61,127,0.2);
+    }
+
+    .chevron {
+      color: var(--text-dim);
+      transition: transform 0.25s;
+      font-size: 10px;
+    }
+
+    .product-card.open .chevron { transform: rotate(90deg); }
+
+    /* ── VARIANTS TABLE ── */
+    .variants-body {
+      display: none;
+      border-top: 1px solid var(--border);
+    }
+
+    .product-card.open .variants-body { display: block; }
+
+    .color-group {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .color-group:last-child { border-bottom: none; }
+
+    .color-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .color-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent2);
+      flex-shrink: 0;
+    }
+
+    .color-name {
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .color-count {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    .variants-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .variants-table th {
+      text-align: left;
+      color: var(--text-dim);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 400;
+    }
+
+    .variants-table td {
+      padding: 7px 10px;
+      border-bottom: 1px solid rgba(30,37,48,0.6);
+      vertical-align: middle;
+    }
+
+    .variants-table tr:last-child td { border-bottom: none; }
+
+    .variants-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .td-id    { color: var(--text-dim); font-size: 10px; }
+    .td-sku   { color: var(--text-dim); font-size: 10px; }
+    .td-size  { color: var(--accent); font-weight: 700; }
+    .td-price { color: var(--yellow); font-weight: 700; }
+    .td-weight { color: var(--text); }
+    .td-stock {
+      font-weight: 700;
+    }
+
+    /* ── RAW LOG ── */
+    #log-section {
+      display: none;
+      margin-top: 32px;
+    }
+
+    .section-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      color: var(--text-dim);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+
+    .section-toggle:hover { color: var(--text); }
+
+    #log-output {
+      background: #030506;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 11px;
+      line-height: 1.7;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    #log-output.visible { display: block; }
+
+    .log-ok    { color: var(--green); }
+    .log-warn  { color: var(--yellow); }
+    .log-err   { color: var(--accent2); }
+    .log-sep   { color: #1e2530; }
+    .log-title { color: var(--accent); font-weight: 700; }
+    .log-dim   { color: #3a4a5e; }
+    .log-info  { color: var(--text); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    /* ── LOADING SKELETON ── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, #151c24 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 4px;
+      height: 14px;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .skeleton-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="label">// Inventory Dashboard</div>
+    <h1>EPROLO <span>VIEWER</span></h1>
+    <p class="subtitle">16 produits · Netlify Function · fetch natif Node 18+</p>
+  </header>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <button class="btn btn-run" id="run-btn" onclick="fetchProducts()">
+      ▶ &nbsp;Récupérer les produits
+    </button>
+    <button class="btn btn-copy" id="copy-btn" onclick="copyLogs()">
+      ⧉ &nbsp;Copier le log brut
+    </button>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status-bar" id="status-bar">
+    <div class="dot"></div>
+    <span id="status-text">Prêt. Clique sur le bouton pour lancer.</span>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats" id="stats-row">
+    <div class="stat-card">
+      <div class="s-label">Produits</div>
+      <div class="s-value" id="stat-total">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-label">Variants</div>
+      <div class="s-value green" id="stat-variants">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-label">Erreurs</div>
+      <div class="s-value pink" id="stat-errors">0</div>
+    </div>
+  </div>
+
+  <!-- PRODUCT CARDS -->
+  <div id="product-view"></div>
+
+  <!-- LOADING SKELETONS -->
+  <div id="skeleton-view" style="display:none">
+    <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:220px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+    <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:180px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+    <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:260px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+    <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:200px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+    <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:240px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+  </div>
+
+  <!-- RAW LOG SECTION -->
+  <div id="log-section">
+    <div class="section-toggle" onclick="toggleLog()">
+      <span id="log-toggle-icon">▶</span>
+      <span>Log brut</span>
+    </div>
+    <pre id="log-output"></pre>
+  </div>
+
+</div>
+
+<script>
+  let rawLogs    = [];
+  let allProducts = [];
+  let logVisible = false;
+
+  // ── SWATCHES ──────────────────────────────────────────────────────────────
+  const COLOR_MAP = {
+    black: '#222', white: '#eee', red: '#e74c3c', blue: '#3498db',
+    green: '#2ecc71', yellow: '#f1c40f', pink: '#e91e8c', purple: '#9b59b6',
+    orange: '#e67e22', grey: '#7f8c8d', gray: '#7f8c8d', navy: '#2c3e7a',
+    beige: '#d4b896', brown: '#8b6347', silver: '#bdc3c7', gold: '#f0c040',
+    teal: '#1abc9c', coral: '#ff6b6b', lavender: '#9b8ec4', cyan: '#00bcd4',
+  };
+
+  function getSwatchColor(colorName) {
+    const key = colorName.toLowerCase().split(' ')[0];
+    return COLOR_MAP[key] || `hsl(${Math.abs(colorName.charCodeAt(0) * 37 + colorName.charCodeAt(1) * 17) % 360},55%,55%)`;
+  }
+
+  // ── FETCH ─────────────────────────────────────────────────────────────────
+  async function fetchProducts() {
+    const runBtn   = document.getElementById('run-btn');
+    const copyBtn  = document.getElementById('copy-btn');
+    const statusBar = document.getElementById('status-bar');
+    const statusTxt = document.getElementById('status-text');
+
+    runBtn.disabled = true;
+    runBtn.textContent = '⏳  Chargement...';
+    copyBtn.style.display = 'none';
+    setStatus('running', 'Appel en cours vers Netlify...');
+
+    document.getElementById('product-view').style.display  = 'none';
+    document.getElementById('product-view').innerHTML      = '';
+    document.getElementById('skeleton-view').style.display = 'block';
+    document.getElementById('stats-row').style.display     = 'none';
+    document.getElementById('log-section').style.display   = 'none';
+    document.getElementById('log-output').innerHTML        = '';
+    rawLogs     = [];
+    allProducts = [];
+
+    try {
+      const res  = await fetch('/.netlify/functions/fetch-eprolo-products');
+      const data = await res.json();
+
+      document.getElementById('skeleton-view').style.display = 'none';
+
+      rawLogs = data.logs || [];
+
+      if (data.success && data.logs) {
+        allProducts = parseProductsFromLogs(data);
+        renderProductCards(allProducts, data);
+        renderRawLog(rawLogs);
+
+        const variantTotal = allProducts.reduce((s, p) => s + p.variants.length, 0);
+        const errCount     = rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
+
+        document.getElementById('stat-total').textContent    = allProducts.length;
+        document.getElementById('stat-variants').textContent = variantTotal;
+        document.getElementById('stat-errors').textContent   = errCount;
+        document.getElementById('stats-row').style.display   = 'flex';
+
+        setStatus('ok', `${allProducts.length} produits récupérés · ${variantTotal} variants au total`);
+
+        copyBtn.style.display   = 'inline-flex';
+        copyBtn.textContent     = '⧉  Copier le log brut';
+        copyBtn.classList.remove('copied');
+
+        document.getElementById('log-section').style.display = 'block';
+      } else {
+        setStatus('err', 'Aucune donnée retournée. Vérifie la fonction Netlify.');
+      }
+
+    } catch (err) {
+      document.getElementById('skeleton-view').style.display = 'none';
+      setStatus('err', 'Erreur : ' + err.message);
+    }
+
+    runBtn.disabled   = false;
+    runBtn.textContent = '▶  Récupérer les produits';
+  }
+
+  // ── PARSE PRODUCTS ────────────────────────────────────────────────────────
+  // The Netlify function returns data.logs (text) and data.total.
+  // We reconstruct product objects from the response body.
+  // If the function returned a `products` field, use that; otherwise
+  // fall back to parsing the log lines for display.
+  function parseProductsFromLogs(data) {
+    // If the function exposes structured product data, use it directly
+    if (data.products && Array.isArray(data.products)) {
+      return data.products.map(p => {
+        const colorGroups = {};
+        (p.variantlist || []).forEach(v => {
+          let color = (v.option1 || 'N/A').replace(/ one$/i, '').trim();
+          color = color.charAt(0).toUpperCase() + color.slice(1);
+          const size    = (v.option2 || '').trim();
+          const option3 = (v.option3 || '').trim();
+          if (!colorGroups[color]) colorGroups[color] = [];
+          colorGroups[color].push({
+            id:     v.id,
+            sku:    v.sku                || 'N/A',
+            price:  v.cost               || 'N/A',
+            weight: v.weight             || 'N/A',
+            stock:  v.inventory_quantity !== undefined ? v.inventory_quantity : 'N/A',
+            size,
+            option3,
+          });
+        });
+        return {
+          id:          p.id,
+          title:       p.title,
+          colorGroups,
+          variants:    p.variantlist || [],
+          status:      'ok',
+        };
+      });
+    }
+
+    // Fallback: parse log lines into simple product entries
+    const products = [];
+    const logs = data.logs || [];
+    let currentProduct = null;
+    let currentColor   = null;
+
+    logs.forEach(line => {
+      // Product title line: "  [01]  Some Title"
+      const titleMatch = line.match(/^\s+\[(\d+)\]\s+(.+)$/);
+      if (titleMatch) {
+        if (currentProduct) products.push(currentProduct);
+        currentProduct = { title: titleMatch[2].trim(), id: '', colorGroups: {}, variants: [], status: 'ok' };
+        currentColor = null;
+        return;
+      }
+      // ID line
+      const idMatch = line.match(/ID\s*:\s*(\d+)/);
+      if (idMatch && currentProduct && !currentProduct.id) {
+        currentProduct.id = idMatch[1];
+        return;
+      }
+      // Color line: "  🎨  Black  (3 taille(s))"
+      const colorMatch = line.match(/🎨\s+(.+?)\s+\((\d+)/);
+      if (colorMatch && currentProduct) {
+        currentColor = colorMatch[1].trim();
+        if (!currentProduct.colorGroups[currentColor]) currentProduct.colorGroups[currentColor] = [];
+        return;
+      }
+      // Variant line
+      const varMatch = line.match(/ID:\s*(\S+)\s+\|\s+SIZE:\s*(\S*)\s+\|\s+SKU:\s*(\S+)\s+\|\s+PRIX:\s*\$?(\S+)\s+\|\s+POIDS:\s*(\S+)g\s+\|\s+STOCK:\s*(\S+)/);
+      if (varMatch && currentProduct && currentColor) {
+        const v = { id: varMatch[1], size: varMatch[2] === '—' ? '' : varMatch[2], sku: varMatch[3], price: varMatch[4], weight: varMatch[5], stock: varMatch[6], option3: '' };
+        currentProduct.colorGroups[currentColor].push(v);
+        currentProduct.variants.push(v);
+      }
+    });
+    if (currentProduct) products.push(currentProduct);
+    return products;
+  }
+
+  // ── RENDER PRODUCT CARDS ──────────────────────────────────────────────────
+  function renderProductCards(products, data) {
+    const view = document.getElementById('product-view');
+    view.style.display = 'block';
+
+    if (!products.length) {
+      // Still show log-based success/fail badges from raw logs
+      const successLines = (data.logs || []).filter(l => l.includes('✅') && l.includes('→  OK'));
+      const warnLines    = (data.logs || []).filter(l => l.includes('⚠️') || l.includes('❌'));
+
+      view.innerHTML = `
+        <div style="color:var(--text-dim);padding:20px;text-align:center;font-size:12px;">
+          ${successLines.length} produits récupérés côté serveur — format non structuré.<br>
+          Voir le log brut ci-dessous pour les détails.
+        </div>`;
+      return;
+    }
+
+    view.innerHTML = products.map((p, i) => {
+      const varCount    = p.variants.length;
+      const colorCount  = Object.keys(p.colorGroups).length;
+      const isOk        = p.status === 'ok';
+
+      const variantsHTML = Object.entries(p.colorGroups).map(([color, vars]) => `
+        <div class="color-group">
+          <div class="color-label">
+            <div class="color-swatch" style="background:${getSwatchColor(color)}"></div>
+            <span class="color-name">${esc(color)}</span>
+            <span class="color-count">${vars.length} taille(s)</span>
+          </div>
+          <table class="variants-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>SKU</th>
+                <th>SIZE</th>
+                <th>PRIX</th>
+                <th>POIDS</th>
+                <th>STOCK</th>
+                ${vars.some(v => v.option3) ? '<th>OPT3</th>' : ''}
+              </tr>
+            </thead>
+            <tbody>
+              ${vars.map(v => `
+                <tr>
+                  <td class="td-id">${esc(v.id)}</td>
+                  <td class="td-sku">${esc(v.sku)}</td>
+                  <td class="td-size">${esc(v.size) || '—'}</td>
+                  <td class="td-price">$${esc(String(v.price))}</td>
+                  <td class="td-weight">${esc(String(v.weight))}g</td>
+                  <td class="td-stock" style="color:${stockColor(v.stock)}">${esc(String(v.stock))}</td>
+                  ${vars.some(vv => vv.option3) ? `<td>${esc(v.option3)}</td>` : ''}
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      `).join('');
+
+      return `
+        <div class="product-card" id="card-${i}">
+          <div class="product-header" onclick="toggleCard(${i})">
+            <span class="p-index">#${String(i+1).padStart(2,'0')}</span>
+            <span class="p-title">${esc(p.title)}</span>
+            <span class="p-id">${esc(String(p.id))}</span>
+            <div class="p-badges">
+              ${isOk
+                ? `<span class="badge badge-ok">OK</span>`
+                : `<span class="badge badge-err">ERR</span>`}
+              <span class="badge badge-variants">${varCount} variants</span>
+            </div>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="variants-body">
+            ${variantsHTML || '<div style="padding:16px 20px;color:var(--text-dim);">Aucun variant.</div>'}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── RENDER RAW LOG ────────────────────────────────────────────────────────
+  function renderRawLog(logs) {
+    const output = document.getElementById('log-output');
+    output.innerHTML = logs.map(line => {
+      let cls = 'log-info';
+      if (line.includes('✅'))                        cls = 'log-ok';
+      else if (line.includes('⚠️'))                  cls = 'log-warn';
+      else if (line.includes('❌'))                  cls = 'log-err';
+      else if (/^[═─\s]{5,}$/.test(line))           cls = 'log-sep';
+      else if (line.includes('EPROLO') || line.includes('TOTAL') || line.includes('FIN')) cls = 'log-title';
+      else if (line.includes('ID :') || line.includes('Variants :')) cls = 'log-dim';
+
+      return `<span class="${cls}">${esc(line)}</span>`;
+    }).join('\n');
+  }
+
+  // ── HELPERS ───────────────────────────────────────────────────────────────
+  function toggleCard(i) {
+    document.getElementById('card-' + i).classList.toggle('open');
+  }
+
+  function toggleLog() {
+    logVisible = !logVisible;
+    const el   = document.getElementById('log-output');
+    const icon = document.getElementById('log-toggle-icon');
+    el.classList.toggle('visible', logVisible);
+    icon.textContent = logVisible ? '▼' : '▶';
+  }
+
+  function setStatus(type, msg) {
+    const bar = document.getElementById('status-bar');
+    const txt = document.getElementById('status-text');
+    bar.className  = 'status-bar ' + type;
+    txt.textContent = msg;
+  }
+
+  function copyLogs() {
+    if (!rawLogs.length) return;
+    navigator.clipboard.writeText(rawLogs.join('\n')).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = '✅  Copié !';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '⧉  Copier le log brut';
+        btn.classList.remove('copied');
+      }, 2500);
+    });
+  }
+
+  function stockColor(val) {
+    const n = parseInt(val);
+    if (isNaN(n)) return 'var(--text-dim)';
+    if (n === 0)  return 'var(--accent2)';
+    if (n < 10)   return 'var(--yellow)';
+    return 'var(--green)';
+  }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+</script>
+</body>
+</html>

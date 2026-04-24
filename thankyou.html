@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - CurvaFit</title>
+    <meta name="description" content="Thank you for your order at CurvaFit">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="author" content="CurvaFit">
+    <meta name="theme-color" content="#c0385e">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https:;
+         script-src 'self' https://js.stripe.com https://www.paypal.com;
+         style-src 'self' 'unsafe-inline' https:;
+         img-src 'self' https: data:;
+         connect-src 'self' https://restcountries.com https://countriesnow.space https:;
+         frame-src https://js.stripe.com https://hooks.stripe.com https://www.paypal.com;">
+    <link rel="icon" href="src-images/FaviconCurvafit(1).png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="checkout.css">
+    <link rel="stylesheet" href="thankyou.css">
+</head>
+<body>
+
+<!-- Confetti particles -->
+<div class="confetti-wrap" aria-hidden="true">
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+    <div class="confetti-particle"></div>
+</div>
+
+<header class="checkout-header">
+    <div class="header-content">
+        <div class="logo">
+            <a href="index.html"><img src="src-images/LogoCurvafit(1).png" alt="CurvaFit Logo"></a>
+            <h1>Order Confirmation</h1>
+        </div>
+    </div>
+</header>
+
+<section id="wave-section">
+    <svg width="0" height="0">
+        <defs>
+        <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" />
+            <stop offset="100%" />
+        </linearGradient>
+        </defs>
+    </svg>
+    <div class="wave-container">
+        <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
+        </svg>
+    </div>
+</section>
+
+<!-- ── MAIN CONFIRMATION CARD ── -->
+<div class="container">
+    <!-- Success icon (shown after confirmation) -->
+    <div class="success-icon" id="success-icon" style="display:none;">
+        <i class="fas fa-check"></i>
+    </div>
+
+    <h1>Confirming Your Order...</h1>
+
+    <div id="spinner" class="spinner"></div>
+
+    <div id="message" style="display: none;"></div>
+
+    <div id="buttons" style="display: none;">
+        <a href="shop.html" class="button">
+            <i class="fas fa-shopping-bag"></i>
+            Continue Shopping
+        </a>
+        <a href="account.html" class="button">
+            <i class="fas fa-user"></i>
+            View Orders
+        </a>
+    </div>
+</div>
+
+<!-- ── WHAT HAPPENS NEXT ── -->
+<section class="next-steps" id="next-steps-section" style="display:none;">
+    <h2>What Happens Next?</h2>
+    <div class="steps-list">
+        <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+                <h4>📧 Confirmation Email</h4>
+                <p>You'll receive an order confirmation email within the next few minutes with all your details.</p>
+            </div>
+        </div>
+        <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+                <h4>📦 Order Processing</h4>
+                <p>Our team carefully prepares your order within 24–48 hours, with love and attention to detail.</p>
+            </div>
+        </div>
+        <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-text">
+                <h4>🚚 Shipping & Tracking</h4>
+                <p>Once shipped, you'll receive a tracking number so you can follow your package every step of the way.</p>
+            </div>
+        </div>
+        <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-text">
+                <h4>🎉 Enjoy Your Order!</h4>
+                <p>Your wellness journey continues — we can't wait to hear how much you love your CurvaFit products.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── ORDER STATS ── -->
+<div class="order-stats" id="order-stats-section" style="display:none;">
+    <div class="stat-badge">
+        <i class="fas fa-shield-alt"></i>
+        <span>100%</span>
+        <p>Secure</p>
+    </div>
+    <div class="stat-badge">
+        <i class="fas fa-truck"></i>
+        <span>Free</span>
+        <p>Shipping</p>
+    </div>
+    <div class="stat-badge">
+        <i class="fas fa-undo-alt"></i>
+        <span>30 Days</span>
+        <p>Returns</p>
+    </div>
+    <div class="stat-badge">
+        <i class="fas fa-heart"></i>
+        <span>10K+</span>
+        <p>Happy Customers</p>
+    </div>
+</div>
+
+<!-- ── DEEP GRATITUDE ── -->
+<section class="gratitude-section" id="gratitude-section" style="display:none;">
+    <span class="gratitude-emoji">🌸</span>
+    <h3>From the bottom of our hearts,<br><em>thank you for believing in yourself.</em></h3>
+    <p>Every order placed at CurvaFit is a step toward honoring your body, your strength, and your unique beauty. You've joined a community of thousands of incredible women who chose themselves — and we couldn't be more grateful to be part of your journey.</p>
+</section>
+
+<!-- ── SHARE YOUR JOY ── -->
+<section class="share-section" id="share-section" style="display:none;">
+    <h4>Share the Love ✨</h4>
+    <p>Inspire someone you love — share your CurvaFit moment</p>
+    <div class="share-buttons">
+        <a class="share-btn instagram" href="https://www.instagram.com" target="_blank" rel="noopener">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
+        <a class="share-btn whatsapp"
+           href="https://wa.me/?text=I%20just%20ordered%20from%20CurvaFit%20%F0%9F%8C%B8%20Premium%20wellness%20for%20curvy%20women%20%E2%80%94%20check%20them%20out!%20curvafit.com"
+           target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <button class="share-btn copy" id="copy-link-btn">
+            <i class="fas fa-link"></i> Copy Link
+        </button>
+    </div>
+</section>
+
+<!-- ── SUPPORT BAR ── -->
+<div class="support-bar" id="support-bar-section" style="display:none;">
+    <i class="fab fa-whatsapp"></i>
+    <p>Questions about your order? We're here for you 24/7.</p>
+    <a href="https://wa.me/18292677434?text=Hi%20CurvaFit%20team%2C%20I%20just%20placed%20an%20order%20and%20have%20a%20question!" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i> Chat with us
+    </a>
+</div>
+
+<script src="thankyou.js"></script>
+<script>
+// ── Reveal extra sections after confirmation ──
+function revealExtraSections() {
+    const ids = [
+        'next-steps-section',
+        'order-stats-section',
+        'gratitude-section',
+        'share-section',
+        'support-bar-section',
+        'success-icon'
+    ];
+    ids.forEach((id, i) => {
+        setTimeout(() => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = (id === 'success-icon') ? 'flex' : '';
+        }, i * 180);
+    });
+    // Update title
+    const h1 = document.querySelector('.container > h1');
+    if (h1) {
+        h1.textContent = 'Order Confirmed! 🎉';
+        h1.style.background = 'linear-gradient(135deg, #22a06b, #2ecc87)';
+        h1.style.webkitBackgroundClip = 'text';
+        h1.style.webkitTextFillColor = 'transparent';
+        h1.style.backgroundClip = 'text';
+    }
+}
+
+// ── Copy link button ──
+document.getElementById('copy-link-btn')?.addEventListener('click', function() {
+    navigator.clipboard.writeText('https://www.curvafit.com').then(() => {
+        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        this.style.background = 'var(--green)';
+        this.style.color = '#fff';
+        this.style.borderColor = 'var(--green)';
+        setTimeout(() => {
+            this.innerHTML = '<i class="fas fa-link"></i> Copy Link';
+            this.style.background = '';
+            this.style.color = '';
+            this.style.borderColor = '';
+        }, 2500);
+    });
+});
+
+// Watch for order confirmation — reveal sections when #buttons becomes visible
+const observer = new MutationObserver(() => {
+    const buttons = document.getElementById('buttons');
+    const spinner = document.getElementById('spinner');
+    if (buttons && buttons.style.display !== 'none' && spinner && spinner.style.display === 'none') {
+        revealExtraSections();
+        observer.disconnect();
+    }
+});
+observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['style'] });
+</script>
+</body>
+</html>
