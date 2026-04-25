@@ -208,53 +208,6 @@
     });
   }
 
-  /* ──────────────────────────────────────────────────────────────
-     5. LANGUAGE DROPDOWN (header desktop)
-  ────────────────────────────────────────────────────────────── */
-  const langEl = document.getElementById('bbwLang');
-  if (langEl) {
-    const langBtn   = langEl.querySelector('.bbw-lang__btn');
-    const langLabel = langEl.querySelector('.bbw-lang__label');
-
-    if (langBtn) {
-      langBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        langEl.classList.toggle('is-open');
-      });
-    }
-
-    langEl.querySelectorAll('.bbw-lang__option').forEach(opt => {
-      opt.addEventListener('click', () => {
-        langEl.querySelectorAll('.bbw-lang__option').forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        if (langLabel) langLabel.textContent = opt.dataset.lang.toUpperCase();
-        langEl.classList.remove('is-open');
-      });
-    });
-
-    document.addEventListener('click', e => {
-      if (!langEl.contains(e.target)) langEl.classList.remove('is-open');
-    });
-  }
-
-  /* ──────────────────────────────────────────────────────────────
-     6. LANGUAGE DRAWER
-  ────────────────────────────────────────────────────────────── */
-  const drawerLangBlock = document.getElementById('bbwDrawerLang');
-  if (drawerLangBlock) {
-    drawerLangBlock.querySelectorAll('.bbw-drawer__lang-opt').forEach(opt => {
-      opt.addEventListener('click', () => {
-        drawerLangBlock.querySelectorAll('.bbw-drawer__lang-opt').forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        const langLabel = document.querySelector('.bbw-lang__label');
-        if (langLabel) langLabel.textContent = opt.dataset.lang.toUpperCase();
-        const desktopOpts = document.querySelectorAll('.bbw-lang__option');
-        desktopOpts.forEach(o => {
-          o.classList.toggle('active', o.dataset.lang === opt.dataset.lang);
-        });
-      });
-    });
-  }
 
   /* ──────────────────────────────────────────────────────────────
      7. ACCOUNT TRIGGER → appelle paulTrigger (script.js)
@@ -272,77 +225,67 @@
   }
 
   /* ──────────────────────────────────────────────────────────────
-     8. CART & WISHLIST — bridge vers script.js
-     
-     STRATÉGIE : on ne re-bind pas sur les mêmes éléments que script.js.
-     On utilise openCartDrawer / openWishlistModal exposés sur window.
-     Si pas encore prêts (race condition fetch), on poll jusqu'à 5s.
-  ────────────────────────────────────────────────────────────── */
-  const cartTrigger     = document.getElementById('bbwCartTrigger');
-  const wishlistTrigger = document.getElementById('bbwWishlistTrigger');
+   8. CART & WISHLIST — bridge vers script.js
+   On attend que script.js expose les fonctions, puis on bind.
+────────────────────────────────────────────────────────────── */
+(function bindCartWishlist() {
+  function tryBind() {
+    const cartTrigger     = document.getElementById('bbwCartTrigger');
+    const wishlistTrigger = document.getElementById('bbwWishlistTrigger');
 
-  /**
-   * Appelle window[fnName]() dès qu'il est disponible.
-   * Poll toutes les 80ms pendant max 5s.
-   */
-  function callWhenReady(fnName) {
-    if (typeof window[fnName] === 'function') {
-      window[fnName]();
-      return;
+    if (cartTrigger && typeof window.openCartDrawer === 'function') {
+      cartTrigger.addEventListener('click', window.openCartDrawer);
+      cartTrigger.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openCartDrawer(); }
+      });
     }
+
+    if (wishlistTrigger && typeof window.openWishlistModal === 'function') {
+      wishlistTrigger.addEventListener('click', window.openWishlistModal);
+      wishlistTrigger.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openWishlistModal(); }
+      });
+    }
+
+    // Si les deux sont bindés → terminé
+    if (
+      typeof window.openCartDrawer === 'function' &&
+      typeof window.openWishlistModal === 'function'
+    ) return;
+
+    // Sinon réessayer
     let tries = 0;
     const wait = setInterval(() => {
-      if (typeof window[fnName] === 'function') {
-        clearInterval(wait);
-        window[fnName]();
-      } else if (++tries > 62) { // ~5 secondes
-        clearInterval(wait);
-        console.warn('[BBW Header] fonction non trouvée après 5s :', fnName);
+      const cart     = document.getElementById('bbwCartTrigger');
+      const wishlist = document.getElementById('bbwWishlistTrigger');
+
+      if (cart && typeof window.openCartDrawer === 'function') {
+        cart.addEventListener('click', window.openCartDrawer);
+        cart.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openCartDrawer(); }
+        });
       }
+
+      if (wishlist && typeof window.openWishlistModal === 'function') {
+        wishlist.addEventListener('click', window.openWishlistModal);
+        wishlist.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openWishlistModal(); }
+        });
+      }
+
+      if (
+        (typeof window.openCartDrawer === 'function') &&
+        (typeof window.openWishlistModal === 'function')
+      ) {
+        clearInterval(wait);
+      }
+
+      if (++tries > 80) clearInterval(wait); // ~6.4s max
     }, 80);
   }
 
-  if (cartTrigger) {
-    cartTrigger.addEventListener('click', () => {
-      callWhenReady('openCartDrawer');
-    });
-    cartTrigger.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        callWhenReady('openCartDrawer');
-      }
-    });
-  }
-
-  if (wishlistTrigger) {
-    wishlistTrigger.addEventListener('click', () => {
-      callWhenReady('openWishlistModal');
-    });
-    wishlistTrigger.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        callWhenReady('openWishlistModal');
-      }
-    });
-  }
-
-  /* ──────────────────────────────────────────────────────────────
-     9. BADGES — fonctions exposées pour script.js
-     script.js appelle : window.bbwUpdateCartBadge(n)
-                         window.bbwUpdateWishlistBadge(n)
-     script.js met aussi à jour directement .cart-badge et
-     .wishlist-badge (querySelector), qui sont présents dans
-     le header.html.
-  ────────────────────────────────────────────────────────────── */
-  function updateBadge(selector, count) {
-    const badge = document.querySelector(selector);
-    if (!badge) return;
-    badge.textContent = count;
-    badge.classList.toggle('active', count > 0);
-  }
-
-  window.bbwUpdateCartBadge     = (n) => updateBadge('.cart-badge', n);
-  window.bbwUpdateWishlistBadge = (n) => updateBadge('.wishlist-badge', n);
+  tryBind();
+})();
 
   /* ──────────────────────────────────────────────────────────────
      10. SCROLL EFFECT — box-shadow header
@@ -411,6 +354,7 @@
     }
   }
 
+
   function init() {
     spawnHeaderParticles();
     markActiveLink();
@@ -440,3 +384,92 @@
   }
 
 })();
+
+
+
+
+
+
+/* ──────────────────────────────────────────────────────────────
+     LANG SELECTOR — DESKTOP
+  ────────────────────────────────────────────────────────────── */
+  const langSelect   = document.getElementById('bbwLangSelect');
+  const langBtn      = document.getElementById('bbwLangBtn');
+  const langDropdown = document.getElementById('bbwLangDropdown');
+  const langFlag     = document.getElementById('bbwLangFlag');
+  const langLabel    = document.getElementById('bbwLangLabel');
+
+  if (langBtn && langSelect) {
+    langBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langSelect.classList.toggle('is-open');
+      langBtn.setAttribute('aria-expanded', langSelect.classList.contains('is-open'));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!langSelect.contains(e.target)) {
+        langSelect.classList.remove('is-open');
+        langBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    if (langDropdown) {
+      langDropdown.querySelectorAll('.bbw-lang-select__option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          langDropdown.querySelectorAll('.bbw-lang-select__option').forEach(o => o.classList.remove('active'));
+          opt.classList.add('active');
+          langFlag.textContent  = opt.dataset.flag;
+          langLabel.textContent = opt.dataset.label;
+          langSelect.classList.remove('is-open');
+          langBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     COUNTRY + LANG SELECTORS — MOBILE DRAWER
+  ────────────────────────────────────────────────────────────── */
+  const drawerCountryBtn  = document.getElementById('bbwDrawerCountryBtn');
+  const drawerCountryList = document.getElementById('bbwDrawerCountryList');
+  const drawerCountryFlag = document.getElementById('bbwDrawerCountryFlag');
+  const drawerCountryLbl  = document.getElementById('bbwDrawerCountryLabel');
+
+  const drawerLangBtn     = document.getElementById('bbwDrawerLangBtn');
+  const drawerLangList    = document.getElementById('bbwDrawerLangList');
+  const drawerLangFlag    = document.getElementById('bbwDrawerLangFlag');
+  const drawerLangLbl     = document.getElementById('bbwDrawerLangLabel');
+
+  if (drawerCountryBtn && drawerCountryList) {
+    drawerCountryBtn.addEventListener('click', () => {
+      const isOpen = drawerCountryList.classList.toggle('is-open');
+      // fermer lang si ouvert
+      if (isOpen && drawerLangList) drawerLangList.classList.remove('is-open');
+    });
+    drawerCountryList.querySelectorAll('.bbw-drawer__select-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        drawerCountryList.querySelectorAll('.bbw-drawer__select-opt').forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        drawerCountryFlag.textContent = opt.dataset.flag;
+        drawerCountryLbl.textContent  = opt.dataset.label;
+        drawerCountryList.classList.remove('is-open');
+      });
+    });
+  }
+
+  if (drawerLangBtn && drawerLangList) {
+    drawerLangBtn.addEventListener('click', () => {
+      const isOpen = drawerLangList.classList.toggle('is-open');
+      // fermer country si ouvert
+      if (isOpen && drawerCountryList) drawerCountryList.classList.remove('is-open');
+    });
+    drawerLangList.querySelectorAll('.bbw-drawer__select-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        drawerLangList.querySelectorAll('.bbw-drawer__select-opt').forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        drawerLangFlag.textContent = opt.dataset.flag;
+        drawerLangLbl.textContent  = opt.dataset.label;
+        drawerLangList.classList.remove('is-open');
+      });
+    });
+  }

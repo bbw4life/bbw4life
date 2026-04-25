@@ -2197,6 +2197,7 @@ function applyPromoFreeItems() {
 
 // Ces lignes existaient déjà — NE PAS SUPPRIMER
 window.openCartDrawer = openCartDrawer;
+window.openWishlistModal = openWishlistModal;
 window.renderCart = renderCart;
 window.renderWishlist = renderWishlist;
 window.updateBadges = updateBadges;
@@ -8173,4 +8174,135 @@ document.addEventListener('DOMContentLoaded', function () {
 
   startTimer();
 })();
+
+
+
+
+
+
+(function () {
+  'use strict';
+
+  function jrgqInit() {
+    const section = document.getElementById('jrgq-section');
+    if (!section) return;
+
+    /* ════════════════════════════════
+       1. PARTICLES
+    ════════════════════════════════ */
+    const particlesContainer = document.getElementById('jrgq-particles');
+    if (particlesContainer) {
+      const colors = [
+        'rgba(192,56,94,0.7)',
+        'rgba(201,150,62,0.6)',
+        'rgba(123,63,110,0.6)',
+        'rgba(232,96,126,0.5)',
+        'rgba(240,192,96,0.5)',
+      ];
+      for (let i = 0; i < 30; i++) {
+        const p = document.createElement('div');
+        p.className = 'jrgq-ptcl';
+        const size  = Math.random() * 4 + 2;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left  = Math.random() * 100;
+        const delay = Math.random() * 12;
+        const dur   = Math.random() * 8 + 6;
+        const px    = (Math.random() - 0.5) * 80;
+        p.style.cssText = [
+          `width:${size}px`,
+          `height:${size}px`,
+          `background:${color}`,
+          `left:${left}%`,
+          `bottom:${Math.random() * 20}%`,
+          `animation-duration:${dur}s`,
+          `animation-delay:${delay}s`,
+          `--px:${px}px`,
+          `border-radius:50%`,
+        ].join(';');
+        particlesContainer.appendChild(p);
+      }
+    }
+
+    /* ════════════════════════════════
+       2. GALLERY — Intersection Observer
+    ════════════════════════════════ */
+    const galItems = document.querySelectorAll('.jrgq-gal-item');
+    if ('IntersectionObserver' in window && galItems.length) {
+      const galObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0) scale(1)';
+            galObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      galItems.forEach(function (item, idx) {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(30px) scale(0.95)';
+        item.style.transition =
+          'opacity 0.65s ease ' + (idx * 0.08) + 's, ' +
+          'transform 0.65s cubic-bezier(0.34,1.2,0.64,1) ' + (idx * 0.08) + 's';
+        galObs.observe(item);
+      });
+    }
+
+    /* ════════════════════════════════
+       3. GALLERY STATS STRIP — count-up
+    ════════════════════════════════ */
+    function animateNum(el, target, suffix, duration) {
+      let start = 0;
+      const step = target / (duration / 16);
+      const timer = setInterval(function () {
+        start = Math.min(start + step, target);
+        el.textContent = Math.floor(start).toLocaleString() + (suffix || '');
+        if (start >= target) clearInterval(timer);
+      }, 16);
+    }
+
+    const statsStrip = document.querySelector('.jrgq-gallery-stats-strip');
+    if ('IntersectionObserver' in window && statsStrip) {
+      const stripObs = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) {
+          const nums    = statsStrip.querySelectorAll('.jrgq-gstat-num');
+          const targets = [12400, 4.7, 4.2, 30];
+          const suffixes = ['+', ' / 5', ' kg', ' days'];
+          nums.forEach(function (el, i) {
+            if (i === 1) {
+              let v = 0;
+              const s = targets[i] / 60;
+              const t = setInterval(function () {
+                v = Math.min(v + s, targets[i]);
+                el.textContent = v.toFixed(1) + suffixes[i];
+                if (v >= targets[i]) { el.textContent = targets[i] + suffixes[i]; clearInterval(t); }
+              }, 18);
+            } else if (i === 2) {
+              let v = 0;
+              const s = targets[i] / 60;
+              const t = setInterval(function () {
+                v = Math.min(v + s, targets[i]);
+                el.textContent = '−' + v.toFixed(1) + suffixes[i];
+                if (v >= targets[i]) { el.textContent = '−' + targets[i] + suffixes[i]; clearInterval(t); }
+              }, 18);
+            } else {
+              animateNum(el, targets[i], suffixes[i], 1400);
+            }
+          });
+          stripObs.disconnect();
+        }
+      }, { threshold: 0.3 });
+      stripObs.observe(statsStrip);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', jrgqInit);
+  } else {
+    jrgqInit();
+  }
+
+})();
+
+
 

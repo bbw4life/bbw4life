@@ -25,6 +25,51 @@
         <button class="bbw-search__icon" id="bbwSearchToggle" aria-label="Search">
           <i class="fi fi-rr-search"></i>
         </button>
+
+         <!-- Language Selector — Desktop uniquement, collé à l'icône search -->
+      <div class="bbw-lang-select" id="bbwLangSelect">
+        <button class="bbw-lang-select__btn" id="bbwLangBtn" aria-haspopup="listbox" aria-expanded="false">
+          <span class="bbw-lang-select__flag" id="bbwLangFlag">🇺🇸</span>
+          <span id="bbwLangLabel">EN</span>
+          <svg class="bbw-lang-select__chevron" viewBox="0 0 24 24" fill="none" width="12" height="12">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="bbw-lang-select__dropdown" role="listbox" id="bbwLangDropdown">
+          <button class="bbw-lang-select__option active" data-lang="en" data-flag="🇺🇸" data-label="EN" role="option">
+            <span class="opt-flag">🇺🇸</span><span class="opt-name">English</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="es" data-flag="🇪🇸" data-label="ES" role="option">
+            <span class="opt-flag">🇪🇸</span><span class="opt-name">Español</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="fr" data-flag="🇫🇷" data-label="FR" role="option">
+            <span class="opt-flag">🇫🇷</span><span class="opt-name">Français</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="pt" data-flag="🇧🇷" data-label="PT" role="option">
+            <span class="opt-flag">🇧🇷</span><span class="opt-name">Português</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="de" data-flag="🇩🇪" data-label="DE" role="option">
+            <span class="opt-flag">🇩🇪</span><span class="opt-name">Deutsch</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="zh" data-flag="🇨🇳" data-label="ZH" role="option">
+            <span class="opt-flag">🇨🇳</span><span class="opt-name">中文</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="ar" data-flag="🇸🇦" data-label="AR" role="option">
+            <span class="opt-flag">🇸🇦</span><span class="opt-name">العربية</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="ja" data-flag="🇯🇵" data-label="JA" role="option">
+            <span class="opt-flag">🇯🇵</span><span class="opt-name">日本語</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="it" data-flag="🇮🇹" data-label="IT" role="option">
+            <span class="opt-flag">🇮🇹</span><span class="opt-name">Italiano</span><span class="opt-check">✓</span>
+          </button>
+          <button class="bbw-lang-select__option" data-lang="hi" data-flag="🇮🇳" data-label="HI" role="option">
+            <span class="opt-flag">🇮🇳</span><span class="opt-name">हिन्दी</span><span class="opt-check">✓</span>
+          </button>
+        </div>
+      </div>
+
+
         <!-- Barre search mobile -->
         <div class="bbw-search__bar" id="bbwSearchBar">
           <input type="text" class="bbw-search__input" id="bbwSearchInput"
@@ -50,8 +95,9 @@
           </button>
         </div>
       </div>
-
     </div>
+
+
 
     <!-- ══ CENTRE : Logo ══ -->
     <div class="bbw-header__logo">
@@ -63,10 +109,10 @@
       </a>
     </div>
 
-    <!-- ══ DROITE : Search always-visible (desktop) + Language + Account + Wishlist + Cart ══ -->
+    <!-- ══ DROITE : Account + Wishlist + Cart ══ -->
     <div class="bbw-header__right">
 
-      <!-- Search always-visible desktop -->
+      <!-- 1. Search always-visible desktop -->
       <div class="bbw-search-desktop" id="bbwSearchDesktop" aria-label="Search" style="display:none;">
         <div class="bbw-search-desktop__bar">
           <i class="fi fi-rr-search bbw-search-desktop__icon"></i>
@@ -78,47 +124,18 @@
         </div>
       </div>
 
-      <!-- Language desktop -->
-      <div class="bbw-lang bbw-lang--desktop" id="bbwLang">
-        <button class="bbw-lang__btn" aria-label="Language">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
-          </svg>
-          <span class="bbw-lang__label">EN</span>
-          <svg class="bbw-lang__caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
-        </button>
-        <div class="bbw-lang__dropdown">
-          <button class="bbw-lang__option active" data-lang="en">🇺🇸 English</button>
-          <button class="bbw-lang__option" data-lang="fr">🇫🇷 Français</button>
-          <button class="bbw-lang__option" data-lang="es">🇪🇸 Español</button>
-          <button class="bbw-lang__option" data-lang="pt">🇧🇷 Português</button>
-        </div>
-      </div>
-
-      <!-- Account
-           script.js attend : #paulTrigger  (via bbwAccountTrigger → paulTrigger.click())
-           header.js gère le clic sur bbwAccountTrigger et appelle paulTrigger.click()
-      -->
+      <!-- Account -->
       <button class="bbw-icon-btn" id="bbwAccountTrigger" aria-label="Account">
         <i class="fi fi-rr-user"></i>
       </button>
 
-      <!-- Wishlist
-           script.js attend : .icon-wrapper:has(.wishlist-icon)  ET  .wishlist-badge
-           On garde id="bbwWishlistTrigger" ET on ajoute class="icon-wrapper"
-      -->
+      <!-- Wishlist -->
       <div class="bbw-icon-btn icon-wrapper" id="bbwWishlistTrigger" aria-label="Wishlist" role="button" tabindex="0">
         <i class="fas fa-heart wishlist-icon"></i>
         <span class="bbw-badge wishlist-badge">0</span>
       </div>
 
-      <!-- Cart
-           script.js attend : .icon-wrapper:has(.cart-icon)  ET  .cart-badge
-           On garde id="bbwCartTrigger" ET on ajoute class="icon-wrapper"
-      -->
+      <!-- Cart -->
       <div class="bbw-icon-btn icon-wrapper" id="bbwCartTrigger" aria-label="Cart" role="button" tabindex="0">
         <i class="fas fa-shopping-cart cart-icon"></i>
         <span class="bbw-badge cart-badge">0</span>
@@ -372,25 +389,113 @@
       </div>
 
       <!-- PAYMENTS -->
-      <div class="bbw-drawer__divider"><span>Accepted Payments</span></div>
-      <div class="bbw-drawer__payments">
-        <span>VISA</span>
-        <span>Mastercard</span>
-        <span>PayPal</span>
-        <span>AMEX</span>
-        <span>Apple Pay</span>
-        <span>Google Pay</span>
-        <span>Discover</span>
-        <span>JCB</span>
-      </div>
+    <div class="bbw-drawer__divider"><span>Accepted Payments</span></div>
+    <div class="bbw-drawer__payments">
+      <i class="bbw-drawer__pay-icon fa-brands fa-cc-visa"        title="Visa"></i>
+      <i class="bbw-drawer__pay-icon fa-brands fa-cc-mastercard"  title="Mastercard"></i>
+      <i class="bbw-drawer__pay-icon fa-brands fa-cc-paypal"      title="PayPal"></i>
+      <i class="bbw-drawer__pay-icon fa-brands fa-cc-amex"        title="American Express"></i>
+      <i class="bbw-drawer__pay-icon fa-brands fa-apple-pay"      title="Apple Pay"></i>
+      <i class="bbw-drawer__pay-icon fa-brands fa-google-pay"     title="Google Pay"></i>
+      <i class="bbw-drawer__pay-icon fa-brands fa-cc-discover"    title="Discover"></i>
+      <i class="bbw-drawer__pay-icon fa-brands fa-cc-jcb"         title="JCB"></i>
+      <i class="bbw-drawer__pay-icon fa-brands fa-cc-diners-club" title="Diners Club"></i>
+    </div>
 
       <!-- LANGUAGE dans le drawer -->
-      <div class="bbw-drawer__divider"><span>Language</span></div>
-      <div class="bbw-drawer__lang-block" id="bbwDrawerLang">
-        <button class="bbw-drawer__lang-opt active" data-lang="en">🇺🇸 English</button>
-        <button class="bbw-drawer__lang-opt" data-lang="fr">🇫🇷 Français</button>
-        <button class="bbw-drawer__lang-opt" data-lang="es">🇪🇸 Español</button>
-        <button class="bbw-drawer__lang-opt" data-lang="pt">🇧🇷 Português</button>
+      <div class="bbw-drawer__divider bbw-drawer__divider--mobile-only"><span>Country &amp; Language</span></div>
+
+      <!-- Les 2 boutons côte à côte -->
+      <div class="bbw-drawer__select-block">
+
+        <!-- Country -->
+        <button class="bbw-drawer__select-btn" id="bbwDrawerCountryBtn">
+          <span class="bbw-drawer__select-label">Country</span>
+          <span class="bbw-drawer__select-value">
+            <span class="sel-flag" id="bbwDrawerCountryFlag">🇺🇸</span>
+            <span id="bbwDrawerCountryLabel">USA</span>
+          </span>
+          <span class="bbw-drawer__select-chevron">▼</span>
+        </button>
+
+        <!-- Language -->
+        <button class="bbw-drawer__select-btn" id="bbwDrawerLangBtn">
+          <span class="bbw-drawer__select-label">Language</span>
+          <span class="bbw-drawer__select-value">
+            <span class="sel-flag" id="bbwDrawerLangFlag">🇺🇸</span>
+            <span id="bbwDrawerLangLabel">English</span>
+          </span>
+          <span class="bbw-drawer__select-chevron">▼</span>
+        </button>
+
+      </div>
+
+      <!-- Country dropdown (mobile) -->
+      <div class="bbw-drawer__select-dropdown" id="bbwDrawerCountryList">
+        <button class="bbw-drawer__select-opt active" data-country="us" data-flag="🇺🇸" data-label="USA">
+          <span class="opt-flag">🇺🇸</span><span>United States</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="mx" data-flag="🇲🇽" data-label="México">
+          <span class="opt-flag">🇲🇽</span><span>México</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="br" data-flag="🇧🇷" data-label="Brasil">
+          <span class="opt-flag">🇧🇷</span><span>Brasil</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="fr" data-flag="🇫🇷" data-label="France">
+          <span class="opt-flag">🇫🇷</span><span>France</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="de" data-flag="🇩🇪" data-label="Germany">
+          <span class="opt-flag">🇩🇪</span><span>Germany</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="gb" data-flag="🇬🇧" data-label="UK">
+          <span class="opt-flag">🇬🇧</span><span>United Kingdom</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="ca" data-flag="🇨🇦" data-label="Canada">
+          <span class="opt-flag">🇨🇦</span><span>Canada</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="in" data-flag="🇮🇳" data-label="India">
+          <span class="opt-flag">🇮🇳</span><span>India</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="au" data-flag="🇦🇺" data-label="Australia">
+          <span class="opt-flag">🇦🇺</span><span>Australia</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-country="do" data-flag="🇩🇴" data-label="Dom. Rep.">
+          <span class="opt-flag">🇩🇴</span><span>Dominican Rep.</span><span class="opt-check">✓</span>
+        </button>
+      </div>
+
+      <!-- Language dropdown (mobile) -->
+      <div class="bbw-drawer__select-dropdown" id="bbwDrawerLangList">
+        <button class="bbw-drawer__select-opt active" data-lang="en" data-flag="🇺🇸" data-label="English">
+          <span class="opt-flag">🇺🇸</span><span>English</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="es" data-flag="🇪🇸" data-label="Español">
+          <span class="opt-flag">🇪🇸</span><span>Español</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="fr" data-flag="🇫🇷" data-label="Français">
+          <span class="opt-flag">🇫🇷</span><span>Français</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="pt" data-flag="🇧🇷" data-label="Português">
+          <span class="opt-flag">🇧🇷</span><span>Português</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="de" data-flag="🇩🇪" data-label="Deutsch">
+          <span class="opt-flag">🇩🇪</span><span>Deutsch</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="zh" data-flag="🇨🇳" data-label="中文">
+          <span class="opt-flag">🇨🇳</span><span>中文</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="ar" data-flag="🇸🇦" data-label="العربية">
+          <span class="opt-flag">🇸🇦</span><span>العربية</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="ja" data-flag="🇯🇵" data-label="日本語">
+          <span class="opt-flag">🇯🇵</span><span>日本語</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="it" data-flag="🇮🇹" data-label="Italiano">
+          <span class="opt-flag">🇮🇹</span><span>Italiano</span><span class="opt-check">✓</span>
+        </button>
+        <button class="bbw-drawer__select-opt" data-lang="hi" data-flag="🇮🇳" data-label="हिन्दी">
+          <span class="opt-flag">🇮🇳</span><span>हिन्दी</span><span class="opt-check">✓</span>
+        </button>
       </div>
 
       <!-- LEGAL -->

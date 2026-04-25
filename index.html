@@ -29,67 +29,68 @@
 
 <body>
 
-  <!-- ░░ ANNOUNCEMENT BAR ░░ -->
-<div class="ann-bar" id="annBar">
-  <button class="ann-bar__btn" id="annPrev">&#8249;</button>
-  <div class="ann-bar__track" id="annTrack">
-    <div class="ann-bar__slide active"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off · Today Only</div>
-    <div class="ann-bar__slide"><i class="fas fa-truck"></i> Free Shipping on all orders over $50</div>
-    <div class="ann-bar__slide"><i class="fas fa-star"></i> Over 3,800 Happy Customers Worldwide</div>
-    <div class="ann-bar__slide"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee — No Questions</div>
-    <div class="ann-bar__slide"><i class="fas fa-gift"></i> New Arrivals Every Week — Discover Our Collection</div>
-  </div>
-  <div style="display:flex;align-items:center;">
-    <div class="ann-bar__dots" id="annDots">
-      <div class="ann-bar__dot active"></div>
-      <div class="ann-bar__dot"></div>
-      <div class="ann-bar__dot"></div>
-      <div class="ann-bar__dot"></div>
-      <div class="ann-bar__dot"></div>
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="ann-bar" id="annBar">
+    <button class="ann-bar__btn" id="annPrev">&#8249;</button>
+    <div class="ann-bar__track" id="annTrack">
+      <div class="ann-bar__slide active"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off · Today Only</div>
+      <div class="ann-bar__slide"><i class="fas fa-truck"></i> Free Shipping on all orders over $50</div>
+      <div class="ann-bar__slide"><i class="fas fa-star"></i> Over 3,800 Happy Customers Worldwide</div>
+      <div class="ann-bar__slide"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee — No Questions</div>
+      <div class="ann-bar__slide"><i class="fas fa-gift"></i> New Arrivals Every Week — Discover Our Collection</div>
     </div>
-    <button class="ann-bar__btn" id="annNext">&#8250;</button>
+    <div style="display:flex;align-items:center;">
+      <div class="ann-bar__dots" id="annDots">
+        <div class="ann-bar__dot active"></div>
+        <div class="ann-bar__dot"></div>
+        <div class="ann-bar__dot"></div>
+        <div class="ann-bar__dot"></div>
+        <div class="ann-bar__dot"></div>
+      </div>
+      <button class="ann-bar__btn" id="annNext">&#8250;</button>
+    </div>
   </div>
-</div>
 
+  <!-- HEADER -->
   <div id="header-container"></div>
 
+  <!-- MAIN CONTENT -->
   <main id="main-content">
 
-    <nav id="bc-nav" aria-label="Breadcrumb navigation" style="display:none;">
-      <div class="bc-wrapper">
-        <ol class="bc-list" id="bc-list">
-          <li class="bc-item">
-            <a href="/index.html">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;margin-right:3px;">
-                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9 21V12h6v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Home
-            </a>
-          </li>
-        </ol>
-      </div>
-    </nav>
+    <!-- ═══════════════════════════════════════
+        BREADCRUMBS
+       ═══════════════════════════════════════ -->
+        <nav id="bc-nav" aria-label="Breadcrumb navigation" style="display:none;">
+        <div class="bc-wrapper">
+            <ol class="bc-list" id="bc-list">
+            <li class="bc-item">
+                <a href="/index.html">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;margin-right:3px;">
+                    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 21V12h6v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Home
+                </a>
+            </li>
+            </ol>
+        </div>
+        </nav>
 
+    <!-- STORY CIRCLES -->
     <section id="story-circles" class="story-circles-section">
-      <div class="story-circles-track" id="storyCirclesTrack">
-      </div>
+      <div class="story-circles-track" id="storyCirclesTrack"></div>
     </section>
 
+    <!-- HERO BANNER -->
     <section id="hero-banner-section" class="bbw-hero-banner">
-
       <div class="bbw-hero__media" id="bbwHeroMedia"></div>
-
       <div class="bbw-hero__thumbs" id="bbwHeroThumbs"></div>
-
       <div class="bbw-hero__dots" id="bbwHeroDots"></div>
-
       <div class="bbw-hero__content" id="bbwHeroContent">
         <p class="bbw-hero__eyebrow" id="bbwHeroEyebrow"></p>
         <h2 class="bbw-hero__title" id="bbwHeroTitle"></h2>
         <h1 class="bbw-hero__subtitle" id="bbwHeroSubtitle"></h1>
         <p class="bbw-hero__text" id="bbwHeroText"></p>
-
         <div class="bbw-hero__countdown" id="bbwHeroCountdown" style="display:none;">
           <div class="bbw-hero__cd-block">
             <span class="bbw-hero__cd-num" id="bbwCdDays">00</span>
@@ -111,23 +112,20 @@
             <span class="bbw-hero__cd-label" id="bbwCdLabelSeconds">SEC</span>
           </div>
         </div>
-
         <div class="bbw-hero__btn-wrap" id="bbwHeroBtnWrap">
-          <button class="bbw-hero__btn bbw-hero__btn--main" id="bbwHeroBtnMain" style="display:none;">
-            Add pack to cart
-          </button>
+          <button class="bbw-hero__btn bbw-hero__btn--main" id="bbwHeroBtnMain" style="display:none;">Add pack to cart</button>
           <a href="#" class="bbw-hero__btn bbw-hero__btn--slide" id="bbwHeroBtn1" style="display:none;" data-slide="1">Shop Now</a>
           <a href="#" class="bbw-hero__btn bbw-hero__btn--slide" id="bbwHeroBtn2" style="display:none;" data-slide="2">Shop Now</a>
           <a href="#" class="bbw-hero__btn bbw-hero__btn--slide" id="bbwHeroBtn3" style="display:none;" data-slide="3">Shop Now</a>
         </div>
       </div>
-
     </section>
 
+    <!-- PRODUCTS & ABOUT -->
     <section id="products"></section>
     <section id="about"></section>
 
-    <!-- ░░ COLLECTION MARQUEE BOOST ░░ -->
+    <!-- MARQUEE STRIP -->
     <div class="col-marquee-section">
       <div class="col-marquee-track">
         <div class="col-marquee-inner">
@@ -141,7 +139,6 @@
           <span class="col-marquee-sep">✦</span>
           <span class="col-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
           <span class="col-marquee-sep">✦</span>
-          <!-- Duplicate pour loop infini -->
           <span class="col-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
           <span class="col-marquee-sep">✦</span>
           <span class="col-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
@@ -156,54 +153,229 @@
       </div>
     </div>
 
+    <!-- FEATURED PRODUCT SPOTLIGHT -->
+    <section id="featured-spotlight" class="featured-spotlight-section" data-scroll-reveal>
+      <div class="fs-orb fs-orb--1"></div>
+      <div class="fs-orb fs-orb--2"></div>
+      <div class="fs-orb fs-orb--3"></div>
+      <div class="container">
+        <div class="fs-inner">
+          <div class="fs-media">
+            <div class="fs-badge-float">Best Seller</div>
+            <div class="fs-img-frame">
+              <div class="fs-img-shine"></div>
+              <img src="" alt="" loading="lazy" class="fs-main-img">
+            </div>
+            <div class="fs-mini-gallery">
+              <img src="" loading="lazy" class="fs-thumb">
+              <img src="" loading="lazy" class="fs-thumb">
+              <img src="" loading="lazy" class="fs-thumb">
+            </div>
+          </div>
+          <div class="fs-content">
+            <span class="fs-category"></span>
+            <h2 class="fs-title"></h2>
+            <div class="fs-rating">
+              <span class="fs-stars"></span>
+              <span class="fs-count"></span>
+            </div>
+            <div class="fs-price-row">
+              <span class="fs-price"></span>
+              <span class="fs-compare"></span>
+              <span class="fs-discount-tag"></span>
+            </div>
+            <p class="fs-desc"></p>
+            <div class="fs-features">
+              <div class="fs-feat">✓ Magnetic auto-stay design</div>
+              <div class="fs-feat">✓ Adjustable 18–24 sections</div>
+              <div class="fs-feat">✓ Burns 200+ cal / 30 min</div>
+              <div class="fs-feat">✓ Silent — use while watching TV</div>
+            </div>
+            <div class="fs-actions">
+              <a href="products/product1.html" class="fs-btn-primary">View Product →</a>
+              <div class="fs-stock">🔴 Only <strong>14 left</strong> in stock</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY + STATS SECTION -->
+    <section class="jrgq-section" id="jrgq-section">
+      <div class="jrgq-particles" id="jrgq-particles" aria-hidden="true"></div>
+      <div class="jrgq-scanline" aria-hidden="true"></div>
+      <div class="jrgq-grid-overlay" aria-hidden="true"></div>
+      <div class="jrgq-gallery-block">
+        <div class="jrgq-gallery-header">
+          <div class="jrgq-eyebrow">
+            <span class="jrgq-eyebrow-dot"></span>
+            Real Women · Real Results
+            <span class="jrgq-eyebrow-dot"></span>
+          </div>
+          <h2 class="jrgq-gallery-title">
+            They jumped.<br><em>They transformed.</em>
+          </h2>
+          <p class="jrgq-gallery-sub">
+            No gym. No diet crash. Just 15–20 minutes of jump rope with the Smart Counter — daily.
+          </p>
+        </div>
+        <div class="jrgq-gallery-mosaic">
+          <div class="jrgq-gal-item jrgq-gal-item--1" data-index="0">
+            <div class="jrgq-gal-img-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/jump_2.png?v=1775267440" alt="Résultat corde à sauter — Karine, -4 kg en 4 semaines" loading="lazy" class="jrgq-gal-img">
+              <div class="jrgq-gal-gradient"></div>
+              <div class="jrgq-gal-shimmer"></div>
+            </div>
+            <div class="jrgq-gal-info">
+              <span class="jrgq-gal-loss">−4 kg</span>
+              <span class="jrgq-gal-time">4 weeks</span>
+              <span class="jrgq-gal-name">Karine M.</span>
+              <div class="jrgq-gal-stars">★★★★★</div>
+              <p class="jrgq-gal-quote">"15 min before breakfast — life-changing."</p>
+            </div>
+            <div class="jrgq-gal-badge">Verified</div>
+          </div>
+          <div class="jrgq-gal-item jrgq-gal-item--2" data-index="1">
+            <div class="jrgq-gal-img-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/jump_1.jpg?v=1775267428" alt="Résultat corde à sauter — Sabrina, -6 kg en 6 semaines" loading="lazy" class="jrgq-gal-img">
+              <div class="jrgq-gal-gradient"></div>
+              <div class="jrgq-gal-shimmer"></div>
+            </div>
+            <div class="jrgq-gal-info">
+              <span class="jrgq-gal-loss">−6 kg</span>
+              <span class="jrgq-gal-time">6 weeks</span>
+              <span class="jrgq-gal-name">Sabrina L.</span>
+              <div class="jrgq-gal-stars">★★★★★</div>
+              <p class="jrgq-gal-quote">"Family fitness revolution!"</p>
+            </div>
+            <div class="jrgq-gal-badge">Verified</div>
+          </div>
+          <div class="jrgq-gal-item jrgq-gal-item--3 jrgq-gal-item--featured" data-index="2">
+            <div class="jrgq-gal-img-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow4_a9227abc-e102-4a7b-98f6-099ddcb7d64e.webp?v=1771884540" alt="Résultat corde à sauter — Amina, -8 kg en 8 semaines" loading="lazy" class="jrgq-gal-img">
+              <div class="jrgq-gal-gradient"></div>
+              <div class="jrgq-gal-shimmer"></div>
+              <div class="jrgq-gal-featured-badge"><i class="fas fa-trophy"></i> Best Result</div>
+            </div>
+            <div class="jrgq-gal-info jrgq-gal-info--featured">
+              <span class="jrgq-gal-loss">−8 kg</span>
+              <span class="jrgq-gal-time">8 weeks</span>
+              <span class="jrgq-gal-name">Amina O.</span>
+              <div class="jrgq-gal-stars">★★★★★</div>
+              <p class="jrgq-gal-quote">"Down 8 kg in 2 months. The counter kept me honest every single day."</p>
+            </div>
+            <div class="jrgq-gal-badge">Verified</div>
+          </div>
+          <div class="jrgq-gal-item jrgq-gal-item--4" data-index="3">
+            <div class="jrgq-gal-img-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow_7_34cbe5a0-ea02-44e1-9021-6fc9a0f59e47.webp?v=1771884540" alt="Résultat corde à sauter — Tania, -3 kg en 3 semaines" loading="lazy" class="jrgq-gal-img">
+              <div class="jrgq-gal-gradient"></div>
+              <div class="jrgq-gal-shimmer"></div>
+            </div>
+            <div class="jrgq-gal-info">
+              <span class="jrgq-gal-loss">−3 kg</span>
+              <span class="jrgq-gal-time">3 weeks</span>
+              <span class="jrgq-gal-name">Tania R.</span>
+              <div class="jrgq-gal-stars">★★★★★</div>
+              <p class="jrgq-gal-quote">"2,000 jumps a day at 41!"</p>
+            </div>
+            <div class="jrgq-gal-badge">Verified</div>
+          </div>
+          <div class="jrgq-gal-item jrgq-gal-item--5" data-index="4">
+            <div class="jrgq-gal-img-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow_9_fd535894-2578-4b8a-84a2-a7c29f33289a.webp?v=1771884540" alt="Résultat corde à sauter — Marie-Claude, -5 kg en 5 semaines" loading="lazy" class="jrgq-gal-img">
+              <div class="jrgq-gal-gradient"></div>
+              <div class="jrgq-gal-shimmer"></div>
+            </div>
+            <div class="jrgq-gal-info">
+              <span class="jrgq-gal-loss">−5 kg</span>
+              <span class="jrgq-gal-time">5 weeks</span>
+              <span class="jrgq-gal-name">Marie-Claude B.</span>
+              <div class="jrgq-gal-stars">★★★★★</div>
+              <p class="jrgq-gal-quote">"Travels everywhere with me!"</p>
+            </div>
+            <div class="jrgq-gal-badge">Verified</div>
+          </div>
+        </div>
+        <div class="jrgq-gallery-stats-strip">
+          <div class="jrgq-gstat">
+            <span class="jrgq-gstat-num">12,400+</span>
+            <span class="jrgq-gstat-label">Women transformed</span>
+          </div>
+          <div class="jrgq-gstat-sep">✦</div>
+          <div class="jrgq-gstat">
+            <span class="jrgq-gstat-num">4.7 / 5</span>
+            <span class="jrgq-gstat-label">Average rating</span>
+          </div>
+          <div class="jrgq-gstat-sep">✦</div>
+          <div class="jrgq-gstat">
+            <span class="jrgq-gstat-num">−4.2 kg</span>
+            <span class="jrgq-gstat-label">Average loss / month</span>
+          </div>
+          <div class="jrgq-gstat-sep">✦</div>
+          <div class="jrgq-gstat">
+            <span class="jrgq-gstat-num">30 days</span>
+            <span class="jrgq-gstat-label">To see real results</span>
+          </div>
+        </div>
+      </div>
+      <div class="jrgq-proof-strip">
+        <div class="jrgq-proof-avatars">
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#e8607e,#c0385e)">K</div>
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#a855f7,#7b3f6e)">S</div>
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#f97316,#c4943a)">M</div>
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#22c55e,#16a34a)">A</div>
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#38bdf8,#0ea5e9)">T</div>
+        </div>
+        <div class="jrgq-proof-text"><strong>3,241 women</strong> completed this quiz this week</div>
+        <div class="jrgq-proof-stars">★★★★★ <span>4.7/5</span></div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- FOOTER -->
   <div id="footer-container"></div>
 
+  <!-- SCRIPTS -->
   <script src="search.js"></script>
   <script src="script.js"></script>
   <script src="src/components/hero-banner.js"></script>
 
   <script>
   fetch('src/components/header.html')
-  .then(r => r.text())
-  .then(html => {
-    document.getElementById('header-container').innerHTML = html;
-
-    // Cart — openCartDrawer est dispo tôt
-    const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
-    if (cartWrapper && typeof window.openCartDrawer === 'function') {
-      cartWrapper.addEventListener('click', window.openCartDrawer);
-    }
-
-    // Wishlist — openWishlistModal peut ne pas être encore prêt → poll
-    function bindWishlist() {
-      const wishlistWrapper = document.querySelector('.icon-wrapper:has(.wishlist-icon)');
-      if (!wishlistWrapper) return;
-      if (typeof window.openWishlistModal === 'function') {
-        wishlistWrapper.addEventListener('click', window.openWishlistModal);
-      } else {
-        let tries = 0;
-        const wait = setInterval(() => {
-          if (typeof window.openWishlistModal === 'function') {
-            clearInterval(wait);
-            wishlistWrapper.addEventListener('click', window.openWishlistModal);
-          } else if (++tries > 62) {
-            clearInterval(wait);
-          }
-        }, 80);
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('header-container').innerHTML = html;
+      const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
+      if (cartWrapper && typeof window.openCartDrawer === 'function') {
+        cartWrapper.addEventListener('click', window.openCartDrawer);
       }
-    }
-    bindWishlist();
+      function bindWishlist() {
+        const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
+        if (cartWrapper && typeof window.openCartDrawer === 'function') {
+          cartWrapper.addEventListener('click', window.openCartDrawer);
+        } else {
+          let tries = 0;
+          const wait = setInterval(() => {
+            if (typeof window.openWishlistModal === 'function') {
+              clearInterval(wait);
+              wishlistWrapper.addEventListener('click', window.openWishlistModal);
+            } else if (++tries > 62) {
+              clearInterval(wait);
+            }
+          }, 80);
+        }
+      }
+      bindWishlist();
+      if (typeof window.updateBadges === 'function') window.updateBadges();
+      if (typeof window.updateWishlistIcons === 'function') window.updateWishlistIcons();
+      const s = document.createElement('script');
+      s.src = 'src/components/header.js';
+      document.body.appendChild(s);
+    })
+    .catch(err => console.error('Header load error:', err));
 
-    if (typeof window.updateBadges === 'function') window.updateBadges();
-    if (typeof window.updateWishlistIcons === 'function') window.updateWishlistIcons();
-
-    const s = document.createElement('script');
-    s.src = 'src/components/header.js';
-    document.body.appendChild(s);
-  })
-  .catch(err => console.error('Header load error:', err));
   fetch('src/components/footer.html')
     .then(r => r.text())
     .then(html => {
@@ -213,279 +385,271 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Footer load error:', err));
-</script>
+  </script>
 
- <div class="overlay"></div>
-    <div class="cart-drawer">
-    <div class="drawer-header"><h3>Your Cart</h3><button class="close-drawer">✕</button></div>
-    <div class="cart-drawer__body">
-        <div class="cart-items"></div>
-        <div class="empty-cart" style="display:none;">
-            <div class="empty-cart__icon">🛒</div>
-            <h3>Your cart is empty</h3>
-            <p>Add products to start shopping.</p>
-            <a href="collection.html" class="cta button-3d">Shop Now</a>
-        </div>
-       <div class="reviews-carousel" id="cart-reviews-carousel"></div>
-        <div class="marquee-container cart-marquee"><div class="marquee-content"><span>Free Shipping on Orders Over $50!</span><span>Secure Checkout Guaranteed!</span><span>30-Day Money Back Guarantee!</span><span>Shop Now and Save Big!</span></div></div>
-        <div class="payment-icons">
-            <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-paypal"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-discover"></i><i class="fab fa-cc-apple-pay"></i><i class="fab fa-google-pay"></i><i class="fab fa-cc-stripe"></i>
-        </div>
+  <!-- OVERLAY -->
+  <div class="overlay"></div>
+
+  <!-- CART DRAWER -->
+  <div class="cart-drawer">
+    <div class="drawer-header">
+      <h3>Your Cart</h3>
+      <button class="close-drawer">✕</button>
     </div>
-    <div class="cart-drawer__footer"><p class="subtotal">Subtotal: $0.00</p><button class="checkout">Checkout</button></div>
-</div>
-<div class="wishlist-modal">
+    <div class="cart-drawer__body">
+      <div class="cart-items"></div>
+      <div class="empty-cart" style="display:none;">
+        <div class="empty-cart__icon">🛒</div>
+        <h3>Your cart is empty</h3>
+        <p>Add products to start shopping.</p>
+        <a href="collection.html" class="cta button-3d">Shop Now</a>
+      </div>
+      <div class="reviews-carousel" id="cart-reviews-carousel"></div>
+      <div class="marquee-container cart-marquee">
+        <div class="marquee-content">
+          <span>Free Shipping on Orders Over $50!</span>
+          <span>Secure Checkout Guaranteed!</span>
+          <span>30-Day Money Back Guarantee!</span>
+          <span>Shop Now and Save Big!</span>
+        </div>
+      </div>
+      <div class="payment-icons">
+        <i class="fab fa-cc-visa"></i>
+        <i class="fab fa-cc-mastercard"></i>
+        <i class="fab fa-cc-paypal"></i>
+        <i class="fab fa-cc-amex"></i>
+        <i class="fab fa-cc-discover"></i>
+        <i class="fab fa-cc-apple-pay"></i>
+        <i class="fab fa-google-pay"></i>
+        <i class="fab fa-cc-stripe"></i>
+      </div>
+    </div>
+    <div class="cart-drawer__footer">
+      <p class="subtotal">Subtotal: $0.00</p>
+      <button class="checkout">Checkout</button>
+    </div>
+  </div>
+
+  <!-- WISHLIST MODAL -->
+  <div class="wishlist-modal">
     <div class="wishlist-modal-backdrop"></div>
     <div class="modal-content">
-        <div class="wishlist-modal-shimmer"></div>
-        <div class="drawer-header">
-            <div class="wishlist-header-left">
-                <div class="wishlist-icon-wrap">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--rose)" stroke="var(--rose)" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </div>
-                <div>
-                    <h3>Your Wishlist</h3>
-                    <span class="wishlist-subtitle">Items you love</span>
-                </div>
-            </div>
-            <button class="close-modal">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
+      <div class="wishlist-modal-shimmer"></div>
+      <div class="drawer-header">
+        <div class="wishlist-header-left">
+          <div class="wishlist-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--rose)" stroke="var(--rose)" stroke-width="2">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Your Wishlist</h3>
+            <span class="wishlist-subtitle">Items you love</span>
+          </div>
         </div>
-        <div class="wishlist-bar-row">
-            <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
-            <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
-            <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
-        </div>
-        <div class="wishlist-items"></div>
-        <div class="wishlist-footer">
-            <button class="add-all-to-cart">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                Add All to Cart
-            </button>
-        </div>
-        <div class="wishlist-share-footer">
-            <span class="wishlist-share-label">Share your wishlist</span>
-            <div class="wishlist-share-icons">
-                <button class="wishlist-share-btn wishlist-share-btn--wa" data-wishlist-share="whatsapp" title="Share on WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
-                </button>
-                <button class="wishlist-share-btn wishlist-share-btn--fb" data-wishlist-share="facebook" title="Share on Facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </button>
-                <button class="wishlist-share-btn wishlist-share-btn--tw" data-wishlist-share="twitter" title="Share on X / Twitter">
-                    <i class="fab fa-x-twitter"></i>
-                </button>
-                <button class="wishlist-share-btn wishlist-share-btn--ig" data-wishlist-share="instagram" title="Copy link for Instagram">
-                    <i class="fab fa-instagram"></i>
-                </button>
-                <button class="wishlist-share-btn wishlist-share-btn--pi" data-wishlist-share="pinterest" title="Share on Pinterest">
-                    <i class="fab fa-pinterest-p"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-    <div class="paul-indicator-wrapper">
-    <a href="#" class="paul-indicator" id="paulTrigger">
-        <i class="fi fi-rr-user"></i>
-        <span class="paul-tooltip" id="paul-tooltip-text"></span>
-    </a>
-</div>
-
-<div class="paul-popup-overlay" id="paulPopup">
-    <div class="paul-popup">
-        <span class="paul-close">×</span>
-        <h2 class="paul-offer-title" id="paul-offer-title"></h2>
-        <p class="paul-offer-subtitle" id="paul-offer-subtitle"></p>
-        <div id="authContainer">
-            <div id="loginForm" class="auth-form">
-                <h3 id="paul-login-title"></h3>
-                <input type="email" placeholder="Email" required>
-                <div class="password-input-wrapper" style="position:relative !important;">
-                    <input type="password" id="login-password" placeholder="Password" required>
-                    <span class="password-toggle" data-target="login-password">
-                        <i class="fi fi-sr-eye"></i>
-                    </span>
-                </div>
-                <label><input type="checkbox"> <span id="paul-remember-label"></span></label>
-                <button type="button" class="paul-btn paul-btn-login" id="paul-login-btn"></button>
-                <p class="switch-link"><span id="paul-login-switch"></span> <span id="goToSignup" style="cursor:pointer;"></span></p>
-                <p class="paul-policy-link">
-                    <a href="/policies/privacy.html" target="_blank">
-                        <i class="fi fi-rr-shield-check"></i> Privacy Policy
-                    </a>
-                </p>
-            </div>
-            <div id="signupForm" class="auth-form" style="display:none;">
-                <h3 id="paul-signup-title"></h3>
-                <input type="text" placeholder="Last Name" required>
-                <input type="text" placeholder="First Name" required>
-                <input type="email" placeholder="Email" required>
-                <input type="tel" placeholder="Phone (optional)">
-                <div class="password-input-wrapper" style="position:relative !important;">
-                    <input type="password" id="signup-password" placeholder="Password" required>
-                    <span class="password-toggle" data-target="signup-password">
-                        <i class="fi fi-sr-eye"></i>
-                    </span>
-                </div>
-                <label><input type="checkbox"> <span id="paul-newsletter-label"></span></label>
-                <button type="button" class="paul-btn paul-btn-register" id="paul-signup-btn"></button>
-                <p class="switch-link"><span id="paul-signup-switch"></span> <span id="goToLogin" style="cursor:pointer;"></span></p>
-                <p class="paul-policy-link">
-                    <a href="/policies/privacy.html" target="_blank">
-                        <i class="fi fi-rr-shield-check"></i> Privacy Policy
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="error-popup" class="error-popup hidden">
-    <div class="popup-content">
-        <p id="popup-message" class="popup-text"></p>
-        <button id="popup-close" class="popup-btn">OK</button>
-    </div>
-</div>
-<div id="floating-nav">
-  <button class="fnav-toggle" id="fnav-toggle"><i class="fi fi-rr-apps"></i></button>
-  <div class="fnav-wheel" id="fnav-wheel">
-    <button class="fnav-btn fnav-top" title="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fi fi-rr-angle-up"></i></button>
-    <button class="fnav-btn fnav-right" title="Next page" id="fnav-next"><i class="fi fi-rr-angle-right"></i></button>
-    <button class="fnav-btn fnav-bottom" title="Scroll to bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})"><i class="fi fi-rr-angle-down"></i></button>
-    <button class="fnav-btn fnav-left" title="Previous page" onclick="history.back()"><i class="fi fi-rr-angle-left"></i></button>
-    <button class="fnav-btn fnav-refresh" title="Refresh" onclick="location.reload()"><i class="fi fi-rr-refresh"></i></button>
-  </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     CURVAFIT AI CHATBOT WIDGET
-═══════════════════════════════════════════════════════════ -->
-
-<button id="cf-chat-toggle" aria-label="Open Curva Support Chat">
-  <div class="cf-toggle-inner">
-    <span class="cf-toggle-icon cf-icon-open">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
-              stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="8.5"  cy="10" r="1" fill="white"/>
-        <circle cx="12"   cy="10" r="1" fill="white"/>
-        <circle cx="15.5" cy="10" r="1" fill="white"/>
-      </svg>
-    </span>
-    <span class="cf-toggle-icon cf-icon-close" style="display:none">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-    </span>
-  </div>
-  <span class="cf-toggle-label">Curva Support</span>
-  <span class="cf-notif-dot"></span>
-</button>
-
-<div id="cf-chat-widget">
-  <div id="cf-chat-window" class="cf-chat-window" aria-hidden="true">
-
-    <!-- Header — injecté par JS -->
-    <div class="cf-chat-header">
-      <div class="cf-header-avatar">
-        <img id="cf-agent-logo" src="" alt="Curva Support">
-        <div class="cf-avatar-fallback">C</div>
-        <span class="cf-online-dot"></span>
-      </div>
-      <div class="cf-header-info">
-        <h3 id="cf-agent-name"></h3>
-        <p id="cf-agent-title"></p>
-      </div>
-      <button class="cf-header-close" id="cf-close-btn" aria-label="Close chat">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Quick chips — injectés par JS -->
-    <div class="cf-quick-chips" id="cf-quick-chips"></div>
-
-    <!-- Messages -->
-    <div class="cf-messages" id="cf-messages" role="log" aria-live="polite"></div>
-
-    <!-- Typing -->
-    <div class="cf-typing" id="cf-typing" style="display:none">
-      <div class="cf-typing-bubble">
-        <span></span><span></span><span></span>
-      </div>
-      <p id="cf-typing-label"></p>
-    </div>
-
-    <!-- Input -->
-    <div class="cf-input-area">
-      <div class="cf-input-wrapper">
-        <textarea
-          id="cf-input"
-          rows="1"
-          maxlength="500"
-          aria-label="Chat message"
-        ></textarea>
-        <button id="cf-send-btn" class="cf-send-btn" aria-label="Send message" disabled>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"
-                  stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <button class="close-modal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         </button>
       </div>
-      <p class="cf-input-hint" id="cf-powered-by"></p>
+      <div class="wishlist-bar-row">
+        <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
+        <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
+        <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
+      </div>
+      <div class="wishlist-items"></div>
+      <div class="wishlist-footer">
+        <button class="add-all-to-cart">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          Add All to Cart
+        </button>
+      </div>
+      <div class="wishlist-share-footer">
+        <span class="wishlist-share-label">Share your wishlist</span>
+        <div class="wishlist-share-icons">
+          <button class="wishlist-share-btn wishlist-share-btn--wa" data-wishlist-share="whatsapp" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></button>
+          <button class="wishlist-share-btn wishlist-share-btn--fb" data-wishlist-share="facebook" title="Share on Facebook"><i class="fab fa-facebook-f"></i></button>
+          <button class="wishlist-share-btn wishlist-share-btn--tw" data-wishlist-share="twitter" title="Share on X / Twitter"><i class="fab fa-x-twitter"></i></button>
+          <button class="wishlist-share-btn wishlist-share-btn--ig" data-wishlist-share="instagram" title="Copy link for Instagram"><i class="fab fa-instagram"></i></button>
+          <button class="wishlist-share-btn wishlist-share-btn--pi" data-wishlist-share="pinterest" title="Share on Pinterest"><i class="fab fa-pinterest-p"></i></button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<!-- END CURVAFIT AI CHATBOT WIDGET -->
 
-<!-- ═══════════════════════════════════════
-     REMEMBER CART POPUP
-═══════════════════════════════════════ -->
-<div id="rc-popup-container" style="display:none;" aria-live="polite" aria-label="Cart reminder">
-  <div id="rc-popup">
-
-    <button id="rc-close" aria-label="Close">
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
-        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-
-    <div id="rc-popup-body">
-      <div id="rc-avatar-wrap">
-        <img id="rc-avatar-img" src="" alt="Support" style="display:none;">
-        <video id="rc-avatar-video" autoplay muted loop playsinline style="display:none;"></video>
-      </div>
-      <div id="rc-content">
-        <p id="rc-subtitle"></p>
-        <p id="rc-title"></p>
-        <p id="rc-description"></p>
-      </div>
-    </div>
-
-    <div id="rc-count-badge">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <span id="rc-count-text">3 items waiting</span>
-    </div>
-
-    <a href="/checkout.html" id="rc-checkout-btn">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-        <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-      <span id="rc-btn-text">Complete My Purchase</span>
+  <!-- ACCOUNT INDICATOR -->
+  <div class="paul-indicator-wrapper">
+    <a href="#" class="paul-indicator" id="paulTrigger">
+      <i class="fi fi-rr-user"></i>
+      <span class="paul-tooltip" id="paul-tooltip-text"></span>
     </a>
+  </div>
 
-    <div id="rc-urgency-bar">
-      <div id="rc-urgency-fill"></div>
+  <!-- ACCOUNT POPUP -->
+  <div class="paul-popup-overlay" id="paulPopup">
+    <div class="paul-popup">
+      <span class="paul-close">×</span>
+      <h2 class="paul-offer-title" id="paul-offer-title"></h2>
+      <p class="paul-offer-subtitle" id="paul-offer-subtitle"></p>
+      <div id="authContainer">
+        <div id="loginForm" class="auth-form">
+          <h3 id="paul-login-title"></h3>
+          <input type="email" placeholder="Email" required>
+          <div class="password-input-wrapper" style="position:relative !important;">
+            <input type="password" id="login-password" placeholder="Password" required>
+            <span class="password-toggle" data-target="login-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <label><input type="checkbox"> <span id="paul-remember-label"></span></label>
+          <button type="button" class="paul-btn paul-btn-login" id="paul-login-btn"></button>
+          <p class="switch-link"><span id="paul-login-switch"></span> <span id="goToSignup" style="cursor:pointer;"></span></p>
+          <p class="paul-policy-link"><a href="/policies/privacy.html" target="_blank"><i class="fi fi-rr-shield-check"></i> Privacy Policy</a></p>
+        </div>
+        <div id="signupForm" class="auth-form" style="display:none;">
+          <h3 id="paul-signup-title"></h3>
+          <input type="text" placeholder="Last Name" required>
+          <input type="text" placeholder="First Name" required>
+          <input type="email" placeholder="Email" required>
+          <input type="tel" placeholder="Phone (optional)">
+          <div class="password-input-wrapper" style="position:relative !important;">
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <span class="password-toggle" data-target="signup-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <label><input type="checkbox"> <span id="paul-newsletter-label"></span></label>
+          <button type="button" class="paul-btn paul-btn-register" id="paul-signup-btn"></button>
+          <p class="switch-link"><span id="paul-signup-switch"></span> <span id="goToLogin" style="cursor:pointer;"></span></p>
+          <p class="paul-policy-link"><a href="/policies/privacy.html" target="_blank"><i class="fi fi-rr-shield-check"></i> Privacy Policy</a></p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<!-- ═══════════════════════════════════════
-     SNOW / FALLING EFFECT
-═══════════════════════════════════════ -->
-<div id="snow-container" aria-hidden="true"></div>
+
+  <!-- ERROR POPUP -->
+  <div id="error-popup" class="error-popup hidden">
+    <div class="popup-content">
+      <p id="popup-message" class="popup-text"></p>
+      <button id="popup-close" class="popup-btn">OK</button>
+    </div>
+  </div>
+
+  <!-- FLOATING NAV -->
+  <div id="floating-nav">
+    <button class="fnav-toggle" id="fnav-toggle"><i class="fi fi-rr-apps"></i></button>
+    <div class="fnav-wheel" id="fnav-wheel">
+      <button class="fnav-btn fnav-top" title="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fi fi-rr-angle-up"></i></button>
+      <button class="fnav-btn fnav-right" title="Next page" id="fnav-next"><i class="fi fi-rr-angle-right"></i></button>
+      <button class="fnav-btn fnav-bottom" title="Scroll to bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})"><i class="fi fi-rr-angle-down"></i></button>
+      <button class="fnav-btn fnav-left" title="Previous page" onclick="history.back()"><i class="fi fi-rr-angle-left"></i></button>
+      <button class="fnav-btn fnav-refresh" title="Refresh" onclick="location.reload()"><i class="fi fi-rr-refresh"></i></button>
+    </div>
+  </div>
+
+  <!-- AI CHATBOT WIDGET -->
+  <button id="cf-chat-toggle" aria-label="Open Curva Support Chat">
+    <div class="cf-toggle-inner">
+      <span class="cf-toggle-icon cf-icon-open">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8.5" cy="10" r="1" fill="white"/>
+          <circle cx="12" cy="10" r="1" fill="white"/>
+          <circle cx="15.5" cy="10" r="1" fill="white"/>
+        </svg>
+      </span>
+      <span class="cf-toggle-icon cf-icon-close" style="display:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </div>
+    <span class="cf-toggle-label">Curva Support</span>
+    <span class="cf-notif-dot"></span>
+  </button>
+
+  <div id="cf-chat-widget">
+    <div id="cf-chat-window" class="cf-chat-window" aria-hidden="true">
+      <div class="cf-chat-header">
+        <div class="cf-header-avatar">
+          <img id="cf-agent-logo" src="" alt="Curva Support">
+          <div class="cf-avatar-fallback">C</div>
+          <span class="cf-online-dot"></span>
+        </div>
+        <div class="cf-header-info">
+          <h3 id="cf-agent-name"></h3>
+          <p id="cf-agent-title"></p>
+        </div>
+        <button class="cf-header-close" id="cf-close-btn" aria-label="Close chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="cf-quick-chips" id="cf-quick-chips"></div>
+      <div class="cf-messages" id="cf-messages" role="log" aria-live="polite"></div>
+      <div class="cf-typing" id="cf-typing" style="display:none">
+        <div class="cf-typing-bubble">
+          <span></span><span></span><span></span>
+        </div>
+        <p id="cf-typing-label"></p>
+      </div>
+      <div class="cf-input-area">
+        <div class="cf-input-wrapper">
+          <textarea id="cf-input" rows="1" maxlength="500" aria-label="Chat message"></textarea>
+          <button id="cf-send-btn" class="cf-send-btn" aria-label="Send message" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <p class="cf-input-hint" id="cf-powered-by"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART REMINDER POPUP -->
+  <div id="rc-popup-container" style="display:none;" aria-live="polite" aria-label="Cart reminder">
+    <div id="rc-popup">
+      <button id="rc-close" aria-label="Close">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div id="rc-popup-body">
+        <div id="rc-avatar-wrap">
+          <img id="rc-avatar-img" src="" alt="Support" style="display:none;">
+          <video id="rc-avatar-video" autoplay muted loop playsinline style="display:none;"></video>
+        </div>
+        <div id="rc-content">
+          <p id="rc-subtitle"></p>
+          <p id="rc-title"></p>
+          <p id="rc-description"></p>
+        </div>
+      </div>
+      <div id="rc-count-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span id="rc-count-text">3 items waiting</span>
+      </div>
+      <a href="/checkout.html" id="rc-checkout-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <span id="rc-btn-text">Complete My Purchase</span>
+      </a>
+      <div id="rc-urgency-bar">
+        <div id="rc-urgency-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SNOW EFFECT -->
+  <div id="snow-container" aria-hidden="true"></div>
+
 </body>
 </html>
