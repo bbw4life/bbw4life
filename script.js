@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-
-
   (function () {
     'use strict';
 
@@ -1291,7 +1288,7 @@ function applyPromoFreeItems() {
             updateBadges();
             renderCart();
             localStorage.setItem('checkoutCart', JSON.stringify(cart));
-            window.location.href = '/checkout.html';
+            window.location.href = '/checkout/checkout.html';
           });
         }
       })();
@@ -4323,29 +4320,50 @@ if (carousel) {
 
   // ====================== NEWSLETTER ======================
   const newsletterForm = document.getElementById('newsletter-form');
-  if (newsletterForm) {
-    newsletterForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const emailInput = document.getElementById('newsletter-email');
-      const email = emailInput.value.trim();
-      if (!email || !email.includes('@')) { showErrorPopup("Please enter a valid email"); return; }
-      const submitBtn = newsletterForm.querySelector('button');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = "Saving..."; submitBtn.disabled = true;
-      try {
-        const res = await fetch('/.netlify/functions/save-account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'newsletter-subscribe', email }) });
-        const data = await res.json();
-        if (data.success) {
-          const popup = document.getElementById('newsletter-popup');
+if (newsletterForm) {
+  newsletterForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const emailInput = document.getElementById('newsletter-email');
+    const email = emailInput.value.trim();
+    if (!email || !email.includes('@')) { showErrorPopup("Please enter a valid email"); return; }
+    const submitBtn = newsletterForm.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fi fi-rr-spinner"></i> Saving...';
+    submitBtn.disabled = true;
+    try {
+      const res = await fetch('/.netlify/functions/save-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'newsletter-subscribe', email })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const wrap = document.getElementById('nl-form-wrap');
+        const success = document.getElementById('nl-success-msg');
+        const successText = document.getElementById('nl-success-text');
+        if (wrap) wrap.style.display = 'none';
+        if (success) success.style.display = 'flex';
+        /* Popup depuis settings */
+        const np = (products.find(p => p.type === 'settings') || {}).newsletter_popup || {};
+        const popup = document.getElementById('newsletter-popup');
+        const popupMsg = document.getElementById('popup-message');
+        const closeBtn = document.getElementById('popup-close-btn');
+        if (popup && popupMsg) {
+          popupMsg.textContent = np.message || "You're subscribed!";
+          if (closeBtn) closeBtn.textContent = np.close_btn || 'Close';
           popup.classList.add('show');
-          setTimeout(() => { popup.classList.remove('show'); }, 10000);
-          document.getElementById('popup-close-btn').onclick = () => { popup.classList.remove('show'); };
-          emailInput.value = '';
-        } else { showErrorPopup("Error: " + (data.error || "Unknown")); }
-      } catch (err) { showErrorPopup("Network error. Please try again."); }
-      finally { submitBtn.textContent = originalText; submitBtn.disabled = false; }
-    });
-  }
+          setTimeout(() => popup.classList.remove('show'), 8000);
+          if (closeBtn) closeBtn.onclick = () => popup.classList.remove('show');
+        }
+        emailInput.value = '';
+      } else { showErrorPopup("Error: " + (data.error || "Unknown")); submitBtn.innerHTML = originalHTML; submitBtn.disabled = false; }
+    } catch (err) {
+      showErrorPopup("Network error. Please try again.");
+      submitBtn.innerHTML = originalHTML;
+      submitBtn.disabled = false;
+    }
+  });
+}
 
   // ====================== PROGRESS CURVE ======================
   const ctxCurve = document.getElementById('progress-curve');
@@ -4371,23 +4389,37 @@ if (carousel) {
   const cartDrawer = document.querySelector('.cart-drawer');
   const wishlistModal = document.querySelector('.wishlist-modal');
   const overlay = document.querySelector('.overlay');
+  function getOverlay() { return document.querySelector('.overlay'); }
   const cartItemsContainer = document.querySelector('.cart-items');
   const wishlistItemsContainer = document.querySelector('.wishlist-items');
   const cartBadge = document.querySelector('.cart-badge');
   const wishlistBadge = document.querySelector('.wishlist-badge');
   const cartIcon = document.querySelector('.cart-icon');
 
-  function saveCart() { 
+ function saveCart() { 
   localStorage.setItem('cart', JSON.stringify(cart));
+  window.cart = cart;
+  document.dispatchEvent(new Event('cart:update'));
   if (typeof window.__rcRefresh === 'function') window.__rcRefresh();
 }
 function saveWishlist() { localStorage.setItem('wishlist', JSON.stringify(wishlist)); }
 
+document.dispatchEvent(new Event('wishlist:change'));
+
+
   function updateBadges() {
-    const cartQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-    if (cartBadge) { cartBadge.textContent = cartQuantity; cartBadge.classList.toggle('active', cartQuantity > 0); }
-    if (wishlistBadge) { wishlistBadge.textContent = wishlist.length; wishlistBadge.classList.toggle('active', wishlist.length > 0); }
-  }
+  const cartQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  
+  document.querySelectorAll('.cart-badge').forEach(badge => {
+    badge.textContent = cartQuantity;
+    badge.classList.toggle('active', cartQuantity > 0);
+  });
+  
+  document.querySelectorAll('.wishlist-badge').forEach(badge => {
+    badge.textContent = wishlist.length;
+    badge.classList.toggle('active', wishlist.length > 0);
+  });
+}
 
   function renderCart() {
     if (!cartItemsContainer) return;
@@ -4963,7 +4995,7 @@ function saveWishlist() { localStorage.setItem('wishlist', JSON.stringify(wishli
   function closeCartDrawer() { cartDrawer.classList.remove('active'); overlay.classList.remove('active'); }
   function openWishlistModal() { renderWishlist(); wishlistModal.classList.add('active'); overlay.classList.add('active'); }
   function closeWishlistModal() { wishlistModal.classList.remove('active'); overlay.classList.remove('active'); }
-  function checkout() { localStorage.setItem('checkoutCart', JSON.stringify(cart)); window.location.href = '/checkout.html'; }
+  function checkout() { localStorage.setItem('checkoutCart', JSON.stringify(cart)); window.location.href = '/checkout/checkout.html'; }
 
   function toggleWishlist(e) {
     const icon = e.target.closest('.wishlist-toggle, .wishlist-icon-product, .mini-wishlist-icon');
@@ -6636,7 +6668,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '/contact.html':  'Contact us',
             '/shop.html':     'Visit shop',
             '/programs.html': 'See programs',
-            '/checkout.html': 'Checkout',
+            '/checkout/checkout.html': 'Checkout',
             '/account.html':  'My Account'
           };
           const label = labels[url] || 'View';
@@ -7988,12 +8020,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ──────────────────────────────────────────────────────
        Handler : bouton principal → ajoute les variants au
-       cart (via window.__allProducts + cart de script.js)
-       puis redirige vers /checkout.html
     ────────────────────────────────────────────────────── */
     function handlePackClick() {
       var productIds = mainBtnCfg.product_ids || [];
-      if (!productIds.length) { window.location.href = '/checkout.html'; return; }
+      if (!productIds.length) { window.location.href = '/checkout/checkout.html'; return; }
 
       /* Récupère cart depuis script.js (exposé via window.__getCart) */
       var cart = (typeof window.__getCart === 'function') ? window.__getCart() : [];
@@ -8051,9 +8081,9 @@ document.addEventListener('DOMContentLoaded', function () {
       if (btnMain) {
         btnMain.classList.add('bbw-hero__btn--added');
         btnMain.textContent = '✓ Ajouté au panier…';
-        setTimeout(function () { window.location.href = '/checkout.html'; }, 800);
+        setTimeout(function () { window.location.href = '/checkout/checkout.html'; }, 800);
       } else {
-        window.location.href = '/checkout.html';
+        window.location.href = '/checkout/checkout.html';
       }
     }
 
@@ -8305,4 +8335,519 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 
 
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   COLLECTION SLIDER — collection-slider.js
+   ═══════════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  function fmt(price) {
+    return '$' + parseFloat(price).toFixed(2);
+  }
+
+  function getImg(url) {
+    return typeof upgradeShopifyImageUrl === 'function'
+      ? upgradeShopifyImageUrl(url, 600)
+      : url;
+  }
+
+  function getWishlist() {
+    try { return JSON.parse(localStorage.getItem('wishlist') || '[]'); }
+    catch (e) { return []; }
+  }
+
+  function toggleWishlistItem(handle) {
+    let wl = getWishlist();
+    if (!Array.isArray(wl)) wl = [];
+    const idx = wl.indexOf(handle);
+    if (idx === -1) wl.push(handle);
+    else wl.splice(idx, 1);
+    localStorage.setItem('wishlist', JSON.stringify(wl));
+    if (typeof window.__setWishlist === 'function') window.__setWishlist(wl);
+    document.dispatchEvent(new Event('wishlist:change'));
+    if (typeof window.updateWishlistIcons === 'function') window.updateWishlistIcons();
+    if (typeof window.updateBadges === 'function') window.updateBadges();
+  }
+
+  function isWishlisted(handle) {
+    const wl = getWishlist();
+    return Array.isArray(wl) && wl.includes(handle);
+  }
+
+  function addToCart(prod, variantOverride) {
+    const variant = variantOverride || (prod.variants && prod.variants[0]) || null;
+    const color  = variant ? variant.color  || null : null;
+    const size   = variant ? variant.size   || null : null;
+    const price  = variant ? variant.price  : prod.price;
+    const vid    = variant ? variant.vid    : null;
+
+    const colorObj = (color && prod.colors)
+      ? prod.colors.find(c => c.name === color)
+      : null;
+    const image = getImg(colorObj ? colorObj.image || prod.image : prod.image);
+
+    let cart = (typeof window.__getCart === 'function')
+      ? window.__getCart()
+      : JSON.parse(localStorage.getItem('cart') || '[]');
+
+    const existing = cart.find(
+      i => i.id === prod.id && i.color === color && i.size === size
+    );
+
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({
+        id:            prod.id,
+        title:         prod.title,
+        price:         price,
+        compare_price: prod.compare_price,
+        image:         image,
+        size:          size,
+        color:         color,
+        quantity:      1,
+        cj_product_id: prod.cj_id,
+        cj_variant_id: vid
+      });
+    }
+
+    if (typeof window.__setCart === 'function') window.__setCart(cart);
+    if (typeof window.saveCart                  === 'function') window.saveCart();
+    if (typeof window.updateCartQuantityInSheet === 'function') window.updateCartQuantityInSheet();
+    if (typeof window.updateBadges              === 'function') window.updateBadges();
+    if (typeof window.renderCart                === 'function') window.renderCart();
+    if (typeof window.openCartDrawer            === 'function') window.openCartDrawer();
+  }
+
+  function buildCard(prod, addToCartLabel) {
+    const card = document.createElement('div');
+    card.className = 'cs-card';
+    card.dataset.productId = prod.id;
+
+    let currentMediaIndex = 0;
+    let selectedVariant   = prod.variants && prod.variants.length ? prod.variants[0] : null;
+    const MAX_VISIBLE_VARIANTS = 4;
+    let variantsExpanded  = false;
+
+    let discountPct = 0;
+    if (prod.compare_price > prod.price) {
+      discountPct = Math.round(((prod.compare_price - prod.price) / prod.compare_price) * 100);
+    }
+
+    const discountBadge = document.createElement('span');
+    discountBadge.className = 'cs-discount-badge';
+    discountBadge.style.display = discountPct > 0 ? '' : 'none';
+    discountBadge.textContent = '-' + discountPct + '%';
+    card.appendChild(discountBadge);
+
+    const wishBtn = document.createElement('button');
+    wishBtn.className = 'cs-wishlist-btn' + (isWishlisted(prod.handle || prod.id) ? ' cs-in-wishlist' : '');
+    wishBtn.setAttribute('aria-label', 'Wishlist');
+    wishBtn.innerHTML = `
+      <svg class="cs-heart-empty" viewBox="0 0 24 24" fill="none" stroke="#c0385e" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <svg class="cs-heart-filled" viewBox="0 0 24 24" fill="#c0385e" stroke="#c0385e" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>`;
+    wishBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const key = prod.handle || prod.id;
+      toggleWishlistItem(key);
+      wishBtn.classList.toggle('cs-in-wishlist', isWishlisted(key));
+    });
+    card.appendChild(wishBtn);
+
+    const mediaEl = document.createElement('div');
+    mediaEl.className = 'cs-media';
+
+    const mediaLink = document.createElement('a');
+    mediaLink.href = typeof getProductUrl === 'function' ? getProductUrl(prod.id) : (prod.url || '#');
+
+    const inner = document.createElement('div');
+    inner.className = 'cs-media-inner';
+
+    const slides = prod.media && prod.media.length ? prod.media : [prod.image];
+    slides.forEach((src, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'cs-media-slide';
+      const img = document.createElement('img');
+      img.src     = getImg(src);
+      img.alt     = prod.title + ' image ' + (i + 1);
+      img.loading = i === 0 ? 'eager' : 'lazy';
+      slide.appendChild(img);
+      inner.appendChild(slide);
+    });
+
+    mediaLink.appendChild(inner);
+    mediaEl.appendChild(mediaLink);
+
+    function goToMediaSlide(idx) {
+      currentMediaIndex = Math.max(0, Math.min(slides.length - 1, idx));
+      inner.style.transform = 'translateX(-' + (currentMediaIndex * 100) + '%)';
+    }
+
+    if (slides.length > 1) {
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'cs-media-arrow cs-media-arrow--prev';
+      prevBtn.setAttribute('aria-label', 'Image précédente');
+      prevBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>`;
+      prevBtn.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        goToMediaSlide(currentMediaIndex - 1);
+      });
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'cs-media-arrow cs-media-arrow--next';
+      nextBtn.setAttribute('aria-label', 'Image suivante');
+      nextBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>`;
+      nextBtn.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        goToMediaSlide(currentMediaIndex + 1);
+      });
+
+      mediaEl.appendChild(prevBtn);
+      mediaEl.appendChild(nextBtn);
+    }
+
+    card.appendChild(mediaEl);
+
+    const body = document.createElement('div');
+    body.className = 'cs-body';
+
+    const titleLink = document.createElement('a');
+    titleLink.className = 'cs-title';
+    titleLink.href  = typeof getProductUrl === 'function' ? getProductUrl(prod.id) : (prod.url || '#');
+    titleLink.title = prod.title;
+    titleLink.textContent = prod.title;
+    body.appendChild(titleLink);
+
+    const variantsWrap = document.createElement('div');
+    variantsWrap.className = 'cs-variants';
+
+    const priceEl = document.createElement('span');
+    priceEl.className = 'cs-price';
+    priceEl.textContent = fmt(prod.price);
+
+    const compareEl = document.createElement('span');
+    compareEl.className = 'cs-compare-price';
+    if (prod.compare_price > prod.price) {
+      compareEl.textContent = fmt(prod.compare_price);
+    } else {
+      compareEl.style.display = 'none';
+    }
+
+    function updateVariantState(colorName, variantThumb) {
+      variantsWrap.querySelectorAll('.cs-variant-thumb').forEach(t => t.classList.remove('cs-active'));
+      if (variantThumb) variantThumb.classList.add('cs-active');
+
+      if (prod.variants && colorName) {
+        const found = prod.variants.find(v => v.color === colorName);
+        if (found) selectedVariant = found;
+      }
+
+      const colorObj = (colorName && prod.colors)
+        ? prod.colors.find(c => c.name === colorName)
+        : null;
+      if (colorObj && colorObj.image) {
+        inner.querySelectorAll('.cs-media-slide img').forEach((img, i) => {
+          if (i === 0) img.src = getImg(colorObj.image);
+        });
+        currentMediaIndex = 0;
+        inner.style.transform = 'translateX(0)';
+      }
+
+      if (selectedVariant) {
+        priceEl.textContent = fmt(selectedVariant.price);
+        const compareVal = prod.compare_price || 0;
+        if (compareVal > selectedVariant.price) {
+          compareEl.textContent = fmt(compareVal);
+          compareEl.style.display = '';
+          const pct = Math.round(((compareVal - selectedVariant.price) / compareVal) * 100);
+          discountBadge.textContent   = '-' + pct + '%';
+          discountBadge.style.display = '';
+        } else {
+          compareEl.style.display    = 'none';
+          discountBadge.style.display = 'none';
+        }
+      }
+    }
+
+    const allColors = prod.colors && prod.colors.length
+      ? prod.colors.filter(c => c.active !== false)
+      : [];
+
+    allColors.forEach((color, idx) => {
+      const thumb = document.createElement('img');
+      thumb.className = 'cs-variant-thumb' + (idx >= MAX_VISIBLE_VARIANTS ? ' cs-variant-hidden' : '');
+      thumb.src     = getImg(color.image || prod.image);
+      thumb.alt     = color.name;
+      thumb.title   = color.name;
+      thumb.loading = 'lazy';
+      if (idx >= MAX_VISIBLE_VARIANTS) thumb.style.display = 'none';
+      if (idx === 0) thumb.classList.add('cs-active');
+
+      thumb.addEventListener('click', function (e) {
+        e.stopPropagation();
+        updateVariantState(color.name, thumb);
+      });
+      variantsWrap.appendChild(thumb);
+    });
+
+    if (allColors.length > MAX_VISIBLE_VARIANTS) {
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'cs-variants-toggle';
+      toggleBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5V19M5 12H19"/></svg>`;
+
+      toggleBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        variantsExpanded = !variantsExpanded;
+        variantsWrap.querySelectorAll('.cs-variant-hidden').forEach(t => {
+          t.style.display = variantsExpanded ? 'block' : 'none';
+        });
+        toggleBtn.innerHTML = variantsExpanded
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12H19"/></svg>`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5V19M5 12H19"/></svg>`;
+      });
+
+      variantsWrap.appendChild(toggleBtn);
+    }
+
+    if (allColors.length > 0) body.appendChild(variantsWrap);
+
+    const priceRow = document.createElement('div');
+    priceRow.className = 'cs-price-row';
+    priceRow.appendChild(priceEl);
+    priceRow.appendChild(compareEl);
+    body.appendChild(priceRow);
+
+    const atcBtn = document.createElement('button');
+    atcBtn.className = 'cs-atc-btn';
+    atcBtn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span>${addToCartLabel || 'Add to Cart'}</span>`;
+
+    atcBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      atcBtn.classList.add('cs-adding');
+      addToCart(prod, selectedVariant);
+      setTimeout(() => {
+        atcBtn.classList.remove('cs-adding');
+        atcBtn.classList.add('cs-added');
+        setTimeout(() => atcBtn.classList.remove('cs-added'), 1800);
+      }, 400);
+    });
+
+    body.appendChild(atcBtn);
+    card.appendChild(body);
+
+    return card;
+  }
+
+  function initCollectionSlider(allProducts) {
+    const track   = document.getElementById('csTrack');
+    const dotsEl  = document.getElementById('csDots');
+    const prevBtn = document.getElementById('csNavPrev');
+    const nextBtn = document.getElementById('csNavNext');
+
+    if (!track) return;
+
+    const settings      = allProducts.find(p => p.type === 'settings') || {};
+    const colSetting    = settings.collection_slider || {};
+    const ids           = colSetting.product_ids || [];
+    const addToCartLabel = (settings.button_labels && settings.button_labels.add_to_cart) || 'Add to Cart';
+
+    if (!ids.length) {
+      console.warn('[CollectionSlider] Aucun product_id dans settings.collection_slider');
+      return;
+    }
+
+    const realProducts = allProducts.filter(p => !p.type);
+    const sliderProds  = ids
+      .map(id => realProducts.find(p => p.id === id))
+      .filter(Boolean);
+
+    if (!sliderProds.length) {
+      console.warn('[CollectionSlider] Aucun produit trouvé pour les IDs fournis');
+      return;
+    }
+
+    track.innerHTML = '';
+    sliderProds.forEach(prod => {
+      const card = buildCard(prod, addToCartLabel);
+      track.appendChild(card);
+    });
+
+    if (dotsEl) {
+      dotsEl.innerHTML = '';
+      sliderProds.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'cs-dot' + (i === 0 ? ' cs-active' : '');
+        dot.setAttribute('aria-label', 'Go to product ' + (i + 1));
+        dot.addEventListener('click', () => {
+          autoSlideIndex = i;
+          scrollToCard(i);
+          resetAutoSlide();
+        });
+        dotsEl.appendChild(dot);
+      });
+    }
+
+    function scrollToCard(index) {
+      const cards = track.querySelectorAll('.cs-card');
+      if (!cards.length) return;
+      const card = cards[index];
+      if (!card) return;
+      track.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
+      updateDots(index);
+    }
+
+    function updateDots(activeIdx) {
+      if (!dotsEl) return;
+      dotsEl.querySelectorAll('.cs-dot').forEach((d, i) => {
+        d.classList.toggle('cs-active', i === activeIdx);
+      });
+    }
+
+    /* ── Variables auto-slide ── */
+    let autoSlideIndex  = 0;
+    let autoSlideTimer  = null;
+    let isHovered       = false;
+    let isUserScrolling = false;
+    let scrollSyncTimer = null;
+
+    /* ── Scroll listener unique — sync dots + autoSlideIndex ── */
+    track.addEventListener('scroll', function () {
+      isUserScrolling = true;
+      clearTimeout(scrollSyncTimer);
+      scrollSyncTimer = setTimeout(function () {
+        const cards = track.querySelectorAll('.cs-card');
+        let closest = 0, minDist = Infinity;
+        cards.forEach(function (c, i) {
+          const dist = Math.abs(c.getBoundingClientRect().left - track.getBoundingClientRect().left);
+          if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        autoSlideIndex  = closest;
+        isUserScrolling = false;
+        updateDots(closest);
+      }, 150);
+    });
+
+    /* ── Flèches prev/next ── */
+    const CARDS_TO_SCROLL = window.innerWidth >= 768 ? 4 : 1;
+
+    function scrollByDir(dir) {
+      const cards = track.querySelectorAll('.cs-card');
+      const cardW = cards[0] ? cards[0].offsetWidth + 20 : 220;
+      track.scrollBy({ left: dir * CARDS_TO_SCROLL * cardW, behavior: 'smooth' });
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function () {
+      scrollByDir(-1);
+      resetAutoSlide();
+    });
+    if (nextBtn) nextBtn.addEventListener('click', function () {
+      scrollByDir(1);
+      resetAutoSlide();
+    });
+
+    /* ── Auto-slide ── */
+    function startAutoSlide() {
+      if (autoSlideTimer) clearInterval(autoSlideTimer);
+      autoSlideTimer = setInterval(function () {
+        if (isHovered || isUserScrolling) return;
+        const cards = track.querySelectorAll('.cs-card');
+        if (!cards.length) return;
+        autoSlideIndex = (autoSlideIndex + 1) % cards.length;
+        scrollToCard(autoSlideIndex);
+      }, 5000);
+    }
+
+    function resetAutoSlide() {
+      clearInterval(autoSlideTimer);
+      autoSlideTimer = null;
+      setTimeout(startAutoSlide, 5000);
+    }
+
+    /* ── Pause sur hover ── */
+    track.addEventListener('mouseenter', function () { isHovered = true; });
+    track.addEventListener('mouseleave', function () { isHovered = false; });
+
+    /* ── Pause sur touch manuel, reprend 5s après ── */
+    track.addEventListener('touchstart', function () {
+      isHovered = true;
+    }, { passive: true });
+
+    track.addEventListener('touchend', function () {
+      setTimeout(function () { isHovered = false; }, 5000);
+    }, { passive: true });
+
+    /* ── Démarrage ── */
+    startAutoSlide();
+
+    /* ── Synchro wishlist ── */
+    document.addEventListener('wishlist:change', function () {
+      track.querySelectorAll('.cs-card').forEach(function (card) {
+        const pid  = card.dataset.productId;
+        const prod = sliderProds.find(p => p.id === pid);
+        if (!prod) return;
+        const key = prod.handle || prod.id;
+        const btn = card.querySelector('.cs-wishlist-btn');
+        if (btn) btn.classList.toggle('cs-in-wishlist', isWishlisted(key));
+      });
+    });
+  }
+
+  if (window.__allProducts && Array.isArray(window.__allProducts)) {
+    initCollectionSlider(window.__allProducts);
+  } else {
+    const origFetch = window.fetch;
+    window.fetch = function (url, opts) {
+      return origFetch.call(this, url, opts).then(function (res) {
+        if (typeof url === 'string' && url.includes('products.data.json')) {
+          res.clone().json().then(function (data) {
+            if (Array.isArray(data)) initCollectionSlider(data);
+          }).catch(() => {});
+        }
+        return res;
+      });
+    };
+
+    let attempts = 0;
+    const poll = setInterval(function () {
+      attempts++;
+      if (window.__allProducts && Array.isArray(window.__allProducts)) {
+        clearInterval(poll);
+        initCollectionSlider(window.__allProducts);
+      }
+      if (attempts > 25) clearInterval(poll);
+    }, 200);
+  }
+
+})();
+
+
+
+/* ── Newsletter particles ── */
+(function () {
+  var c = document.getElementById('nl-particles');
+  if (!c) return;
+  var cols = ['rgba(192,56,94,0.7)','rgba(232,188,106,0.55)','rgba(123,63,110,0.55)','rgba(255,255,255,0.12)'];
+  for (var i = 0; i < 22; i++) {
+    var p = document.createElement('div');
+    p.className = 'nl-ptcl';
+    var sz = Math.random() * 3 + 2, dur = Math.random() * 5 + 4, del = Math.random() * 7;
+    p.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;left:' + (Math.random() * 100) + '%;bottom:' + (Math.random() * 20) + 'px;background:' + cols[i % cols.length] + ';animation-duration:' + dur + 's;animation-delay:' + del + 's;';
+    c.appendChild(p);
+  }
+})();
 

@@ -341,24 +341,31 @@
   /* ──────────────────────────────────────────────────────────────
      13. INIT
   ────────────────────────────────────────────────────────────── */
-  function syncBadgesFromStorage() {
-    try {
-      const cart     = JSON.parse(localStorage.getItem('cart')     || '[]');
-      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+ function syncBadgesFromStorage() {
+  try {
+    const cart     = JSON.parse(localStorage.getItem('cart')     || '[]');
+    const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    const cartQty  = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
-      const cartQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-      updateBadge('.cart-badge',     cartQty);
-      updateBadge('.wishlist-badge', wishlist.length);
-    } catch (e) {
-      // silencieux
-    }
-  }
+    document.querySelectorAll('.cart-badge').forEach(b => {
+      b.textContent = cartQty;
+      b.classList.toggle('active', cartQty > 0);
+    });
+    document.querySelectorAll('.wishlist-badge').forEach(b => {
+      b.textContent = wishlist.length;
+      b.classList.toggle('active', wishlist.length > 0);
+    });
+  } catch (e) {}
+}
 
 
   function init() {
     spawnHeaderParticles();
     markActiveLink();
     syncBadgesFromStorage();
+    // AJOUTER CES 2 LIGNES
+  document.addEventListener('cart:update', syncBadgesFromStorage);
+  document.addEventListener('wishlist:change', syncBadgesFromStorage);
 
     if (window.__allProducts && window.__allProducts.length) {
       applySearchSetting();
