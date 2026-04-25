@@ -4326,9 +4326,9 @@ if (carousel) {
       const emailInput = document.getElementById('newsletter-email');
       const email = emailInput.value.trim();
       if (!email || !email.includes('@')) { showErrorPopup("Please enter a valid email"); return; }
-      const submitBtn = newsletterForm.querySelector('.nl-btn');
-      const originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = "Saving..."; submitBtn.disabled = true;
+      const submitBtn = newsletterForm.querySelector('button');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Saving..."; submitBtn.disabled = true;
       try {
         const res = await fetch('/.netlify/functions/save-account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'newsletter-subscribe', email }) });
         const data = await res.json();
@@ -4340,7 +4340,7 @@ if (carousel) {
           emailInput.value = '';
         } else { showErrorPopup("Error: " + (data.error || "Unknown")); }
       } catch (err) { showErrorPopup("Network error. Please try again."); }
-      finally { submitBtn.innerHTML = originalText; submitBtn.disabled = false; }
+      finally { submitBtn.textContent = originalText; submitBtn.disabled = false; }
     });
   }
 

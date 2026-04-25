@@ -1,0 +1,13 @@
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[build.environment]
+  NODE_OPTIONS = "--no-deprecation"
+
+[functions.environment]
+  NODE_OPTIONS = "--no-deprecation"
+
+[functions.retry-pending-order]
+  schedule = "*/5 * * * *"
+  background = true
