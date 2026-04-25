@@ -4320,50 +4320,29 @@ if (carousel) {
 
   // ====================== NEWSLETTER ======================
   const newsletterForm = document.getElementById('newsletter-form');
-if (newsletterForm) {
-  newsletterForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const emailInput = document.getElementById('newsletter-email');
-    const email = emailInput.value.trim();
-    if (!email || !email.includes('@')) { showErrorPopup("Please enter a valid email"); return; }
-    const submitBtn = newsletterForm.querySelector('button[type="submit"]');
-    const originalHTML = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fi fi-rr-spinner"></i> Saving...';
-    submitBtn.disabled = true;
-    try {
-      const res = await fetch('/.netlify/functions/save-account', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'newsletter-subscribe', email })
-      });
-      const data = await res.json();
-      if (data.success) {
-        const wrap = document.getElementById('nl-form-wrap');
-        const success = document.getElementById('nl-success-msg');
-        const successText = document.getElementById('nl-success-text');
-        if (wrap) wrap.style.display = 'none';
-        if (success) success.style.display = 'flex';
-        /* Popup depuis settings */
-        const np = (products.find(p => p.type === 'settings') || {}).newsletter_popup || {};
-        const popup = document.getElementById('newsletter-popup');
-        const popupMsg = document.getElementById('popup-message');
-        const closeBtn = document.getElementById('popup-close-btn');
-        if (popup && popupMsg) {
-          popupMsg.textContent = np.message || "You're subscribed!";
-          if (closeBtn) closeBtn.textContent = np.close_btn || 'Close';
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById('newsletter-email');
+      const email = emailInput.value.trim();
+      if (!email || !email.includes('@')) { showErrorPopup("Please enter a valid email"); return; }
+      const submitBtn = newsletterForm.querySelector('.nl-btn');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = "Saving..."; submitBtn.disabled = true;
+      try {
+        const res = await fetch('/.netlify/functions/save-account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'newsletter-subscribe', email }) });
+        const data = await res.json();
+        if (data.success) {
+          const popup = document.getElementById('newsletter-popup');
           popup.classList.add('show');
-          setTimeout(() => popup.classList.remove('show'), 8000);
-          if (closeBtn) closeBtn.onclick = () => popup.classList.remove('show');
-        }
-        emailInput.value = '';
-      } else { showErrorPopup("Error: " + (data.error || "Unknown")); submitBtn.innerHTML = originalHTML; submitBtn.disabled = false; }
-    } catch (err) {
-      showErrorPopup("Network error. Please try again.");
-      submitBtn.innerHTML = originalHTML;
-      submitBtn.disabled = false;
-    }
-  });
-}
+          setTimeout(() => { popup.classList.remove('show'); }, 10000);
+          document.getElementById('popup-close-btn').onclick = () => { popup.classList.remove('show'); };
+          emailInput.value = '';
+        } else { showErrorPopup("Error: " + (data.error || "Unknown")); }
+      } catch (err) { showErrorPopup("Network error. Please try again."); }
+      finally { submitBtn.innerHTML = originalText; submitBtn.disabled = false; }
+    });
+  }
 
   // ====================== PROGRESS CURVE ======================
   const ctxCurve = document.getElementById('progress-curve');
