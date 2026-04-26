@@ -208,7 +208,6 @@
     });
   }
 
-
   /* ──────────────────────────────────────────────────────────────
      7. ACCOUNT TRIGGER → appelle paulTrigger (script.js)
   ────────────────────────────────────────────────────────────── */
@@ -225,67 +224,64 @@
   }
 
   /* ──────────────────────────────────────────────────────────────
-   8. CART & WISHLIST — bridge vers script.js
-   On attend que script.js expose les fonctions, puis on bind.
-────────────────────────────────────────────────────────────── */
-(function bindCartWishlist() {
-  function tryBind() {
-    const cartTrigger     = document.getElementById('bbwCartTrigger');
-    const wishlistTrigger = document.getElementById('bbwWishlistTrigger');
+     8. CART & WISHLIST — bridge vers script.js
+  ────────────────────────────────────────────────────────────── */
+  (function bindCartWishlist() {
+    function tryBind() {
+      const cartTrigger     = document.getElementById('bbwCartTrigger');
+      const wishlistTrigger = document.getElementById('bbwWishlistTrigger');
 
-    if (cartTrigger && typeof window.openCartDrawer === 'function') {
-      cartTrigger.addEventListener('click', window.openCartDrawer);
-      cartTrigger.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openCartDrawer(); }
-      });
-    }
-
-    if (wishlistTrigger && typeof window.openWishlistModal === 'function') {
-      wishlistTrigger.addEventListener('click', window.openWishlistModal);
-      wishlistTrigger.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openWishlistModal(); }
-      });
-    }
-
-    // Si les deux sont bindés → terminé
-    if (
-      typeof window.openCartDrawer === 'function' &&
-      typeof window.openWishlistModal === 'function'
-    ) return;
-
-    // Sinon réessayer
-    let tries = 0;
-    const wait = setInterval(() => {
-      const cart     = document.getElementById('bbwCartTrigger');
-      const wishlist = document.getElementById('bbwWishlistTrigger');
-
-      if (cart && typeof window.openCartDrawer === 'function') {
-        cart.addEventListener('click', window.openCartDrawer);
-        cart.addEventListener('keydown', e => {
+      if (cartTrigger && typeof window.openCartDrawer === 'function') {
+        cartTrigger.addEventListener('click', window.openCartDrawer);
+        cartTrigger.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openCartDrawer(); }
         });
       }
 
-      if (wishlist && typeof window.openWishlistModal === 'function') {
-        wishlist.addEventListener('click', window.openWishlistModal);
-        wishlist.addEventListener('keydown', e => {
+      if (wishlistTrigger && typeof window.openWishlistModal === 'function') {
+        wishlistTrigger.addEventListener('click', window.openWishlistModal);
+        wishlistTrigger.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openWishlistModal(); }
         });
       }
 
       if (
-        (typeof window.openCartDrawer === 'function') &&
-        (typeof window.openWishlistModal === 'function')
-      ) {
-        clearInterval(wait);
-      }
+        typeof window.openCartDrawer === 'function' &&
+        typeof window.openWishlistModal === 'function'
+      ) return;
 
-      if (++tries > 80) clearInterval(wait); // ~6.4s max
-    }, 80);
-  }
+      let tries = 0;
+      const wait = setInterval(() => {
+        const cart     = document.getElementById('bbwCartTrigger');
+        const wishlist = document.getElementById('bbwWishlistTrigger');
 
-  tryBind();
-})();
+        if (cart && typeof window.openCartDrawer === 'function') {
+          cart.addEventListener('click', window.openCartDrawer);
+          cart.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openCartDrawer(); }
+          });
+        }
+
+        if (wishlist && typeof window.openWishlistModal === 'function') {
+          wishlist.addEventListener('click', window.openWishlistModal);
+          wishlist.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openWishlistModal(); }
+          });
+        }
+
+        if (
+          (typeof window.openCartDrawer === 'function') &&
+          (typeof window.openWishlistModal === 'function')
+        ) {
+          clearInterval(wait);
+        }
+
+        if (++tries > 80) clearInterval(wait);
+      }, 80);
+    }
+
+    tryBind();
+  })();
 
   /* ──────────────────────────────────────────────────────────────
      10. SCROLL EFFECT — box-shadow header
@@ -339,37 +335,264 @@
   }
 
   /* ──────────────────────────────────────────────────────────────
-     13. INIT
+     13. LANG + COUNTRY SELECTORS — injection dynamique depuis settings
   ────────────────────────────────────────────────────────────── */
- function syncBadgesFromStorage() {
-  try {
-    const cart     = JSON.parse(localStorage.getItem('cart')     || '[]');
-    const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    const cartQty  = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
-    document.querySelectorAll('.cart-badge').forEach(b => {
-      b.textContent = cartQty;
-      b.classList.toggle('active', cartQty > 0);
+  /* Helper : synchronise le sélecteur de langue du drawer vers un code donné */
+  function _syncDrawerLang(code) {
+    const langList = document.getElementById('bbwDrawerLangList');
+    const langFlag = document.getElementById('bbwDrawerLangFlag');
+    const langLbl  = document.getElementById('bbwDrawerLangLabel');
+    if (!langList) return;
+
+    const target = langList.querySelector('[data-lang="' + code + '"]');
+    if (!target) return;
+
+    langList.querySelectorAll('.bbw-drawer__select-opt').forEach(o => o.classList.remove('active'));
+    target.classList.add('active');
+    if (langFlag) langFlag.textContent = target.dataset.flag  || '';
+    if (langLbl)  langLbl.textContent  = target.dataset.label || '';
+  }
+
+  function applyLangCountrySelectors() {
+    const allProducts = window.__allProducts || [];
+    const settings    = allProducts.find(p => p.type === 'settings') || {};
+
+    const langCfg    = settings.language_selector || {};
+    const countryCfg = settings.country_selector  || {};
+
+    const langEnabled    = (langCfg.enabled    || 'yes').toLowerCase() === 'yes';
+    const countryEnabled = (countryCfg.enabled || 'yes').toLowerCase() === 'yes';
+
+    const langOptions    = langCfg.options    || [];
+    const countryOptions = countryCfg.options || [];
+
+    const defaultLang    = langCfg.default_lang       || 'en';
+    const defaultCountry = countryCfg.default_country || 'us';
+
+    /* ══════════════════════════════════════════════════════════
+       1. DESKTOP LANG DROPDOWN
+    ══════════════════════════════════════════════════════════ */
+    if (langEnabled && langOptions.length) {
+      const dropdown = document.getElementById('bbwLangDropdown');
+      const flagEl   = document.getElementById('bbwLangFlag');
+      const labelEl  = document.getElementById('bbwLangLabel');
+
+      if (dropdown) {
+        dropdown.innerHTML = '';
+
+        langOptions.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className     = 'bbw-lang-select__option' + (opt.code === defaultLang ? ' active' : '');
+          btn.dataset.lang  = opt.code;
+          btn.dataset.flag  = opt.flag;
+          btn.dataset.label = opt.label;
+          btn.setAttribute('role', 'option');
+          btn.innerHTML = `
+            <span class="opt-flag">${opt.flag}</span>
+            <span class="opt-name">${opt.name}</span>
+            <span class="opt-check">✓</span>
+          `;
+
+          btn.addEventListener('click', () => {
+            dropdown.querySelectorAll('.bbw-lang-select__option').forEach(o => o.classList.remove('active'));
+            btn.classList.add('active');
+            if (flagEl)  flagEl.textContent  = opt.flag;
+            if (labelEl) labelEl.textContent = opt.label;
+            const langSelectEl = document.getElementById('bbwLangSelect');
+            const langBtnEl    = document.getElementById('bbwLangBtn');
+            if (langSelectEl) langSelectEl.classList.remove('is-open');
+            if (langBtnEl)    langBtnEl.setAttribute('aria-expanded', 'false');
+            _syncDrawerLang(opt.code);
+          });
+
+          dropdown.appendChild(btn);
+        });
+
+        /* Défaut affiché dans le bouton */
+        const defLang = langOptions.find(o => o.code === defaultLang) || langOptions[0];
+        if (defLang) {
+          if (flagEl)  flagEl.textContent  = defLang.flag;
+          if (labelEl) labelEl.textContent = defLang.label;
+        }
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       2. MOBILE DRAWER — COUNTRY LIST
+    ══════════════════════════════════════════════════════════ */
+    if (countryEnabled && countryOptions.length) {
+      const countryList = document.getElementById('bbwDrawerCountryList');
+      const countryFlag = document.getElementById('bbwDrawerCountryFlag');
+      const countryLbl  = document.getElementById('bbwDrawerCountryLabel');
+
+      if (countryList) {
+        countryList.innerHTML = '';
+
+        countryOptions.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className       = 'bbw-drawer__select-opt' + (opt.code === defaultCountry ? ' active' : '');
+          btn.dataset.country = opt.code;
+          btn.dataset.flag    = opt.flag;
+          btn.dataset.label   = opt.label;
+          btn.dataset.lang    = opt.lang || '';
+          btn.innerHTML = `
+            <span class="opt-flag">${opt.flag}</span>
+            <span>${opt.name}</span>
+            <span class="opt-check">✓</span>
+          `;
+
+          btn.addEventListener('click', () => {
+            countryList.querySelectorAll('.bbw-drawer__select-opt').forEach(o => o.classList.remove('active'));
+            btn.classList.add('active');
+            if (countryFlag) countryFlag.textContent = opt.flag;
+            if (countryLbl)  countryLbl.textContent  = opt.label;
+            countryList.classList.remove('is-open');
+            /* Sync automatique de la langue quand on change de pays */
+            if (opt.lang) _syncDrawerLang(opt.lang);
+          });
+
+          countryList.appendChild(btn);
+        });
+
+        /* Défaut */
+        const defCountry = countryOptions.find(o => o.code === defaultCountry) || countryOptions[0];
+        if (defCountry) {
+          if (countryFlag) countryFlag.textContent = defCountry.flag;
+          if (countryLbl)  countryLbl.textContent  = defCountry.label;
+        }
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       3. MOBILE DRAWER — LANG LIST
+    ══════════════════════════════════════════════════════════ */
+    if (langEnabled && langOptions.length) {
+      const langList = document.getElementById('bbwDrawerLangList');
+      const langFlag = document.getElementById('bbwDrawerLangFlag');
+      const langLbl  = document.getElementById('bbwDrawerLangLabel');
+
+      if (langList) {
+        langList.innerHTML = '';
+
+        langOptions.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className    = 'bbw-drawer__select-opt' + (opt.code === defaultLang ? ' active' : '');
+          btn.dataset.lang  = opt.code;
+          btn.dataset.flag  = opt.flag;
+          btn.dataset.label = opt.name;
+          btn.innerHTML = `
+            <span class="opt-flag">${opt.flag}</span>
+            <span>${opt.name}</span>
+            <span class="opt-check">✓</span>
+          `;
+
+          btn.addEventListener('click', () => {
+            langList.querySelectorAll('.bbw-drawer__select-opt').forEach(o => o.classList.remove('active'));
+            btn.classList.add('active');
+            if (langFlag) langFlag.textContent = opt.flag;
+            if (langLbl)  langLbl.textContent  = opt.name;
+            langList.classList.remove('is-open');
+          });
+
+          langList.appendChild(btn);
+        });
+
+        /* Défaut */
+        const defLang = langOptions.find(o => o.code === defaultLang) || langOptions[0];
+        if (defLang) {
+          if (langFlag) langFlag.textContent = defLang.flag;
+          if (langLbl)  langLbl.textContent  = defLang.name;
+        }
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       4. BIND OPEN/CLOSE pour les boutons du drawer (mobile)
+          — on rebinde ici APRÈS avoir injecté les options
+    ══════════════════════════════════════════════════════════ */
+    const drawerCountryBtn  = document.getElementById('bbwDrawerCountryBtn');
+    const drawerCountryList = document.getElementById('bbwDrawerCountryList');
+    const drawerLangBtn     = document.getElementById('bbwDrawerLangBtn');
+    const drawerLangList    = document.getElementById('bbwDrawerLangList');
+
+    if (drawerCountryBtn && drawerCountryList) {
+      /* Retire un éventuel listener précédent en clonant */
+      const newCountryBtn = drawerCountryBtn.cloneNode(true);
+      drawerCountryBtn.parentNode.replaceChild(newCountryBtn, drawerCountryBtn);
+      newCountryBtn.addEventListener('click', () => {
+        const isOpen = drawerCountryList.classList.toggle('is-open');
+        if (isOpen && drawerLangList) drawerLangList.classList.remove('is-open');
+      });
+    }
+
+    if (drawerLangBtn && drawerLangList) {
+      const newLangBtn = drawerLangBtn.cloneNode(true);
+      drawerLangBtn.parentNode.replaceChild(newLangBtn, drawerLangBtn);
+      newLangBtn.addEventListener('click', () => {
+        const isOpen = drawerLangList.classList.toggle('is-open');
+        if (isOpen && drawerCountryList) drawerCountryList.classList.remove('is-open');
+      });
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     14. DESKTOP LANG BTN — open/close dropdown
+         (bind immédiat, les options sont injectées plus tard)
+  ────────────────────────────────────────────────────────────── */
+  const langSelectEl = document.getElementById('bbwLangSelect');
+  const langBtnEl    = document.getElementById('bbwLangBtn');
+
+  if (langBtnEl && langSelectEl) {
+    langBtnEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langSelectEl.classList.toggle('is-open');
+      langBtnEl.setAttribute('aria-expanded', langSelectEl.classList.contains('is-open'));
     });
-    document.querySelectorAll('.wishlist-badge').forEach(b => {
-      b.textContent = wishlist.length;
-      b.classList.toggle('active', wishlist.length > 0);
+
+    document.addEventListener('click', (e) => {
+      if (!langSelectEl.contains(e.target)) {
+        langSelectEl.classList.remove('is-open');
+        langBtnEl.setAttribute('aria-expanded', 'false');
+      }
     });
-  } catch (e) {}
-}
+  }
 
+  /* ──────────────────────────────────────────────────────────────
+     15. BADGES — sync depuis localStorage
+  ────────────────────────────────────────────────────────────── */
+  function syncBadgesFromStorage() {
+    try {
+      const cart     = JSON.parse(localStorage.getItem('cart')     || '[]');
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const cartQty  = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
+      document.querySelectorAll('.cart-badge').forEach(b => {
+        b.textContent = cartQty;
+        b.classList.toggle('active', cartQty > 0);
+      });
+      document.querySelectorAll('.wishlist-badge').forEach(b => {
+        b.textContent = wishlist.length;
+        b.classList.toggle('active', wishlist.length > 0);
+      });
+    } catch (e) {}
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     16. INIT
+  ────────────────────────────────────────────────────────────── */
   function init() {
     spawnHeaderParticles();
     markActiveLink();
     syncBadgesFromStorage();
-    // AJOUTER CES 2 LIGNES
-  document.addEventListener('cart:update', syncBadgesFromStorage);
-  document.addEventListener('wishlist:change', syncBadgesFromStorage);
+
+    document.addEventListener('cart:update',      syncBadgesFromStorage);
+    document.addEventListener('wishlist:change',  syncBadgesFromStorage);
 
     if (window.__allProducts && window.__allProducts.length) {
       applySearchSetting();
       applySocialLinks();
+      applyLangCountrySelectors();
     } else {
       let tries = 0;
       const wait = setInterval(() => {
@@ -377,6 +600,7 @@
           clearInterval(wait);
           applySearchSetting();
           applySocialLinks();
+          applyLangCountrySelectors();
         } else if (++tries > 60) {
           clearInterval(wait);
         }
@@ -391,92 +615,3 @@
   }
 
 })();
-
-
-
-
-
-
-/* ──────────────────────────────────────────────────────────────
-     LANG SELECTOR — DESKTOP
-  ────────────────────────────────────────────────────────────── */
-  const langSelect   = document.getElementById('bbwLangSelect');
-  const langBtn      = document.getElementById('bbwLangBtn');
-  const langDropdown = document.getElementById('bbwLangDropdown');
-  const langFlag     = document.getElementById('bbwLangFlag');
-  const langLabel    = document.getElementById('bbwLangLabel');
-
-  if (langBtn && langSelect) {
-    langBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      langSelect.classList.toggle('is-open');
-      langBtn.setAttribute('aria-expanded', langSelect.classList.contains('is-open'));
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!langSelect.contains(e.target)) {
-        langSelect.classList.remove('is-open');
-        langBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    if (langDropdown) {
-      langDropdown.querySelectorAll('.bbw-lang-select__option').forEach(opt => {
-        opt.addEventListener('click', () => {
-          langDropdown.querySelectorAll('.bbw-lang-select__option').forEach(o => o.classList.remove('active'));
-          opt.classList.add('active');
-          langFlag.textContent  = opt.dataset.flag;
-          langLabel.textContent = opt.dataset.label;
-          langSelect.classList.remove('is-open');
-          langBtn.setAttribute('aria-expanded', 'false');
-        });
-      });
-    }
-  }
-
-  /* ──────────────────────────────────────────────────────────────
-     COUNTRY + LANG SELECTORS — MOBILE DRAWER
-  ────────────────────────────────────────────────────────────── */
-  const drawerCountryBtn  = document.getElementById('bbwDrawerCountryBtn');
-  const drawerCountryList = document.getElementById('bbwDrawerCountryList');
-  const drawerCountryFlag = document.getElementById('bbwDrawerCountryFlag');
-  const drawerCountryLbl  = document.getElementById('bbwDrawerCountryLabel');
-
-  const drawerLangBtn     = document.getElementById('bbwDrawerLangBtn');
-  const drawerLangList    = document.getElementById('bbwDrawerLangList');
-  const drawerLangFlag    = document.getElementById('bbwDrawerLangFlag');
-  const drawerLangLbl     = document.getElementById('bbwDrawerLangLabel');
-
-  if (drawerCountryBtn && drawerCountryList) {
-    drawerCountryBtn.addEventListener('click', () => {
-      const isOpen = drawerCountryList.classList.toggle('is-open');
-      // fermer lang si ouvert
-      if (isOpen && drawerLangList) drawerLangList.classList.remove('is-open');
-    });
-    drawerCountryList.querySelectorAll('.bbw-drawer__select-opt').forEach(opt => {
-      opt.addEventListener('click', () => {
-        drawerCountryList.querySelectorAll('.bbw-drawer__select-opt').forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        drawerCountryFlag.textContent = opt.dataset.flag;
-        drawerCountryLbl.textContent  = opt.dataset.label;
-        drawerCountryList.classList.remove('is-open');
-      });
-    });
-  }
-
-  if (drawerLangBtn && drawerLangList) {
-    drawerLangBtn.addEventListener('click', () => {
-      const isOpen = drawerLangList.classList.toggle('is-open');
-      // fermer country si ouvert
-      if (isOpen && drawerCountryList) drawerCountryList.classList.remove('is-open');
-    });
-    drawerLangList.querySelectorAll('.bbw-drawer__select-opt').forEach(opt => {
-      opt.addEventListener('click', () => {
-        drawerLangList.querySelectorAll('.bbw-drawer__select-opt').forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        drawerLangFlag.textContent = opt.dataset.flag;
-        drawerLangLbl.textContent  = opt.dataset.label;
-        drawerLangList.classList.remove('is-open');
-      });
-    });
-  }
