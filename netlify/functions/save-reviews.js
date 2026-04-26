@@ -19,8 +19,8 @@ exports.handler = async (event) => {
     });
     const sheets = google.sheets({ version: "v4", auth });
 
-    const reviewsSpreadsheetId = process.env.GOOGLE_SHEET_ID_REVIEWS;
-    const accountsSpreadsheetId = process.env.GOOGLE_SHEET_ID_ACCOUNTS;
+    const reviewsSpreadsheetId  = process.env.SHEET_ID_BBW4LIFE_CUSTOMERS_REVIEWS;
+    const accountsSpreadsheetId = process.env.SHEET_ID_BBW4LIFE_ACCOUNTS;
 
     function formatReviewDate() {
       const d = new Date();
@@ -36,24 +36,21 @@ exports.handler = async (event) => {
 
       const date = formatReviewDate();
 
-      // Récupérer les images base64 (max 3), jointes par " | "
       const images = Array.isArray(body.images) ? body.images.slice(0, 3) : [];
       const imagesCell = images.filter(Boolean).join(' | ');
 
-      // Sauvegarder avec colonne H = images
       const values = [[fullName.trim(), email.trim(), title.trim(), rating, text.trim(), date, productId, imagesCell]];
       await sheets.spreadsheets.values.append({
         spreadsheetId: reviewsSpreadsheetId,
-        range: "CustomersReviews!A:H",
+        range: "bbw4life-customers-reviews!A:H",
         valueInputOption: "RAW",
         insertDataOption: "INSERT_ROWS",
         resource: { values }
       });
 
-      // Vérification compte + incrémentation Reviews Written (colonne I)
       const accountsRes = await sheets.spreadsheets.values.get({
         spreadsheetId: accountsSpreadsheetId,
-        range: "Feuille 1!A:Z"
+        range: "bbw4life-accounts!A:Z"
       });
       const accountsRows = accountsRes.data.values || [];
 
@@ -67,7 +64,7 @@ exports.handler = async (event) => {
 
         await sheets.spreadsheets.values.update({
           spreadsheetId: accountsSpreadsheetId,
-          range: `Feuille 1!I${accountRowNum}`,
+          range: `bbw4life-accounts!I${accountRowNum}`,
           valueInputOption: "RAW",
           resource: { values: [[newReviewsCount]] }
         });
@@ -77,7 +74,6 @@ exports.handler = async (event) => {
         console.log(`ℹ️ Email ${email} non trouvé dans les comptes`);
       }
 
-      // Trigger email de remerciement
       fetch(`${process.env.URL}/.netlify/functions/send-email-auto`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,7 +87,7 @@ exports.handler = async (event) => {
       if (!productId) throw new Error("Product ID manquant");
       const res = await sheets.spreadsheets.values.get({
         spreadsheetId: reviewsSpreadsheetId,
-        range: "CustomersReviews!A:Z"
+        range: "bbw4life-customers-reviews!A:Z"
       });
       const rows = res.data.values || [];
 
@@ -99,12 +95,12 @@ exports.handler = async (event) => {
         .filter(row => row[6] === productId)
         .map(row => ({
           fullName: row[0] || "",
-          email: row[1] || "",
-          title: row[2] || "",
-          rating: parseInt(row[3]) || 5,
-          text: row[4] || "",
-          date: row[5] || "",
-          images: row[7] ? row[7].split(' | ').filter(Boolean) : []
+          email:    row[1] || "",
+          title:    row[2] || "",
+          rating:   parseInt(row[3]) || 5,
+          text:     row[4] || "",
+          date:     row[5] || "",
+          images:   row[7] ? row[7].split(' | ').filter(Boolean) : []
         }));
 
       return {

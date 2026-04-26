@@ -16,19 +16,7 @@
   ────────────────────────────────────────────────────────────── */
   const DEFAULTS = {
     /* General */
-    section_title:               'QUICK LINKS FOR OUR CUSTOMERS',
-    background_color:            '#0d0d0d',
-    text_color:                  'rgba(255,255,255,0.80)',
-    title_color:                 '#FFD700',
-    link_color:                  'rgba(255,255,255,0.72)',
-    padding_top:                 50,
-    padding_bottom:              30,
-    section_title_size_desktop:  22,
-    section_title_size_mobile:   16,
-    column_title_size_desktop:   16,
-    column_title_size_mobile:    15,
-    link_text_size_desktop:      14,
-    link_text_size_mobile:       13,
+    section_title: 'QUICK LINKS FOR OUR CUSTOMERS',
 
     /* mobile behavior — key option */
     mobile_links_behavior: 'two_columns_mobile',
@@ -66,17 +54,6 @@
     /* Col 3 — info */
     title3:           'BEAUTY HAS NO SIZE',
     info_text:        '<strong>BBW4LIFE</strong> celebrates plus-size women and their natural <strong>beauty</strong>. Every wom&acirc;n is perfect as she is &mdash; <strong>confident, powerful</strong>, and beautiful in every size.',
-    info_text_color:  'rgba(255,255,255,0.90)',
-    info_background_color: '#1a1001',
-    info_border_size: 2,
-    info_border_color:'#c9963e',
-    border_type:      'dashed',
-    info_border_radius: 10,
-    border_style:     'style-11',  /* Glow Orange */
-    info_text_size_desktop: 14,
-    info_text_size_mobiles: 13,
-    info_drop_shadow_enable: true,
-    info_drop_shadow_color: 'neon',
 
     /* Logo */
     logo_svg: `<svg width="120" height="120" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
@@ -85,37 +62,20 @@
       <circle cx="90" cy="90" r="18" fill="none" stroke="currentColor" stroke-width="4"/>
       <path d="M90 50 L95 80 L90 72 L85 80 Z" fill="currentColor"/>
     </svg>`,
-    logo_size:  120,
-    logo_color: '#c9963e',
     logo_link:  '/',
 
     /* Col 4 — contact */
     title4:           'NEED HELP? CONTACT US',
     contact_text:     'Available Monday to Friday/ 7h:Am-10PM',
-    contact_text_color:'rgba(255,255,255,0.80)',
     email_link:       'support@bbw4life.com',
     whatsapp_chat_now_text: '💬 Chat With Us',
     phone_number:     '18093770077',
     phone_suffix_text:'/Only text please',
     whatsapp_number:  '18296221518',
-    whatsapp_select_bg:    '#1a1a1a',
-    whatsapp_select_text_color: '#ffffff',
-    whatsapp_select_border_color: 'rgba(201,150,62,0.4)',
-    whatsapp_select_border_width: 2,
-    whatsapp_select_border_style: 'solid',
-    whatsapp_select_border_radius: 8,
     whatsapp_send_button_text:  'Send',
-    whatsapp_send_button_bg:    '#25d366',
-    whatsapp_send_button_text_color: '#ffffff',
-    whatsapp_send_button_border_color: '#25d366',
-    whatsapp_send_button_border_radius: 30,
 
     /* Social */
     social_title:        'Follow us in social Media',
-    social_title_color:  '#FFD700',
-    social_title_size:   15,
-    social_icon_size:    32,
-    social_icon_color:   '#ffffff',
     social_links: {
       facebook:  '#',
       twitter:   '#',
@@ -124,24 +84,10 @@
       tiktok:    '#'
     },
 
-    /* New In (col 5) */
+    /* New In (col 5) — fallback placeholders uniquement */
     novelty_title: 'NEW GEMS TO DISCOVER',
-    new_in_items: [
-      { image: 'https://placehold.co/300x280/1a1a1a/FFD700?text=Collection+1', title: 'Bbw4life collection', url: '#' },
-      { image: 'https://placehold.co/300x280/1a1a1a/FFD700?text=Collection+2', title: 'New Arrivals',        url: '#' },
-      { image: 'https://placehold.co/300x280/1a1a1a/FFD700?text=Collection+3', title: 'Best Sellers',        url: '#' }
-    ],
-    new_in_image_height:   280,
-    new_in_caption_color:  '#FFD700',
-    new_in_caption_size:   14,
-    new_in_border_width:   2,
-    new_in_border_color:   'rgba(201,150,62,0.45)',
-    new_in_border_style:   'solid',
-    new_in_shadow_enable:  false,
-    new_in_nav_bg_color:   '#1a1a1a',
-    new_in_nav_text_color: '#FFD700',
-    new_in_autoplay_enable:true,
-    new_in_autoplay_delay: 5,
+    new_in_autoplay_enable: true,
+    new_in_autoplay_delay:  5,
 
     /* Bottom */
     copyright_year: '2026'
@@ -157,54 +103,27 @@
   };
 
   /* ──────────────────────────────────────────────────────────────
-     MAIN INIT — waits for __allProducts if needed
+     MAIN INIT
   ────────────────────────────────────────────────────────────── */
   function init() {
     const all = window.__allProducts || [];
     const rawSettings = all.find(p => p.type === 'settings') || {};
     const s = Object.assign({}, DEFAULTS, rawSettings);
-    applyTheme(s);
     applySectionTitle(s);
     applyCol1(s);
     applyCol2(s);
     applyCol3(s);
     applyCol4(s);
-    applyCol5(s);          // injecte les slides d'abord
+    applyCol5(s);
     applyBottom(s);
     initMobileBehavior(s);
     initWhatsApp(s);
     initNewInSlider(s);
-    applyFooterSelectors(s);    // APRÈS applyCol5 — slides existent maintenant
-}
-
-  /* ──────────────────────────────────────────────────────────────
-     1. THEME — CSS variables from settings
-  ────────────────────────────────────────────────────────────── */
-  function applyTheme(s) {
-    const root = document.documentElement;
-    const set = (k, v) => root.style.setProperty(k, v);
-
-    set('--footer-bg',            s.background_color);
-    set('--footer-text',          s.text_color);
-    set('--footer-title-color',   s.title_color);
-    set('--footer-link-color',    s.link_color);
-    set('--footer-col-title-size-desktop', s.column_title_size_desktop + 'px');
-    set('--footer-col-title-size-mobile',  s.column_title_size_mobile + 'px');
-    set('--footer-link-size-desktop',      s.link_text_size_desktop + 'px');
-    set('--footer-link-size-mobile',       s.link_text_size_mobile + 'px');
-    set('--footer-section-title-size-desktop', s.section_title_size_desktop + 'px');
-    set('--footer-section-title-size-mobile',  s.section_title_size_mobile + 'px');
-    set('--footer-social-icon-size',  (s.social_icon_size || 32) + 'px');
-    set('--footer-social-icon-color', s.social_icon_color || '#fff');
-    set('--footer-newin-nav-bg',      s.new_in_nav_bg_color || '#1a1a1a');
-    set('--footer-newin-nav-text',    s.new_in_nav_text_color || '#FFD700');
-    set('--footer-newin-img-height',  (s.new_in_image_height || 280) + 'px');
-    set('--footer-padding-top',       (s.padding_top || 50) + 'px');
-    set('--footer-padding-bottom',    (s.padding_bottom || 30) + 'px');
+    applyFooterSelectors(s);
   }
 
   /* ──────────────────────────────────────────────────────────────
-     2. SECTION TITLE
+     1. SECTION TITLE
   ────────────────────────────────────────────────────────────── */
   function applySectionTitle(s) {
     const el = $('bbwFooterSectionTitle');
@@ -212,13 +131,12 @@
   }
 
   /* ──────────────────────────────────────────────────────────────
-     3. COL 1 — links from settings (text1_1…text1_20 / link1_1…)
+     3. COL 1 & 2 — links
   ────────────────────────────────────────────────────────────── */
   function buildLinks(s, colNum, ulEl, titleEl, titleKey) {
     if (!ulEl) return;
     if (titleEl) titleEl.textContent = s[titleKey] || '';
 
-    // Build from numbered keys: text{col}_{n} / link{col}_{n}
     const items = [];
     for (let i = 1; i <= 20; i++) {
       const txt = s[`text${colNum}_${i}`];
@@ -226,7 +144,6 @@
       if (txt) items.push({ text: txt, url });
     }
 
-    // Fall back to pre-built array (from defaults or custom)
     const fallback = s[`links${colNum}`] || [];
     const list = items.length ? items : fallback;
 
@@ -259,45 +176,13 @@
     const infoEl = $('bbwInfoText');
     if (infoEl) {
       infoEl.innerHTML = s.info_text || DEFAULTS.info_text;
-      infoEl.style.color      = s.info_text_color || '#fff';
-      infoEl.style.background = s.info_background_color || '#1a1001';
-      infoEl.style.border     = `${s.info_border_size || 2}px ${s.border_type || 'dashed'} ${s.info_border_color || '#c9963e'}`;
-      infoEl.style.borderRadius = (s.info_border_radius || 10) + 'px';
-      infoEl.style.fontSize   = (s.info_text_size_desktop || 14) + 'px';
-
-      // Glow classes
-      infoEl.className = 'bbw-footer__info-text';
-      if (s.border_style && s.border_style !== 'style-none') {
-        infoEl.classList.add(s.border_style);
-      }
-
-      // Drop shadow
-      if (s.info_drop_shadow_enable && s.info_drop_shadow_color !== 'none') {
-        const shadowMap = {
-          black: 'rgba(0,0,0,0.45)', white: 'rgba(255,255,255,0.6)',
-          red: 'rgba(255,0,0,0.6)',  blue: 'rgba(0,120,255,0.6)',
-          yellow: 'rgba(255,215,0,0.6)', green: 'rgba(0,200,120,0.6)',
-          pink: 'rgba(255,80,160,0.6)', purple: 'rgba(160,80,255,0.6)',
-          neon: 'rgba(0,255,200,0.9)', glow: 'rgba(255,255,255,0.85)'
-        };
-        const blur = (s.info_drop_shadow_color === 'neon' || s.info_drop_shadow_color === 'glow') ? '44px' : '26px';
-        const color = shadowMap[s.info_drop_shadow_color] || 'rgba(0,0,0,0.3)';
-        infoEl.style.filter = `drop-shadow(0px 10px ${blur} ${color})`;
-      }
     }
 
-    // Logo
     const logoEl = $('bbwFooterLogoSvg');
     if (logoEl) {
       logoEl.innerHTML = s.logo_svg || DEFAULTS.logo_svg;
-      const svg = logoEl.querySelector('svg');
-      if (svg) {
-        svg.style.width  = (s.logo_size || 120) + 'px';
-        svg.style.fill   = s.logo_color || '#c9963e';
-        svg.style.color  = s.logo_color || '#c9963e';
-        svg.style.stroke = s.logo_color || '#c9963e';
-      }
     }
+
     const logoLink = $('bbwFooterLogoLink');
     if (logoLink) logoLink.href = s.logo_link || '/';
   }
@@ -312,7 +197,6 @@
     const contactText = $('bbwContactText');
     if (contactText) {
       contactText.textContent = s.contact_text || '';
-      contactText.style.color = s.contact_text_color || '#fff';
     }
 
     const emailLink = $('bbwEmailLink');
@@ -330,34 +214,11 @@
     const phoneLink = $('bbwPhoneLink');
     if (phoneLink) phoneLink.href = 'tel:' + (s.phone_number || '');
 
-    // Style WhatsApp select
-    const sel = $('bbwProblemSelect');
-    if (sel) {
-      sel.style.background    = s.whatsapp_select_bg || '#1a1a1a';
-      sel.style.color         = s.whatsapp_select_text_color || '#fff';
-      sel.style.border        = `${s.whatsapp_select_border_width || 2}px ${s.whatsapp_select_border_style || 'solid'} ${s.whatsapp_select_border_color || '#c9963e'}`;
-      sel.style.borderRadius  = (s.whatsapp_select_border_radius || 8) + 'px';
-    }
-
-    // Style Send button
-    const sendBtn = $('bbwSendBtn');
-    if (sendBtn) {
-      sendBtn.textContent           = s.whatsapp_send_button_text || 'Send';
-      sendBtn.style.background      = s.whatsapp_send_button_bg || '#25d366';
-      sendBtn.style.color           = s.whatsapp_send_button_text_color || '#fff';
-      sendBtn.style.border          = `${s.whatsapp_send_button_border_width || 0}px solid ${s.whatsapp_send_button_border_color || '#25d366'}`;
-      sendBtn.style.borderRadius    = (s.whatsapp_send_button_border_radius || 30) + 'px';
-    }
-
-    // Social title
     const socialTitle = $('bbwSocialTitle');
     if (socialTitle) {
-      socialTitle.textContent  = s.social_title || 'Follow us in social Media';
-      socialTitle.style.color  = s.social_title_color || '#FFD700';
-      socialTitle.style.fontSize = (s.social_title_size || 15) + 'px';
+      socialTitle.textContent = s.social_title || 'Follow us in social Media';
     }
 
-    // Social icons
     const socialMap = {
       facebook:  { id: 'bbwSocFacebook',  urlKey: 'facebook'  },
       twitter:   { id: 'bbwSocTwitter',   urlKey: 'twitter'   },
@@ -373,19 +234,14 @@
       a.innerHTML = SOCIAL_SVGS[key] || '';
       const url = socialLinks[cfg.urlKey] || socialLinks[`${cfg.urlKey}_link`] || '#';
       a.href = url;
-      // Apply size
-      const svg = a.querySelector('svg');
-      if (svg) {
-        svg.style.width  = (s.social_icon_size || 32) + 'px';
-        svg.style.height = (s.social_icon_size || 32) + 'px';
-        svg.style.fill   = 'currentColor';
-      }
-      a.style.color = s.social_icon_color || '#ffffff';
     });
   }
 
   /* ──────────────────────────────────────────────────────────────
-     6. COL 5 — New In slider slides
+     6. COL 5 — New Gems slider
+     Ordre : collection, produit, collection, produit, ...
+     Sources : settings.footer_new_gems.collection_ids  → jrgq_collections
+               settings.footer_new_gems.product_ids     → produits réels
   ────────────────────────────────────────────────────────────── */
   function applyCol5(s) {
     const titleEl = $('bbwCol5Title');
@@ -394,63 +250,91 @@
     const wrapper = $('bbwNewInWrapper');
     if (!wrapper) return;
 
-    // Build items list from numbered product/collection keys
-    const items = [];
-    for (let i = 1; i <= 3; i++) {
-      // products.data.json will have product1, product2, product3 as objects
-      const prod = s[`product${i}`];
-      const coll = s[`collection${i}`];
-      const item = prod || coll;
-      if (item && item.image && item.title) {
-        items.push({
-          image:   item.image,
-          title:   item.title,
-          url:     item.url || '#',
-          isCollection: !!coll
-        });
+    /* ── Récupère la config footer_new_gems ── */
+    const gemsConfig    = s.footer_new_gems   || {};
+    const collectionIds = gemsConfig.collection_ids || [];
+    const productIds    = gemsConfig.product_ids    || [];
+
+    /* ── Récupère les sources depuis __allProducts ── */
+    const all        = window.__allProducts || [];
+    const jrgqCols   = (s.jrgq_collections && s.jrgq_collections.collections) || [];
+    const realProds  = all.filter(function(p) { return !p.type; });
+
+    /* ── Construit la liste alternée col → prod → col → prod... ── */
+    const slides = [];
+    const maxPairs = Math.max(collectionIds.length, productIds.length);
+    const MAX_TITLE = 32;
+
+    function truncate(str) {
+      return str && str.length > MAX_TITLE ? str.substring(0, MAX_TITLE) + '…' : (str || '');
+    }
+
+    for (let i = 0; i < maxPairs; i++) {
+
+      /* Collection */
+      if (collectionIds[i]) {
+        const col = jrgqCols.find(function(c) { return c.id === collectionIds[i]; });
+        if (col) {
+          slides.push({
+            image:        col.image || '',
+            title:        truncate(col.title),
+            url:          col.url   || '#',
+            isCollection: true
+          });
+        }
+      }
+
+      /* Produit */
+      if (productIds[i]) {
+        const prod = realProds.find(function(p) { return p.id === productIds[i]; });
+        if (prod) {
+          let prodUrl = prod.url || '#';
+          /* Essaie d'utiliser getProductUrl si disponible dans le scope global */
+          if (typeof window.getProductUrl === 'function') {
+            prodUrl = window.getProductUrl(prod.id);
+          }
+          slides.push({
+            image:        prod.image || '',
+            title:        truncate(prod.title),
+            url:          prodUrl,
+            isCollection: false
+          });
+        }
       }
     }
-    // Fall back to defaults
-    const finalItems = items.length ? items : DEFAULTS.new_in_items;
 
+    /* ── Fallback si rien trouvé : 3 placeholders neutres ── */
+    if (!slides.length) {
+      [
+        { image: 'https://placehold.co/300x280/1a1a1a/FFD700?text=Collection+1', title: 'Bbw4life collection', url: '#' },
+        { image: 'https://placehold.co/300x280/1a1a1a/FFD700?text=Collection+2', title: 'New Arrivals',        url: '#' },
+        { image: 'https://placehold.co/300x280/1a1a1a/FFD700?text=Collection+3', title: 'Best Sellers',        url: '#' }
+      ].forEach(function(item) {
+        slides.push({ image: item.image, title: item.title, url: item.url, isCollection: false });
+      });
+    }
+
+    /* ── Injecte les slides dans le DOM ── */
     wrapper.innerHTML = '';
-    finalItems.forEach(item => {
+
+    slides.forEach(function(item) {
       const slide = document.createElement('div');
       slide.className = 'bbw-footer__newin-slide';
 
-      const a   = document.createElement('a');
-      a.href    = item.url || '#';
+      const a = document.createElement('a');
+      a.href      = item.url;
       a.className = 'bbw-footer__newin-link';
 
       const img = document.createElement('img');
-      img.src     = item.image;
-      img.alt     = item.title;
-      img.loading = 'lazy';
+      img.src       = item.image;
+      img.alt       = item.title;
+      img.loading   = 'lazy';
       img.className = 'bbw-footer__newin-img';
-      img.style.border = `${s.new_in_border_width || 2}px ${s.new_in_border_style || 'solid'} ${s.new_in_border_color || 'rgba(201,150,62,0.45)'}`;
-
-      // Drop shadow on image
-      if (s.new_in_shadow_enable && s.new_in_shadow_color && s.new_in_shadow_color !== 'none') {
-        const shadowMap = {
-          black:'rgba(0,0,0,0.45)', white:'rgba(255,255,255,0.6)',
-          red:'rgba(255,0,0,0.6)', blue:'rgba(0,120,255,0.6)',
-          yellow:'rgba(255,215,0,0.6)', green:'rgba(0,200,120,0.6)',
-          pink:'rgba(255,80,160,0.6)', brown:'rgba(160,100,60,0.6)',
-          neon:'rgba(0,255,200,0.9)'
-        };
-        const blur = s.new_in_shadow_color === 'neon' ? '45px' : '28px';
-        img.style.filter = `drop-shadow(0px 12px ${blur} ${shadowMap[s.new_in_shadow_color] || 'rgba(0,0,0,0.3)'})`;
-      }
 
       const cap = document.createElement('p');
-      cap.className = 'bbw-footer__newin-caption';
+      cap.className   = 'bbw-footer__newin-caption';
       cap.textContent = item.title;
-      cap.style.color = item.isCollection
-        ? (s.new_in_coll_caption_color || '#FFD700')
-        : (s.new_in_caption_color || '#FFD700');
-      cap.style.fontSize = (item.isCollection
-        ? (s.new_in_caption_coll_size || 14)
-        : (s.new_in_caption_size || 14)) + 'px';
+      if (item.isCollection) cap.classList.add('bbw-footer__newin-caption--collection');
 
       a.appendChild(img);
       a.appendChild(cap);
@@ -458,62 +342,54 @@
       wrapper.appendChild(slide);
     });
 
-    // Show nav only if more than 1 slide
+    /* ── Affiche / cache la nav selon le nombre de slides ── */
     const nav = $('bbwNewInNav');
-    if (nav) nav.style.display = finalItems.length > 1 ? 'block' : 'none';
+    if (nav) nav.style.display = slides.length > 1 ? 'block' : 'none';
   }
 
   /* ──────────────────────────────────────────────────────────────
      7. BOTTOM BAR
   ────────────────────────────────────────────────────────────── */
   function applyBottom(s) {
-  const copy = $('bbwCopyright');
-  if (!copy) return;
-  const year  = s.copyright_year || new Date().getFullYear();
-  const brand = s.brand_name     || 'bbw4life';
-  copy.innerHTML = `© ${year}, <a href="/index.html" class="bbw-footer__brand-link">${brand}</a> All Rights Reserved`;
-}
+    const copy = $('bbwCopyright');
+    if (!copy) return;
+    const year  = s.copyright_year || new Date().getFullYear();
+    const brand = s.brand_name     || 'bbw4life';
+    copy.innerHTML = `© ${year}, <a href="/index.html" class="bbw-footer__brand-link">${brand}</a> All Rights Reserved`;
+  }
 
   /* ──────────────────────────────────────────────────────────────
      8. MOBILE BEHAVIOR
   ────────────────────────────────────────────────────────────── */
- function initMobileBehavior(s) {
+  function initMobileBehavior(s) {
     const footer = document.getElementById('bbw-footer');
     if (!footer) return;
-    let behavior = 'two_columns_mobile'; // défaut
+    let behavior = 'two_columns_mobile';
 
     const raw = s.mobile_links_behavior;
-
     if (typeof raw === 'string') {
-        behavior = raw.toLowerCase().trim();
+      behavior = raw.toLowerCase().trim();
     } else if (raw && typeof raw === 'object') {
-        // Trouver la clé dont la valeur est "yes"
-        const found = Object.keys(raw).find(function (k) {
-            return (raw[k] || '').toString().toLowerCase() === 'yes';
-        });
-        if (found) behavior = found.toLowerCase().trim();
+      const found = Object.keys(raw).find(k => (raw[k] || '').toString().toLowerCase() === 'yes');
+      if (found) behavior = found.toLowerCase().trim();
     }
 
-    // Supprimer les anciennes classes
     footer.classList.remove('bbw-behavior--hide', 'bbw-behavior--show-all', 'bbw-behavior--two-cols');
 
     if (behavior === 'hide_completely') {
-        footer.classList.add('bbw-behavior--hide');
-        initCollapsible();
+      footer.classList.add('bbw-behavior--hide');
+      initCollapsible();
     } else if (behavior === 'show_all_centered') {
-        footer.classList.add('bbw-behavior--show-all');
+      footer.classList.add('bbw-behavior--show-all');
     } else {
-        footer.classList.add('bbw-behavior--two-cols');
+      footer.classList.add('bbw-behavior--two-cols');
     }
-}
+  }
 
-  /* Collapsible toggle for "hide_completely" mode */
+  /* Collapsible — "hide_completely" mode only */
   function initCollapsible() {
     document.querySelectorAll('.bbw-footer__col-title').forEach(title => {
-      title.style.cursor = 'pointer';
       const icon = title.querySelector('.bbw-footer__col-icon');
-      if (icon) icon.style.display = 'block';
-
       title.addEventListener('click', function () {
         if (window.innerWidth > 767) return;
         const col = title.closest('.bbw-footer__col');
@@ -531,76 +407,62 @@
     const wrapper = $('bbwNewInWrapper');
     if (!wrapper) return;
 
-    // Attendre que le DOM soit prêt si les slides viennent d'être injectées
     requestAnimationFrame(function () {
-        const slides = wrapper.querySelectorAll('.bbw-footer__newin-slide');
-        if (slides.length <= 1) return;
+      const slides = wrapper.querySelectorAll('.bbw-footer__newin-slide');
+      if (slides.length <= 1) return;
 
-        const prevBtn = $('bbwNewInPrev');
-        const nextBtn = $('bbwNewInNext');
-        let currentIdx = 0;
-        let autoplayTimer = null;
+      const prevBtn = $('bbwNewInPrev');
+      const nextBtn = $('bbwNewInNext');
+      let currentIdx    = 0;
+      let autoplayTimer = null;
 
-        // Afficher les boutons nav
-        const nav = $('bbwNewInNav');
-        if (nav) nav.style.display = 'block';
+      const nav = $('bbwNewInNav');
+      if (nav) nav.style.display = 'block';
 
-        const scrollToSlide = function (idx) {
-            if (idx < 0) idx = slides.length - 1;
-            if (idx >= slides.length) idx = 0;
-            currentIdx = idx;
-            wrapper.scrollTo({
-                left: slides[idx].offsetLeft,
-                behavior: 'smooth'
-            });
-        };
+      const scrollToSlide = function (idx) {
+        if (idx < 0) idx = slides.length - 1;
+        if (idx >= slides.length) idx = 0;
+        currentIdx = idx;
+        wrapper.scrollTo({ left: slides[idx].offsetLeft, behavior: 'smooth' });
+      };
 
-        const nextSlide = function () { scrollToSlide(currentIdx + 1); };
-        const prevSlide = function () { scrollToSlide(currentIdx - 1); };
+      const nextSlide = function () { scrollToSlide(currentIdx + 1); };
+      const prevSlide = function () { scrollToSlide(currentIdx - 1); };
 
-        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+      if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+      if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 
-        // Swipe tactile
-        let touchStartX = 0;
-        wrapper.addEventListener('touchstart', function (e) {
-            touchStartX = e.touches[0].clientX;
-        }, { passive: true });
-        wrapper.addEventListener('touchend', function (e) {
-            const diff = touchStartX - e.changedTouches[0].clientX;
-            if (Math.abs(diff) > 40) {
-                diff > 0 ? nextSlide() : prevSlide();
-            }
-            touchStartX = 0;
-        }, { passive: true });
+      let touchStartX = 0;
+      wrapper.addEventListener('touchstart', function (e) {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+      wrapper.addEventListener('touchend', function (e) {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) { diff > 0 ? nextSlide() : prevSlide(); }
+        touchStartX = 0;
+      }, { passive: true });
 
-        // Autoplay
-        const delay = ((s.new_in_autoplay_delay || 5) * 1000);
-        const enabled = s.new_in_autoplay_enable !== false;
+      const delay   = (s.new_in_autoplay_delay || 5) * 1000;
+      const enabled = s.new_in_autoplay_enable !== false;
 
-        const startAutoplay = function () {
-            if (enabled && !autoplayTimer) {
-                autoplayTimer = setInterval(nextSlide, delay);
-            }
-        };
-        const stopAutoplay = function () {
-            if (autoplayTimer) {
-                clearInterval(autoplayTimer);
-                autoplayTimer = null;
-            }
-        };
+      const startAutoplay = function () {
+        if (enabled && !autoplayTimer) autoplayTimer = setInterval(nextSlide, delay);
+      };
+      const stopAutoplay = function () {
+        if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
+      };
 
-        startAutoplay();
+      startAutoplay();
 
-        const col5 = $('bbwFooterCol5');
-        if (col5) {
-            col5.addEventListener('mouseenter', stopAutoplay);
-            col5.addEventListener('mouseleave', startAutoplay);
-            col5.addEventListener('touchstart', stopAutoplay, { passive: true });
-            col5.addEventListener('touchend', startAutoplay, { passive: true });
-        }
+      const col5 = $('bbwFooterCol5');
+      if (col5) {
+        col5.addEventListener('mouseenter', stopAutoplay);
+        col5.addEventListener('mouseleave', startAutoplay);
+        col5.addEventListener('touchstart', stopAutoplay, { passive: true });
+        col5.addEventListener('touchend',   startAutoplay, { passive: true });
+      }
     });
-}
+  }
 
   /* ──────────────────────────────────────────────────────────────
      10. WHATSAPP CHAT
@@ -627,6 +489,42 @@
   }
 
   /* ──────────────────────────────────────────────────────────────
+     11. COUNTRY + LANG SELECTORS — bottom bar
+  ────────────────────────────────────────────────────────────── */
+  function applyFooterSelectors(s) {
+    const countryCfg     = s.country_selector  || {};
+    const langCfg        = s.language_selector || {};
+    const countryOptions = countryCfg.options  || [];
+    const langOptions    = langCfg.options     || [];
+    const defaultCountry = countryCfg.default_country || 'us';
+    const defaultLang    = langCfg.default_lang        || 'en';
+
+    const countryEl = document.getElementById('bbwFooterCountrySelect');
+    if (countryEl && countryOptions.length) {
+      countryEl.innerHTML = '';
+      countryOptions.forEach(opt => {
+        const o       = document.createElement('option');
+        o.value       = opt.code;
+        o.textContent = opt.currency ? opt.name + ' | ' + opt.currency : opt.name;
+        if (opt.code === defaultCountry) o.selected = true;
+        countryEl.appendChild(o);
+      });
+    }
+
+    const langEl = document.getElementById('bbwFooterLangSelect');
+    if (langEl && langOptions.length) {
+      langEl.innerHTML = '';
+      langOptions.forEach(opt => {
+        const o       = document.createElement('option');
+        o.value       = opt.code;
+        o.textContent = opt.flag + ' ' + opt.name;
+        if (opt.code === defaultLang) o.selected = true;
+        langEl.appendChild(o);
+      });
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────────
      UTILITY
   ────────────────────────────────────────────────────────────── */
   function stripTags(str) {
@@ -636,7 +534,7 @@
   }
 
   /* ──────────────────────────────────────────────────────────────
-     BOOTSTRAP — wait for __allProducts if not yet loaded
+     BOOTSTRAP
   ────────────────────────────────────────────────────────────── */
   function bootstrap() {
     if (window.__allProducts && window.__allProducts.length) {
@@ -649,7 +547,7 @@
           init();
         } else if (++tries > 80) {
           clearInterval(poll);
-          init(); // run with defaults
+          init();
         }
       }, 100);
     }
@@ -661,44 +559,7 @@
     bootstrap();
   }
 
-
-  /* ──────────────────────────────────────────────────────────────
-   11. COUNTRY + LANG SELECTORS — bottom bar du footer
-────────────────────────────────────────────────────────────── */
-function applyFooterSelectors(s) {
-  const countryCfg     = s.country_selector  || {};
-  const langCfg        = s.language_selector || {};
-  const countryOptions = countryCfg.options  || [];
-  const langOptions    = langCfg.options     || [];
-  const defaultCountry = countryCfg.default_country || 'us';
-  const defaultLang    = langCfg.default_lang        || 'en';
-
-  const countryEl = document.getElementById('bbwFooterCountrySelect');
-  if (countryEl && countryOptions.length) {
-    countryEl.innerHTML = '';
-    countryOptions.forEach(opt => {
-      const o      = document.createElement('option');
-      o.value      = opt.code;
-      o.textContent = opt.flag + ' ' + opt.name;
-      if (opt.code === defaultCountry) o.selected = true;
-      countryEl.appendChild(o);
-    });
-  }
-
-  const langEl = document.getElementById('bbwFooterLangSelect');
-  if (langEl && langOptions.length) {
-    langEl.innerHTML = '';
-    langOptions.forEach(opt => {
-      const o      = document.createElement('option');
-      o.value      = opt.code;
-      o.textContent = opt.flag + ' ' + opt.name;
-      if (opt.code === defaultLang) o.selected = true;
-      langEl.appendChild(o);
-    });
-  }
-}
-
-  /* Expose public API for badge updates, etc. */
+  /* Expose public API */
   window.bbwFooterInit = init;
 
 })();

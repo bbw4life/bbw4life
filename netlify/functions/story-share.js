@@ -1,6 +1,6 @@
 const { google } = require('googleapis');
 
-const SHEET_NAME = 'StoryBbw';
+const SHEET_NAME = 'bbw4life-stories';
 
 function getAuth() {
   return new google.auth.GoogleAuth({
@@ -57,7 +57,7 @@ async function saveStory(body) {
   ]];
 
   await sheets.spreadsheets.values.append({
-    spreadsheetId:   process.env.GOOGLE_SHARE_STORY_ID,
+    spreadsheetId:   process.env.SHEET_ID_BBW4LIFE_STORIES,
     range:           `${SHEET_NAME}!A:Q`,
     valueInputOption:'RAW',
     insertDataOption:'INSERT_ROWS',
@@ -73,7 +73,7 @@ async function fetchStories() {
   const sheets = google.sheets({ version: 'v4', auth });
 
   const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.GOOGLE_SHARE_STORY_ID,
+    spreadsheetId: process.env.SHEET_ID_BBW4LIFE_STORIES,
     range:         `${SHEET_NAME}!A:Q`
   });
 

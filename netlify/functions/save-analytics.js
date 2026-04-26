@@ -22,12 +22,12 @@ exports.handler = async (event) => {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const spreadsheetId = process.env.CURVAFIT_ANALITIQUE_SHEET_ID;
+    const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_ANALYTICS;
 
     if (event.httpMethod === "GET") {
       const res = await sheets.spreadsheets.values.get({
         spreadsheetId,
-        range: "CurvafitAnalitique!A:O"
+        range: "bbw4life-analytics!A:O"
       });
       const rows = res.data.values || [];
       return { statusCode: 200, headers, body: JSON.stringify({ success: true, rows }) };
@@ -42,18 +42,16 @@ exports.handler = async (event) => {
       let city    = "Unknown";
 
       try {
-        // Récupère l'IP réelle du visiteur — plusieurs headers possibles selon le proxy
         const rawIp =
-          (event.headers["x-nf-client-connection-ip"] || "").trim() ||   // Netlify native header (le plus fiable)
+          (event.headers["x-nf-client-connection-ip"] || "").trim() ||
           (event.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
           (event.headers["x-real-ip"] || "").trim() ||
           (event.headers["client-ip"] || "").trim() ||
           "";
 
-        const ip = rawIp.replace(/^::ffff:/, ""); // Normalise les IPv4-mapped IPv6
+        const ip = rawIp.replace(/^::ffff:/, "");
 
         if (ip && ip !== "127.0.0.1" && ip !== "::1" && ip !== "") {
-          // Essai 1 : ip-api.com (gratuit, 1000 req/min)
           const geoRes  = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,city&lang=en`);
           const geoData = await geoRes.json();
 
@@ -61,7 +59,6 @@ exports.handler = async (event) => {
             country = geoData.country || "Unknown";
             city    = geoData.city    || "Unknown";
           } else {
-            // Essai 2 : ipapi.co comme fallback
             const fallbackRes  = await fetch(`https://ipapi.co/${ip}/json/`);
             const fallbackData = await fallbackRes.json();
             if (!fallbackData.error) {
@@ -94,7 +91,7 @@ exports.handler = async (event) => {
 
       await sheets.spreadsheets.values.append({
         spreadsheetId,
-        range: "CurvafitAnalitique!A:O",
+        range: "bbw4life-analytics!A:O",
         valueInputOption: "RAW",
         insertDataOption: "INSERT_ROWS",
         resource: { values: row }

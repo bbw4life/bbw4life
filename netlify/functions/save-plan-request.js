@@ -21,7 +21,7 @@ exports.handler = async (event) => {
     });
 
     const sheets        = google.sheets({ version: 'v4', auth });
-    const spreadsheetId = process.env.PENDING_PLAN_PROGRAM_SHEET_ID;
+    const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PLAN_REQUEST;
 
     function formatDate() {
       const d = new Date();
@@ -41,13 +41,12 @@ exports.handler = async (event) => {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range:            'MembersPeding-Plan!A:H',
+      range:            'bbw4life-plan-request!A:H',
       valueInputOption: 'RAW',
       insertDataOption: 'INSERT_ROWS',
       resource:         { values }
     });
 
-    // Trigger email de confirmation programme
     fetch(`${process.env.URL}/.netlify/functions/send-email-auto`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

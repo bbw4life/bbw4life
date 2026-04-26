@@ -32,7 +32,7 @@ async function saveToSheet(data) {
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
   const sheets        = google.sheets({ version: 'v4', auth });
-  const spreadsheetId = process.env.PENDING_PLAN_PROGRAM_SHEET_ID;
+  const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_PLAN;
 
   function formatDate() {
     const d = new Date();
@@ -41,7 +41,7 @@ async function saveToSheet(data) {
 
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range:            'MembersPeding-Plan!A:I',
+    range:            'bbw4life-pending-plan!A:I',
     valueInputOption: 'RAW',
     insertDataOption: 'INSERT_ROWS',
     resource: {

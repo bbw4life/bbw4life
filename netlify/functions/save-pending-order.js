@@ -12,7 +12,7 @@ exports.handler = async (event) => {
     shipping.fullName = normalize(fullName);
     shipping.email = normalize(shipping.email);
     shipping.phone = normalize(shipping.phone);
-    shipping.country = normalize(shipping.country || "United States"); // string (nom complet)
+    shipping.country = normalize(shipping.country || "United States");
     shipping.state = normalize(shipping.state);
     shipping.city = normalize(shipping.city);
     shipping.postalCode = normalize(shipping.postalCode);
@@ -25,7 +25,7 @@ exports.handler = async (event) => {
       scopes: ["https://www.googleapis.com/auth/spreadsheets"]
     });
     const sheets = google.sheets({ version: "v4", auth });
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
     const now = new Date().toISOString();
     const internalOrderId = `PENDING_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
     const values = [[
@@ -40,15 +40,15 @@ exports.handler = async (event) => {
       shipping.city || "",
       shipping.postalCode || "",
       shipping.address || "",
-      "", 
+      "",
       item.variantsid || "",
       item.quantity || 1,
       status,
       "paid",
       now,
-     shipping.shipping_method || "Standard Shipping"
+      shipping.shipping_method || "Standard Shipping"
     ]];
-   const rangesToTry = ["Feuille 1!A:R", "PendingOrders!A:R", "Sheet1!A:R"];
+    const rangesToTry = ["bbw4life-pending-orders!A:R"];
     let success = false;
     for (const range of rangesToTry) {
       try {

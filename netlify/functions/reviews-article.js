@@ -1,7 +1,7 @@
 // netlify/functions/reviews-article.js
 const { google } = require('googleapis');
 
-const SHEET_NAME = 'ReviewsArticle';
+const SHEET_NAME = 'bbw4life-reviews-article';
 
 async function getSheets() {
   const auth = new google.auth.GoogleAuth({
@@ -19,7 +19,7 @@ async function getSheets() {
 
 async function getAllRows(sheets) {
   const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.REVIEWS_ARTICLE_SHEET_ID,
+    spreadsheetId: process.env.SHEET_ID_BBW4LIFE_REVIEWS_ARTICLE,
     range: `${SHEET_NAME}!A:I`
   });
   return res.data.values || [];
@@ -29,7 +29,7 @@ async function ensureHeader(sheets) {
   const rows = await getAllRows(sheets);
   if (rows.length === 0) {
     await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.REVIEWS_ARTICLE_SHEET_ID,
+      spreadsheetId: process.env.SHEET_ID_BBW4LIFE_REVIEWS_ARTICLE,
       range: `${SHEET_NAME}!A1`,
       valueInputOption: 'RAW',
       resource: {
@@ -42,7 +42,7 @@ async function ensureHeader(sheets) {
 // Récupère toutes les reviews d'un article
 function getReviewsFromRows(rows, articleId) {
   return rows
-    .filter((r, i) => i > 0 && r[0] === articleId && r[1]) // i>0 = skip header, r[1] = a un firstName = c'est une review
+    .filter((r, i) => i > 0 && r[0] === articleId && r[1])
     .map(r => ({
       firstName: r[1] || '',
       lastName:  r[2] || '',
@@ -53,30 +53,24 @@ function getReviewsFromRows(rows, articleId) {
     }));
 }
 
-// Récupère la ligne de stats (likes/shares) d'un article
-// C'est la 1ère ligne de cet articleId qui n'a PAS de firstName (ligne de stats pure)
-// En pratique : on stocke likes/shares sur la 1ère review, ou sur une ligne dédiée sans firstName
-// → Choix simple : on lit les likes/shares depuis la 1ère ligne de cet articleId
 function getStatsFromRows(rows, articleId) {
   const articleRows = rows.filter((r, i) => i > 0 && r[0] === articleId);
   if (articleRows.length === 0) return { likes: 0, shares: 0, reviewsCount: 0 };
 
-  // likes et shares sont stockés sur la 1ère ligne de cet article
   const likes  = parseInt(articleRows[0][7] || '0');
   const shares = parseInt(articleRows[0][8] || '0');
-  const reviewsCount = articleRows.filter(r => r[1]).length; // lignes avec firstName = reviews réelles
+  const reviewsCount = articleRows.filter(r => r[1]).length;
 
   return { likes, shares, reviewsCount };
 }
 
-// Met à jour likes/shares sur toutes les lignes de cet article
 async function updateStatsOnAllRows(sheets, rows, articleId, likes, shares) {
   const updates = [];
   rows.forEach((r, i) => {
     if (i > 0 && r[0] === articleId) {
       updates.push(
         sheets.spreadsheets.values.update({
-          spreadsheetId: process.env.REVIEWS_ARTICLE_SHEET_ID,
+          spreadsheetId: process.env.SHEET_ID_BBW4LIFE_REVIEWS_ARTICLE,
           range: `${SHEET_NAME}!H${i + 1}:I${i + 1}`,
           valueInputOption: 'RAW',
           resource: { values: [[likes, shares]] }
@@ -87,10 +81,9 @@ async function updateStatsOnAllRows(sheets, rows, articleId, likes, shares) {
   if (updates.length > 0) await Promise.all(updates);
 }
 
-// Ajoute une ligne de stats vide pour un nouvel article (sans review)
 async function appendStatsRow(sheets, articleId) {
   await sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.REVIEWS_ARTICLE_SHEET_ID,
+    spreadsheetId: process.env.SHEET_ID_BBW4LIFE_REVIEWS_ARTICLE,
     range: `${SHEET_NAME}!A:I`,
     valueInputOption: 'RAW',
     insertDataOption: 'INSERT_ROWS',
@@ -158,11 +151,10 @@ exports.handler = async (event) => {
       let rows  = await getAllRows(sheets);
       const stats = getStatsFromRows(rows, articleId);
 
-      // Si aucune ligne pour cet article, créer une ligne de stats vide
       const articleExists = rows.some((r, i) => i > 0 && r[0] === articleId);
       if (!articleExists) {
         await appendStatsRow(sheets, articleId);
-        rows = await getAllRows(sheets); // recharger
+        rows = await getAllRows(sheets);
       }
 
       // ── like ─────────────────────────────────────────────────
@@ -200,9 +192,8 @@ exports.handler = async (event) => {
           year: 'numeric', month: 'short', day: 'numeric'
         });
 
-        // Ajouter la nouvelle review comme une ligne complète
         await sheets.spreadsheets.values.append({
-          spreadsheetId: process.env.REVIEWS_ARTICLE_SHEET_ID,
+          spreadsheetId: process.env.SHEET_ID_BBW4LIFE_REVIEWS_ARTICLE,
           range: `${SHEET_NAME}!A:I`,
           valueInputOption: 'RAW',
           insertDataOption: 'INSERT_ROWS',
@@ -215,8 +206,8 @@ exports.handler = async (event) => {
               parseInt(rating) || 5,
               text.trim(),
               date,
-              stats.likes,   // reprendre les likes actuels
-              stats.shares   // reprendre les shares actuels
+              stats.likes,
+              stats.shares
             ]]
           }
         });

@@ -25,14 +25,13 @@ exports.handler = async (event) => {
         });
 
         const sheets = google.sheets({ version: "v4", auth });
-        const spreadsheetId = process.env.GOOGLE_SHEET_ID_MESSAGES;
+        const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_CONTACT_MESSAGES;
 
         function formatDate() {
             const d = new Date();
             return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear().toString().slice(-2)}`;
         }
 
-        // ✅ CORRECTION ICI : values est déjà [[...]], on ne met PAS [values]
         const values = [[
             normalize(firstName),
             normalize(lastName),
@@ -44,10 +43,10 @@ exports.handler = async (event) => {
 
         await sheets.spreadsheets.values.append({
             spreadsheetId,
-            range: "ContactMessages!A:F",
+            range: "bbw4life-contact-messages!A:F",
             valueInputOption: "RAW",
             insertDataOption: "INSERT_ROWS",
-            resource: { values }   // ← CORRIGÉ (plus de [values])
+            resource: { values }
         });
 
         return { statusCode: 200, body: JSON.stringify({ success: true }) };

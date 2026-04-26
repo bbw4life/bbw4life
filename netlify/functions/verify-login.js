@@ -16,7 +16,7 @@ exports.handler = async (event) => {
       str ? str.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").trim() : "";
 
     const userEmail = normalize(email).toLowerCase();
-    const userPassword = normalize(password).toLowerCase();   // ← CORRECTION : toLowerCase + trim
+    const userPassword = normalize(password).toLowerCase();
 
     const auth = new google.auth.GoogleAuth({
       credentials: {
@@ -27,30 +27,19 @@ exports.handler = async (event) => {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID_ACCOUNTS;
+    const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_ACCOUNTS;
 
-    const rangesToTry = [
-      "Feuille 1!A:N", "Feuille 1!A1", "Feuille 1", "Feuille 1!A:Z",
-      "CurvaAccount!A:N", "CurvaAccount!A1", "CurvaAccount", "CurvaAccount!A:Z"
-    ];
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: "bbw4life-accounts!A:Z"
+    });
+    const rows = res.data.values || [];
 
-    let rows = null;
-    for (const range of rangesToTry) {
-      try {
-        const res = await sheets.spreadsheets.values.get({ spreadsheetId, range });
-        if (res.data.values && res.data.values.length > 0) {
-          rows = res.data.values;
-          console.log(`✅ LECTURE OK dans : ${range}`);
-          break;
-        }
-      } catch (err) {}
-    }
-
-    if (!rows) throw new Error("Impossible de lire le Google Sheet");
+    if (!rows || rows.length === 0) throw new Error("Impossible de lire le Google Sheet");
 
     const userRow = rows.find((row) => {
-      const sheetEmail = (row[2] || "").toLowerCase();
-      const sheetPassword = (row[4] || "").trim().toLowerCase();   // ← CORRECTION ici aussi
+      const sheetEmail    = (row[2] || "").toLowerCase();
+      const sheetPassword = (row[4] || "").trim().toLowerCase();
       return sheetEmail === userEmail && sheetPassword === userPassword;
     });
 
@@ -63,15 +52,15 @@ exports.handler = async (event) => {
     }
 
     const user = {
-      lastName: userRow[0] || "",
-      firstName: userRow[1] || "",
-      email: userRow[2] || "",
-      phone: userRow[3] || "",
-      addressLine1: userRow[9] || "",
-      line2: userRow[10] || "",
-      city: userRow[11] || "",
-      state: userRow[12] || "",
-      zip: userRow[13] || ""
+      lastName:     userRow[0]  || "",
+      firstName:    userRow[1]  || "",
+      email:        userRow[2]  || "",
+      phone:        userRow[3]  || "",
+      addressLine1: userRow[9]  || "",
+      line2:        userRow[10] || "",
+      city:         userRow[11] || "",
+      state:        userRow[12] || "",
+      zip:          userRow[13] || ""
     };
 
     return { statusCode: 200, body: JSON.stringify({ success: true, user }) };

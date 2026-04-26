@@ -31,7 +31,7 @@ exports.handler = async (event) => {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const spreadsheetId = process.env.PRODUCT_PERSONALIZED_GOOGLE_SHEET_ID;
+    const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PRODUCT_PERSONALIZED;
 
     function formatDate() {
       const d = new Date();
@@ -59,7 +59,7 @@ exports.handler = async (event) => {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: "CustoremersProductPersonalized!A:K",
+      range: "bbw4life-product-personalized!A:K",
       valueInputOption: "RAW",
       insertDataOption: "INSERT_ROWS",
       resource: { values: row }

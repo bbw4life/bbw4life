@@ -1281,6 +1281,18 @@
         ]
       }
     },
+    "footer_new_gems": {
+      "collection_ids": [
+        "bbw-features-products",
+        "main-plus-size",
+        "curvy-beauty"
+      ],
+      "product_ids": [
+        "Pdg-Francenel-product3",
+        "Pdg-Francenel-product4",
+        "Pdg-Francenel-product5"
+      ]
+    },
     "mobile_links_behavior": {
       "hide_completely": "no",
       "show_all_centered": "no",
@@ -1467,37 +1479,37 @@
   "enabled": "yes",
   "default_lang": "en",
   "options": [
-    { "code": "en", "label": "EN", "name": "English",    "flag": "🇺🇸" },
-    { "code": "es", "label": "ES", "name": "Español",    "flag": "🇪🇸" },
-    { "code": "fr", "label": "FR", "name": "Français",   "flag": "🇫🇷" },
-    { "code": "pt", "label": "PT", "name": "Português",  "flag": "🇧🇷" },
-    { "code": "de", "label": "DE", "name": "Deutsch",    "flag": "🇩🇪" },
-    { "code": "zh", "label": "ZH", "name": "中文",        "flag": "🇨🇳" },
-    { "code": "ar", "label": "AR", "name": "العربية",    "flag": "🇸🇦" },
-    { "code": "ja", "label": "JA", "name": "日本語",      "flag": "🇯🇵" },
-    { "code": "it", "label": "IT", "name": "Italiano",   "flag": "🇮🇹" },
-    { "code": "hi", "label": "HI", "name": "हिन्दी",     "flag": "🇮🇳" }
+    { "code": "en", "label": "EN", "name": "English",   "flag": "🇺🇸" },
+    { "code": "es", "label": "ES", "name": "Español",   "flag": "🇪🇸" },
+    { "code": "fr", "label": "FR", "name": "Français",  "flag": "🇫🇷" },
+    { "code": "pt", "label": "PT", "name": "Português", "flag": "🇧🇷" },
+    { "code": "de", "label": "DE", "name": "Deutsch",   "flag": "🇩🇪" },
+    { "code": "it", "label": "IT", "name": "Italiano",  "flag": "🇮🇹" },
+    { "code": "zh", "label": "ZH", "name": "中文",       "flag": "🇨🇳" },
+    { "code": "ja", "label": "JA", "name": "日本語",     "flag": "🇯🇵" },
+    { "code": "ar", "label": "AR", "name": "العربية",   "flag": "🇸🇦" },
+    { "code": "hi", "label": "HI", "name": "हिन्दी",    "flag": "🇮🇳" }
   ]
 },
 "country_selector": {
   "enabled": "yes",
   "default_country": "us",
   "options": [
-    { "code": "us", "label": "USA",        "name": "United States",    "flag": "🇺🇸", "lang": "en" },
-    { "code": "mx", "label": "México",     "name": "México",           "flag": "🇲🇽", "lang": "es" },
-    { "code": "br", "label": "Brasil",     "name": "Brasil",           "flag": "🇧🇷", "lang": "pt" },
-    { "code": "fr", "label": "France",     "name": "France",           "flag": "🇫🇷", "lang": "fr" },
-    { "code": "de", "label": "Germany",    "name": "Germany",          "flag": "🇩🇪", "lang": "de" },
-    { "code": "gb", "label": "UK",         "name": "United Kingdom",   "flag": "🇬🇧", "lang": "en" },
-    { "code": "ca", "label": "Canada",     "name": "Canada",           "flag": "🇨🇦", "lang": "en" },
-    { "code": "in", "label": "India",      "name": "India",            "flag": "🇮🇳", "lang": "hi" },
-    { "code": "au", "label": "Australia",  "name": "Australia",        "flag": "🇦🇺", "lang": "en" },
-    { "code": "do", "label": "Dom. Rep.",  "name": "Dominican Rep.",   "flag": "🇩🇴", "lang": "es" },
-    { "code": "cn", "label": "China",      "name": "China",            "flag": "🇨🇳", "lang": "zh" },
-    { "code": "sa", "label": "KSA",        "name": "Saudi Arabia",     "flag": "🇸🇦", "lang": "ar" },
-    { "code": "jp", "label": "Japan",      "name": "Japan",            "flag": "🇯🇵", "lang": "ja" },
-    { "code": "it", "label": "Italy",      "name": "Italy",            "flag": "🇮🇹", "lang": "it" },
-    { "code": "es", "label": "España",     "name": "España",           "flag": "🇪🇸", "lang": "es" }
+    { "code": "us", "label": "USA",        "name": "United States",    "flag": "🇺🇸", "lang": "en", "currency": "USD $"  },
+    { "code": "do", "label": "Dom. Rep.",  "name": "Dominican Rep.",   "flag": "🇩🇴", "lang": "es", "currency": "USD $"  },
+    { "code": "ca", "label": "Canada",     "name": "Canada",           "flag": "🇨🇦", "lang": "en", "currency": "CAD $"  },
+    { "code": "gb", "label": "UK",         "name": "United Kingdom",   "flag": "🇬🇧", "lang": "en", "currency": "GBP £"  },
+    { "code": "au", "label": "Australia",  "name": "Australia",        "flag": "🇦🇺", "lang": "en", "currency": "AUD $"  },
+    { "code": "fr", "label": "France",     "name": "France",           "flag": "🇫🇷", "lang": "fr", "currency": "EUR €"  },
+    { "code": "de", "label": "Germany",    "name": "Germany",          "flag": "🇩🇪", "lang": "de", "currency": "EUR €"  },
+    { "code": "it", "label": "Italy",      "name": "Italy",            "flag": "🇮🇹", "lang": "it", "currency": "EUR €"  },
+    { "code": "es", "label": "España",     "name": "España",           "flag": "🇪🇸", "lang": "es", "currency": "EUR €"  },
+    { "code": "mx", "label": "México",     "name": "México",           "flag": "🇲🇽", "lang": "es", "currency": "MXN $"  },
+    { "code": "br", "label": "Brasil",     "name": "Brasil",           "flag": "🇧🇷", "lang": "pt", "currency": "BRL R$" },
+    { "code": "in", "label": "India",      "name": "India",            "flag": "🇮🇳", "lang": "hi", "currency": "INR ₹"  },
+    { "code": "cn", "label": "China",      "name": "China",            "flag": "🇨🇳", "lang": "zh", "currency": "CNY ¥"  },
+    { "code": "jp", "label": "Japan",      "name": "Japan",            "flag": "🇯🇵", "lang": "ja", "currency": "JPY ¥"  },
+    { "code": "sa", "label": "KSA",        "name": "Saudi Arabia",     "flag": "🇸🇦", "lang": "ar", "currency": "SAR ﷼"  }
   ]
 }
 }

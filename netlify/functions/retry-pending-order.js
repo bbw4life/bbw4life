@@ -13,9 +13,9 @@ exports.handler = async () => {
       scopes: ["https://www.googleapis.com/auth/spreadsheets"]
     });
     const sheets = google.sheets({ version: "v4", auth });
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 
-    const rangesToTry = ["Feuille 1!A:R", "PendingOrders!A:R", "Sheet1!A:R"];
+    const rangesToTry = ["bbw4life-pending-orders!A:R"];
     let rows = [];
     let activeTab = "";
     for (const range of rangesToTry) {
@@ -61,7 +61,6 @@ exports.handler = async () => {
       const group = groups[paymentId];
       processed++;
 
-      // Extraction shipping + cart (identique à ton ancienne version)
       const firstRow = group[0].row;
       const shipping = {
         fullName: firstRow[3] || "",
@@ -102,7 +101,7 @@ exports.handler = async () => {
           for (const { lineNumber } of group) {
             await sheets.spreadsheets.values.update({
               spreadsheetId,
-              range: `${activeTab}!O${lineNumber}`,
+              range: `bbw4life-pending-orders!O${lineNumber}`,
               valueInputOption: "RAW",
               resource: { values: [["successful"]] }
             });
@@ -117,14 +116,14 @@ exports.handler = async () => {
         for (const { lineNumber } of group) {
           await sheets.spreadsheets.values.update({
             spreadsheetId,
-            range: `${activeTab}!O${lineNumber}`,
+            range: `bbw4life-pending-orders!O${lineNumber}`,
             valueInputOption: "RAW",
             resource: { values: [["failed"]] }
           });
         }
       }
 
-      await new Promise(r => setTimeout(r, 1200)); // petite pause entre commandes
+      await new Promise(r => setTimeout(r, 1200));
     }
 
     console.log(`[RETRY PENDING] ✅ FIN - Traités: ${processed} | Réussis: ${successCount}`);

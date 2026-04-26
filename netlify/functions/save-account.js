@@ -22,14 +22,14 @@ exports.handler = async (event) => {
       scopes: ["https://www.googleapis.com/auth/spreadsheets"]
     });
     const sheets = google.sheets({ version: "v4", auth });
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID_ACCOUNTS;
+    const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_ACCOUNTS;
 
     function formatDate() {
       const d = new Date();
       return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear().toString().slice(-2)}`;
     }
 
-    const res = await sheets.spreadsheets.values.get({ spreadsheetId, range: "Feuille 1!A:Z" });
+    const res = await sheets.spreadsheets.values.get({ spreadsheetId, range: "bbw4life-accounts!A:Z" });
     let rows = res.data.values || [];
     const rowIndex = rows.findIndex(row => normalize(row[2] || "") === normalize(email));
     const rowNum = rowIndex + 1;
@@ -42,9 +42,8 @@ exports.handler = async (event) => {
       const values = [[normalize(lastName), normalize(firstName), normalize(email), normalize(phone), passNormalized, newsletter,
                        0, 0, 0, "", "", "", "", "", 0, memberSince, "[]"]];
       await sheets.spreadsheets.values.append({
-        spreadsheetId, range: "Feuille 1!A:Z", valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", resource: { values }
+        spreadsheetId, range: "bbw4life-accounts!A:Z", valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", resource: { values }
       });
-      // Trigger email de bienvenue (fire-and-forget, ne bloque pas la réponse)
       fetch(`${process.env.URL}/.netlify/functions/send-email-auto`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -60,7 +59,7 @@ exports.handler = async (event) => {
       const { photoBase64 } = body;
       await sheets.spreadsheets.values.update({
         spreadsheetId,
-        range: `Feuille 1!R${rowNum}`,
+        range: `bbw4life-accounts!R${rowNum}`,
         valueInputOption: "RAW",
         resource: { values: [[photoBase64 || ""]] }
       });
@@ -70,7 +69,7 @@ exports.handler = async (event) => {
     // ==================== UPDATE ADDRESS ====================
     if (action === 'update-address') {
       if (rowIndex === -1) throw new Error("Utilisateur non trouvé");
-      await sheets.spreadsheets.values.update({ spreadsheetId, range: `Feuille 1!J${rowNum}:N${rowNum}`, valueInputOption: "RAW",
+      await sheets.spreadsheets.values.update({ spreadsheetId, range: `bbw4life-accounts!J${rowNum}:N${rowNum}`, valueInputOption: "RAW",
         resource: { values: [[line1 || "", line2 || "", city || "", state || "", zip || ""]] }
       });
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
@@ -79,7 +78,7 @@ exports.handler = async (event) => {
     // ==================== UPDATE PASSWORD ====================
     if (action === 'update-password') {
       if (rowIndex === -1) throw new Error("Utilisateur non trouvé");
-      await sheets.spreadsheets.values.update({ spreadsheetId, range: `Feuille 1!E${rowNum}`, valueInputOption: "RAW",
+      await sheets.spreadsheets.values.update({ spreadsheetId, range: `bbw4life-accounts!E${rowNum}`, valueInputOption: "RAW",
         resource: { values: [[normalize(newPassword)]] }
       });
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
@@ -88,7 +87,7 @@ exports.handler = async (event) => {
     // ==================== UPDATE CART QUANTITY ====================
     if (action === 'update-cart-quantity') {
       if (rowIndex === -1) throw new Error("Utilisateur non trouvé");
-      await sheets.spreadsheets.values.update({ spreadsheetId, range: `Feuille 1!O${rowNum}`, valueInputOption: "RAW",
+      await sheets.spreadsheets.values.update({ spreadsheetId, range: `bbw4life-accounts!O${rowNum}`, valueInputOption: "RAW",
         resource: { values: [[currentCartQuantity]] }
       });
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
@@ -109,9 +108,9 @@ exports.handler = async (event) => {
         resource: {
           valueInputOption: "RAW",
           data: [
-            { range: `Feuille 1!G${rowNum}`, values: [[newOrders]] },
-            { range: `Feuille 1!H${rowNum}`, values: [[newSpent]] },
-            { range: `Feuille 1!Q${rowNum}`, values: [[JSON.stringify(history)]] }
+            { range: `bbw4life-accounts!G${rowNum}`, values: [[newOrders]] },
+            { range: `bbw4life-accounts!H${rowNum}`, values: [[newSpent]] },
+            { range: `bbw4life-accounts!Q${rowNum}`, values: [[JSON.stringify(history)]] }
           ]
         }
       });
@@ -140,41 +139,39 @@ exports.handler = async (event) => {
       };
     }
 
-  // ==================== NEWSLETTER SUBSCRIBE ====================
-if (action === 'newsletter-subscribe') {
-    if (!email) throw new Error("Email required");
+    // ==================== NEWSLETTER SUBSCRIBE ====================
+    if (action === 'newsletter-subscribe') {
+      if (!email) throw new Error("Email required");
 
-    const normalizedEmail = normalize(email);
-    const rowIndex = rows.findIndex(row => normalize(row[2] || "") === normalizedEmail);
-    const rowNum = rowIndex + 1;
+      const normalizedEmail = normalize(email);
+      const rowIndex = rows.findIndex(row => normalize(row[2] || "") === normalizedEmail);
+      const rowNum = rowIndex + 1;
 
-    if (rowIndex !== -1) {
-        // Mise à jour seulement Newsletter = Yes (colonne F)
+      if (rowIndex !== -1) {
         await sheets.spreadsheets.values.update({
-            spreadsheetId,
-            range: `Feuille 1!F${rowNum}`,
-            valueInputOption: "RAW",
-            resource: { values: [["Yes"]] }
+          spreadsheetId,
+          range: `bbw4life-accounts!F${rowNum}`,
+          valueInputOption: "RAW",
+          resource: { values: [["Yes"]] }
         });
-    } else {
-        // Nouvel abonné (email bien en colonne C, téléphone vide en D)
+      } else {
         const rowData = [
-            "", "", normalizedEmail, "", "", "Yes",   // A B C D E F
-            0, 0, 0, "", "", "", "", "", 0,           // G à O
-            formatDate(), "[]"                        // P Q
+          "", "", normalizedEmail, "", "", "Yes",
+          0, 0, 0, "", "", "", "", "", 0,
+          formatDate(), "[]"
         ];
 
         await sheets.spreadsheets.values.append({
-            spreadsheetId,
-            range: "Feuille 1!A:Z",
-            valueInputOption: "RAW",
-            insertDataOption: "INSERT_ROWS",
-            resource: { values: [rowData] }   // ← IMPORTANT : tableau 2D
+          spreadsheetId,
+          range: "bbw4life-accounts!A:Z",
+          valueInputOption: "RAW",
+          insertDataOption: "INSERT_ROWS",
+          resource: { values: [rowData] }
         });
-    }
+      }
 
-    return { statusCode: 200, body: JSON.stringify({ success: true }) };
-}
+      return { statusCode: 200, body: JSON.stringify({ success: true }) };
+    }
 
     throw new Error("Action inconnue");
   } catch (error) {
