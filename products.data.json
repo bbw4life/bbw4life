@@ -1355,6 +1355,113 @@
     "Pdg-Francenel-product15",
     "Pdg-Francenel-product16"
   ]
+  },
+  "jrgq_collections": {
+  "collections": [
+    {
+      "id": "curvy-woman",
+      "title": "Curvy Woman",
+      "subtitle": "Style & comfort for every curve",
+      "url": "/curvy-woman.html",
+      "cta_label": "Shop Curvy Woman →",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/jump_2.png?v=1775267440",
+      "product_ids": [
+        "Pdg-Francenel-product1",
+        "Pdg-Francenel-product2",
+        "Pdg-Francenel-product4",
+        "Pdg-Francenel-product7"
+      ],
+      "loss": "−5 kg",
+      "weeks": "5 weeks",
+      "name": "Collection 1",
+      "quote": "Made for your curves, not against them."
+    },
+    {
+      "id": "main-plus-size",
+      "title": "Main Plus Size",
+      "subtitle": "Our biggest plus-size selection",
+      "url": "/main-plus-size.html",
+      "cta_label": "Shop Plus Size →",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/jump_1.jpg?v=1775267428",
+      "product_ids": [
+        "Pdg-Francenel-product2",
+        "Pdg-Francenel-product5",
+        "Pdg-Francenel-product7",
+        "Pdg-Francenel-product8"
+      ],
+      "loss": "−6 kg",
+      "weeks": "6 weeks",
+      "name": "Collection 2",
+      "quote": "Size is just a number. Confidence is everything."
+    },
+    {
+      "id": "curvy-beauty",
+      "title": "Curvy Beauty",
+      "subtitle": "Beauty & wellness for plus-size women",
+      "url": "/curvy-beauty.html",
+      "cta_label": "Discover Beauty →",
+      "image": "https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow4_a9227abc-e102-4a7b-98f6-099ddcb7d64e.webp?v=1771884540",
+      "product_ids": [
+        "Pdg-Francenel-product9",
+        "Pdg-Francenel-product10",
+        "Pdg-Francenel-product11",
+        "Pdg-Francenel-product12"
+      ],
+      "loss": "−8 kg",
+      "weeks": "8 weeks",
+      "name": "Collection 3",
+      "quote": "Glow from the inside out.",
+      "featured": true
+    },
+    {
+      "id": "bbw4life-all-product",
+      "title": "BBW4LIFE — All Products",
+      "subtitle": "The complete BBW4LIFE catalog",
+      "url": "/bbw4life-all-product.html",
+      "cta_label": "Shop All Products →",
+      "image": "https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow_7_34cbe5a0-ea02-44e1-9021-6fc9a0f59e47.webp?v=1771884540",
+      "product_ids": [
+        "Pdg-Francenel-product1",
+        "Pdg-Francenel-product2",
+        "Pdg-Francenel-product3",
+        "Pdg-Francenel-product4",
+        "Pdg-Francenel-product5",
+        "Pdg-Francenel-product6",
+        "Pdg-Francenel-product7",
+        "Pdg-Francenel-product8",
+        "Pdg-Francenel-product9",
+        "Pdg-Francenel-product10",
+        "Pdg-Francenel-product11",
+        "Pdg-Francenel-product12",
+        "Pdg-Francenel-product13",
+        "Pdg-Francenel-product14",
+        "Pdg-Francenel-product15",
+        "Pdg-Francenel-product16"
+      ],
+      "loss": "−3 kg",
+      "weeks": "3 weeks",
+      "name": "Collection 4",
+      "quote": "Everything in one place."
+    },
+    {
+      "id": "bbw-features-products",
+      "title": "BBW Featured",
+      "subtitle": "Our hand-picked featured products",
+      "url": "/bbw-features-products.html",
+      "cta_label": "See Featured →",
+      "image": "https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow_9_fd535894-2578-4b8a-84a2-a7c29f33289a.webp?v=1771884540",
+      "product_ids": [
+        "Pdg-Francenel-product1",
+        "Pdg-Francenel-product3",
+        "Pdg-Francenel-product6",
+        "Pdg-Francenel-product16"
+      ],
+      "loss": "−5 kg",
+      "weeks": "5 weeks",
+      "name": "Collection 5",
+      "quote": "Our editors' absolute favourites."
+    }
+  ]
 }
- }
+}
 ]

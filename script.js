@@ -2390,6 +2390,83 @@ window.__setWishlist = (w) => { wishlist = w; };
 initAnnouncementBar();
 
 
+
+// ══════════════════════════════════════════
+//  JRGQ COLLECTIONS — inject from settings
+// ══════════════════════════════════════════
+(function initJrgqCollections() {
+  const mosaic = document.getElementById('jrgq-gallery-mosaic');
+  if (!mosaic) return;
+
+  const settings = products.find(p => p.type === 'settings') || {};
+  const jrgqCfg  = settings.jrgq_collections || {};
+  const cols     = jrgqCfg.collections || [];
+
+  if (!cols.length) return;
+
+  mosaic.innerHTML = '';
+
+  cols.forEach(function(col, idx) {
+    // Classe de positionnement identique à l'original
+    var posClass = 'jrgq-gal-item--' + (idx + 1);
+    var featClass = col.featured ? ' jrgq-gal-item--featured' : '';
+
+    var featuredBadge = col.featured
+      ? '<div class="jrgq-gal-featured-badge"><i class="fas fa-trophy"></i> Best Result</div>'
+      : '';
+
+    var item = document.createElement('div');
+    item.className = 'jrgq-gal-item ' + posClass + featClass;
+    item.dataset.index = idx;
+
+    // L'image est cliquable — redirige vers la page collection
+    item.innerHTML =
+      '<a href="' + col.url + '" class="jrgq-gal-img-link" aria-label="Voir la collection ' + col.title + '">' +
+        '<div class="jrgq-gal-img-wrap">' +
+          '<img src="' + (col.image || '') + '" alt="Collection ' + col.title + '" loading="lazy" class="jrgq-gal-img">' +
+          '<div class="jrgq-gal-gradient"></div>' +
+          '<div class="jrgq-gal-shimmer"></div>' +
+          featuredBadge +
+        '</div>' +
+      '</a>' +
+      '<div class="jrgq-gal-info' + (col.featured ? ' jrgq-gal-info--featured' : '') + '">' +
+        '<span class="jrgq-gal-loss">' + (col.loss || '') + '</span>' +
+        '<span class="jrgq-gal-time">' + (col.weeks || '') + '</span>' +
+        '<span class="jrgq-gal-name">' + col.title + '</span>' +
+        '<div class="jrgq-gal-stars">★★★★★</div>' +
+        '<p class="jrgq-gal-quote">"' + (col.quote || col.subtitle || '') + '"</p>' +
+        '<a href="' + col.url + '" class="jrgq-gal-cta-btn">' + (col.cta_label || 'View Collection →') + '</a>' +
+      '</div>' +
+      '<div class="jrgq-gal-badge">Verified</div>';
+
+    mosaic.appendChild(item);
+  });
+
+  // ── Réactive l'IntersectionObserver sur les nouvelles cartes ──
+  if ('IntersectionObserver' in window) {
+    var galItems = mosaic.querySelectorAll('.jrgq-gal-item');
+    var galObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0) scale(1)';
+          galObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    galItems.forEach(function(item, i) {
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(30px) scale(0.95)';
+      item.style.transition =
+        'opacity 0.65s ease ' + (i * 0.08) + 's, ' +
+        'transform 0.65s cubic-bezier(0.34,1.2,0.64,1) ' + (i * 0.08) + 's';
+      galObs.observe(item);
+    });
+  }
+
+})();
+
 // ── PLANS AVAILABLE — block program CTAs when setting = no ──
 (function applyPlansAvailableSetting() {
     const settings     = products.find(p => p.type === 'settings') || {};
@@ -8192,130 +8269,137 @@ document.addEventListener('DOMContentLoaded', function () {
 (function () {
   'use strict';
 
-  function jrgqInit() {
-    const section = document.getElementById('jrgq-section');
+  function bssInit() {
+    const section = document.getElementById('bbw-stories-section');
     if (!section) return;
 
     /* ════════════════════════════════
-       1. PARTICLES
+       1. SOUND TOGGLE
     ════════════════════════════════ */
-    const particlesContainer = document.getElementById('jrgq-particles');
-    if (particlesContainer) {
-      const colors = [
-        'rgba(192,56,94,0.7)',
-        'rgba(201,150,62,0.6)',
-        'rgba(123,63,110,0.6)',
-        'rgba(232,96,126,0.5)',
-        'rgba(240,192,96,0.5)',
-      ];
-      for (let i = 0; i < 30; i++) {
-        const p = document.createElement('div');
-        p.className = 'jrgq-ptcl';
-        const size  = Math.random() * 4 + 2;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const left  = Math.random() * 100;
-        const delay = Math.random() * 12;
-        const dur   = Math.random() * 8 + 6;
-        const px    = (Math.random() - 0.5) * 80;
-        p.style.cssText = [
-          `width:${size}px`,
-          `height:${size}px`,
-          `background:${color}`,
-          `left:${left}%`,
-          `bottom:${Math.random() * 20}%`,
-          `animation-duration:${dur}s`,
-          `animation-delay:${delay}s`,
-          `--px:${px}px`,
-          `border-radius:50%`,
-        ].join(';');
-        particlesContainer.appendChild(p);
-      }
-    }
+    section.querySelectorAll('.bss-sound-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const inner       = btn.closest('.bss-video-inner');
+        const video       = inner ? inner.querySelector('.bss-video') : null;
+        if (!video) return;
+
+        const isMuted     = btn.getAttribute('data-muted') === 'true';
+        video.muted       = !isMuted;
+        btn.setAttribute('data-muted', String(!isMuted));
+
+        const iconMuted   = btn.querySelector('.bss-icon-muted');
+        const iconUnmuted = btn.querySelector('.bss-icon-unmuted');
+        if (iconMuted)   iconMuted.style.display   = isMuted ? 'none'  : 'block';
+        if (iconUnmuted) iconUnmuted.style.display = isMuted ? 'block' : 'none';
+
+        /* S'assurer que la vidéo joue quand on active le son */
+        if (!isMuted && video.paused) video.play();
+      });
+    });
 
     /* ════════════════════════════════
-       2. GALLERY — Intersection Observer
+       2. VIDEO SLIDER NAVIGATION
     ════════════════════════════════ */
-    const galItems = document.querySelectorAll('.jrgq-gal-item');
-    if ('IntersectionObserver' in window && galItems.length) {
-      const galObs = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) {
-            e.target.style.opacity = '1';
-            e.target.style.transform = 'translateY(0) scale(1)';
-            galObs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.12 });
+    const videosTrack = document.getElementById('bssVideosTrack');
+    const navPrev     = document.getElementById('bssNavPrev');
+    const navNext     = document.getElementById('bssNavNext');
+    const dotsWrap    = document.getElementById('bssDots');
 
-      galItems.forEach(function (item, idx) {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(30px) scale(0.95)';
-        item.style.transition =
-          'opacity 0.65s ease ' + (idx * 0.08) + 's, ' +
-          'transform 0.65s cubic-bezier(0.34,1.2,0.64,1) ' + (idx * 0.08) + 's';
-        galObs.observe(item);
+    if (!videosTrack || !navPrev || !navNext) return;
+
+    const items     = videosTrack.querySelectorAll('.bss-video-item');
+    const itemCount = items.length;
+    let   current   = 0;
+
+    /* ── Créer les dots ── */
+    if (dotsWrap && itemCount > 0) {
+      dotsWrap.innerHTML = '';
+      items.forEach(function (_, i) {
+        const dot = document.createElement('button');
+        dot.className = 'bss-dot' + (i === 0 ? ' bss-dot--active' : '');
+        dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+        dot.addEventListener('click', function () { goTo(i); });
+        dotsWrap.appendChild(dot);
       });
     }
 
-    /* ════════════════════════════════
-       3. GALLERY STATS STRIP — count-up
-    ════════════════════════════════ */
-    function animateNum(el, target, suffix, duration) {
-      let start = 0;
-      const step = target / (duration / 16);
-      const timer = setInterval(function () {
-        start = Math.min(start + step, target);
-        el.textContent = Math.floor(start).toLocaleString() + (suffix || '');
-        if (start >= target) clearInterval(timer);
-      }, 16);
+    function updateDots(idx) {
+      if (!dotsWrap) return;
+      dotsWrap.querySelectorAll('.bss-dot').forEach(function (d, i) {
+        d.classList.toggle('bss-dot--active', i === idx);
+      });
     }
 
-    const statsStrip = document.querySelector('.jrgq-gallery-stats-strip');
-    if ('IntersectionObserver' in window && statsStrip) {
-      const stripObs = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) {
-          const nums    = statsStrip.querySelectorAll('.jrgq-gstat-num');
-          const targets = [12400, 4.7, 4.2, 30];
-          const suffixes = ['+', ' / 5', ' kg', ' days'];
-          nums.forEach(function (el, i) {
-            if (i === 1) {
-              let v = 0;
-              const s = targets[i] / 60;
-              const t = setInterval(function () {
-                v = Math.min(v + s, targets[i]);
-                el.textContent = v.toFixed(1) + suffixes[i];
-                if (v >= targets[i]) { el.textContent = targets[i] + suffixes[i]; clearInterval(t); }
-              }, 18);
-            } else if (i === 2) {
-              let v = 0;
-              const s = targets[i] / 60;
-              const t = setInterval(function () {
-                v = Math.min(v + s, targets[i]);
-                el.textContent = '−' + v.toFixed(1) + suffixes[i];
-                if (v >= targets[i]) { el.textContent = '−' + targets[i] + suffixes[i]; clearInterval(t); }
-              }, 18);
-            } else {
-              animateNum(el, targets[i], suffixes[i], 1400);
-            }
-          });
-          stripObs.disconnect();
+    function getItemWidth() {
+      if (!items[0]) return 0;
+      const gap = parseInt(getComputedStyle(videosTrack).gap) || 0;
+      return items[0].offsetWidth + gap;
+    }
+
+    function goTo(idx) {
+      current = Math.max(0, Math.min(idx, itemCount - 1));
+      videosTrack.scrollTo({ left: current * getItemWidth(), behavior: 'smooth' });
+      updateDots(current);
+    }
+
+    navPrev.addEventListener('click', function () { goTo(current - 1); });
+    navNext.addEventListener('click', function () { goTo(current + 1); });
+
+    /* ── Sync dots sur scroll manuel ── */
+    let scrollTimer = null;
+    videosTrack.addEventListener('scroll', function () {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function () {
+        const w   = getItemWidth();
+        if (!w) return;
+        const idx = Math.round(videosTrack.scrollLeft / w);
+        if (idx !== current) {
+          current = idx;
+          updateDots(current);
         }
-      }, { threshold: 0.3 });
-      stripObs.observe(statsStrip);
+      }, 80);
+    }, { passive: true });
+
+    /* ── Swipe tactile ── */
+    let touchStartX = 0;
+    videosTrack.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    videosTrack.addEventListener('touchend', function (e) {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? goTo(current + 1) : goTo(current - 1);
+      }
+    }, { passive: true });
+
+    /* ════════════════════════════════
+       3. STORIES TRACK — auto scroll
+    ════════════════════════════════ */
+    const storiesTrack = document.getElementById('bssStoriesTrack');
+    if (storiesTrack) {
+      let storyIndex = 0;
+      const stories  = storiesTrack.querySelectorAll('.bss-story');
+
+      setInterval(function () {
+        if (stories.length === 0) return;
+        storyIndex = (storyIndex + 1) % stories.length;
+        const story = stories[storyIndex];
+        storiesTrack.scrollTo({
+          left: story.offsetLeft - storiesTrack.offsetWidth / 2 + story.offsetWidth / 2,
+          behavior: 'smooth'
+        });
+      }, 3000);
     }
   }
 
+  /* ── Lancer après le DOM ── */
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', jrgqInit);
+    document.addEventListener('DOMContentLoaded', bssInit);
   } else {
-    jrgqInit();
+    bssInit();
   }
 
 })();
-
-
-
-
 
 
 

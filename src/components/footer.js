@@ -1,8 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
    BBW4LIFE — FOOTER.JS
-   Reads window.__allProducts (products.data.json) settings entry
-   and populates all footer sections.
-   mobile_links_behavior: "two_columns_mobile" (default)
 ═══════════════════════════════════════════════════════════════ */
 
 (function () {

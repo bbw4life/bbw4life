@@ -32,7 +32,7 @@ body {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 1050;
+  z-index: 900;
   background: linear-gradient(110deg, #fffbf9 0%, #fff0f4 50%, #fffbf9 100%);
   background-size: 200% 100%;
   animation: bc-fadein 0.4s ease both, bcBgShift 6s ease infinite;
@@ -6482,6 +6482,40 @@ main#main-content {
   50%      { transform: translateX(-50%) translateY(-5px); }
 }
 
+
+.jrgq-gal-cta-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 7px 16px;
+  background: linear-gradient(135deg, #c0385e, #7b3f6e);
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.jrgq-gal-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(192, 56, 94, 0.45);
+  opacity: 0.92;
+}
+
+.jrgq-gal-cta-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.jrgq-gal-item--featured .jrgq-gal-cta-btn {
+  padding: 9px 20px;
+  font-size: 13px;
+  background: linear-gradient(135deg, #e8607e, #c0385e);
+  box-shadow: 0 4px 14px rgba(192, 56, 94, 0.35);
+}
+
 /* ═══════════════════════════════
    RESPONSIVE
 ═══════════════════════════════ */
@@ -6498,7 +6532,7 @@ main#main-content {
 }
 
 @media (max-width: 640px) {
-  .jrgq-gallery-block { padding: 40px 16px 28px; }
+  .jrgq-gallery-block { padding: 20px 10px 8px; }
 
   .jrgq-gallery-mosaic {
     grid-template-columns: 1fr 1fr;
@@ -6512,12 +6546,22 @@ main#main-content {
   .jrgq-gal-item--5 { grid-column: 2; grid-row: 3; }
 
   .jrgq-gallery-stats-strip {
-    flex-direction: column;
-    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     border-radius: 14px;
   }
-  .jrgq-gstat { border-right: none; border-bottom: 1px solid rgba(192,56,94,0.08); width: 100%; }
-  .jrgq-gstat:last-child { border-bottom: none; }
+  .jrgq-gstat {
+    border-right: none;
+    border-bottom: 1px solid rgba(192,56,94,0.08);
+    width: 100%;
+  }
+  .jrgq-gstat:nth-child(odd) {
+    border-right: 1px solid rgba(192,56,94,0.08);
+  }
+  .jrgq-gstat:last-child {
+    border-bottom: none;
+  }
+  .jrgq-gstat-sep { display: none; }
 }
 
 
