@@ -173,7 +173,8 @@
     applyBottom(s);
     initMobileBehavior(s);
     initWhatsApp(s);
-    initNewInSlider(s);    // APRÈS applyCol5 — slides existent maintenant
+    initNewInSlider(s);
+    applyFooterSelectors(s);    // APRÈS applyCol5 — slides existent maintenant
 }
 
   /* ──────────────────────────────────────────────────────────────
@@ -365,7 +366,7 @@
       tiktok:    { id: 'bbwSocTiktok',    urlKey: 'tiktok'    }
     };
 
-    const socialLinks = s.social_links || s;
+    const socialLinks = s.social_links || {};
     Object.entries(socialMap).forEach(([key, cfg]) => {
       const a = $(cfg.id);
       if (!a) return;
@@ -466,9 +467,12 @@
      7. BOTTOM BAR
   ────────────────────────────────────────────────────────────── */
   function applyBottom(s) {
-    const copy = $('bbwCopyright');
-    if (copy) copy.textContent = `© ${s.copyright_year || new Date().getFullYear()}, bbw4life All Rights Reserved`;
-  }
+  const copy = $('bbwCopyright');
+  if (!copy) return;
+  const year  = s.copyright_year || new Date().getFullYear();
+  const brand = s.brand_name     || 'bbw4life';
+  copy.innerHTML = `© ${year}, <a href="/index.html" class="bbw-footer__brand-link">${brand}</a> All Rights Reserved`;
+}
 
   /* ──────────────────────────────────────────────────────────────
      8. MOBILE BEHAVIOR
@@ -656,6 +660,43 @@
   } else {
     bootstrap();
   }
+
+
+  /* ──────────────────────────────────────────────────────────────
+   11. COUNTRY + LANG SELECTORS — bottom bar du footer
+────────────────────────────────────────────────────────────── */
+function applyFooterSelectors(s) {
+  const countryCfg     = s.country_selector  || {};
+  const langCfg        = s.language_selector || {};
+  const countryOptions = countryCfg.options  || [];
+  const langOptions    = langCfg.options     || [];
+  const defaultCountry = countryCfg.default_country || 'us';
+  const defaultLang    = langCfg.default_lang        || 'en';
+
+  const countryEl = document.getElementById('bbwFooterCountrySelect');
+  if (countryEl && countryOptions.length) {
+    countryEl.innerHTML = '';
+    countryOptions.forEach(opt => {
+      const o      = document.createElement('option');
+      o.value      = opt.code;
+      o.textContent = opt.flag + ' ' + opt.name;
+      if (opt.code === defaultCountry) o.selected = true;
+      countryEl.appendChild(o);
+    });
+  }
+
+  const langEl = document.getElementById('bbwFooterLangSelect');
+  if (langEl && langOptions.length) {
+    langEl.innerHTML = '';
+    langOptions.forEach(opt => {
+      const o      = document.createElement('option');
+      o.value      = opt.code;
+      o.textContent = opt.flag + ' ' + opt.name;
+      if (opt.code === defaultLang) o.selected = true;
+      langEl.appendChild(o);
+    });
+  }
+}
 
   /* Expose public API for badge updates, etc. */
   window.bbwFooterInit = init;
