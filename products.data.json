@@ -1064,7 +1064,15 @@
       "signup_switch_link": "Login",
       "signup_newsletter_label": "I want to subscribe to the newsletter",
       "signup_remember_label": "Remember me",
-      "tooltip_text": "Earn 20% if you login/signup"
+      "tooltip_text": "Earn 20% if you login/signup",
+      "forgot_title": "Reset Password",
+      "forgot_email_placeholder": "Enter your account email",
+      "forgot_new_password_placeholder": "New password",
+      "forgot_confirm_password_placeholder": "Confirm new password",
+      "forgot_btn": "Reset My Password",
+      "forgot_success": "Password updated! You can now log in.",
+      "forgot_error_not_found": "No account found with this email address.",
+      "forgot_link": "Forgot Password?"
     },
     "audio_player": {
       "src": "https://cdn.shopify.com/s/files/1/0643/8263/2041/files/audio_glowing_1.mp3?v=1771468630",

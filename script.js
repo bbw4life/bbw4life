@@ -913,6 +913,15 @@ function applyPromoFreeItems() {
             set('paul-newsletter-label', ap.signup_newsletter_label);
             set('paul-remember-label',   ap.signup_remember_label);
             set('paul-tooltip-text',     ap.tooltip_text);
+            set('paul-forgot-title',     ap.forgot_title     || 'Reset Password');
+            set('paul-forgot-btn',       ap.forgot_btn       || 'Reset My Password');
+            set('goToForgot',            ap.forgot_link      || 'Forgot Password?');
+            const fpEmail   = document.getElementById('forgot-email');
+            const fpNew     = document.getElementById('forgot-new-password');
+            const fpConfirm = document.getElementById('forgot-confirm-password');
+            if (fpEmail)   fpEmail.placeholder   = ap.forgot_email_placeholder   || 'Enter your account email';
+            if (fpNew)     fpNew.placeholder     = ap.forgot_new_password_placeholder || 'New password';
+            if (fpConfirm) fpConfirm.placeholder = ap.forgot_confirm_password_placeholder || 'Confirm new password';
         })();
           // ── Chat widget inject ──
           (function() {
@@ -5476,6 +5485,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const signupForm = document.getElementById('signupForm');
   const goToSignup = document.getElementById('goToSignup');
   const goToLogin  = document.getElementById('goToLogin');
+  const goToForgot        = document.getElementById('goToForgot');
+  const goToLoginFromForgot = document.getElementById('goToLoginFromForgot');
+  const forgotForm        = document.getElementById('forgotForm');
+  const paulForgotBtn     = document.getElementById('paul-forgot-btn');
   const pathname = window.location.pathname.toLowerCase();
   const isAccountPage = /account/i.test(pathname);
 
@@ -5517,6 +5530,20 @@ document.addEventListener('DOMContentLoaded', () => {
   if (paulPopupOverlay) paulPopupOverlay.addEventListener('click', (e) => { if (e.target === paulPopupOverlay && !isAccountPage) closePaulPopup(); });
   if (goToSignup) goToSignup.addEventListener('click', () => { loginForm.style.display = 'none'; signupForm.style.display = 'block'; });
   if (goToLogin)  goToLogin.addEventListener('click',  () => { signupForm.style.display = 'none'; loginForm.style.display = 'block'; });
+  if (goToForgot) goToForgot.addEventListener('click', () => {
+    loginForm.style.display  = 'none';
+    signupForm.style.display = 'none';
+    if (forgotForm) forgotForm.style.display = 'block';
+    const errEl = document.getElementById('forgot-error-msg');
+    const sucEl = document.getElementById('forgot-success-msg');
+    if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+    if (sucEl) { sucEl.textContent = ''; sucEl.style.display = 'none'; }
+  });
+
+  if (goToLoginFromForgot) goToLoginFromForgot.addEventListener('click', () => {
+    if (forgotForm) forgotForm.style.display = 'none';
+    loginForm.style.display = 'block';
+  });
 
   document.querySelectorAll('.password-toggle').forEach(toggle => {
     toggle.addEventListener('click', function() {
@@ -5547,6 +5574,86 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.success) { registerBtn.textContent = "Your profil is ready..."; window.showToast("Account created successfully!"); setTimeout(() => goToLogin.click(), 800); }
         else { registerBtn.textContent = originalText; registerBtn.disabled = false; window.showToast("Error: " + (data.error || "Unknown")); }
       } catch (err) { registerBtn.textContent = originalText; registerBtn.disabled = false; window.showToast("Network error"); }
+    });
+  }
+
+
+  // ── FORGOT PASSWORD LOGIC ──
+  if (paulForgotBtn) {
+    paulForgotBtn.addEventListener('click', async () => {
+      const errEl    = document.getElementById('forgot-error-msg');
+      const sucEl    = document.getElementById('forgot-success-msg');
+      const emailVal = (document.getElementById('forgot-email')?.value || '').trim();
+      const newPass  = (document.getElementById('forgot-new-password')?.value || '').trim();
+      const confPass = (document.getElementById('forgot-confirm-password')?.value || '').trim();
+
+      // Reset messages
+      if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+      if (sucEl) { sucEl.textContent = ''; sucEl.style.display = 'none'; }
+
+      // Validation
+      if (!emailVal || !newPass || !confPass) {
+        if (errEl) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; }
+        return;
+      }
+      if (!emailVal.includes('@') || !emailVal.includes('.')) {
+        if (errEl) { errEl.textContent = 'Please enter a valid email address.'; errEl.style.display = 'block'; }
+        return;
+      }
+      if (newPass !== confPass) {
+        if (errEl) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; }
+        return;
+      }
+      if (newPass.length < 6) {
+        if (errEl) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; }
+        return;
+      }
+
+      const origText = paulForgotBtn.textContent;
+      paulForgotBtn.textContent = 'Updating...';
+      paulForgotBtn.disabled = true;
+
+      try {
+        const res  = await fetch('/.netlify/functions/save-account', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'reset-password', email: emailVal, newPassword: newPass })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          // Success message
+          if (sucEl) {
+            const ap2 = (window.__allProducts || []).find(p => p.type === 'settings')?.auth_popup || {};
+            sucEl.textContent = ap2.forgot_success || 'Password updated! You can now log in.';
+            sucEl.style.display = 'block';
+          }
+          // Clear fields
+          ['forgot-email','forgot-new-password','forgot-confirm-password'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+          });
+          // Redirect to login after 2s
+          setTimeout(() => {
+            if (forgotForm)  forgotForm.style.display  = 'none';
+            if (loginForm)   loginForm.style.display   = 'block';
+            if (sucEl) { sucEl.textContent = ''; sucEl.style.display = 'none'; }
+          }, 2000);
+        } else {
+          if (errEl) {
+            const ap2 = (window.__allProducts || []).find(p => p.type === 'settings')?.auth_popup || {};
+            errEl.textContent = data.error === 'EMAIL_NOT_FOUND'
+              ? (ap2.forgot_error_not_found || 'No account found with this email address.')
+              : (data.error || 'An error occurred. Please try again.');
+            errEl.style.display = 'block';
+          }
+        }
+      } catch (err) {
+        if (errEl) { errEl.textContent = 'Network error. Please try again.'; errEl.style.display = 'block'; }
+      } finally {
+        paulForgotBtn.textContent = origText;
+        paulForgotBtn.disabled = false;
+      }
     });
   }
 

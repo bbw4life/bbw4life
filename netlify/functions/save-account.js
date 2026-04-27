@@ -75,6 +75,33 @@ exports.handler = async (event) => {
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
 
+
+    // ==================== RESET PASSWORD (Forgot Password) ====================
+    if (action === 'reset-password') {
+      const { newPassword } = body;
+      if (!email || !newPassword) throw new Error("Email and new password are required");
+
+      const normalizedEmail = normalize(email).toLowerCase();
+      const rowIdx = rows.findIndex(row => normalize(row[2] || "").toLowerCase() === normalizedEmail);
+
+      if (rowIdx === -1) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ success: false, error: 'EMAIL_NOT_FOUND' })
+        };
+      }
+
+      const targetRow = rowIdx + 1;
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `bbw4life-accounts!E${targetRow}`,
+        valueInputOption: "RAW",
+        resource: { values: [[normalize(newPassword).toLowerCase()]] }
+      });
+
+      return { statusCode: 200, body: JSON.stringify({ success: true }) };
+    }
+
     // ==================== UPDATE PASSWORD ====================
     if (action === 'update-password') {
       if (rowIndex === -1) throw new Error("Utilisateur non trouvé");

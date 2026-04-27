@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Netlify Functions for Bbw4life Checkout",
   "private": true,
-  "scripts": {
-    "build": "echo 'No build step required'",
-    "start": "netlify dev"
-  },
+ "scripts": {
+  "build": "echo 'No build step required'",
+  "start": "set NODE_OPTIONS=--no-deprecation && netlify dev"
+},
   "dependencies": {
     "stripe": "^16.0.0",
     "@paypal/checkout-server-sdk": "^1.0.3",
@@ -14,6 +14,6 @@
     "resend": "^4.0.0"
   },
   "engines": {
-  "node": "20"
-}
+    "node": "20"
+  }
 }

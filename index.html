@@ -17,14 +17,12 @@
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/products.css">
   <link rel="stylesheet" href="/animations.css">
-  <link rel="stylesheet" href="src/css/variables.css">
   <link rel="stylesheet" href="src/components/header.css">
   <link rel="stylesheet" href="src/components/footer.css">
-  <link rel="stylesheet" href="src/components/hero-banner.css">
 
   <script src="preloader-inline.js"></script>
 
-  <link rel="icon" href="public/favicon.ico">
+  <link rel="icon" href="/public/bbw4life favicon.png">
 </head>
 
 <body>
@@ -262,22 +260,29 @@
   </div>
 </section>
 
-    <!-- WAVE -->
     <section id="wave-section" data-scroll-reveal>
-        <svg width="0" height="0">
-            <defs>
-                <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color: var(--color1);" />
-                    <stop offset="100%" style="stop-color: var(--color2);" />
-                </linearGradient>
-            </defs>
+    <svg width="0" height="0">
+        <defs>
+            <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#c0385e" />
+                <stop offset="50%"  stop-color="#c9963e" />
+                <stop offset="100%" stop-color="#c0385e" />
+            </linearGradient>
+            <linearGradient id="wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#e8bc6a" />
+                <stop offset="100%" stop-color="#d4506e" />
+            </linearGradient>
+        </defs>
+    </svg>
+    <div class="wave-container">
+        <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
+            <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
         </svg>
-        <div class="wave-container">
-            <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
-            </svg>
-        </div>
-    </section>
+        <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
+            <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
+        </svg>
+    </div>
+</section>
 
     <section id="trust-banner" class="trust-banner-section">
   <div class="trust-banner-wrap">
@@ -1331,6 +1336,9 @@
           <label><input type="checkbox"> <span id="paul-remember-label"></span></label>
           <button type="button" class="paul-btn paul-btn-login" id="paul-login-btn"></button>
           <p class="switch-link"><span id="paul-login-switch"></span> <span id="goToSignup" style="cursor:pointer;"></span></p>
+          <p class="switch-link" style="text-align:right; margin-top:6px;">
+            <span id="goToForgot" style="cursor:pointer;"></span>
+          </p>
           <p class="paul-policy-link"><a href="/policies/privacy.html" target="_blank"><i class="fi fi-rr-shield-check"></i> Privacy Policy</a></p>
         </div>
         <div id="signupForm" class="auth-form" style="display:none;">
@@ -1347,6 +1355,25 @@
           <button type="button" class="paul-btn paul-btn-register" id="paul-signup-btn"></button>
           <p class="switch-link"><span id="paul-signup-switch"></span> <span id="goToLogin" style="cursor:pointer;"></span></p>
           <p class="paul-policy-link"><a href="/policies/privacy.html" target="_blank"><i class="fi fi-rr-shield-check"></i> Privacy Policy</a></p>
+        </div>
+        <!-- FORGOT PASSWORD FORM -->
+        <div id="forgotForm" class="auth-form" style="display:none;">
+          <h3 id="paul-forgot-title"></h3>
+          <input type="email" id="forgot-email" placeholder="" required>
+          <div class="password-input-wrapper" style="position:relative !important;">
+            <input type="password" id="forgot-new-password" placeholder="" required>
+            <span class="password-toggle" data-target="forgot-new-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <div class="password-input-wrapper" style="position:relative !important;">
+            <input type="password" id="forgot-confirm-password" placeholder="" required>
+            <span class="password-toggle" data-target="forgot-confirm-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <p id="forgot-error-msg" style="color:#e74c3c; font-size:0.82rem; display:none; margin:6px 0;"></p>
+          <p id="forgot-success-msg" style="color:#22a06b; font-size:0.82rem; display:none; margin:6px 0;"></p>
+          <button type="button" class="paul-btn paul-btn-login" id="paul-forgot-btn"></button>
+          <p class="switch-link" style="margin-top:10px;">
+            <span id="goToLoginFromForgot" style="cursor:pointer; color:#e8bc6a; font-weight:600; border-bottom:1px solid rgba(232,188,106,0.35);">← Back to Login</span>
+          </p>
         </div>
       </div>
     </div>

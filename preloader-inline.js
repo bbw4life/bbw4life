@@ -76,7 +76,7 @@
       '<div class="cf-pre-particles" id="cf-pre-particles"></div>' +
       '<div class="cf-pre-logo-wrap">' +
         '<div class="cf-pre-logo-ring"></div>' +
-        '<img class="cf-pre-logo" src="/src-images/LogoCurvafit(1).png" alt="CurvaFit" draggable="false">' +
+        '<img class="cf-pre-logo" src="/public/vrlogo bbw4life.png" alt="CurvaFit" draggable="false">' +
       '</div>' +
       '<div class="cf-pre-brand">' +
         '<span class="cf-pre-brand-name">CurvaFit</span>' +
