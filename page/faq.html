@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FAQ — BBW4LIFE. Find answers to all your questions about our movement, style advice, beauty tips, community, and more.">
+  <title>FAQ — BBW4LIFE · Beauty Has No Sizes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css">
+
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/products.css">
+  <link rel="stylesheet" href="/animations.css">
+  <link rel="stylesheet" href="/src/components/header.css">
+  <link rel="stylesheet" href="/src/components/footer.css">
+  <link rel="stylesheet" href="/page/pages.css">
+  <link rel="stylesheet" href="/faq.css">
+
+  <link rel="icon" href="/public/bbw4life favicon.png">
+</head>
+
+<body class="faq-page">
+
+  <!-- HEADER -->
+  <div id="header-container"></div>
+
+  <main id="main-content">
+    <div id="breadcrumb-container"></div>
+
+    <!-- ═══════════════════════════════════
+         SECTION 1 — HERO
+    ═══════════════════════════════════ -->
+    <section class="faq-hero-section">
+      <div class="faq-hero-orb faq-hero-orb--1"></div>
+      <div class="faq-hero-orb faq-hero-orb--2"></div>
+      <div class="faq-hero-orb faq-hero-orb--3"></div>
+
+      <div class="faq-hero-particles" id="faqHeroParticles"></div>
+
+      <div class="faq-hero-lines">
+        <div class="faq-hl faq-hl--1"></div>
+        <div class="faq-hl faq-hl--2"></div>
+        <div class="faq-hl faq-hl--3"></div>
+      </div>
+
+      <div class="faq-hero-inner">
+
+        <div class="faq-hero-badge">
+          <span class="faq-badge-dot"></span>
+          We have answers
+          <span class="faq-badge-dot"></span>
+        </div>
+
+        <h1 class="faq-hero-title">
+          Your Questions,<br>
+          <em>Our Heart.</em>
+        </h1>
+
+        <p class="faq-hero-sub">
+          Everything you need to know about BBW4LIFE — our movement,<br>
+          our community, our services, and more.
+        </p>
+
+        <!-- SEARCH BAR -->
+        <div class="faq-search-wrap">
+          <div class="faq-search-box">
+            <i class="fi fi-rr-search faq-search-icon"></i>
+            <input
+              type="text"
+              id="faqSearchInput"
+              class="faq-search-input"
+              placeholder="Search a question… e.g. "community", "style", "contact""
+              autocomplete="off"
+            >
+            <button class="faq-search-clear" id="faqSearchClear" aria-label="Clear search">
+              <i class="fi fi-rr-cross-small"></i>
+            </button>
+          </div>
+          <p class="faq-search-hint" id="faqSearchHint"></p>
+        </div>
+
+        <!-- STATS -->
+        <div class="faq-hero-stats">
+          <div class="faq-stat">
+            <span class="faq-stat-num">20+</span>
+            <span class="faq-stat-label">Questions answered</span>
+          </div>
+          <span class="faq-stat-sep">✦</span>
+          <div class="faq-stat">
+            <span class="faq-stat-num">6</span>
+            <span class="faq-stat-label">Categories</span>
+          </div>
+          <span class="faq-stat-sep">✦</span>
+          <div class="faq-stat">
+            <span class="faq-stat-num">24h</span>
+            <span class="faq-stat-label">Support response</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="faq-hero-bottom-fade"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         MARQUEE 1
+    ═══════════════════════════════════ -->
+    <div class="faq-marquee-strip faq-marquee-strip--warm">
+      <div class="faq-marquee-inner">
+        <span class="faq-mq-item"><i class="fi fi-rr-heart"></i> Beauty Has No Sizes</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-users"></i> You Are Not Alone</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-star"></i> Every Curve Tells a Story</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-crown"></i> Own Your Beauty</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-heart"></i> Born From Love</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-users"></i> Beauty Has No Sizes</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-star"></i> You Are Not Alone</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-crown"></i> Every Curve Tells a Story</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-heart"></i> Own Your Beauty</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fi fi-rr-crown"></i> Born From Love</span>
+        <span class="faq-mq-sep">✦</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         SECTION 2 — CATEGORIES + ACCORDION
+    ═══════════════════════════════════ -->
+    <section class="faq-main-section">
+      <div class="faq-main-orb faq-main-orb--1"></div>
+      <div class="faq-main-orb faq-main-orb--2"></div>
+
+      <div class="faq-container">
+
+        <!-- CATEGORY TABS -->
+        <div class="faq-tabs-wrap" id="faqTabs">
+          <button class="faq-tab faq-tab--active" data-cat="all">
+            <i class="fi fi-rr-apps"></i>
+            <span>All</span>
+          </button>
+          <button class="faq-tab" data-cat="movement">
+            <i class="fi fi-rr-heart"></i>
+            <span>BBW4LIFE & Movement</span>
+          </button>
+          <button class="faq-tab" data-cat="style">
+            <i class="fi fi-rr-vest"></i>
+            <span>Style & Fashion</span>
+          </button>
+          <button class="faq-tab" data-cat="beauty">
+            <i class="fi fi-rr-sparkles"></i>
+            <span>Beauty & Care</span>
+          </button>
+          <button class="faq-tab" data-cat="community">
+            <i class="fi fi-rr-users"></i>
+            <span>Community</span>
+          </button>
+          <button class="faq-tab" data-cat="orders">
+            <i class="fi fi-rr-shopping-cart"></i>
+            <span>Orders & Payments</span>
+          </button>
+          <button class="faq-tab" data-cat="support">
+            <i class="fi fi-rr-life-ring"></i>
+            <span>Support & Contact</span>
+          </button>
+        </div>
+
+        <!-- NO RESULTS -->
+        <div class="faq-no-results" id="faqNoResults" style="display:none;">
+          <div class="faq-nr-icon"><i class="fi fi-rr-search"></i></div>
+          <p class="faq-nr-title">No question found</p>
+          <p class="faq-nr-sub">Try different keywords, or browse a category above.</p>
+        </div>
+
+        <!-- ACCORDION GROUPS -->
+        <div class="faq-groups" id="faqGroups">
+
+          <!-- ── GROUP 1 : BBW4LIFE & Movement ── -->
+          <div class="faq-group" data-group="movement">
+            <div class="faq-group-header">
+              <div class="faq-group-icon"><i class="fi fi-rr-heart"></i></div>
+              <h2 class="faq-group-title">BBW4LIFE &amp; The Movement</h2>
+              <span class="faq-group-count">5 questions</span>
+            </div>
+
+            <div class="faq-accordion">
+
+              <div class="faq-item" data-cat="movement" data-keywords="bbw4life what is born why created founded mission">
+                <button class="faq-question" aria-expanded="false">
+                  <span>What exactly is BBW4LIFE?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>BBW4LIFE is much more than a brand — it is a <strong>movement born from love</strong>. Founded on June 18, 2025 by PDG Francenel, BBW4LIFE was created after witnessing firsthand how society's unrealistic standards push plus-size women to doubt their own beauty.</p>
+                    <p>Our mission is simple and powerful: <strong>"Beauty Has No Sizes."</strong> We exist to celebrate every curve, support every woman, and build a community where no one is judged — only loved.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="movement" data-keywords="plus size only who can join women">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Is BBW4LIFE only for plus-size women?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>BBW4LIFE was born specifically to celebrate and uplift plus-size women who face daily pressure from society's beauty standards. <strong>Our heart is with them first.</strong></p>
+                    <p>However, our community welcomes every woman who believes that beauty has no size — allies, friends, mothers, and daughters are all part of our family. What matters is the values you carry.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="movement" data-keywords="values mission stand for what believe">
+                <button class="faq-question" aria-expanded="false">
+                  <span>What values does BBW4LIFE stand for?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>We stand on four pillars that guide everything we do:</p>
+                    <ul>
+                      <li><strong>A Safe Space</strong> — No judgment, only love and support.</li>
+                      <li><strong>A Voice</strong> — We speak up against imposed norms and unrealistic standards.</li>
+                      <li><strong>Inspiration</strong> — We encourage every woman to fully accept and celebrate herself.</li>
+                      <li><strong>Community</strong> — A family where every curve tells a story worth sharing.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="movement" data-keywords="free free movement cost to join">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Is joining the BBW4LIFE movement free?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Absolutely. <strong>Following the movement, reading our content, and connecting with our community is entirely free.</strong></p>
+                    <p>We do offer premium products and services — style advice, beauty recommendations, and community membership — for those who want to go deeper. But the spirit of BBW4LIFE will always be free and open to all.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="movement" data-keywords="countries available global international where">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Is BBW4LIFE available worldwide?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Yes! BBW4LIFE is a <strong>global family</strong>, with members across 40+ countries. From France to Martinique, Senegal to Ivory Coast, Morocco to Canada — our community transcends borders.</p>
+                    <p>Beauty has no sizes, and love has no borders. 🌍</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── GROUP 2 : Style & Fashion ── -->
+          <div class="faq-group" data-group="style">
+            <div class="faq-group-header">
+              <div class="faq-group-icon faq-group-icon--style"><i class="fi fi-rr-vest"></i></div>
+              <h2 class="faq-group-title">Style &amp; Fashion Plus Size</h2>
+              <span class="faq-group-count">4 questions</span>
+            </div>
+
+            <div class="faq-accordion">
+
+              <div class="faq-item" data-cat="style" data-keywords="style advice fashion clothes tips dressing morphology body">
+                <button class="faq-question" aria-expanded="false">
+                  <span>What kind of style advice does BBW4LIFE offer?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>We provide <strong>personalized style advice adapted to plus-size morphologies</strong> — not generic fashion tips that ignore our reality.</p>
+                    <p>Our recommendations cover: choosing the right cuts for your body shape, colors that enhance your natural glow, occasion-specific outfits (work, evening, casual), and brands that truly celebrate plus-size silhouettes with quality and dignity.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="style" data-keywords="brands recommend plus size clothing stores">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Do you recommend specific fashion brands?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Yes! Our community regularly shares and reviews brands that offer quality, inclusive, and flattering plus-size collections. We only recommend brands we genuinely believe in — <strong>no paid placements, no compromises.</strong></p>
+                    <p>Our recommendations are updated regularly in the community and on our blog. Join us to access the curated lists.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="style" data-keywords="personal stylist consultation one on one individualized">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Can I get a personalized style consultation?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Yes! Premium members of BBW4LIFE have access to <strong>one-on-one style consultations</strong> with our advisors who specialize in plus-size fashion.</p>
+                    <p>You share your body shape, lifestyle, preferences and budget — and we build a genuine wardrobe strategy around YOU, not around a standard that was never designed for your body.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="style" data-keywords="confidence dressing how to feel beautiful feel good body">
+                <button class="faq-question" aria-expanded="false">
+                  <span>How can fashion help me feel more confident in my body?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Clothing is not about hiding — it is about <strong>expressing who you are</strong>. At BBW4LIFE we believe that when you wear something that was truly designed to celebrate your body, you walk differently, you stand taller, you smile more.</p>
+                    <p>Our style philosophy: wear what makes you feel powerful, not what society says you "should" wear. We'll help you find that feeling, one outfit at a time.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── GROUP 3 : Beauty & Care ── -->
+          <div class="faq-group" data-group="beauty">
+            <div class="faq-group-header">
+              <div class="faq-group-icon faq-group-icon--beauty"><i class="fi fi-rr-sparkles"></i></div>
+              <h2 class="faq-group-title">Beauty &amp; Care</h2>
+              <span class="faq-group-count">4 questions</span>
+            </div>
+
+            <div class="faq-accordion">
+
+              <div class="faq-item" data-cat="beauty" data-keywords="beauty care skincare recommendations what offer">
+                <button class="faq-question" aria-expanded="false">
+                  <span>What beauty recommendations does BBW4LIFE provide?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>We offer curated beauty recommendations specifically for plus-size women, covering skincare, body care, makeup, and wellness. Our advice addresses real concerns like <strong>skin tone diversity, skin folds, chafing, and body positivity in beauty routines.</strong></p>
+                    <p>We believe beauty care is self-love in action. Our recommendations are always gentle, inclusive, and backed by our community's real experiences.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="beauty" data-keywords="skin care routine plus size specific skin body lotion">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Are there specific skincare routines for plus-size women?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Yes. Plus-size women have specific skin care needs that mainstream beauty brands rarely address. <strong>We share routines and product tips</strong> for areas that need extra attention — hydration for larger surface areas, chafing prevention, stretch mark care with love (not shame), and glow-enhancing routines.</p>
+                    <p>Because your skin deserves as much attention and tenderness as any other.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="beauty" data-keywords="makeup tips curvy plus size face">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Do you share makeup tips adapted to plus-size faces?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Absolutely. <strong>Face shape, skin undertone, and individual features</strong> all matter in makeup — and we celebrate every type. Our community shares real tutorials, product reviews, and tips from women who look like you.</p>
+                    <p>No filter, no unrealistic standards. Just real women, real faces, real beauty.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="beauty" data-keywords="mental health wellbeing self love body image confidence emotional">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Does BBW4LIFE address emotional well-being and self-image?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p><strong>Yes — and this is at the very heart of what we do.</strong> True beauty starts from within. BBW4LIFE actively supports emotional well-being through community conversations, shared stories, and resources on self-acceptance.</p>
+                    <p>We know that changing how you see yourself in the mirror is the hardest and most beautiful journey. You don't have to do it alone.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── GROUP 4 : Community ── -->
+          <div class="faq-group" data-group="community">
+            <div class="faq-group-header">
+              <div class="faq-group-icon faq-group-icon--community"><i class="fi fi-rr-users"></i></div>
+              <h2 class="faq-group-title">The Community</h2>
+              <span class="faq-group-count">4 questions</span>
+            </div>
+
+            <div class="faq-accordion">
+
+              <div class="faq-item" data-cat="community" data-keywords="join community how member sign up">
+                <button class="faq-question" aria-expanded="false">
+                  <span>How do I join the BBW4LIFE community?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Joining is simple. <strong>Create your account on our website</strong>, and you instantly become part of the family. You'll get access to community spaces, member stories, style and beauty resources, and our welcoming group of women who truly understand your journey.</p>
+                    <p>Premium membership unlocks exclusive content, one-on-one consultations, and priority support.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="community" data-keywords="share story testimonial how submit experience">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Can I share my personal story with the community?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Yes, and we deeply encourage it. <strong>Your story has power.</strong> It can reach a woman who is hesitating, doubting, or feeling alone — and remind her she is not.</p>
+                    <p>You can submit your story through our dedicated page. You choose what to share, and you can remain anonymous if you prefer. Every published story receives a thank-you gift from us. 💖</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="community" data-keywords="anonymous privacy name private share public">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Can I participate anonymously in the community?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Absolutely. <strong>Your comfort and safety come first.</strong> You can share your story, participate in discussions, and benefit from all community resources without revealing your identity publicly.</p>
+                    <p>For story submissions, simply check the anonymous option and only your result or message will appear — never your full name without your explicit consent.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="community" data-keywords="safe space judgment toxic harassment rules moderation">
+                <button class="faq-question" aria-expanded="false">
+                  <span>How do you ensure the community stays safe and kind?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>BBW4LIFE has a <strong>zero-tolerance policy for judgment, body shaming, and negativity.</strong> Our community is actively moderated by our team who share our values from the inside.</p>
+                    <p>Every member agrees to our community charter when joining. Any behavior that contradicts our spirit of love and respect is addressed immediately. This space was built with intention — and we protect it with the same intention.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── GROUP 5 : Orders & Payments ── -->
+          <div class="faq-group" data-group="orders">
+            <div class="faq-group-header">
+              <div class="faq-group-icon faq-group-icon--orders"><i class="fi fi-rr-shopping-cart"></i></div>
+              <h2 class="faq-group-title">Orders &amp; Payments</h2>
+              <span class="faq-group-count">4 questions</span>
+            </div>
+
+            <div class="faq-accordion">
+
+              <div class="faq-item" data-cat="orders" data-keywords="payment methods accept visa mastercard paypal apple pay">
+                <button class="faq-question" aria-expanded="false">
+                  <span>What payment methods do you accept?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>We accept all major payment methods to make your experience as smooth as possible:</p>
+                    <ul>
+                      <li>Visa, Mastercard, American Express</li>
+                      <li>PayPal</li>
+                      <li>Apple Pay &amp; Google Pay</li>
+                      <li>Stripe secure checkout</li>
+                    </ul>
+                    <p>All transactions are <strong>100% secure and encrypted</strong>. Your financial information is never stored on our servers.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="orders" data-keywords="refund cancel money back guarantee return">
+                <button class="faq-question" aria-expanded="false">
+                  <span>What is your refund and cancellation policy?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>We offer a <strong>30-day money-back guarantee</strong> on all our products and services. If you are not satisfied for any reason, contact our support team and we will process your refund without hassle or judgment.</p>
+                    <p>Subscriptions can be cancelled at any time from your account dashboard. No hidden fees, no complicated procedures. We believe trust is built on transparency.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="orders" data-keywords="promo code discount coupon reduction apply">
+                <button class="faq-question" aria-expanded="false">
+                  <span>How do I apply a promo code or discount?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>At checkout, you'll see a clearly visible <strong>"Promo code"</strong> field. Simply enter your code there and click "Apply" — your discount will be reflected immediately in the order total.</p>
+                    <p>Join our newsletter and follow us on social media to receive exclusive codes reserved for our community members. 💫</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="orders" data-keywords="invoice receipt billing email purchase confirmation">
+                <button class="faq-question" aria-expanded="false">
+                  <span>Will I receive an invoice after my purchase?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Yes. Immediately after your purchase, you will receive a <strong>detailed confirmation email</strong> with your invoice attached. You can also access all your past invoices at any time from your member dashboard under "My Orders."</p>
+                    <p>If you don't receive the email within a few minutes, check your spam folder or contact our support team.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── GROUP 6 : Support & Contact ── -->
+          <div class="faq-group" data-group="support">
+            <div class="faq-group-header">
+              <div class="faq-group-icon faq-group-icon--support"><i class="fi fi-rr-life-ring"></i></div>
+              <h2 class="faq-group-title">Support &amp; Contact</h2>
+              <span class="faq-group-count">4 questions</span>
+            </div>
+
+            <div class="faq-accordion">
+
+              <div class="faq-item" data-cat="support" data-keywords="contact how reach team email chat support">
+                <button class="faq-question" aria-expanded="false">
+                  <span>How can I contact the BBW4LIFE team?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>You can reach us through several channels:</p>
+                    <ul>
+                      <li><strong>Live chat</strong> — Available directly on our website (bottom right corner)</li>
+                      <li><strong>Email</strong> — Via our Contact page form</li>
+                      <li><strong>Social media</strong> — Instagram, Facebook, TikTok</li>
+                    </ul>
+                    <p>We are a real team, with real humans, who genuinely care about your experience. Every message matters to us.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="support" data-keywords="response time how long reply wait hours days">
+                <button class="faq-question" aria-expanded="false">
+                  <span>How long does it take to get a response?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Our team aims to respond to all messages within <strong>24 hours on business days</strong>. For urgent matters, our live chat typically responds in under 2 hours during operating hours.</p>
+                    <p>Weekend messages are handled first thing Monday morning. We never leave a question unanswered — your voice deserves to be heard.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="support" data-keywords="hours open available schedule service">
+                <button class="faq-question" aria-expanded="false">
+                  <span>What are your support hours?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>Our support team is available:</p>
+                    <ul>
+                      <li><strong>Monday – Friday:</strong> 9:00 AM – 7:00 PM (CET)</li>
+                      <li><strong>Saturday:</strong> 10:00 AM – 4:00 PM (CET)</li>
+                      <li><strong>Sunday:</strong> Closed (emails answered Monday morning)</li>
+                    </ul>
+                    <p>Our chatbot is available 24/7 for instant answers to common questions.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="faq-item" data-cat="support" data-keywords="report problem technical issue bug error website">
+                <button class="faq-question" aria-expanded="false">
+                  <span>I have a technical issue on the website. What should I do?</span>
+                  <span class="faq-chevron"><i class="fi fi-rr-angle-small-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>First, try clearing your browser cache and refreshing the page. If the issue persists, <strong>contact our technical support team</strong> via the live chat or email, and include:</p>
+                    <ul>
+                      <li>A description of the problem</li>
+                      <li>The page or section where it occurred</li>
+                      <li>Your device and browser</li>
+                      <li>A screenshot if possible</li>
+                    </ul>
+                    <p>We take every technical issue seriously and work to resolve it as quickly as possible.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- /faq-groups -->
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         MARQUEE 2
+    ═══════════════════════════════════ -->
+    <div class="faq-marquee-strip faq-marquee-strip--rose">
+      <div class="faq-marquee-inner faq-marquee-inner--reverse">
+        <span class="faq-mq-item"><i class="fas fa-heart"></i> More Than a Brand</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-fire"></i> A Movement</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-hands-holding-heart"></i> A Family</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-star"></i> An Identity</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-crown"></i> A Pride</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-heart"></i> More Than a Brand</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-fire"></i> A Movement</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-hands-holding-heart"></i> A Family</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-star"></i> An Identity</span>
+        <span class="faq-mq-sep">✦</span>
+        <span class="faq-mq-item"><i class="fas fa-crown"></i> A Pride</span>
+        <span class="faq-mq-sep">✦</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         SECTION 3 — CTA FINAL
+    ═══════════════════════════════════ -->
+    <section class="faq-cta-section">
+      <div class="faq-cta-orb faq-cta-orb--1"></div>
+      <div class="faq-cta-orb faq-cta-orb--2"></div>
+      <div class="faq-cta-pattern"></div>
+
+      <div class="faq-container">
+        <div class="faq-cta-inner">
+
+          <div class="faq-cta-icon">
+            <i class="fi fi-rr-comment-heart"></i>
+          </div>
+
+          <div class="faq-cta-eyebrow">
+            <span class="faq-eyebrow-dot"></span>
+            Still have questions?
+            <span class="faq-eyebrow-dot"></span>
+          </div>
+
+          <h2 class="faq-cta-title">
+            We Are Here<br>
+            <em>For You.</em>
+          </h2>
+
+          <p class="faq-cta-text">
+            Didn't find the answer you were looking for?<br>
+            Our team is real, warm, and ready to help you personally.
+          </p>
+
+          <div class="faq-cta-buttons">
+            <a href="/contact.html" class="faq-btn-primary">
+              <i class="fi fi-rr-paper-plane"></i>
+              <span>Contact Us</span>
+            </a>
+            <a href="/community.html" class="faq-btn-secondary">
+              <i class="fi fi-rr-users"></i>
+              <span>Join the Community</span>
+            </a>
+          </div>
+
+          <div class="faq-cta-trust">
+            <span><i class="fi fi-rr-shield-check"></i> Real humans, real answers</span>
+            <span><i class="fi fi-rr-clock"></i> Response within 24h</span>
+            <span><i class="fi fi-rr-heart"></i> Always with love</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <div id="newsletter-container"></div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <!-- ════════════════════
+       SCRIPTS GLOBAUX
+  ════════════════════ -->
+  <script src="/script.js"></script>
+  <script src="/geo-detect.js"></script>
+  <script src="/page/pages.js"></script>
+  <script src="/faq.js"></script>
+
+  <!-- Injection header / footer / newsletter / breadcrumb -->
+  <script>
+    fetch('/src/components/header.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('header-container').innerHTML = html;
+        const s = document.createElement('script');
+        s.src = '/src/components/header.js';
+        document.body.appendChild(s);
+      })
+      .catch(err => console.error('Header load error:', err));
+
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').innerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+
+    fetch('/src/components/footer.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+        document.dispatchEvent(new Event('footer:loaded'));
+        const s = document.createElement('script');
+        s.src = '/src/components/footer.js';
+        document.body.appendChild(s);
+      })
+      .catch(err => console.error('Footer load error:', err));
+
+    fetch('/src/components/newsletter.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('newsletter-container').innerHTML = html;
+      })
+      .catch(err => console.error('Newsletter load error:', err));
+  </script>
+
+  <!-- OVERLAY -->
+  <div class="overlay"></div>
+
+  <!-- CART DRAWER -->
+  <div class="cart-drawer">
+    <div class="drawer-header">
+      <h3>Your Cart</h3>
+      <button class="close-drawer">✕</button>
+    </div>
+    <div class="cart-drawer__body">
+      <div class="cart-items"></div>
+      <div class="empty-cart" style="display:none;">
+        <div class="empty-cart__icon">🛒</div>
+        <h3>Your cart is empty</h3>
+        <p>Add products to start shopping.</p>
+        <a href="/collections/bbw4life-all-product.html" class="cta button-3d">Shop Now</a>
+      </div>
+      <div class="reviews-carousel" id="cart-reviews-carousel"></div>
+      <div class="marquee-container cart-marquee">
+        <div class="marquee-content">
+          <span>Free Shipping on Orders Over $50!</span>
+          <span>Secure Checkout Guaranteed!</span>
+          <span>30-Day Money Back Guarantee!</span>
+          <span>Shop Now and Save Big!</span>
+        </div>
+      </div>
+      <div class="payment-icons">
+        <i class="fab fa-cc-visa"></i>
+        <i class="fab fa-cc-mastercard"></i>
+        <i class="fab fa-cc-paypal"></i>
+        <i class="fab fa-cc-amex"></i>
+        <i class="fab fa-cc-discover"></i>
+        <i class="fab fa-cc-apple-pay"></i>
+        <i class="fab fa-google-pay"></i>
+        <i class="fab fa-cc-stripe"></i>
+      </div>
+    </div>
+    <div class="cart-drawer__footer">
+      <p class="subtotal">Subtotal: $0.00</p>
+      <button class="checkout">Checkout</button>
+    </div>
+  </div>
+
+  <!-- WISHLIST MODAL -->
+  <div class="wishlist-modal">
+    <div class="wishlist-modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="wishlist-modal-shimmer"></div>
+      <div class="drawer-header">
+        <div class="wishlist-header-left">
+          <div class="wishlist-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--rose)" stroke="var(--rose)" stroke-width="2">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Your Wishlist</h3>
+            <span class="wishlist-subtitle">Items you love</span>
+          </div>
+        </div>
+        <button class="close-modal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="wishlist-items"></div>
+      <div class="wishlist-footer">
+        <button class="add-all-to-cart">Add All to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT INDICATOR -->
+  <div class="paul-indicator-wrapper">
+    <a href="#" class="paul-indicator" id="paulTrigger">
+      <i class="fi fi-rr-user"></i>
+      <span class="paul-tooltip" id="paul-tooltip-text"></span>
+    </a>
+  </div>
+
+  <!-- ACCOUNT POPUP -->
+  <div class="paul-popup-overlay" id="paulPopup">
+    <div class="paul-popup">
+      <span class="paul-close">×</span>
+      <h2 class="paul-offer-title" id="paul-offer-title"></h2>
+      <p class="paul-offer-subtitle" id="paul-offer-subtitle"></p>
+      <div id="authContainer">
+        <div id="loginForm" class="auth-form">
+          <h3 id="paul-login-title"></h3>
+          <input type="email" placeholder="Email" required>
+          <div class="password-input-wrapper">
+            <input type="password" id="login-password" placeholder="Password" required>
+            <span class="password-toggle" data-target="login-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <label><input type="checkbox"> <span id="paul-remember-label"></span></label>
+          <button type="button" class="paul-btn paul-btn-login" id="paul-login-btn"></button>
+          <p class="switch-link"><span id="paul-login-switch"></span> <span id="goToSignup" style="cursor:pointer;"></span></p>
+          <p class="switch-link" style="text-align:right;margin-top:6px;">
+            <span id="goToForgot" style="cursor:pointer;"></span>
+          </p>
+        </div>
+        <div id="signupForm" class="auth-form" style="display:none;">
+          <h3 id="paul-signup-title"></h3>
+          <input type="text" placeholder="Last Name" required>
+          <input type="text" placeholder="First Name" required>
+          <input type="email" placeholder="Email" required>
+          <input type="tel" placeholder="Phone (optional)">
+          <div class="password-input-wrapper">
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <span class="password-toggle" data-target="signup-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <label><input type="checkbox"> <span id="paul-newsletter-label"></span></label>
+          <button type="button" class="paul-btn paul-btn-register" id="paul-signup-btn"></button>
+          <p class="switch-link"><span id="paul-signup-switch"></span> <span id="goToLogin" style="cursor:pointer;"></span></p>
+        </div>
+        <div id="forgotForm" class="auth-form" style="display:none;">
+          <h3 id="paul-forgot-title"></h3>
+          <input type="email" id="forgot-email" placeholder="" required>
+          <div class="password-input-wrapper">
+            <input type="password" id="forgot-new-password" placeholder="" required>
+            <span class="password-toggle" data-target="forgot-new-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <div class="password-input-wrapper">
+            <input type="password" id="forgot-confirm-password" placeholder="" required>
+            <span class="password-toggle" data-target="forgot-confirm-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <button type="button" class="paul-btn paul-btn-login" id="paul-forgot-btn"></button>
+          <p class="switch-link" style="margin-top:10px;">
+            <span id="goToLoginFromForgot" style="cursor:pointer;color:#e8bc6a;font-weight:600;">← Back to Login</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING NAV -->
+  <div id="floating-nav">
+    <button class="fnav-toggle" id="fnav-toggle"><i class="fi fi-rr-apps"></i></button>
+    <div class="fnav-wheel" id="fnav-wheel">
+      <button class="fnav-btn fnav-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fi fi-rr-angle-up"></i></button>
+      <button class="fnav-btn fnav-right" id="fnav-next"><i class="fi fi-rr-angle-right"></i></button>
+      <button class="fnav-btn fnav-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})"><i class="fi fi-rr-angle-down"></i></button>
+      <button class="fnav-btn fnav-left" onclick="history.back()"><i class="fi fi-rr-angle-left"></i></button>
+      <button class="fnav-btn fnav-refresh" onclick="location.reload()"><i class="fi fi-rr-refresh"></i></button>
+    </div>
+  </div>
+
+  <!-- AI CHATBOT WIDGET -->
+  <button id="cf-chat-toggle" aria-label="Open Curva Support Chat">
+    <div class="cf-toggle-inner">
+      <span class="cf-toggle-icon cf-icon-open">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8.5" cy="10" r="1" fill="white"/>
+          <circle cx="12" cy="10" r="1" fill="white"/>
+          <circle cx="15.5" cy="10" r="1" fill="white"/>
+        </svg>
+      </span>
+      <span class="cf-toggle-icon cf-icon-close" style="display:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </div>
+    <span class="cf-toggle-label">BBW4LIFE Support</span>
+    <span class="cf-notif-dot"></span>
+  </button>
+
+  <!-- SNOW EFFECT -->
+  <div id="snow-container" aria-hidden="true"></div>
+
+</body>
+</html>

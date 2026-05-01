@@ -30,9 +30,9 @@
   <!-- HEADER -->
   <div id="header-container"></div>
 
-  <!-- MAIN CONTENT -->
   <main id="main-content">
     <div id="breadcrumb-container"></div>
+
     <!-- STORY CIRCLES -->
     <section id="story-circles" class="story-circles-section">
       <div class="story-circles-track" id="storyCirclesTrack"></div>
@@ -111,13 +111,13 @@
     </div>
 
     <!-- FEATURED PRODUCT SPOTLIGHT -->
-    <section id="featured-spotlight" class="featured-spotlight-section" data-scroll-reveal>
+    <section id="featured-spotlight" class="featured-spotlight-section reveal" data-scroll-reveal>
       <div class="fs-orb fs-orb--1"></div>
       <div class="fs-orb fs-orb--2"></div>
       <div class="fs-orb fs-orb--3"></div>
       <div class="container">
         <div class="fs-inner">
-          <div class="fs-media">
+          <div class="fs-media reveal-left">
             <div class="fs-badge-float">Best Seller</div>
             <div class="fs-img-frame">
               <div class="fs-img-shine"></div>
@@ -129,7 +129,7 @@
               <img src="" loading="lazy" class="fs-thumb">
             </div>
           </div>
-          <div class="fs-content">
+          <div class="fs-content reveal-right">
             <span class="fs-category"></span>
             <h2 class="fs-title"></h2>
             <div class="fs-rating">
@@ -157,916 +157,478 @@
       </div>
     </section>
 
-<!-- bar-separator -->
+    <!-- bar-separator -->
     <div id="bar-separator-section" class="bar-separator-section">
-  <div class="bar-separator-line"></div>
-</div>
+      <div class="bar-separator-line"></div>
+    </div>
 
     <!-- GALLERY + STATS SECTION -->
-    <section class="jrgq-section" id="jrgq-section">
-  <div class="jrgq-particles" id="jrgq-particles" aria-hidden="true"></div>
-  <div class="jrgq-scanline" aria-hidden="true"></div>
-  <div class="jrgq-grid-overlay" aria-hidden="true"></div>
+    <section class="jrgq-section reveal" id="jrgq-section">
+      <div class="jrgq-particles" id="jrgq-particles" aria-hidden="true"></div>
+      <div class="jrgq-scanline" aria-hidden="true"></div>
+      <div class="jrgq-grid-overlay" aria-hidden="true"></div>
 
-  <div class="jrgq-gallery-block">
-    <div class="jrgq-gallery-header">
-      <div class="jrgq-eyebrow">
-        <span class="jrgq-eyebrow-dot"></span>
-        Real Women · Real Results
-        <span class="jrgq-eyebrow-dot"></span>
-      </div>
-      <h2 class="jrgq-gallery-title">
-        They jumped.<br><em>They transformed.</em>
-      </h2>
-      <p class="jrgq-gallery-sub">
-        No gym. No diet crash. Just 15–20 minutes of jump rope with the Smart Counter — daily.
-      </p>
-    </div>
+      <div class="jrgq-gallery-block">
+        <div class="jrgq-gallery-header reveal">
+          <div class="jrgq-eyebrow">
+            <span class="jrgq-eyebrow-dot"></span>
+            Real Women · Real Results
+            <span class="jrgq-eyebrow-dot"></span>
+          </div>
+          <h2 class="jrgq-gallery-title">
+            They jumped.<br><em>They transformed.</em>
+          </h2>
+          <p class="jrgq-gallery-sub">
+            No gym. No diet crash. Just 15–20 minutes of jump rope with the Smart Counter — daily.
+          </p>
+        </div>
 
-    <!-- La mosaïque sera injectée par le script -->
-    <div class="jrgq-gallery-mosaic" id="jrgq-gallery-mosaic">
-      <!-- Les 5 cartes collection seront injectées ici -->
-    </div>
+        <div class="jrgq-gallery-mosaic" id="jrgq-gallery-mosaic"></div>
 
-    <div class="jrgq-gallery-stats-strip">
-      <div class="jrgq-gstat">
-        <span class="jrgq-gstat-num">12,400+</span>
-        <span class="jrgq-gstat-label">Women transformed</span>
+        <div class="jrgq-gallery-stats-strip reveal">
+          <div class="jrgq-gstat">
+            <span class="jrgq-gstat-num">12,400+</span>
+            <span class="jrgq-gstat-label">Women transformed</span>
+          </div>
+          <div class="jrgq-gstat-sep">✦</div>
+          <div class="jrgq-gstat">
+            <span class="jrgq-gstat-num">4.7 / 5</span>
+            <span class="jrgq-gstat-label">Average rating</span>
+          </div>
+          <div class="jrgq-gstat-sep">✦</div>
+          <div class="jrgq-gstat">
+            <span class="jrgq-gstat-num">−4.2 kg</span>
+            <span class="jrgq-gstat-label">Average loss / month</span>
+          </div>
+          <div class="jrgq-gstat-sep">✦</div>
+          <div class="jrgq-gstat">
+            <span class="jrgq-gstat-num">30 days</span>
+            <span class="jrgq-gstat-label">To see real results</span>
+          </div>
+        </div>
       </div>
-      <div class="jrgq-gstat-sep">✦</div>
-      <div class="jrgq-gstat">
-        <span class="jrgq-gstat-num">4.7 / 5</span>
-        <span class="jrgq-gstat-label">Average rating</span>
-      </div>
-      <div class="jrgq-gstat-sep">✦</div>
-      <div class="jrgq-gstat">
-        <span class="jrgq-gstat-num">−4.2 kg</span>
-        <span class="jrgq-gstat-label">Average loss / month</span>
-      </div>
-      <div class="jrgq-gstat-sep">✦</div>
-      <div class="jrgq-gstat">
-        <span class="jrgq-gstat-num">30 days</span>
-        <span class="jrgq-gstat-label">To see real results</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="jrgq-proof-strip">
-    <div class="jrgq-proof-avatars">
-      <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#e8607e,#c0385e)">K</div>
-      <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#a855f7,#7b3f6e)">S</div>
-      <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#f97316,#c4943a)">M</div>
-      <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#22c55e,#16a34a)">A</div>
-      <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#38bdf8,#0ea5e9)">T</div>
-    </div>
-    <div class="jrgq-proof-text"><strong>3,241 women</strong> completed this quiz this week</div>
-    <div class="jrgq-proof-stars">★★★★★ <span>4.7/5</span></div>
-  </div>
-</section>
+      <div class="jrgq-proof-strip reveal">
+        <div class="jrgq-proof-avatars">
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#e8607e,#c0385e)">K</div>
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#a855f7,#7b3f6e)">S</div>
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#f97316,#c4943a)">M</div>
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#22c55e,#16a34a)">A</div>
+          <div class="jrgq-proof-av" style="background:linear-gradient(135deg,#38bdf8,#0ea5e9)">T</div>
+        </div>
+        <div class="jrgq-proof-text"><strong>3,241 women</strong> completed this quiz this week</div>
+        <div class="jrgq-proof-stars">★★★★★ <span>4.7/5</span></div>
+      </div>
+    </section>
 
     <section id="wave-section" data-scroll-reveal>
-    <svg width="0" height="0">
+      <svg width="0" height="0">
         <defs>
-            <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   stop-color="#c0385e" />
-                <stop offset="50%"  stop-color="#c9963e" />
-                <stop offset="100%" stop-color="#c0385e" />
-            </linearGradient>
-            <linearGradient id="wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   stop-color="#e8bc6a" />
-                <stop offset="100%" stop-color="#d4506e" />
-            </linearGradient>
+          <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#c0385e" />
+            <stop offset="50%"  stop-color="#c9963e" />
+            <stop offset="100%" stop-color="#c0385e" />
+          </linearGradient>
+          <linearGradient id="wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#e8bc6a" />
+            <stop offset="100%" stop-color="#d4506e" />
+          </linearGradient>
         </defs>
-    </svg>
-    <div class="wave-container">
+      </svg>
+      <div class="wave-container">
         <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
+          <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
         </svg>
         <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
+          <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
         </svg>
-    </div>
-</section>
+      </div>
+    </section>
 
     <section id="trust-banner" class="trust-banner-section">
-  <div class="trust-banner-wrap">
-
-    <span class="tbp tbp--1"></span>
-    <span class="tbp tbp--2"></span>
-    <span class="tbp tbp--3"></span>
-    <span class="tbp tbp--4"></span>
-    <span class="tbp tbp--5"></span>
-
-    <div class="trust-banner-photo"
-      style="background-image: url('https://cdn.shopify.com/s/files/1/0978/0353/4627/files/curva_banner_4.png?v=1775498754');">
-    </div>
-
-    <div class="trust-overlay trust-overlay--dark"></div>
-    <div class="trust-overlay trust-overlay--gradient"></div>
-    <div class="trust-overlay trust-overlay--vignette"></div>
-
-    <div class="trust-topline"></div>
-
-    <div class="trust-banner-inner">
-
-      <div class="trust-badge">
-        <span class="trust-badge-dot"></span>
-        Real women · Real results
-      </div>
-
-      <h2 class="trust-banner-title">
-        Trusted by Thousands of<br>
-        <em>Plus-Size Women</em> Worldwide
-      </h2>
-
-      <div class="trust-divider">
-        <span class="trust-divider-line"></span>
-        <span class="trust-divider-diamond"></span>
-        <span class="trust-divider-line"></span>
-      </div>
-
-      <p class="trust-banner-text">
-        Women who started at <strong>80–130 kg.</strong> Women who had failed other diets.<br>
-        Women who finally found a method built for their body.
-      </p>
-
-      <div class="trust-pills">
-        <span class="trust-pill"><i class="fi fi-rr-users"></i> 12 000+ members</span>
-        <span class="trust-pill-sep">·</span>
-        <span class="trust-pill"><i class="fi fi-rr-globe"></i> 40+ countries</span>
-        <span class="trust-pill-sep">·</span>
-        <span class="trust-pill"><i class="fi fi-rr-star"></i> 4.9 / 5 avg rating</span>
-      </div>
-
-    </div>
-    <div class="trust-bottomline"></div>
-  </div>
-
-
-  <!-- MARQUEE STRIP -->
-<div class="bbw-marquee-section">
-  <div class="bbw-marquee-track">
-    <div class="bbw-marquee-inner">
-      <span class="bbw-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-star"></i> Over 3,800 Happy Customers</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-star"></i> Over 3,800 Happy Customers</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee</span>
-      <span class="bbw-marquee-sep">✦</span>
-      <span class="bbw-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
-      <span class="bbw-marquee-sep">✦</span>
-    </div>
-  </div>
-</div>
-
-
-  <section id="bbw-stories-section" class="bbw-stories-section">
-  <!-- ── Ambient orbs ── -->
-  <div class="bss-orb bss-orb--1"></div>
-  <div class="bss-orb bss-orb--2"></div>
-  <div class="bss-orb bss-orb--3"></div>
-
-  <!-- ════════════════════════
-       STORIES ROW
-  ════════════════════════ -->
-  <div class="bss-stories-wrap">
-    <div class="bss-stories-track" id="bssStoriesTrack">
-
-      <div class="bss-story" data-index="0">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customer_plan_2.png?v=1776041141" alt="Aaliyah" class="bss-story-img" loading="lazy">
+      <div class="trust-banner-wrap">
+        <span class="tbp tbp--1"></span>
+        <span class="tbp tbp--2"></span>
+        <span class="tbp tbp--3"></span>
+        <span class="tbp tbp--4"></span>
+        <span class="tbp tbp--5"></span>
+        <div class="trust-banner-photo"
+          style="background-image: url('https://cdn.shopify.com/s/files/1/0978/0353/4627/files/curva_banner_4.png?v=1775498754');">
+        </div>
+        <div class="trust-overlay trust-overlay--dark"></div>
+        <div class="trust-overlay trust-overlay--gradient"></div>
+        <div class="trust-overlay trust-overlay--vignette"></div>
+        <div class="trust-topline"></div>
+        <div class="trust-banner-inner reveal">
+          <div class="trust-badge">
+            <span class="trust-badge-dot"></span>
+            Real women · Real results
+          </div>
+          <h2 class="trust-banner-title">
+            Trusted by Thousands of<br>
+            <em>Plus-Size Women</em> Worldwide
+          </h2>
+          <div class="trust-divider">
+            <span class="trust-divider-line"></span>
+            <span class="trust-divider-diamond"></span>
+            <span class="trust-divider-line"></span>
+          </div>
+          <p class="trust-banner-text">
+            Women who started at <strong>80–130 kg.</strong> Women who had failed other diets.<br>
+            Women who finally found a method built for their body.
+          </p>
+          <div class="trust-pills">
+            <span class="trust-pill"><i class="fi fi-rr-users"></i> 12 000+ members</span>
+            <span class="trust-pill-sep">·</span>
+            <span class="trust-pill"><i class="fi fi-rr-globe"></i> 40+ countries</span>
+            <span class="trust-pill-sep">·</span>
+            <span class="trust-pill"><i class="fi fi-rr-star"></i> 4.9 / 5 avg rating</span>
           </div>
         </div>
-        <span class="bss-story-name">Aaliyah</span>
+        <div class="trust-bottomline"></div>
       </div>
 
-      <div class="bss-story" data-index="1">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customer_plan_5.png?v=1776041141" alt="Brianna" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Brianna</span>
-      </div>
-
-      <div class="bss-story" data-index="2">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customer_plan_1.png?v=1776041141" alt="Chanelle" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Chanelle</span>
-      </div>
-
-      <div class="bss-story" data-index="3">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607" alt="Destiny" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Destiny</span>
-      </div>
-
-      <div class="bss-story" data-index="4">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers3.png?v=1774717606" alt="Essence" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Essence</span>
-      </div>
-
-      <div class="bss-story" data-index="5">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_4.png?v=1774717606" alt="Fatima" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Fatima</span>
-      </div>
-
-      <div class="bss-story" data-index="6">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customers_10.png?v=1774717606" alt="Gloria" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Gloria</span>
-      </div>
-
-      <div class="bss-story" data-index="7">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_7.png?v=1774717606" alt="Harmony" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Harmony</span>
-      </div>
-
-      <div class="bss-story" data-index="8">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_2.png?v=1774717606" alt="Imani" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Imani</span>
-      </div>
-
-      <div class="bss-story" data-index="9">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_12.png?v=1774717606" alt="Jasmine" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Jasmine</span>
-      </div>
-
-      <div class="bss-story" data-index="10">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_11.png?v=1774717606" alt="Keisha" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Keisha</span>
-      </div>
-
-      <div class="bss-story" data-index="11">
-        <div class="bss-story-ring">
-          <div class="bss-story-img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_9.png?v=1774717605" alt="Latoya" class="bss-story-img" loading="lazy">
-          </div>
-        </div>
-        <span class="bss-story-name">Latoya</span>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ════════════════════════
-       SECTION HEADER
-  ════════════════════════ -->
-  <div class="bss-header">
-    <div class="bss-eyebrow">
-      <span class="bss-eyebrow-dot"></span>
-      Our Community
-      <span class="bss-eyebrow-dot"></span>
-    </div>
-    <h2 class="bss-title">Real Women.<br><em>Real Confidence.</em></h2>
-    <p class="bss-subtitle">Beauty Has No Size — watch them own it.</p>
-  </div>
-
-  <!-- ════════════════════════
-       VIDEOS SLIDER
-  ════════════════════════ -->
-  <div class="bss-videos-wrap">
-    <div class="bss-videos-track" id="bssVideosTrack">
-
-      <!-- VIDEO 1 -->
-      <div class="bss-video-item">
-        <div class="bss-video-inner">
-          <video src="https://cdn.shopify.com/videos/c/o/v/2d2bc7f5ebd34fdca76c2f16dcb057aa.mp4" autoplay muted loop playsinline class="bss-video"></video>
-          <div class="bss-video-overlay"></div>
-          <div class="bss-video-badge">BBW4LIFE</div>
-          <button class="bss-sound-btn" data-muted="true">
-            <svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          </button>
-          <div class="bss-video-info">
-            <span class="bss-video-name">Aaliyah K.</span>
+      <!-- MARQUEE STRIP -->
+      <div class="bbw-marquee-section">
+        <div class="bbw-marquee-track">
+          <div class="bbw-marquee-inner">
+            <span class="bbw-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-star"></i> Over 3,800 Happy Customers</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-star"></i> Over 3,800 Happy Customers</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee</span>
+            <span class="bbw-marquee-sep">✦</span>
+            <span class="bbw-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
+            <span class="bbw-marquee-sep">✦</span>
           </div>
         </div>
       </div>
 
-      <!-- VIDEO 2 -->
-      <div class="bss-video-item">
-        <div class="bss-video-inner">
-          <video src="https://cdn.shopify.com/videos/c/o/v/45ace27e683b4291bd62d3e5fbb42c6a.mp4" autoplay muted loop playsinline class="bss-video"></video>
-          <div class="bss-video-overlay"></div>
-          <div class="bss-video-badge">BBW4LIFE</div>
-          <button class="bss-sound-btn" data-muted="true">
-            <svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          </button>
-          <div class="bss-video-info">
-            <span class="bss-video-name">Brianna M.</span>
+      <section id="bbw-stories-section" class="bbw-stories-section">
+        <div class="bss-orb bss-orb--1"></div>
+        <div class="bss-orb bss-orb--2"></div>
+        <div class="bss-orb bss-orb--3"></div>
+
+        <div class="bss-stories-wrap">
+          <div class="bss-stories-track" id="bssStoriesTrack">
+            <div class="bss-story" data-index="0"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customer_plan_2.png?v=1776041141" alt="Aaliyah" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Aaliyah</span></div>
+            <div class="bss-story" data-index="1"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customer_plan_5.png?v=1776041141" alt="Brianna" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Brianna</span></div>
+            <div class="bss-story" data-index="2"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customer_plan_1.png?v=1776041141" alt="Chanelle" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Chanelle</span></div>
+            <div class="bss-story" data-index="3"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607" alt="Destiny" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Destiny</span></div>
+            <div class="bss-story" data-index="4"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers3.png?v=1774717606" alt="Essence" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Essence</span></div>
+            <div class="bss-story" data-index="5"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_4.png?v=1774717606" alt="Fatima" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Fatima</span></div>
+            <div class="bss-story" data-index="6"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customers_10.png?v=1774717606" alt="Gloria" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Gloria</span></div>
+            <div class="bss-story" data-index="7"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_7.png?v=1774717606" alt="Harmony" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Harmony</span></div>
+            <div class="bss-story" data-index="8"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_2.png?v=1774717606" alt="Imani" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Imani</span></div>
+            <div class="bss-story" data-index="9"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_12.png?v=1774717606" alt="Jasmine" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Jasmine</span></div>
+            <div class="bss-story" data-index="10"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_11.png?v=1774717606" alt="Keisha" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Keisha</span></div>
+            <div class="bss-story" data-index="11"><div class="bss-story-ring"><div class="bss-story-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_9.png?v=1774717605" alt="Latoya" class="bss-story-img" loading="lazy"></div></div><span class="bss-story-name">Latoya</span></div>
           </div>
         </div>
-      </div>
 
-      <!-- VIDEO 3 -->
-      <div class="bss-video-item">
-        <div class="bss-video-inner">
-          <video src="https://cdn.shopify.com/videos/c/o/v/b42e70b50d5b4a20a4ef271710b0b15f.mp4" autoplay muted loop playsinline class="bss-video"></video>
-          <div class="bss-video-overlay"></div>
-          <div class="bss-video-badge">BBW4LIFE</div>
-          <button class="bss-sound-btn" data-muted="true">
-            <svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          </button>
-          <div class="bss-video-info">
-            <span class="bss-video-name">Chanelle R.</span>
+        <div class="bss-header reveal">
+          <div class="bss-eyebrow">
+            <span class="bss-eyebrow-dot"></span>
+            Our Community
+            <span class="bss-eyebrow-dot"></span>
           </div>
+          <h2 class="bss-title">Real Women.<br><em>Real Confidence.</em></h2>
+          <p class="bss-subtitle">Beauty Has No Size — watch them own it.</p>
         </div>
-      </div>
 
-      <!-- VIDEO 4 -->
-      <div class="bss-video-item">
-        <div class="bss-video-inner">
-          <video src="https://cdn.shopify.com/videos/c/o/v/cbb64397ac6c4053bccd16552e9a1ce2.mp4" autoplay muted loop playsinline class="bss-video"></video>
-          <div class="bss-video-overlay"></div>
-          <div class="bss-video-badge">BBW4LIFE</div>
-          <button class="bss-sound-btn" data-muted="true">
-            <svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          </button>
-          <div class="bss-video-info">
-            <span class="bss-video-name">Destiny L.</span>
+        <div class="bss-videos-wrap reveal">
+          <div class="bss-videos-track" id="bssVideosTrack">
+            <div class="bss-video-item"><div class="bss-video-inner"><video src="https://cdn.shopify.com/videos/c/o/v/2d2bc7f5ebd34fdca76c2f16dcb057aa.mp4" autoplay muted loop playsinline class="bss-video"></video><div class="bss-video-overlay"></div><div class="bss-video-badge">BBW4LIFE</div><button class="bss-sound-btn" data-muted="true"><svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button><div class="bss-video-info"><span class="bss-video-name">Aaliyah K.</span></div></div></div>
+            <div class="bss-video-item"><div class="bss-video-inner"><video src="https://cdn.shopify.com/videos/c/o/v/45ace27e683b4291bd62d3e5fbb42c6a.mp4" autoplay muted loop playsinline class="bss-video"></video><div class="bss-video-overlay"></div><div class="bss-video-badge">BBW4LIFE</div><button class="bss-sound-btn" data-muted="true"><svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button><div class="bss-video-info"><span class="bss-video-name">Brianna M.</span></div></div></div>
+            <div class="bss-video-item"><div class="bss-video-inner"><video src="https://cdn.shopify.com/videos/c/o/v/b42e70b50d5b4a20a4ef271710b0b15f.mp4" autoplay muted loop playsinline class="bss-video"></video><div class="bss-video-overlay"></div><div class="bss-video-badge">BBW4LIFE</div><button class="bss-sound-btn" data-muted="true"><svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button><div class="bss-video-info"><span class="bss-video-name">Chanelle R.</span></div></div></div>
+            <div class="bss-video-item"><div class="bss-video-inner"><video src="https://cdn.shopify.com/videos/c/o/v/cbb64397ac6c4053bccd16552e9a1ce2.mp4" autoplay muted loop playsinline class="bss-video"></video><div class="bss-video-overlay"></div><div class="bss-video-badge">BBW4LIFE</div><button class="bss-sound-btn" data-muted="true"><svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button><div class="bss-video-info"><span class="bss-video-name">Destiny L.</span></div></div></div>
+            <div class="bss-video-item"><div class="bss-video-inner"><video src="https://cdn.shopify.com/videos/c/o/v/f9dc08f07b7140ba8974754724839e80.mp4" autoplay muted loop playsinline class="bss-video"></video><div class="bss-video-overlay"></div><div class="bss-video-badge">BBW4LIFE</div><button class="bss-sound-btn" data-muted="true"><svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button><div class="bss-video-info"><span class="bss-video-name">Essence T.</span></div></div></div>
+            <div class="bss-video-item"><div class="bss-video-inner"><video src="https://cdn.shopify.com/videos/c/o/v/69f2145023354e6f81b0b3dcd24bdfd6.mp4" autoplay muted loop playsinline class="bss-video"></video><div class="bss-video-overlay"></div><div class="bss-video-badge">BBW4LIFE</div><button class="bss-sound-btn" data-muted="true"><svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button><div class="bss-video-info"><span class="bss-video-name">Fatima O.</span></div></div></div>
+            <div class="bss-video-item"><div class="bss-video-inner"><video src="https://cdn.shopify.com/videos/c/o/v/fc28b0a309f14d4090af00d65a97edaf.mp4" autoplay muted loop playsinline class="bss-video"></video><div class="bss-video-overlay"></div><div class="bss-video-badge">BBW4LIFE</div><button class="bss-sound-btn" data-muted="true"><svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button><div class="bss-video-info"><span class="bss-video-name">Gloria N.</span></div></div></div>
+            <div class="bss-video-item"><div class="bss-video-inner"><video src="https://cdn.shopify.com/videos/c/o/v/7c5f039c95ff4669abe9617ff342718d.mp4" autoplay muted loop playsinline class="bss-video"></video><div class="bss-video-overlay"></div><div class="bss-video-badge">BBW4LIFE</div><button class="bss-sound-btn" data-muted="true"><svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button><div class="bss-video-info"><span class="bss-video-name">Harmony S.</span></div></div></div>
           </div>
+          <button class="bss-nav bss-nav--prev" id="bssNavPrev" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="bss-nav bss-nav--next" id="bssNavNext" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></button>
         </div>
-      </div>
+        <div class="bss-dots" id="bssDots"></div>
+      </section>
 
-      <!-- VIDEO 5 -->
-      <div class="bss-video-item">
-        <div class="bss-video-inner">
-          <video src="https://cdn.shopify.com/videos/c/o/v/f9dc08f07b7140ba8974754724839e80.mp4" autoplay muted loop playsinline class="bss-video"></video>
-          <div class="bss-video-overlay"></div>
-          <div class="bss-video-badge">BBW4LIFE</div>
-          <button class="bss-sound-btn" data-muted="true">
-            <svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          </button>
-          <div class="bss-video-info">
-            <span class="bss-video-name">Essence T.</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIDEO 6 -->
-      <div class="bss-video-item">
-        <div class="bss-video-inner">
-          <video src="https://cdn.shopify.com/videos/c/o/v/69f2145023354e6f81b0b3dcd24bdfd6.mp4" autoplay muted loop playsinline class="bss-video"></video>
-          <div class="bss-video-overlay"></div>
-          <div class="bss-video-badge">BBW4LIFE</div>
-          <button class="bss-sound-btn" data-muted="true">
-            <svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          </button>
-          <div class="bss-video-info">
-            <span class="bss-video-name">Fatima O.</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIDEO 7 -->
-      <div class="bss-video-item">
-        <div class="bss-video-inner">
-          <video src="https://cdn.shopify.com/videos/c/o/v/fc28b0a309f14d4090af00d65a97edaf.mp4" autoplay muted loop playsinline class="bss-video"></video>
-          <div class="bss-video-overlay"></div>
-          <div class="bss-video-badge">BBW4LIFE</div>
-          <button class="bss-sound-btn" data-muted="true">
-            <svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          </button>
-          <div class="bss-video-info">
-            <span class="bss-video-name">Gloria N.</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIDEO 8 -->
-      <div class="bss-video-item">
-        <div class="bss-video-inner">
-          <video src="https://cdn.shopify.com/videos/c/o/v/7c5f039c95ff4669abe9617ff342718d.mp4" autoplay muted loop playsinline class="bss-video"></video>
-          <div class="bss-video-overlay"></div>
-          <div class="bss-video-badge">BBW4LIFE</div>
-          <button class="bss-sound-btn" data-muted="true">
-            <svg class="bss-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="bss-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          </button>
-          <div class="bss-video-info">
-            <span class="bss-video-name">Harmony S.</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Nav arrows -->
-    <button class="bss-nav bss-nav--prev" id="bssNavPrev" aria-label="Previous">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <button class="bss-nav bss-nav--next" id="bssNavNext" aria-label="Next">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-  </div>
-
-  <!-- Progress dots -->
-  <div class="bss-dots" id="bssDots"></div>
-
-</section>
-
-<!-- WAVE -->
-<section id="divider-wave" data-scroll-reveal>
-    <svg width="0" height="0">
-        <defs>
-            <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color: var(--color1);" />
-                <stop offset="100%" style="stop-color: var(--color2);" />
-            </linearGradient>
-        </defs>
-    </svg>
-    <div class="wave-container">
-        <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
+      <!-- WAVE -->
+      <section id="divider-wave" data-scroll-reveal>
+        <svg width="0" height="0"><defs><linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color: var(--color1);" /><stop offset="100%" style="stop-color: var(--color2);" /></linearGradient></defs></svg>
+        <div class="wave-container">
+          <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
             <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
-        </svg>
-    </div>
-</section>
+          </svg>
+        </div>
+      </section>
 
-<!-- ═══════════════════════════════════════════════════
-     COLLECTION SLIDER SECTION
-     À placer dans votre index.html ou toute autre page
-     ═══════════════════════════════════════════════════ -->
-<section class="cs-section" id="cs-section">
-  <div class="cs-wrapper">
+      <!-- COLLECTION SLIDER -->
+      <section class="cs-section reveal" id="cs-section">
+        <div class="cs-wrapper">
+          <button class="cs-nav cs-nav--prev" id="csNavPrev" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="cs-nav cs-nav--next" id="csNavNext" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></button>
+          <div class="cs-track" id="csTrack"></div>
+        </div>
+        <div class="cs-dots" id="csDots"></div>
+      </section>
 
-    <!-- Navigation arrows -->
-    <button class="cs-nav cs-nav--prev" id="csNavPrev" aria-label="Previous">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <button class="cs-nav cs-nav--next" id="csNavNext" aria-label="Next">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-
-    <!-- Slider track -->
-    <div class="cs-track" id="csTrack">
-      <!-- Les cartes produits seront injectées ici par le JS -->
-    </div>
-
-  </div>
-
-  <!-- Dots -->
-  <div class="cs-dots" id="csDots"></div>
-</section>
-
-
-<section id="community-reviews" class="comm-reviews-section">
-            <div class="container">
-                <div class="section-header">
-                <span class="section-label">Verified Reviews</span>
-                <h2>What Our Members Say</h2>
-                <p class="section-subtitle">Real women. Real results. Zero filters.</p>
-                </div>
-            </div>
-
-            <!-- ROW 1 — scroll left -->
-            <div class="comm-marquee-clip">
-                <div class="comm-reviews-row comm-reviews-row--left">
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customer_1.png?v=1774717605" alt="Jane D."></div>
-                    <div><p class="comm-rev-name">Jane D., 38</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">No pills, no extreme workouts — just the structure CurvaFit gave me. The protein focus kept me full every single day.</p>
-                    <span class="comm-rev-badge">✦ −11 kg in 3 months</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_2.png?v=1774717606" alt="Emily S."></div>
-                    <div><p class="comm-rev-name">Emily S., 45</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">After years of yo-yo dieting, CurvaFit explained WHY my body was fighting me. Once I understood the science, everything clicked.</p>
-                    <span class="comm-rev-badge">✦ −7 kg in 6 weeks</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers3.png?v=1774717606" alt="Sarah J."></div>
-                    <div><p class="comm-rev-name">Sarah J., 32</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">The community kept me going on hard days. I started sleeping 8 hours like they recommend — the difference in my hunger was shocking.</p>
-                    <span class="comm-rev-badge">✦ −5 kg in month 1</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_4.png?v=1774717606" alt="Anna L."></div>
-                    <div><p class="comm-rev-name">Anna L., 41</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">I stopped drinking juice and sodas in week 1 — just that change made my belly less bloated within days. Then I followed the full plan.</p>
-                    <span class="comm-rev-badge">✦ −14 kg in 4 months</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_5.png?v=1774717605" alt="Mia B."></div>
-                    <div><p class="comm-rev-name">Mia B., 29</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">Floor exercises perfect for my body — no jumping, no knee pain. 20–30 minutes, 4x a week. Combined with the meal plan it really worked.</p>
-                    <span class="comm-rev-badge">✦ −9 kg in 10 weeks</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_6.png?v=1774717603" alt="Olivia D."></div>
-                    <div><p class="comm-rev-name">Olivia D., 36 — Nurse</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">CurvaFit's approach is medically sound — no dangerous restrictions, proper macros, realistic goals. I recommend it to my patients.</p>
-                    <span class="comm-rev-badge comm-rev-badge--special">✦ Medically approved</span>
-                </div>
-
-                <!-- DUPLICATES -->
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customer_1.png?v=1774717605" alt="Jane D."></div><div><p class="comm-rev-name">Jane D., 38</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">No pills, no extreme workouts — just the structure CurvaFit gave me. The protein focus kept me full every single day.</p><span class="comm-rev-badge">✦ −11 kg in 3 months</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_2.png?v=1774717606" alt="Emily S."></div><div><p class="comm-rev-name">Emily S., 45</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">After years of yo-yo dieting, CurvaFit explained WHY my body was fighting me. Once I understood the science, everything clicked.</p><span class="comm-rev-badge">✦ −7 kg in 6 weeks</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers3.png?v=1774717606" alt="Sarah J."></div><div><p class="comm-rev-name">Sarah J., 32</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">The community kept me going on hard days. I started sleeping 8 hours like they recommend — the difference in my hunger was shocking.</p><span class="comm-rev-badge">✦ −5 kg in month 1</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_4.png?v=1774717606" alt="Anna L."></div><div><p class="comm-rev-name">Anna L., 41</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">I stopped drinking juice and sodas in week 1 — just that change made my belly less bloated within days. Then I followed the full plan.</p><span class="comm-rev-badge">✦ −14 kg in 4 months</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_5.png?v=1774717605" alt="Mia B."></div><div><p class="comm-rev-name">Mia B., 29</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Floor exercises perfect for my body — no jumping, no knee pain. 20–30 minutes, 4x a week. Combined with the meal plan it really worked.</p><span class="comm-rev-badge">✦ −9 kg in 10 weeks</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_6.png?v=1774717603" alt="Olivia D."></div><div><p class="comm-rev-name">Olivia D., 36 — Nurse</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">CurvaFit's approach is medically sound — no dangerous restrictions, proper macros, realistic goals. I recommend it to my patients.</p><span class="comm-rev-badge comm-rev-badge--special">✦ Medically approved</span></div>
-
-                </div>
-            </div>
-
-            <!-- ROW 2 — scroll right -->
-            <div class="comm-marquee-clip">
-                <div class="comm-reviews-row comm-reviews-row--right">
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_7.png?v=1774717606" alt="Sophia W."></div>
-                    <div><p class="comm-rev-name">Sophia W., 44</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">I lost 20 pounds and feel stronger every day. The 30-minute morning walks changed my life more than any extreme workout ever did.</p>
-                    <span class="comm-rev-badge">✦ −20 lbs in 3 months</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607" alt="Isabella M."></div>
-                    <div><p class="comm-rev-name">Isabella M., 33</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">The meals are real food — chicken, rice, vegetables, eggs. I cook them in 20 minutes and I'm full for hours. No feeling deprived.</p>
-                    <span class="comm-rev-badge">✦ −6 kg in month 1</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_9.png?v=1774717605" alt="Ava A."></div>
-                    <div><p class="comm-rev-name">Ava A., 40</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">Support that feels like family. Helped me through tough days and celebrate every win — even fitting into old jeans again.</p>
-                    <span class="comm-rev-badge">✦ −8 kg over 2 months</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customers_10.png?v=1774717606" alt="Charlotte T."></div>
-                    <div><p class="comm-rev-name">Charlotte T., 37</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">My clothes fit differently by week 3. CurvaFit taught me the scale isn't the only measure that matters. I track my waist now — and it's shrinking.</p>
-                    <span class="comm-rev-badge">✦ −4 inches off waist</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_11.png?v=1774717606" alt="Amelia T."></div>
-                    <div><p class="comm-rev-name">Amelia T., 31</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">Fits my hectic schedule — 30-minute sessions and simple meals. No overthinking, no supplements. Just honest guidance that sticks.</p>
-                    <span class="comm-rev-badge">✦ −5 kg in first month</span>
-                </div>
-
-                <div class="comm-rev-card">
-                    <div class="comm-rev-shine"></div>
-                    <div class="comm-rev-card-top">
-                    <div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_12.png?v=1774717606" alt="Harper G."></div>
-                    <div><p class="comm-rev-name">Harper G., 39</p><div class="comm-rev-stars">★★★★★</div></div>
-                    </div>
-                    <p class="comm-rev-quote">They told me the truth upfront — this takes months, not days. That honesty made me trust the process. 12 kg lost and no regain.</p>
-                    <span class="comm-rev-badge">✦ −12 kg in 5 months</span>
-                </div>
-
-                <!-- DUPLICATES -->
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_7.png?v=1774717606" alt="Sophia W."></div><div><p class="comm-rev-name">Sophia W., 44</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">I lost 20 pounds and feel stronger every day. The 30-minute morning walks changed my life more than any extreme workout ever did.</p><span class="comm-rev-badge">✦ −20 lbs in 3 months</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607" alt="Isabella M."></div><div><p class="comm-rev-name">Isabella M., 33</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">The meals are real food — chicken, rice, vegetables, eggs. I cook them in 20 minutes and I'm full for hours. No feeling deprived.</p><span class="comm-rev-badge">✦ −6 kg in month 1</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_9.png?v=1774717605" alt="Ava A."></div><div><p class="comm-rev-name">Ava A., 40</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Support that feels like family. Helped me through tough days and celebrate every win — even fitting into old jeans again.</p><span class="comm-rev-badge">✦ −8 kg over 2 months</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customers_10.png?v=1774717606" alt="Charlotte T."></div><div><p class="comm-rev-name">Charlotte T., 37</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">My clothes fit differently by week 3. CurvaFit taught me the scale isn't the only measure that matters. I track my waist now — and it's shrinking.</p><span class="comm-rev-badge">✦ −4 inches off waist</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_11.png?v=1774717606" alt="Amelia T."></div><div><p class="comm-rev-name">Amelia T., 31</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Fits my hectic schedule — 30-minute sessions and simple meals. No overthinking, no supplements. Just honest guidance that sticks.</p><span class="comm-rev-badge">✦ −5 kg in first month</span></div>
-                <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_12.png?v=1774717606" alt="Harper G."></div><div><p class="comm-rev-name">Harper G., 39</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">They told me the truth upfront — this takes months, not days. That honesty made me trust the process. 12 kg lost and no regain.</p><span class="comm-rev-badge">✦ −12 kg in 5 months</span></div>
-
-                </div>
-            </div>
-
-            </section>
-
-
-            <section id="before-after" class="before-after-section" data-scroll-reveal>
+      <section id="community-reviews" class="comm-reviews-section">
         <div class="container">
-            <div class="ba-header">
+          <div class="section-header reveal">
+            <span class="section-label">Verified Reviews</span>
+            <h2>What Our Members Say</h2>
+            <p class="section-subtitle">Real women. Real results. Zero filters.</p>
+          </div>
+        </div>
+
+        <div class="comm-marquee-clip">
+          <div class="comm-reviews-row comm-reviews-row--left">
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customer_1.png?v=1774717605" alt="Jane D."></div><div><p class="comm-rev-name">Jane D., 38</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">No pills, no extreme workouts — just the structure CurvaFit gave me. The protein focus kept me full every single day.</p><span class="comm-rev-badge">✦ −11 kg in 3 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_2.png?v=1774717606" alt="Emily S."></div><div><p class="comm-rev-name">Emily S., 45</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">After years of yo-yo dieting, CurvaFit explained WHY my body was fighting me. Once I understood the science, everything clicked.</p><span class="comm-rev-badge">✦ −7 kg in 6 weeks</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers3.png?v=1774717606" alt="Sarah J."></div><div><p class="comm-rev-name">Sarah J., 32</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">The community kept me going on hard days. I started sleeping 8 hours like they recommend — the difference in my hunger was shocking.</p><span class="comm-rev-badge">✦ −5 kg in month 1</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_4.png?v=1774717606" alt="Anna L."></div><div><p class="comm-rev-name">Anna L., 41</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">I stopped drinking juice and sodas in week 1 — just that change made my belly less bloated within days. Then I followed the full plan.</p><span class="comm-rev-badge">✦ −14 kg in 4 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_5.png?v=1774717605" alt="Mia B."></div><div><p class="comm-rev-name">Mia B., 29</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Floor exercises perfect for my body — no jumping, no knee pain. 20–30 minutes, 4x a week. Combined with the meal plan it really worked.</p><span class="comm-rev-badge">✦ −9 kg in 10 weeks</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_6.png?v=1774717603" alt="Olivia D."></div><div><p class="comm-rev-name">Olivia D., 36 — Nurse</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">CurvaFit's approach is medically sound — no dangerous restrictions, proper macros, realistic goals. I recommend it to my patients.</p><span class="comm-rev-badge comm-rev-badge--special">✦ Medically approved</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customer_1.png?v=1774717605" alt="Jane D."></div><div><p class="comm-rev-name">Jane D., 38</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">No pills, no extreme workouts — just the structure CurvaFit gave me. The protein focus kept me full every single day.</p><span class="comm-rev-badge">✦ −11 kg in 3 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_2.png?v=1774717606" alt="Emily S."></div><div><p class="comm-rev-name">Emily S., 45</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">After years of yo-yo dieting, CurvaFit explained WHY my body was fighting me. Once I understood the science, everything clicked.</p><span class="comm-rev-badge">✦ −7 kg in 6 weeks</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers3.png?v=1774717606" alt="Sarah J."></div><div><p class="comm-rev-name">Sarah J., 32</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">The community kept me going on hard days. I started sleeping 8 hours like they recommend — the difference in my hunger was shocking.</p><span class="comm-rev-badge">✦ −5 kg in month 1</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_4.png?v=1774717606" alt="Anna L."></div><div><p class="comm-rev-name">Anna L., 41</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">I stopped drinking juice and sodas in week 1 — just that change made my belly less bloated within days. Then I followed the full plan.</p><span class="comm-rev-badge">✦ −14 kg in 4 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_5.png?v=1774717605" alt="Mia B."></div><div><p class="comm-rev-name">Mia B., 29</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Floor exercises perfect for my body — no jumping, no knee pain. 20–30 minutes, 4x a week. Combined with the meal plan it really worked.</p><span class="comm-rev-badge">✦ −9 kg in 10 weeks</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_6.png?v=1774717603" alt="Olivia D."></div><div><p class="comm-rev-name">Olivia D., 36 — Nurse</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">CurvaFit's approach is medically sound — no dangerous restrictions, proper macros, realistic goals. I recommend it to my patients.</p><span class="comm-rev-badge comm-rev-badge--special">✦ Medically approved</span></div>
+          </div>
+        </div>
+
+        <div class="comm-marquee-clip">
+          <div class="comm-reviews-row comm-reviews-row--right">
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_7.png?v=1774717606" alt="Sophia W."></div><div><p class="comm-rev-name">Sophia W., 44</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">I lost 20 pounds and feel stronger every day. The 30-minute morning walks changed my life more than any extreme workout ever did.</p><span class="comm-rev-badge">✦ −20 lbs in 3 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607" alt="Isabella M."></div><div><p class="comm-rev-name">Isabella M., 33</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">The meals are real food — chicken, rice, vegetables, eggs. I cook them in 20 minutes and I'm full for hours. No feeling deprived.</p><span class="comm-rev-badge">✦ −6 kg in month 1</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_9.png?v=1774717605" alt="Ava A."></div><div><p class="comm-rev-name">Ava A., 40</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Support that feels like family. Helped me through tough days and celebrate every win — even fitting into old jeans again.</p><span class="comm-rev-badge">✦ −8 kg over 2 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customers_10.png?v=1774717606" alt="Charlotte T."></div><div><p class="comm-rev-name">Charlotte T., 37</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">My clothes fit differently by week 3. CurvaFit taught me the scale isn't the only measure that matters. I track my waist now — and it's shrinking.</p><span class="comm-rev-badge">✦ −4 inches off waist</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_11.png?v=1774717606" alt="Amelia T."></div><div><p class="comm-rev-name">Amelia T., 31</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Fits my hectic schedule — 30-minute sessions and simple meals. No overthinking, no supplements. Just honest guidance that sticks.</p><span class="comm-rev-badge">✦ −5 kg in first month</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_12.png?v=1774717606" alt="Harper G."></div><div><p class="comm-rev-name">Harper G., 39</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">They told me the truth upfront — this takes months, not days. That honesty made me trust the process. 12 kg lost and no regain.</p><span class="comm-rev-badge">✦ −12 kg in 5 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_7.png?v=1774717606" alt="Sophia W."></div><div><p class="comm-rev-name">Sophia W., 44</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">I lost 20 pounds and feel stronger every day. The 30-minute morning walks changed my life more than any extreme workout ever did.</p><span class="comm-rev-badge">✦ −20 lbs in 3 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607" alt="Isabella M."></div><div><p class="comm-rev-name">Isabella M., 33</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">The meals are real food — chicken, rice, vegetables, eggs. I cook them in 20 minutes and I'm full for hours. No feeling deprived.</p><span class="comm-rev-badge">✦ −6 kg in month 1</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_9.png?v=1774717605" alt="Ava A."></div><div><p class="comm-rev-name">Ava A., 40</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Support that feels like family. Helped me through tough days and celebrate every win — even fitting into old jeans again.</p><span class="comm-rev-badge">✦ −8 kg over 2 months</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customers_10.png?v=1774717606" alt="Charlotte T."></div><div><p class="comm-rev-name">Charlotte T., 37</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">My clothes fit differently by week 3. CurvaFit taught me the scale isn't the only measure that matters. I track my waist now — and it's shrinking.</p><span class="comm-rev-badge">✦ −4 inches off waist</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_11.png?v=1774717606" alt="Amelia T."></div><div><p class="comm-rev-name">Amelia T., 31</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">Fits my hectic schedule — 30-minute sessions and simple meals. No overthinking, no supplements. Just honest guidance that sticks.</p><span class="comm-rev-badge">✦ −5 kg in first month</span></div>
+            <div class="comm-rev-card"><div class="comm-rev-shine"></div><div class="comm-rev-card-top"><div class="comm-rev-avatar-wrap"><img class="comm-rev-avatar" src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_12.png?v=1774717606" alt="Harper G."></div><div><p class="comm-rev-name">Harper G., 39</p><div class="comm-rev-stars">★★★★★</div></div></div><p class="comm-rev-quote">They told me the truth upfront — this takes months, not days. That honesty made me trust the process. 12 kg lost and no regain.</p><span class="comm-rev-badge">✦ −12 kg in 5 months</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="before-after" class="before-after-section" data-scroll-reveal>
+        <div class="container">
+          <div class="ba-header reveal">
             <span class="ba-tag">Real Women. Real Results.</span>
             <h2>Small Effort. Big Change. Real Joy.</h2>
             <p>No surgery. No extreme diets. No suffering. Just 10–20 minutes a day with the right gear — and watching your body transform at its own beautiful pace.</p>
-            </div>
-            <div class="ba-grid">
-            <div class="ba-card">
-                <div class="ba-images">
+          </div>
+          <div class="ba-grid">
+            <div class="ba-card reveal-left">
+              <div class="ba-images">
                 <div class="ba-img ba-before">
-                    <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/shope_before_1.png?v=1775260194" alt="Before" loading="lazy">
-                    <span class="ba-label">BEFORE</span>
+                  <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/shope_before_1.png?v=1775260194" alt="Before" loading="lazy">
+                  <span class="ba-label">BEFORE</span>
                 </div>
                 <div class="ba-arrow">→</div>
                 <div class="ba-img ba-after">
-                    <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/shop_after_1.png?v=1775260194" alt="After" loading="lazy">
-                    <span class="ba-label ba-label--after">AFTER</span>
+                  <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/shop_after_1.png?v=1775260194" alt="After" loading="lazy">
+                  <span class="ba-label ba-label--after">AFTER</span>
                 </div>
-                </div>
-                <div class="ba-result">
+              </div>
+              <div class="ba-result">
                 <strong>Jasmine, 34</strong>
                 <span>−9 lbs · 8 weeks · Hula Hoop + Waist Trainer</span>
-                </div>
+              </div>
             </div>
 
-            <div class="ba-card ba-card--center">
-                <div class="ba-timeline">
-                <div class="ba-week">
-                    <span>Week 1</span>
-                    <p>Just 10 min/day with the hoop. Felt fun, not like exercise.</p>
-                </div>
-                <div class="ba-week">
-                    <span>Week 3</span>
-                    <p>Waist visibly slimmer. More energy throughout the day.</p>
-                </div>
-                <div class="ba-week">
-                    <span>Week 6</span>
-                    <p>Down 6 lbs. Slipping back into clothes she loved.</p>
-                </div>
-                <div class="ba-week ba-week--final">
-                    <span>Week 8</span>
-                    <p>−9 lbs. Confidence through the roof. She's just getting started.</p>
-                </div>
-                </div>
-                <a href="#product-grid-1" class="ba-cta">Start My Transformation →</a>
+            <div class="ba-card ba-card--center reveal">
+              <div class="ba-timeline">
+                <div class="ba-week"><span>Week 1</span><p>Just 10 min/day with the hoop. Felt fun, not like exercise.</p></div>
+                <div class="ba-week"><span>Week 3</span><p>Waist visibly slimmer. More energy throughout the day.</p></div>
+                <div class="ba-week"><span>Week 6</span><p>Down 6 lbs. Slipping back into clothes she loved.</p></div>
+                <div class="ba-week ba-week--final"><span>Week 8</span><p>−9 lbs. Confidence through the roof. She's just getting started.</p></div>
+              </div>
+              <a href="#product-grid-1" class="ba-cta">Start My Transformation →</a>
             </div>
 
-            <div class="ba-card">
-                <div class="ba-images">
+            <div class="ba-card reveal-right">
+              <div class="ba-images">
                 <div class="ba-img ba-before">
-                    <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/shop_before_2.png?v=1775260194" alt="Before" loading="lazy">
-                    <span class="ba-label">BEFORE</span>
+                  <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/shop_before_2.png?v=1775260194" alt="Before" loading="lazy">
+                  <span class="ba-label">BEFORE</span>
                 </div>
                 <div class="ba-arrow">→</div>
                 <div class="ba-img ba-after">
-                    <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/shop_afetr_2.png?v=1775260194" alt="After" loading="lazy">
-                    <span class="ba-label ba-label--after">AFTER</span>
+                  <img src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/shop_afetr_2.png?v=1775260194" alt="After" loading="lazy">
+                  <span class="ba-label ba-label--after">AFTER</span>
                 </div>
-                </div>
-                <div class="ba-result">
+              </div>
+              <div class="ba-result">
                 <strong>Priscilla, 41</strong>
                 <span>−13 lbs · 10 weeks · Full CurvaFit Bundle</span>
-                </div>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
-        </section>
+      </section>
 
-        <!-- MARQUEE STRIP -->
-    <div class="col-marquee-section">
-      <div class="col-marquee-track">
-        <div class="col-marquee-inner">
-          <span class="col-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-star"></i> Over 3,800 Happy Customers</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-star"></i> Over 3,800 Happy Customers</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee</span>
-          <span class="col-marquee-sep">✦</span>
-          <span class="col-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
-          <span class="col-marquee-sep">✦</span>
+      <!-- MARQUEE STRIP -->
+      <div class="col-marquee-section">
+        <div class="col-marquee-track">
+          <div class="col-marquee-inner">
+            <span class="col-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-star"></i> Over 3,800 Happy Customers</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-truck"></i> Free Shipping on Orders $50+</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-star"></i> Over 3,800 Happy Customers</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee</span>
+            <span class="col-marquee-sep">✦</span>
+            <span class="col-marquee-item"><i class="fas fa-bolt"></i> Limited Stock — Order Before It's Gone</span>
+            <span class="col-marquee-sep">✦</span>
+          </div>
         </div>
       </div>
-    </div>
 
-
-    <!-- ░░ RISK REVERSAL — GUARANTEE ░░ -->
-            <section id="risk-reversal" class="risk-reversal-section" data-scroll-reveal>
-                <div class="container">
-                    <div class="rr-inner">
-                        <div class="rr-badge">
-                            <div class="rr-badge-ring"></div>
-                            <div class="rr-badge-ring rr-badge-ring--2"></div>
-                            <div class="rr-badge-content">
-                                <div class="rr-shield">🛡️</div>
-                                <strong>30-Day</strong>
-                                <span>Money Back</span>
-                                <span>Guarantee</span>
-                            </div>
-                        </div>
-                        <div class="rr-content">
-                            <div class="rr-eyebrow-wrap">
-                                <span class="rr-eyebrow">Achat Sans Risque</span>
-                            </div>
-                            <h2>Zero Risk. <em>Full Confidence.</em></h2>
-                            <p>We know starting a fitness journey takes courage. That's why every CurvaFit order is backed by our <strong>30-day no-questions-asked return policy</strong>. If you're not happy — for any reason — we refund you completely. No forms, no hassle.</p>
-                            <div class="rr-bar-track"><div class="rr-bar-fill"></div></div>
-                            <div class="rr-pillars">
-                                <div class="rr-pillar">
-                                    <span class="rr-icon"><i class="fas fa-lock"></i></span>
-                                    <strong>Secure Payment</strong>
-                                    <span>256-bit SSL encryption</span>
-                                </div>
-                                <div class="rr-pillar">
-                                    <span class="rr-icon"><i class="fas fa-truck"></i></span>
-                                    <strong>Free Shipping</strong>
-                                    <span>On every order</span>
-                                </div>
-                                <div class="rr-pillar">
-                                    <span class="rr-icon"><i class="fas fa-headset"></i></span>
-                                    <strong>24/7 Support</strong>
-                                    <span>Real humans, fast replies</span>
-                                </div>
-                                <div class="rr-pillar">
-                                    <span class="rr-icon"><i class="fas fa-rotate-left"></i></span>
-                                    <strong>Easy Returns</strong>
-                                    <span>30 days, no questions</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- WAVE -->
-    <section id="wave-section" data-scroll-reveal>
-        <svg width="0" height="0">
-            <defs>
-                <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color: var(--color1);" />
-                    <stop offset="100%" style="stop-color: var(--color2);" />
-                </linearGradient>
-            </defs>
-        </svg>
-        <div class="wave-container">
-            <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
-            </svg>
+      <!-- RISK REVERSAL -->
+      <section id="risk-reversal" class="risk-reversal-section reveal" data-scroll-reveal>
+        <div class="container">
+          <div class="rr-inner">
+            <div class="rr-badge reveal-left">
+              <div class="rr-badge-ring"></div>
+              <div class="rr-badge-ring rr-badge-ring--2"></div>
+              <div class="rr-badge-content">
+                <div class="rr-shield"><i class="fas fa-shield-alt"></i></div>
+                <strong>30-Day</strong>
+                <span>Money Back</span>
+                <span>Guarantee</span>
+              </div>
+            </div>
+            <div class="rr-content reveal-right">
+              <div class="rr-eyebrow-wrap">
+                <span class="rr-eyebrow">Achat Sans Risque</span>
+              </div>
+              <h2>Zero Risk. <em>Full Confidence.</em></h2>
+              <p>We know starting a fitness journey takes courage. That's why every CurvaFit order is backed by our <strong>30-day no-questions-asked return policy</strong>. If you're not happy — for any reason — we refund you completely. No forms, no hassle.</p>
+              <div class="rr-bar-track"><div class="rr-bar-fill"></div></div>
+              <div class="rr-pillars">
+                <div class="rr-pillar"><span class="rr-icon"><i class="fas fa-lock"></i></span><strong>Secure Payment</strong><span>256-bit SSL encryption</span></div>
+                <div class="rr-pillar"><span class="rr-icon"><i class="fas fa-truck"></i></span><strong>Free Shipping</strong><span>On every order</span></div>
+                <div class="rr-pillar"><span class="rr-icon"><i class="fas fa-headset"></i></span><strong>24/7 Support</strong><span>Real humans, fast replies</span></div>
+                <div class="rr-pillar"><span class="rr-icon"><i class="fas fa-rotate-left"></i></span><strong>Easy Returns</strong><span>30 days, no questions</span></div>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
+
+      <!-- WAVE -->
+      <section id="wave-section" data-scroll-reveal>
+        <svg width="0" height="0"><defs><linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color: var(--color1);" /><stop offset="100%" style="stop-color: var(--color2);" /></linearGradient></defs></svg>
+        <div class="wave-container">
+          <svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
+            <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
+          </svg>
+        </div>
+      </section>
+
+      <!-- BUNDLE DEAL -->
+      <section id="bundle-deal" class="bundle-deal-section reveal" data-scroll-reveal>
+        <div class="bd-scan-line"></div>
+        <div class="bd-particles">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="container">
+          <div class="bd-header reveal">
+            <span class="bd-tag"><i class="fas fa-gift"></i> Best Value</span>
+            <h2>The CurvaFit Starter Bundle</h2>
+            <p>Our 3 most-loved pieces — chosen by 8,000+ curvy women to start their transformation.</p>
+          </div>
+          <div class="bd-inner">
+            <div class="bd-products reveal-left">
+              <div class="bd-product-item">
+                <div class="bd-item-glow"></div>
+                <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/big_style.webp?v=1771457385" alt="Hula Hoop" loading="lazy">
+                <div class="bd-product-info"><strong>Smart Hula Hoop</strong><span>Burns belly fat in 20 min/day</span></div>
+                <span class="bd-product-price"></span>
+              </div>
+              <div class="bd-plus">+</div>
+              <div class="bd-product-item">
+                <div class="bd-item-glow"></div>
+                <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/big_style_3.webp?v=1771457384" alt="Waist Trainer" loading="lazy">
+                <div class="bd-product-info"><strong>Plus Size Waist Trainer</strong><span>S to 6XL — compresses and shapes</span></div>
+                <span class="bd-product-price"></span>
+              </div>
+              <div class="bd-plus">+</div>
+              <div class="bd-product-item">
+                <div class="bd-item-glow"></div>
+                <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/big_style.webp?v=1771457385" alt="Sports Bra" loading="lazy">
+                <div class="bd-product-info"><strong>Shock-Absorbing Sports Bra</strong><span>S to 5XL — all-day comfort</span></div>
+                <span class="bd-product-price"></span>
+              </div>
+            </div>
+            <div class="bd-summary reveal-right">
+              <div class="bd-summary-shine"></div>
+              <div class="bd-bars">
+                <div class="bd-bar"><div class="bd-bar-fill" style="--w:92%"></div></div>
+                <div class="bd-bar"><div class="bd-bar-fill" style="--w:78%"></div></div>
+                <div class="bd-bar"><div class="bd-bar-fill" style="--w:85%"></div></div>
+              </div>
+              <div class="bd-price-box">
+                <div class="bd-original">Original: <s></s></div>
+                <div class="bd-save">You Save: <strong></strong></div>
+                <div class="bd-total">Bundle Price: <strong class="bd-total-price"></strong></div>
+              </div>
+              <div class="bd-benefits">
+                <div class="bd-benefit">✓ Free worldwide shipping</div>
+                <div class="bd-benefit">✓ 30-day money back guarantee</div>
+                <div class="bd-benefit">✓ Priority processing</div>
+              </div>
+              <a href="#product-grid-1" class="bd-cta">Get The Bundle — </a>
+              <p class="bd-urgency">⚡ <span id="bd-viewers">23</span> people viewing this bundle right now</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+      (function(){
+        var el=document.getElementById('bd-viewers');
+        if(!el)return;
+        setInterval(function(){
+          var n=Math.floor(Math.random()*8)-3+parseInt(el.textContent);
+          el.textContent=Math.max(12,Math.min(47,n));
+        },4000);
+      })();
+      </script>
+
+      <div id="newsletter-container"></div>
     </section>
-
-             <!-- ░░ BUNDLE DEAL ░░ -->
-        <section id="bundle-deal" class="bundle-deal-section" data-scroll-reveal>
-            <div class="bd-scan-line"></div>
-            <div class="bd-particles">
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="container">
-                <div class="bd-header">
-                    <span class="bd-tag"><i class="fas fa-gift"></i> Best Value</span>
-                    <h2>The CurvaFit Starter Bundle</h2>
-                    <p>Our 3 most-loved pieces — chosen by 8,000+ curvy women to start their transformation.</p>
-                </div>
-                <div class="bd-inner">
-                    <div class="bd-products">
-                        <div class="bd-product-item">
-                            <div class="bd-item-glow"></div>
-                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/big_style.webp?v=1771457385" alt="Hula Hoop" loading="lazy">
-                            <div class="bd-product-info">
-                                <strong>Smart Hula Hoop</strong>
-                                <span>Burns belly fat in 20 min/day</span>
-                            </div>
-                            <span class="bd-product-price"></span>
-                        </div>
-                        <div class="bd-plus">+</div>
-                        <div class="bd-product-item">
-                            <div class="bd-item-glow"></div>
-                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/big_style_3.webp?v=1771457384" alt="Waist Trainer" loading="lazy">
-                            <div class="bd-product-info">
-                                <strong>Plus Size Waist Trainer</strong>
-                                <span>S to 6XL — compresses and shapes</span>
-                            </div>
-                            <span class="bd-product-price"></span>
-                        </div>
-                        <div class="bd-plus">+</div>
-                        <div class="bd-product-item">
-                            <div class="bd-item-glow"></div>
-                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/big_style.webp?v=1771457385" alt="Sports Bra" loading="lazy">
-                            <div class="bd-product-info">
-                                <strong>Shock-Absorbing Sports Bra</strong>
-                                <span>S to 5XL — all-day comfort</span>
-                            </div>
-                            <span class="bd-product-price"></span>
-                        </div>
-                    </div>
-                    <div class="bd-summary">
-                        <div class="bd-summary-shine"></div>
-                        <div class="bd-bars">
-                            <div class="bd-bar"><div class="bd-bar-fill" style="--w:92%"></div></div>
-                            <div class="bd-bar"><div class="bd-bar-fill" style="--w:78%"></div></div>
-                            <div class="bd-bar"><div class="bd-bar-fill" style="--w:85%"></div></div>
-                        </div>
-                        <div class="bd-price-box">
-                            <div class="bd-original">Original: <s></s></div>
-                            <div class="bd-save">You Save: <strong></strong></div>
-                            <div class="bd-total">Bundle Price: <strong class="bd-total-price"></strong></div>
-                        </div>
-                        <div class="bd-benefits">
-                            <div class="bd-benefit">✓ Free worldwide shipping</div>
-                            <div class="bd-benefit">✓ 30-day money back guarantee</div>
-                            <div class="bd-benefit">✓ Priority processing</div>
-                        </div>
-                        <a href="#product-grid-1" class="bd-cta">Get The Bundle — </a>
-                        <p class="bd-urgency">⚡ <span id="bd-viewers">23</span> people viewing this bundle right now</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <script>
-        (function(){
-            var el=document.getElementById('bd-viewers');
-            if(!el)return;
-            setInterval(function(){
-                var n=Math.floor(Math.random()*8)-3+parseInt(el.textContent);
-                el.textContent=Math.max(12,Math.min(47,n));
-            },4000);
-        })();
-        </script>
-
-        <div id="newsletter-container"></div>
   </main>
 
   <!-- FOOTER -->
@@ -1078,7 +640,6 @@
   <script src="/geo-detect.js"></script>
 
 
-<!-- Injection header/footer -->
  <!-- Injection header/footer -->
    <script>
   fetch('/src/components/header.html')
@@ -1115,9 +676,18 @@
       document.getElementById('newsletter-container').innerHTML = html;
     })
     .catch(err => console.error('Newsletter load error:', err));
+
+
+    fetch('/src/components/opups.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('popups-container').innerHTML = html;
+  })
+  .catch(err => console.error('Popups load error:', err));
 </script>
 
-  <!-- OVERLAY -->
+
+<!-- OVERLAY -->
   <div class="overlay"></div>
 
   <!-- CART DRAWER -->
@@ -1403,6 +973,7 @@
 
  <!-- SNOW EFFECT -->
   <div id="snow-container" aria-hidden="true"></div>
+
 
 </body>
 </html>

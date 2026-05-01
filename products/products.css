@@ -2649,6 +2649,11 @@ details[open] .chevron {
 .wishlist-icon-product.added svg { fill: var(--bbw-gold); stroke: none; }
 
 
+
+
+
+
+ 
 /* ════════════════════════════════════════════════════════════
    PP-WAVE-SEPARATOR
 ════════════════════════════════════════════════════════════ */
@@ -2681,11 +2686,6 @@ details[open] .chevron {
     fill: var(--wave-rose);
     opacity: var(--wave-rose-opacity);
 }
-
-
-
- 
-
  
 
 

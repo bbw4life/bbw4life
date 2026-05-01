@@ -2025,124 +2025,6 @@ document.addEventListener('click', function (e) {
 
 
 
-/* ═══════════════════════════════════════════════════════════════
-   BBW4LIFE — MISSION POPUP 
-═══════════════════════════════════════════════════════════════ */
-
-(function () {
-  'use strict';
-
-  var BBWM_OVERLAY_ID = 'bbwMissionOverlay';
-  var BBWM_CLOSE_ID   = 'bbwmCloseBtn';
-
-  /* ── Textes qui déclenchent le popup (en minuscules) ── */
-  var BBWM_TRIGGERS = ['our-mission', 'our mission', 'notre mission'];
-
-  /* ── Ouvre le popup ── */
-  function bbwmOpen() {
-    var overlay = document.getElementById(BBWM_OVERLAY_ID);
-    if (!overlay) return;
-    overlay.setAttribute('aria-hidden', 'false');
-    overlay.classList.add('bbwm-active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  /* ── Ferme le popup ── */
-  function bbwmClose() {
-    var overlay = document.getElementById(BBWM_OVERLAY_ID);
-    if (!overlay) return;
-    overlay.classList.remove('bbwm-active');
-    overlay.setAttribute('aria-hidden', 'true');
-    /* Restitue le scroll seulement si aucun autre popup BBW n'est ouvert */
-    var otherOpen = document.querySelector(
-      '#bbw-quiz-overlay.bbq-active, #bbwStyleOverlay.bbws-active, ' +
-      '#bbwLookOverlay.bbwl-active, #bdOverlay.bd-active, ' +
-      '#bbwCommitmentOverlay.bbwc-active'
-    );
-    if (!otherOpen) {
-      document.body.style.overflow = '';
-    }
-  }
-
-  /* ── Vérifie si le texte correspond à un déclencheur ── */
-  function bbwmMatches(el) {
-    if (!el) return false;
-    if (el.getAttribute && el.getAttribute('data-open-mission') !== null) return true;
-    var txt = (el.textContent || '').trim().toLowerCase();
-    return BBWM_TRIGGERS.indexOf(txt) !== -1;
-  }
-
-  /* ── Lie les déclencheurs statiques ── */
-  function bbwmBindTriggers() {
-    document.querySelectorAll('a, button, li').forEach(function (el) {
-      if (el._bbwmBound) return;
-      if (bbwmMatches(el)) {
-        el._bbwmBound = true;
-        el.addEventListener('click', function (e) {
-          e.preventDefault();
-          bbwmOpen();
-        });
-      }
-    });
-  }
-
-  /* ── Écouteur global (capture les liens injectés dynamiquement) ── */
-  document.addEventListener('click', function (e) {
-    var el = e.target;
-    if (!el) return;
-    /* Remonte au parent cliquable si le clic touche un enfant (icône, span…) */
-    var anchor = el.closest ? el.closest('a, button, li') : el;
-    if (anchor && bbwmMatches(anchor)) {
-      e.preventDefault();
-      bbwmOpen();
-    }
-  });
-
-  /* ── Init ── */
-  function bbwmInit() {
-    var overlay  = document.getElementById(BBWM_OVERLAY_ID);
-    var closeBtn = document.getElementById(BBWM_CLOSE_ID);
-
-    if (!overlay) return;
-
-    /* Bouton fermer */
-    if (closeBtn) {
-      closeBtn.addEventListener('click', bbwmClose);
-    }
-
-    /* Clic en dehors du modal */
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) bbwmClose();
-    });
-
-    /* Touche Échap */
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && overlay.classList.contains('bbwm-active')) {
-        bbwmClose();
-      }
-    });
-
-    /* Bind initial + rebind après injections asynchrones de footer.js */
-    bbwmBindTriggers();
-    setTimeout(bbwmBindTriggers, 800);
-    setTimeout(bbwmBindTriggers, 2000);
-    setTimeout(bbwmBindTriggers, 4000);
-  }
-
-  /* ── Bootstrap ── */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bbwmInit);
-  } else {
-    bbwmInit();
-  }
-
-  /* ── API publique ── */
-  window.openMissionPopup  = bbwmOpen;
-  window.closeMissionPopup = bbwmClose;
-
-})();
-
-
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2448,7 +2330,7 @@ document.addEventListener('click', function (e) {
     }
   });
 
-  /* Initial bind + rebind after footer.js async injection */
+ 
   bindTriggers();
   setTimeout(bindTriggers, 800);
   setTimeout(bindTriggers, 2000);
@@ -2461,3 +2343,128 @@ document.addEventListener('click', function (e) {
   window.closeNewsletterPopup = closePopup;
 
 })();
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — MISSION POPUP 
+═══════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  var BBWM_OVERLAY_ID = 'bbwMissionOverlay';
+  var BBWM_CLOSE_ID   = 'bbwmCloseBtn';
+
+  /* ── Textes qui déclenchent le popup (en minuscules) ── */
+  var BBWM_TRIGGERS = ['our-mission', 'our mission', 'notre mission'];
+
+  /* ── Ouvre le popup ── */
+  function bbwmOpen() {
+    var overlay = document.getElementById(BBWM_OVERLAY_ID);
+    if (!overlay) return;
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('bbwm-active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* ── Ferme le popup ── */
+  function bbwmClose() {
+    var overlay = document.getElementById(BBWM_OVERLAY_ID);
+    if (!overlay) return;
+    overlay.classList.remove('bbwm-active');
+    overlay.setAttribute('aria-hidden', 'true');
+    /* Restitue le scroll seulement si aucun autre popup BBW n'est ouvert */
+    var otherOpen = document.querySelector(
+      '#bbw-quiz-overlay.bbq-active, #bbwStyleOverlay.bbws-active, ' +
+      '#bbwLookOverlay.bbwl-active, #bdOverlay.bd-active, ' +
+      '#bbwCommitmentOverlay.bbwc-active'
+    );
+    if (!otherOpen) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  /* ── Vérifie si le texte correspond à un déclencheur ── */
+  function bbwmMatches(el) {
+    if (!el) return false;
+    if (el.getAttribute && el.getAttribute('data-open-mission') !== null) return true;
+    var txt = (el.textContent || '').trim().toLowerCase();
+    return BBWM_TRIGGERS.indexOf(txt) !== -1;
+  }
+
+  /* ── Lie les déclencheurs statiques ── */
+  function bbwmBindTriggers() {
+    document.querySelectorAll('a, button, li').forEach(function (el) {
+      if (el._bbwmBound) return;
+      if (bbwmMatches(el)) {
+        el._bbwmBound = true;
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          bbwmOpen();
+        });
+      }
+    });
+  }
+
+  /* ── Écouteur global (capture les liens injectés dynamiquement) ── */
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    if (!el) return;
+    /* Remonte au parent cliquable si le clic touche un enfant (icône, span…) */
+    var anchor = el.closest ? el.closest('a, button, li') : el;
+    if (anchor && bbwmMatches(anchor)) {
+      e.preventDefault();
+      bbwmOpen();
+    }
+  });
+
+  /* ── Init ── */
+  function bbwmInit() {
+    var overlay  = document.getElementById(BBWM_OVERLAY_ID);
+    var closeBtn = document.getElementById(BBWM_CLOSE_ID);
+
+    if (!overlay) return;
+
+    /* Bouton fermer */
+    if (closeBtn) {
+      closeBtn.addEventListener('click', bbwmClose);
+    }
+
+    /* Clic en dehors du modal */
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) bbwmClose();
+    });
+
+    /* Touche Échap */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('bbwm-active')) {
+        bbwmClose();
+      }
+    });
+
+    /* Bind initial + rebind après injections asynchrones de footer.js */
+    bbwmBindTriggers();
+    setTimeout(bbwmBindTriggers, 800);
+    setTimeout(bbwmBindTriggers, 2000);
+    setTimeout(bbwmBindTriggers, 4000);
+  }
+
+  /* ── Bootstrap ── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bbwmInit);
+  } else {
+    bbwmInit();
+  }
+
+  /* ── API publique ── */
+  window.openMissionPopup  = bbwmOpen;
+  window.closeMissionPopup = bbwmClose;
+
+})();
+
+

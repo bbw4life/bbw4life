@@ -9053,3 +9053,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+
+
+(function() {
+  'use strict';
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  function init() {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(function(el) {
+      observer.observe(el);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
