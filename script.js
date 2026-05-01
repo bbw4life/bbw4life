@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* ══════════════════════════════════════════
-   CURVAFIT PRELOADER
+   BBW4LIFE PRELOADER — Beauty Has No Sizes
 ══════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     style_morph_text:   'style-morph-text'
   };
 
-  var MORPH_TEXTS  = ['Loading', 'Preparing your journey', 'Almost there', 'Welcome ✨'];
+  var MORPH_TEXTS  = ['Welcome ✨', 'Beauty Has No Sizes', 'You Are Enough', 'BBW4LIFE 💖'];
   var morphTimer   = null;
   var barTimer     = null;
   var morphIdx     = 0;
@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!pl) return;
 
       if (show !== 'yes') {
-        // Masquage instantané — pas de transition, pas de délai
         pl.style.cssText = 'display:none!important';
         var st = document.getElementById('cf-pre-style');
         if (st && st.parentNode) st.parentNode.removeChild(st);
@@ -170,9 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!container) return;
     var colors = [
       'rgba(192,56,94,0.6)',
-      'rgba(232,188,106,0.5)',
-      'rgba(123,63,110,0.5)',
-      'rgba(255,255,255,0.25)'
+      'rgba(201,150,62,0.5)',
+      'rgba(212,80,110,0.5)',
+      'rgba(255,255,255,0.20)'
     ];
     for (var i = 0; i < 22; i++) {
       var p        = document.createElement('div');
@@ -2939,7 +2938,80 @@ if (window.innerWidth <= 768) {
   }
 })();
 
+// ══════════════════════════════════════════
+//  BAR SEPARATOR — inject from settings
+// ══════════════════════════════════════════
+(function initBarSeparator() {
+  function run() {
+    const settings = (window.__allProducts || []).find(p => p.type === 'settings') || {};
+    const bs = settings.bar_separator || {};
 
+    const section = document.getElementById('bar-separator-section');
+    const line    = section ? section.querySelector('.bar-separator-line') : null;
+    if (!section || !line) return;
+
+    // Show/hide
+    if ((bs.show || 'yes').toLowerCase() !== 'yes') {
+      section.style.display = 'none';
+      return;
+    }
+
+    // Padding & background
+    section.style.paddingTop    = (bs.padding_top    || 20) + 'px';
+    section.style.paddingBottom = (bs.padding_bottom || 20) + 'px';
+    section.style.backgroundColor = bs.bg_color || '';
+
+    const height   = parseInt(bs.height) || 4;
+    const barColor = bs.bar_color || '#000000';
+
+    // Detect active style (first "yes" wins)
+    const styleMap = {
+      style_solid:  'solid',
+      style_dashed: 'dashed',
+      style_dotted: 'dotted',
+      style_double: 'double',
+      style_groove: 'groove',
+      style_none:   'none'
+    };
+
+    let activeStyle = 'solid';
+    for (const [key, val] of Object.entries(styleMap)) {
+      if ((bs[key] || 'no').toLowerCase() === 'yes') {
+        activeStyle = val;
+        break;
+      }
+    }
+
+    // Apply style
+    if (activeStyle === 'none') {
+      line.style.display = 'none';
+      return;
+    }
+
+    if (activeStyle === 'solid') {
+      line.style.height          = height + 'px';
+      line.style.backgroundColor = barColor;
+      line.style.borderTop       = 'none';
+    } else {
+      line.style.height          = '0';
+      line.style.backgroundColor = 'transparent';
+      const thickness = activeStyle === 'double' ? (height * 3) + 'px' : height + 'px';
+      line.style.borderTop = `${thickness} ${activeStyle} ${barColor}`;
+    }
+  }
+
+  if (window.__allProducts && window.__allProducts.length) {
+    run();
+  } else {
+    let tries = 0;
+    const wait = setInterval(() => {
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(wait);
+        run();
+      } else if (++tries > 60) clearInterval(wait);
+    }, 100);
+  }
+})();
 
 // ═══════════════════════════════════════
 //  SNOW / FALLING EFFECT
@@ -5463,6 +5535,7 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
   })();
 
 });
+
 
 
 // ====================== SWATCH SCROLL MOBILE ======================
@@ -8333,46 +8406,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-// ── Announcement Bar ──
-(function() {
-  const slides = document.querySelectorAll('.ann-bar__slide');
-  const dots   = document.querySelectorAll('.ann-bar__dot');
-  let current  = 0;
-  let timer;
-
-  function goTo(next, dir) {
-    if (next === current) return;
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (next + slides.length) % slides.length;
-    slides[current].style.transform = dir > 0 ? 'translateY(100%)' : 'translateY(-100%)';
-    slides[current].style.opacity = '0';
-    slides[current].classList.add('active');
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      slides[current].style.transform = '';
-      slides[current].style.opacity = '';
-    }));
-    dots[current].classList.add('active');
-  }
-
-  function startTimer() {
-    clearInterval(timer);
-    timer = setInterval(() => goTo((current + 1) % slides.length, 1), 5000);
-  }
-
-  const btnNext = document.getElementById('annNext');
-  const btnPrev = document.getElementById('annPrev');
-  if (btnNext) btnNext.addEventListener('click', () => { goTo((current+1)%slides.length, 1); startTimer(); });
-  if (btnPrev) btnPrev.addEventListener('click', () => { goTo((current-1+slides.length)%slides.length, -1); startTimer(); });
-
-  startTimer();
-})();
-
-
-
-
-
-
 (function () {
   'use strict';
 
@@ -9004,9 +9037,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 })();
-
-
-
 /* ── Newsletter particles ── */
 (function () {
   var c = document.getElementById('nl-particles');
@@ -9020,9 +9050,6 @@ document.addEventListener('DOMContentLoaded', function () {
     c.appendChild(p);
   }
 })();
-
-
-
 
 
 

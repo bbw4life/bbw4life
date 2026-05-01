@@ -27,53 +27,12 @@
 
 <body>
 
-  <!-- ANNOUNCEMENT BAR -->
-  <div class="ann-bar" id="annBar">
-    <button class="ann-bar__btn" id="annPrev">&#8249;</button>
-    <div class="ann-bar__track" id="annTrack">
-      <div class="ann-bar__slide active"><i class="fas fa-fire"></i> Flash Sale — Up to 50% Off · Today Only</div>
-      <div class="ann-bar__slide"><i class="fas fa-truck"></i> Free Shipping on all orders over $50</div>
-      <div class="ann-bar__slide"><i class="fas fa-star"></i> Over 3,800 Happy Customers Worldwide</div>
-      <div class="ann-bar__slide"><i class="fas fa-shield-alt"></i> 30-Day Money-Back Guarantee — No Questions</div>
-      <div class="ann-bar__slide"><i class="fas fa-gift"></i> New Arrivals Every Week — Discover Our Collection</div>
-    </div>
-    <div style="display:flex;align-items:center;">
-      <div class="ann-bar__dots" id="annDots">
-        <div class="ann-bar__dot active"></div>
-        <div class="ann-bar__dot"></div>
-        <div class="ann-bar__dot"></div>
-        <div class="ann-bar__dot"></div>
-        <div class="ann-bar__dot"></div>
-      </div>
-      <button class="ann-bar__btn" id="annNext">&#8250;</button>
-    </div>
-  </div>
-
   <!-- HEADER -->
   <div id="header-container"></div>
 
   <!-- MAIN CONTENT -->
   <main id="main-content">
-
-    <!-- ═══════════════════════════════════════
-        BREADCRUMBS
-       ═══════════════════════════════════════ -->
-        <nav id="bc-nav" aria-label="Breadcrumb navigation" style="display:none;">
-        <div class="bc-wrapper">
-            <ol class="bc-list" id="bc-list">
-            <li class="bc-item">
-                <a href="/index.html">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;margin-right:3px;">
-                    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M9 21V12h6v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Home
-                </a>
-            </li>
-            </ol>
-        </div>
-        </nav>
-
+    <div id="breadcrumb-container"></div>
     <!-- STORY CIRCLES -->
     <section id="story-circles" class="story-circles-section">
       <div class="story-circles-track" id="storyCirclesTrack"></div>
@@ -197,6 +156,11 @@
         </div>
       </div>
     </section>
+
+<!-- bar-separator -->
+    <div id="bar-separator-section" class="bar-separator-section">
+  <div class="bar-separator-line"></div>
+</div>
 
     <!-- GALLERY + STATS SECTION -->
     <section class="jrgq-section" id="jrgq-section">
@@ -1102,117 +1066,55 @@
         })();
         </script>
 
-
-<!-- ═══════════════════════════════════════
-     NEWSLETTER SECTION — Ultra Premium
-     ═══════════════════════════════════════ -->
-<section class="nl-section">
-  <div class="nl-particles" id="nl-particles"></div>
-  <div class="nl-shimmer-line nl-shimmer-line--top"></div>
-  <div class="nl-shimmer-line nl-shimmer-line--bottom"></div>
-  <div class="nl-glow-left"></div>
-  <div class="nl-glow-right"></div>
-
-  <div class="nl-inner">
-
-    <div class="nl-left">
-      <div class="nl-badge"><span class="nl-badge-dot"></span> Free Access</div>
-      <div class="nl-eyebrow"><span class="nl-dot"></span> Exclusive Members Only</div>
-      <h2 class="nl-title">Join the<br><em>CurvaFit</em> Family</h2>
-      <p class="nl-subtitle">Real tips that work. Zero fluff. Sent once a week.</p>
-      <div class="nl-pills">
-        <span class="nl-pill"><i class="fi fi-rr-salad"></i> Meal plans</span>
-        <span class="nl-pill"><i class="fi fi-rr-flame"></i> Weight tips</span>
-        <span class="nl-pill"><i class="fi fi-rr-gift"></i> Member offers</span>
-        <span class="nl-pill"><i class="fi fi-rr-star"></i> Success stories</span>
-      </div>
-    </div>
-
-    <div class="nl-divider"></div>
-
-    <div class="nl-right">
-
-      <div class="nl-social-proof">
-        <div class="nl-avatars">
-          <div class="nl-av nl-av--1">J</div>
-          <div class="nl-av nl-av--2">S</div>
-          <div class="nl-av nl-av--3">M</div>
-          <div class="nl-av nl-av--4">A</div>
-        </div>
-        <div>
-          <div class="nl-stars">★★★★★</div>
-          <p class="nl-proof-text"><strong>+12,000 women</strong> already subscribed</p>
-        </div>
-      </div>
-
-      <form id="newsletter-form" novalidate>
-        <div id="nl-form-wrap">
-          <div class="nl-input-wrap">
-            <i class="fi fi-rr-envelope nl-icon"></i>
-            <input type="email" id="newsletter-email" class="nl-input" placeholder="Enter your email — it's free" required autocomplete="email">
-            <button type="submit" class="nl-btn">
-              <i class="fi fi-rr-paper-plane"></i>
-              <span>Join Now</span>
-            </button>
-          </div>
-          <div class="nl-bottom-row">
-            <p class="nl-privacy"><i class="fi fi-rr-lock"></i> No spam, ever. Unsubscribe anytime.</p>
-            <div class="nl-perks">
-              <span class="nl-perk"><i class="fi fi-rr-check"></i> 100% Free</span>
-              <span class="nl-perk"><i class="fi fi-rr-check"></i> Weekly only</span>
-            </div>
-          </div>
-        </div>
-        <div id="nl-success-msg">
-          <i class="fi fi-rr-party-bell"></i>
-          <span id="nl-success-text">Welcome to the family! Check your inbox.</span>
-        </div>
-      </form>
-
-    </div>
-  </div>
-</section>
-
-<!-- NEWSLETTER POPUP (injecté depuis settings) -->
-<div id="newsletter-popup" class="newsletter-success-popup">
-  <div class="popup-content">
-    <div class="popup-icon"><i class="fi fi-rr-party-bell"></i></div>
-    <h3></h3>
-    <p id="popup-message"></p>
-    <button id="popup-close-btn"></button>
-  </div>
-</div>
-
+        <div id="newsletter-container"></div>
   </main>
 
   <!-- FOOTER -->
   <div id="footer-container"></div>
 
   <!-- SCRIPTS -->
+   <script src="/script.js"></script>
   <script src="search.js"></script>
-  <script src="script.js"></script>
   <script src="/geo-detect.js"></script>
 
-  <script>
-  fetch('src/components/header.html')
+
+<!-- Injection header/footer -->
+ <!-- Injection header/footer -->
+   <script>
+  fetch('/src/components/header.html')
     .then(r => r.text())
     .then(html => {
       document.getElementById('header-container').innerHTML = html;
       const s = document.createElement('script');
-      s.src = 'src/components/header.js';
+      s.src = '/src/components/header.js';
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
 
-  fetch('src/components/footer.html')
+  fetch('/src/components/breadcrumb.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('breadcrumb-container').innerHTML = html;
+    })
+    .catch(err => console.error('Breadcrumb load error:', err));
+
+  fetch('/src/components/footer.html')
     .then(r => r.text())
     .then(html => {
       document.getElementById('footer-container').innerHTML = html;
+      document.dispatchEvent(new Event('footer:loaded'));
       const s = document.createElement('script');
-      s.src = 'src/components/footer.js';
+      s.src = '/src/components/footer.js';
       document.body.appendChild(s);
     })
     .catch(err => console.error('Footer load error:', err));
+
+  fetch('/src/components/newsletter.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('newsletter-container').innerHTML = html;
+    })
+    .catch(err => console.error('Newsletter load error:', err));
 </script>
 
   <!-- OVERLAY -->
@@ -1230,7 +1132,7 @@
         <div class="empty-cart__icon">🛒</div>
         <h3>Your cart is empty</h3>
         <p>Add products to start shopping.</p>
-        <a href="collection.html" class="cta button-3d">Shop Now</a>
+        <a href="/collections/bbw4life-all-product.html" class="cta button-3d">Shop Now</a>
       </div>
       <div class="reviews-carousel" id="cart-reviews-carousel"></div>
       <div class="marquee-container cart-marquee">
@@ -1399,6 +1301,7 @@
     </div>
   </div>
 
+ 
   <!-- AI CHATBOT WIDGET -->
   <button id="cf-chat-toggle" aria-label="Open Curva Support Chat">
     <div class="cf-toggle-inner">
@@ -1498,7 +1401,7 @@
     </div>
   </div>
 
-  <!-- SNOW EFFECT -->
+ <!-- SNOW EFFECT -->
   <div id="snow-container" aria-hidden="true"></div>
 
 </body>

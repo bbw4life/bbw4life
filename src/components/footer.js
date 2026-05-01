@@ -558,3 +558,1906 @@
   window.bbwFooterInit = init;
 
 })();
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — "Find Your Best" Style Quiz — bbw-quiz.js
+═══════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  /* ──────────────────────────────────────────────────────────────
+     WAIT FOR products.data.json THEN INIT
+  ────────────────────────────────────────────────────────────── */
+  function waitForProducts(cb) {
+    if (window.__allProducts && window.__allProducts.length) { cb(); return; }
+    var tries = 0;
+    var poll = setInterval(function () {
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(poll); cb();
+      } else if (++tries > 100) {
+        clearInterval(poll);
+      }
+    }, 100);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     STYLE DESCRIPTIONS (fallbacks if not in settings)
+  ────────────────────────────────────────────────────────────── */
+  var STYLE_DESCS = {
+    Casual:  'Comfortable, relaxed and effortlessly chic for everyday living.',
+    Chic:    'Refined elegance with a contemporary edge — timeless sophistication.',
+    Beauty:  'Soft, feminine and delicate — pieces that celebrate your natural glow.',
+    Glamour: 'Bold, dazzling and unapologetically radiant — you were born to shine.'
+  };
+
+  var OCCASION_SLOTS = {
+    Everyday: 0,
+    Evening:  1,
+    Work:     2,
+    Party:    3
+  };
+
+  /* ──────────────────────────────────────────────────────────────
+     DOM HELPERS
+  ────────────────────────────────────────────────────────────── */
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ──────────────────────────────────────────────────────────────
+     STATE
+  ────────────────────────────────────────────────────────────── */
+  var state = {
+    step:              0,   // 0=intro, 1=Q1, 2=Q2, 3=Q3, 4=Q4, 5=result
+    style:             null,
+    occasion:          null,
+    color:             null,
+    size:              null,
+    stylePool:         [],  // product IDs for chosen style
+    selectedProduct:   null,
+    selectedVariant:   null,
+    quizSettings:      {}
+  };
+
+  /* ──────────────────────────────────────────────────────────────
+     CONFETTI
+  ────────────────────────────────────────────────────────────── */
+  function fireConfetti() {
+    var container = $('bbqConfetti');
+    if (!container) return;
+    container.innerHTML = '';
+    var colors = ['#c0385e','#c9963e','#e8bc6a','#7b3f6e','#FFD700','#fff'];
+    for (var i = 0; i < 38; i++) {
+      var piece = document.createElement('div');
+      piece.className = 'bbq-confetti-piece';
+      piece.style.left        = Math.random() * 100 + '%';
+      piece.style.background  = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.width        = (Math.random() * 8 + 5) + 'px';
+      piece.style.height       = (Math.random() * 8 + 5) + 'px';
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
+      piece.style.animationDelay   = (Math.random() * 0.8) + 's';
+      container.appendChild(piece);
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     PROGRESS
+  ────────────────────────────────────────────────────────────── */
+  function updateProgress(step) {
+    var bar   = $('bbqProgressBar');
+    var label = $('bbqProgressLabel');
+    var wrap  = $('bbqProgressWrap');
+    if (!bar || !label) return;
+
+    if (step === 0) {
+      if (wrap) wrap.style.display = 'none';
+      return;
+    }
+    if (wrap) wrap.style.display = 'flex';
+
+    var totalSteps = 4;
+    var pct = Math.round((step / totalSteps) * 100);
+    bar.style.setProperty('--bbq-progress', pct + '%');
+    label.textContent = 'Step ' + step + ' of ' + totalSteps;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     SHOW SCREEN
+  ────────────────────────────────────────────────────────────── */
+  function showScreen(id, direction) {
+    var screens = document.querySelectorAll('.bbq-screen');
+    screens.forEach(function (s) {
+      s.classList.remove('bbq-screen--active', 'bbq-screen--back');
+    });
+    var target = $(id);
+    if (!target) return;
+    if (direction === 'back') target.classList.add('bbq-screen--back');
+    target.classList.add('bbq-screen--active');
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     BACK NAV VISIBILITY
+  ────────────────────────────────────────────────────────────── */
+  function updateNav(step) {
+    var nav = $('bbqNav');
+    if (!nav) return;
+    nav.style.display = step >= 1 && step <= 4 ? 'flex' : 'none';
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     GET PRODUCT FROM __allProducts BY ID
+  ────────────────────────────────────────────────────────────── */
+  function getProductById(pid) {
+    return (window.__allProducts || []).find(function (p) {
+      return p.id === pid;
+    }) || null;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     GO TO STEP
+  ────────────────────────────────────────────────────────────── */
+  function goTo(step, direction) {
+    state.step = step;
+    updateProgress(step);
+    updateNav(step);
+
+    if (step === 0) { showScreen('bbqIntro', direction); return; }
+    if (step === 1) { showScreen('bbqQ1',    direction); return; }
+    if (step === 2) { buildQ2(); showScreen('bbqQ2', direction); return; }
+    if (step === 3) { buildColorPalette(); showScreen('bbqQ3', direction); return; }
+    if (step === 4) { buildSizeGrid(); showScreen('bbqQ4', direction); return; }
+    if (step === 5) { buildResult(); showScreen('bbqResult', direction); return; }
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     Q1 — STYLE SELECTED
+  ────────────────────────────────────────────────────────────── */
+  function onStyleSelected(styleVal) {
+    state.style = styleVal;
+
+    var cfg = (state.quizSettings.styles || {})[styleVal] || {};
+    var ids = cfg.product_ids || [];
+    state.stylePool = ids;
+
+    goTo(2);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     Q2 — BUILD OCCASION OPTIONS
+     (labels are fixed; products come from the style pool)
+  ────────────────────────────────────────────────────────────── */
+  function buildQ2() {
+    // No dynamic content needed — options are static HTML already.
+    // Just reset selection state.
+    state.occasion = null;
+    document.querySelectorAll('#bbqQ2Options .bbq-opt-card').forEach(function (btn) {
+      btn.classList.remove('bbq-selected');
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     Q2 — OCCASION SELECTED
+  ────────────────────────────────────────────────────────────── */
+  function onOccasionSelected(occasionVal) {
+    state.occasion = occasionVal;
+
+    var cfg    = (state.quizSettings.occasions || {})[occasionVal] || {};
+    var slot   = typeof cfg.slot === 'number' ? cfg.slot : (OCCASION_SLOTS[occasionVal] || 0);
+    var pool   = state.stylePool;
+
+    // Cycle through pool in case slot > pool.length
+    var pid    = pool.length ? pool[slot % pool.length] : null;
+    var prod   = pid ? getProductById(pid) : null;
+
+    // Fallback: pick any product from the pool
+    if (!prod && pool.length) {
+      for (var i = 0; i < pool.length; i++) {
+        prod = getProductById(pool[i]);
+        if (prod) break;
+      }
+    }
+
+    state.selectedProduct = prod;
+    goTo(3);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     Q3 — BUILD COLOR PALETTE
+  ────────────────────────────────────────────────────────────── */
+  function buildColorPalette() {
+    state.color = null;
+    var palette  = $('bbqColorPalette');
+    var noMsg    = $('bbqNoColorMsg');
+    var prod     = state.selectedProduct;
+    if (!palette) return;
+
+    palette.innerHTML = '';
+    if (noMsg) noMsg.style.display = 'none';
+
+    var colors = (prod && prod.colors && prod.colors.length) ? prod.colors : [];
+
+    if (!colors.length) {
+      // No colors — auto advance
+      if (noMsg) noMsg.style.display = 'block';
+      state.color = null;
+      setTimeout(function () { goTo(4); }, 1800);
+      return;
+    }
+
+    colors.forEach(function (colorObj) {
+      var swatch = document.createElement('div');
+      swatch.className = 'bbq-color-swatch';
+
+      var circle = document.createElement('div');
+      circle.className = 'bbq-color-circle';
+      circle.style.backgroundColor = colorObj.hex || '#ccc';
+
+      var name = document.createElement('span');
+      name.className   = 'bbq-color-name';
+      name.textContent = colorObj.name;
+
+      swatch.appendChild(circle);
+      swatch.appendChild(name);
+      palette.appendChild(swatch);
+
+      swatch.addEventListener('click', function () {
+        palette.querySelectorAll('.bbq-color-swatch').forEach(function (s) {
+          s.classList.remove('bbq-selected');
+        });
+        swatch.classList.add('bbq-selected');
+        state.color = colorObj.name;
+
+        // Update product image to match chosen color
+        if (colorObj.image && $('bbqResultImg')) {
+          // pre-cache
+          var preload = new Image();
+          preload.src = typeof upgradeShopifyImageUrl === 'function'
+            ? upgradeShopifyImageUrl(colorObj.image, 400)
+            : colorObj.image;
+        }
+
+        setTimeout(function () { goTo(4); }, 400);
+      });
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     Q4 — BUILD SIZE GRID
+  ────────────────────────────────────────────────────────────── */
+  function buildSizeGrid() {
+    state.size = null;
+    var grid  = $('bbqSizeGrid');
+    var noMsg = $('bbqNoSizeMsg');
+    var prod  = state.selectedProduct;
+    if (!grid) return;
+
+    grid.innerHTML = '';
+    if (noMsg) noMsg.style.display = 'none';
+
+    var sizes = (prod && prod.sizes && prod.sizes.length) ? prod.sizes : [];
+
+    if (!sizes.length) {
+      if (noMsg) noMsg.style.display = 'block';
+      state.size = null;
+      setTimeout(function () { buildAndShowResult(); }, 1800);
+      return;
+    }
+
+    sizes.forEach(function (sz) {
+      var btn = document.createElement('button');
+      btn.className   = 'bbq-size-btn';
+      btn.textContent = sz;
+
+      btn.addEventListener('click', function () {
+        grid.querySelectorAll('.bbq-size-btn').forEach(function (b) {
+          b.classList.remove('bbq-selected');
+        });
+        btn.classList.add('bbq-selected');
+        state.size = sz;
+
+        setTimeout(function () { buildAndShowResult(); }, 350);
+      });
+
+      grid.appendChild(btn);
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     RESOLVE VARIANT
+  ────────────────────────────────────────────────────────────── */
+  function resolveVariant(prod, colorName, sizeName) {
+    if (!prod) return null;
+    var variants = prod.variants || [];
+
+    // Exact match
+    if (colorName && sizeName) {
+      var exact = variants.find(function (v) {
+        return v.color === colorName && v.size === sizeName;
+      });
+      if (exact) return exact;
+    }
+
+    // Color only
+    if (colorName) {
+      var byColor = variants.find(function (v) { return v.color === colorName; });
+      if (byColor) return byColor;
+    }
+
+    // Size only
+    if (sizeName) {
+      var bySize = variants.find(function (v) { return v.size === sizeName; });
+      if (bySize) return bySize;
+    }
+
+    // Fallback: first variant
+    return variants[0] || null;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     GET IMAGE FOR VARIANT
+  ────────────────────────────────────────────────────────────── */
+  function getVariantImage(prod, colorName) {
+    if (!prod) return '';
+    if (colorName && prod.colors) {
+      var colorObj = prod.colors.find(function (c) { return c.name === colorName; });
+      if (colorObj && colorObj.image) return colorObj.image;
+    }
+    return prod.image || '';
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     BUILD RESULT SCREEN
+  ────────────────────────────────────────────────────────────── */
+  function buildAndShowResult() {
+    goTo(5);
+  }
+
+  function buildResult() {
+    var prod    = state.selectedProduct;
+    var variant = resolveVariant(prod, state.color, state.size);
+    state.selectedVariant = variant;
+
+    // Style description
+    var styleCfg = ((state.quizSettings.styles || {})[state.style]) || {};
+    var desc = styleCfg.description || STYLE_DESCS[state.style] || '';
+
+    var titleEl    = $('bbqResultTitle');
+    var styleEl    = $('bbqResultStyle');
+    var descEl     = $('bbqResultDesc');
+    var imgEl      = $('bbqResultImg');
+    var nameEl     = $('bbqResultProdName');
+    var variantEl  = $('bbqResultProdVariant');
+    var priceEl    = $('bbqResultProdPrice');
+
+    if (titleEl)   titleEl.textContent   = 'Your ' + (state.style || '') + ' Look!';
+    if (styleEl)   styleEl.textContent   = (state.style || '') + ' · ' + (state.occasion || '');
+    if (descEl)    descEl.textContent    = desc;
+
+    if (prod) {
+      var imgSrc = getVariantImage(prod, state.color);
+      if (typeof upgradeShopifyImageUrl === 'function') imgSrc = upgradeShopifyImageUrl(imgSrc, 400);
+      if (imgEl) { imgEl.src = imgSrc; imgEl.alt = prod.title; }
+      if (nameEl)  nameEl.textContent  = prod.title;
+
+      var variantParts = [];
+      if (state.color) variantParts.push(state.color);
+      if (state.size)  variantParts.push('Size: ' + state.size);
+      if (variantEl) variantEl.textContent = variantParts.join(' — ') || 'One size';
+
+      var price = variant ? variant.price : prod.price;
+      if (priceEl) priceEl.textContent = '$' + parseFloat(price).toFixed(2);
+    } else {
+      if (imgEl)     imgEl.style.display  = 'none';
+      if (nameEl)    nameEl.textContent   = 'No product found for this combination.';
+      if (variantEl) variantEl.textContent = '';
+      if (priceEl)   priceEl.textContent   = '';
+    }
+
+    fireConfetti();
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     ADD TO CART
+  ────────────────────────────────────────────────────────────── */
+  function addResultToCart() {
+    var prod    = state.selectedProduct;
+    var variant = state.selectedVariant;
+    if (!prod) return;
+
+    var color = state.color || (variant ? variant.color || null : null);
+    var size  = state.size  || (variant ? variant.size  || null : null);
+    var price = variant ? parseFloat(variant.price) : parseFloat(prod.price);
+    var vid   = variant ? variant.vid : null;
+
+    var imgSrc = getVariantImage(prod, color);
+    if (typeof upgradeShopifyImageUrl === 'function') imgSrc = upgradeShopifyImageUrl(imgSrc, 600);
+
+    // Get cart
+    var cart = [];
+    if (typeof window.__getCart === 'function') {
+      cart = window.__getCart();
+    } else {
+      try { cart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (e) {}
+    }
+    if (!Array.isArray(cart)) cart = [];
+
+    var existing = cart.find(function (i) {
+      return i.id === prod.id && i.color === color && i.size === size;
+    });
+
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({
+        id:            prod.id,
+        title:         prod.title,
+        price:         price,
+        compare_price: parseFloat(prod.compare_price) || price,
+        image:         imgSrc,
+        size:          size  || null,
+        color:         color || null,
+        quantity:      1,
+        fromQuiz:      true,
+        cj_product_id: prod.cj_id || null,
+        cj_variant_id: vid        || null
+      });
+    }
+
+    // Save
+    if (typeof window.__setCart === 'function') window.__setCart(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    if (typeof window.saveCart                  === 'function') window.saveCart();
+    if (typeof window.updateCartQuantityInSheet === 'function') window.updateCartQuantityInSheet();
+    if (typeof window.applyPromoFreeItems       === 'function') window.applyPromoFreeItems();
+    if (typeof window.updateBadges              === 'function') window.updateBadges();
+    if (typeof window.renderCart                === 'function') window.renderCart();
+
+    // Close quiz
+    closeQuiz();
+
+    // Open cart drawer
+    setTimeout(function () {
+      if (typeof window.openCartDrawer === 'function') window.openCartDrawer();
+    }, 280);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     OPEN / CLOSE
+  ────────────────────────────────────────────────────────────── */
+  function openQuiz() {
+    var overlay = $('bbw-quiz-overlay');
+    if (!overlay) return;
+    document.body.style.overflow = 'hidden';
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('bbq-active');
+    resetQuiz();
+  }
+
+  function closeQuiz() {
+    var overlay = $('bbw-quiz-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('bbq-active');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function resetQuiz() {
+    state.step            = 0;
+    state.style           = null;
+    state.occasion        = null;
+    state.color           = null;
+    state.size            = null;
+    state.stylePool       = [];
+    state.selectedProduct = null;
+    state.selectedVariant = null;
+
+    // Clear option selections
+    document.querySelectorAll('.bbq-opt-card').forEach(function (btn) {
+      btn.classList.remove('bbq-selected');
+    });
+
+    goTo(0);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     BACK NAVIGATION
+  ────────────────────────────────────────────────────────────── */
+  function goBack() {
+    var step = state.step;
+    if (step <= 1) { goTo(0, 'back'); return; }
+    goTo(step - 1, 'back');
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     BIND EVENTS
+  ────────────────────────────────────────────────────────────── */
+  function bindEvents() {
+    /* Start button */
+    var startBtn = $('bbqStartBtn');
+    if (startBtn) startBtn.addEventListener('click', function () { goTo(1); });
+
+    /* Close button */
+    var closeBtn = $('bbqCloseBtn');
+    if (closeBtn) closeBtn.addEventListener('click', closeQuiz);
+
+    /* Overlay click outside modal */
+    var overlay = $('bbw-quiz-overlay');
+    if (overlay) {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeQuiz();
+      });
+    }
+
+    /* Escape key */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeQuiz();
+    });
+
+    /* Q1 option cards */
+    document.querySelectorAll('#bbqQ1Options .bbq-opt-card').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('#bbqQ1Options .bbq-opt-card').forEach(function (b) {
+          b.classList.remove('bbq-selected');
+        });
+        btn.classList.add('bbq-selected');
+        var val = btn.getAttribute('data-val');
+        setTimeout(function () { onStyleSelected(val); }, 320);
+      });
+    });
+
+    /* Q2 option cards */
+    document.querySelectorAll('#bbqQ2Options .bbq-opt-card').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('#bbqQ2Options .bbq-opt-card').forEach(function (b) {
+          b.classList.remove('bbq-selected');
+        });
+        btn.classList.add('bbq-selected');
+        var val = btn.getAttribute('data-val');
+        setTimeout(function () { onOccasionSelected(val); }, 320);
+      });
+    });
+
+    /* Result — Add to cart */
+    var atcBtn = $('bbqAddToCartBtn');
+    if (atcBtn) atcBtn.addEventListener('click', addResultToCart);
+
+    /* Retake */
+    var retakeBtn = $('bbqRetakeBtn');
+    if (retakeBtn) retakeBtn.addEventListener('click', resetQuiz);
+
+    /* Back nav */
+    var backBtn = $('bbqNavBack');
+    if (backBtn) backBtn.addEventListener('click', goBack);
+
+    /* ── Trigger links in footer / header / anywhere ──
+       Any element with id="bbwFindYourBestLink"
+       OR data-open-quiz="true" will open the quiz.
+    ── */
+    function bindOpenTriggers() {
+      /* Footer link injected by footer.js */
+      var footerLink = $('bbwFindYourBestLink');
+      if (footerLink) {
+        footerLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          openQuiz();
+        });
+      }
+
+      /* Any other trigger */
+      document.querySelectorAll('[data-open-quiz]').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          openQuiz();
+        });
+      });
+    }
+
+    bindOpenTriggers();
+
+    /* Re-bind after footer.js finishes injecting links */
+    setTimeout(bindOpenTriggers, 1200);
+    setTimeout(bindOpenTriggers, 3000);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     LOAD QUIZ SETTINGS
+  ────────────────────────────────────────────────────────────── */
+  function loadSettings() {
+    var settings = (window.__allProducts || []).find(function (p) {
+      return p.type === 'settings';
+    }) || {};
+    state.quizSettings = settings.style_quiz || {};
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     INIT
+  ────────────────────────────────────────────────────────────── */
+  function init() {
+    loadSettings();
+    bindEvents();
+    // Start on intro (hidden until opened)
+    goTo(0);
+
+    /* ── Expose global open function ── */
+    window.openStyleQuiz = openQuiz;
+    window.closeStyleQuiz = closeQuiz;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     BOOTSTRAP
+  ────────────────────────────────────────────────────────────── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      waitForProducts(init);
+    });
+  } else {
+    waitForProducts(init);
+  }
+
+})();
+
+document.addEventListener('click', function (e) {
+  var el = e.target;
+  if (
+    el.tagName === 'A' &&
+    (
+      el.id === 'bbwFindYourBestLink' ||
+      el.getAttribute('data-open-quiz') ||
+      (el.textContent && el.textContent.trim().toLowerCase().includes('find your best'))
+    )
+  ) {
+    e.preventDefault();
+    if (typeof window.openStyleQuiz === 'function') window.openStyleQuiz();
+  }
+});
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — STYLE LOOKBOOK POPUP JS
+═══════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  /* ── Sélecteurs ── */
+  var overlay  = document.getElementById('bbwStyleOverlay');
+  var closeBtn = document.getElementById('bbwsCloseBtn');
+  var tabs     = document.querySelectorAll('.bbws-tab');
+  var panels   = document.querySelectorAll('.bbws-panel');
+
+  if (!overlay) return; /* Sécurité si le HTML n'est pas encore dans la page */
+
+  /* ─────────────────────────────────────────
+     OUVRIR
+  ───────────────────────────────────────── */
+  function openStylePopup() {
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('bbws-active');
+    document.body.style.overflow = 'hidden';
+    /* Réinitialise sur le premier onglet à chaque ouverture */
+    switchTab('casual', false);
+  }
+
+  /* ─────────────────────────────────────────
+     FERMER
+  ───────────────────────────────────────── */
+  function closeStylePopup() {
+    overlay.classList.remove('bbws-active');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  /* ─────────────────────────────────────────
+     SWITCH D'ONGLET
+  ───────────────────────────────────────── */
+  function switchTab(tabId, fromLeft) {
+    tabs.forEach(function (t) {
+      var active = t.getAttribute('data-tab') === tabId;
+      t.classList.toggle('bbws-tab--active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    panels.forEach(function (p) {
+      var panelId = 'bbws-panel-' + tabId;
+      var isActive = p.id === panelId;
+
+      if (isActive) {
+        p.classList.add('bbws-panel--active');
+        /* Déclenche l'animation d'entrée des images */
+        var imgs = p.querySelectorAll('.bbws-img-wrap');
+        imgs.forEach(function (img) {
+          img.style.animation = 'none';
+          /* Force reflow */
+          void img.offsetWidth;
+          img.style.animation = '';
+        });
+      } else {
+        p.classList.remove('bbws-panel--active');
+      }
+    });
+  }
+
+  /* ─────────────────────────────────────────
+     ÉVÉNEMENTS — ONGLETS
+  ───────────────────────────────────────── */
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var tabId = tab.getAttribute('data-tab');
+      switchTab(tabId, false);
+    });
+  });
+
+  /* ─────────────────────────────────────────
+     ÉVÉNEMENTS — FERMETURE
+  ───────────────────────────────────────── */
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeStylePopup);
+  }
+
+  /* Clic en dehors du modal */
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeStylePopup();
+  });
+
+  /* Touche Échap */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('bbws-active')) {
+      closeStylePopup();
+    }
+  });
+
+  function bindStyleTriggers() {
+    /* 1. Via attribut explicite */
+    document.querySelectorAll('[data-open-style-popup]').forEach(function (el) {
+      if (!el._bbwsStyleBound) {
+        el._bbwsStyleBound = true;
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          openStylePopup();
+        });
+      }
+    });
+
+    /* 2. Via texte : tout lien <a> ou <li> dont le texte inclut "bbw4life style" */
+    var allLinks = document.querySelectorAll('a, button');
+    allLinks.forEach(function (el) {
+      if (el._bbwsStyleBound) return;
+      var txt = (el.textContent || '').trim().toLowerCase();
+      if (txt === 'bbw4life style') {
+        el._bbwsStyleBound = true;
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          openStylePopup();
+        });
+      }
+    });
+  }
+
+  /* Bind initial + rebind après injection footer.js */
+  bindStyleTriggers();
+  setTimeout(bindStyleTriggers, 800);
+  setTimeout(bindStyleTriggers, 2000);
+  setTimeout(bindStyleTriggers, 4000);
+
+  /* ─────────────────────────────────────────
+     API PUBLIQUE
+  ───────────────────────────────────────── */
+  window.openStylePopup  = openStylePopup;
+  window.closeStylePopup = closeStylePopup;
+
+  /* Écoute globale (au cas où le lien est rendu dynamiquement) */
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    if (!el || el.tagName !== 'A') return;
+
+    var txt = (el.textContent || '').trim().toLowerCase();
+    if (
+      el.getAttribute('data-open-style-popup') !== null ||
+      txt === 'bbw4life style'
+    ) {
+      e.preventDefault();
+      openStylePopup();
+    }
+  });
+
+})();
+
+
+
+/* ── Find My Look ── */
+(function () {
+  'use strict';
+
+  var overlay  = document.getElementById('bbwLookOverlay');
+  var closeBtn = document.getElementById('bbwlCloseBtn');
+  var tabs     = document.querySelectorAll('.bbwl-tab');
+  var panels   = document.querySelectorAll('.bbwl-panel');
+  var rendered = {};
+
+  if (!overlay) return;
+  function waitForProducts(cb) {
+    if (window.__allProducts && window.__allProducts.length) {
+      cb();
+      return;
+    }
+    var tries = 0;
+    var poll = setInterval(function () {
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(poll);
+        cb();
+      } else if (++tries > 100) {
+        clearInterval(poll);
+        cb();
+      }
+    }, 100);
+  }
+
+  /* ── Récupère les settings exactement comme script.js le fait ── */
+  function getSettings() {
+    var all = window.__allProducts || [];
+    var settings = all.find(function (p) { return p.type === 'settings'; }) || {};
+    return settings.find_your_look || {};
+  }
+
+  /* ── Récupère un produit par son ID dans window.__allProducts ── */
+  function getProductById(id) {
+    var all = window.__allProducts || [];
+    return all.find(function (p) { return p.id === id; }) || null;
+  }
+
+  /* ── Utilise upgradeShopifyImageUrl si disponible (défini dans script.js) ── */
+  function getProductImage(prod, colorName) {
+    if (!prod) return '';
+
+    var imgUrl = prod.image || '';
+
+    /* Si une couleur est précisée, cherche l'image du variant couleur */
+    if (colorName && prod.colors && prod.colors.length) {
+      var colorObj = prod.colors.find(function (c) { return c.name === colorName; });
+      if (colorObj && colorObj.image) {
+        imgUrl = colorObj.image;
+      }
+    }
+
+    /* Utilise upgradeShopifyImageUrl si disponible, exactement comme script.js */
+    if (typeof upgradeShopifyImageUrl === 'function' && imgUrl) {
+      return upgradeShopifyImageUrl(imgUrl, 400);
+    }
+
+    return imgUrl;
+  }
+
+  function formatPrice(price) {
+    return '$' + parseFloat(price || 0).toFixed(2);
+  }
+
+  /* ── Construit une carte produit ── */
+  function buildProductCard(prod, styleLabel) {
+    if (!prod) return null;
+
+    /* Image principale — première couleur si disponible */
+    var firstColor = (prod.colors && prod.colors.length) ? prod.colors[0].name : null;
+    var imgSrc = getProductImage(prod, firstColor);
+
+    var price = prod.price || 0;
+    var comparePrice = prod.compare_price || 0;
+
+    var priceHtml = formatPrice(price);
+    if (comparePrice && comparePrice > price) {
+      priceHtml += '<del>' + formatPrice(comparePrice) + '</del>';
+    }
+
+    /* URL produit — utilise getProductUrl si disponible (défini dans script.js) */
+    var url = '#';
+    if (typeof getProductUrl === 'function') {
+      url = getProductUrl(prod.id);
+    } else if (prod.url) {
+      url = prod.url;
+    }
+
+    var card = document.createElement('a');
+    card.href = url;
+    card.className = 'bbwl-prod-card';
+
+    card.innerHTML =
+      '<div class="bbwl-prod-img-wrap">' +
+        '<img src="' + imgSrc + '" alt="' + (prod.title || '') + '" loading="lazy"/>' +
+        (styleLabel ? '<span class="bbwl-prod-style-label">' + styleLabel + '</span>' : '') +
+        '<span class="bbwl-prod-link-hint"><i class="fa-solid fa-arrow-right"></i></span>' +
+      '</div>' +
+      '<div class="bbwl-prod-body">' +
+        '<p class="bbwl-prod-title">' + (prod.title || '') + '</p>' +
+        '<p class="bbwl-prod-price">' + priceHtml + '</p>' +
+      '</div>';
+
+    return card;
+  }
+
+  /* ── Rend les produits d'une morphologie ── */
+  function renderMorph(morphKey) {
+    if (rendered[morphKey]) return;
+    rendered[morphKey] = true;
+
+    var cfg = getSettings();
+    var morphData = cfg[morphKey] || {};
+    var items = morphData.items || [];
+
+    var gridEl = document.getElementById('bbwl-products-' + morphKey);
+    if (!gridEl) return;
+
+    gridEl.innerHTML = '';
+
+    if (!items.length) {
+      var empty = document.createElement('p');
+      empty.className = 'bbwl-prod-empty';
+      empty.innerHTML = '<i class="fa-solid fa-circle-info"></i> No products configured for this look yet.';
+      gridEl.appendChild(empty);
+      return;
+    }
+
+    /* Grille : 3 items → 3 colonnes, sinon 2 colonnes */
+    var validItems = items.filter(function (item) {
+      return !!getProductById(item.product_id);
+    });
+
+    var colCount = validItems.length >= 3 ? 3 : 2;
+    gridEl.className = 'bbwl-products-grid bbwl-products-grid--' + colCount + 'col';
+
+    var animDelay = 0.08;
+    items.forEach(function (item) {
+      var prod = getProductById(item.product_id);
+      if (!prod) return;
+
+      var card = buildProductCard(prod, item.label || '');
+      if (card) {
+        card.style.animationDelay = animDelay + 's';
+        animDelay += 0.08;
+        gridEl.appendChild(card);
+      }
+    });
+
+    /* Met à jour le href du bouton CTA si une URL de collection est définie */
+    var panel = gridEl.closest('.bbwl-panel');
+    if (panel && morphData.collection_url) {
+      var ctaBtn = panel.querySelector('.bbwl-cta-btn');
+      if (ctaBtn) ctaBtn.href = morphData.collection_url;
+    }
+  }
+
+  /* ── Change d'onglet ── */
+  function switchTab(morphKey) {
+    tabs.forEach(function (t) {
+      var active = t.getAttribute('data-morph') === morphKey;
+      t.classList.toggle('bbwl-tab--active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    panels.forEach(function (p) {
+      var isActive = p.id === 'bbwl-panel-' + morphKey;
+      if (isActive) {
+        p.classList.add('bbwl-panel--active');
+        /* Redéclenche l'animation */
+        p.style.animation = 'none';
+        void p.offsetWidth;
+        p.style.animation = '';
+        /* Attend que les produits soient dispo puis rend */
+        waitForProducts(function () {
+          renderMorph(morphKey);
+        });
+      } else {
+        p.classList.remove('bbwl-panel--active');
+      }
+    });
+  }
+
+  /* ── Ouvre le popup ── */
+  function openLookPopup() {
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('bbwl-active');
+    document.body.style.overflow = 'hidden';
+    /* Réinitialise sur apple à chaque ouverture */
+    rendered = {};
+    switchTab('apple');
+  }
+
+  /* ── Ferme le popup ── */
+  function closeLookPopup() {
+    overlay.classList.remove('bbwl-active');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  /* ── Onglets ── */
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      switchTab(tab.getAttribute('data-morph'));
+    });
+  });
+
+  /* ── Fermeture ── */
+  if (closeBtn) closeBtn.addEventListener('click', closeLookPopup);
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeLookPopup();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('bbwl-active')) closeLookPopup();
+  });
+
+  /* ── Lie les déclencheurs "Find Your Look" ── */
+  function bindTriggers() {
+    document.querySelectorAll('a, button, li').forEach(function (el) {
+      if (el._bbwlLookBound) return;
+      var txt = (el.textContent || '').trim().toLowerCase();
+      var hasAttr = el.getAttribute('data-open-look-popup') !== null;
+      if (hasAttr || txt === 'find your look') {
+        el._bbwlLookBound = true;
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          openLookPopup();
+        });
+      }
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    if (!el) return;
+    var txt = (el.textContent || '').trim().toLowerCase();
+    var hasAttr = el.getAttribute && el.getAttribute('data-open-look-popup') !== null;
+    if (hasAttr || txt === 'find your look') {
+      e.preventDefault();
+      openLookPopup();
+    }
+  });
+
+  function boot() {
+    bindTriggers();
+    setTimeout(bindTriggers, 800);
+    setTimeout(bindTriggers, 2000);
+    setTimeout(bindTriggers, 4000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  window.openLookPopup  = openLookPopup;
+  window.closeLookPopup = closeLookPopup;
+
+})();
+
+
+/* BIG DEALS */
+(function () {
+  'use strict';
+
+  var overlay  = document.getElementById('bdOverlay');
+  var modal    = document.getElementById('bdModal');
+  var closeBtn = document.getElementById('bdClose');
+  var mainBtn  = document.getElementById('bdMainBtn');
+
+  if (!overlay || !modal) return;
+
+  var COLLECTION_URL = '/collections/bbw4life-all-product.html';
+  var CD_KEY         = 'bd_countdown_end';
+
+  function openPopup() {
+    overlay.classList.add('bd-active');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    startUrgencyBar();
+  }
+
+  function closePopup() {
+    overlay.classList.remove('bd-active');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closePopup);
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closePopup();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closePopup();
+  });
+
+  if (mainBtn) {
+    mainBtn.addEventListener('click', function () {
+      window.location.href = COLLECTION_URL;
+    });
+  }
+
+  function bindTriggers() {
+    document.querySelectorAll('a, button, li').forEach(function (el) {
+      if (el._bdBound) return;
+      var txt  = (el.textContent || '').trim().toLowerCase();
+      var href = el.getAttribute('href') || '';
+      var id   = el.id || '';
+      if (
+        id === 'openBigDealsPopup' ||
+        txt === 'big deals' ||
+        (href === '#' && txt === 'big deals')
+      ) {
+        el._bdBound = true;
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          openPopup();
+        });
+      }
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('a, button, li');
+    if (!el) return;
+    var txt = (el.textContent || '').trim().toLowerCase();
+    if (txt === 'big deals') {
+      e.preventDefault();
+      openPopup();
+    }
+  });
+
+  bindTriggers();
+  setTimeout(bindTriggers, 800);
+  setTimeout(bindTriggers, 2000);
+  setTimeout(bindTriggers, 4000);
+
+  function pad(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function startCountdown() {
+    var hEl = document.getElementById('bdH');
+    var mEl = document.getElementById('bdM');
+    var sEl = document.getElementById('bdS');
+    if (!hEl || !mEl || !sEl) return;
+
+    var now    = Date.now();
+    var stored = parseInt(localStorage.getItem(CD_KEY) || '0');
+
+    var endTime;
+    if (stored && stored > now) {
+      endTime = stored;
+    } else {
+      endTime = now + 24 * 3600 * 1000;
+      localStorage.setItem(CD_KEY, endTime);
+    }
+
+    function tick() {
+      var rem = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+      if (rem === 0) {
+        endTime = Date.now() + 24 * 3600 * 1000;
+        localStorage.setItem(CD_KEY, endTime);
+      }
+      var hh = Math.floor(rem / 3600);
+      var mm = Math.floor((rem % 3600) / 60);
+      var ss = rem % 60;
+      hEl.textContent = pad(hh);
+      mEl.textContent = pad(mm);
+      sEl.textContent = pad(ss);
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  startCountdown();
+
+  function startUrgencyBar() {
+    var fill = document.getElementById('bdUrgFill');
+    if (!fill) return;
+
+    var CD_URG_KEY  = 'bd_urgency_start';
+    var TOTAL_SECS  = 86400;
+    var now         = Date.now();
+    var startStored = parseInt(localStorage.getItem(CD_URG_KEY) || '0');
+
+    if (!startStored || now - startStored > TOTAL_SECS * 1000) {
+      startStored = now;
+      localStorage.setItem(CD_URG_KEY, startStored);
+    }
+
+    function updateBar() {
+      var elapsed = (Date.now() - startStored) / 1000;
+      var pct     = Math.max(0, 100 - (elapsed / TOTAL_SECS) * 100);
+      fill.style.width = pct.toFixed(2) + '%';
+    }
+
+    updateBar();
+    setInterval(updateBar, 5000);
+  }
+
+  function buildPromosCard(settings) {
+    var listEl = document.getElementById('bdPromosList');
+    if (!listEl) return;
+
+    var promos = settings.promos || [];
+    if (!promos.length) {
+      listEl.innerHTML = '<span style="font-size:12px;color:rgba(255,255,255,.40)">Check our site for active promo codes</span>';
+      return;
+    }
+
+    var MAX_SHOW = 3;
+    var shown   = promos.slice(0, MAX_SHOW);
+    listEl.innerHTML = '';
+
+    shown.forEach(function (p, i) {
+      if (i > 0) {
+        var div = document.createElement('div');
+        div.className = 'bd-promo-divider';
+        listEl.appendChild(div);
+      }
+
+      var row = document.createElement('div');
+      row.className = 'bd-promo-row';
+
+      var pct = document.createElement('span');
+      pct.className   = 'bd-promo-percent';
+      pct.textContent = p.percent + '% OFF';
+
+      var items = document.createElement('span');
+      items.className   = 'bd-promo-items';
+      items.textContent = 'On ' + p.items + '+ items';
+
+      var pill = document.createElement('span');
+      pill.className   = 'bd-code-pill';
+      pill.textContent = p.code;
+      pill.title       = 'Click to copy';
+
+      var copyBtn = document.createElement('button');
+      copyBtn.className = 'bd-copy-btn';
+      copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+
+      (function (code, btn) {
+        function doCopy() {
+          navigator.clipboard.writeText(code).then(function () {
+            btn.classList.add('copied');
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(function () {
+              btn.classList.remove('copied');
+              btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+            }, 2200);
+          }).catch(function () {
+            var ta = document.createElement('textarea');
+            ta.value = code;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            btn.classList.add('copied');
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(function () {
+              btn.classList.remove('copied');
+              btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+            }, 2200);
+          });
+        }
+        btn.addEventListener('click', doCopy);
+        pill.addEventListener('click', doCopy);
+      })(p.code, copyBtn);
+
+      row.appendChild(pct);
+      row.appendChild(items);
+      row.appendChild(pill);
+      row.appendChild(copyBtn);
+      listEl.appendChild(row);
+    });
+  }
+
+  function buildShippingCard(settings) {
+    var valEl = document.getElementById('bdShipVal');
+    if (!valEl) return;
+
+    var cd        = settings.cart_drawer || {};
+    var threshold = parseFloat(cd.free_shipping_threshold) || 75;
+    valEl.textContent = '$' + threshold.toFixed(0);
+  }
+
+  function buildBuyGetCard(settings) {
+    var valEl  = document.getElementById('bdBuyGetVal');
+    var descEl = document.getElementById('bdBuyGetDesc');
+    if (!valEl || !descEl) return;
+
+    var cd  = settings.cart_drawer || {};
+    var buy = parseInt(cd.promo_buy_quantity) || 3;
+    var get = parseInt(cd.promo_get_quantity)  || 1;
+
+    valEl.textContent  = buy + ' + ' + get;
+    descEl.textContent = 'Buy ' + buy + ' item' + (buy > 1 ? 's' : '') + ', get ' + get + ' absolutely free';
+  }
+
+  function loadSettings() {
+    if (window.__allProducts && window.__allProducts.length) {
+      var s = window.__allProducts.find(function (p) { return p.type === 'settings'; }) || {};
+      buildPromosCard(s);
+      buildShippingCard(s);
+      buildBuyGetCard(s);
+      return;
+    }
+
+    fetch('/products.data.json')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        window.__allProducts = window.__allProducts || data;
+        var s = data.find(function (p) { return p.type === 'settings'; }) || {};
+        buildPromosCard(s);
+        buildShippingCard(s);
+        buildBuyGetCard(s);
+      })
+      .catch(function () {
+        buildPromosCard({});
+        buildShippingCard({});
+        buildBuyGetCard({});
+      });
+  }
+
+  loadSettings();
+
+  window.openBigDealsPopup  = openPopup;
+  window.closeBigDealsPopup = closePopup;
+
+})();
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — COMMITMENT POPUP
+═══════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  var BBWC_OVERLAY_ID = 'bbwCommitmentOverlay';
+  var BBWC_CLOSE_ID   = 'bbwcCloseBtn';
+
+  /* ── Ouvre le popup ── */
+  function bbwcOpen() {
+    var overlay = document.getElementById(BBWC_OVERLAY_ID);
+    if (!overlay) return;
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('bbwc-active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* ── Ferme le popup ── */
+  function bbwcClose() {
+    var overlay = document.getElementById(BBWC_OVERLAY_ID);
+    if (!overlay) return;
+    overlay.classList.remove('bbwc-active');
+    overlay.setAttribute('aria-hidden', 'true');
+    /* Restitue le scroll seulement si aucun autre popup BBW n'est ouvert */
+    var otherOpen = document.querySelector(
+      '#bbw-quiz-overlay.bbq-active, #bbwStyleOverlay.bbws-active, #bbwLookOverlay.bbwl-active, #bdOverlay.bd-active'
+    );
+    if (!otherOpen) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  /* ── Lie les déclencheurs "Commitment" dans le footer/partout ── */
+  function bbwcBindTriggers() {
+    document.querySelectorAll('a, button, li').forEach(function (el) {
+      if (el._bbwcBound) return;
+
+      var txt     = (el.textContent || '').trim().toLowerCase();
+      var hasAttr = el.getAttribute && el.getAttribute('data-open-commitment') !== null;
+
+      if (hasAttr || txt === 'commitment') {
+        el._bbwcBound = true;
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          bbwcOpen();
+        });
+      }
+    });
+  }
+
+  /* ── Écouteur global (liens injectés dynamiquement) ── */
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    if (!el) return;
+
+    /* Remonte au <a> ou <button> parent si le clic est sur un enfant (icone etc.) */
+    var anchor = el.closest ? el.closest('a, button, li') : el;
+    if (!anchor) return;
+
+    var txt     = (anchor.textContent || '').trim().toLowerCase();
+    var hasAttr = anchor.getAttribute && anchor.getAttribute('data-open-commitment') !== null;
+
+    if (hasAttr || txt === 'commitment') {
+      e.preventDefault();
+      bbwcOpen();
+    }
+  });
+
+  /* ── Init : bouton fermer + overlay click + Échap ── */
+  function bbwcInit() {
+    var overlay  = document.getElementById(BBWC_OVERLAY_ID);
+    var closeBtn = document.getElementById(BBWC_CLOSE_ID);
+
+    if (!overlay) return; /* Sécurité si le HTML n'est pas encore en page */
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', bbwcClose);
+    }
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) bbwcClose();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('bbwc-active')) {
+        bbwcClose();
+      }
+    });
+
+    /* Bind initial + rebind après injections asynchrones de footer.js */
+    bbwcBindTriggers();
+    setTimeout(bbwcBindTriggers, 800);
+    setTimeout(bbwcBindTriggers, 2000);
+    setTimeout(bbwcBindTriggers, 4000);
+  }
+
+  /* ── Bootstrap ── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bbwcInit);
+  } else {
+    bbwcInit();
+  }
+
+  /* ── API publique ── */
+  window.openCommitmentPopup  = bbwcOpen;
+  window.closeCommitmentPopup = bbwcClose;
+
+})();
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — MISSION POPUP 
+═══════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  var BBWM_OVERLAY_ID = 'bbwMissionOverlay';
+  var BBWM_CLOSE_ID   = 'bbwmCloseBtn';
+
+  /* ── Textes qui déclenchent le popup (en minuscules) ── */
+  var BBWM_TRIGGERS = ['our-mission', 'our mission', 'notre mission'];
+
+  /* ── Ouvre le popup ── */
+  function bbwmOpen() {
+    var overlay = document.getElementById(BBWM_OVERLAY_ID);
+    if (!overlay) return;
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('bbwm-active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* ── Ferme le popup ── */
+  function bbwmClose() {
+    var overlay = document.getElementById(BBWM_OVERLAY_ID);
+    if (!overlay) return;
+    overlay.classList.remove('bbwm-active');
+    overlay.setAttribute('aria-hidden', 'true');
+    /* Restitue le scroll seulement si aucun autre popup BBW n'est ouvert */
+    var otherOpen = document.querySelector(
+      '#bbw-quiz-overlay.bbq-active, #bbwStyleOverlay.bbws-active, ' +
+      '#bbwLookOverlay.bbwl-active, #bdOverlay.bd-active, ' +
+      '#bbwCommitmentOverlay.bbwc-active'
+    );
+    if (!otherOpen) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  /* ── Vérifie si le texte correspond à un déclencheur ── */
+  function bbwmMatches(el) {
+    if (!el) return false;
+    if (el.getAttribute && el.getAttribute('data-open-mission') !== null) return true;
+    var txt = (el.textContent || '').trim().toLowerCase();
+    return BBWM_TRIGGERS.indexOf(txt) !== -1;
+  }
+
+  /* ── Lie les déclencheurs statiques ── */
+  function bbwmBindTriggers() {
+    document.querySelectorAll('a, button, li').forEach(function (el) {
+      if (el._bbwmBound) return;
+      if (bbwmMatches(el)) {
+        el._bbwmBound = true;
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          bbwmOpen();
+        });
+      }
+    });
+  }
+
+  /* ── Écouteur global (capture les liens injectés dynamiquement) ── */
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    if (!el) return;
+    /* Remonte au parent cliquable si le clic touche un enfant (icône, span…) */
+    var anchor = el.closest ? el.closest('a, button, li') : el;
+    if (anchor && bbwmMatches(anchor)) {
+      e.preventDefault();
+      bbwmOpen();
+    }
+  });
+
+  /* ── Init ── */
+  function bbwmInit() {
+    var overlay  = document.getElementById(BBWM_OVERLAY_ID);
+    var closeBtn = document.getElementById(BBWM_CLOSE_ID);
+
+    if (!overlay) return;
+
+    /* Bouton fermer */
+    if (closeBtn) {
+      closeBtn.addEventListener('click', bbwmClose);
+    }
+
+    /* Clic en dehors du modal */
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) bbwmClose();
+    });
+
+    /* Touche Échap */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('bbwm-active')) {
+        bbwmClose();
+      }
+    });
+
+    /* Bind initial + rebind après injections asynchrones de footer.js */
+    bbwmBindTriggers();
+    setTimeout(bbwmBindTriggers, 800);
+    setTimeout(bbwmBindTriggers, 2000);
+    setTimeout(bbwmBindTriggers, 4000);
+  }
+
+  /* ── Bootstrap ── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bbwmInit);
+  } else {
+    bbwmInit();
+  }
+
+  /* ── API publique ── */
+  window.openMissionPopup  = bbwmOpen;
+  window.closeMissionPopup = bbwmClose;
+
+})();
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — NEWSLETTER POPUP JS
+═══════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  /* ──────────────────────────────────────────────────────────
+     DOM REFS
+  ────────────────────────────────────────────────────────── */
+  var overlay      = document.getElementById('bbwNlOverlay');
+  var closeBtn     = document.getElementById('bbwNlClose');
+  var form         = document.getElementById('bbwNlForm');
+  var submitBtn    = document.getElementById('bbwNlSubmit');
+  var errorEl      = document.getElementById('bbwNlError');
+  var successEl    = document.getElementById('bbwNlSuccess');
+  var successClose = document.getElementById('bbwNlSuccessClose');
+  var particlesEl  = document.getElementById('bbwNlParticles');
+  var confettiEl   = document.getElementById('bbwNlConfetti');
+
+  var inputFirst = document.getElementById('bbwNlFirst');
+  var inputLast  = document.getElementById('bbwNlLast');
+  var inputEmail = document.getElementById('bbwNlEmail');
+  var inputBday  = document.getElementById('bbwNlBday');
+
+  if (!overlay) return; /* Safety — HTML not present */
+
+  /* ──────────────────────────────────────────────────────────
+     RISING PARTICLES (ambient)
+  ────────────────────────────────────────────────────────── */
+  var PTCL_COLORS = [
+    'rgba(201,150,62,0.55)',
+    'rgba(192,56,94,0.45)',
+    'rgba(232,188,106,0.40)',
+    'rgba(123,63,110,0.35)',
+    'rgba(255,215,0,0.30)'
+  ];
+
+  function spawnParticles() {
+    if (!particlesEl) return;
+    particlesEl.innerHTML = '';
+    for (var i = 0; i < 18; i++) {
+      var p    = document.createElement('div');
+      p.className = 'bbwnl-ptcl';
+      var sz   = Math.random() * 5 + 3;
+      var dur  = Math.random() * 5 + 4;
+      var del  = Math.random() * 6;
+      var left = Math.random() * 100;
+      var drift = (Math.random() - 0.5) * 60;
+      p.style.cssText =
+        'width:' + sz + 'px;' +
+        'height:' + sz + 'px;' +
+        'left:' + left + '%;' +
+        'background:' + PTCL_COLORS[Math.floor(Math.random() * PTCL_COLORS.length)] + ';' +
+        'animation-duration:' + dur + 's;' +
+        'animation-delay:' + del + 's;' +
+        '--drift:' + drift + 'px;' +
+        'border-radius:' + (Math.random() > 0.4 ? '50%' : '3px') + ';';
+      particlesEl.appendChild(p);
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     CONFETTI BURST (success)
+  ────────────────────────────────────────────────────────── */
+  function fireConfetti() {
+    if (!confettiEl) return;
+    confettiEl.innerHTML = '';
+    var colors = ['#c9963e','#c0385e','#e8bc6a','#7b3f6e','#FFD700','#fff','#d4506e'];
+    for (var i = 0; i < 42; i++) {
+      var piece = document.createElement('div');
+      piece.className = 'bbwnl-confetti-piece';
+      var sz  = Math.random() * 9 + 5;
+      var dur = Math.random() * 1.4 + 0.9;
+      var del = Math.random() * 0.6;
+      piece.style.cssText =
+        'left:' + (Math.random() * 100) + '%;' +
+        'width:' + sz + 'px;' +
+        'height:' + sz + 'px;' +
+        'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+        'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
+        'animation-duration:' + dur + 's;' +
+        'animation-delay:' + del + 's;';
+      confettiEl.appendChild(piece);
+    }
+    /* Clean up after animation */
+    setTimeout(function () {
+      if (confettiEl) confettiEl.innerHTML = '';
+    }, 2200);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     OPEN / CLOSE
+  ────────────────────────────────────────────────────────── */
+  function openPopup() {
+    resetForm();
+    overlay.classList.add('bbwnl-active');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    spawnParticles();
+    /* Focus email for a11y */
+    setTimeout(function () {
+      if (inputEmail) inputEmail.focus();
+    }, 420);
+  }
+
+  function closePopup() {
+    overlay.classList.remove('bbwnl-active');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function resetForm() {
+    if (form)        form.style.display    = 'flex';
+    if (successEl)   successEl.style.display = 'none';
+    if (errorEl)     { errorEl.textContent = ''; errorEl.classList.remove('bbwnl-error--visible'); }
+    if (inputFirst)  inputFirst.value  = '';
+    if (inputLast)   inputLast.value   = '';
+    if (inputEmail)  inputEmail.value  = '';
+    if (inputBday)   inputBday.value   = '';
+    if (submitBtn)   {
+      submitBtn.disabled = false;
+      showBtnText();
+    }
+    if (inputEmail)  inputEmail.classList.remove('bbwnl-input--invalid');
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     BUTTON STATE HELPERS
+  ────────────────────────────────────────────────────────── */
+  function showBtnText() {
+    var txtEl  = submitBtn ? submitBtn.querySelector('.bbwnl-cta-text')   : null;
+    var ldrEl  = submitBtn ? submitBtn.querySelector('.bbwnl-cta-loader') : null;
+    if (txtEl) txtEl.style.display = 'flex';
+    if (ldrEl) ldrEl.style.display = 'none';
+  }
+
+  function showBtnLoader() {
+    var txtEl  = submitBtn ? submitBtn.querySelector('.bbwnl-cta-text')   : null;
+    var ldrEl  = submitBtn ? submitBtn.querySelector('.bbwnl-cta-loader') : null;
+    if (txtEl) txtEl.style.display = 'none';
+    if (ldrEl) ldrEl.style.display = 'flex';
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     ERROR HELPER
+  ────────────────────────────────────────────────────────── */
+  function showError(msg) {
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.classList.add('bbwnl-error--visible');
+    /* Re-trigger shake animation */
+    errorEl.style.animation = 'none';
+    void errorEl.offsetHeight;
+    errorEl.style.animation = '';
+  }
+
+  function clearError() {
+    if (!errorEl) return;
+    errorEl.textContent = '';
+    errorEl.classList.remove('bbwnl-error--visible');
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     FORM SUBMIT → EXISTING SHEET SYSTEM
+  ────────────────────────────────────────────────────────── */
+  if (form) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      clearError();
+
+      var firstName = (inputFirst  ? inputFirst.value.trim()  : '');
+      var lastName  = (inputLast   ? inputLast.value.trim()   : '');
+      var email     = (inputEmail  ? inputEmail.value.trim()  : '');
+      var birthday  = (inputBday   ? inputBday.value.trim()   : '');
+
+      /* Validate email */
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        showError('Please enter a valid email address.');
+        if (inputEmail) {
+          inputEmail.classList.add('bbwnl-input--invalid');
+          inputEmail.focus();
+        }
+        return;
+      }
+
+      submitBtn.disabled = true;
+      showBtnLoader();
+
+      try {
+        /* ── Primary call: existing newsletter-subscribe action ── */
+        var res = await fetch('/.netlify/functions/save-account', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action:     'newsletter-subscribe',
+            email:      email,
+            firstName:  firstName,
+            lastName:   lastName,
+            newsletter: 'Yes'
+          })
+        });
+        var data = await res.json();
+
+        if (!data.success) {
+          throw new Error(data.error || 'Subscription failed. Please try again.');
+        }
+
+        /* ── Optional: save birthday via signup-style call if fields present ── */
+        if (birthday && firstName && lastName) {
+          fetch('/.netlify/functions/save-account', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action:     'newsletter-subscribe-full',
+              email:      email,
+              firstName:  firstName,
+              lastName:   lastName,
+              birthday:   birthday,
+              newsletter: 'Yes'
+            })
+          }).catch(function () {
+            /* Silently ignore — birthday saving is optional */
+          });
+        }
+
+        /* ── Show success ── */
+        if (form)      form.style.display      = 'none';
+        if (successEl) successEl.style.display = 'block';
+        fireConfetti();
+
+        /* Auto-close after 5 s */
+        setTimeout(closePopup, 5000);
+
+      } catch (err) {
+        showError(err.message || 'Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+        showBtnText();
+      }
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     CLOSE EVENTS
+  ────────────────────────────────────────────────────────── */
+  if (closeBtn) closeBtn.addEventListener('click', closePopup);
+  if (successClose) successClose.addEventListener('click', closePopup);
+
+  /* Backdrop click */
+  overlay.addEventListener('click', function (e) {
+    var modal = overlay.querySelector('.bbwnl-modal');
+    if (modal && !modal.contains(e.target)) closePopup();
+  });
+
+  /* Escape key */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('bbwnl-active')) closePopup();
+  });
+
+  /* Clear invalid class on input */
+  if (inputEmail) {
+    inputEmail.addEventListener('input', function () {
+      this.classList.remove('bbwnl-input--invalid');
+      clearError();
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     BIND TRIGGERS
+     Matches:
+       • <a>/<button> with trimmed text "Our newsletter"  (footer link)
+       • Any element with data-open-newsletter attribute
+  ────────────────────────────────────────────────────────── */
+  function bindTriggers() {
+    document.querySelectorAll('a, button, li').forEach(function (el) {
+      if (el._bbwNlBound) return;
+
+      var hasAttr  = el.getAttribute && el.getAttribute('data-open-newsletter') !== null;
+      var txt      = (el.textContent || '').trim().toLowerCase();
+      var isMatch  = hasAttr || txt === 'our newsletter';
+
+      if (isMatch) {
+        el._bbwNlBound = true;
+        el.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          openPopup();
+        });
+      }
+    });
+  }
+
+  /* Global delegation for dynamically-injected footer links */
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('a, button, li');
+    if (!el) return;
+    var hasAttr = el.getAttribute && el.getAttribute('data-open-newsletter') !== null;
+    var txt     = (el.textContent || '').trim().toLowerCase();
+    if (hasAttr || txt === 'our newsletter') {
+      e.preventDefault();
+      openPopup();
+    }
+  });
+
+  /* Initial bind + rebind after footer.js async injection */
+  bindTriggers();
+  setTimeout(bindTriggers, 800);
+  setTimeout(bindTriggers, 2000);
+  setTimeout(bindTriggers, 4000);
+
+  /* ──────────────────────────────────────────────────────────
+     PUBLIC API
+  ────────────────────────────────────────────────────────── */
+  window.openNewsletterPopup  = openPopup;
+  window.closeNewsletterPopup = closePopup;
+
+})();

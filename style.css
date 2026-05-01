@@ -94,207 +94,6 @@ body {
 }
 
 
-/* ═══════════════════════ BREADCRUMBS ═══════════════════════ */
-#bc-nav {
-  position: fixed;
-  top: var(--bbw-total-top);
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 900;
-  background: linear-gradient(110deg, #fffbf9 0%, #fff0f4 50%, #fffbf9 100%);
-  background-size: 200% 100%;
-  animation: bc-fadein 0.4s ease both, bcBgShift 6s ease infinite;
-  border-bottom: 1px solid rgba(192,56,94,0.13);
-  box-shadow:
-    0 2px 16px rgba(192,56,94,0.08),
-    0 1px 4px rgba(123,63,110,0.06),
-    inset 0 -1px 0 rgba(201,150,62,0.08);
-  overflow: hidden;
-  pointer-events: auto;
-  box-sizing: border-box;
-}
-
-#bc-nav::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -60%;
-  width: 45%;
-  height: 1.5px;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(192,56,94,0.55),
-    rgba(201,150,62,0.50),
-    rgba(123,63,110,0.45),
-    transparent
-  );
-  animation: bcShimmer 4s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 0;
-}
-
-#bc-nav::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 1.5px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(192,56,94,0.30) 20%,
-    rgba(201,150,62,0.45) 50%,
-    rgba(123,63,110,0.30) 80%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: bcBarShift 4s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes bc-fadein {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes bcBgShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes bcShimmer {
-  0%   { left: -60%; }
-  40%  { left: 120%; }
-  100% { left: 120%; }
-}
-@keyframes bcBarShift {
-  0%   { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-.bc-wrapper {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 7px 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.bc-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  white-space: nowrap;
-  gap: 0;
-}
-
-.bc-list::-webkit-scrollbar { display: none; }
-
-.bc-item {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-  font-size: 13px;
-  font-family: var(--font-body, 'DM Sans', sans-serif);
-  color: var(--slate, #4a3f44);
-}
-
-.bc-item a {
-  text-decoration: none;
-  color: var(--mist, #8e7e85);
-  opacity: 0.85;
-  transition: opacity 0.25s ease, color 0.25s ease, text-shadow 0.25s ease;
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-  cursor: pointer;
-  pointer-events: auto;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-
-.bc-item a:hover {
-  opacity: 1;
-  color: var(--rose, #c0385e);
-  text-shadow: 0 0 12px rgba(192,56,94,0.22);
-}
-
-.bc-item + .bc-item::before {
-  content: '›';
-  color: var(--rose, #c0385e);
-  margin: 0 8px;
-  font-size: 13px;
-  opacity: 0.40;
-  flex-shrink: 0;
-  font-weight: 400;
-}
-
-.bc-item.bc-active a {
-  opacity: 1;
-  font-weight: 700;
-  pointer-events: none;
-  background: linear-gradient(120deg, var(--rose,#c0385e), var(--plum,#7b3f6e));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.bc-item.bc-active a::after {
-  content: '';
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  background: linear-gradient(135deg, var(--rose,#c0385e), var(--plum,#7b3f6e));
-  border-radius: 50%;
-  margin-left: 7px;
-  vertical-align: middle;
-  opacity: 0.80;
-  box-shadow: 0 0 8px rgba(192,56,94,0.45);
-  animation: bcDotPulse 2.5s ease-in-out infinite;
-  -webkit-text-fill-color: initial;
-}
-
-@keyframes bcDotPulse {
-  0%,100% { box-shadow: 0 0 4px rgba(192,56,94,0.30); transform: scale(1); }
-  50%      { box-shadow: 0 0 10px rgba(192,56,94,0.55); transform: scale(1.25); }
-}
-
-.bc-item a svg {
-  flex-shrink: 0;
-  margin-right: 4px;
-}
-
-.logo a, .logo img { position: relative; z-index: 1; }
-.header-container  { position: relative; z-index: 100; }
-.logo a { display: inline-block !important; line-height: 0 !important; }
-.logo img { display: block !important; }
-
-main#main-content {
-  padding-top: 0;
-  overflow-x: hidden;
-}
-
-@media (max-width: 768px) {
-  main#main-content {
-    padding-top: 0;
-  }
-  .bc-wrapper { padding: 6px 14px; }
-  .bc-item { font-size: 11.5px; }
-  .bc-item + .bc-item::before { margin: 0 5px; font-size: 10px; }
-  .bc-item a svg { width: 11px; height: 11px; }
-}
-
-@media (max-width: 420px) {
-  main#main-content {
-    padding-top: 0;
-  }
-}
-
-
 
 /* ═══════════════════════════════════════════════
    STORY CIRCLES SECTION
@@ -2999,7 +2798,7 @@ main#main-content {
     position: absolute;
     inset: -6px;
     border-radius: 50%;
-    border: 2px solid rgba(192,56,94,0.55);
+    border: 2px solid rgba(192,56,94,0.65);
     animation: pulseRing 2s ease-out infinite;
     pointer-events: none;
 }
@@ -3008,7 +2807,7 @@ main#main-content {
     position: absolute;
     inset: -12px;
     border-radius: 50%;
-    border: 1.5px solid rgba(201,150,62,0.32);
+    border: 1.5px solid rgba(201,150,62,0.45);
     animation: pulseRing 2s ease-out infinite 0.6s;
     pointer-events: none;
 }
@@ -3021,11 +2820,11 @@ main#main-content {
     justify-content: center;
     width: 44px;
     height: 44px;
-    background: linear-gradient(145deg, #d8c7cc 0%, #726f66 60%, #0d0d0d 100%);
-    border: 2px solid rgba(201,150,62,0.30);
+    background: linear-gradient(145deg, #1a0812 0%, #0d0d0d 60%, #000000 100%);
+    border: 2px solid rgba(201,150,62,0.55);
     border-radius: 50%;
-    color: #110e09;
-    font-size: 22px;
+    color: #f5d080;
+    font-size: 20px;
     box-shadow:
         0 0 22px rgba(192,56,94,0.55),
         0 4px 16px rgba(123,63,110,0.42),
@@ -3033,7 +2832,7 @@ main#main-content {
     animation: paulPulse 2.2s infinite ease-in-out;
     cursor: pointer;
     text-decoration: none;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* Gold shimmer sweep */
@@ -3043,7 +2842,7 @@ main#main-content {
     inset: 0;
     background: linear-gradient(120deg,
         transparent 20%,
-        rgba(240,192,96,0.24) 50%,
+        rgba(201,150,62,0.28) 50%,
         transparent 80%);
     animation: shimmerBar 3s ease-in-out infinite;
     border-radius: 50%;
@@ -3075,6 +2874,7 @@ main#main-content {
         0 0 30px rgba(201,150,62,0.10),
         inset 0 1px 0 rgba(255,255,255,0.07);
     overflow: hidden;
+    pointer-events: none;
 }
 
 .paul-tooltip::before {
@@ -3089,7 +2889,7 @@ main#main-content {
     pointer-events: none;
 }
 
-.paul-indicator:hover .paul-tooltip {
+.paul-indicator-wrapper:hover .paul-tooltip {
     opacity: 1;
     visibility: visible;
 }
@@ -4021,17 +3821,17 @@ main#main-content {
   padding: 0;
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, var(--bbw-gold) 0%, #a87430 100%);
+  background: linear-gradient(135deg, #c9963e 0%, #a87430 60%, #0d0d0d 100%);
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 8px 32px rgba(201, 150, 62, 0.45), 0 2px 8px rgba(0,0,0,0.30);
+  box-shadow: 0 8px 32px rgba(201,150,62,0.45), 0 2px 8px rgba(0,0,0,0.30);
   transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
               border-radius 0.3s ease,
               box-shadow 0.3s ease,
               transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: fixed;
-  bottom: 30px;
+  bottom: 20px;
   left: 5px;
   z-index: 990;
   outline: none;
@@ -4040,11 +3840,11 @@ main#main-content {
 }
 
 #cf-chat-toggle:hover {
-  width: 165px;
+  width: 210px;
   border-radius: 28px;
   padding: 0 20px 0 6px;
   transform: translateY(-3px);
-  box-shadow: 0 14px 40px rgba(201, 150, 62, 0.55), 0 4px 12px rgba(0,0,0,0.35);
+  box-shadow: 0 14px 40px rgba(201,150,62,0.55), 0 4px 12px rgba(0,0,0,0.35);
 }
 
 #cf-chat-toggle:active {
@@ -4074,7 +3874,7 @@ main#main-content {
 .cf-toggle-label {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #000;
+  color: #f5d080;
   letter-spacing: 0.06em;
   white-space: nowrap;
   max-width: 0;
@@ -4086,10 +3886,12 @@ main#main-content {
 }
 
 #cf-chat-toggle:hover .cf-toggle-label {
-  max-width: 130px;
+  max-width: 180px;
   opacity: 1;
   margin-left: 8px;
 }
+
+
 
 #cf-chat-toggle:hover .cf-toggle-inner {
   width: 44px;
@@ -4934,7 +4736,7 @@ main#main-content {
 
 /* ── Responsive ── */
 @media (max-width: 480px) {
-  #cf-chat-widget { bottom: 70px; left: 4px; }
+  #cf-chat-widget { bottom: 25px; left: 4px; }
 
   .cf-chat-window {
     width: calc(100vw - 24px);
@@ -5926,12 +5728,8 @@ main#main-content {
 
 
 
-
-
-
-
 /* ================================================================
-   CURVAFIT PRELOADER
+   BBW4LIFE PRELOADER — Beauty Has No Sizes
 ================================================================ */
 
 #cf-preloader {
@@ -5943,7 +5741,7 @@ main#main-content {
   align-items: center;
   justify-content: center;
   gap: 32px;
-  background: linear-gradient(160deg, #1e1a1c 0%, #2e1828 50%, #1a1020 100%);
+  background: linear-gradient(160deg, #0d0d0d 0%, #1a0a10 50%, #0d0d0d 100%);
   opacity: 1;
   visibility: visible;
   pointer-events: all;
@@ -5968,8 +5766,8 @@ main#main-content {
   height: 600px;
   background: radial-gradient(
     ellipse at center,
-    rgba(192, 56, 94, 0.18) 0%,
-    rgba(123, 63, 110, 0.10) 40%,
+    rgba(192, 56, 94, 0.20) 0%,
+    rgba(201, 150, 62, 0.08) 40%,
     transparent 70%
   );
   pointer-events: none;
@@ -6008,6 +5806,7 @@ main#main-content {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .cf-pre-logo-ring {
@@ -6015,7 +5814,7 @@ main#main-content {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  border: 1.5px solid rgba(192, 56, 94, 0.25);
+  border: 1.5px solid rgba(201, 150, 62, 0.30);
   animation: cfPreRingRotate 6s linear infinite;
 }
 
@@ -6026,10 +5825,10 @@ main#main-content {
   left: 50%;
   width: 6px;
   height: 6px;
-  background: #c0385e;
+  background: #c9963e;
   border-radius: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 0 10px 3px rgba(192, 56, 94, 0.6);
+  box-shadow: 0 0 10px 3px rgba(201, 150, 62, 0.6);
 }
 
 @keyframes cfPreRingRotate {
@@ -6043,13 +5842,13 @@ main#main-content {
   object-fit: contain;
   position: relative;
   z-index: 1;
-  filter: drop-shadow(0 4px 20px rgba(192, 56, 94, 0.45));
+  filter: drop-shadow(0 4px 20px rgba(192, 56, 94, 0.50));
   animation: cfPreLogoBreath 2.5s ease-in-out infinite;
 }
 
 @keyframes cfPreLogoBreath {
-  0%, 100% { transform: scale(1);    filter: drop-shadow(0 4px 20px rgba(192, 56, 94, 0.45)); }
-  50%       { transform: scale(1.05); filter: drop-shadow(0 6px 28px rgba(192, 56, 94, 0.65)); }
+  0%, 100% { transform: scale(1);    filter: drop-shadow(0 4px 20px rgba(192, 56, 94, 0.50)); }
+  50%       { transform: scale(1.05); filter: drop-shadow(0 6px 28px rgba(192, 56, 94, 0.75)); }
 }
 
 /* ── Brand ── */
@@ -6058,17 +5857,18 @@ main#main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  width: 100%;
 }
 
 .cf-pre-brand-name {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 2.4rem;
   font-weight: 700;
-  color: #fff;
   letter-spacing: -0.02em;
   line-height: 1;
-  background: linear-gradient(135deg, #fff 40%, rgba(232, 188, 106, 0.85) 100%);
+  background: linear-gradient(135deg, #ffffff 30%, rgba(201, 150, 62, 0.90) 70%, #c0385e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -6136,7 +5936,7 @@ main#main-content {
 .cf-pre-progress-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #c0385e, #e8bc6a, #c0385e);
+  background: linear-gradient(90deg, #c0385e, #c9963e, #c0385e);
   background-size: 200% 100%;
   border-radius: 100px;
   transition: width 0.3s ease;
@@ -6178,7 +5978,7 @@ main#main-content {
 }
 
 .cf-pre-spinner:nth-child(1) { border-top-color:    #c0385e; animation: cfPreSpinCW  1s    linear infinite; }
-.cf-pre-spinner:nth-child(2) { inset: 8px;  border-right-color:  #e8bc6a; animation: cfPreSpinCCW 0.75s linear infinite; }
+.cf-pre-spinner:nth-child(2) { inset: 8px;  border-right-color:  #c9963e; animation: cfPreSpinCCW 0.75s linear infinite; }
 .cf-pre-spinner:nth-child(3) { inset: 16px; border-bottom-color: rgba(255,255,255,0.5); animation: cfPreSpinCW 0.5s linear infinite; }
 
 @keyframes cfPreSpinCW  { to { transform: rotate(360deg);  } }
@@ -6205,7 +6005,7 @@ main#main-content {
 
 .cf-pre-dot:nth-child(1) { background: #c0385e; animation-delay: 0s;    }
 .cf-pre-dot:nth-child(2) { background: #d4506e; animation-delay: 0.16s; }
-.cf-pre-dot:nth-child(3) { background: #e8bc6a; animation-delay: 0.32s; }
+.cf-pre-dot:nth-child(3) { background: #c9963e; animation-delay: 0.32s; }
 .cf-pre-dot:nth-child(4) { background: #d4506e; animation-delay: 0.48s; }
 .cf-pre-dot:nth-child(5) { background: #c0385e; animation-delay: 0.64s; }
 
@@ -6218,9 +6018,10 @@ main#main-content {
 .cf-pre-morph-wrap {
   display: none;
   position: relative;
-  height: 22px;
+  height: 48px;
   overflow: hidden;
-  min-width: 200px;
+  width: 90vw;
+  max-width: 420px;
   text-align: center;
 }
 
@@ -6230,13 +6031,21 @@ main#main-content {
 
 .cf-pre-morph-text {
   position: absolute;
+  left: 0;
+  right: 0;
   width: 100%;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4;
+  padding: 0 8px;
+  box-sizing: border-box;
+  text-align: center;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -6810,6 +6619,18 @@ main#main-content {
   .fs-btn-primary { font-size: 14px; padding: 13px 24px; }
 }
 
+
+/* ── BAR SEPARATOR ── */
+.bar-separator-section {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 100;
+}
+.bar-separator-line {
+  max-width: 1500px;
+  margin: 0 auto;
+  display: block;
+}
 
 /* ═══════════════════════════
    SECTION WRAPPER — Fond blanc pâle premium
@@ -10734,4 +10555,7 @@ main#main-content {
   .nl-btn span { display: none; }
   .nl-btn { padding: 11px 18px; }
 }
+
+
+
 

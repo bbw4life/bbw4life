@@ -156,4 +156,1033 @@
     </div>
   </div>
 
+
+
+<!-- Overlay -->
+<div id="bbw-quiz-overlay" class="bbq-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Find Your Best Style Quiz">
+
+  <div class="bbq-modal">
+    <div class="bbq-top-band">
+      <span class="bbq-band-text">BBW4LIFE &bull; FIND YOUR BEST</span>
+    </div>
+    <button class="bbq-close-btn" id="bbqCloseBtn" aria-label="Close quiz">
+      <i class="fas fa-times"></i>
+    </button>
+    <div class="bbq-progress-wrap" id="bbqProgressWrap">
+      <div class="bbq-progress-bar" id="bbqProgressBar"></div>
+      <span class="bbq-progress-label" id="bbqProgressLabel">Step 1 of 4</span>
+    </div>
+    <div class="bbq-screen bbq-screen--active" id="bbqIntro">
+      <div class="bbq-intro-content">
+        <div class="bbq-crown-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <h2 class="bbq-intro-title">Find Your <em>Best</em> Style</h2>
+        <p class="bbq-intro-subtitle">Answer 4 quick questions and we'll reveal the perfect look curated just for you.</p>
+        <div class="bbq-intro-badges">
+          <span class="bbq-badge"><i class="fas fa-bolt"></i> 60 seconds</span>
+          <span class="bbq-badge"><i class="fas fa-gift"></i> Personalized picks</span>
+          <span class="bbq-badge"><i class="fas fa-star"></i> Curated for you</span>
+        </div>
+        <button class="bbq-cta-btn" id="bbqStartBtn">
+          <i class="fas fa-magic"></i> Start the Quiz
+        </button>
+      </div>
+    </div>
+    <div class="bbq-screen" id="bbqQ1">
+      <div class="bbq-q-header">
+        <span class="bbq-q-number">Question 1</span>
+        <h3 class="bbq-q-title">What's your style?</h3>
+        <p class="bbq-q-sub">Choose the vibe that speaks to your soul.</p>
+      </div>
+      <div class="bbq-options bbq-options--2col" id="bbqQ1Options">
+        <button class="bbq-opt-card" data-q="1" data-val="Casual">
+          <span class="bbq-opt-icon"><i class="fas fa-tshirt"></i></span>
+          <span class="bbq-opt-label">Casual</span>
+          <span class="bbq-opt-desc">Comfortable &amp; effortless everyday wear</span>
+          <span class="bbq-opt-check"><i class="fas fa-check"></i></span>
+        </button>
+        <button class="bbq-opt-card" data-q="1" data-val="Chic">
+          <span class="bbq-opt-icon"><i class="fas fa-gem"></i></span>
+          <span class="bbq-opt-label">Chic</span>
+          <span class="bbq-opt-desc">Refined elegance with a modern edge</span>
+          <span class="bbq-opt-check"><i class="fas fa-check"></i></span>
+        </button>
+        <button class="bbq-opt-card" data-q="1" data-val="Beauty">
+          <span class="bbq-opt-icon"><i class="fas fa-heart"></i></span>
+          <span class="bbq-opt-label">Beauty</span>
+          <span class="bbq-opt-desc">Feminine &amp; soft with delicate details</span>
+          <span class="bbq-opt-check"><i class="fas fa-check"></i></span>
+        </button>
+        <button class="bbq-opt-card" data-q="1" data-val="Glamour">
+          <span class="bbq-opt-icon"><i class="fas fa-star"></i></span>
+          <span class="bbq-opt-label">Glamour</span>
+          <span class="bbq-opt-desc">Bold, dazzling &amp; unapologetically you</span>
+          <span class="bbq-opt-check"><i class="fas fa-check"></i></span>
+        </button>
+      </div>
+    </div>
+    <div class="bbq-screen" id="bbqQ2">
+      <div class="bbq-q-header">
+        <span class="bbq-q-number">Question 2</span>
+        <h3 class="bbq-q-title">What's the occasion?</h3>
+        <p class="bbq-q-sub">Tell us where you'll be wearing this look.</p>
+      </div>
+      <div class="bbq-options bbq-options--2col" id="bbqQ2Options">
+        <button class="bbq-opt-card" data-q="2" data-val="Everyday">
+          <span class="bbq-opt-icon"><i class="fas fa-sun"></i></span>
+          <span class="bbq-opt-label">Everyday</span>
+          <span class="bbq-opt-desc">Daily life, errands &amp; casual outings</span>
+          <span class="bbq-opt-check"><i class="fas fa-check"></i></span>
+        </button>
+        <button class="bbq-opt-card" data-q="2" data-val="Evening">
+          <span class="bbq-opt-icon"><i class="fas fa-moon"></i></span>
+          <span class="bbq-opt-label">Evening</span>
+          <span class="bbq-opt-desc">Dinners, nights out &amp; special occasions</span>
+          <span class="bbq-opt-check"><i class="fas fa-check"></i></span>
+        </button>
+        <button class="bbq-opt-card" data-q="2" data-val="Work">
+          <span class="bbq-opt-icon"><i class="fas fa-briefcase"></i></span>
+          <span class="bbq-opt-label">Work</span>
+          <span class="bbq-opt-desc">Professional &amp; polished office looks</span>
+          <span class="bbq-opt-check"><i class="fas fa-check"></i></span>
+        </button>
+        <button class="bbq-opt-card" data-q="2" data-val="Party">
+          <span class="bbq-opt-icon"><i class="fas fa-music"></i></span>
+          <span class="bbq-opt-label">Party</span>
+          <span class="bbq-opt-desc">Celebrations, events &amp; festive nights</span>
+          <span class="bbq-opt-check"><i class="fas fa-check"></i></span>
+        </button>
+      </div>
+    </div>
+    <div class="bbq-screen" id="bbqQ3">
+      <div class="bbq-q-header">
+        <span class="bbq-q-number">Question 3</span>
+        <h3 class="bbq-q-title">Your favourite colour palette?</h3>
+        <p class="bbq-q-sub">Pick the tones that make you feel most radiant.</p>
+      </div>
+      <div class="bbq-color-palette" id="bbqColorPalette">
+      </div>
+      <p class="bbq-no-color-msg" id="bbqNoColorMsg" style="display:none;">
+        <i class="fas fa-info-circle"></i> This product has a single color. Continuing automatically…
+      </p>
+    </div>
+    <div class="bbq-screen" id="bbqQ4">
+      <div class="bbq-q-header">
+        <span class="bbq-q-number">Question 4</span>
+        <h3 class="bbq-q-title">Choose your size</h3>
+        <p class="bbq-q-sub">Select the size that fits you best.</p>
+      </div>
+      <div class="bbq-sizes-grid" id="bbqSizeGrid">
+      </div>
+      <p class="bbq-no-size-msg" id="bbqNoSizeMsg" style="display:none;">
+        <i class="fas fa-info-circle"></i> One size fits all. Continuing automatically…
+      </p>
+    </div>
+    <div class="bbq-screen" id="bbqResult">
+      <div class="bbq-result-content">
+        <div class="bbq-confetti" id="bbqConfetti"></div>
+
+        <div class="bbq-result-badge" id="bbqResultBadge">
+          <i class="fas fa-crown"></i>
+        </div>
+        <h2 class="bbq-result-title" id="bbqResultTitle">Your Look is Ready!</h2>
+        <p class="bbq-result-style" id="bbqResultStyle"></p>
+        <p class="bbq-result-desc" id="bbqResultDesc"></p>
+        <div class="bbq-result-product" id="bbqResultProduct">
+          <img class="bbq-result-img" id="bbqResultImg" src="" alt="">
+          <div class="bbq-result-info">
+            <p class="bbq-result-prod-name" id="bbqResultProdName"></p>
+            <p class="bbq-result-prod-variant" id="bbqResultProdVariant"></p>
+            <p class="bbq-result-prod-price" id="bbqResultProdPrice"></p>
+          </div>
+        </div>
+
+        <button class="bbq-cta-btn bbq-cta-btn--result" id="bbqAddToCartBtn">
+          <i class="fas fa-shopping-bag"></i> I Found My Look &rarr;
+        </button>
+
+        <button class="bbq-retake-btn" id="bbqRetakeBtn">
+          <i class="fas fa-redo"></i> Retake the Quiz
+        </button>
+      </div>
+    </div>
+    <div class="bbq-nav" id="bbqNav" style="display:none;">
+      <button class="bbq-nav-back" id="bbqNavBack">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- STYLE LOOKBOOK Find your best -->
+
+<div id="bbwStyleOverlay" class="bbws-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="BBW4LIFE Style Lookbook">
+
+  <div class="bbws-modal">
+
+    <div class="bbws-particles" aria-hidden="true">
+      <span class="bbws-particle bbws-p1"></span>
+      <span class="bbws-particle bbws-p2"></span>
+      <span class="bbws-particle bbws-p3"></span>
+      <span class="bbws-particle bbws-p4"></span>
+      <span class="bbws-particle bbws-p5"></span>
+      <span class="bbws-particle bbws-p6"></span>
+    </div>
+
+    <button class="bbws-close" id="bbwsCloseBtn" aria-label="Close popup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="bbws-topband">
+      <span class="bbws-topband-text">✦ BBW4LIFE · Beauty Has No Size · Every woman is perfect ✦</span>
+      <span class="bbws-topband-text" aria-hidden="true">✦ BBW4LIFE · Beauty Has No Size · Every woman is perfect ✦</span>
+    </div>
+
+    <div class="bbws-header">
+      <div class="bbws-crown-ring">
+        <svg class="bbws-crown-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 28L10 12L20 22L30 12L35 28H5Z" fill="#c9963e"/>
+          <circle cx="10" cy="10" r="3" fill="#FFD700"/>
+          <circle cx="20" cy="7" r="3.5" fill="#FFD700"/>
+          <circle cx="30" cy="10" r="3" fill="#FFD700"/>
+        </svg>
+      </div>
+      <h2 class="bbws-title"><em>BBW4LIFE</em> Style</h2>
+      <p class="bbws-subtitle">Every curve tells a story</p>
+      <div class="bbws-header-line"></div>
+    </div>
+
+    <div class="bbws-tabs" role="tablist">
+      <button class="bbws-tab bbws-tab--active" data-tab="casual" role="tab" aria-selected="true">
+        <span class="bbws-tab-icon"><i class="fa-solid fa-shirt"></i></span>
+        <span class="bbws-tab-label">Casual Chic</span>
+      </button>
+      <button class="bbws-tab" data-tab="soiree" role="tab" aria-selected="false">
+        <span class="bbws-tab-icon"><i class="fa-solid fa-star"></i></span>
+        <span class="bbws-tab-label">Glamour Night</span>
+      </button>
+      <button class="bbws-tab" data-tab="puissant" role="tab" aria-selected="false">
+        <span class="bbws-tab-icon"><i class="fa-solid fa-bolt"></i></span>
+        <span class="bbws-tab-label">Power Look</span>
+      </button>
+    </div>
+
+    <div class="bbws-panels">
+
+      <div class="bbws-panel bbws-panel--active" id="bbws-panel-casual" role="tabpanel">
+        <p class="bbws-panel-desc">An effortless style for your everyday life</p>
+        <div class="bbws-images-grid">
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400&q=80" alt="Casual Chic 1" loading="lazy"/>
+            <span class="bbws-img-badge">Casual</span>
+          </a>
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400&q=80" alt="Casual Chic 2" loading="lazy"/>
+            <span class="bbws-img-badge">Comfort</span>
+          </a>
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80" alt="Casual Chic 3" loading="lazy"/>
+            <span class="bbws-img-badge">Daily</span>
+          </a>
+        </div>
+        <a href="#LIEN-COLLECTION-CASUAL" class="bbws-explore-btn">Explore <span>→</span></a>
+      </div>
+
+      <div class="bbws-panel" id="bbws-panel-soiree" role="tabpanel">
+        <p class="bbws-panel-desc">Own the night, own the room</p>
+        <div class="bbws-images-grid">
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" alt="Night 1" loading="lazy"/>
+            <span class="bbws-img-badge bbws-img-badge--rose">Glamour</span>
+          </a>
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&q=80" alt="Night 2" loading="lazy"/>
+            <span class="bbws-img-badge bbws-img-badge--rose">Night</span>
+          </a>
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&q=80" alt="Night 3" loading="lazy"/>
+            <span class="bbws-img-badge bbws-img-badge--rose">Elegance</span>
+          </a>
+        </div>
+        <a href="#LIEN-COLLECTION-SOIREE" class="bbws-explore-btn bbws-explore-btn--rose">Explore <span>→</span></a>
+      </div>
+
+      <div class="bbws-panel" id="bbws-panel-puissant" role="tabpanel">
+        <p class="bbws-panel-desc">Confidence starts with your outfit</p>
+        <div class="bbws-images-grid">
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&q=80" alt="Power 1" loading="lazy"/>
+            <span class="bbws-img-badge bbws-img-badge--dark">Power</span>
+          </a>
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=80" alt="Power 2" loading="lazy"/>
+            <span class="bbws-img-badge bbws-img-badge--dark">Confidence</span>
+          </a>
+          <a href="#" class="bbws-img-wrap">
+            <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=400&q=80" alt="Power 3" loading="lazy"/>
+            <span class="bbws-img-badge bbws-img-badge--dark">Bold</span>
+          </a>
+        </div>
+        <a href="#LIEN-COLLECTION-PUISSANT" class="bbws-explore-btn bbws-explore-btn--dark">Explore <span>→</span></a>
+      </div>
+
+    </div>
+
+    <div class="bbws-wave-block" aria-hidden="true">
+      <svg class="bbws-wave-svg" viewBox="0 0 900 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="bbws-wave-path bbws-wave-path--back" d="M0,30 C150,60 300,0 450,30 C600,60 750,0 900,30 L900,60 L0,60 Z"/>
+        <path class="bbws-wave-path bbws-wave-path--front" d="M0,38 C120,10 260,55 450,35 C640,15 780,55 900,38 L900,60 L0,60 Z"/>
+      </svg>
+      <div class="bbws-wave-text">✦ Style · Beauty · Confidence ✦</div>
+    </div>
+
+    <div class="bbws-marquee-section" aria-label="Style gallery">
+
+      <div class="bbws-marquee-track bbws-marquee-track--right">
+        <div class="bbws-marquee-inner">
+          <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=200&q=70" alt="" loading="lazy"/>
+        </div>
+      </div>
+
+      <div class="bbws-marquee-track bbws-marquee-track--left">
+        <div class="bbws-marquee-inner">
+          <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&q=70" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=200&q=70" alt="" loading="lazy"/>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="bbws-footer-line">
+      <span>Beauty Has No Size</span>
+      <span class="bbws-footer-dot">✦</span>
+      <span>BBW4LIFE 2026</span>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- FIND YOUR LOOK Morphology -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<div id="bbwLookOverlay" class="bbwl-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Find Your Look">
+
+  <div class="bbwl-modal">
+
+    <div class="bbwl-particles" aria-hidden="true">
+      <span class="bbwl-spark bbwl-s1"></span>
+      <span class="bbwl-spark bbwl-s2"></span>
+      <span class="bbwl-spark bbwl-s3"></span>
+      <span class="bbwl-spark bbwl-s4"></span>
+      <span class="bbwl-spark bbwl-s5"></span>
+      <span class="bbwl-spark bbwl-s6"></span>
+      <span class="bbwl-spark bbwl-s7"></span>
+      <span class="bbwl-spark bbwl-s8"></span>
+    </div>
+
+    <button class="bbwl-close" id="bbwlCloseBtn" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="bbwl-topband">
+      <span class="bbwl-topband-inner">
+        <i class="fa-solid fa-heart"></i> Every body is beautiful · Celebrate your curves · BBW4LIFE &nbsp;&nbsp;
+        <i class="fa-solid fa-heart"></i> Every body is beautiful · Celebrate your curves · BBW4LIFE &nbsp;&nbsp;
+        <i class="fa-solid fa-heart"></i> Every body is beautiful · Celebrate your curves · BBW4LIFE &nbsp;&nbsp;
+        <i class="fa-solid fa-heart"></i> Every body is beautiful · Celebrate your curves · BBW4LIFE &nbsp;&nbsp;
+      </span>
+    </div>
+
+    <div class="bbwl-header">
+      <div class="bbwl-crown-halo">
+        <i class="fa-solid fa-crown"></i>
+      </div>
+      <h2 class="bbwl-title">Find Your <em>Perfect</em> Look</h2>
+      <p class="bbwl-subtitle">Every body is beautiful. Find what celebrates <strong>you</strong>.</p>
+      <div class="bbwl-title-line"></div>
+    </div>
+
+    <div class="bbwl-tabs" role="tablist" aria-label="Body type tabs">
+      <button class="bbwl-tab bbwl-tab--active" data-morph="apple" role="tab" aria-selected="true">
+        <span class="bbwl-tab-icon"><i class="fa-solid fa-circle"></i></span>
+        <span class="bbwl-tab-name">Apple</span>
+      </button>
+      <button class="bbwl-tab" data-morph="hourglass" role="tab" aria-selected="false">
+        <span class="bbwl-tab-icon"><i class="fa-solid fa-hourglass-half"></i></span>
+        <span class="bbwl-tab-name">Hourglass</span>
+      </button>
+      <button class="bbwl-tab" data-morph="pear" role="tab" aria-selected="false">
+        <span class="bbwl-tab-icon"><i class="fa-solid fa-droplet"></i></span>
+        <span class="bbwl-tab-name">Pear</span>
+      </button>
+      <button class="bbwl-tab" data-morph="rectangle" role="tab" aria-selected="false">
+        <span class="bbwl-tab-icon"><i class="fa-solid fa-rectangle-history"></i></span>
+        <span class="bbwl-tab-name">Rectangle</span>
+      </button>
+    </div>
+
+    <div class="bbwl-panels">
+
+      <div class="bbwl-panel bbwl-panel--active" id="bbwl-panel-apple" role="tabpanel">
+        <div class="bbwl-morph-intro">
+          <div class="bbwl-morph-icon bbwl-morph-icon--apple">
+            <i class="fa-solid fa-circle"></i>
+          </div>
+          <div class="bbwl-morph-text">
+            <h3 class="bbwl-morph-name">Apple Shape</h3>
+            <p class="bbwl-morph-desc">Fuller through the middle, with gorgeous shoulders and legs. Your silhouette radiates strength and confidence. Empire cuts and wrap styles are your secret weapons.</p>
+            <div class="bbwl-morph-tip">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Style tip: Define your waist with wrap cuts and elongate with V-necklines.</span>
+            </div>
+          </div>
+        </div>
+        <div class="bbwl-products-grid bbwl-products-grid--2col" id="bbwl-products-apple"></div>
+        <a href="#" class="bbwl-cta-btn" data-morph="apple">
+          <i class="fa-solid fa-bag-shopping"></i>
+          See This Style
+          <span class="bbwl-cta-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+      </div>
+
+      <div class="bbwl-panel" id="bbwl-panel-hourglass" role="tabpanel">
+        <div class="bbwl-morph-intro">
+          <div class="bbwl-morph-icon bbwl-morph-icon--hourglass">
+            <i class="fa-solid fa-hourglass-half"></i>
+          </div>
+          <div class="bbwl-morph-text">
+            <h3 class="bbwl-morph-name">Hourglass Shape</h3>
+            <p class="bbwl-morph-desc">Balanced curves above and below a defined waist — the classic silhouette that every style was made to celebrate. You were built to wear fitted, bodycon, and wrap styles.</p>
+            <div class="bbwl-morph-tip">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Style tip: Show off that waist with belted dresses and form-fitting cuts.</span>
+            </div>
+          </div>
+        </div>
+        <div class="bbwl-products-grid bbwl-products-grid--2col" id="bbwl-products-hourglass"></div>
+        <a href="#" class="bbwl-cta-btn" data-morph="hourglass">
+          <i class="fa-solid fa-bag-shopping"></i>
+          See This Style
+          <span class="bbwl-cta-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+      </div>
+
+      <div class="bbwl-panel" id="bbwl-panel-pear" role="tabpanel">
+        <div class="bbwl-morph-intro">
+          <div class="bbwl-morph-icon bbwl-morph-icon--pear">
+            <i class="fa-solid fa-droplet"></i>
+          </div>
+          <div class="bbwl-morph-text">
+            <h3 class="bbwl-morph-name">Pear Shape</h3>
+            <p class="bbwl-morph-desc">Wider hips and thighs with a slimmer upper body — a shape that is elegance personified. Flared skirts and wide necklines will have you feeling like royalty.</p>
+            <div class="bbwl-morph-tip">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Style tip: Draw eyes upward with wide necklines and bold top details.</span>
+            </div>
+          </div>
+        </div>
+        <div class="bbwl-products-grid bbwl-products-grid--3col" id="bbwl-products-pear"></div>
+        <a href="#" class="bbwl-cta-btn" data-morph="pear">
+          <i class="fa-solid fa-bag-shopping"></i>
+          See This Style
+          <span class="bbwl-cta-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+      </div>
+
+      <div class="bbwl-panel" id="bbwl-panel-rectangle" role="tabpanel">
+        <div class="bbwl-morph-intro">
+          <div class="bbwl-morph-icon bbwl-morph-icon--rectangle">
+            <i class="fa-solid fa-rectangle-history"></i>
+          </div>
+          <div class="bbwl-morph-text">
+            <h3 class="bbwl-morph-name">Rectangle Shape</h3>
+            <p class="bbwl-morph-desc">Shoulders, waist and hips in beautiful harmony — a versatile silhouette that wears everything effortlessly. Ruffles, belts and structured cuts create gorgeous dimension.</p>
+            <div class="bbwl-morph-tip">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Style tip: Create curves with belts, ruffles, and structured shoulders.</span>
+            </div>
+          </div>
+        </div>
+        <div class="bbwl-products-grid bbwl-products-grid--2col" id="bbwl-products-rectangle"></div>
+        <a href="#" class="bbwl-cta-btn" data-morph="rectangle">
+          <i class="fa-solid fa-bag-shopping"></i>
+          See This Style
+          <span class="bbwl-cta-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="bbwl-wave-wrap" aria-hidden="true">
+      <svg class="bbwl-wave-svg" viewBox="0 0 900 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="bbwl-wave-a" d="M0,35 C150,70 300,0 450,35 C600,70 750,0 900,35 L900,70 L0,70 Z"/>
+        <path class="bbwl-wave-b" d="M0,45 C130,15 270,62 450,42 C630,22 790,62 900,45 L900,70 L0,70 Z"/>
+      </svg>
+      <div class="bbwl-wave-label">
+        <i class="fa-solid fa-star-of-life"></i>
+        Style · Confidence · Beauty
+        <i class="fa-solid fa-star-of-life"></i>
+      </div>
+    </div>
+
+    <div class="bbwl-footer-bar">
+      <i class="fa-solid fa-heart"></i>
+      <span>Beauty Has No Size</span>
+      <i class="fa-solid fa-circle-dot"></i>
+      <span>BBW4LIFE 2026</span>
+      <i class="fa-solid fa-heart"></i>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<!-- BIG DEALS -->
+
+<div id="bdOverlay" class="bd-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Big Deals Flash Sale">
+
+  <div class="bd-modal" id="bdModal">
+
+    <div class="bd-topband">
+      <div class="bd-topband-inner">
+        <i class="fas fa-star"></i>&nbsp;Limited Time Offers &nbsp;·&nbsp; BBW4LIFE &nbsp;·&nbsp; Flash Sale &nbsp;·&nbsp; Today Only &nbsp;·&nbsp;
+        <i class="fas fa-star"></i>&nbsp;Limited Time Offers &nbsp;·&nbsp; BBW4LIFE &nbsp;·&nbsp; Flash Sale &nbsp;·&nbsp; Today Only &nbsp;·&nbsp;
+        <i class="fas fa-star"></i>&nbsp;Limited Time Offers &nbsp;·&nbsp; BBW4LIFE &nbsp;·&nbsp; Flash Sale &nbsp;·&nbsp; Today Only &nbsp;·&nbsp;
+        <i class="fas fa-star"></i>&nbsp;Limited Time Offers &nbsp;·&nbsp; BBW4LIFE &nbsp;·&nbsp; Flash Sale &nbsp;·&nbsp; Today Only &nbsp;·&nbsp;
+      </div>
+    </div>
+
+    <button class="bd-close" id="bdClose" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="bd-inner">
+
+      <!-- 1. TITRE EN HAUT -->
+      <div class="bd-header">
+        <div class="bd-badge">
+          <i class="fas fa-fire bd-badge-icon"></i>
+          <span class="bd-badge-text">Flash Sale</span>
+        </div>
+        <h2 class="bd-title">Big Deals — <em>Today Only</em></h2>
+        <p class="bd-sub">Exclusive offers available for a very limited time. Don't miss out!</p>
+      </div>
+
+      <!-- 2. COMPTE À REBOURS avec barre d'urgence INTÉGRÉE DEDANS -->
+      <div class="bd-countdown-wrap">
+        <div class="bd-cd-top">
+          <span class="bd-cd-label">
+            <i class="fas fa-clock"></i> Ends in
+          </span>
+          <div class="bd-cd-blocks">
+            <div class="bd-cd-unit">
+              <span class="bd-cd-num" id="bdH">00</span>
+              <span class="bd-cd-tag">Hours</span>
+            </div>
+            <span class="bd-cd-sep">:</span>
+            <div class="bd-cd-unit">
+              <span class="bd-cd-num" id="bdM">00</span>
+              <span class="bd-cd-tag">Min</span>
+            </div>
+            <span class="bd-cd-sep">:</span>
+            <div class="bd-cd-unit">
+              <span class="bd-cd-num" id="bdS">00</span>
+              <span class="bd-cd-tag">Sec</span>
+            </div>
+          </div>
+        </div>
+        <!-- Barre d'urgence à l'intérieur du compte à rebours -->
+        <div class="bd-urgency-bar">
+          <div class="bd-urgency-fill" id="bdUrgFill"></div>
+        </div>
+      </div>
+
+      <!-- 3. 3 CARDS EN COLONNES -->
+      <div class="bd-cards">
+
+        <div class="bd-card">
+          <div class="bd-card-icon bd-card-icon--promo">
+            <i class="fas fa-tag"></i>
+          </div>
+          <span class="bd-card-title">Promo Codes</span>
+          <div class="bd-promos-list" id="bdPromosList"></div>
+        </div>
+
+        <div class="bd-card">
+          <div class="bd-card-icon bd-card-icon--ship">
+            <i class="fas fa-truck"></i>
+          </div>
+          <span class="bd-card-title">Free Shipping</span>
+          <span class="bd-card-value bd-card-value--ship" id="bdShipVal">$75</span>
+          <span class="bd-card-desc">On all orders above this amount — no code needed</span>
+          <div class="bd-card-badge bd-card-badge--ship">
+            <i class="fas fa-check-circle"></i> Auto-applied
+          </div>
+        </div>
+
+        <div class="bd-card">
+          <div class="bd-card-icon bd-card-icon--gift">
+            <i class="fas fa-gift"></i>
+          </div>
+          <span class="bd-card-title">Buy &amp; Get Free</span>
+          <span class="bd-card-value bd-card-value--gift" id="bdBuyGetVal">3 + 1</span>
+          <span class="bd-card-desc" id="bdBuyGetDesc">Buy 3 items, get 1 absolutely free</span>
+          <div class="bd-card-badge bd-card-badge--gift">
+            <i class="fas fa-bolt"></i> Auto in cart
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 4. BOUTON ACTION EN DESSOUS -->
+      <button class="bd-main-btn" id="bdMainBtn">
+        <i class="fas fa-shopping-bag"></i>
+        <span>Grab the Deals Now</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+
+      <p class="bd-footer-note">
+        <i class="fas fa-lock"></i>
+        Secure checkout · Offers valid today only · While stocks last
+      </p>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BBW4LIFE — COMMITMENT POPUP 
+═══════════════════════════════════════════════════════════════ -->
+
+<div id="bbwCommitmentOverlay" class="bbwc-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="bbwcTitle">
+
+  <div class="bbwc-modal">
+
+    <!-- Bouton fermer -->
+    <button class="bbwc-close" id="bbwcCloseBtn" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- En-tête -->
+    <div class="bbwc-header">
+      <span class="bbwc-eyebrow">Our Promise to You</span>
+      <h2 class="bbwc-title" id="bbwcTitle">Our Commitment</h2>
+      <div class="bbwc-separator" aria-hidden="true">
+        <span class="bbwc-sep-line"></span>
+        <span class="bbwc-sep-icon"><i class="fa-solid fa-heart"></i></span>
+        <span class="bbwc-sep-line"></span>
+      </div>
+      <p class="bbwc-intro-text">
+        At <strong>BBW4LIFE</strong>, our commitment goes far beyond fashion. We believe every plus-size woman deserves to feel <strong>seen, celebrated</strong> and <strong>empowered</strong> — not despite her size, but because of who she is. Every product we offer, every decision we make, is rooted in one simple truth: <strong>beauty has no size.</strong>
+      </p>
+    </div>
+
+    <!-- 4 Cards engagement -->
+    <div class="bbwc-cards">
+
+      <div class="bbwc-card">
+        <span class="bbwc-card-icon"><i class="fa-solid fa-shield-halved"></i></span>
+        <div class="bbwc-card-body">
+          <p class="bbwc-card-title"><strong>30-Day Money-Back Guarantee</strong></p>
+          <p class="bbwc-card-desc">No questions asked. Your satisfaction is our absolute priority.</p>
+        </div>
+      </div>
+
+      <div class="bbwc-card">
+        <span class="bbwc-card-icon"><i class="fa-solid fa-gem"></i></span>
+        <div class="bbwc-card-body">
+          <p class="bbwc-card-title"><strong>Premium Quality</strong></p>
+          <p class="bbwc-card-desc">Every piece is carefully selected and designed for plus-size women.</p>
+        </div>
+      </div>
+
+      <div class="bbwc-card">
+        <span class="bbwc-card-icon"><i class="fa-solid fa-heart"></i></span>
+        <div class="bbwc-card-body">
+          <p class="bbwc-card-title"><strong>You Are Enough</strong></p>
+          <p class="bbwc-card-desc">We celebrate you exactly as you are — <strong>confident, radiant</strong> and beautifully real.</p>
+        </div>
+      </div>
+
+      <div class="bbwc-card">
+        <span class="bbwc-card-icon"><i class="fa-solid fa-earth-americas"></i></span>
+        <div class="bbwc-card-body">
+          <p class="bbwc-card-title"><strong>Community First</strong></p>
+          <p class="bbwc-card-desc">More than <strong>12,000 women</strong> already trust and love BBW4LIFE.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Citation fondateur -->
+    <blockquote class="bbwc-quote">
+      <i class="fa-solid fa-quote-left bbwc-quote-icon"></i>
+      <p>"I didn't create <strong>BBW4LIFE</strong> to build a business.<br>I created it to <strong>change lives</strong>."</p>
+      <footer class="bbwc-quote-footer">
+        <span class="bbwc-sig-name">CEO Francenel</span>
+        <span class="bbwc-sig-date">Since June 18, 2025</span>
+      </footer>
+    </blockquote>
+
+    <!-- CTA -->
+    <div class="bbwc-footer">
+      <a href="/collections/bbw4life-all-product.html" class="bbwc-cta-btn">
+        Join Our Family <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BBW4LIFE — MISSION POPUP
+═══════════════════════════════════════════════════════════════ -->
+
+<div id="bbwMissionOverlay" class="bbwm-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="bbwmTitle">
+
+  <div class="bbwm-modal">
+
+    <!-- Particules dorées flottantes -->
+    <div class="bbwm-particles" aria-hidden="true">
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+      <span class="bbwm-particle"></span>
+    </div>
+
+    <!-- Bouton fermer -->
+    <button class="bbwm-close" id="bbwmCloseBtn" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- ── HEADER ── -->
+    <div class="bbwm-header bbwm-anim" style="--bbwm-delay:0.05s">
+      <span class="bbwm-eyebrow">
+        <i class="fa-solid fa-heart bbwm-eyebrow-icon"></i>
+        Born from Love &nbsp;·&nbsp; June 18, 2025
+      </span>
+      <h2 class="bbwm-title" id="bbwmTitle">
+        More Than a Brand.
+        <span class="bbwm-title-gradient">A Revolution.</span>
+      </h2>
+      <p class="bbwm-subtitle bbwm-anim" style="--bbwm-delay:0.18s">
+        BBW4LIFE was never designed to be just a store. It was born from a <strong>real story</strong>, a <strong>real pain</strong>, and an unshakeable belief that <strong>every woman deserves to feel beautiful</strong> — exactly as she is, in the body she has, right now.
+      </p>
+      <div class="bbwm-sep" aria-hidden="true">
+        <span class="bbwm-sep-dot"></span>
+        <span class="bbwm-sep-line"></span>
+        <span class="bbwm-sep-diamond"><i class="fa-solid fa-diamond"></i></span>
+        <span class="bbwm-sep-line"></span>
+        <span class="bbwm-sep-dot"></span>
+      </div>
+    </div>
+
+    <!-- ── TIMELINE ── -->
+    <div class="bbwm-timeline bbwm-anim" style="--bbwm-delay:0.32s" aria-label="Our story">
+
+      <!-- Block 1 -->
+      <div class="bbwm-block">
+        <div class="bbwm-block-left">
+          <div class="bbwm-icon-wrap bbwm-icon--moment">
+            <i class="fa-solid fa-heart-crack"></i>
+          </div>
+          <div class="bbwm-line"></div>
+        </div>
+        <div class="bbwm-block-content bbwm-anim" style="--bbwm-delay:0.42s">
+          <span class="bbwm-block-tag">The Moment</span>
+          <p class="bbwm-block-text">
+            A plus-size woman. <strong>Magnificent. Radiant. Full of life.</strong><br>
+            But slowly broken down by the weight of society's judgment — not because she wasn't enough, but because the world told her she wasn't.
+          </p>
+        </div>
+      </div>
+
+      <!-- Block 2 -->
+      <div class="bbwm-block">
+        <div class="bbwm-block-left">
+          <div class="bbwm-icon-wrap bbwm-icon--decision">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <div class="bbwm-line"></div>
+        </div>
+        <div class="bbwm-block-content bbwm-anim" style="--bbwm-delay:0.54s">
+          <span class="bbwm-block-tag">The Decision</span>
+          <p class="bbwm-block-text">
+            She wasn't alone. <strong>Thousands of women</strong> live under the same pressure every day — beautiful women who doubt themselves because of standards that were never meant for them.<br>
+            Something had to change.
+          </p>
+        </div>
+      </div>
+
+      <!-- Block 3 -->
+      <div class="bbwm-block bbwm-block--last">
+        <div class="bbwm-block-left">
+          <div class="bbwm-icon-wrap bbwm-icon--bbw">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+        </div>
+        <div class="bbwm-block-content bbwm-anim" style="--bbwm-delay:0.66s">
+          <span class="bbwm-block-tag">BBW4LIFE</span>
+          <p class="bbwm-block-text">
+            A movement born from love. To tell every plus-size woman one simple, essential truth:<br>
+            <strong>"You are beautiful, exactly as you are."</strong>
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /.bbwm-timeline -->
+
+    <!-- ── CITATION ── -->
+    <div class="bbwm-quote-wrap bbwm-anim" style="--bbwm-delay:0.78s">
+      <blockquote class="bbwm-quote">
+        <i class="fa-solid fa-quote-left bbwm-quote-icon" aria-hidden="true"></i>
+        <p class="bbwm-quote-text">"Beauty Has No Size."</p>
+        <footer class="bbwm-quote-footer">
+          <span class="bbwm-sig">— CEO Francenel &nbsp;·&nbsp; BBW4LIFE</span>
+        </footer>
+      </blockquote>
+    </div>
+
+    <!-- ── CTA ── -->
+    <div class="bbwm-footer bbwm-anim" style="--bbwm-delay:0.90s">
+      <a href="/page/our-story.html" class="bbwm-cta-btn">
+        Read Our Full Story <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BBW4LIFE — NEWSLETTER POPUP
+═══════════════════════════════════════════════════════════════ -->
+
+<div id="bbwNlOverlay" class="bbwnl-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Newsletter subscription">
+
+  <!-- Backdrop -->
+  <div class="bbwnl-backdrop"></div>
+
+  <!-- Modal -->
+  <div class="bbwnl-modal">
+
+    <!-- Floating orbs -->
+    <div class="bbwnl-orb bbwnl-orb--1"></div>
+    <div class="bbwnl-orb bbwnl-orb--2"></div>
+    <div class="bbwnl-orb bbwnl-orb--3"></div>
+    <div class="bbwnl-orb bbwnl-orb--4"></div>
+
+    <!-- Sparkle particles -->
+    <div class="bbwnl-particles" id="bbwNlParticles"></div>
+
+    <!-- Wave decorative top -->
+    <div class="bbwnl-wave-top">
+      <svg viewBox="0 0 400 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 60 Q50 10 100 40 Q150 70 200 30 Q250 -10 300 40 Q350 80 400 30 L400 0 L0 0 Z" fill="#c9963e" opacity="0.18"/>
+        <path d="M0 60 Q80 20 160 50 Q240 80 320 30 Q370 10 400 45 L400 0 L0 0 Z" fill="#c0385e" opacity="0.10"/>
+      </svg>
+    </div>
+
+    <!-- Close button -->
+    <button class="bbwnl-close" id="bbwNlClose" aria-label="Close newsletter popup">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <!-- Body -->
+    <div class="bbwnl-body">
+
+      <!-- Badge -->
+      <div class="bbwnl-badge">
+        <span class="bbwnl-badge-pulse"></span>
+        <span class="bbwnl-badge-text">🎁 EXCLUSIVE OFFER</span>
+      </div>
+
+      <!-- Crown icon -->
+      <div class="bbwnl-crown-wrap">
+        <div class="bbwnl-crown-ring">
+          <i class="fas fa-crown bbwnl-crown-icon"></i>
+        </div>
+        <div class="bbwnl-crown-glow"></div>
+      </div>
+
+      <!-- Title -->
+      <h2 class="bbwnl-title">
+        Join The<br>
+        <em class="bbwnl-title-em">BBW4LIFE Family</em>
+      </h2>
+
+      <!-- Subtitle -->
+      <p class="bbwnl-subtitle">
+        Be the first to know about new collections, exclusive deals<br class="bbwnl-br-desk">
+        and style tips made just for you.
+      </p>
+
+      <!-- Benefits -->
+      <div class="bbwnl-benefits">
+        <div class="bbwnl-benefit">
+          <span class="bbwnl-benefit-icon"><i class="fas fa-bolt"></i></span>
+          <span class="bbwnl-benefit-text">Early access to new collections</span>
+        </div>
+        <div class="bbwnl-benefit">
+          <span class="bbwnl-benefit-icon"><i class="fas fa-tag"></i></span>
+          <span class="bbwnl-benefit-text">Exclusive member discounts</span>
+        </div>
+        <div class="bbwnl-benefit">
+          <span class="bbwnl-benefit-icon"><i class="fas fa-heart"></i></span>
+          <span class="bbwnl-benefit-text">Weekly style inspiration</span>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <form class="bbwnl-form" id="bbwNlForm" novalidate>
+
+        <div class="bbwnl-fields-row">
+          <div class="bbwnl-field-wrap">
+            <label class="bbwnl-label" for="bbwNlFirst">First Name</label>
+            <div class="bbwnl-input-wrap">
+              <i class="fas fa-user bbwnl-input-icon"></i>
+              <input
+                type="text"
+                id="bbwNlFirst"
+                class="bbwnl-input"
+                placeholder="Your first name"
+                autocomplete="given-name"
+              />
+            </div>
+          </div>
+          <div class="bbwnl-field-wrap">
+            <label class="bbwnl-label" for="bbwNlLast">Last Name</label>
+            <div class="bbwnl-input-wrap">
+              <i class="fas fa-user bbwnl-input-icon"></i>
+              <input
+                type="text"
+                id="bbwNlLast"
+                class="bbwnl-input"
+                placeholder="Your last name"
+                autocomplete="family-name"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="bbwnl-field-wrap">
+          <label class="bbwnl-label" for="bbwNlEmail">Email Address <span class="bbwnl-required">*</span></label>
+          <div class="bbwnl-input-wrap">
+            <i class="fas fa-envelope bbwnl-input-icon"></i>
+            <input
+              type="email"
+              id="bbwNlEmail"
+              class="bbwnl-input"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="bbwnl-field-wrap">
+          <label class="bbwnl-label" for="bbwNlBday">Birthday <span class="bbwnl-label-hint">(optional — surprise gift!)</span></label>
+          <div class="bbwnl-input-wrap">
+            <i class="fas fa-birthday-cake bbwnl-input-icon"></i>
+            <input
+              type="date"
+              id="bbwNlBday"
+              class="bbwnl-input bbwnl-input--date"
+              autocomplete="bday"
+            />
+          </div>
+        </div>
+
+        <!-- Error -->
+        <p class="bbwnl-error" id="bbwNlError" role="alert"></p>
+
+        <!-- CTA -->
+        <button type="submit" class="bbwnl-cta" id="bbwNlSubmit">
+          <span class="bbwnl-cta-bg"></span>
+          <span class="bbwnl-cta-shimmer"></span>
+          <span class="bbwnl-cta-text">
+            <i class="fas fa-paper-plane"></i>
+            Join Now — It's Free
+          </span>
+          <span class="bbwnl-cta-loader" style="display:none">
+            <i class="fas fa-circle-notch fa-spin"></i> Subscribing…
+          </span>
+        </button>
+
+      </form>
+
+      <!-- Success screen -->
+      <div class="bbwnl-success" id="bbwNlSuccess" style="display:none">
+        <div class="bbwnl-success-confetti" id="bbwNlConfetti"></div>
+        <div class="bbwnl-success-ring">
+          <i class="fas fa-check bbwnl-success-check"></i>
+        </div>
+        <h3 class="bbwnl-success-title">Welcome to the family! 🎉</h3>
+        <p class="bbwnl-success-msg">Check your inbox — a little something is on its way to you.</p>
+        <button class="bbwnl-success-close" id="bbwNlSuccessClose">
+          <i class="fas fa-times-circle"></i> Close
+        </button>
+      </div>
+
+      <!-- Footer note -->
+      <p class="bbwnl-note">
+        <i class="fas fa-lock"></i>
+        No spam. Unsubscribe anytime. We respect your privacy.
+      </p>
+
+    </div><!-- /bbwnl-body -->
+
+    <!-- Bottom wave decoration -->
+    <div class="bbwnl-wave-bot">
+      <svg viewBox="0 0 400 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0 Q100 40 200 20 Q300 0 400 30 L400 40 L0 40 Z" fill="#c9963e" opacity="0.12"/>
+      </svg>
+    </div>
+
+  </div><!-- /bbwnl-modal -->
+</div>
 </footer>

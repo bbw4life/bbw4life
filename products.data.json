@@ -981,11 +981,11 @@
       "banner_slide_duration_ms": 5000
     },
     "preloader": {
-      "show": "yes",
+      "show": "no",
       "style_pulse_logo":   "no",
-      "style_progress_bar": "no",
+      "style_progress_bar": "yes",
       "style_spinner_ring": "no",
-      "style_dots_wave":    "yes",
+      "style_dots_wave":    "no",
       "style_morph_text":   "no"
     },
     "remember_cart_popup": {
@@ -1194,41 +1194,6 @@
       },
       "product_ids": ["Pdg-Francenel-product1", "Pdg-Francenel-product2", "Pdg-Francenel-product7", "Pdg-Francenel-product8", "Pdg-Francenel-product9", "Pdg-Francenel-product4", "Pdg-Francenel-product3"]
     },
-    "Pdg-Francenel-products": {
-      "product_ids": [
-        "Pdg-Francenel-product1",
-        "Pdg-Francenel-product2",
-        "Pdg-Francenel-product3",
-        "Pdg-Francenel-product4",
-        "Pdg-Francenel-product5",
-        "Pdg-Francenel-product6",
-        "Pdg-Francenel-product7",
-        "Pdg-Francenel-product8",
-        "Pdg-Francenel-product9",
-        "Pdg-Francenel-product10",
-        "Pdg-Francenel-product11",
-        "Pdg-Francenel-product12",
-        "Pdg-Francenel-product13",
-        "Pdg-Francenel-product14",
-        "Pdg-Francenel-product15",
-        "Pdg-Francenel-product16"
-      ],
-      "col_card_animations": {
-        "fadeSlideUp": "no",
-        "zoomFade": "no",
-        "flipIn": "yes",
-        "slideLeft": "no",
-        "slideRight": "no",
-        "rotateIn": "no",
-        "glowPop": "no"
-      },
-      "page_size": 12,
-      "max_price": 200,
-      "animation": "fadeSlideUp",
-      "hero_title": "Gear Built For Your Curves",
-      "hero_subtitle": "Every product designed with curvy women in mind — comfortable, effective, beautiful.",
-      "hero_eyebrow": "Our Full Collection"
-    },
     "bundle_deal": {
       "title": "The CurvaFit Starter Bundle",
       "subtitle": "Our 3 most-loved pieces — chosen by 8,000+ curvy women to start their transformation.",
@@ -1376,13 +1341,53 @@
     "Pdg-Francenel-product16"
   ]
   },
+   "curvy-dresses": {
+      "id": "curvy-dresses",
+      "title": "Curvy Dresses",
+      "subtitle": "Every product designed with curvy women in mind — comfortable, effective, beautiful.",
+      "url": "/collections/curvy-dresses.html",
+      "eyebrow": "Our Full Collection",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_1.png?v=1774377685",
+      "product_ids": [
+        "Pdg-Francenel-product1",
+        "Pdg-Francenel-product2",
+        "Pdg-Francenel-product3",
+        "Pdg-Francenel-product4",
+        "Pdg-Francenel-product5",
+        "Pdg-Francenel-product6",
+        "Pdg-Francenel-product7",
+        "Pdg-Francenel-product8",
+        "Pdg-Francenel-product9",
+        "Pdg-Francenel-product10",
+        "Pdg-Francenel-product11",
+        "Pdg-Francenel-product12",
+        "Pdg-Francenel-product13",
+        "Pdg-Francenel-product14",
+        "Pdg-Francenel-product15",
+        "Pdg-Francenel-product16"
+      ],
+      "col_card_animations": {
+        "fadeSlideUp": "no",
+        "zoomFade": "no",
+        "flipIn": "yes",
+        "slideLeft": "no",
+        "slideRight": "no",
+        "rotateIn": "no",
+        "glowPop": "no"
+      },
+      "page_size": 12,
+      "max_price": 200,
+      "hero_title": "Gear Built For Your Curves",
+      "hero_subtitle": "Every product designed with curvy women in mind — comfortable, effective, beautiful.",
+      "hero_eyebrow": "Our Full Collection"
+    },
   "jrgq_collections": {
   "collections": [
     {
       "id": "curvy-woman",
       "title": "Curvy Woman",
       "subtitle": "Style & comfort for every curve",
-      "url": "/curvy-woman.html",
+      "url": "/collections/curvy-woman.html",
       "cta_label": "Shop Curvy Woman →",
       "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/jump_2.png?v=1775267440",
       "product_ids": [
@@ -1400,7 +1405,7 @@
       "id": "main-plus-size",
       "title": "Main Plus Size",
       "subtitle": "Our biggest plus-size selection",
-      "url": "/main-plus-size.html",
+      "url": "/collections/main-plus-size.html",
       "cta_label": "Shop Plus Size →",
       "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/jump_1.jpg?v=1775267428",
       "product_ids": [
@@ -1418,7 +1423,7 @@
       "id": "curvy-beauty",
       "title": "Curvy Beauty",
       "subtitle": "Beauty & wellness for plus-size women",
-      "url": "/curvy-beauty.html",
+      "url": "/collections/curvy-beauty.html",
       "cta_label": "Discover Beauty →",
       "image": "https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow4_a9227abc-e102-4a7b-98f6-099ddcb7d64e.webp?v=1771884540",
       "product_ids": [
@@ -1434,16 +1439,33 @@
       "featured": true
     },
     {
+      "id": "bbw4life-pants-skirts",
+      "title": "Pants & Skirts",
+      "subtitle": "Curvy bottoms designed for every silhouette",
+      "url": "/collections/bbw4life-pants-skirts.html",
+      "cta_label": "Shop Pants & Skirts →",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/tie_dei_1.png?v=1775328610",
+      "product_ids": [
+        "Pdg-Francenel-product4",
+        "Pdg-Francenel-product5",
+        "Pdg-Francenel-product7",
+        "Pdg-Francenel-product2",
+        "Pdg-Francenel-product9",
+        "Pdg-Francenel-product8"
+      ],
+      "loss": "−4 kg",
+      "weeks": "4 weeks",
+      "name": "Pants & Skirts",
+      "quote": "Style that moves with your curves."
+    },
+    {
       "id": "bbw4life-all-product",
       "title": "BBW4LIFE — All Products",
       "subtitle": "The complete BBW4LIFE catalog",
-      "url": "/bbw4life-all-product.html",
+      "url": "/collections/bbw4life-all-product.html",
       "cta_label": "Shop All Products →",
       "image": "https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow_7_34cbe5a0-ea02-44e1-9021-6fc9a0f59e47.webp?v=1771884540",
       "product_ids": [
-        "Pdg-Francenel-product1",
-        "Pdg-Francenel-product2",
-        "Pdg-Francenel-product3",
         "Pdg-Francenel-product4",
         "Pdg-Francenel-product5",
         "Pdg-Francenel-product6",
@@ -1467,7 +1489,7 @@
       "id": "bbw-features-products",
       "title": "BBW Featured",
       "subtitle": "Our hand-picked featured products",
-      "url": "/bbw-features-products.html",
+      "url": "/collections/bbw-features-products.html",
       "cta_label": "See Featured →",
       "image": "https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Support_Pillow_9_fd535894-2578-4b8a-84a2-a7c29f33289a.webp?v=1771884540",
       "product_ids": [
@@ -1483,6 +1505,42 @@
     }
   ]
 },
+"all-collections": [
+  {
+    "id": "curvy-dresses",
+    "settings_key": "curvy-dresses"
+  },
+  {
+    "id": "curvy-woman",
+    "settings_key": "jrgq_collections",
+    "jrgq_index": 0
+  },
+  {
+    "id": "main-plus-size",
+    "settings_key": "jrgq_collections",
+    "jrgq_index": 1
+  },
+  {
+    "id": "curvy-beauty",
+    "settings_key": "jrgq_collections",
+    "jrgq_index": 2
+  },
+  {
+    "id": "bbw4life-all-product",
+    "settings_key": "jrgq_collections",
+    "jrgq_index": 3
+  },
+  {
+    "id": "bbw-features-products",
+    "settings_key": "jrgq_collections",
+    "jrgq_index": 4
+  },
+  {
+  "id": "bbw4life-pants-skirts",
+  "settings_key": "jrgq_collections",
+  "jrgq_index": 5
+}
+],
 "language_selector": {
   "enabled": "yes",
   "default_lang": "en",
@@ -1519,6 +1577,138 @@
     { "code": "jp", "label": "Japan",      "name": "Japan",            "flag": "🇯🇵", "lang": "ja", "currency": "JPY ¥"  },
     { "code": "sa", "label": "KSA",        "name": "Saudi Arabia",     "flag": "🇸🇦", "lang": "ar", "currency": "SAR ﷼"  }
   ]
-}
+},
+"bar_separator": {
+  "show": "yes",
+  "style_solid":  "no",
+  "style_dashed": "no",
+  "style_dotted": "yes",
+  "style_double": "no",
+  "style_groove": "no",
+  "style_none":   "no",
+  "height": 1,
+  "bar_color": "#FFD700",
+  "bg_color": "#000000",
+  "padding_top": 1,
+  "padding_bottom": 2
+},
+
+"style_quiz": {
+
+  "show": "yes",
+  "trigger_link_id": "bbwFindYourBestLink",
+
+  "styles": {
+
+    "Casual": {
+      "description": "Comfortable, relaxed and effortlessly chic for everyday living.",
+      "product_ids": [
+        "Pdg-Francenel-product1",
+        "Pdg-Francenel-product2",
+        "Pdg-Francenel-product3",
+        "Pdg-Francenel-product4"
+      ]
+    },
+
+    "Chic": {
+      "description": "Refined elegance with a contemporary edge — timeless sophistication.",
+      "product_ids": [
+        "Pdg-Francenel-product5",
+        "Pdg-Francenel-product6",
+        "Pdg-Francenel-product7",
+        "Pdg-Francenel-product8"
+      ]
+    },
+
+    "Beauty": {
+      "description": "Soft, feminine and delicate — pieces that celebrate your natural glow.",
+      "product_ids": [
+        "Pdg-Francenel-product9",
+        "Pdg-Francenel-product10",
+        "Pdg-Francenel-product11",
+        "Pdg-Francenel-product12"
+      ]
+    },
+
+    "Glamour": {
+      "description": "Bold, dazzling and unapologetically radiant — you were born to shine.",
+      "product_ids": [
+        "Pdg-Francenel-product13",
+        "Pdg-Francenel-product14",
+        "Pdg-Francenel-product15",
+        "Pdg-Francenel-product16"
+      ]
+    }
+
+  },
+
+  "occasions": {
+    "Everyday": { "slot": 0 },
+    "Evening":  { "slot": 1 },
+    "Work":     { "slot": 2 },
+    "Party":    { "slot": 3 }
+  }
+
+},
+
+  "find_your_look": {
+    "apple": {
+      "collection_url": "/collections/apple-shape.html",
+      "items": [
+        {
+          "product_id": "Pdg-Francenel-product2",
+          "label": "Empire Dress"
+        },
+        {
+          "product_id": "Pdg-Francenel-product7",
+          "label": "Wrap Cut"
+        }
+      ]
+    },
+    "hourglass": {
+      "collection_url": "/collections/hourglass-shape.html",
+      "items": [
+        {
+          "product_id": "Pdg-Francenel-product4",
+          "label": "Fitted Style"
+        },
+        {
+          "product_id": "Pdg-Francenel-product5",
+          "label": "Bodycon"
+        }
+      ]
+    },
+    "pear": {
+      "collection_url": "/collections/pear-shape.html",
+      "items": [
+        {
+          "product_id": "Pdg-Francenel-product13",
+          "label": "Flared Skirt"
+        },
+        {
+          "product_id": "Pdg-Francenel-product14",
+          "label": "Wide Neckline"
+        },
+        {
+          "product_id": "Pdg-Francenel-product15",
+          "label": "Bold Shoulders"
+        }
+      ]
+    },
+    "rectangle": {
+      "collection_url": "/collections/rectangle-shape.html",
+      "items": [
+        {
+          "product_id": "Pdg-Francenel-product1",
+          "label": "Ruffled Cut"
+        },
+        {
+          "product_id": "Pdg-Francenel-product9",
+          "label": "Belted Style"
+        }
+      ]
+    }
+  }
+
 }
 ]

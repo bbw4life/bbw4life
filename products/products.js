@@ -608,11 +608,6 @@ function showErrorPopup(message, isSuccess = false) {
 }
 
 // ====================== GESTION DYNAMIQUE DES COUNTS DE REVIEWS ======================
-// Ces counts sont mis à jour depuis products.data.json + reviews clients réels
-// Ils sont initialisés par initDynamicUrgencyBar() dans le DOMContentLoaded
-
-// Fonction publique pour mettre à jour les counts après soumission d'un review
-// Appelée automatiquement après chaque soumission réussie
 function updateReviewCountsAfterSubmission(newRating) {
     // Récupère les counts actuels stockés par initDynamicUrgencyBar
     const counts = window.__reviewCounts || { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
@@ -880,8 +875,6 @@ if (form) {
             const data = await res.json();
             if (data.success) {
                 showErrorPopup("", true);
-                // Recharge les reviews dynamiques depuis le serveur
-                // (les counts ont déjà été mis à jour de façon optimiste)
                 loadDynamicReviews();
             } else {
                 showErrorPopup("Error: " + (data.error || "Unknown"));

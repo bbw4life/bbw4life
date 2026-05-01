@@ -615,3 +615,39 @@
   }
 
 })();
+
+
+// ── Announcement Bar ──
+(function() {
+  const slides = document.querySelectorAll('.ann-bar__slide');
+  const dots   = document.querySelectorAll('.ann-bar__dot');
+  let current  = 0;
+  let timer;
+
+  function goTo(next, dir) {
+    if (next === current) return;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (next + slides.length) % slides.length;
+    slides[current].style.transform = dir > 0 ? 'translateY(100%)' : 'translateY(-100%)';
+    slides[current].style.opacity = '0';
+    slides[current].classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      slides[current].style.transform = '';
+      slides[current].style.opacity = '';
+    }));
+    dots[current].classList.add('active');
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo((current + 1) % slides.length, 1), 5000);
+  }
+
+  const btnNext = document.getElementById('annNext');
+  const btnPrev = document.getElementById('annPrev');
+  if (btnNext) btnNext.addEventListener('click', () => { goTo((current+1)%slides.length, 1); startTimer(); });
+  if (btnPrev) btnPrev.addEventListener('click', () => { goTo((current-1+slides.length)%slides.length, -1); startTimer(); });
+
+  startTimer();
+})();
