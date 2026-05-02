@@ -397,21 +397,71 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
 
 
 
-
-
-
-
-
-
-
-
 /* ═══════════════════════════════════════════════════════════════
    BBW4LIFE — FAQ PAGE — JavaScript
-   faq.js  — Accordion · Category Filter · Search · Suggestions · Particles
 ═══════════════════════════════════════════════════════════════ */
 
 (function () {
   'use strict';
+  const SUGGESTION_BANK = [
+    // Movement
+    { text: "What exactly is BBW4LIFE?", cat: "movement", catLabel: "Movement", keywords: ["bbw4life", "what is", "born", "founded", "mission"] },
+    { text: "Is BBW4LIFE only for plus-size women?", cat: "movement", catLabel: "Movement", keywords: ["plus size", "women", "who can join"] },
+    { text: "What values does BBW4LIFE stand for?", cat: "movement", catLabel: "Movement", keywords: ["values", "mission", "believe", "stand for"] },
+    { text: "Is joining the BBW4LIFE movement free?", cat: "movement", catLabel: "Movement", keywords: ["free", "cost", "join", "price"] },
+    { text: "Is BBW4LIFE available worldwide?", cat: "movement", catLabel: "Movement", keywords: ["worldwide", "countries", "global", "international"] },
+    { text: "Who is the founder of BBW4LIFE?", cat: "movement", catLabel: "Movement", keywords: ["founder", "who created", "pdg", "francenel"] },
+    { text: "Where can I follow BBW4LIFE on social media?", cat: "movement", catLabel: "Movement", keywords: ["social media", "instagram", "tiktok", "facebook", "follow"] },
+    { text: "Can brands or influencers collaborate with BBW4LIFE?", cat: "movement", catLabel: "Movement", keywords: ["collaborate", "partner", "brand", "ambassador", "influencer"] },
+
+    // Style
+    { text: "What kind of style advice does BBW4LIFE offer?", cat: "style", catLabel: "Style", keywords: ["style", "fashion", "clothes", "advice", "tips"] },
+    { text: "Do you recommend specific fashion brands?", cat: "style", catLabel: "Style", keywords: ["brands", "recommend", "clothing", "stores"] },
+    { text: "Can I get a personalized style consultation?", cat: "style", catLabel: "Style", keywords: ["consultation", "personal", "stylist", "one on one"] },
+    { text: "How can fashion help me feel more confident?", cat: "style", catLabel: "Style", keywords: ["confidence", "feel", "beautiful", "body", "feel good"] },
+    { text: "Do you have swimwear recommendations for plus-size women?", cat: "style", catLabel: "Style", keywords: ["swimwear", "swimsuit", "beach", "summer", "pool"] },
+    { text: "Does BBW4LIFE cover accessories and shoes too?", cat: "style", catLabel: "Style", keywords: ["accessories", "shoes", "jewelry", "handbag", "complete look"] },
+
+    // Beauty
+    { text: "What beauty recommendations does BBW4LIFE provide?", cat: "beauty", catLabel: "Beauty", keywords: ["beauty", "skincare", "care", "recommendations"] },
+    { text: "Are there specific skincare routines for plus-size women?", cat: "beauty", catLabel: "Beauty", keywords: ["skincare", "routine", "skin", "lotion", "body care"] },
+    { text: "Do you share makeup tips adapted to plus-size faces?", cat: "beauty", catLabel: "Beauty", keywords: ["makeup", "tips", "face", "curvy"] },
+    { text: "Does BBW4LIFE address emotional well-being and self-image?", cat: "beauty", catLabel: "Beauty", keywords: ["mental health", "wellbeing", "self love", "confidence", "emotional"] },
+    { text: "Does BBW4LIFE cover hair care and natural hair tips?", cat: "beauty", catLabel: "Beauty", keywords: ["hair", "natural", "curly", "afro", "haircare"] },
+    { text: "Do you recommend fragrances and body products?", cat: "beauty", catLabel: "Beauty", keywords: ["fragrance", "perfume", "scent", "body spray"] },
+
+    // Community
+    { text: "How do I join the BBW4LIFE community?", cat: "community", catLabel: "Community", keywords: ["join", "community", "member", "sign up"] },
+    { text: "Can I share my personal story with the community?", cat: "community", catLabel: "Community", keywords: ["share", "story", "testimonial", "experience"] },
+    { text: "Can I participate anonymously in the community?", cat: "community", catLabel: "Community", keywords: ["anonymous", "privacy", "private", "identity"] },
+    { text: "How do you ensure the community stays safe and kind?", cat: "community", catLabel: "Community", keywords: ["safe", "judgment", "toxic", "harassment", "moderation"] },
+    { text: "Does BBW4LIFE organize events or meetups?", cat: "community", catLabel: "Community", keywords: ["events", "meetup", "gathering", "online", "workshop"] },
+
+    // Orders
+    { text: "What payment methods do you accept?", cat: "orders", catLabel: "Orders", keywords: ["payment", "visa", "mastercard", "paypal", "apple pay"] },
+    { text: "What is your refund and cancellation policy?", cat: "orders", catLabel: "Orders", keywords: ["refund", "cancel", "money back", "return", "guarantee"] },
+    { text: "How do I apply a promo code or discount?", cat: "orders", catLabel: "Orders", keywords: ["promo code", "discount", "coupon", "reduction"] },
+    { text: "Will I receive an invoice after my purchase?", cat: "orders", catLabel: "Orders", keywords: ["invoice", "receipt", "billing", "email", "confirmation"] },
+    { text: "Do you offer international shipping?", cat: "orders", catLabel: "Orders", keywords: ["shipping", "delivery", "international", "worldwide"] },
+    { text: "How do I manage or cancel my premium subscription?", cat: "orders", catLabel: "Orders", keywords: ["subscription", "premium", "cancel", "membership", "upgrade"] },
+
+    // Support
+    { text: "How can I contact the BBW4LIFE team?", cat: "support", catLabel: "Support", keywords: ["contact", "reach", "team", "email", "chat"] },
+    { text: "How long does it take to get a response?", cat: "support", catLabel: "Support", keywords: ["response time", "reply", "how long", "wait", "hours"] },
+    { text: "What are your support hours?", cat: "support", catLabel: "Support", keywords: ["hours", "open", "available", "schedule"] },
+    { text: "I have a technical issue on the website. What should I do?", cat: "support", catLabel: "Support", keywords: ["technical issue", "bug", "problem", "error", "website"] },
+    { text: "I forgot my password. How do I recover my account?", cat: "support", catLabel: "Support", keywords: ["password", "forgot", "reset", "account", "login", "access"] },
+  ];
+
+  /* Icônes catégories */
+  const CAT_ICONS = {
+    movement:  'fi fi-rr-heart',
+    style:     'fi fi-rr-vest',
+    beauty:    'fi fi-rr-sparkles',
+    community: 'fi fi-rr-users',
+    orders:    'fi fi-rr-shopping-cart',
+    support:   'fi fi-rr-life-ring',
+  };
 
   /* ──────────────────────────────────────────
      1. ACCORDION
@@ -505,31 +555,10 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
   /* ──────────────────────────────────────────
      3. SEARCH + SUGGESTIONS
   ────────────────────────────────────────── */
-
-  /* Libellé de catégorie lisible */
-  const CAT_LABELS = {
-    movement:  'BBW4LIFE & Movement',
-    style:     'Style & Fashion',
-    beauty:    'Beauty & Care',
-    community: 'Community',
-    orders:    'Orders & Payments',
-    support:   'Support & Contact'
-  };
-
-  /* Icône par catégorie */
-  const CAT_ICONS = {
-    movement:  'fi fi-rr-heart',
-    style:     'fi fi-rr-vest',
-    beauty:    'fi fi-rr-sparkles',
-    community: 'fi fi-rr-users',
-    orders:    'fi fi-rr-shopping-cart',
-    support:   'fi fi-rr-life-ring'
-  };
-
   function initSearch() {
-    const input    = document.getElementById('faqSearchInput');
-    const clearBtn = document.getElementById('faqSearchClear');
-    const sugBox   = document.getElementById('faqSuggestions');
+    const input      = document.getElementById('faqSearchInput');
+    const clearBtn   = document.getElementById('faqSearchClear');
+    const suggestBox = document.getElementById('faqSuggestions');
 
     if (!input) return;
 
@@ -538,8 +567,10 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
       handleSearch(val);
       renderSuggestions(val);
 
-      if (clearBtn) {
-        clearBtn.classList.toggle('visible', val.length > 0);
+      if (val.length > 0) {
+        clearBtn && clearBtn.classList.add('visible');
+      } else {
+        clearBtn && clearBtn.classList.remove('visible');
       }
     });
 
@@ -552,9 +583,30 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
       if (e.key === 'Escape') {
         input.value = '';
         handleSearch('');
+        clearBtn && clearBtn.classList.remove('visible');
         hideSuggestions();
-        if (clearBtn) clearBtn.classList.remove('visible');
         input.blur();
+        return;
+      }
+      // Navigation clavier dans les suggestions
+      if (suggestBox && suggestBox.classList.contains('visible')) {
+        const items = suggestBox.querySelectorAll('.faq-suggestion-item');
+        let activeIdx = [...items].findIndex(i => i.classList.contains('faq-suggestion--active'));
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          activeIdx = Math.min(activeIdx + 1, items.length - 1);
+          items.forEach((item, idx) => item.classList.toggle('faq-suggestion--active', idx === activeIdx));
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          activeIdx = Math.max(activeIdx - 1, 0);
+          items.forEach((item, idx) => item.classList.toggle('faq-suggestion--active', idx === activeIdx));
+        } else if (e.key === 'Enter') {
+          if (activeIdx >= 0) {
+            e.preventDefault();
+            items[activeIdx].click();
+          }
+        }
       }
     });
 
@@ -562,142 +614,179 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
       clearBtn.addEventListener('click', () => {
         input.value = '';
         handleSearch('');
-        hideSuggestions();
         clearBtn.classList.remove('visible');
+        hideSuggestions();
         input.focus();
       });
     }
 
-    // Hide suggestions on outside click
+    // Fermer suggestions en cliquant dehors
     document.addEventListener('click', e => {
-      if (!input.contains(e.target) && sugBox && !sugBox.contains(e.target)) {
+      if (!e.target.closest('.faq-search-wrap')) {
         hideSuggestions();
       }
     });
   }
 
-  function hideSuggestions() {
-    const sugBox = document.getElementById('faqSuggestions');
-    if (sugBox) sugBox.classList.remove('faq-suggestions--visible');
-  }
-
+  /* ── RENDER SUGGESTIONS ── */
   function renderSuggestions(query) {
-    const sugBox = document.getElementById('faqSuggestions');
-    if (!sugBox) return;
+    const suggestBox = document.getElementById('faqSuggestions');
+    if (!suggestBox) return;
 
     if (!query || query.length < 1) {
       hideSuggestions();
       return;
     }
 
-    const q     = query.toLowerCase();
-    const items = document.querySelectorAll('.faq-item');
-    const matches = [];
+    const q = query.toLowerCase();
 
-    items.forEach(item => {
-      const keywords = (item.dataset.keywords || '').toLowerCase();
-      const qText    = item.querySelector('.faq-question span:first-child');
-      const qStr     = qText ? qText.textContent.toLowerCase() : '';
-      const cat      = item.dataset.cat || '';
+    // Score chaque suggestion
+    const scored = SUGGESTION_BANK
+      .map(entry => {
+        let score = 0;
+        const textLow = entry.text.toLowerCase();
 
-      if (qStr.includes(q) || keywords.includes(q)) {
-        matches.push({
-          text: qText ? qText.textContent : '',
-          cat:  cat,
-          item: item
+        if (textLow.startsWith(q)) score += 10;
+        else if (textLow.includes(q)) score += 6;
+
+        entry.keywords.forEach(kw => {
+          if (kw.includes(q)) score += 3;
+          if (kw.startsWith(q)) score += 2;
         });
-      }
-    });
 
-    if (matches.length === 0) {
+        return { ...entry, score };
+      })
+      .filter(e => e.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 7); // max 7 suggestions
+
+    if (scored.length === 0) {
       hideSuggestions();
       return;
     }
 
-    // Clear existing items (keep header)
-    const header = sugBox.querySelector('.faq-suggestions-header');
-    sugBox.innerHTML = '';
-    if (header) sugBox.appendChild(header);
-    else {
-      const h = document.createElement('div');
-      h.className = 'faq-suggestions-header';
-      h.textContent = 'Suggestions';
-      sugBox.appendChild(h);
-    }
+    // Build HTML
+    suggestBox.innerHTML = `
+      <div class="faq-suggestions-title">Suggestions</div>
+      ${scored.map(entry => {
+        const highlighted = highlightSuggestion(entry.text, query);
+        const icon = CAT_ICONS[entry.cat] || 'fi fi-rr-question';
+        return `
+          <button class="faq-suggestion-item" data-cat="${entry.cat}" data-text="${escapeAttr(entry.text)}">
+            <span class="faq-suggestion-icon"><i class="${icon}"></i></span>
+            <span class="faq-suggestion-text">${highlighted}</span>
+            <span class="faq-suggestion-cat">${entry.catLabel}</span>
+            <span class="faq-suggestion-arrow"><i class="fi fi-rr-arrow-small-right"></i></span>
+          </button>
+        `;
+      }).join('')}
+    `;
 
-    // Render up to 6 suggestions
-    matches.slice(0, 6).forEach(match => {
-      const btn = document.createElement('button');
-      btn.className = 'faq-suggestion-item';
-      btn.setAttribute('role', 'option');
-      btn.setAttribute('type', 'button');
-
-      const iconClass  = CAT_ICONS[match.cat] || 'fi fi-rr-question';
-      const catLabel   = CAT_LABELS[match.cat] || match.cat;
-      const highlighted = highlightSuggestion(match.text, query);
-
-      btn.innerHTML = `
-        <span class="faq-sug-icon"><i class="${iconClass}"></i></span>
-        <span class="faq-sug-text">${highlighted}</span>
-        <span class="faq-sug-cat">${catLabel}</span>
-      `;
-
+    // Attacher les events clicks
+    suggestBox.querySelectorAll('.faq-suggestion-item').forEach(btn => {
       btn.addEventListener('click', () => {
-        // Fill input with the question text
-        const input = document.getElementById('faqSearchInput');
-        if (input) {
-          input.value = match.text;
-          const clearBtn = document.getElementById('faqSearchClear');
-          if (clearBtn) clearBtn.classList.add('visible');
-        }
+        const questionText = btn.dataset.text;
+        const cat          = btn.dataset.cat;
+
+        // Fermer suggestions
         hideSuggestions();
 
-        // Navigate to the question: show its group, open it, scroll
-        scrollToFaqItem(match.item);
-      });
+        // Vider search input
+        const input = document.getElementById('faqSearchInput');
+        if (input) {
+          input.value = '';
+          const clearBtn = document.getElementById('faqSearchClear');
+          clearBtn && clearBtn.classList.remove('visible');
+        }
 
-      sugBox.appendChild(btn);
+        // Reset search results
+        handleSearch('');
+
+        // Naviguer vers la question
+        navigateToQuestion(questionText, cat);
+      });
     });
 
-    sugBox.classList.add('faq-suggestions--visible');
+    suggestBox.classList.add('visible');
   }
 
-  /* Highlight matching chars in suggestion text */
+  function hideSuggestions() {
+    const suggestBox = document.getElementById('faqSuggestions');
+    if (suggestBox) suggestBox.classList.remove('visible');
+  }
+
+  /* ── Highlight le query dans le texte de suggestion ── */
   function highlightSuggestion(text, query) {
     const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
     return text.replace(regex, '<mark>$1</mark>');
   }
 
-  /* Navigate to a specific faq-item */
-  function scrollToFaqItem(item) {
-    if (!item) return;
+  /* ── Naviguer vers une question spécifique ── */
+  function navigateToQuestion(questionText, cat) {
+    // 1. Afficher tous les groupes si besoin
+    const groups = document.querySelectorAll('.faq-group');
+    const allItems = document.querySelectorAll('.faq-item');
 
-    // 1. Reset category filter to "all"
-    const tabs = document.querySelectorAll('.faq-tab');
-    tabs.forEach(t => t.classList.remove('faq-tab--active'));
+    // Réinitialiser les tabs
+    document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('faq-tab--active'));
     const allTab = document.querySelector('.faq-tab[data-cat="all"]');
     if (allTab) allTab.classList.add('faq-tab--active');
 
-    // 2. Show all groups
-    document.querySelectorAll('.faq-group').forEach(g => g.style.display = '');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('faq-item--hidden'));
+    // Afficher tous les groupes
+    groups.forEach(g => {
+      g.style.display = '';
+      g.style.animation = '';
+    });
+    allItems.forEach(i => i.classList.remove('faq-item--hidden'));
 
-    // 3. Close all answers
+    // 2. Trouver l'item correspondant
+    let targetItem = null;
+    allItems.forEach(item => {
+      const questionSpan = item.querySelector('.faq-question span:first-child');
+      if (!questionSpan) return;
+
+      // Comparaison flexible (case-insensitive, trailing ?)
+      const normalize = s => s.toLowerCase().replace(/[?!.]/g, '').trim();
+      if (normalize(questionSpan.textContent) === normalize(questionText)) {
+        targetItem = item;
+      }
+    });
+
+    if (!targetItem) {
+      // Fallback: chercher par cat + partial match
+      allItems.forEach(item => {
+        if (item.dataset.cat === cat && !targetItem) {
+          const qSpan = item.querySelector('.faq-question span:first-child');
+          if (qSpan) {
+            const partialMatch = questionText.toLowerCase().split(' ').slice(0, 4).join(' ');
+            if (qSpan.textContent.toLowerCase().includes(partialMatch)) {
+              targetItem = item;
+            }
+          }
+        }
+      });
+    }
+
+    if (!targetItem) return;
+
+    // 3. Fermer tous les autres et ouvrir celui-ci
     closeAllAnswers();
 
-    // 4. Open the target item
-    const btn = item.querySelector('.faq-question');
-    const ans = item.querySelector('.faq-answer');
-    if (btn) btn.setAttribute('aria-expanded', 'true');
-    if (ans) ans.classList.add('faq-answer--open');
+    const btn = targetItem.querySelector('.faq-question');
+    const ans = targetItem.querySelector('.faq-answer');
+    if (btn && ans) {
+      btn.setAttribute('aria-expanded', 'true');
+      ans.classList.add('faq-answer--open');
+    }
 
-    // 5. Highlight briefly
-    item.classList.add('faq-highlight');
-    setTimeout(() => item.classList.remove('faq-highlight'), 2800);
+    // 4. Highlight visuel temporaire
+    targetItem.classList.add('faq-highlight');
+    setTimeout(() => targetItem.classList.remove('faq-highlight'), 3000);
 
-    // 6. Scroll smoothly to the item
+    // 5. Scroll vers la question
     setTimeout(() => {
-      const top = item.getBoundingClientRect().top + window.scrollY - 130;
+      const offset = 120;
+      const top = targetItem.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({ top, behavior: 'smooth' });
     }, 80);
 
@@ -794,7 +883,6 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
     const btn = item.querySelector('.faq-question span:first-child');
     if (!btn) return;
 
-    // Store original if not already stored
     if (!btn.dataset.original) {
       btn.dataset.original = btn.textContent;
     }
@@ -812,6 +900,10 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
 
   function escapeRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function escapeAttr(str) {
+    return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   /* ──────────────────────────────────────────
@@ -852,7 +944,6 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
       'rgba(253, 240, 226, 0.60)'
     ];
 
-    // Inject keyframes
     if (!document.getElementById('faq-ptcl-style')) {
       const style = document.createElement('style');
       style.id = 'faq-ptcl-style';
@@ -936,7 +1027,6 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
         const isOpening = btn.getAttribute('aria-expanded') === 'false';
         if (!isOpening) return;
 
-        // Burst of tiny hearts
         const rect = btn.getBoundingClientRect();
         for (let i = 0; i < 5; i++) {
           spawnHeart(rect.left + Math.random() * rect.width, rect.top + window.scrollY);
@@ -996,4 +1086,107 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
   }
 
 })();
+
+
+
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — DISCLAIMER PAGE JS
+   disclaimer.js
+═══════════════════════════════════════════════════════════════ */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── 1. Floating Hearts Background ── */
+  const bg = document.getElementById('discHeartsBg');
+  if (bg) {
+    const hearts = ['♥', '❤', '♡'];
+    for (let i = 0; i < 18; i++) {
+      const el = document.createElement('span');
+      el.className = 'disc-heart-float';
+      el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      const size = 8 + Math.random() * 14;
+      el.style.cssText = `
+        left: ${Math.random() * 100}%;
+        bottom: -20px;
+        font-size: ${size}px;
+        animation-duration: ${14 + Math.random() * 20}s;
+        animation-delay: ${Math.random() * 18}s;
+        opacity: 0;
+        color: ${Math.random() > 0.5
+          ? 'rgba(192,56,94,0.18)'
+          : 'rgba(201,150,62,0.14)'};
+      `;
+      bg.appendChild(el);
+    }
+  }
+
+  /* ── 2. Scroll Reveal for Cards ── */
+  const cards = document.querySelectorAll('.disc-card');
+  if (cards.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const idx = Array.from(cards).indexOf(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('disc-card--visible');
+          }, idx * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    cards.forEach(card => observer.observe(card));
+  }
+
+  /* ── 3. Active TOC link on scroll ── */
+  const sectionIds = [
+    'disc-mission',
+    'disc-products',
+    'disc-brand',
+    'disc-style',
+    'disc-legal',
+    'disc-ip',
+    'disc-changes'
+  ];
+  const tocLinks = document.querySelectorAll('.disc-toc-list li a');
+
+  const updateActiveToc = () => {
+    let current = '';
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 140) current = id;
+    });
+    tocLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) {
+        a.classList.add('active');
+      }
+    });
+  };
+
+  window.addEventListener('scroll', updateActiveToc, { passive: true });
+  updateActiveToc(); // run once on load
+
+  /* ── 4. Smooth scroll on TOC click ── */
+  tocLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        window.scrollTo({
+          top: target.offsetTop - 110,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+});
 

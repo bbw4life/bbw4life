@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Disclaimer — BBW4LIFE. Everything you need to know about our brand, our products, and our mission. Beauty Has No Sizes.">
+  <title>Disclaimer — BBW4LIFE · Beauty Has No Sizes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css">
+
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/products.css">
+  <link rel="stylesheet" href="/animations.css">
+  <link rel="stylesheet" href="/src/components/header.css">
+  <link rel="stylesheet" href="/src/components/footer.css">
+  <link rel="stylesheet" href="/page/pages.css">
+
+  <link rel="icon" href="/public/bbw4life favicon.png">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       BBW4LIFE — DISCLAIMER PAGE CSS
+       disclaimer.css (inline)
+    ═══════════════════════════════════════════════════════════ */
+
+    /* ── Variables ── */
+    .disc-page {
+      --disc-rose:        #c0385e;
+      --disc-rose-light:  #d4506e;
+      --disc-rose-pale:   #f7e0e6;
+      --disc-rose-ultra:  #fff5f7;
+      --disc-gold:        #c9963e;
+      --disc-gold-light:  #e8bc6a;
+      --disc-gold-pale:   #f5ead8;
+      --disc-plum:        #7b3f6e;
+      --disc-ivory:       #fdf8f2;
+      --disc-cream:       #faf3e8;
+      --disc-peach:       #fdeee4;
+      --disc-blush:       #fce8f0;
+      --disc-ink:         #2a1020;
+      --disc-muted:       rgba(42, 16, 32, 0.52);
+      --disc-soft-border: rgba(201, 150, 62, 0.18);
+      --disc-font-display: 'Cormorant Garamond', Georgia, serif;
+      --disc-font-body:    'DM Sans', system-ui, sans-serif;
+      --disc-ease:         cubic-bezier(0.4, 0, 0.2, 1);
+      --disc-spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    body.disc-page {
+      background: var(--disc-ivory);
+      margin: 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       TRUST BANNER — override + version badge
+    ═══════════════════════════════════════════ */
+    .trust-banner-section.disc-hero {
+      position: relative;
+    }
+
+    .disc-version-badge {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      z-index: 20;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.30);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 14px;
+      padding: 10px 18px;
+      text-align: center;
+    }
+    .disc-version-num {
+      font-family: var(--disc-font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+    .disc-version-label {
+      font-family: var(--disc-font-body);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--disc-gold-light);
+    }
+    .disc-updated-tag {
+      position: absolute;
+      bottom: 22px;
+      right: 28px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(0,0,0,0.30);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-family: var(--disc-font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.80);
+      letter-spacing: 0.06em;
+    }
+    .disc-updated-tag i {
+      color: var(--disc-gold-light);
+      font-size: 11px;
+    }
+
+    /* ═══════════════════════════════════════════
+       MARQUEE
+    ═══════════════════════════════════════════ */
+    .disc-marquee-strip {
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(90deg, #3d1828 0%, #521f2e 40%, #3d1828 100%);
+      border-top: 1px solid rgba(201,150,62,0.25);
+      border-bottom: 1px solid rgba(201,150,62,0.25);
+    }
+    .disc-marquee-strip::before,
+    .disc-marquee-strip::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .disc-marquee-strip::before { left: 0;  background: linear-gradient(to right, #3d1828, transparent); }
+    .disc-marquee-strip::after  { right: 0; background: linear-gradient(to left, #3d1828, transparent); }
+
+    .disc-marquee-inner {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: discMarqueeLeft 40s linear infinite;
+      padding: 11px 0;
+    }
+    @keyframes discMarqueeLeft {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .disc-mq-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 28px;
+      font-family: var(--disc-font-body);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: rgba(253,240,226,0.70);
+    }
+    .disc-mq-item i { color: var(--disc-gold-light); }
+    .disc-mq-sep { color: var(--disc-gold-light); opacity: 0.40; padding: 0 4px; font-size: 9px; }
+
+    /* ═══════════════════════════════════════════
+       TABLE OF CONTENTS — sticky sidebar
+    ═══════════════════════════════════════════ */
+    .disc-layout {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 52px;
+      align-items: start;
+    }
+
+    .disc-toc {
+      position: sticky;
+      top: 100px;
+    }
+    .disc-toc-card {
+      background: #fff;
+      border: 1px solid var(--disc-soft-border);
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 6px 32px rgba(201,150,62,0.09);
+    }
+    .disc-toc-title {
+      font-family: var(--disc-font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--disc-ink);
+      margin: 0 0 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--disc-soft-border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .disc-toc-title i { color: var(--disc-rose); font-size: 14px; }
+    .disc-toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .disc-toc-list li a {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-family: var(--disc-font-body);
+      font-size: 0.80rem;
+      font-weight: 500;
+      color: var(--disc-muted);
+      text-decoration: none;
+      transition: all 0.22s var(--disc-ease);
+    }
+    .disc-toc-list li a i { font-size: 12px; color: var(--disc-gold); flex-shrink: 0; }
+    .disc-toc-list li a:hover {
+      background: rgba(201,150,62,0.07);
+      color: var(--disc-ink);
+      padding-left: 14px;
+    }
+    .disc-toc-list li a.active {
+      background: linear-gradient(90deg, rgba(192,56,94,0.09), transparent);
+      color: var(--disc-rose);
+      font-weight: 700;
+    }
+    .disc-toc-list li a.active i { color: var(--disc-rose); }
+
+    /* ═══════════════════════════════════════════
+       MAIN CONTENT
+    ═══════════════════════════════════════════ */
+    .disc-main {}
+
+    /* Section header */
+    .disc-section-intro {
+      margin-bottom: 44px;
+    }
+    .disc-section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--disc-font-body);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--disc-gold);
+      margin-bottom: 14px;
+    }
+    .disc-eyebrow-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--disc-rose);
+      animation: discDotPulse 2s ease-in-out infinite;
+    }
+    @keyframes discDotPulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.6); opacity: 0.5; }
+    }
+    .disc-section-title {
+      font-family: var(--disc-font-display);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--disc-ink);
+      line-height: 1.12;
+      margin: 0 0 14px;
+      letter-spacing: -0.01em;
+    }
+    .disc-section-title em {
+      font-style: italic;
+      background: linear-gradient(125deg, var(--disc-rose) 0%, var(--disc-gold) 55%, var(--disc-plum) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: discShine 5s linear infinite;
+    }
+    @keyframes discShine {
+      from { background-position: 0% center; }
+      to   { background-position: 200% center; }
+    }
+    .disc-section-lead {
+      font-family: var(--disc-font-body);
+      font-size: 0.96rem;
+      color: var(--disc-muted);
+      line-height: 1.80;
+      max-width: 680px;
+    }
+
+    /* ── DISCLAIMER CARDS ── */
+    .disc-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .disc-card {
+      background: #ffffff;
+      border: 1px solid var(--disc-soft-border);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 4px 28px rgba(201,150,62,0.07), 0 1px 4px rgba(0,0,0,0.04);
+      transition: box-shadow 0.35s var(--disc-ease), transform 0.35s var(--disc-spring);
+      opacity: 0;
+      transform: translateY(28px);
+      position: relative;
+    }
+    .disc-card.disc-card--visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s var(--disc-ease), transform 0.6s var(--disc-spring), box-shadow 0.35s var(--disc-ease);
+    }
+    .disc-card:hover {
+      box-shadow: 0 10px 52px rgba(201,150,62,0.14), 0 2px 8px rgba(0,0,0,0.05);
+      transform: translateY(-3px);
+    }
+
+    /* Left accent bar per card */
+    .disc-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      border-radius: 0 3px 3px 0;
+    }
+    .disc-card--mission::before  { background: linear-gradient(to bottom, var(--disc-rose), var(--disc-plum)); }
+    .disc-card--products::before { background: linear-gradient(to bottom, var(--disc-gold), #e8bc6a); }
+    .disc-card--brand::before    { background: linear-gradient(to bottom, var(--disc-plum), var(--disc-rose)); }
+    .disc-card--style::before    { background: linear-gradient(to bottom, #e8bc6a, var(--disc-gold)); }
+    .disc-card--legal::before    { background: linear-gradient(to bottom, var(--disc-rose-light), var(--disc-rose)); }
+    .disc-card--ip::before       { background: linear-gradient(to bottom, var(--disc-plum), #5a2e52); }
+    .disc-card--changes::before  { background: linear-gradient(to bottom, var(--disc-gold), var(--disc-rose)); }
+
+    .disc-card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 28px 20px 32px;
+      background: linear-gradient(90deg, rgba(253,240,226,0.55) 0%, rgba(255,255,255,0.95) 100%);
+      border-bottom: 1px solid var(--disc-soft-border);
+    }
+    .disc-card-icon {
+      width: 46px; height: 46px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      transition: all 0.3s var(--disc-spring);
+    }
+    .disc-card--mission  .disc-card-icon { background: linear-gradient(135deg, var(--disc-rose-pale), #fce8f0); color: var(--disc-rose); border: 1px solid rgba(192,56,94,0.18); }
+    .disc-card--products .disc-card-icon { background: linear-gradient(135deg, var(--disc-gold-pale), #fdf0d8); color: var(--disc-gold); border: 1px solid rgba(201,150,62,0.22); }
+    .disc-card--brand    .disc-card-icon { background: linear-gradient(135deg, #f0e0f4, #e8d4f0); color: var(--disc-plum); border: 1px solid rgba(123,63,110,0.18); }
+    .disc-card--style    .disc-card-icon { background: linear-gradient(135deg, var(--disc-gold-pale), var(--disc-rose-pale)); color: var(--disc-gold); border: 1px solid rgba(201,150,62,0.20); }
+    .disc-card--legal    .disc-card-icon { background: linear-gradient(135deg, var(--disc-rose-pale), #fdf5f7); color: var(--disc-rose-light); border: 1px solid rgba(192,56,94,0.15); }
+    .disc-card--ip       .disc-card-icon { background: linear-gradient(135deg, #ede0f5, #e0d0ec); color: var(--disc-plum); border: 1px solid rgba(123,63,110,0.20); }
+    .disc-card--changes  .disc-card-icon { background: linear-gradient(135deg, var(--disc-gold-pale), var(--disc-rose-ultra)); color: var(--disc-gold); border: 1px solid rgba(201,150,62,0.20); }
+
+    .disc-card:hover .disc-card-icon {
+      background: linear-gradient(135deg, var(--disc-rose), var(--disc-plum));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 6px 22px rgba(192,56,94,0.28);
+      transform: scale(1.07) rotate(-3deg);
+    }
+
+    .disc-card-head-text { flex: 1; }
+    .disc-card-num {
+      font-family: var(--disc-font-body);
+      font-size: 0.60rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--disc-gold);
+      margin-bottom: 3px;
+    }
+    .disc-card-title {
+      font-family: var(--disc-font-display);
+      font-size: 1.20rem;
+      font-weight: 700;
+      color: var(--disc-ink);
+      margin: 0;
+      letter-spacing: 0.01em;
+    }
+
+    .disc-card-body {
+      padding: 22px 28px 26px 32px;
+    }
+    .disc-card-body p {
+      font-family: var(--disc-font-body);
+      font-size: 0.90rem;
+      color: rgba(42,16,32,0.68);
+      line-height: 1.82;
+      margin: 0 0 14px;
+    }
+    .disc-card-body p:last-child { margin-bottom: 0; }
+    .disc-card-body p strong { color: var(--disc-ink); font-weight: 700; }
+    .disc-card-body p em { color: var(--disc-rose); font-style: italic; }
+
+    .disc-card-body ul {
+      margin: 10px 0 14px;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .disc-card-body ul li {
+      font-family: var(--disc-font-body);
+      font-size: 0.88rem;
+      color: rgba(42,16,32,0.65);
+      line-height: 1.65;
+      padding-left: 20px;
+      position: relative;
+    }
+    .disc-card-body ul li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: var(--disc-gold);
+      font-size: 8px;
+      top: 6px;
+    }
+    .disc-card-body ul li strong { color: var(--disc-ink); font-weight: 700; }
+
+    /* Highlight box inside card */
+    .disc-highlight-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: linear-gradient(90deg, rgba(192,56,94,0.06), rgba(201,150,62,0.04));
+      border: 1px solid rgba(192,56,94,0.14);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 16px 0 6px;
+    }
+    .disc-highlight-box i {
+      color: var(--disc-rose);
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .disc-highlight-box p {
+      font-family: var(--disc-font-body);
+      font-size: 0.86rem !important;
+      color: var(--disc-ink) !important;
+      font-weight: 500;
+      line-height: 1.65 !important;
+      margin: 0 !important;
+    }
+
+    /* Partnership badge inside card */
+    .disc-partner-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 6px;
+    }
+    .disc-partner-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(201,150,62,0.08);
+      border: 1px solid rgba(201,150,62,0.22);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-family: var(--disc-font-body);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--disc-gold);
+    }
+    .disc-partner-pill i { font-size: 11px; }
+
+    /* Coming soon tag */
+    .disc-soon-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(192,56,94,0.10), rgba(123,63,110,0.08));
+      border: 1px solid rgba(192,56,94,0.22);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-family: var(--disc-font-body);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--disc-rose);
+      letter-spacing: 0.06em;
+      margin-top: 12px;
+    }
+    .disc-soon-tag i { font-size: 11px; }
+    .disc-soon-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--disc-rose);
+      animation: discDotPulse 1.6s ease-in-out infinite;
+    }
+
+    /* ═══════════════════════════════════════════
+       CTA SECTION
+    ═══════════════════════════════════════════ */
+    .disc-cta-section {
+      background: linear-gradient(155deg,
+        var(--disc-blush) 0%,
+        #fdf4f8 25%,
+        var(--disc-peach) 60%,
+        var(--disc-gold-pale) 100%
+      );
+      position: relative;
+      overflow: hidden;
+      padding: 70px 0 80px;
+      text-align: center;
+    }
+    .disc-cta-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(90px);
+    }
+    .disc-cta-orb--1 {
+      width: 500px; height: 500px;
+      top: -150px; left: -80px;
+      background: radial-gradient(circle, rgba(192,56,94,0.13) 0%, transparent 70%);
+    }
+    .disc-cta-orb--2 {
+      width: 420px; height: 420px;
+      bottom: -100px; right: -60px;
+      background: radial-gradient(circle, rgba(201,150,62,0.14) 0%, transparent 70%);
+    }
+    .disc-cta-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(192,56,94,0.05) 1px, transparent 0);
+      background-size: 38px 38px;
+      pointer-events: none;
+    }
+    .disc-cta-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+    .disc-cta-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--disc-rose), var(--disc-plum));
+      color: #fff;
+      font-size: 1.6rem;
+      margin-bottom: 22px;
+      box-shadow:
+        0 0 0 12px rgba(192,56,94,0.10),
+        0 0 0 24px rgba(192,56,94,0.05),
+        0 10px 36px rgba(192,56,94,0.38);
+      animation: discIconPulse 2.8s ease-in-out infinite;
+    }
+    @keyframes discIconPulse {
+      0%,100% { box-shadow: 0 0 0 12px rgba(192,56,94,0.10), 0 0 0 24px rgba(192,56,94,0.05), 0 10px 36px rgba(192,56,94,0.38); }
+      50%      { box-shadow: 0 0 0 18px rgba(192,56,94,0.14), 0 0 0 36px rgba(192,56,94,0.06), 0 14px 54px rgba(192,56,94,0.55); }
+    }
+    .disc-cta-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--disc-font-body);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--disc-gold);
+      margin-bottom: 14px;
+    }
+    .disc-cta-title {
+      font-family: var(--disc-font-display);
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: var(--disc-ink);
+      line-height: 1.15;
+      margin: 0 0 16px;
+    }
+    .disc-cta-title em {
+      font-style: italic;
+      background: linear-gradient(125deg, var(--disc-rose) 0%, var(--disc-gold) 55%, var(--disc-rose-light) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: discShine 5s linear infinite;
+    }
+    .disc-cta-text {
+      font-family: var(--disc-font-body);
+      font-size: 0.96rem;
+      color: var(--disc-muted);
+      line-height: 1.80;
+      margin: 0 0 32px;
+    }
+    .disc-cta-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .disc-cta-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 15px 34px;
+      background: linear-gradient(135deg, var(--disc-rose) 0%, var(--disc-plum) 60%, var(--disc-rose) 100%);
+      background-size: 200% auto;
+      color: #fff;
+      font-family: var(--disc-font-body);
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: all 0.3s var(--disc-ease);
+      box-shadow: 0 8px 28px rgba(192,56,94,0.40);
+    }
+    .disc-cta-btn-primary:hover {
+      background-position: right center;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 48px rgba(192,56,94,0.58);
+    }
+    .disc-cta-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      border: 1.5px solid rgba(192,56,94,0.35);
+      color: var(--disc-rose);
+      font-family: var(--disc-font-body);
+      font-size: 0.86rem;
+      font-weight: 600;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: all 0.28s var(--disc-ease);
+    }
+    .disc-cta-btn-secondary:hover {
+      background: rgba(192,56,94,0.07);
+      border-color: var(--disc-rose);
+      transform: translateY(-2px);
+    }
+    .disc-cta-links-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+    .disc-cta-link {
+      font-family: var(--disc-font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--disc-muted);
+      text-decoration: none;
+      transition: color 0.22s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .disc-cta-link:hover { color: var(--disc-rose); }
+    .disc-cta-link-sep { color: var(--disc-gold); opacity: 0.45; font-size: 9px; }
+
+    /* ── FLOATING HEARTS BACKGROUND ── */
+    .disc-hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .disc-heart-float {
+      position: absolute;
+      opacity: 0;
+      animation: discHeartFloat linear infinite;
+      color: var(--disc-rose);
+      font-size: 12px;
+    }
+    @keyframes discHeartFloat {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+      10%  { opacity: 0.18; }
+      90%  { opacity: 0.06; }
+      100% { opacity: 0; transform: translateY(-100vh) rotate(360deg); }
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .disc-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 40px 20px 60px;
+      }
+      .disc-toc { position: static; }
+      .disc-toc-card {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        padding: 16px;
+      }
+      .disc-toc-title { margin: 0; padding: 0; border: none; font-size: 0.90rem; width: 100%; }
+      .disc-toc-list { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+      .disc-toc-list li a { padding: 6px 12px; border-radius: 100px; font-size: 0.74rem; }
+      .disc-toc-list li a:hover { padding-left: 12px; }
+    }
+    @media (max-width: 600px) {
+      .disc-card-header { padding: 18px 20px 16px 24px; }
+      .disc-card-body { padding: 18px 20px 22px 24px; }
+      .disc-version-badge { top: 14px; right: 14px; padding: 8px 12px; }
+      .disc-updated-tag { bottom: 14px; right: 14px; font-size: 0.65rem; }
+      .disc-cta-links { flex-direction: column; align-items: stretch; }
+      .disc-cta-btn-primary, .disc-cta-btn-secondary { justify-content: center; }
+    }
+  </style>
+</head>
+
+<body class="disc-page">
+
+  <!-- HEADER -->
+  <div id="header-container"></div>
+
+  <!-- Floating hearts background -->
+  <div class="disc-hearts-bg" id="discHeartsBg"></div>
+
+  <main id="main-content">
+    <div id="breadcrumb-container"></div>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 1 — HERO (trust-banner réutilisé)
+    ═══════════════════════════════════════════ -->
+    <section id="trust-banner" class="trust-banner-section disc-hero">
+      <div class="trust-banner-wrap">
+
+        <span class="tbp tbp--1"></span>
+        <span class="tbp tbp--2"></span>
+        <span class="tbp tbp--3"></span>
+        <span class="tbp tbp--4"></span>
+        <span class="tbp tbp--5"></span>
+
+        <div class="trust-banner-photo"
+          style="background-image: url('https://cdn.shopify.com/s/files/1/0978/0353/4627/files/curva_banner_4.png?v=1775498754');">
+        </div>
+
+        <div class="trust-overlay trust-overlay--dark"></div>
+        <div class="trust-overlay trust-overlay--gradient"></div>
+        <div class="trust-overlay trust-overlay--vignette"></div>
+
+        <div class="trust-topline"></div>
+
+        <!-- Version badge -->
+        <div class="disc-version-badge">
+          <span class="disc-version-num">v3.0</span>
+          <span class="disc-version-label">Disclaimer</span>
+        </div>
+
+        <div class="trust-banner-inner">
+
+          <div class="trust-badge">
+            <span class="trust-badge-dot"></span>
+            Transparency · Honesty · Love
+          </div>
+
+          <h2 class="trust-banner-title">
+            Our Commitment<br>
+            <em>To You</em>
+          </h2>
+
+          <div class="trust-divider">
+            <span class="trust-divider-line"></span>
+            <span class="trust-divider-diamond"></span>
+            <span class="trust-divider-line"></span>
+          </div>
+
+          <p class="trust-banner-text">
+            BBW4LIFE is a movement born from love.<br>
+            Here is everything you need to know about us — <strong>with complete honesty.</strong>
+          </p>
+
+          <div class="trust-pills">
+            <span class="trust-pill"><i class="fi fi-rr-heart"></i> Beauty Has No Sizes</span>
+            <span class="trust-pill-sep">·</span>
+            <span class="trust-pill"><i class="fi fi-rr-shield-check"></i> 100% Transparent</span>
+            <span class="trust-pill-sep">·</span>
+            <span class="trust-pill"><i class="fi fi-rr-star"></i> Born from Love</span>
+          </div>
+
+        </div>
+
+        <!-- Last updated -->
+        <div class="disc-updated-tag">
+          <i class="fi fi-rr-clock"></i>
+          Last updated: May 2025
+        </div>
+
+        <div class="trust-bottomline"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         MARQUEE
+    ═══════════════════════════════════════════ -->
+    <div class="disc-marquee-strip">
+      <div class="disc-marquee-inner">
+        <span class="disc-mq-item"><i class="fi fi-rr-heart"></i> Beauty Has No Sizes</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-shield-check"></i> Full Transparency</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-crown"></i> Born From Love</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-star"></i> A Movement · Not Just a Brand</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-users"></i> Built For You</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-heart"></i> Beauty Has No Sizes</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-shield-check"></i> Full Transparency</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-crown"></i> Born From Love</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-star"></i> A Movement · Not Just a Brand</span>
+        <span class="disc-mq-sep">✦</span>
+        <span class="disc-mq-item"><i class="fi fi-rr-users"></i> Built For You</span>
+        <span class="disc-mq-sep">✦</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 2 — DISCLAIMER CONTENT
+    ═══════════════════════════════════════════ -->
+    <section class="disc-content-section">
+      <div class="disc-layout">
+
+        <!-- TABLE OF CONTENTS -->
+        <aside class="disc-toc">
+          <div class="disc-toc-card">
+            <h3 class="disc-toc-title">
+              <i class="fi fi-rr-list"></i>
+              Contents
+            </h3>
+            <ul class="disc-toc-list">
+              <li><a href="#disc-mission" class="active"><i class="fi fi-rr-heart"></i> Our Mission</a></li>
+              <li><a href="#disc-products"><i class="fi fi-rr-shopping-bag"></i> Our Products</a></li>
+              <li><a href="#disc-brand"><i class="fi fi-rr-star"></i> Our Brand Status</a></li>
+              <li><a href="#disc-style"><i class="fi fi-rr-clothes-hanger"></i> Style & Beauty</a></li>
+              <li><a href="#disc-legal"><i class="fi fi-rr-link"></i> External Links</a></li>
+              <li><a href="#disc-ip"><i class="fi fi-rr-copyright"></i> Intellectual Property</a></li>
+              <li><a href="#disc-changes"><i class="fi fi-rr-refresh"></i> Updates</a></li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="disc-main">
+
+          <div class="disc-section-intro">
+            <div class="disc-section-eyebrow">
+              <span class="disc-eyebrow-dot"></span>
+              Please Read Carefully
+              <span class="disc-eyebrow-dot"></span>
+            </div>
+            <h2 class="disc-section-title">
+              What You Need to<br>
+              <em>Know About Us.</em>
+            </h2>
+            <p class="disc-section-lead">
+              BBW4LIFE is a movement built on love, honesty, and body positivity. This page exists because we believe every woman we serve deserves to know exactly who we are, what we offer, and what our limits are — with no hidden language.
+            </p>
+          </div>
+
+          <div class="disc-cards">
+
+            <!-- 01 — Mission & Limits -->
+            <div class="disc-card disc-card--mission" id="disc-mission">
+              <div class="disc-card-header">
+                <div class="disc-card-icon"><i class="fi fi-rr-heart"></i></div>
+                <div class="disc-card-head-text">
+                  <p class="disc-card-num">01 — Mission</p>
+                  <h3 class="disc-card-title">Our Mission & Our Limits</h3>
+                </div>
+              </div>
+              <div class="disc-card-body">
+                <p>BBW4LIFE was created with a single purpose: to be a safe, warm, and empowering space for every plus-size woman. Our mission is to celebrate beauty in all its forms, to fight unrealistic standards, and to remind every woman that <strong>she is enough — exactly as she is.</strong></p>
+                <p>We are a <em>movement of body positivity and self-love</em> — not a medical institution, a healthcare provider, or a psychological service. The content, advice, and inspiration shared on BBW4LIFE should never be used as a substitute for professional medical or psychological guidance.</p>
+                <div class="disc-highlight-box">
+                  <i class="fi fi-rr-info"></i>
+                  <p>If you are experiencing mental health challenges, body dysmorphia, or any health concerns, we strongly encourage you to consult a qualified professional. BBW4LIFE is here to lift you — but we are not a replacement for professional care.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 02 — Products -->
+            <div class="disc-card disc-card--products" id="disc-products">
+              <div class="disc-card-header">
+                <div class="disc-card-icon"><i class="fi fi-rr-shopping-bag"></i></div>
+                <div class="disc-card-head-text">
+                  <p class="disc-card-num">02 — Products</p>
+                  <h3 class="disc-card-title">Our Products & Sizing</h3>
+                </div>
+              </div>
+              <div class="disc-card-body">
+                <p>BBW4LIFE curates and offers products — clothing, accessories, beauty items — that are thoughtfully selected to match our vision: <strong>celebrating every curve, every body, every size.</strong></p>
+                <p>We do our absolute best to provide accurate sizing information for every product listed on our site. However, sizing can vary between brands, manufacturers, and collections. We kindly ask you to:</p>
+                <ul>
+                  <li><strong>Read size guides carefully</strong> before every purchase — each product page includes detailed measurements.</li>
+                  <li><strong>Check your own measurements</strong> — bust, waist, hips — and compare with the provided chart.</li>
+                  <li><strong>Reach out to our team</strong> if you have any doubt before ordering. We are here for you.</li>
+                </ul>
+                <div class="disc-highlight-box">
+                  <i class="fi fi-rr-info"></i>
+                  <p><strong>BBW4LIFE is not responsible for sizing mismatches</strong> resulting from purchases made without consulting the size guide. We encourage every woman to take the time to choose with confidence — your comfort is everything.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 03 — Brand Status -->
+            <div class="disc-card disc-card--brand" id="disc-brand">
+              <div class="disc-card-header">
+                <div class="disc-card-icon"><i class="fi fi-rr-star"></i></div>
+                <div class="disc-card-head-text">
+                  <p class="disc-card-num">03 — Brand</p>
+                  <h3 class="disc-card-title">Our Brand — Where We Stand</h3>
+                </div>
+              </div>
+              <div class="disc-card-body">
+                <p>BBW4LIFE is a <strong>new brand</strong>, founded on June 18, 2025. We are a young movement — less than one year on the market — and we are proud of what we have built in such a short time.</p>
+                <p>We want to be fully transparent with you: <em>BBW4LIFE is currently undergoing official brand registration and legal certification processes.</em> We are working diligently to complete all necessary legal procedures so that we can serve you with the protection and credibility you deserve.</p>
+                <p>In the meantime, <strong>we are operating in partnership with established, trusted platforms</strong> that are already recognized leaders in their respective markets. This allows us to offer you quality products from day one, while our own label matures.</p>
+                <div class="disc-partner-pills">
+                  <span class="disc-partner-pill"><i class="fi fi-rr-check"></i> Trusted Platforms</span>
+                  <span class="disc-partner-pill"><i class="fi fi-rr-shield-check"></i> Verified Partners</span>
+                  <span class="disc-partner-pill"><i class="fi fi-rr-globe"></i> International Reach</span>
+                </div>
+                <div class="disc-highlight-box" style="margin-top:14px;">
+                  <i class="fi fi-rr-heart"></i>
+                  <p>We recover the best styles, sizes, and products that align with our vision — so that every woman shopping at BBW4LIFE finds exactly what speaks to her body and her soul. <strong>Your trust means everything to us.</strong></p>
+                </div>
+                <div class="disc-soon-tag">
+                  <span class="disc-soon-dot"></span>
+                  <i class="fi fi-rr-rocket"></i>
+                  BBW Exclusive Features — Coming Soon
+                </div>
+              </div>
+            </div>
+
+            <!-- 04 — Style & Beauty -->
+            <div class="disc-card disc-card--style" id="disc-style">
+              <div class="disc-card-header">
+                <div class="disc-card-icon"><i class="fi fi-rr-clothes-hanger"></i></div>
+                <div class="disc-card-head-text">
+                  <p class="disc-card-num">04 — Style & Beauty</p>
+                  <h3 class="disc-card-title">Style & Beauty Recommendations</h3>
+                </div>
+              </div>
+              <div class="disc-card-body">
+                <p>BBW4LIFE shares style advice, beauty tips, and fashion inspiration specifically crafted for plus-size women. Our recommendations are <strong>curated suggestions</strong> — personal guidance offered with love, based on our editorial vision and community feedback.</p>
+                <p>They are <em>not professional stylist prescriptions</em>, medical recommendations, or universally applicable instructions. Every woman is unique, and what works beautifully for one may feel different for another.</p>
+                <p>We also invite you to <strong>share your ideas, your designs, and your desires</strong> with us directly — through the feedback and suggestion buttons available on our site. Your voice actively shapes what BBW4LIFE becomes.</p>
+              </div>
+            </div>
+
+            <!-- 05 — External Links -->
+            <div class="disc-card disc-card--legal" id="disc-legal">
+              <div class="disc-card-header">
+                <div class="disc-card-icon"><i class="fi fi-rr-link"></i></div>
+                <div class="disc-card-head-text">
+                  <p class="disc-card-num">05 — External Links</p>
+                  <h3 class="disc-card-title">Third-Party Links & Partners</h3>
+                </div>
+              </div>
+              <div class="disc-card-body">
+                <p>Our website may contain links to third-party websites, partner platforms, or external resources. These links are provided for your convenience and to enrich your experience.</p>
+                <p><strong>BBW4LIFE does not control the content, practices, or privacy policies of external websites</strong> and cannot be held responsible for anything found on those platforms once you leave our site.</p>
+                <p>We strongly encourage you to review the terms and privacy policies of any third-party site you visit. Our partnership with these platforms is based on shared values of quality and trust — but responsibility for their independent content remains with them.</p>
+              </div>
+            </div>
+
+            <!-- 06 — Intellectual Property -->
+            <div class="disc-card disc-card--ip" id="disc-ip">
+              <div class="disc-card-header">
+                <div class="disc-card-icon"><i class="fi fi-rr-copyright"></i></div>
+                <div class="disc-card-head-text">
+                  <p class="disc-card-num">06 — Intellectual Property</p>
+                  <h3 class="disc-card-title">Our Content Is Protected</h3>
+                </div>
+              </div>
+              <div class="disc-card-body">
+                <p>All content published on BBW4LIFE — including but not limited to texts, visuals, graphics, logos, brand identity, community content, and creative direction — is the <strong>exclusive intellectual property of BBW4LIFE © 2025.</strong></p>
+                <p>No content may be reproduced, copied, distributed, or used in any form without our prior written consent. BBW4LIFE and its visual identity are protected under applicable intellectual property law.</p>
+                <p>If you would like to feature our content, collaborate with us, or reference BBW4LIFE in your work, please <strong>contact us directly.</strong> We are always open to meaningful collaborations that align with our mission.</p>
+              </div>
+            </div>
+
+            <!-- 07 — Changes -->
+            <div class="disc-card disc-card--changes" id="disc-changes">
+              <div class="disc-card-header">
+                <div class="disc-card-icon"><i class="fi fi-rr-refresh"></i></div>
+                <div class="disc-card-head-text">
+                  <p class="disc-card-num">07 — Updates</p>
+                  <h3 class="disc-card-title">This Disclaimer May Evolve</h3>
+                </div>
+              </div>
+              <div class="disc-card-body">
+                <p>BBW4LIFE is a living, growing brand. As we complete our legal registration, expand our partnerships, and launch exclusive features, <strong>this disclaimer will be updated to reflect our evolution.</strong></p>
+                <p>We reserve the right to modify, update, or expand the content of this page at any time without prior notice. The date displayed at the top of this page always reflects the most recent version.</p>
+                <p>Continued use of BBW4LIFE following any update constitutes your acceptance of the revised disclaimer. We will always strive to communicate important changes clearly and with transparency — because you deserve nothing less.</p>
+                <div class="disc-highlight-box">
+                  <i class="fi fi-rr-star"></i>
+                  <p>Current version: <strong>v3.0 — May 2025.</strong> More features, more clarity, and more love are on the way. Thank you for being part of this journey from the very beginning.</p>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /disc-cards -->
+        </div><!-- /disc-main -->
+      </div><!-- /disc-layout -->
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 3 — CTA FINAL
+    ═══════════════════════════════════════════ -->
+    <section class="disc-cta-section">
+      <div class="disc-cta-orb disc-cta-orb--1"></div>
+      <div class="disc-cta-orb disc-cta-orb--2"></div>
+      <div class="disc-cta-pattern"></div>
+
+      <div class="disc-cta-inner">
+
+        <div class="disc-cta-icon">
+          <i class="fi fi-rr-heart"></i>
+        </div>
+
+        <div class="disc-cta-eyebrow">
+          <span class="disc-eyebrow-dot"></span>
+          Any Questions?
+          <span class="disc-eyebrow-dot"></span>
+        </div>
+
+        <h2 class="disc-cta-title">
+          We Are Here.<br>
+          <em>Always For You.</em>
+        </h2>
+
+        <p class="disc-cta-text">
+          If you have any questions about this disclaimer, about our products, or simply want to reach us — our team responds with love. You are never alone at BBW4LIFE.
+        </p>
+
+        <div class="disc-cta-links">
+          <a href="/contact.html" class="disc-cta-btn-primary">
+            <i class="fi fi-rr-envelope"></i>
+            Contact Us
+          </a>
+          <a href="/collections/bbw4life-all-product.html" class="disc-cta-btn-secondary">
+            <i class="fi fi-rr-shopping-bag"></i>
+            Shop the Collection
+          </a>
+        </div>
+
+        <div class="disc-cta-links-row">
+          <a href="/privacy-policy.html" class="disc-cta-link">
+            <i class="fi fi-rr-shield-check"></i> Privacy Policy
+          </a>
+          <span class="disc-cta-link-sep">✦</span>
+          <a href="/terms.html" class="disc-cta-link">
+            <i class="fi fi-rr-document"></i> Terms of Service
+          </a>
+          <span class="disc-cta-link-sep">✦</span>
+          <a href="/our-story.html" class="disc-cta-link">
+            <i class="fi fi-rr-heart"></i> Our Story
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <div id="newsletter-container"></div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <!-- ── WIDGETS GLOBAUX ── -->
+  <div class="overlay"></div>
+
+  <div class="cart-drawer">
+    <div class="drawer-header">
+      <h3>Your Cart</h3>
+      <button class="close-drawer">✕</button>
+    </div>
+    <div class="cart-drawer__body">
+      <div class="cart-items"></div>
+      <div class="empty-cart" style="display:none;">
+        <div class="empty-cart__icon">🛒</div>
+        <h3>Your cart is empty</h3>
+        <p>Add products to start shopping.</p>
+        <a href="/collections/bbw4life-all-product.html" class="cta button-3d">Shop Now</a>
+      </div>
+      <div class="reviews-carousel" id="cart-reviews-carousel"></div>
+      <div class="marquee-container cart-marquee">
+        <div class="marquee-content">
+          <span>Free Shipping on Orders Over $50!</span>
+          <span>Secure Checkout Guaranteed!</span>
+          <span>30-Day Money Back Guarantee!</span>
+          <span>Shop Now and Save Big!</span>
+        </div>
+      </div>
+      <div class="payment-icons">
+        <i class="fab fa-cc-visa"></i>
+        <i class="fab fa-cc-mastercard"></i>
+        <i class="fab fa-cc-paypal"></i>
+        <i class="fab fa-cc-amex"></i>
+        <i class="fab fa-cc-discover"></i>
+        <i class="fab fa-cc-apple-pay"></i>
+        <i class="fab fa-google-pay"></i>
+        <i class="fab fa-cc-stripe"></i>
+      </div>
+    </div>
+    <div class="cart-drawer__footer">
+      <p class="subtotal">Subtotal: $0.00</p>
+      <button class="checkout">Checkout</button>
+    </div>
+  </div>
+
+  <div class="wishlist-modal">
+    <div class="wishlist-modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="wishlist-modal-shimmer"></div>
+      <div class="drawer-header">
+        <div class="wishlist-header-left">
+          <div class="wishlist-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--rose)" stroke="var(--rose)" stroke-width="2">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Your Wishlist</h3>
+            <span class="wishlist-subtitle">Items you love</span>
+          </div>
+        </div>
+        <button class="close-modal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="wishlist-bar-row">
+        <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
+        <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
+        <div class="wishlist-bar"><div class="wishlist-bar-fill"></div></div>
+      </div>
+      <div class="wishlist-items"></div>
+      <div class="wishlist-footer">
+        <button class="add-all-to-cart">Add All to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="paul-indicator-wrapper">
+    <a href="#" class="paul-indicator" id="paulTrigger">
+      <i class="fi fi-rr-user"></i>
+      <span class="paul-tooltip" id="paul-tooltip-text"></span>
+    </a>
+  </div>
+
+  <div class="paul-popup-overlay" id="paulPopup">
+    <div class="paul-popup">
+      <span class="paul-close">×</span>
+      <h2 class="paul-offer-title" id="paul-offer-title"></h2>
+      <p class="paul-offer-subtitle" id="paul-offer-subtitle"></p>
+      <div id="authContainer">
+        <div id="loginForm" class="auth-form">
+          <h3 id="paul-login-title"></h3>
+          <input type="email" placeholder="Email" required>
+          <div class="password-input-wrapper">
+            <input type="password" id="login-password" placeholder="Password" required>
+            <span class="password-toggle" data-target="login-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <label><input type="checkbox"> <span id="paul-remember-label"></span></label>
+          <button type="button" class="paul-btn paul-btn-login" id="paul-login-btn"></button>
+          <p class="switch-link"><span id="paul-login-switch"></span> <span id="goToSignup" style="cursor:pointer;"></span></p>
+          <p class="switch-link" style="text-align:right;margin-top:6px;">
+            <span id="goToForgot" style="cursor:pointer;"></span>
+          </p>
+        </div>
+        <div id="signupForm" class="auth-form" style="display:none;">
+          <h3 id="paul-signup-title"></h3>
+          <input type="text" placeholder="Last Name" required>
+          <input type="text" placeholder="First Name" required>
+          <input type="email" placeholder="Email" required>
+          <input type="tel" placeholder="Phone (optional)">
+          <div class="password-input-wrapper">
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <span class="password-toggle" data-target="signup-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <label><input type="checkbox"> <span id="paul-newsletter-label"></span></label>
+          <button type="button" class="paul-btn paul-btn-register" id="paul-signup-btn"></button>
+          <p class="switch-link"><span id="paul-signup-switch"></span> <span id="goToLogin" style="cursor:pointer;"></span></p>
+        </div>
+        <div id="forgotForm" class="auth-form" style="display:none;">
+          <h3 id="paul-forgot-title"></h3>
+          <input type="email" id="forgot-email" placeholder="" required>
+          <div class="password-input-wrapper">
+            <input type="password" id="forgot-new-password" placeholder="" required>
+            <span class="password-toggle" data-target="forgot-new-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <div class="password-input-wrapper">
+            <input type="password" id="forgot-confirm-password" placeholder="" required>
+            <span class="password-toggle" data-target="forgot-confirm-password"><i class="fi fi-sr-eye"></i></span>
+          </div>
+          <p id="forgot-error-msg" style="color:#e74c3c;font-size:0.82rem;display:none;margin:6px 0;"></p>
+          <p id="forgot-success-msg" style="color:#22a06b;font-size:0.82rem;display:none;margin:6px 0;"></p>
+          <button type="button" class="paul-btn paul-btn-login" id="paul-forgot-btn"></button>
+          <p class="switch-link" style="margin-top:10px;">
+            <span id="goToLoginFromForgot" style="cursor:pointer;color:#e8bc6a;font-weight:600;">← Back to Login</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="error-popup" class="error-popup hidden">
+    <div class="popup-content">
+      <p id="popup-message" class="popup-text"></p>
+      <button id="popup-close" class="popup-btn">OK</button>
+    </div>
+  </div>
+
+  <div id="floating-nav">
+    <button class="fnav-toggle" id="fnav-toggle"><i class="fi fi-rr-apps"></i></button>
+    <div class="fnav-wheel" id="fnav-wheel">
+      <button class="fnav-btn fnav-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fi fi-rr-angle-up"></i></button>
+      <button class="fnav-btn fnav-right" id="fnav-next"><i class="fi fi-rr-angle-right"></i></button>
+      <button class="fnav-btn fnav-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})"><i class="fi fi-rr-angle-down"></i></button>
+      <button class="fnav-btn fnav-left" onclick="history.back()"><i class="fi fi-rr-angle-left"></i></button>
+      <button class="fnav-btn fnav-refresh" onclick="location.reload()"><i class="fi fi-rr-refresh"></i></button>
+    </div>
+  </div>
+
+  <button id="cf-chat-toggle" aria-label="Open Curva Support Chat">
+    <div class="cf-toggle-inner">
+      <span class="cf-toggle-icon cf-icon-open">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8.5" cy="10" r="1" fill="white"/>
+          <circle cx="12" cy="10" r="1" fill="white"/>
+          <circle cx="15.5" cy="10" r="1" fill="white"/>
+        </svg>
+      </span>
+      <span class="cf-toggle-icon cf-icon-close" style="display:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </div>
+    <span class="cf-toggle-label">Curva Support</span>
+    <span class="cf-notif-dot"></span>
+  </button>
+
+  <div id="cf-chat-widget">
+    <div id="cf-chat-window" class="cf-chat-window" aria-hidden="true">
+      <div class="cf-chat-header">
+        <div class="cf-header-avatar">
+          <img id="cf-agent-logo" src="" alt="Curva Support">
+          <div class="cf-avatar-fallback">C</div>
+          <span class="cf-online-dot"></span>
+        </div>
+        <div class="cf-header-info">
+          <h3 id="cf-agent-name"></h3>
+          <p id="cf-agent-title"></p>
+        </div>
+        <button class="cf-header-close" id="cf-close-btn" aria-label="Close chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="cf-quick-chips" id="cf-quick-chips"></div>
+      <div class="cf-messages" id="cf-messages" role="log" aria-live="polite"></div>
+      <div class="cf-typing" id="cf-typing" style="display:none">
+        <div class="cf-typing-bubble"><span></span><span></span><span></span></div>
+        <p id="cf-typing-label"></p>
+      </div>
+      <div class="cf-input-area">
+        <div class="cf-input-wrapper">
+          <textarea id="cf-input" rows="1" maxlength="500" aria-label="Chat message"></textarea>
+          <button id="cf-send-btn" class="cf-send-btn" aria-label="Send message" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <p class="cf-input-hint" id="cf-powered-by"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="rc-popup-container" style="display:none;" aria-live="polite">
+    <div id="rc-popup">
+      <button id="rc-close" aria-label="Close">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div id="rc-popup-body">
+        <div id="rc-avatar-wrap">
+          <img id="rc-avatar-img" src="" alt="Support" style="display:none;">
+          <video id="rc-avatar-video" autoplay muted loop playsinline style="display:none;"></video>
+        </div>
+        <div id="rc-content">
+          <p id="rc-subtitle"></p>
+          <p id="rc-title"></p>
+          <p id="rc-description"></p>
+        </div>
+      </div>
+      <div id="rc-count-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span id="rc-count-text">3 items waiting</span>
+      </div>
+      <a href="/checkout/checkout.html" id="rc-checkout-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <span id="rc-btn-text">Complete My Purchase</span>
+      </a>
+      <div id="rc-urgency-bar"><div id="rc-urgency-fill"></div></div>
+    </div>
+  </div>
+
+  <div id="snow-container" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════════ -->
+  <script src="/script.js"></script>
+  <script src="/geo-detect.js"></script>
+  <script src="/page/pages.js"></script>
+
+  <!-- Injection header / footer / newsletter / breadcrumb -->
+  <script>
+    fetch('/src/components/header.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('header-container').innerHTML = html;
+        const s = document.createElement('script');
+        s.src = '/src/components/header.js';
+        document.body.appendChild(s);
+      })
+      .catch(err => console.error('Header load error:', err));
+
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').innerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+
+    fetch('/src/components/footer.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+        document.dispatchEvent(new Event('footer:loaded'));
+        const s = document.createElement('script');
+        s.src = '/src/components/footer.js';
+        document.body.appendChild(s);
+      })
+      .catch(err => console.error('Footer load error:', err));
+
+    fetch('/src/components/newsletter.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('newsletter-container').innerHTML = html;
+      })
+      .catch(err => console.error('Newsletter load error:', err));
+  </script>
+
+  <!-- ── PAGE SCRIPTS ── -->
+  <script>
+    /* ── Floating Hearts Background ── */
+    (function() {
+      const bg = document.getElementById('discHeartsBg');
+      if (!bg) return;
+      const hearts = ['♥','❤','♡'];
+      for (let i = 0; i < 18; i++) {
+        const el = document.createElement('span');
+        el.className = 'disc-heart-float';
+        el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        const size = 8 + Math.random() * 14;
+        el.style.cssText = `
+          left: ${Math.random() * 100}%;
+          bottom: -20px;
+          font-size: ${size}px;
+          animation-duration: ${14 + Math.random() * 20}s;
+          animation-delay: ${Math.random() * 18}s;
+          opacity: 0;
+          color: ${Math.random() > 0.5 ? 'rgba(192,56,94,0.18)' : 'rgba(201,150,62,0.14)'};
+        `;
+        bg.appendChild(el);
+      }
+    })();
+
+    /* ── Scroll reveal for cards ── */
+    (function() {
+      const cards = document.querySelectorAll('.disc-card');
+      if (!cards.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('disc-card--visible');
+            }, 80 * Array.from(cards).indexOf(entry.target));
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      cards.forEach(card => observer.observe(card));
+    })();
+
+    /* ── Active TOC link on scroll ── */
+    (function() {
+      const sections = ['disc-mission','disc-products','disc-brand','disc-style','disc-legal','disc-ip','disc-changes'];
+      const links = document.querySelectorAll('.disc-toc-list li a');
+
+      const onScroll = () => {
+        let current = '';
+        sections.forEach(id => {
+          const el = document.getElementById(id);
+          if (el && window.scrollY >= el.offsetTop - 140) current = id;
+        });
+        links.forEach(a => {
+          a.classList.remove('active');
+          if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+        });
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>

@@ -3084,9 +3084,7 @@ body { margin-bottom: 0 !important; }
     flex-shrink: 0;
   }
 
-  .bbws-tab-label {
-    display: none;
-  }
+  
 
   .bbws-tab-icon {
     font-size: 18px;
