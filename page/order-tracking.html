@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track your BBW4LIFE order — real-time delivery status for your parcel.">
+  <title>Track My Order — BBW4LIFE</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css">
+
+  <!-- Site styles -->
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/page/pages.css">
+  <link rel="stylesheet" href="/animations.css">
+  <link rel="stylesheet" href="/src/components/header.css">
+  <link rel="stylesheet" href="/src/components/footer.css">
+
+  <!-- Page-specific styles -->
+  <link rel="stylesheet" href="/pages/order-tracking.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/public/bbw4life favicon.png">
+
+  <!-- Preloader -->
+  <script src="/preloader-inline.js"></script>
+
+  <!-- ═══════════════════════════════
+       17TRACK SDK  — chargé en priorité
+       (doit être dans le <head> pour être
+        disponible dès que la page est prête)
+  ═══════════════════════════════ -->
+  <script type="text/javascript" src="//www.17track.net/externalcall.js"></script>
+</head>
+
+<body>
+
+   <!-- ══════════════ READING PROGRESS BAR ══════════════ -->
+  <div id="reading-progress-bar" aria-hidden="true"></div>
+
+  <!-- ═══ HEADER ═══ -->
+  <div id="header-container"></div>
+
+  <main id="main-content" class="ot-main">
+
+    <div id="breadcrumb-container"></div>
+
+    <!-- ═══════════════════════════════
+         HERO SECTION
+    ═══════════════════════════════ -->
+    <section class="ot-hero">
+      <div class="ot-hero__blob ot-hero__blob--1"></div>
+      <div class="ot-hero__blob ot-hero__blob--2"></div>
+      <div class="ot-hero__blob ot-hero__blob--3"></div>
+      <div class="ot-hero__grid"></div>
+      <div class="ot-particles" id="otParticles"></div>
+
+      <div class="ot-hero__inner">
+
+        <!-- Icon badge -->
+        <div class="ot-hero__icon-wrap" data-ot-reveal="fade-up" data-delay="0">
+          <div class="ot-hero__icon-ring"></div>
+          <div class="ot-hero__icon-ring ot-hero__icon-ring--2"></div>
+          <div class="ot-hero__icon-core">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <path d="M1 3h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="9" cy="21" r="1" fill="white"/>
+              <circle cx="20" cy="21" r="1" fill="white"/>
+              <path d="M3 6h2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Eyebrow -->
+        <span class="ot-hero__eyebrow" data-ot-reveal="fade-up" data-delay="100">
+          <span class="ot-eyebrow__dot"></span>
+          Real-time delivery status
+          <span class="ot-eyebrow__dot"></span>
+        </span>
+
+        <!-- Title -->
+        <h1 class="ot-hero__title" data-ot-reveal="fade-up" data-delay="200">
+          Track Your <em>Order</em>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="ot-hero__subtitle" data-ot-reveal="fade-up" data-delay="300">
+          Enter your tracking number below and see exactly where your parcel is — from our warehouse to your doorstep.
+        </p>
+
+        <!-- ═══ TRACKING FORM ═══ -->
+        <div class="ot-form-wrap" data-ot-reveal="fade-up" data-delay="400">
+          <div class="ot-form__card">
+            <div class="ot-form__shimmer"></div>
+
+            <h2 class="ot-form__heading">Enter Your Tracking Number</h2>
+            <p class="ot-form__hint">
+              Your tracking number can be found in your shipping confirmation email.
+            </p>
+
+            <div class="ot-form__row">
+              <div class="ot-form__input-wrap">
+                <i class="fi fi-rr-search ot-form__input-icon"></i>
+                <input
+                  type="text"
+                  id="otTrackingInput"
+                  class="ot-form__input"
+                  maxlength="80"
+                  placeholder="e.g. YT2109843921CN"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                <button class="ot-form__clear" id="otClearBtn" title="Clear" style="display:none;">
+                  <i class="fi fi-rr-cross-small"></i>
+                </button>
+              </div>
+              <button class="ot-form__btn" id="otTrackBtn" onclick="otDoTrack()">
+                <span class="ot-form__btn-text">Track Order</span>
+                <span class="ot-form__btn-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
+
+            <!-- Error -->
+            <p class="ot-form__error" id="otError" style="display:none;">
+              <i class="fi fi-rr-triangle-warning"></i>
+              Please enter a valid tracking number.
+            </p>
+
+            <!-- Carriers -->
+            <div class="ot-carriers">
+              <span class="ot-carriers__label">Supported carriers:</span>
+              <div class="ot-carriers__list">
+                <span class="ot-carrier-pill">FedEx</span>
+                <span class="ot-carrier-pill">UPS</span>
+                <span class="ot-carrier-pill">USPS</span>
+                <span class="ot-carrier-pill">DHL</span>
+                <span class="ot-carrier-pill">La Poste</span>
+                <span class="ot-carrier-pill">China Post</span>
+                <span class="ot-carrier-pill">+1200 more</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 17TRACK RESULT CONTAINER ═══ -->
+        <div class="ot-result-wrap" id="otResultWrap" style="display:none;" data-ot-reveal="fade-up">
+          <div class="ot-result__header">
+            <i class="fi fi-rr-map-marker-check"></i>
+            <span>Tracking Results</span>
+          </div>
+          <div id="YQContainer" class="ot-result__iframe"></div>
+        </div>
+
+      </div><!-- /ot-hero__inner -->
+    </section>
+
+    <!-- ═══════════════════════════════
+         TRUST STRIP
+    ═══════════════════════════════ -->
+    <section class="ot-trust-strip">
+      <div class="ot-trust-strip__inner">
+        <div class="ot-trust-item" data-ot-reveal="fade-up" data-delay="0">
+          <div class="ot-trust-item__icon"><i class="fi fi-rr-shield-check"></i></div>
+          <div><strong>Secure Tracking</strong><span>Your data is 100% safe</span></div>
+        </div>
+        <div class="ot-trust-sep"></div>
+        <div class="ot-trust-item" data-ot-reveal="fade-up" data-delay="100">
+          <div class="ot-trust-item__icon"><i class="fi fi-rr-globe"></i></div>
+          <div><strong>1,200+ Carriers</strong><span>Worldwide coverage</span></div>
+        </div>
+        <div class="ot-trust-sep"></div>
+        <div class="ot-trust-item" data-ot-reveal="fade-up" data-delay="200">
+          <div class="ot-trust-item__icon"><i class="fi fi-rr-clock-three"></i></div>
+          <div><strong>Real-Time Updates</strong><span>Instant status sync</span></div>
+        </div>
+        <div class="ot-trust-sep"></div>
+        <div class="ot-trust-item" data-ot-reveal="fade-up" data-delay="300">
+          <div class="ot-trust-item__icon"><i class="fi fi-rr-headset"></i></div>
+          <div><strong>24/7 Support</strong><span>We're always here</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════
+         HOW IT WORKS
+    ═══════════════════════════════ -->
+    <section class="ot-how-section">
+      <div class="ot-how__orb ot-how__orb--1"></div>
+      <div class="ot-how__orb ot-how__orb--2"></div>
+      <div class="ot-how__inner">
+        <div class="ot-how__header" data-ot-reveal="fade-up">
+          <span class="ot-section-eyebrow">
+            <span class="ot-eyebrow__dot"></span>Simple process<span class="ot-eyebrow__dot"></span>
+          </span>
+          <h2 class="ot-section-title">How to Track Your Order</h2>
+          <p class="ot-section-subtitle">Three easy steps to know exactly where your package is.</p>
+        </div>
+        <div class="ot-steps">
+          <div class="ot-step" data-ot-reveal="fade-up" data-delay="0">
+            <div class="ot-step__number">01</div>
+            <div class="ot-step__icon-wrap"><i class="fi fi-rr-envelope-open"></i></div>
+            <h3>Find Your Email</h3>
+            <p>Check your shipping confirmation email — your tracking number is listed there.</p>
+          </div>
+          <div class="ot-step__connector" data-ot-reveal="fade-up" data-delay="50">
+            <div class="ot-step__connector-line"></div>
+            <i class="fi fi-rr-arrow-right"></i>
+          </div>
+          <div class="ot-step" data-ot-reveal="fade-up" data-delay="100">
+            <div class="ot-step__number">02</div>
+            <div class="ot-step__icon-wrap"><i class="fi fi-rr-copy-alt"></i></div>
+            <h3>Enter The Number</h3>
+            <p>Paste or type your tracking number into the field above and click "Track Order".</p>
+          </div>
+          <div class="ot-step__connector" data-ot-reveal="fade-up" data-delay="150">
+            <div class="ot-step__connector-line"></div>
+            <i class="fi fi-rr-arrow-right"></i>
+          </div>
+          <div class="ot-step" data-ot-reveal="fade-up" data-delay="200">
+            <div class="ot-step__number">03</div>
+            <div class="ot-step__icon-wrap"><i class="fi fi-rr-map-marker"></i></div>
+            <h3>See Your Status</h3>
+            <p>Your real-time delivery status and location will appear instantly on the page.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════
+         FAQ
+    ═══════════════════════════════ -->
+    <section class="ot-faq-section">
+      <div class="ot-faq__inner">
+        <div class="ot-faq__header" data-ot-reveal="fade-up">
+          <span class="ot-section-eyebrow">
+            <span class="ot-eyebrow__dot"></span>Got questions?<span class="ot-eyebrow__dot"></span>
+          </span>
+          <h2 class="ot-section-title">Frequently Asked Questions</h2>
+        </div>
+        <div class="ot-faq__grid">
+
+          <div class="ot-faq__item" data-ot-reveal="fade-up" data-delay="0">
+            <button class="ot-faq__question" aria-expanded="false">
+              <span>Where do I find my tracking number?</span>
+              <i class="fi fi-rr-plus-small ot-faq__icon"></i>
+            </button>
+            <div class="ot-faq__answer">
+              <p>Your tracking number is included in the shipping confirmation email we sent you. Subject line is usually "Your order is on the way 🙂". Check your spam folder if you don't see it.</p>
+            </div>
+          </div>
+
+          <div class="ot-faq__item" data-ot-reveal="fade-up" data-delay="50">
+            <button class="ot-faq__question" aria-expanded="false">
+              <span>My tracking number isn't working yet — why?</span>
+              <i class="fi fi-rr-plus-small ot-faq__icon"></i>
+            </button>
+            <div class="ot-faq__answer">
+              <p>Carrier systems can take 2–3 business days to update after shipping. Your order is already on its way — the tracking data is just slightly delayed. Please check back in a couple of days.</p>
+            </div>
+          </div>
+
+          <div class="ot-faq__item" data-ot-reveal="fade-up" data-delay="100">
+            <button class="ot-faq__question" aria-expanded="false">
+              <span>How long does delivery take?</span>
+              <i class="fi fi-rr-plus-small ot-faq__icon"></i>
+            </button>
+            <div class="ot-faq__answer">
+              <p>Standard shipping takes 7–15 business days internationally. Expedited options may be 3–7 days. Your confirmation email will include an estimated delivery date.</p>
+            </div>
+          </div>
+
+          <div class="ot-faq__item" data-ot-reveal="fade-up" data-delay="150">
+            <button class="ot-faq__question" aria-expanded="false">
+              <span>My package shows "delivered" but I haven't received it.</span>
+              <i class="fi fi-rr-plus-small ot-faq__icon"></i>
+            </button>
+            <div class="ot-faq__answer">
+              <p>First, check with neighbors and any secure locations near your address. If still missing, contact our support team within 48 hours with your order number and we'll resolve it immediately.</p>
+            </div>
+          </div>
+
+          <div class="ot-faq__item" data-ot-reveal="fade-up" data-delay="200">
+            <button class="ot-faq__question" aria-expanded="false">
+              <span>Can I track multiple orders at once?</span>
+              <i class="fi fi-rr-plus-small ot-faq__icon"></i>
+            </button>
+            <div class="ot-faq__answer">
+              <p>Currently you can track one order at a time on this page. Simply clear the field and enter a new tracking number to track a different parcel.</p>
+            </div>
+          </div>
+
+          <div class="ot-faq__item" data-ot-reveal="fade-up" data-delay="250">
+            <button class="ot-faq__question" aria-expanded="false">
+              <span>How do I contact support about my order?</span>
+              <i class="fi fi-rr-plus-small ot-faq__icon"></i>
+            </button>
+            <div class="ot-faq__answer">
+              <p>You can reach our team through the live chat on our site, by email, or on WhatsApp. We respond within a few hours and are available 7 days a week.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════
+         NEED HELP CTA BANNER
+    ═══════════════════════════════ -->
+    <section class="ot-help-banner">
+      <div class="ot-help-banner__orb"></div>
+      <div class="ot-help-banner__inner" data-ot-reveal="fade-up">
+        <div class="ot-help-banner__icon"><i class="fi fi-rr-headset"></i></div>
+        <h2>Still Need Help With Your Order?</h2>
+        <p>Our team is here for you, 7 days a week. Don't hesitate to reach out — we respond fast.</p>
+        <div class="ot-help-banner__btns">
+          <a href="/contact.html" class="ot-help-btn ot-help-btn--primary">
+            <i class="fi fi-rr-envelope"></i> Contact Support
+          </a>
+          <a href="/shop.html" class="ot-help-btn ot-help-btn--ghost">
+            <i class="fi fi-rr-shopping-bag"></i> Continue Shopping
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <div id="newsletter-container"></div>
+
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div id="footer-container"></div>
+
+
+  <!-- SCRIPTS -->
+   <script src="/widgets-loader.js"></script>
+   <script src="/script.js"></script>
+  <script src="search.js"></script>
+  <script src="/geo-detect.js"></script>
+
+
+ <!-- Injection header/footer -->
+   <script>
+  fetch('/src/components/header.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('header-container').innerHTML = html;
+      const s = document.createElement('script');
+      s.src = '/src/components/header.js';
+      document.body.appendChild(s);
+    })
+    .catch(err => console.error('Header load error:', err));
+
+  fetch('/src/components/breadcrumb.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('breadcrumb-container').innerHTML = html;
+    })
+    .catch(err => console.error('Breadcrumb load error:', err));
+
+  fetch('/src/components/footer.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('footer-container').innerHTML = html;
+      document.dispatchEvent(new Event('footer:loaded'));
+      const s = document.createElement('script');
+      s.src = '/src/components/footer.js';
+      document.body.appendChild(s);
+    })
+    .catch(err => console.error('Footer load error:', err));
+
+  fetch('/src/components/newsletter.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('newsletter-container').innerHTML = html;
+    })
+    .catch(err => console.error('Newsletter load error:', err));
+
+
+    fetch('/src/components/opups.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('popups-container').innerHTML = html;
+  })
+  .catch(err => console.error('Popups load error:', err));
+</script>
+
+  <!-- ═══════════════════════════════
+       TRACKING — SCRIPT COMPLET
+  ═══════════════════════════════ -->
+  <script>
+  /* ──────────────────────────────────────────
+     1. TRACKING FUNCTION (17Track SDK)
+  ────────────────────────────────────────── */
+  function otDoTrack() {
+    var input      = document.getElementById('otTrackingInput');
+    var errorEl    = document.getElementById('otError');
+    var resultWrap = document.getElementById('otResultWrap');
+
+    if (!input) return;
+
+    var num = input.value.trim();
+
+    if (num === '') {
+      if (errorEl) {
+        errorEl.style.display = 'flex';
+        setTimeout(function () { errorEl.style.display = 'none'; }, 4000);
+      }
+      input.focus();
+      return;
+    }
+
+    if (errorEl) errorEl.style.display = 'none';
+
+    if (resultWrap) {
+      resultWrap.style.display = 'block';
+      resultWrap.classList.add('is-visible');
+      setTimeout(function () {
+        resultWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    }
+
+    /* Appel SDK 17Track */
+    if (typeof YQV5 !== 'undefined') {
+      YQV5.trackSingle({
+        YQ_ContainerId : 'YQContainer',
+        YQ_Height      : 560,
+        YQ_Fc          : '0',
+        YQ_Lang        : 'en',
+        YQ_Num         : num
+      });
+    } else {
+      /* SDK pas encore prêt → on réessaie */
+      console.warn('[OT] 17Track SDK not ready, retrying…');
+      setTimeout(otDoTrack, 1200);
+    }
+  }
+
+  /* ──────────────────────────────────────────
+     2. INITIALISATION
+  ────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+
+    var input      = document.getElementById('otTrackingInput');
+    if (!input) return;
+
+    var clearBtn   = document.getElementById('otClearBtn');
+    var errorEl    = document.getElementById('otError');
+    var resultWrap = document.getElementById('otResultWrap');
+
+    /* ── Bouton Clear ── */
+    if (clearBtn) {
+      input.addEventListener('input', function () {
+        clearBtn.style.display = this.value.length > 0 ? 'flex' : 'none';
+      });
+      clearBtn.addEventListener('click', function () {
+        input.value = '';
+        clearBtn.style.display = 'none';
+        if (errorEl)    errorEl.style.display    = 'none';
+        if (resultWrap) resultWrap.style.display  = 'none';
+        input.focus();
+      });
+    }
+
+    /* ── Touche Entrée ── */
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') otDoTrack();
+    });
+
+    /* ── Auto-tracking depuis l'URL ──────────────────────────────
+       Supporte :
+         ?track=XXXXXXX
+         ?tracking=XXXXXXX
+         ?number=XXXXXXX
+       Exemple depuis l'email Shopify :
+         https://monsite.com/pages/order-tracking.html?track=YT2109843921CN
+    ────────────────────────────────────────────────────────────── */
+    var urlParams   = new URLSearchParams(window.location.search);
+    var trackParam  = urlParams.get('track')
+                   || urlParams.get('tracking')
+                   || urlParams.get('number');
+
+    if (trackParam) {
+      input.value = trackParam.trim();
+      if (clearBtn) clearBtn.style.display = 'flex';
+      /* On attend 800 ms pour que le SDK 17Track soit chargé */
+      setTimeout(otDoTrack, 800);
+    }
+
+    /* ── Particules ── */
+    otInitParticles();
+
+    /* ── Scroll reveal ── */
+    otInitReveal();
+
+    /* ── FAQ accordion ── */
+    otInitFaq();
+
+  });
+
+  /* ──────────────────────────────────────────
+     3. PARTICULES
+  ────────────────────────────────────────── */
+  function otInitParticles() {
+    var container = document.getElementById('otParticles');
+    if (!container) return;
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < 18; i++) {
+      var p = document.createElement('div');
+      p.className = 'ot-particle';
+      p.style.cssText =
+        '--size:'  + (Math.random() * 3 + 2).toFixed(1)  + 'px;' +
+        '--dur:'   + (Math.random() * 6 + 4).toFixed(1)  + 's;'  +
+        '--delay:' + (Math.random() * 6).toFixed(1)       + 's;'  +
+        '--x:'     + (Math.random() * 90 + 5).toFixed(1)  + '%;'  +
+        '--y:'     + (Math.random() * 40 + 5).toFixed(1)  + '%;';
+      fragment.appendChild(p);
+    }
+    container.appendChild(fragment);
+  }
+
+  /* ──────────────────────────────────────────
+     4. SCROLL REVEAL
+  ────────────────────────────────────────── */
+  function otInitReveal() {
+    var els = document.querySelectorAll('[data-ot-reveal]');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el    = entry.target;
+          var delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
+          setTimeout(function () { el.classList.add('is-visible'); }, delay);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* ──────────────────────────────────────────
+     5. FAQ ACCORDION
+  ────────────────────────────────────────── */
+  function otInitFaq() {
+    var items = document.querySelectorAll('.ot-faq__item');
+    if (!items.length) return;
+    items.forEach(function (item) {
+      var btn = item.querySelector('.ot-faq__question');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var isOpen = item.classList.contains('is-open');
+        items.forEach(function (other) {
+          other.classList.remove('is-open');
+          var q = other.querySelector('.ot-faq__question');
+          if (q) q.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
+  /* Exposer globalement pour le onclick inline du bouton */
+  window.otDoTrack = otDoTrack;
+  </script>
+
+</body>
+</html>

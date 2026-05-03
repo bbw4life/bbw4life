@@ -1,0 +1,391 @@
+{
+  "stats": [
+    {
+      "icon": "fa-solid fa-book-open",
+      "target": 9400,
+      "suffix": "+",
+      "label": "Articles Read This Month"
+    },
+    {
+      "icon": "fa-solid fa-users",
+      "target": 47000,
+      "suffix": "+",
+      "label": "Active Readers"
+    },
+    {
+      "icon": "fa-solid fa-globe",
+      "target": 54,
+      "suffix": "",
+      "label": "Countries Represented"
+    },
+    {
+      "icon": "fa-solid fa-star",
+      "target": 98,
+      "suffix": "%",
+      "label": "Reader Satisfaction"
+    }
+  ],
+  "featured": {
+    "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article_1.png?v=1775497369",
+    "imageAlt": "Curvy woman building healthy habits through journaling and gentle exercise",
+    "badge": "Sustainable Habits",
+    "title": "How to Build Lasting Healthy Habits Without Overwhelm",
+    "excerpt": "Learn gentle, step-by-step strategies to create sustainable routines that nurture your body and mind, designed specifically for curvy women embracing long-term wellness.",
+    "author": {
+      "name": "Dr. Sarah Mitchell",
+      "role": "Wellness Expert",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607"
+    },
+    "date": "March 9, 2025",
+    "views": "8.2k", 
+    "readTime": "7 min read",
+    "url": "/blog/article-featured.html"
+  },
+  "cards": [
+    {
+      "id": "card-1",
+      "category": "weight-loss-science",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article2.png?v=1775497367",
+      "imageAlt": "Curvy woman understanding sustainable weight loss through science",
+      "badge": "Weight Loss Science",
+      "isNew": false,
+      "title": "The Science of Sustainable Weight Loss for Curvy Bodies",
+      "excerpt": "Delve into evidence-based methods that promote gradual, healthy changes while celebrating your natural curves.",
+      "author": {
+        "name": "Jessica Ward",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_4.png?v=1774717606"
+      },
+      "views": "4.1k",
+      "date": "Feb 28, 2026",
+      "readTime": "6 min",
+      "url": "/blog/article1.html" 
+    },
+    {
+      "id": "card-2",
+      "category": "nutrition-for-curvy-women",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article3.png?v=1775497371",
+      "imageAlt": "Curvy woman enjoying nourishing meals for her body type",
+      "badge": "Nutrition",
+      "isNew": false,
+      "title": "Nourishing Meals That Honor Your Curves",
+      "excerpt": "Explore balanced nutrition tips that focus on satisfaction and energy, tailored for curvy figures.",
+      "author": {
+        "name": "Rachel Greene",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customers_10.png?v=1774717606"
+      },
+      "views": "3.8k",
+      "date": "Feb 25, 2026",
+      "readTime": "5 min",
+      "url": "/blog/article2.html"
+    },
+    {
+      "id": "card-3",
+      "category": "mindset-confidence",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article4.png?v=1775497367",
+      "imageAlt": "Curvy woman building confidence through positive mindset practices",
+      "badge": "Mindset",
+      "isNew": false,
+      "title": "Cultivating Body Confidence Through Daily Affirmations",
+      "excerpt": "Simple practices to shift your mindset and embrace your unique beauty with grace.",
+      "author": {
+        "name": "Laura Bennett",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_2.png?v=1774717606"
+      },
+      "views": "6.3k",
+      "date": "Feb 20, 2026",
+      "readTime": "4 min",
+      "url": "/blog/article3.html"
+    },
+    {
+      "id": "card-4",
+      "category": "emotional-eating",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article5.png?v=1775497369",
+      "imageAlt": "Curvy woman managing emotional eating with mindfulness",
+      "badge": "Emotional Eating",
+      "isNew": true,
+      "title": "Understanding and Overcoming Emotional Eating Triggers",
+      "excerpt": "Gentle approaches to identify and manage emotional hunger for a healthier relationship with food.",
+      "author": {
+        "name": "Claire Hudson",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_5.png?v=1774717605"
+      },
+      "views": "2.9k",
+      "date": "Feb 15, 2026",
+      "readTime": "6 min",
+      "url": "/blog/article4.html"
+    },
+    {
+      "id": "card-5",
+      "category": "hormones-pcos",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article6.png?v=1775497368",
+      "imageAlt": "Curvy woman learning about hormone balance and PCOS management",
+      "badge": "Hormones & PCOS",
+      "isNew": true,
+      "title": "Managing PCOS Symptoms with Gentle Lifestyle Changes",
+      "excerpt": "Practical advice on balancing hormones through nutrition and movement for women with PCOS.",
+      "author": {
+        "name": "Natalie Brooks",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_6.png?v=1774717603"
+      },
+      "views": "7.1k",
+      "date": "Feb 10, 2026",
+      "readTime": "8 min",
+      "url": "/blog/article5.html"
+    },
+    {
+      "id": "card-6",
+      "category": "beginner-guides",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article7.png?v=1775497368",
+      "imageAlt": "Beginner curvy woman following a gentle fitness guide",
+      "badge": "Beginner Guide",
+      "isNew": false,
+      "title": "Your First Steps to Fitness: A Beginner's Guide for Curvy Women",
+      "excerpt": "Easy-to-follow tips to start your wellness journey without intimidation.",
+      "author": {
+        "name": "Diana Foster",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_7.png?v=1774717606"
+      },
+      "views": "8.4k",
+      "date": "Feb 5, 2026",
+      "readTime": "5 min",
+      "url": "/blog/article6.html"
+    },
+    {
+      "id": "card-7",
+      "category": "home-workouts",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article8.png?v=1775497368",
+      "imageAlt": "Curvy woman doing comfortable home workouts",
+      "badge": "Home Workouts",
+      "isNew": false,
+      "title": "Effective Home Workouts Tailored for Curvy Figures",
+      "excerpt": "Low-impact exercises you can do at home to build strength and mobility.",
+      "author": {
+        "name": "Emily Carter",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_11.png?v=1774717606"
+      },
+      "views": "5.7k",
+      "date": "Jan 30, 2026",
+      "readTime": "7 min",
+      "url": "/blog/article7.html"
+    },
+    {
+      "id": "card-8",
+      "category": "real-stories",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article9.png?v=1775497370",
+      "imageAlt": "Curvy woman sharing her real wellness journey story",
+      "badge": "Real Stories",
+      "isNew": false,
+      "title": "Real Journeys: How One Curvy Woman Found Balance",
+      "excerpt": "Inspiring story of transformation through patience and self-compassion.",
+      "author": {
+        "name": "Sophie Adams",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_5.png?v=1774717605"
+      },
+      "views": "9.2k",
+      "date": "Jan 25, 2026",
+      "readTime": "5 min",
+      "url": "/blog/article8.html"
+    },
+    {
+      "id": "card-9",
+      "category": "sustainable-habits",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article10.png?v=1775497369",
+      "imageAlt": "Curvy woman incorporating sustainable daily habits",
+      "badge": "Sustainable Habits",
+      "isNew": false,
+      "title": "Creating Routines That Last: Habits for Lifelong Wellness",
+      "excerpt": "Build habits that support your well-being without the pressure of perfection.",
+      "author": {
+        "name": "Olivia Reed",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customer_1.png?v=1774717605"
+      },
+      "views": "3.5k",
+      "date": "Jan 20, 2026",
+      "readTime": "6 min",
+      "url": "/blog/article9.html"
+    },
+    {
+      "id": "card-10",
+      "category": "weight-loss-science",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article16.png?v=1775497365",
+      "imageAlt": "Caloric deficit explained for plus-size women",
+      "badge": "Weight Loss Science",
+      "isNew": true,
+      "title": "Caloric Deficit Without Deprivation: The Safe Plus-Size Approach to Losing Weight That Actually Works",
+      "excerpt": "Understand how to create a sustainable caloric deficit that respects your metabolism, preserves muscle mass, and avoids the dangerous restrict-and-binge cycle common in crash diets.",
+      "author": {
+        "name": "Anna",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Coach_3.png?v=1774716188"
+      },
+      "views": "6.8k",
+      "date": "Mar 18, 2026",
+      "readTime": "9 min",
+      "url": "/blog/article10.html"
+    },
+    {
+      "id": "card-11",
+      "category": "nutrition-for-curvy-women",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article11.png?v=1775497369",
+      "imageAlt": "Protein and fiber nutrition strategy for plus-size weight loss",
+      "badge": "Nutrition",
+      "isNew": true,
+      "title": "Why Protein and Fiber Are Your Two Most Powerful Allies for Healthy, Long-Term Weight Loss as a Curvy Woman",
+      "excerpt": "Discover the clinical evidence behind high-protein, high-fiber eating patterns, how they reduce hunger hormones, stabilize blood sugar, and accelerate fat loss without sacrificing energy or muscle.",
+      "author": {
+        "name": "Maria",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Coach_1.png?v=1774716188"
+      },
+      "views": "5.4k",
+      "date": "Mar 25, 2026",
+      "readTime": "8 min",
+      "url": "/blog/article11.html"
+    },
+    {
+      "id": "card-12",
+      "category": "home-workouts",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article17.png?v=1775497370",
+      "imageAlt": "Resistance training for plus-size women metabolism boost",
+      "badge": "Home Workouts",
+      "isNew": true,
+      "title": "Resistance Training for Plus-Size Women: How to Boost Your Metabolism, Burn Fat Faster, and Build a Stronger Body from Home",
+      "excerpt": "A complete, joint-friendly resistance training guide built for curvy bodies — learn which exercises burn the most fat, how to progress safely, and why muscle is your greatest weapon against weight regain.",
+      "author": {
+        "name": "Lisa",
+        "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Coach_2.png?v=1774716188"
+      },
+      "views": "8.1k",
+      "date": "Apr 1, 2026",
+      "readTime": "10 min",
+      "url": "/blog/article12.html"
+    }
+  ],
+
+  "popular": [
+    {
+      "rank": "01",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article11.png?v=1775497369",
+      "imageAlt": "5 Tips for consistent exercise",
+      "category": "Home Workouts",
+      "title": "5 Tips for Consistent Exercise as a Curvy Woman",
+      "views": "12k",
+      "readTime": "5 min",
+      "url": "/blog/article11.html"
+    },
+    {
+      "rank": "02",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article12.png?v=1775497369",
+      "imageAlt": "Inspiring plus-size fitness influencers",
+      "category": "Real Stories",
+      "title": "Inspiring Plus-Size Fitness Influencers to Follow",
+      "views": "10k",
+      "readTime": "4 min",
+      "url": "/blog/article12.html"
+    },
+    {
+      "rank": "03",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/artcle13.png?v=1775497369",
+      "imageAlt": "Curvy fitness bucket list",
+      "category": "Mindset",
+      "title": "Curvy Fitness Bucket List: Challenges to Try in 2026",
+      "views": "8k",
+      "readTime": "6 min",
+      "url": "/blog/article13.html"
+    },
+    {
+      "rank": "04",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article14.png?v=1775497370",
+      "imageAlt": "Strength training curvy women",
+      "category": "Workouts",
+      "title": "Strength Training Essentials for Every Curvy Body",
+      "views": "7.3k",
+      "readTime": "7 min",
+      "url": "/blog/article14.html"
+    }
+  ],
+
+  "authors": [
+    {
+      "name": "Dr. Sarah Mitchell",
+      "title": "Wellness & Mindset Expert",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607",
+      "bio": "PhD in behavioral health. 12+ years helping curvy women build sustainable wellness routines through mindset and science.",
+      "articles": "24",
+      "reads": "48k",
+      "instagram": "#",
+      "twitter": "#"
+    },
+    {
+      "name": "Jessica Ward",
+      "title": "Fitness Coach & Writer",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_4.png?v=1774717606",
+      "bio": "Certified fitness coach specializing in low-impact training and body-positive movement for women of all sizes.",
+      "articles": "18",
+      "reads": "36k",
+      "instagram": "#",
+      "twitter": "#"
+    },
+    {
+      "name": "Rachel Greene",
+      "title": "Registered Nutritionist",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Customers_10.png?v=1774717606",
+      "bio": "RDN with a focus on hormone health, PCOS nutrition, and intuitive eating practices for curvy bodies.",
+      "articles": "21",
+      "reads": "41k",
+      "instagram": "#",
+      "twitter": "#"
+    }
+  ],
+  "editorsPicks": [
+  {
+   "id": "card-13",
+    "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article15.png?v=1775497367",
+    "imageAlt": "Cute plus-size workout clothes",
+    "category": "Style & Fitness",
+    "title": "Cute Workout Clothes for Curvy Gals",
+    "excerpt": "Feel confident and comfortable in gear designed for your curves.",
+    "date": "March 9, 2025",
+    "views": "8.2k",
+    "readTime": "7 min read",
+    "author": {
+      "name": "Dr. Sarah Mitchell",
+      "role": "Wellness Expert",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/customers_8.png?v=1774717607"
+    },
+    "url": "/blog/article13.html"
+    },
+  {
+   "id": "card-14",
+    "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article16.png?v=1775497365",
+    "imageAlt": "Pilates for plus-size beginners",
+    "category": "Home Workouts",
+    "title": "Pilates for Plus-Size Beginners",
+    "excerpt": "Gentle movements to build core strength and flexibility.",
+    "author": {
+      "name": "Lisa",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Coach_2.png?v=1774716188"
+    },
+    "views": "8.1k",
+    "date": "Apr 1, 2026",
+    "readTime": "10 min",
+    "url": "/blog/article14.html"
+    },
+  {
+    "id": "card-15",
+    "category": "nutrition-for-curvy-women",
+    "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/article16.png?v=1775497365",
+    "imageAlt": "Curvy woman practising intermittent fasting and circadian eating",
+    "badge": "Nutrition",
+    "isNew": true,
+    "title": "Intermittent Fasting for Curvy Women: What the Science Actually Says",
+    "excerpt": "The complete evidence-based guide to intermittent fasting for plus-size women — what works, what doesn't, and how to do it without wrecking your hormones.",
+    "author": {
+      "name": "Anna",
+      "image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/Coach_3.png?v=1774716188"
+    },
+    "views": "9.3k",
+    "date": "Apr 8, 2026",
+    "readTime": "10 min",
+    "url": "/blog/article15.html"
+  }
+]
+}

@@ -1,0 +1,109 @@
+.blog-search {
+  position: relative;
+}
+
+.bsearch-drop {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(30,10,20,.18), 0 0 0 1.5px rgba(192,56,94,.14);
+  overflow: hidden;
+  z-index: 9999;
+  display: none;
+  max-height: 360px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.bsearch-drop::-webkit-scrollbar { display: none; }
+.bsearch-drop.open { display: block; }
+
+.bsearch-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+  transition: background .15s;
+}
+.bsearch-item:last-child { border-bottom: none; }
+.bsearch-item:hover,
+.bsearch-item.bsearch-active { background: rgba(192,56,94,.07); }
+
+.bsearch-info { flex: 1; min-width: 0; }
+
+.bsearch-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  line-height: 1.4;
+  margin-bottom: 3px;
+  white-space: normal;
+}
+.bsearch-title mark {
+  background: rgba(192,56,94,.18);
+  color: #c0385e;
+  border-radius: 2px;
+  padding: 0 2px;
+  font-weight: 600;
+}
+
+.bsearch-cat {
+  font-size: 11px;
+  color: #7b3f6e;
+  font-weight: 500;
+}
+
+.bsearch-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.bsearch-btn-show {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(192,56,94,.35);
+  color: #c0385e;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+}
+.bsearch-btn-show:hover { background: #c0385e; color: #fff; }
+
+.bsearch-btn-read {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  background: #7b3f6e;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.bsearch-btn-read:hover { background: #c0385e; }
+
+.bsearch-empty {
+  padding: 16px;
+  font-size: 13px;
+  color: #888;
+  text-align: center;
+}
+
+@keyframes bsearch-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(192,56,94,.6); outline: 2px solid rgba(192,56,94,.7); }
+  70%  { box-shadow: 0 0 0 14px rgba(192,56,94,.0); }
+  100% { box-shadow: none; outline: none; }
+}
+.bsearch-highlight {
+  animation: bsearch-pulse 2.4s ease forwards;
+  border-radius: 10px;
+}

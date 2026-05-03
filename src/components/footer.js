@@ -27,7 +27,7 @@
       { text: 'Most populare',   url: '#' },
       { text: 'Bbw4life Style',  url: '#' },
       { text: 'FB Community',    url: '#' },
-      { text: 'Our Blog Post',   url: '#' },
+      { text: 'Our Blog Post',   url: '/blog/blog.html' },
       { text: 'Whats.Groupe',    url: '#' },
       { text: 'Find Your best',  url: '#' },
       { text: 'Find Your Look',  url: '#' },
@@ -40,15 +40,15 @@
     title2: 'CUSTOMERS CARE',
     links2: [
       { text: 'Our newsletter',  url: '#' },
-      { text: 'Returns policy',  url: '#' },
-      { text: 'About Bbw4life', url: '#' },
-      { text: 'Support 7/24',   url: '#' },
-      { text: 'order-tracking',  url: '#' },
-      { text: 'Prodducts care',  url: '#' },
-      { text: 'My account',      url: '#' },
-      { text: 'Privacy policy',  url: '#' },
-      { text: 'Shipping Info',   url: '#' },
-      { text: 'Terms shop',      url: '#' }
+      { text: 'Returns policy',  url: '/policies/refund.html' },
+      { text: 'About Bbw4life', url: '/page/about.html' },
+      { text: 'Support 7/24',   url: 'page/contact.html' },
+      { text: 'order-tracking',  url: '/page/order-tracking.html' },
+      { text: 'Prodducts care',  url: '/page/products-care.html' },
+      { text: 'My account',      url: '/account.html' },
+      { text: 'Privacy policy',  url: '/policies/privacy.html' },
+      { text: 'Shipping Info',   url: '/policies/shipping.html' },
+      { text: 'Terms shop',      url: '/policies/terms.html' }
     ],
 
     /* Col 3 — info */

@@ -286,7 +286,7 @@
     radial-gradient(ellipse at 0% 0%, rgba(201,150,62,0.07) 0%, transparent 55%),
     radial-gradient(ellipse at 100% 100%, rgba(192,56,94,0.06) 0%, transparent 55%),
     var(--ivory);
-  padding: 10px 0 72px;
+  padding: 10px 0 10px;
   color: var(--slate);
   font-family: var(--font-body);
   position: relative;
@@ -1417,7 +1417,7 @@
 @media (max-width: 768px) {
   .privacy-banner   { padding: 36px 18px 26px; }
   .privacy-article  { padding: 24px 18px 24px 24px; }
-  .privacy-container { padding: 0 16px; }
+  .privacy-container { padding: 0 4px; }
 
   .toc-list {
     display: grid;

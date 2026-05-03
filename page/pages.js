@@ -1088,14 +1088,6 @@ document.addEventListener('DOMContentLoaded', initOurStoryPage);
 })();
 
 
-
-
-
-
-
-
-
-
 /* ═══════════════════════════════════════════════════════════════
    BBW4LIFE — DISCLAIMER PAGE JS
    disclaimer.js
@@ -1190,3 +1182,244 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — PRODUCT CARE PAGE — SCRIPT
+   À ajouter dans pages.js
+   Se déclenche uniquement sur la page product-care
+═══════════════════════════════════════════════════════════════ */
+
+// ── Guard : n'exécute que sur la page product-care ──
+if (document.querySelector('.pc-categories-section')) {
+  initProductCarePage();
+}
+
+function initProductCarePage() {
+
+  /* ─────────────────────────────────────────────
+     1. PARTICULES HERO
+  ───────────────────────────────────────────── */
+  (function initHeroParticles() {
+    const container = document.getElementById('pcHeroParticles');
+    if (!container) return;
+
+    const count = 18;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('span');
+      p.className = 'pc-hero-particle';
+
+      const size  = (Math.random() * 3.5 + 1.5).toFixed(1);
+      const x     = (Math.random() * 90 + 5).toFixed(1);
+      const y     = (Math.random() * 60 + 5).toFixed(1);
+      const dur   = (Math.random() * 5 + 4).toFixed(1);
+      const delay = (Math.random() * 6).toFixed(1);
+
+      p.style.cssText = `
+        --pc-size: ${size}px;
+        --pc-x: ${x}%;
+        --pc-y: ${y}%;
+        --pc-dur: ${dur}s;
+        --pc-delay: ${delay}s;
+      `;
+      container.appendChild(p);
+    }
+  })();
+
+  /* ─────────────────────────────────────────────
+     2. TABS — navigation entre catégories
+  ───────────────────────────────────────────── */
+  (function initTabs() {
+    const tabBtns   = document.querySelectorAll('.pc-tab-btn');
+    const tabPanels = document.querySelectorAll('.pc-tab-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+
+        // Retirer active de tous
+        tabBtns.forEach(b => {
+          b.classList.remove('pc-tab-btn--active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        tabPanels.forEach(p => p.classList.remove('pc-tab-panel--active'));
+
+        // Activer le bon
+        btn.classList.add('pc-tab-btn--active');
+        btn.setAttribute('aria-selected', 'true');
+
+        const panel = document.getElementById('tab-' + target);
+        if (panel) {
+          panel.classList.add('pc-tab-panel--active');
+          // Relancer les animations des cartes dans ce panel
+          panel.querySelectorAll('[data-pc-reveal]').forEach(el => {
+            el.classList.remove('pc-revealed');
+            // Force reflow
+            void el.offsetWidth;
+            el.classList.add('pc-revealed');
+          });
+        }
+      });
+    });
+  })();
+
+  /* ─────────────────────────────────────────────
+     3. REVEAL AU SCROLL (IntersectionObserver)
+  ───────────────────────────────────────────── */
+  (function initReveal() {
+    const els = document.querySelectorAll('[data-pc-reveal]');
+    if (!els.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('pc-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    els.forEach(el => observer.observe(el));
+  })();
+
+  /* ─────────────────────────────────────────────
+     4. FAQ ACCORDION
+  ───────────────────────────────────────────── */
+  (function initFaq() {
+    const faqItems = document.querySelectorAll('.pc-faq-item');
+
+    faqItems.forEach(item => {
+      const btn    = item.querySelector('.pc-faq-question');
+      const answer = item.querySelector('.pc-faq-answer');
+      if (!btn || !answer) return;
+
+      btn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('pc-faq-open');
+
+        // Fermer tous les autres
+        faqItems.forEach(other => {
+          if (other !== item) {
+            other.classList.remove('pc-faq-open');
+            const otherBtn    = other.querySelector('.pc-faq-question');
+            const otherAnswer = other.querySelector('.pc-faq-answer');
+            if (otherBtn)    otherBtn.setAttribute('aria-expanded', 'false');
+            if (otherAnswer) otherAnswer.classList.remove('pc-faq-answer--open');
+          }
+        });
+
+        // Toggle l'actuel
+        if (isOpen) {
+          item.classList.remove('pc-faq-open');
+          btn.setAttribute('aria-expanded', 'false');
+          answer.classList.remove('pc-faq-answer--open');
+        } else {
+          item.classList.add('pc-faq-open');
+          btn.setAttribute('aria-expanded', 'true');
+          answer.classList.add('pc-faq-answer--open');
+        }
+      });
+    });
+  })();
+
+  /* ─────────────────────────────────────────────
+     5. SMOOTH SCROLL — lien "#pc-categories"
+  ───────────────────────────────────────────── */
+  (function initSmoothScroll() {
+    const scrollCta = document.querySelector('.pc-hero-scroll-cta');
+    if (!scrollCta) return;
+
+    scrollCta.addEventListener('click', (e) => {
+      const href   = scrollCta.getAttribute('href');
+      const target = href && href.startsWith('#') ? document.querySelector(href) : null;
+      if (!target) return;
+
+      e.preventDefault();
+      const offset = 80; // hauteur header fixe estimée
+      const top    = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  })();
+
+  /* ─────────────────────────────────────────────
+     6. CARE CARD — effet ripple au clic
+  ───────────────────────────────────────────── */
+  (function initCardRipple() {
+    const cards = document.querySelectorAll('.pc-care-card');
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        const ripple = document.createElement('span');
+        const rect   = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        ripple.style.cssText = `
+          position: absolute;
+          left: ${x}px;
+          top: ${y}px;
+          width: 0; height: 0;
+          border-radius: 50%;
+          background: rgba(201, 150, 62, 0.18);
+          transform: translate(-50%, -50%);
+          animation: pc-ripple 0.55s ease-out forwards;
+          pointer-events: none;
+          z-index: 10;
+        `;
+        card.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+
+    // Injection du keyframe ripple si absent
+    if (!document.querySelector('#pc-ripple-style')) {
+      const style = document.createElement('style');
+      style.id = 'pc-ripple-style';
+      style.textContent = `
+        @keyframes pc-ripple {
+          to { width: 220px; height: 220px; opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  })();
+
+  /* ─────────────────────────────────────────────
+     7. SYMBOL ITEM — animation au scroll
+  ───────────────────────────────────────────── */
+  (function initSymbolsReveal() {
+    const symbols = document.querySelectorAll('.pc-symbol-item');
+    if (!symbols.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, idx) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }, idx * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.10 });
+
+    symbols.forEach(sym => {
+      sym.style.opacity    = '0';
+      sym.style.transform  = 'translateY(24px)';
+      sym.style.transition = 'opacity 0.55s ease, transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
+      observer.observe(sym);
+    });
+  })();
+
+} // fin initProductCarePage

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Product Care — BBW4LIFE. Take care of your pieces the right way. Tips, guides and love for your wardrobe.">
+  <title>Product Care — BBW4LIFE · Beauty Has No Sizes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css">
+
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/products.css">
+  <link rel="stylesheet" href="/animations.css">
+  <link rel="stylesheet" href="/src/components/header.css">
+  <link rel="stylesheet" href="/src/components/footer.css">
+  <link rel="stylesheet" href="/page/pages.css">
+
+  <!-- Page styles -->
+  <link rel="stylesheet" href="/pages/product-care.css">
+
+  <link rel="icon" href="/public/bbw4life favicon.png">
+</head>
+
+<body class="pc-page">
+   <!-- ══════════════ READING PROGRESS BAR ══════════════ -->
+  <div id="reading-progress-bar" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <div id="header-container"></div>
+
+<main id="main-content">
+  <div id="breadcrumb-container"></div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 1 — HERO BANNER
+  ═══════════════════════════════════════════ -->
+  <section id="trust-banner" class="trust-banner-section pc-hero-banner">
+    <div class="trust-banner-wrap">
+
+      <span class="tbp tbp--1"></span>
+      <span class="tbp tbp--2"></span>
+      <span class="tbp tbp--3"></span>
+      <span class="tbp tbp--4"></span>
+      <span class="tbp tbp--5"></span>
+
+      <div class="pc-hero-particles" id="pcHeroParticles"></div>
+
+      <div class="trust-banner-photo pc-banner-photo"
+        style="background-image: url('https://cdn.shopify.com/s/files/1/0978/0353/4627/files/curva_banner_4.png?v=1775498754');">
+      </div>
+
+      <div class="trust-overlay trust-overlay--dark"></div>
+      <div class="trust-overlay trust-overlay--gradient"></div>
+      <div class="trust-overlay trust-overlay--vignette"></div>
+
+      <div class="trust-topline"></div>
+
+      <div class="trust-banner-inner pc-banner-inner">
+
+        <div class="trust-badge pc-hero-badge">
+          <span class="trust-badge-dot"></span>
+          Care with love · Wear with pride
+        </div>
+
+        <h2 class="trust-banner-title pc-banner-title">
+          Your Pieces Deserve<br>
+          <em>The Same Love</em> You Do
+        </h2>
+
+        <div class="trust-divider">
+          <span class="trust-divider-line"></span>
+          <span class="trust-divider-diamond"></span>
+          <span class="trust-divider-line"></span>
+        </div>
+
+        <p class="trust-banner-text pc-banner-text">
+          Every garment, every curve, every fabric has a story.<br>
+          Here's how to keep it beautiful — <strong>for years to come.</strong>
+        </p>
+
+        <div class="trust-pills pc-hero-pills">
+          <span class="trust-pill"><i class="fi fi-rr-tshirt"></i> Clothing &amp; Lingerie</span>
+          <span class="trust-pill-sep">·</span>
+          <span class="trust-pill"><i class="fi fi-rr-sparkles"></i> Beauty &amp; Skincare</span>
+          <span class="trust-pill-sep">·</span>
+          <span class="trust-pill"><i class="fi fi-rr-heart"></i> Curated Tips</span>
+        </div>
+
+        <a href="#pc-categories" class="pc-hero-scroll-cta">
+          <span>Discover Care Guides</span>
+          <i class="fi fi-rr-angle-small-down"></i>
+        </a>
+
+      </div>
+      <div class="trust-bottomline"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MARQUEE 1
+  ═══════════════════════════════════════════ -->
+  <div class="os-marquee-strip os-marquee-strip--warm pc-marquee">
+    <div class="os-marquee-inner">
+      <span class="os-mq-item"><i class="fi fi-rr-heart"></i> Care Is Self-Love</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-sparkles"></i> Your Body. Your Rules.</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-tshirt"></i> Wear It. Love It. Keep It.</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-crown"></i> Beauty Has No Sizes</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-leaf"></i> Gentle. Mindful. Beautiful.</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-heart"></i> Care Is Self-Love</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-sparkles"></i> Your Body. Your Rules.</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-tshirt"></i> Wear It. Love It. Keep It.</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-crown"></i> Beauty Has No Sizes</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-leaf"></i> Gentle. Mindful. Beautiful.</span>
+      <span class="os-mq-sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 2 — TABS CATEGORIES
+  ═══════════════════════════════════════════ -->
+  <section class="pc-categories-section" id="pc-categories">
+    <div class="pc-orb pc-orb--1"></div>
+    <div class="pc-orb pc-orb--2"></div>
+
+    <div class="pc-container">
+      <div class="pc-section-header" data-pc-reveal="up">
+        <span class="pc-eyebrow">
+          <span class="pc-eyebrow-dot"></span>
+          Care Guides
+          <span class="pc-eyebrow-dot"></span>
+        </span>
+        <h2 class="pc-section-title">
+          Choose Your<br><em>Care Category</em>
+        </h2>
+        <p class="pc-section-sub">From lingerie to skincare — every piece of your BBW4LIFE collection deserves specific, loving attention.</p>
+      </div>
+
+      <!-- Tabs nav -->
+      <div class="pc-tabs-nav" data-pc-reveal="up" role="tablist">
+        <button class="pc-tab-btn pc-tab-btn--active" data-tab="lingerie" role="tab" aria-selected="true">
+          <i class="fas fa-heart"></i>
+          <span>Lingerie</span>
+        </button>
+        <button class="pc-tab-btn" data-tab="clothing" role="tab" aria-selected="false">
+          <i class="fas fa-tshirt"></i>
+          <span>Clothing</span>
+        </button>
+        <button class="pc-tab-btn" data-tab="beauty" role="tab" aria-selected="false">
+          <i class="fas fa-spa"></i>
+          <span>Beauty</span>
+        </button>
+        <button class="pc-tab-btn" data-tab="accessories" role="tab" aria-selected="false">
+          <i class="fas fa-gem"></i>
+          <span>Accessories</span>
+        </button>
+      </div>
+
+      <!-- ── LINGERIE ── -->
+      <div class="pc-tab-panel pc-tab-panel--active" id="tab-lingerie" role="tabpanel">
+        <div class="pc-care-grid">
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.05s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--wash"><i class="fas fa-hands-wash"></i></div>
+            <h3>Washing</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Hand wash in cold water (30°C max)</li>
+              <li><i class="fas fa-check"></i> Use a delicate mesh laundry bag</li>
+              <li><i class="fas fa-check"></i> Gentle detergent — no bleach</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Never use the dryer</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No wringing — press gently</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Turn inside out before washing to preserve colour and embroidery.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.10s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--dry"><i class="fas fa-wind"></i></div>
+            <h3>Drying</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Air dry flat on a clean towel</li>
+              <li><i class="fas fa-check"></i> Keep away from direct sunlight</li>
+              <li><i class="fas fa-check"></i> Reshape cups while damp</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No tumble drying — ever</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Avoid hanging — distorts shape</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Flat drying preserves the elasticity of underwire and lace panels.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.15s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--store"><i class="fas fa-box-open"></i></div>
+            <h3>Storage</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Stack bras cup-in-cup</li>
+              <li><i class="fas fa-check"></i> Store in a breathable drawer</li>
+              <li><i class="fas fa-check"></i> Keep away from perfume sprays</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Never fold underwire bras</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Avoid plastic sealed bags</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Use lavender sachets to keep lingerie fresh without chemicals.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.20s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--life"><i class="fas fa-star"></i></div>
+            <h3>Longevity</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Rotate between 3–4 pieces</li>
+              <li><i class="fas fa-check"></i> Wash after every 2–3 wears</li>
+              <li><i class="fas fa-check"></i> Replace elastic every 6–12 months</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Don't wear in pool / spa</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Avoid sitting on rough surfaces</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Good care = your lingerie lasts 3× longer. That's real value.</span>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /tab-lingerie -->
+
+      <!-- ── CLOTHING ── -->
+      <div class="pc-tab-panel" id="tab-clothing" role="tabpanel">
+        <div class="pc-care-grid">
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.05s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--wash"><i class="fas fa-hands-wash"></i></div>
+            <h3>Washing</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Follow label instructions always</li>
+              <li><i class="fas fa-check"></i> Cold wash for dark colours</li>
+              <li><i class="fas fa-check"></i> Similar colours together</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No hot water for stretch fabrics</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No harsh detergents</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Cold wash reduces colour bleeding and protects stretch-fit fabrics.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.10s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--iron"><i class="fas fa-temperature-high"></i></div>
+            <h3>Ironing</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Use low heat on synthetic blends</li>
+              <li><i class="fas fa-check"></i> Iron inside out</li>
+              <li><i class="fas fa-check"></i> Use a pressing cloth for prints</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No steam on embroidered areas</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No iron on sequins or beading</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>A garment steamer is gentler than an iron for most plus-size cuts.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.15s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--store"><i class="fas fa-archive"></i></div>
+            <h3>Storage</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Hang dresses &amp; blouses</li>
+              <li><i class="fas fa-check"></i> Fold knits — don't hang</li>
+              <li><i class="fas fa-check"></i> Use padded hangers for shoulders</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No wire hangers</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Avoid direct sunlight in wardrobe</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Gravity pulls knitwear out of shape — always fold them flat.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.20s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--life"><i class="fas fa-leaf"></i></div>
+            <h3>Stain Removal</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Act immediately — blot, don't rub</li>
+              <li><i class="fas fa-check"></i> Cold water for protein stains</li>
+              <li><i class="fas fa-check"></i> White vinegar for deodorant marks</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No hot water on fresh stains</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No bleach on colours</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Baking soda + cold water = a gentle stain paste that works wonders.</span>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /tab-clothing -->
+
+      <!-- ── BEAUTY ── -->
+      <div class="pc-tab-panel" id="tab-beauty" role="tabpanel">
+        <div class="pc-care-grid">
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.05s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--beauty"><i class="fas fa-seedling"></i></div>
+            <h3>Skincare</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Moisturise after every shower</li>
+              <li><i class="fas fa-check"></i> SPF daily — even indoors</li>
+              <li><i class="fas fa-check"></i> Gentle exfoliation 2×/week</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No harsh scrubs on sensitive areas</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Avoid alcohol-based toners</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Curves deserve hydration — massage lotion in upward circular motions.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.10s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--beauty"><i class="fas fa-tint"></i></div>
+            <h3>Body Care</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Use body oil on damp skin</li>
+              <li><i class="fas fa-check"></i> Massage underarm &amp; crease areas</li>
+              <li><i class="fas fa-check"></i> pH-balanced intimate wash</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No scented soaps on sensitive skin</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Avoid very hot baths daily</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Shea butter + jojoba oil = the ultimate plus-size skin duo.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.15s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--beauty"><i class="fas fa-flask"></i></div>
+            <h3>Product Storage</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Keep away from heat &amp; direct light</li>
+              <li><i class="fas fa-check"></i> Check expiry dates regularly</li>
+              <li><i class="fas fa-check"></i> Clean applicators weekly</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No bathroom shelf (humidity)</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> Don't share mascara or lip products</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>A cool, dark drawer is better for your skincare than any display shelf.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.20s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--beauty"><i class="fas fa-heart"></i></div>
+            <h3>Self-Care Ritual</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> 5 minutes daily — body appreciation</li>
+              <li><i class="fas fa-check"></i> Mirror affirmations — they work</li>
+              <li><i class="fas fa-check"></i> Drink 2L water — skin loves it</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No negative self-talk allowed</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No skipping your night routine</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Your body is not a problem to fix. It's a masterpiece to maintain.</span>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /tab-beauty -->
+
+      <!-- ── ACCESSORIES ── -->
+      <div class="pc-tab-panel" id="tab-accessories" role="tabpanel">
+        <div class="pc-care-grid">
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.05s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--acc"><i class="fas fa-gem"></i></div>
+            <h3>Jewellery</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Wipe after each wear</li>
+              <li><i class="fas fa-check"></i> Store separately in pouches</li>
+              <li><i class="fas fa-check"></i> Remove before shower &amp; sport</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No contact with perfume</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No chlorine or sea water</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>A soft toothbrush + warm soapy water revives most jewellery instantly.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.10s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--acc"><i class="fas fa-shopping-bag"></i></div>
+            <h3>Bags &amp; Belts</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Stuff bags when storing</li>
+              <li><i class="fas fa-check"></i> Wipe leather with conditioner</li>
+              <li><i class="fas fa-check"></i> Air regularly — avoid mustiness</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No direct sunlight storage</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No plastic wrap — use dust bags</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Fill bags with tissue paper to help them hold shape between uses.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.15s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--acc"><i class="fas fa-wind"></i></div>
+            <h3>Scarves &amp; Wraps</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Hand wash silks only</li>
+              <li><i class="fas fa-check"></i> Roll — don't fold — for storage</li>
+              <li><i class="fas fa-check"></i> Air dry in shade</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No machine wash for silk</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No direct ironing on print</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Rolling prevents creases and keeps delicate fabrics in perfect shape.</span>
+            </div>
+          </div>
+
+          <div class="pc-care-card" data-pc-reveal="up" style="--delay:.20s">
+            <div class="pc-care-card__glow"></div>
+            <div class="pc-care-card__icon pc-icon--acc"><i class="fas fa-shoe-prints"></i></div>
+            <h3>Shoes &amp; Heels</h3>
+            <ul class="pc-care-list">
+              <li><i class="fas fa-check"></i> Clean after every use</li>
+              <li><i class="fas fa-check"></i> Use shoe trees for shape</li>
+              <li><i class="fas fa-check"></i> Waterproof spray on new shoes</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No storing in original box long-term</li>
+              <li class="pc-care-list__no"><i class="fas fa-times"></i> No stacking heels</li>
+            </ul>
+            <div class="pc-care-tip">
+              <i class="fas fa-lightbulb"></i>
+              <span>Wide-fit shoes need shoe trees to maintain arch support structure.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MARQUEE 2
+  ═══════════════════════════════════════════ -->
+  <div class="os-marquee-strip os-marquee-strip--rose">
+    <div class="os-marquee-inner os-marquee-inner--reverse">
+      <span class="os-mq-item"><i class="fi fi-rr-heart"></i> Love Your Pieces</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-star"></i> Care = Confidence</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-leaf"></i> Gentle &amp; Intentional</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-crown"></i> Wear It Your Way</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-sparkles"></i> Beauty Has No Sizes</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-heart"></i> Love Your Pieces</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-star"></i> Care = Confidence</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-leaf"></i> Gentle &amp; Intentional</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-crown"></i> Wear It Your Way</span>
+      <span class="os-mq-sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 3 — CARE SYMBOLS GUIDE
+  ═══════════════════════════════════════════ -->
+  <section class="pc-symbols-section" id="pc-symbols">
+    <div class="pc-orb pc-orb--3"></div>
+
+    <div class="pc-container">
+      <div class="pc-section-header" data-pc-reveal="up">
+        <span class="pc-eyebrow">
+          <span class="pc-eyebrow-dot"></span>
+          Label Guide
+          <span class="pc-eyebrow-dot"></span>
+        </span>
+        <h2 class="pc-section-title">
+          Decode Your<br><em>Care Labels</em>
+        </h2>
+        <p class="pc-section-sub">Those little symbols on your labels are your garment speaking to you. Here's what they mean.</p>
+      </div>
+
+      <div class="pc-symbols-grid" data-pc-reveal="up">
+
+        <div class="pc-symbol-item">
+          <div class="pc-symbol-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 16C8 16 12 8 24 8C36 8 40 16 40 16L36 40H12L8 16Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <strong>Wash tub</strong>
+          <span>Machine washable. Number inside = max temp (°C)</span>
+        </div>
+
+        <div class="pc-symbol-item">
+          <div class="pc-symbol-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 16C8 16 12 8 24 8C36 8 40 16 40 16L36 40H12L8 16Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <line x1="16" y1="32" x2="32" y2="32" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <strong>Tub + line</strong>
+          <span>Machine wash — gentle / delicate cycle only</span>
+        </div>
+
+        <div class="pc-symbol-item">
+          <div class="pc-symbol-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="14" stroke="currentColor" stroke-width="2.5"/>
+              <line x1="14" y1="14" x2="34" y2="34" stroke="currentColor" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <strong>Circle crossed</strong>
+          <span>Do NOT dry clean</span>
+        </div>
+
+        <div class="pc-symbol-item">
+          <div class="pc-symbol-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 12L36 36M12 36L36 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <rect x="8" y="8" width="32" height="32" rx="3" stroke="currentColor" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <strong>X in square</strong>
+          <span>Do NOT tumble dry</span>
+        </div>
+
+        <div class="pc-symbol-item">
+          <div class="pc-symbol-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 10L24 38L34 10" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="18" cy="22" r="1.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <strong>Iron symbol</strong>
+          <span>Dots = heat level. 1 dot = low, 3 dots = high</span>
+        </div>
+
+        <div class="pc-symbol-item">
+          <div class="pc-symbol-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="14" width="36" height="22" rx="3" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M6 24 Q24 34 42 24" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/>
+            </svg>
+          </div>
+          <strong>Hand in tub</strong>
+          <span>Hand wash only in cold/lukewarm water</span>
+        </div>
+
+        <div class="pc-symbol-item">
+          <div class="pc-symbol-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="14" stroke="currentColor" stroke-width="2.5"/>
+              <line x1="24" y1="10" x2="24" y2="38" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <strong>Circle</strong>
+          <span>Dry clean — letter inside specifies solvent</span>
+        </div>
+
+        <div class="pc-symbol-item">
+          <div class="pc-symbol-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 40L24 8L40 40Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <strong>Triangle</strong>
+          <span>Bleaching allowed. Crossed = no bleach at all</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 4 — PHILOSOPHY
+  ═══════════════════════════════════════════ -->
+  <section class="pc-philosophy-section" id="pc-philosophy">
+    <div class="pc-philo-orb pc-philo-orb--1"></div>
+    <div class="pc-philo-orb pc-philo-orb--2"></div>
+
+    <div class="pc-container">
+      <div class="pc-philo-inner" data-pc-reveal="up">
+
+        <div class="pc-philo-icon">
+          <i class="fi fi-rr-heart"></i>
+        </div>
+
+        <span class="pc-eyebrow">
+          <span class="pc-eyebrow-dot"></span>
+          Our Philosophy
+          <span class="pc-eyebrow-dot"></span>
+        </span>
+
+        <blockquote class="pc-philo-quote">
+          "Taking care of your clothes<br>is taking care of yourself."
+        </blockquote>
+
+        <p class="pc-philo-text">
+          At BBW4LIFE, we believe that the way you treat your clothes reflects the way you treat your body.
+          Every piece we create is made with love — for the curves, for the confidence, for the woman who wears it.
+          When you care for your garments, you're extending that same love to yourself.
+        </p>
+
+        <div class="pc-philo-pillars">
+          <div class="pc-pillar"><i class="fi fi-rr-leaf"></i><span>Gentle</span></div>
+          <div class="pc-pillar-sep">✦</div>
+          <div class="pc-pillar"><i class="fi fi-rr-heart"></i><span>Intentional</span></div>
+          <div class="pc-pillar-sep">✦</div>
+          <div class="pc-pillar"><i class="fi fi-rr-star"></i><span>Lasting</span></div>
+          <div class="pc-pillar-sep">✦</div>
+          <div class="pc-pillar"><i class="fi fi-rr-crown"></i><span>Proud</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MARQUEE 3
+  ═══════════════════════════════════════════ -->
+  <div class="os-marquee-strip os-marquee-strip--gold">
+    <div class="os-marquee-inner">
+      <span class="os-mq-item"><i class="fi fi-rr-leaf"></i> Gentle on Fabric</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-heart"></i> Gentle on You</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-star"></i> Beauty Has No Sizes</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-crown"></i> Own Your Wardrobe</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-sparkles"></i> Wear With Pride</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-leaf"></i> Gentle on Fabric</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-heart"></i> Gentle on You</span>
+      <span class="os-mq-sep">✦</span>
+      <span class="os-mq-item"><i class="fi fi-rr-star"></i> Beauty Has No Sizes</span>
+      <span class="os-mq-sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 5 — FAQ
+  ═══════════════════════════════════════════ -->
+  <section class="pc-faq-section" id="pc-faq">
+    <div class="pc-container">
+      <div class="pc-section-header" data-pc-reveal="up">
+        <span class="pc-eyebrow">
+          <span class="pc-eyebrow-dot"></span>
+          Got Questions?
+          <span class="pc-eyebrow-dot"></span>
+        </span>
+        <h2 class="pc-section-title">
+          Care <em>FAQ</em>
+        </h2>
+      </div>
+
+      <div class="pc-faq-grid">
+
+        <div class="pc-faq-item" data-pc-reveal="up">
+          <button class="pc-faq-question" aria-expanded="false">
+            <span>Can I machine wash my BBW4LIFE lingerie?</span>
+            <i class="fi fi-rr-plus-small pc-faq-icon"></i>
+          </button>
+          <div class="pc-faq-answer">
+            <p>We strongly recommend hand washing all lingerie pieces in cold water. If you must use a machine, always use a delicate mesh laundry bag on the gentlest cycle (30°C max). Never use the spin cycle or tumble dry.</p>
+          </div>
+        </div>
+
+        <div class="pc-faq-item" data-pc-reveal="up">
+          <button class="pc-faq-question" aria-expanded="false">
+            <span>How do I remove a stain without damaging the fabric?</span>
+            <i class="fi fi-rr-plus-small pc-faq-icon"></i>
+          </button>
+          <div class="pc-faq-answer">
+            <p>Act fast — blot (never rub) with a clean white cloth. Use cold water for most stains. For stubborn marks, apply a small amount of gentle liquid detergent and let sit for 5 minutes before rinsing. Avoid hot water which sets stains permanently.</p>
+          </div>
+        </div>
+
+        <div class="pc-faq-item" data-pc-reveal="up">
+          <button class="pc-faq-question" aria-expanded="false">
+            <span>How long should my lingerie last with proper care?</span>
+            <i class="fi fi-rr-plus-small pc-faq-icon"></i>
+          </button>
+          <div class="pc-faq-answer">
+            <p>With proper hand washing, flat drying, and correct storage, quality lingerie can last 1–3 years. The key is rotating between pieces, never over-washing, and always following our care guides. Elastic degrades with heat — keep it away from the dryer.</p>
+          </div>
+        </div>
+
+        <div class="pc-faq-item" data-pc-reveal="up">
+          <button class="pc-faq-question" aria-expanded="false">
+            <span>What's the best way to store plus-size clothing?</span>
+            <i class="fi fi-rr-plus-small pc-faq-icon"></i>
+          </button>
+          <div class="pc-faq-answer">
+            <p>Use padded, wide hangers for dresses, blouses and structured pieces to maintain shoulder shape. Fold knits and jersey pieces flat to prevent stretching. Store in a cool, dry, dark wardrobe — avoid plastic bags which trap moisture.</p>
+          </div>
+        </div>
+
+        <div class="pc-faq-item" data-pc-reveal="up">
+          <button class="pc-faq-question" aria-expanded="false">
+            <span>Are your products tested on sensitive skin?</span>
+            <i class="fi fi-rr-plus-small pc-faq-icon"></i>
+          </button>
+          <div class="pc-faq-answer">
+            <p>Yes. All BBW4LIFE garments are tested for skin sensitivity, particularly in areas that come into contact with plus-size curves most frequently. If you experience any irritation, wash the piece before first wear and contact our support team.</p>
+          </div>
+        </div>
+
+        <div class="pc-faq-item" data-pc-reveal="up">
+          <button class="pc-faq-question" aria-expanded="false">
+            <span>Can I iron my BBW4LIFE pieces?</span>
+            <i class="fi fi-rr-plus-small pc-faq-icon"></i>
+          </button>
+          <div class="pc-faq-answer">
+            <p>Check the label first. Most of our stretch-blend pieces should only be steamed, not ironed. If ironing is needed, always iron inside out on the lowest heat setting with a pressing cloth between the iron and fabric. Never iron lace, sequins or embroidered areas.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 6 — CTA
+  ═══════════════════════════════════════════ -->
+  <section class="pc-cta-section" id="pc-cta">
+    <div class="pc-cta-orb pc-cta-orb--1"></div>
+    <div class="pc-cta-orb pc-cta-orb--2"></div>
+    <div class="pc-cta-grid-overlay"></div>
+
+    <div class="pc-container">
+      <div class="pc-cta-inner" data-pc-reveal="up">
+
+        <div class="pc-cta-icon">
+          <i class="fi fi-rr-shopping-bag"></i>
+        </div>
+
+        <span class="pc-eyebrow">
+          <span class="pc-eyebrow-dot"></span>
+          Ready to Shop?
+          <span class="pc-eyebrow-dot"></span>
+        </span>
+
+        <h2 class="pc-cta-title">
+          Pieces Made With Love.<br>
+          <em>Worn With Pride.</em>
+        </h2>
+
+        <p class="pc-cta-text">
+          Every BBW4LIFE piece is designed for your curves, made to last, and shipped with care instructions included.
+          Because you deserve the best — always.
+        </p>
+
+        <div class="pc-cta-btns">
+          <a href="/collections/bbw4life-all-product.html" class="pc-btn pc-btn--primary">
+            <i class="fi fi-rr-shopping-cart"></i>
+            <span>Shop The Collection</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </a>
+          <a href="/contact.html" class="pc-btn pc-btn--ghost">
+            <i class="fi fi-rr-envelope"></i>
+            <span>Ask A Question</span>
+          </a>
+        </div>
+
+        <!-- Brand Stamp -->
+        <div class="pc-brand-stamp">
+          <div class="pc-stamp-ring pc-stamp-ring--1"></div>
+          <div class="pc-stamp-ring pc-stamp-ring--2"></div>
+          <div class="pc-stamp-inner">
+            <span class="pc-stamp-title">BBW4LIFE</span>
+            <span class="pc-stamp-tagline">Beauty Has No Sizes</span>
+            <span class="pc-stamp-heart">❤️</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <div id="newsletter-container"></div>
+
+</main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <!-- ═══════════════════════════════════════════
+       SCRIPTS INJECTION (header, footer, etc.)
+  ═══════════════════════════════════════════ -->
+  <script src="/widgets-loader.js"></script>
+  <script src="/script.js"></script>
+  <script src="/geo-detect.js"></script>
+  <script src="/page/pages.js"></script>
+
+  <script>
+    fetch('/src/components/header.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('header-container').innerHTML = html;
+        const s = document.createElement('script');
+        s.src = '/src/components/header.js';
+        document.body.appendChild(s);
+      })
+      .catch(err => console.error('Header load error:', err));
+
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').innerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+
+    fetch('/src/components/footer.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+        document.dispatchEvent(new Event('footer:loaded'));
+        const s = document.createElement('script');
+        s.src = '/src/components/footer.js';
+        document.body.appendChild(s);
+      })
+      .catch(err => console.error('Footer load error:', err));
+
+    fetch('/src/components/newsletter.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('newsletter-container').innerHTML = html;
+      })
+      .catch(err => console.error('Newsletter load error:', err));
+  </script>
+
+</body>
+</html>

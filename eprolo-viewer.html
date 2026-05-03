@@ -34,7 +34,6 @@
       overflow-x: hidden;
     }
 
-    /* ── GRID BACKGROUND ── */
     body::before {
       content: '';
       position: fixed;
@@ -62,7 +61,6 @@
       border-left: 3px solid var(--accent);
       padding-left: 18px;
     }
-
     header .label {
       font-family: var(--mono);
       font-size: 10px;
@@ -71,7 +69,6 @@
       text-transform: uppercase;
       margin-bottom: 6px;
     }
-
     header h1 {
       font-family: var(--display);
       font-size: clamp(1.6rem, 4vw, 2.4rem);
@@ -80,11 +77,7 @@
       letter-spacing: -0.02em;
       line-height: 1.1;
     }
-
-    header h1 span {
-      color: var(--accent2);
-    }
-
+    header h1 span { color: var(--accent2); }
     .subtitle {
       margin-top: 8px;
       color: var(--text-dim);
@@ -118,7 +111,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .btn::after {
       content: '';
       position: absolute;
@@ -127,7 +119,6 @@
       opacity: 0;
       transition: opacity 0.15s;
     }
-
     .btn:hover::after { opacity: 0.07; }
     .btn:active { transform: scale(0.97); }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
@@ -137,10 +128,7 @@
       color: #000;
       box-shadow: 0 0 20px rgba(0,229,255,0.25);
     }
-
-    .btn-run:hover:not(:disabled) {
-      box-shadow: 0 0 30px rgba(0,229,255,0.45);
-    }
+    .btn-run:hover:not(:disabled) { box-shadow: 0 0 30px rgba(0,229,255,0.45); }
 
     .btn-copy {
       background: transparent;
@@ -148,7 +136,6 @@
       border: 1px solid var(--green);
       display: none;
     }
-
     .btn-copy:hover { box-shadow: 0 0 16px rgba(0,255,157,0.2); }
     .btn-copy.copied { color: #fff; border-color: var(--green); background: rgba(0,255,157,0.12); }
 
@@ -162,26 +149,19 @@
       margin-bottom: 20px;
       min-height: 20px;
     }
-
     .status-bar .dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--muted);
       flex-shrink: 0;
     }
-
-    .status-bar.running .dot {
-      background: var(--accent);
-      animation: pulse 1s infinite;
-    }
-
-    .status-bar.ok .dot { background: var(--green); }
+    .status-bar.running .dot { background: var(--accent); animation: pulse 1s infinite; }
+    .status-bar.ok  .dot { background: var(--green); }
     .status-bar.err .dot { background: var(--accent2); }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+      50%       { opacity: 0.3; }
     }
 
     /* ── STATS ROW ── */
@@ -191,7 +171,6 @@
       margin-bottom: 24px;
       flex-wrap: wrap;
     }
-
     .stat-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -199,7 +178,6 @@
       padding: 12px 20px;
       min-width: 130px;
     }
-
     .stat-card .s-label {
       font-size: 9px;
       letter-spacing: 0.15em;
@@ -207,7 +185,6 @@
       color: var(--text-dim);
       margin-bottom: 4px;
     }
-
     .stat-card .s-value {
       font-family: var(--display);
       font-size: 1.6rem;
@@ -215,14 +192,73 @@
       color: var(--accent);
       line-height: 1;
     }
-
     .stat-card .s-value.green { color: var(--green); }
     .stat-card .s-value.pink  { color: var(--accent2); }
 
-    /* ── PRODUCT CARDS ── */
-    #product-view {
+    /* ── CATEGORY TABS ── */
+    .cat-tabs {
       display: none;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
     }
+
+    .cat-tab {
+      padding: 7px 16px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cat-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .cat-tab.active {
+      background: rgba(0,229,255,0.1);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .cat-tab.all-tab.active {
+      background: rgba(255,61,127,0.1);
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+
+    /* ── SUBCATEGORY FILTER ── */
+    .subcat-row {
+      display: none;
+      gap: 6px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      padding-left: 4px;
+    }
+    .subcat-chip {
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .subcat-chip:hover { border-color: var(--yellow); color: var(--yellow); }
+    .subcat-chip.active {
+      background: rgba(255,214,0,0.1);
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    /* ── PRODUCT CARDS ── */
+    #product-view { display: none; }
 
     .product-card {
       background: var(--surface);
@@ -232,7 +268,6 @@
       overflow: hidden;
       transition: border-color 0.2s;
     }
-
     .product-card:hover { border-color: var(--accent); }
 
     .product-header {
@@ -244,36 +279,13 @@
       user-select: none;
       gap: 12px;
     }
-
     .product-header:hover { background: rgba(255,255,255,0.02); }
 
-    .p-index {
-      font-size: 10px;
-      color: var(--text-dim);
-      min-width: 26px;
-    }
+    .p-index  { font-size: 10px; color: var(--text-dim); min-width: 26px; }
+    .p-title  { font-family: var(--display); font-size: 14px; font-weight: 700; color: #fff; flex: 1; letter-spacing: -0.01em; }
+    .p-id     { font-size: 10px; color: var(--text-dim); font-family: var(--mono); }
 
-    .p-title {
-      font-family: var(--display);
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      flex: 1;
-      letter-spacing: -0.01em;
-    }
-
-    .p-id {
-      font-size: 10px;
-      color: var(--text-dim);
-      font-family: var(--mono);
-    }
-
-    .p-badges {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      flex-shrink: 0;
-    }
+    .p-badges { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
 
     .badge {
       font-size: 9px;
@@ -283,82 +295,27 @@
       border-radius: 3px;
       font-weight: 700;
     }
+    .badge-variants { background: rgba(0,229,255,0.1); color: var(--accent); border: 1px solid rgba(0,229,255,0.2); }
+    .badge-ok       { background: rgba(0,255,157,0.1); color: var(--green);  border: 1px solid rgba(0,255,157,0.2); }
+    .badge-err      { background: rgba(255,61,127,0.1); color: var(--accent2); border: 1px solid rgba(255,61,127,0.2); }
+    .badge-subcat   { background: rgba(255,214,0,0.08); color: var(--yellow); border: 1px solid rgba(255,214,0,0.2); }
 
-    .badge-variants {
-      background: rgba(0,229,255,0.1);
-      color: var(--accent);
-      border: 1px solid rgba(0,229,255,0.2);
-    }
-
-    .badge-ok {
-      background: rgba(0,255,157,0.1);
-      color: var(--green);
-      border: 1px solid rgba(0,255,157,0.2);
-    }
-
-    .badge-err {
-      background: rgba(255,61,127,0.1);
-      color: var(--accent2);
-      border: 1px solid rgba(255,61,127,0.2);
-    }
-
-    .chevron {
-      color: var(--text-dim);
-      transition: transform 0.25s;
-      font-size: 10px;
-    }
-
+    .chevron { color: var(--text-dim); transition: transform 0.25s; font-size: 10px; }
     .product-card.open .chevron { transform: rotate(90deg); }
 
     /* ── VARIANTS TABLE ── */
-    .variants-body {
-      display: none;
-      border-top: 1px solid var(--border);
-    }
-
+    .variants-body { display: none; border-top: 1px solid var(--border); }
     .product-card.open .variants-body { display: block; }
 
-    .color-group {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .color-group { padding: 16px 20px; border-bottom: 1px solid var(--border); }
     .color-group:last-child { border-bottom: none; }
 
-    .color-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
+    .color-label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .color-swatch { width: 12px; height: 12px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+    .color-name { font-family: var(--display); font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 0.02em; }
+    .color-count { font-size: 10px; color: var(--text-dim); }
 
-    .color-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--accent2);
-      flex-shrink: 0;
-    }
-
-    .color-name {
-      font-family: var(--display);
-      font-size: 12px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.02em;
-    }
-
-    .color-count {
-      font-size: 10px;
-      color: var(--text-dim);
-    }
-
-    .variants-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 11px;
-    }
-
+    .variants-table { width: 100%; border-collapse: collapse; font-size: 11px; }
     .variants-table th {
       text-align: left;
       color: var(--text-dim);
@@ -369,32 +326,19 @@
       border-bottom: 1px solid var(--border);
       font-weight: 400;
     }
-
-    .variants-table td {
-      padding: 7px 10px;
-      border-bottom: 1px solid rgba(30,37,48,0.6);
-      vertical-align: middle;
-    }
-
+    .variants-table td { padding: 7px 10px; border-bottom: 1px solid rgba(30,37,48,0.6); vertical-align: middle; }
     .variants-table tr:last-child td { border-bottom: none; }
-
     .variants-table tr:hover td { background: rgba(255,255,255,0.02); }
 
-    .td-id    { color: var(--text-dim); font-size: 10px; }
-    .td-sku   { color: var(--text-dim); font-size: 10px; }
-    .td-size  { color: var(--accent); font-weight: 700; }
-    .td-price { color: var(--yellow); font-weight: 700; }
+    .td-id     { color: var(--text-dim); font-size: 10px; }
+    .td-sku    { color: var(--text-dim); font-size: 10px; }
+    .td-size   { color: var(--accent); font-weight: 700; }
+    .td-price  { color: var(--yellow); font-weight: 700; }
     .td-weight { color: var(--text); }
-    .td-stock {
-      font-weight: 700;
-    }
+    .td-stock  { font-weight: 700; }
 
     /* ── RAW LOG ── */
-    #log-section {
-      display: none;
-      margin-top: 32px;
-    }
-
+    #log-section { display: none; margin-top: 32px; }
     .section-toggle {
       display: flex;
       align-items: center;
@@ -407,7 +351,6 @@
       margin-bottom: 12px;
       user-select: none;
     }
-
     .section-toggle:hover { color: var(--text); }
 
     #log-output {
@@ -423,7 +366,6 @@
       overflow-y: auto;
       display: none;
     }
-
     #log-output.visible { display: block; }
 
     .log-ok    { color: var(--green); }
@@ -440,7 +382,7 @@
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-    /* ── LOADING SKELETON ── */
+    /* ── SKELETON ── */
     .skeleton {
       background: linear-gradient(90deg, var(--surface) 25%, #151c24 50%, var(--surface) 75%);
       background-size: 200% 100%;
@@ -448,12 +390,10 @@
       border-radius: 4px;
       height: 14px;
     }
-
     @keyframes shimmer {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-
     .skeleton-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -474,7 +414,7 @@
   <header>
     <div class="label">// Inventory Dashboard</div>
     <h1>EPROLO <span>VIEWER</span></h1>
-    <p class="subtitle">16 produits · Netlify Function · fetch natif Node 18+</p>
+    <p class="subtitle" id="header-subtitle">Prêt · Netlify Function · fetch natif Node 18+</p>
   </header>
 
   <!-- CONTROLS -->
@@ -509,6 +449,12 @@
     </div>
   </div>
 
+  <!-- CATEGORY TABS -->
+  <div class="cat-tabs" id="cat-tabs"></div>
+
+  <!-- SUBCATEGORY CHIPS -->
+  <div class="subcat-row" id="subcat-row"></div>
+
   <!-- PRODUCT CARDS -->
   <div id="product-view"></div>
 
@@ -533,32 +479,50 @@
 </div>
 
 <script>
-  let rawLogs    = [];
+  let rawLogs     = [];
   let allProducts = [];
-  let logVisible = false;
+  let logVisible  = false;
 
-  // ── SWATCHES ──────────────────────────────────────────────────────────────
+  // Active filters
+  let activeCategory    = 'ALL';
+  let activeSubcategory = 'ALL';
+
+  // Category structure (mirrors the function)
+  const CATEGORIES = [
+    {
+      category: "Beauty",
+      subcategories: ["Nails","Eyebrow","Lips","Makeup","Haircare","Skincare"]
+    },
+    {
+      category: "Main Plus Size",
+      subcategories: ["Pants","Shoes","Shirt","Sweater"]
+    },
+    {
+      category: "Plus Size Woman",
+      subcategories: ["Shoes","Dresses","Bathrobe","Sexy","Breathable","Bikini","Plus Size Top"]
+    },
+  ];
+
+  // ── SWATCHES ─────────────────────────────────────────────────────────────
   const COLOR_MAP = {
-    black: '#222', white: '#eee', red: '#e74c3c', blue: '#3498db',
-    green: '#2ecc71', yellow: '#f1c40f', pink: '#e91e8c', purple: '#9b59b6',
-    orange: '#e67e22', grey: '#7f8c8d', gray: '#7f8c8d', navy: '#2c3e7a',
-    beige: '#d4b896', brown: '#8b6347', silver: '#bdc3c7', gold: '#f0c040',
-    teal: '#1abc9c', coral: '#ff6b6b', lavender: '#9b8ec4', cyan: '#00bcd4',
+    black:'#222', white:'#eee', red:'#e74c3c', blue:'#3498db',
+    green:'#2ecc71', yellow:'#f1c40f', pink:'#e91e8c', purple:'#9b59b6',
+    orange:'#e67e22', grey:'#7f8c8d', gray:'#7f8c8d', navy:'#2c3e7a',
+    beige:'#d4b896', brown:'#8b6347', silver:'#bdc3c7', gold:'#f0c040',
+    teal:'#1abc9c', coral:'#ff6b6b', lavender:'#9b8ec4', cyan:'#00bcd4',
   };
 
   function getSwatchColor(colorName) {
     const key = colorName.toLowerCase().split(' ')[0];
-    return COLOR_MAP[key] || `hsl(${Math.abs(colorName.charCodeAt(0) * 37 + colorName.charCodeAt(1) * 17) % 360},55%,55%)`;
+    return COLOR_MAP[key] || `hsl(${Math.abs(colorName.charCodeAt(0)*37 + colorName.charCodeAt(1)*17) % 360},55%,55%)`;
   }
 
   // ── FETCH ─────────────────────────────────────────────────────────────────
   async function fetchProducts() {
-    const runBtn   = document.getElementById('run-btn');
-    const copyBtn  = document.getElementById('copy-btn');
-    const statusBar = document.getElementById('status-bar');
-    const statusTxt = document.getElementById('status-text');
+    const runBtn  = document.getElementById('run-btn');
+    const copyBtn = document.getElementById('copy-btn');
 
-    runBtn.disabled = true;
+    runBtn.disabled    = true;
     runBtn.textContent = '⏳  Chargement...';
     copyBtn.style.display = 'none';
     setStatus('running', 'Appel en cours vers Netlify...');
@@ -567,10 +531,14 @@
     document.getElementById('product-view').innerHTML      = '';
     document.getElementById('skeleton-view').style.display = 'block';
     document.getElementById('stats-row').style.display     = 'none';
+    document.getElementById('cat-tabs').style.display      = 'none';
+    document.getElementById('subcat-row').style.display    = 'none';
     document.getElementById('log-section').style.display   = 'none';
     document.getElementById('log-output').innerHTML        = '';
     rawLogs     = [];
     allProducts = [];
+    activeCategory    = 'ALL';
+    activeSubcategory = 'ALL';
 
     try {
       const res  = await fetch('/.netlify/functions/fetch-eprolo-products');
@@ -580,9 +548,11 @@
 
       rawLogs = data.logs || [];
 
-      if (data.success && data.logs) {
-        allProducts = parseProductsFromLogs(data);
-        renderProductCards(allProducts, data);
+      if (data.success) {
+        allProducts = parseProducts(data);
+        renderCategoryTabs();
+        renderSubcatChips();
+        renderProductCards();
         renderRawLog(rawLogs);
 
         const variantTotal = allProducts.reduce((s, p) => s + p.variants.length, 0);
@@ -592,11 +562,13 @@
         document.getElementById('stat-variants').textContent = variantTotal;
         document.getElementById('stat-errors').textContent   = errCount;
         document.getElementById('stats-row').style.display   = 'flex';
+        document.getElementById('header-subtitle').textContent =
+          `${allProducts.length} produits · 3 catégories · Netlify Function`;
 
         setStatus('ok', `${allProducts.length} produits récupérés · ${variantTotal} variants au total`);
 
-        copyBtn.style.display   = 'inline-flex';
-        copyBtn.textContent     = '⧉  Copier le log brut';
+        copyBtn.style.display = 'inline-flex';
+        copyBtn.textContent   = '⧉  Copier le log brut';
         copyBtn.classList.remove('copied');
 
         document.getElementById('log-section').style.display = 'block';
@@ -609,17 +581,12 @@
       setStatus('err', 'Erreur : ' + err.message);
     }
 
-    runBtn.disabled   = false;
+    runBtn.disabled    = false;
     runBtn.textContent = '▶  Récupérer les produits';
   }
 
   // ── PARSE PRODUCTS ────────────────────────────────────────────────────────
-  // The Netlify function returns data.logs (text) and data.total.
-  // We reconstruct product objects from the response body.
-  // If the function returned a `products` field, use that; otherwise
-  // fall back to parsing the log lines for display.
-  function parseProductsFromLogs(data) {
-    // If the function exposes structured product data, use it directly
+  function parseProducts(data) {
     if (data.products && Array.isArray(data.products)) {
       return data.products.map(p => {
         const colorGroups = {};
@@ -630,87 +597,110 @@
           const option3 = (v.option3 || '').trim();
           if (!colorGroups[color]) colorGroups[color] = [];
           colorGroups[color].push({
-            id:     v.id,
-            sku:    v.sku                || 'N/A',
-            price:  v.cost               || 'N/A',
-            weight: v.weight             || 'N/A',
-            stock:  v.inventory_quantity !== undefined ? v.inventory_quantity : 'N/A',
-            size,
-            option3,
+            id: v.id, sku: v.sku || 'N/A', price: v.cost || 'N/A',
+            weight: v.weight || 'N/A',
+            stock: v.inventory_quantity !== undefined ? v.inventory_quantity : 'N/A',
+            size, option3,
           });
         });
         return {
-          id:          p.id,
-          title:       p.title,
-          colorGroups,
-          variants:    p.variantlist || [],
-          status:      'ok',
+          id: p.id, title: p.title, colorGroups,
+          variants: p.variantlist || [],
+          category: p.category || '',
+          subcategory: p.subcategory || '',
+          status: 'ok',
         };
       });
     }
-
-    // Fallback: parse log lines into simple product entries
-    const products = [];
-    const logs = data.logs || [];
-    let currentProduct = null;
-    let currentColor   = null;
-
-    logs.forEach(line => {
-      // Product title line: "  [01]  Some Title"
-      const titleMatch = line.match(/^\s+\[(\d+)\]\s+(.+)$/);
-      if (titleMatch) {
-        if (currentProduct) products.push(currentProduct);
-        currentProduct = { title: titleMatch[2].trim(), id: '', colorGroups: {}, variants: [], status: 'ok' };
-        currentColor = null;
-        return;
-      }
-      // ID line
-      const idMatch = line.match(/ID\s*:\s*(\d+)/);
-      if (idMatch && currentProduct && !currentProduct.id) {
-        currentProduct.id = idMatch[1];
-        return;
-      }
-      // Color line: "  🎨  Black  (3 taille(s))"
-      const colorMatch = line.match(/🎨\s+(.+?)\s+\((\d+)/);
-      if (colorMatch && currentProduct) {
-        currentColor = colorMatch[1].trim();
-        if (!currentProduct.colorGroups[currentColor]) currentProduct.colorGroups[currentColor] = [];
-        return;
-      }
-      // Variant line
-      const varMatch = line.match(/ID:\s*(\S+)\s+\|\s+SIZE:\s*(\S*)\s+\|\s+SKU:\s*(\S+)\s+\|\s+PRIX:\s*\$?(\S+)\s+\|\s+POIDS:\s*(\S+)g\s+\|\s+STOCK:\s*(\S+)/);
-      if (varMatch && currentProduct && currentColor) {
-        const v = { id: varMatch[1], size: varMatch[2] === '—' ? '' : varMatch[2], sku: varMatch[3], price: varMatch[4], weight: varMatch[5], stock: varMatch[6], option3: '' };
-        currentProduct.colorGroups[currentColor].push(v);
-        currentProduct.variants.push(v);
-      }
-    });
-    if (currentProduct) products.push(currentProduct);
-    return products;
+    return [];
   }
 
-  // ── RENDER PRODUCT CARDS ──────────────────────────────────────────────────
-  function renderProductCards(products, data) {
-    const view = document.getElementById('product-view');
-    view.style.display = 'block';
+  // ── FILTERED PRODUCTS ─────────────────────────────────────────────────────
+  function getFiltered() {
+    return allProducts.filter(p => {
+      const catOk  = activeCategory    === 'ALL' || p.category    === activeCategory;
+      const subOk  = activeSubcategory === 'ALL' || p.subcategory === activeSubcategory;
+      return catOk && subOk;
+    });
+  }
 
-    if (!products.length) {
-      // Still show log-based success/fail badges from raw logs
-      const successLines = (data.logs || []).filter(l => l.includes('✅') && l.includes('→  OK'));
-      const warnLines    = (data.logs || []).filter(l => l.includes('⚠️') || l.includes('❌'));
+  // ── CATEGORY TABS ─────────────────────────────────────────────────────────
+  function renderCategoryTabs() {
+    const tabs = document.getElementById('cat-tabs');
+    tabs.innerHTML = '';
 
-      view.innerHTML = `
-        <div style="color:var(--text-dim);padding:20px;text-align:center;font-size:12px;">
-          ${successLines.length} produits récupérés côté serveur — format non structuré.<br>
-          Voir le log brut ci-dessous pour les détails.
-        </div>`;
+    // "Tous" tab
+    const allTab = document.createElement('button');
+    allTab.className  = 'cat-tab all-tab' + (activeCategory === 'ALL' ? ' active' : '');
+    allTab.textContent = `Tous (${allProducts.length})`;
+    allTab.onclick = () => { activeCategory = 'ALL'; activeSubcategory = 'ALL'; renderCategoryTabs(); renderSubcatChips(); renderProductCards(); };
+    tabs.appendChild(allTab);
+
+    CATEGORIES.forEach(cat => {
+      const count = allProducts.filter(p => p.category === cat.category).length;
+      const btn   = document.createElement('button');
+      btn.className  = 'cat-tab' + (activeCategory === cat.category ? ' active' : '');
+      btn.textContent = `${cat.category} (${count})`;
+      btn.onclick = () => {
+        activeCategory    = cat.category;
+        activeSubcategory = 'ALL';
+        renderCategoryTabs();
+        renderSubcatChips();
+        renderProductCards();
+      };
+      tabs.appendChild(btn);
+    });
+
+    tabs.style.display = 'flex';
+  }
+
+  // ── SUBCATEGORY CHIPS ─────────────────────────────────────────────────────
+  function renderSubcatChips() {
+    const row = document.getElementById('subcat-row');
+    row.innerHTML = '';
+
+    if (activeCategory === 'ALL') {
+      row.style.display = 'none';
       return;
     }
 
-    view.innerHTML = products.map((p, i) => {
-      const varCount    = p.variants.length;
-      const colorCount  = Object.keys(p.colorGroups).length;
-      const isOk        = p.status === 'ok';
+    const catDef = CATEGORIES.find(c => c.category === activeCategory);
+    if (!catDef) { row.style.display = 'none'; return; }
+
+    // "Tout" chip
+    const allChip = document.createElement('button');
+    allChip.className  = 'subcat-chip' + (activeSubcategory === 'ALL' ? ' active' : '');
+    allChip.textContent = 'Tout';
+    allChip.onclick = () => { activeSubcategory = 'ALL'; renderSubcatChips(); renderProductCards(); };
+    row.appendChild(allChip);
+
+    catDef.subcategories.forEach(sub => {
+      const count = allProducts.filter(p => p.category === activeCategory && p.subcategory === sub).length;
+      if (count === 0) return;
+      const chip = document.createElement('button');
+      chip.className  = 'subcat-chip' + (activeSubcategory === sub ? ' active' : '');
+      chip.textContent = `${sub} (${count})`;
+      chip.onclick = () => { activeSubcategory = sub; renderSubcatChips(); renderProductCards(); };
+      row.appendChild(chip);
+    });
+
+    row.style.display = 'flex';
+  }
+
+  // ── RENDER PRODUCT CARDS ──────────────────────────────────────────────────
+  function renderProductCards() {
+    const view    = document.getElementById('product-view');
+    const filtered = getFiltered();
+    view.style.display = 'block';
+
+    if (!filtered.length) {
+      view.innerHTML = `<div style="color:var(--text-dim);padding:20px;text-align:center;font-size:12px;">Aucun produit dans cette sélection.</div>`;
+      return;
+    }
+
+    view.innerHTML = filtered.map((p, i) => {
+      const varCount = p.variants.length;
+      const isOk     = p.status === 'ok';
 
       const variantsHTML = Object.entries(p.colorGroups).map(([color, vars]) => `
         <div class="color-group">
@@ -722,12 +712,7 @@
           <table class="variants-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>SKU</th>
-                <th>SIZE</th>
-                <th>PRIX</th>
-                <th>POIDS</th>
-                <th>STOCK</th>
+                <th>ID</th><th>SKU</th><th>SIZE</th><th>PRIX</th><th>POIDS</th><th>STOCK</th>
                 ${vars.some(v => v.option3) ? '<th>OPT3</th>' : ''}
               </tr>
             </thead>
@@ -754,6 +739,7 @@
             <span class="p-title">${esc(p.title)}</span>
             <span class="p-id">${esc(String(p.id))}</span>
             <div class="p-badges">
+              <span class="badge badge-subcat">${esc(p.subcategory)}</span>
               ${isOk
                 ? `<span class="badge badge-ok">OK</span>`
                 : `<span class="badge badge-err">ERR</span>`}
@@ -779,7 +765,6 @@
       else if (/^[═─\s]{5,}$/.test(line))           cls = 'log-sep';
       else if (line.includes('EPROLO') || line.includes('TOTAL') || line.includes('FIN')) cls = 'log-title';
       else if (line.includes('ID :') || line.includes('Variants :')) cls = 'log-dim';
-
       return `<span class="${cls}">${esc(line)}</span>`;
     }).join('\n');
   }
@@ -791,17 +776,13 @@
 
   function toggleLog() {
     logVisible = !logVisible;
-    const el   = document.getElementById('log-output');
-    const icon = document.getElementById('log-toggle-icon');
-    el.classList.toggle('visible', logVisible);
-    icon.textContent = logVisible ? '▼' : '▶';
+    document.getElementById('log-output').classList.toggle('visible', logVisible);
+    document.getElementById('log-toggle-icon').textContent = logVisible ? '▼' : '▶';
   }
 
   function setStatus(type, msg) {
-    const bar = document.getElementById('status-bar');
-    const txt = document.getElementById('status-text');
-    bar.className  = 'status-bar ' + type;
-    txt.textContent = msg;
+    document.getElementById('status-bar').className = 'status-bar ' + type;
+    document.getElementById('status-text').textContent = msg;
   }
 
   function copyLogs() {
