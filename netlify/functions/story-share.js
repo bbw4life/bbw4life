@@ -55,7 +55,7 @@ async function saveStory(body) {
   ]];
 
   await sheets.spreadsheets.values.append({
-    spreadsheetId:   process.env.SHEET_ID_BBW4LIFE_STORIES,
+    spreadsheetId: process.env.SHEET_ID_BBW4LIFE_ACCOUNTS,
     range:           `${SHEET_NAME}!A:Q`,
     valueInputOption:'RAW',
     insertDataOption:'INSERT_ROWS',
