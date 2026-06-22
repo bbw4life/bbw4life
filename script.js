@@ -6369,6 +6369,12 @@ document.addEventListener('submit', async function(e) {
   document.dispatchEvent(new Event('cart:update'));
   if (typeof window.__rcRefresh === 'function') window.__rcRefresh();
 
+  // ── Sync vers le sheet si connecté ──
+  const userEmail = localStorage.getItem('userEmail');
+  if (userEmail) {
+    updateCartQuantityInSheet();
+  }
+
   const wishlistCountEl = document.querySelector('[data-wishlist-count]');
   if (wishlistCountEl) {
     const qty = cart.reduce((sum, i) => sum + i.quantity, 0);
@@ -6408,8 +6414,16 @@ window.__bbwRestoreSavedCart = async function (userEmail, token) {
       });
 
       localStorage.setItem('cart', JSON.stringify(localCart));
+      
+      // ── CRITIQUE : mettre à jour la variable cart en mémoire ──
+      cart = localCart;
       window.cart = localCart;
       if (typeof window.__setCart === 'function') window.__setCart(localCart);
+
+      // ── Mettre à jour l'icône items in cart ──
+      const qty = cart.reduce((sum, i) => sum + i.quantity, 0);
+      const wishlistCountEl = document.querySelector('[data-wishlist-count]');
+      if (wishlistCountEl) wishlistCountEl.textContent = qty;
 
       if (typeof window.updateBadges === 'function') window.updateBadges();
       if (typeof window.renderCart   === 'function') window.renderCart();
