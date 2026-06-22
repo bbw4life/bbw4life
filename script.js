@@ -3384,7 +3384,11 @@ window.updateWishlistIcons = updateWishlistIcons;
 
 // Ces 4 lignes sont NOUVELLES — à ajouter
 window.__getCart = () => cart;
-window.__setCart = (c) => { cart = c; };
+window.__setCart = (c) => { 
+  cart = c;
+  localStorage.setItem('cart', JSON.stringify(cart));
+  window.cart = cart;
+};
 window.__getWishlist = () => wishlist;
 window.__setWishlist = (w) => { wishlist = w; };
 
@@ -6399,6 +6403,7 @@ window.__bbwRestoreSavedCart = async function (userEmail, token) {
       try { savedCart = JSON.parse(data.savedCart); } catch (e) { savedCart = []; }
       if (!Array.isArray(savedCart) || savedCart.length === 0) return;
 
+      // ── Fusionner avec le cart local ──
       let localCart = [];
       try { localCart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (e) { localCart = []; }
 
@@ -6413,24 +6418,37 @@ window.__bbwRestoreSavedCart = async function (userEmail, token) {
         }
       });
 
-      localStorage.setItem('cart', JSON.stringify(localCart));
-      
-      // ── CRITIQUE : mettre à jour la variable cart en mémoire ──
-      cart = localCart;
-      window.cart = localCart;
-      if (typeof window.__setCart === 'function') window.__setCart(localCart);
-
-      // ── Mettre à jour l'icône items in cart ──
-      const qty = cart.reduce((sum, i) => sum + i.quantity, 0);
-      const wishlistCountEl = document.querySelector('[data-wishlist-count]');
-      if (wishlistCountEl) wishlistCountEl.textContent = qty;
-
-      if (typeof window.updateBadges === 'function') window.updateBadges();
-      if (typeof window.renderCart   === 'function') window.renderCart();
-
-      if (typeof window.updateCartQuantityInSheet === 'function') {
-        window.updateCartQuantityInSheet();
+      // ── CRITIQUE : pousser dans la variable cart via __setCart ──
+      if (typeof window.__setCart === 'function') {
+        window.__setCart(localCart);
+      } else {
+        localStorage.setItem('cart', JSON.stringify(localCart));
       }
+
+      // ── Attendre que le DOM soit prêt puis mettre à jour l'UI ──
+      function applyCartToUI() {
+        // Sync le badge cart header
+        const cartQty = localCart.reduce((sum, i) => sum + i.quantity, 0);
+        document.querySelectorAll('.cart-badge').forEach(badge => {
+          badge.textContent = cartQty;
+          badge.classList.toggle('active', cartQty > 0);
+        });
+        // Sync items in cart sur la page account
+        const wishlistCountEl = document.querySelector('[data-wishlist-count]');
+        if (wishlistCountEl) wishlistCountEl.textContent = cartQty;
+
+        if (typeof window.updateBadges === 'function') window.updateBadges();
+        if (typeof window.renderCart   === 'function') window.renderCart();
+        if (typeof window.updateCartQuantityInSheet === 'function') window.updateCartQuantityInSheet();
+      }
+
+      // Petit délai pour s'assurer que les fonctions sont disponibles
+      if (typeof window.updateBadges === 'function') {
+        applyCartToUI();
+      } else {
+        setTimeout(applyCartToUI, 800);
+      }
+
     } catch (e) {
       console.warn('[CartSync] Restore failed:', e.message);
     }
@@ -7937,6 +7955,11 @@ document.addEventListener('DOMContentLoaded', () => {
               }
             }, 100);
           });
+
+          // Force refresh badge items in cart après restore
+          const _qty = (JSON.parse(localStorage.getItem('cart') || '[]')).reduce((s, i) => s + i.quantity, 0);
+          const _el = document.querySelector('[data-wishlist-count]');
+          if (_el) _el.textContent = _qty;
 
           window.showToast(`Welcome ${data.user.firstName} !`);
           paulPopupOverlay.classList.remove('active');
