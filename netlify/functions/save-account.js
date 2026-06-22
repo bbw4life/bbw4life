@@ -146,12 +146,27 @@ exports.handler = async (event) => {
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
 
-    // ==================== UPDATE CART QUANTITY ====================
+    // ==================== UPDATE CART QUANTITY + CONTENT ====================
     if (action === 'update-cart-quantity') {
       if (rowIndex === -1) throw new Error("Utilisateur non trouvé");
-      await sheets.spreadsheets.values.update({ spreadsheetId, range: `bbw4life-accounts!O${rowNum}`, valueInputOption: "RAW",
-        resource: { values: [[currentCartQuantity]] }
+      const { cartContent = null } = body;
+
+      const updateData = [
+        { range: `bbw4life-accounts!O${rowNum}`, values: [[currentCartQuantity]] }
+      ];
+
+      if (cartContent !== null) {
+        updateData.push({
+          range: `bbw4life-accounts!AC${rowNum}`,
+          values: [[JSON.stringify(cartContent)]]
+        });
+      }
+
+      await sheets.spreadsheets.values.batchUpdate({
+        spreadsheetId,
+        resource: { valueInputOption: "RAW", data: updateData }
       });
+
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
 
@@ -201,7 +216,8 @@ exports.handler = async (event) => {
           line2:          currentRow[10] || "",
           city:           currentRow[11] || "",
           state:          currentRow[12] || "",
-          zip:            currentRow[13] || ""
+          zip:            currentRow[13] || "",
+          savedCart:      currentRow[28] || "[]"
         })
       };
     }

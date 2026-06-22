@@ -6371,6 +6371,51 @@ document.addEventListener('submit', async function(e) {
 }
 function saveWishlist() { localStorage.setItem('wishlist', JSON.stringify(wishlist)); }
 
+
+window.__bbwRestoreSavedCart = async function (userEmail, token) {
+    if (!userEmail) return;
+    try {
+      const res = await fetch('/.netlify/functions/save-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get-stats', email: userEmail, token })
+      });
+      const data = await res.json();
+      if (!data || !data.savedCart) return;
+
+      let savedCart = [];
+      try { savedCart = JSON.parse(data.savedCart); } catch (e) { savedCart = []; }
+      if (!Array.isArray(savedCart) || savedCart.length === 0) return;
+
+      let localCart = [];
+      try { localCart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch (e) { localCart = []; }
+
+      savedCart.forEach(function (savedItem) {
+        const existing = localCart.find(function (i) {
+          return i.id === savedItem.id && i.color === savedItem.color && i.size === savedItem.size;
+        });
+        if (existing) {
+          existing.quantity = Math.max(existing.quantity, savedItem.quantity);
+        } else {
+          localCart.push(savedItem);
+        }
+      });
+
+      localStorage.setItem('cart', JSON.stringify(localCart));
+      window.cart = localCart;
+      if (typeof window.__setCart === 'function') window.__setCart(localCart);
+
+      if (typeof window.updateBadges === 'function') window.updateBadges();
+      if (typeof window.renderCart   === 'function') window.renderCart();
+
+      if (typeof window.updateCartQuantityInSheet === 'function') {
+        window.updateCartQuantityInSheet();
+      }
+    } catch (e) {
+      console.warn('[CartSync] Restore failed:', e.message);
+    }
+  };
+
 document.dispatchEvent(new Event('wishlist:change'));
 
 
@@ -6753,7 +6798,12 @@ document.dispatchEvent(new Event('wishlist:change'));
     const qty = cart.reduce((sum, item) => sum + item.quantity, 0);
     await fetch('/.netlify/functions/save-account', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'update-cart-quantity', email: userEmail, currentCartQuantity: qty })
+      body: JSON.stringify({
+        action: 'update-cart-quantity',
+        email: userEmail,
+        currentCartQuantity: qty,
+        cartContent: cart
+      })
     }).catch(() => {});
   }
 
@@ -7853,6 +7903,7 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('userZip',    data.user.zip    || '');
           const addressStr = [data.user.addressLine1, data.user.line2, data.user.city, data.user.state, data.user.zip].filter(Boolean).join(', ');
           localStorage.setItem('userAddress', addressStr || 'No default address set');
+          await window.__bbwRestoreSavedCart(email, data.token);
           window.showToast(`Welcome ${data.user.firstName} !`);
           paulPopupOverlay.classList.remove('active');
           if (isAccountPage) location.reload(); else window.location.href = '/account.html';
@@ -7887,9 +7938,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstName = localStorage.getItem('userFirstName') || '';
     document.getElementById('user-name').textContent = firstName.charAt(0).toUpperCase() + firstName.slice(1);
     document.getElementById('user-address').textContent = localStorage.getItem('userAddress') || 'No default address set';
-    // ── Charger la photo de profil
-     loadProfilePhoto();
-    setTimeout(loadAccountStats, 3000);
+      // ── Charger la photo de profil
+      loadProfilePhoto();
+      setTimeout(loadAccountStats, 3000);
+
+      if (typeof window.__bbwRestoreSavedCart === 'function') {
+        window.__bbwRestoreSavedCart(
+          localStorage.getItem('userEmail'),
+          localStorage.getItem('userAccountToken')
+        );
+      }
   }
 
   window.openSavedItems = () => {
