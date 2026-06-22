@@ -7909,7 +7909,21 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('userZip',    data.user.zip    || '');
           const addressStr = [data.user.addressLine1, data.user.line2, data.user.city, data.user.state, data.user.zip].filter(Boolean).join(', ');
           localStorage.setItem('userAddress', addressStr || 'No default address set');
-          await window.__bbwRestoreSavedCart(email, data.token);
+
+          await new Promise((resolve) => {
+            let tries = 0;
+            const waitForRestore = setInterval(() => {
+              tries++;
+              if (typeof window.__bbwRestoreSavedCart === 'function') {
+                clearInterval(waitForRestore);
+                window.__bbwRestoreSavedCart(email, data.token).then(resolve).catch(resolve);
+              } else if (tries > 50) {
+                clearInterval(waitForRestore);
+                resolve();
+              }
+            }, 100);
+          });
+
           window.showToast(`Welcome ${data.user.firstName} !`);
           paulPopupOverlay.classList.remove('active');
           if (isAccountPage) location.reload(); else window.location.href = '/account.html';
