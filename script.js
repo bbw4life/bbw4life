@@ -8058,8 +8058,32 @@ document.addEventListener('DOMContentLoaded', () => {
         statValues[1].textContent = `$${(data.totalSpent || 0).toFixed(2)}`;
         statValues[3].textContent = data.reviewsCount || 0;
       }
-      const localCartQty = (window.__getCart ? window.__getCart() : cart).reduce((sum, i) => sum + i.quantity, 0);
-      document.querySelector('[data-wishlist-count]').textContent = localCartQty;
+
+
+      // ── Restaurer le cart sauvegardé depuis le sheet ──
+        if (data.savedCart && data.savedCart !== '[]') {
+          let savedCart = [];
+          try { savedCart = JSON.parse(data.savedCart); } catch(e) {}
+          if (Array.isArray(savedCart) && savedCart.length > 0) {
+            let localCart = [];
+            try { localCart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch(e) {}
+            savedCart.forEach(function(savedItem) {
+              const existing = localCart.find(i => i.id === savedItem.id && i.color === savedItem.color && i.size === savedItem.size);
+              if (existing) {
+                existing.quantity = Math.max(existing.quantity, savedItem.quantity);
+              } else {
+                localCart.push(savedItem);
+              }
+            });
+            if (typeof window.__setCart === 'function') window.__setCart(localCart);
+            else localStorage.setItem('cart', JSON.stringify(localCart));
+            if (typeof window.updateBadges === 'function') window.updateBadges();
+          }
+        }
+        const localCartQty = (JSON.parse(localStorage.getItem('cart') || '[]')).reduce((sum, i) => sum + i.quantity, 0);
+        const cartCountEl = document.querySelector('[data-wishlist-count]');
+        if (cartCountEl) cartCountEl.textContent = localCartQty;
+     
 
       const historyContainer = document.querySelector('.order-history');
       if (!historyContainer) {
