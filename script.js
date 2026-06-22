@@ -7947,13 +7947,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // ── Charger la photo de profil
       loadProfilePhoto();
       setTimeout(loadAccountStats, 3000);
-
-      if (typeof window.__bbwRestoreSavedCart === 'function') {
-        window.__bbwRestoreSavedCart(
-          localStorage.getItem('userEmail'),
-          localStorage.getItem('userAccountToken')
-        );
-      }
   }
 
   window.openSavedItems = () => {
