@@ -6368,6 +6368,12 @@ document.addEventListener('submit', async function(e) {
   window.cart = cart;
   document.dispatchEvent(new Event('cart:update'));
   if (typeof window.__rcRefresh === 'function') window.__rcRefresh();
+
+  const wishlistCountEl = document.querySelector('[data-wishlist-count]');
+  if (wishlistCountEl) {
+    const qty = cart.reduce((sum, i) => sum + i.quantity, 0);
+    wishlistCountEl.textContent = qty;
+  }
 }
 function saveWishlist() { localStorage.setItem('wishlist', JSON.stringify(wishlist)); }
 
@@ -8008,7 +8014,8 @@ document.addEventListener('DOMContentLoaded', () => {
         statValues[1].textContent = `$${(data.totalSpent || 0).toFixed(2)}`;
         statValues[3].textContent = data.reviewsCount || 0;
       }
-      document.querySelector('[data-wishlist-count]').textContent = data.quantityInCart || 0;
+      const localCartQty = (window.__getCart ? window.__getCart() : cart).reduce((sum, i) => sum + i.quantity, 0);
+      document.querySelector('[data-wishlist-count]').textContent = localCartQty;
 
       const historyContainer = document.querySelector('.order-history');
       if (!historyContainer) {
