@@ -12618,7 +12618,7 @@ a:active {
   width: 100%;
   max-width: 580px;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow: hidden;
   border-radius: var(--bday-radius);
   background: linear-gradient(160deg,
     #1a0629 0%,
@@ -12823,7 +12823,7 @@ a:active {
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  overflow-y: auto;
+  overflow: hidden;
   flex: 1;
   overflow-x: hidden;
   box-sizing: border-box;
