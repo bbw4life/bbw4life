@@ -2970,3 +2970,97 @@ a.stat-wishlist-link.stat-item {
     font-size: 1.10rem;
   }
 }
+
+
+/* ══════════════════════════════════════════
+   CLICK REWARD BLOCK
+══════════════════════════════════════════ */
+.aff-click-reward-block {
+  background: linear-gradient(135deg, rgba(123,63,110,0.06), rgba(201,150,62,0.06));
+  border: 1px solid rgba(201,150,62,0.20);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.aff-click-reward-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #444;
+  -webkit-text-fill-color: #444;
+}
+
+.aff-click-reward-header i {
+  color: #c9963e;
+  -webkit-text-fill-color: #c9963e;
+  font-size: 1rem;
+}
+
+.aff-click-reward-badge {
+  display: inline-block;
+  padding: 3px 11px;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #c9963e, #e8b84a);
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-left: auto;
+}
+
+.aff-click-reward-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.aff-click-reward-bar-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(201,150,62,0.14);
+  border-radius: 40px;
+  overflow: hidden;
+}
+
+.aff-click-reward-bar-fill {
+  height: 100%;
+  border-radius: 40px;
+  background: linear-gradient(90deg, #c9963e, #e8b84a);
+  transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
+  width: 0%;
+}
+
+.aff-click-reward-progress-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.76rem;
+  color: #888;
+  -webkit-text-fill-color: #888;
+  white-space: nowrap;
+  min-width: 90px;
+  text-align: right;
+}
+
+.aff-click-reward-earned {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #666;
+  -webkit-text-fill-color: #666;
+}
+
+.aff-click-reward-earned strong {
+  font-size: 1.10rem;
+  background: linear-gradient(135deg, #c9963e, #e8b84a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

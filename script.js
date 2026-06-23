@@ -9168,12 +9168,15 @@ function loadProfilePhoto() {
     const settings = allProds.find(function(p) { return p.type === 'settings'; }) || {};
     const affCfg   = settings.affiliation || {};
     return {
-      commPct:     parseFloat(affCfg.commission_percent)          || 5,
-      jackpotQty:  parseInt(affCfg.jackpot_orders_threshold)      || 50,
-      jackpotAmt:  parseFloat(affCfg.jackpot_reward_amount)       || 100,
-      unlockPct:   parseFloat(affCfg.promo_code_unlock_percent)   || 50,
-      promoPrefix: affCfg.promo_code_prefix                       || 'AFF',
-      promoDisc:   parseFloat(affCfg.promo_code_discount_percent) || 50
+      commPct:        parseFloat(affCfg.commission_percent)          || 5,
+      jackpotQty:     parseInt(affCfg.jackpot_orders_threshold)      || 50,
+      jackpotAmt:     parseFloat(affCfg.jackpot_reward_amount)       || 100,
+      unlockPct:      parseFloat(affCfg.promo_code_unlock_percent)   || 50,
+      promoPrefix:    affCfg.promo_code_prefix                       || 'AFF',
+      promoDisc:      parseFloat(affCfg.promo_code_discount_percent) || 50,
+      payPerClick:    affCfg.pay_per_click                           || 'no',
+      clicksPerReward: parseInt(affCfg.clicks_per_reward)            || 1000,
+      clickRewardAmt:  parseFloat(affCfg.click_reward_amount)        || 2
     };
   }
 
@@ -9254,6 +9257,34 @@ function loadProfilePhoto() {
       const jackpotReached = totalOrders >= jackpotQty;
       const promoReached   = earnedPct >= unlockPct;
 
+      const payPerClick2     = (cfg.payPerClick || 'no').toLowerCase() === 'yes';
+      const clicksPerReward2 = parseInt(cfg.clicksPerReward)  || 1000;
+      const clickRewardAmt2  = parseFloat(cfg.clickRewardAmt) || 2;
+      const totalClicks2     = parseInt(aff.clicks || 0);
+      const tranchesEarned2  = Math.floor(totalClicks2 / clicksPerReward2);
+      const clickEarned2     = tranchesEarned2 * clickRewardAmt2;
+      const progressIn2      = totalClicks2 % clicksPerReward2;
+
+      const clickProgressHTML = payPerClick2
+        ? '<td>' +
+            '<div class="aff-progress-wrap">' +
+              '<div class="aff-progress-bar">' +
+                '<div class="aff-progress-fill" style="width:' +
+                  Math.min((progressIn2 / clicksPerReward2) * 100, 100).toFixed(1) + '%"></div>' +
+              '</div>' +
+              '<span class="aff-progress-label">' +
+                progressIn2.toLocaleString() + ' / ' + clicksPerReward2.toLocaleString() +
+              '</span>' +
+            '</div>' +
+          '</td>'
+        : '';
+
+      const clickRewardHTML = payPerClick2
+        ? '<td style="font-weight:700;color:' + (clickEarned2 > 0 ? '#c9963e' : '#888') + ';">' +
+            (clickEarned2 > 0 ? '$' + clickEarned2.toFixed(2) : '—') +
+          '</td>'
+        : '';
+
       const tr = document.createElement('tr');
       tr.innerHTML =
         '<td class="aff-td-username">' + escHtml(aff.username) + '</td>' +
@@ -9265,7 +9296,9 @@ function loadProfilePhoto() {
         '<td>' + totalOrders + ' / ' + jackpotQty + '</td>' +
         '<td class="aff-td-jackpot">'
           + (jackpotReached ? '🏆 $' + cfg.jackpotAmt.toFixed(0) : '—')
-          + '</td>';
+          + '</td>' +
+        clickProgressHTML +
+        clickRewardHTML;
       tableBody.appendChild(tr);
 
       if (jackpotReached || promoReached) {
@@ -9637,6 +9670,20 @@ function loadProfilePhoto() {
         if (el('aff-txt-jackpot-amt')) el('aff-txt-jackpot-amt').textContent = '$' + cfg.jackpotAmt.toFixed(2);
         if (el('aff-txt-promo-badge')) el('aff-txt-promo-badge').textContent = '-' + cfg.promoDisc + '%';
         if (el('aff-promo-note'))      el('aff-promo-note').textContent      = 'Use this code on your next order for -' + cfg.promoDisc + '%';
+        // ── Pay-per-click config ──
+        const payPerClick      = (cfg.payPerClick || 'no').toLowerCase() === 'yes';
+        const clicksPerReward  = parseInt(cfg.clicksPerReward)  || 1000;
+        const clickRewardAmt   = parseFloat(cfg.clickRewardAmt) || 2;
+
+        // Colonnes click reward dans le tableau
+        const thClickCol = el('aff-th-clicks-col');
+        const thClickRew = el('aff-th-click-reward-col');
+        if (thClickCol) thClickCol.style.display = payPerClick ? '' : 'none';
+        if (thClickRew) thClickRew.style.display = payPerClick ? '' : 'none';
+
+        // Bloc KPI click reward
+        const clickRewardBlock = el('aff-click-reward-block');
+        if (clickRewardBlock) clickRewardBlock.style.display = payPerClick ? '' : 'none';
 
         if (data.affiliates[0]) {
           const aff    = data.affiliates[0];
@@ -9645,6 +9692,43 @@ function loadProfilePhoto() {
           if (el('aff-kpi-orders'))     el('aff-kpi-orders').textContent     = aff.totalOrders || 0;
           if (el('aff-kpi-earned'))     el('aff-kpi-earned').textContent     = '$' + earned.toFixed(2);
           if (el('aff-kpi-commission')) el('aff-kpi-commission').textContent = cfg.commPct + '%';
+
+          // ── Click reward logic ──
+          if (payPerClick) {
+            const totalClicks     = parseInt(aff.clicks || 0);
+            const tranchesEarned  = Math.floor(totalClicks / clicksPerReward);
+            const clickEarned     = tranchesEarned * clickRewardAmt;
+            const progressInTranche = totalClicks % clicksPerReward;
+            const pct             = Math.min((progressInTranche / clicksPerReward) * 100, 100);
+
+            // Barre de progression
+            const fillEl   = el('aff-click-reward-bar-fill');
+            const labelEl  = el('aff-click-reward-progress-label');
+            const earnedEl = el('aff-click-reward-earned-val');
+            const badgeEl  = el('aff-click-reward-badge');
+            const titleEl  = el('aff-click-reward-title');
+
+            if (fillEl)   fillEl.style.width = pct.toFixed(1) + '%';
+            if (labelEl)  labelEl.textContent = progressInTranche.toLocaleString() + ' / ' + clicksPerReward.toLocaleString() + ' clicks';
+            if (earnedEl) earnedEl.textContent = '$' + clickEarned.toFixed(2);
+            if (badgeEl)  badgeEl.textContent  = '$' + clickRewardAmt.toFixed(2) + ' per ' + clicksPerReward.toLocaleString() + ' clicks';
+            if (titleEl)  titleEl.textContent  = 'Click reward — ' + totalClicks.toLocaleString() + ' total clicks';
+
+            // Stocker dans le sheet si la valeur a changé
+            if (parseFloat(aff.clickRewardEarned || 0) !== clickEarned) {
+              fetch('/.netlify/functions/save-account', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({
+                  action:             'aff-update-click-reward',
+                  email:              userEmail,
+                  token:              localStorage.getItem('userAccountToken'),
+                  clickRewardEarned:  clickEarned,
+                  clicksPerReward:    clicksPerReward
+                })
+              }).catch(function() {});
+            }
+          }
         }
 
         renderTable(affiliatesFromSheet);

@@ -350,11 +350,19 @@ if (action === 'aff-get-stats') {
     createdAt
   }];
 
+  const clickRewardEarned    = parseFloat(currentRow[30] || 0);  // AE
+  const clicksPerRewardStored = parseInt(currentRow[29] || 0);   // AD
+
   return {
     statusCode: 200,
     body: JSON.stringify({
       success: true,
-      affiliates,
+      affiliates: affiliates.map(function(a) {
+        return Object.assign({}, a, {
+          clickRewardEarned:    clickRewardEarned,
+          clicksPerRewardStored: clicksPerRewardStored
+        });
+      }),
       withdrawStatus
     })
   };
@@ -599,6 +607,25 @@ if (action === 'check-birthday-promo-eligibility') {
       isBirthdayToday: isBday || false
     })
   };
+}
+
+
+// ==================== AFF UPDATE CLICK REWARD ====================
+if (action === 'aff-update-click-reward') {
+  if (!email) throw new Error("Email required");
+  if (rowIndex === -1) throw new Error("User not found");
+
+  const { clickRewardEarned = 0, clicksPerReward = 1000 } = body;
+
+  // AD (index 29) = ClickRewardThreshold, AE (index 30) = ClickRewardEarned
+  await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: `bbw4life-accounts!AD${rowNum}:AE${rowNum}`,
+    valueInputOption: 'RAW',
+    resource: { values: [[clicksPerReward, clickRewardEarned]] }
+  });
+
+  return { statusCode: 200, body: JSON.stringify({ success: true }) };
 }
 
 

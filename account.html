@@ -507,20 +507,41 @@
       </div>
     </div>
 
+    <!-- KPI Click Reward — visible seulement si pay_per_click = yes -->
+    <div class="aff-click-reward-block" id="aff-click-reward-block" style="display:none;">
+      <div class="aff-click-reward-header">
+        <i class="fi fi-rr-cursor"></i>
+        <span id="aff-click-reward-title">Click reward progress</span>
+        <span class="aff-click-reward-badge" id="aff-click-reward-badge"></span>
+      </div>
+      <div class="aff-click-reward-bar-wrap">
+        <div class="aff-click-reward-bar-track">
+          <div class="aff-click-reward-bar-fill" id="aff-click-reward-bar-fill"></div>
+        </div>
+        <span class="aff-click-reward-progress-label" id="aff-click-reward-progress-label"></span>
+      </div>
+      <div class="aff-click-reward-earned">
+        <span>Click reward earned:</span>
+        <strong id="aff-click-reward-earned-val">$0.00</strong>
+      </div>
+    </div>
+
     <div class="aff-table-wrap">
       <table class="aff-table" id="aff-table">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Clicks</th>
-            <th>Orders</th>
-            <th>Order volume</th>
-            <th>Earned (<span id="aff-th-commission"></span>%)</th>
-            <th>% reached</th>
-            <th>Jackpot progress</th>
-          </tr>
-        </thead>
-        <tbody id="aff-table-body"></tbody>
+       <thead>
+        <tr>
+          <th>Username</th>
+          <th>Clicks</th>
+          <th>Orders</th>
+          <th>Order volume</th>
+          <th>Commission earned (<span id="aff-th-commission"></span>%)</th>
+          <th>% reached</th>
+          <th>Jackpot progress</th>
+          <th id="aff-th-clicks-col" style="display:none;">Click progress</th>
+          <th id="aff-th-click-reward-col" style="display:none;">Click reward</th>
+        </tr>
+      </thead>
+      <tbody id="aff-table-body"></tbody>
       </table>
     </div>
   </div>

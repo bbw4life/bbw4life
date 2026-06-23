@@ -5599,13 +5599,16 @@
     "double_dash": "no"
   }
 },
- "affiliation": {
+"affiliation": {
   "commission_percent": 20,
   "jackpot_orders_threshold": 20,
   "jackpot_reward_amount": 100,
   "promo_code_unlock_percent": 40,
   "promo_code_prefix": "Francenel467",
-  "promo_code_discount_percent": 40
+  "promo_code_discount_percent": 40,
+  "pay_per_click": "yes",
+  "clicks_per_reward": 1000,
+  "click_reward_amount": 2
 },
 "product_grid_section": {
     "section_id": "bbw-product-grid-featured",
