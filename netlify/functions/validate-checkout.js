@@ -171,18 +171,38 @@ function computeServerTotal(cart, settings, allProducts, shippingMethod, promoCo
   const shipping = isFree ? 0 : SHIPPING_COST;
   const tax = isFree ? 0 : parseFloat((subtotal * TAX_RATE).toFixed(2));
 
-  // ── Promo code (depuis settings.promos) ──
+  // ── Promo code (depuis settings.promos + birthday_gift) ──
   let discountAmount = 0;
   if (promoCode) {
-    const promos = settings.promos || [];
+    const promos          = settings.promos || [];
+    const birthdayCfg     = settings.birthday_gift || {};
+    const birthdayCode    = (birthdayCfg.promo_code || '').toUpperCase().trim();
+    const birthdayDiscount = parseFloat(
+      (birthdayCfg.promo_discount || '0').toString().replace('%', '').trim()
+    ) || 0;
+
     const paidQtyForPromo = sanitized
       .filter(i => !i.isFreePromo)
       .reduce((s, i) => s + (parseInt(i.quantity) || 0), 0);
-    const promo = promos.find(
-      p => p.code && p.code.toUpperCase() === promoCode.toUpperCase() && p.items === paidQtyForPromo
-    );
-    if (promo && promo.percent > 0) {
-      discountAmount = parseFloat((subtotal * (promo.percent / 100)).toFixed(2));
+
+    const inputCode = (promoCode || '').toUpperCase().trim();
+
+    if (birthdayCode && inputCode === birthdayCode) {
+      // Code birthday : appliqué sur le subtotal des articles non-gratuits
+      if (birthdayDiscount > 0) {
+        const birthdaySubtotal = sanitized
+          .filter(i => !i.isFreePromo)
+          .reduce((s, i) => s + (parseFloat(i.price) || 0) * (parseInt(i.quantity) || 0), 0);
+        discountAmount = parseFloat((birthdaySubtotal * (birthdayDiscount / 100)).toFixed(2));
+      }
+    } else {
+      // Codes promos classiques (basés sur la quantité)
+      const promo = promos.find(
+        p => p.code && p.code.toUpperCase() === inputCode && p.items === paidQtyForPromo
+      );
+      if (promo && promo.percent > 0) {
+        discountAmount = parseFloat((subtotal * (promo.percent / 100)).toFixed(2));
+      }
     }
   }
 

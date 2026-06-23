@@ -542,6 +542,66 @@ if (action === 'aff-check-promo-used') {
     }
 
 
+
+
+    // ==================== CHECK BIRTHDAY PROMO ELIGIBILITY ====================
+if (action === 'check-birthday-promo-eligibility') {
+  if (!email) {
+    return { statusCode: 200, body: JSON.stringify({ success: false, reason: 'NOT_LOGGED_IN' }) };
+  }
+
+  const normalizedEmail = normalize(email);
+  const userRowIndex    = rows.findIndex(row => normalize(row[2] || '') === normalizedEmail);
+
+  if (userRowIndex === -1) {
+    return { statusCode: 200, body: JSON.stringify({ success: false, reason: 'USER_NOT_FOUND' }) };
+  }
+
+  const userRow       = rows[userRowIndex] || [];
+  const isSubscribed  = (userRow[5] || '').toLowerCase().trim() === 'yes';   // col F = newsletter
+  const birthdayRaw   = (userRow[27] || '').trim();                           // col AB = birthday
+
+  if (!isSubscribed) {
+    return { statusCode: 200, body: JSON.stringify({ success: false, reason: 'NOT_SUBSCRIBED' }) };
+  }
+
+  if (!birthdayRaw) {
+    return { statusCode: 200, body: JSON.stringify({ success: false, reason: 'NO_BIRTHDAY' }) };
+  }
+
+  // Parse birthday
+  function parseBirthdayLocal(raw) {
+    const isoMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (isoMatch) return { month: parseInt(isoMatch[2], 10), day: parseInt(isoMatch[3], 10) };
+    const parts = raw.split('/');
+    if (parts.length >= 2) {
+      const d = parseInt(parts[0], 10), m = parseInt(parts[1], 10);
+      if (!isNaN(d) && !isNaN(m) && m >= 1 && m <= 12 && d >= 1 && d <= 31) return { day: d, month: m };
+    }
+    const usMatch = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+    if (usMatch) {
+      const m2 = parseInt(usMatch[1], 10), d2 = parseInt(usMatch[2], 10);
+      if (m2 <= 12 && d2 <= 31) return { day: d2, month: m2 };
+    }
+    return null;
+  }
+
+  const parsed  = parseBirthdayLocal(birthdayRaw);
+  const today   = new Date();
+  const isBday  = parsed && parsed.day === today.getDate() && parsed.month === (today.getMonth() + 1);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      success:      true,
+      isSubscribed: true,
+      hasBirthday:  !!parsed,
+      isBirthdayToday: isBday || false
+    })
+  };
+}
+
+
     throw new Error("Action inconnue");
   } catch (error) {
     console.error("SAVE ERROR:", error.message);

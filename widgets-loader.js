@@ -383,10 +383,10 @@
        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <!-- Boîte -->
     <rect x="8" y="28" width="48" height="30" rx="4"
-          fill="url(#bday-box)" stroke="#8B5E00" stroke-width="1.5"/>
+          fill="url(#bday-box)" stroke="#b8871f" stroke-width="1.5"/>
     <!-- Couvercle -->
     <rect x="6" y="20" width="52" height="12" rx="4"
-          fill="url(#bday-lid)" stroke="#8B5E00" stroke-width="1.5"/>
+          fill="url(#bday-lid)" stroke="#b8871f" stroke-width="1.5"/>
     <!-- Ruban vertical -->
     <rect x="29" y="20" width="6" height="38" rx="2"
           fill="url(#bday-ribbon)"/>
@@ -395,33 +395,33 @@
           fill="url(#bday-ribbon)"/>
     <!-- Nœud gauche -->
     <ellipse cx="24" cy="20" rx="9" ry="5" transform="rotate(-30 24 20)"
-             fill="url(#bday-bow)" stroke="#8B5E00" stroke-width="1"/>
+             fill="url(#bday-bow)" stroke="#b8871f" stroke-width="1"/>
     <!-- Nœud droit -->
     <ellipse cx="40" cy="20" rx="9" ry="5" transform="rotate(30 40 20)"
-             fill="url(#bday-bow)" stroke="#8B5E00" stroke-width="1"/>
+             fill="url(#bday-bow)" stroke="#b8871f" stroke-width="1"/>
     <!-- Centre nœud -->
-    <circle cx="32" cy="20" r="4" fill="#a0243e" stroke="#8B5E00" stroke-width="1"/>
+    <circle cx="32" cy="20" r="4" fill="#c0385e" stroke="#b8871f" stroke-width="1"/>
     <!-- Étoiles décoratives -->
-    <circle cx="18" cy="38" r="1.8" fill="rgba(255,255,255,0.55)"/>
-    <circle cx="46" cy="44" r="1.4" fill="rgba(255,255,255,0.45)"/>
-    <circle cx="22" cy="50" r="1.2" fill="rgba(255,255,255,0.40)"/>
+    <circle cx="18" cy="38" r="1.8" fill="rgba(255,255,255,0.45)"/>
+    <circle cx="46" cy="44" r="1.4" fill="rgba(255,255,255,0.35)"/>
+    <circle cx="22" cy="50" r="1.2" fill="rgba(255,255,255,0.30)"/>
     <!-- Dégradés -->
     <defs>
       <linearGradient id="bday-box" x1="8" y1="28" x2="56" y2="58" gradientUnits="userSpaceOnUse">
-        <stop offset="0%"   stop-color="#a0243e"/>
-        <stop offset="100%" stop-color="#b8860b"/>
+        <stop offset="0%"   stop-color="#c0385e"/>
+        <stop offset="100%" stop-color="#7b3f6e"/>
       </linearGradient>
       <linearGradient id="bday-lid" x1="6" y1="20" x2="58" y2="32" gradientUnits="userSpaceOnUse">
-        <stop offset="0%"   stop-color="#c03050"/>
-        <stop offset="100%" stop-color="#c9963e"/>
+        <stop offset="0%"   stop-color="#d4506e"/>
+        <stop offset="100%" stop-color="#9b4f7e"/>
       </linearGradient>
       <linearGradient id="bday-ribbon" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-        <stop offset="0%"   stop-color="#f0d080"/>
-        <stop offset="100%" stop-color="#b8860b"/>
+        <stop offset="0%"   stop-color="#e8bc6a"/>
+        <stop offset="100%" stop-color="#c9963e"/>
       </linearGradient>
       <linearGradient id="bday-bow" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-        <stop offset="0%"   stop-color="#f5e0a0"/>
-        <stop offset="100%" stop-color="#b8860b"/>
+        <stop offset="0%"   stop-color="#f0d080"/>
+        <stop offset="100%" stop-color="#c9963e"/>
       </linearGradient>
     </defs>
   </svg>

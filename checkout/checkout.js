@@ -1006,90 +1006,209 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.getElementById('apply-promo')?.addEventListener('click', async () => {
-        const input = document.getElementById('promo-input').value.trim().toUpperCase();
-        const promoMessage = document.getElementById('promo-message');
-        const hasBundle = cart.some(item => item.fromBundle);
-        const settings = productsData.find(i => i.type === 'settings');
-        const cd = settings?.cart_drawer || {};
-        const affCfg = settings?.affiliation || {};
-        const countFreeForPromo = (cd.promo_count_free_items || 'No').toLowerCase() === 'yes';
-        const totalQuantity = countFreeForPromo
-            ? cart.reduce((sum, item) => sum + item.quantity, 0)
-            : cart.filter(i => !i.isFreePromo).reduce((sum, item) => sum + item.quantity, 0);
-        const hasFreePromo = cart.some(item => item.isFreePromo);
-        const hasUpsell = cart.some(i => i.fromUpsell);
+    const input       = document.getElementById('promo-input').value.trim().toUpperCase();
+    const promoMessage = document.getElementById('promo-message');
+    const hasBundle   = cart.some(item => item.fromBundle);
+    const settings    = productsData.find(i => i.type === 'settings');
+    const cd          = settings?.cart_drawer || {};
+    const affCfg      = settings?.affiliation || {};
 
-        if (hasBundle) { promoMessage.textContent = "Promo codes cannot be used with bundles."; promoMessage.style.color = 'red'; return; }
-        if (hasUpsell) { promoMessage.textContent = "Promo codes cannot be combined with Kit discounts."; promoMessage.style.color = 'red'; return; }
-        if (hasFreePromo) { promoMessage.textContent = "Promo codes cannot be used with free promotional items."; promoMessage.style.color = 'red'; return; }
-        if (!input) { promoMessage.textContent = "Please enter a code."; promoMessage.style.color = 'red'; return; }
+    // ── Récupère la config birthday depuis les settings ──
+    const birthdayCfg      = settings?.birthday_gift || {};
+    const birthdayCode     = (birthdayCfg.promo_code || '').toUpperCase().trim();
+    const birthdayDiscount = parseFloat(
+      (birthdayCfg.promo_discount || '0').toString().replace('%', '').trim()
+    ) || 0;
 
-        const affPrefix = (affCfg.promo_code_prefix || '').toUpperCase();
-        const affDiscountPct = parseFloat(affCfg.promo_code_discount_percent) || 0;
-        const affUnlockPct = parseFloat(affCfg.promo_code_unlock_percent) || 0;
-        const affCommPct = parseFloat(affCfg.commission_percent) || 0;
+    const countFreeForPromo = (cd.promo_count_free_items || 'No').toLowerCase() === 'yes';
+    const totalQuantity = countFreeForPromo
+        ? cart.reduce((sum, item) => sum + item.quantity, 0)
+        : cart.filter(i => !i.isFreePromo).reduce((sum, item) => sum + item.quantity, 0);
+    const hasFreePromo = cart.some(item => item.isFreePromo);
+    const hasUpsell    = cart.some(i => i.fromUpsell);
 
-        if (affPrefix && (input === affPrefix || input.startsWith(affPrefix + '-'))) {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const userEmail = localStorage.getItem('userEmail') || '';
-    if (!isLoggedIn || !userEmail) {
-        promoMessage.textContent = "You must be logged in to use this affiliate promo code.";
-        promoMessage.style.color = 'red';
+    if (hasBundle)    { promoMessage.textContent = "Promo codes cannot be used with bundles.";            promoMessage.style.color = 'red'; return; }
+    if (hasUpsell)    { promoMessage.textContent = "Promo codes cannot be combined with Kit discounts."; promoMessage.style.color = 'red'; return; }
+    if (hasFreePromo) { promoMessage.textContent = "Promo codes cannot be used with free promotional items."; promoMessage.style.color = 'red'; return; }
+    if (!input)       { promoMessage.textContent = "Please enter a promo code."; promoMessage.style.color = 'red'; return; }
+
+    // ══════════════════════════════════════════════════════
+    //  CODE BIRTHDAY — vérification 3 conditions obligatoires
+    // ══════════════════════════════════════════════════════
+    if (birthdayCode && input === birthdayCode) {
+        const isLoggedIn  = localStorage.getItem('isLoggedIn') === 'true';
+        const userEmail   = localStorage.getItem('userEmail') || '';
+
+        if (!isLoggedIn || !userEmail) {
+            promoMessage.innerHTML = `
+                <span style="display:flex;align-items:flex-start;gap:8px;line-height:1.5">
+                  <span style="font-size:1.1em">🔐</span>
+                  <span>
+                    <strong>Account required</strong><br>
+                    Please <a href="/account.html" style="color:inherit;text-decoration:underline">log in to your account</a>
+                    to use this exclusive birthday code.
+                  </span>
+                </span>`;
+            promoMessage.style.color = '#c0385e';
+            return;
+        }
+
+        // Feedback visuel pendant la vérification
+        promoMessage.textContent = '🎂 Checking your birthday eligibility...';
+        promoMessage.style.color = '#888';
+
+        try {
+            const res  = await fetch('/.netlify/functions/save-account', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({
+                    action: 'check-birthday-promo-eligibility',
+                    email:  userEmail,
+                    token:  localStorage.getItem('userAccountToken') || ''
+                })
+            });
+            const data = await res.json();
+
+            if (!data.success) {
+                const errorMessages = {
+                    NOT_LOGGED_IN:  {
+                        icon: '🔐',
+                        title: 'Account required',
+                        body: `Please <a href="/account.html" style="color:inherit;text-decoration:underline">log in</a> to use this birthday code.`
+                    },
+                    USER_NOT_FOUND: {
+                        icon: '❌',
+                        title: 'Account not found',
+                        body: 'We could not find your account. Please contact our support team.'
+                    },
+                    NOT_SUBSCRIBED: {
+                        icon: '💌',
+                        title: 'Newsletter subscription required',
+                        body: `This exclusive code is reserved for our subscribers. Please
+                               <a href="#newsletter-form" style="color:inherit;text-decoration:underline">subscribe to our newsletter</a>
+                               first, then come back to use your birthday gift!`
+                    },
+                    NO_BIRTHDAY: {
+                        icon: '🎂',
+                        title: 'Birthday date missing',
+                        body: `We need your birthday to unlock this gift!
+                               Please add it in <a href="/account.html" style="color:inherit;text-decoration:underline">your account settings</a>
+                               and come back — we'll keep your special code waiting. 🎁`
+                    }
+                };
+
+                const reason = data.reason || 'USER_NOT_FOUND';
+                const msg    = errorMessages[reason] || errorMessages['USER_NOT_FOUND'];
+
+                promoMessage.innerHTML = `
+                    <span style="display:flex;align-items:flex-start;gap:10px;padding:12px;background:rgba(192,56,94,0.07);border:1px solid rgba(192,56,94,0.2);border-radius:10px;line-height:1.6">
+                      <span style="font-size:1.3em;flex-shrink:0">${msg.icon}</span>
+                      <span>
+                        <strong style="display:block;margin-bottom:3px;color:#c0385e">${msg.title}</strong>
+                        <span style="font-size:0.88em">${msg.body}</span>
+                      </span>
+                    </span>`;
+                promoMessage.style.color = '';
+                return;
+            }
+
+            // Vérification réussie — toutes les 3 conditions OK
+            if (birthdayDiscount > 0) {
+                appliedPromo   = {
+                    code:        input,
+                    percent:     birthdayDiscount,
+                    isBirthday:  true
+                };
+                discountAmount = getSubtotal() * (birthdayDiscount / 100);
+
+                promoMessage.innerHTML = `
+                    <span style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(34,160,107,0.08);border:1px solid rgba(34,160,107,0.25);border-radius:10px">
+                      <span style="font-size:1.2em">🎂</span>
+                      <span style="color:#166534;font-weight:600">
+                        Happy Birthday! Your exclusive ${birthdayDiscount}% birthday discount has been applied! 🎉
+                      </span>
+                    </span>`;
+                promoMessage.style.color = '';
+                updateTotals();
+            } else {
+                promoMessage.textContent = 'Birthday code recognized but no discount is configured. Please contact support.';
+                promoMessage.style.color = 'orange';
+            }
+
+        } catch (err) {
+            console.error('[BirthdayPromo] Error:', err);
+            promoMessage.textContent = 'Network error while verifying your birthday code. Please try again.';
+            promoMessage.style.color = 'red';
+        }
         return;
     }
 
-    promoMessage.textContent = "Checking eligibility...";
-    promoMessage.style.color = '#888';
-
-    try {
-        const check = await window.bbwValidateAffPromoCode(input);
-        if (!check || !check.valid) {
-            promoMessage.textContent = "This promo code has already been used or is invalid.";
+    // ══════════════════════════════════════════════════════
+    //  CODE AFFILIÉ
+    // ══════════════════════════════════════════════════════
+    const affPrefix = (affCfg.promo_code_prefix || '').toUpperCase();
+    if (affPrefix && (input === affPrefix || input.startsWith(affPrefix + '-'))) {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const userEmail  = localStorage.getItem('userEmail') || '';
+        if (!isLoggedIn || !userEmail) {
+            promoMessage.textContent = "You must be logged in to use this affiliate promo code.";
             promoMessage.style.color = 'red';
             return;
         }
 
-        const discountPct = check.discountPct || 0;
-        const freeShipThresh = parseFloat(cd.free_shipping_threshold) || 0;
-        const subtotal = getSubtotal();
-        if (freeShipThresh > 0 && subtotal >= freeShipThresh) {
-            promoMessage.textContent = "This code cannot be combined with free shipping.";
-            promoMessage.style.color = 'red';
-            return;
-        }
+        promoMessage.textContent = "Checking eligibility...";
+        promoMessage.style.color = '#888';
 
-        appliedPromo = { code: input, percent: discountPct, isAffiliate: true };
-        discountAmount = subtotal * (discountPct / 100);
-        promoMessage.textContent = `Affiliate code applied: ${discountPct}% off!`;
-        promoMessage.style.color = 'green';
-        sessionStorage.setItem('pendingAffPromo', userEmail);
-        updateTotals();
-        return;
+        try {
+            const check = await window.bbwValidateAffPromoCode(input);
+            if (!check || !check.valid) {
+                promoMessage.textContent = "This promo code has already been used or is invalid.";
+                promoMessage.style.color = 'red';
+                return;
+            }
 
-    } catch (err) {
-        promoMessage.textContent = "Error verifying affiliate code. Please try again.";
-        promoMessage.style.color = 'red';
-        return;
-    }
+            const discountPct    = check.discountPct || 0;
+            const freeShipThresh = parseFloat(cd.free_shipping_threshold) || 0;
+            const subtotal       = getSubtotal();
+            if (freeShipThresh > 0 && subtotal >= freeShipThresh) {
+                promoMessage.textContent = "This code cannot be combined with free shipping.";
+                promoMessage.style.color = 'red';
+                return;
+            }
 
-
-        }
-
-        const promo = promos.find(p => p.code.toUpperCase() === input);
-        if (promo && promo.items === totalQuantity) {
-            appliedPromo = promo;
-            discountAmount = getSubtotal() * (promo.percent / 100);
-            promoMessage.textContent = `Promo applied: ${promo.percent}% off!`;
+            appliedPromo   = { code: input, percent: discountPct, isAffiliate: true };
+            discountAmount = subtotal * (discountPct / 100);
+            promoMessage.textContent = `Affiliate code applied: ${discountPct}% off!`;
             promoMessage.style.color = 'green';
+            sessionStorage.setItem('pendingAffPromo', userEmail);
             updateTotals();
-        } else {
-            appliedPromo = null;
-            discountAmount = 0;
-            promoMessage.textContent = "Invalid or inapplicable promo code.";
+            return;
+
+        } catch (err) {
+            promoMessage.textContent = "Error verifying affiliate code. Please try again.";
             promoMessage.style.color = 'red';
-            updateTotals();
+            return;
         }
-    });
+    }
+
+    // ══════════════════════════════════════════════════════
+    //  CODES CLASSIQUES (basés sur quantité)
+    // ══════════════════════════════════════════════════════
+    const promo = promos.find(p => p.code.toUpperCase() === input);
+    if (promo && promo.items === totalQuantity) {
+        appliedPromo   = promo;
+        discountAmount = getSubtotal() * (promo.percent / 100);
+        promoMessage.textContent = `Promo applied: ${promo.percent}% off!`;
+        promoMessage.style.color = 'green';
+        updateTotals();
+    } else {
+        appliedPromo   = null;
+        discountAmount = 0;
+        promoMessage.textContent = "Invalid or inapplicable promo code.";
+        promoMessage.style.color = 'red';
+        updateTotals();
+    }
+});
 
     // ── Remove affiliate code if PayPal is selected ──
     paymentOptions.forEach(function (radio) {
