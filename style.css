@@ -13228,8 +13228,12 @@ a:active {
    MOBILE — hauteur réduite + largeur augmentée
 ────────────────────────────────────────────────────────────── */
 @media (max-width: 480px) {
+  .bbw-bday-overlay {
+    padding: 4px;
+  }
   .bbw-bday-modal {
-    max-height: 92vh;
+    max-height: 86vh;
+    overflow-y: auto;
     width: calc(100% - 8px);
     border-radius: 16px;
   }
