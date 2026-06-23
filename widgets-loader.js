@@ -361,6 +361,188 @@
 
 
 
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     BBW4LIFE — BIRTHDAY GIFT ICON + POPUP
+     À insérer juste avant </body>
+═══════════════════════════════════════════════════════ -->
+
+<!-- PETAL BURST CANVAS (animation déclenchée au clic sur le bouton) -->
+<canvas id="bbw-bday-canvas" aria-hidden="true"></canvas>
+
+<!-- GIFT ICON FLOATING BUTTON -->
+<button
+  id="bbwBdayGiftBtn"
+  class="bbw-bday-gift-btn"
+  aria-label="Birthday surprise"
+  title="A surprise for you 🎁"
+>
+  <!-- Badge notification -->
+  <span class="bbw-bday-gift-dot" id="bbwBdayDot" aria-hidden="true"></span>
+
+  <!-- Gift SVG -->
+  <svg class="bbw-bday-gift-svg" viewBox="0 0 64 64" fill="none"
+       xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- Boîte -->
+    <rect x="8" y="28" width="48" height="30" rx="4"
+          fill="url(#bday-box)" stroke="#b8871f" stroke-width="1.5"/>
+    <!-- Couvercle -->
+    <rect x="6" y="20" width="52" height="12" rx="4"
+          fill="url(#bday-lid)" stroke="#b8871f" stroke-width="1.5"/>
+    <!-- Ruban vertical -->
+    <rect x="29" y="20" width="6" height="38" rx="2"
+          fill="url(#bday-ribbon)"/>
+    <!-- Ruban horizontal (sur couvercle) -->
+    <rect x="6" y="24" width="52" height="4" rx="2"
+          fill="url(#bday-ribbon)"/>
+    <!-- Nœud gauche -->
+    <ellipse cx="24" cy="20" rx="9" ry="5" transform="rotate(-30 24 20)"
+             fill="url(#bday-bow)" stroke="#b8871f" stroke-width="1"/>
+    <!-- Nœud droit -->
+    <ellipse cx="40" cy="20" rx="9" ry="5" transform="rotate(30 40 20)"
+             fill="url(#bday-bow)" stroke="#b8871f" stroke-width="1"/>
+    <!-- Centre nœud -->
+    <circle cx="32" cy="20" r="4" fill="#c0385e" stroke="#b8871f" stroke-width="1"/>
+    <!-- Étoiles décoratives -->
+    <circle cx="18" cy="38" r="1.8" fill="rgba(255,255,255,0.45)"/>
+    <circle cx="46" cy="44" r="1.4" fill="rgba(255,255,255,0.35)"/>
+    <circle cx="22" cy="50" r="1.2" fill="rgba(255,255,255,0.30)"/>
+    <!-- Dégradés -->
+    <defs>
+      <linearGradient id="bday-box" x1="8" y1="28" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+        <stop offset="0%"   stop-color="#c0385e"/>
+        <stop offset="100%" stop-color="#7b3f6e"/>
+      </linearGradient>
+      <linearGradient id="bday-lid" x1="6" y1="20" x2="58" y2="32" gradientUnits="userSpaceOnUse">
+        <stop offset="0%"   stop-color="#d4506e"/>
+        <stop offset="100%" stop-color="#9b4f7e"/>
+      </linearGradient>
+      <linearGradient id="bday-ribbon" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+        <stop offset="0%"   stop-color="#e8bc6a"/>
+        <stop offset="100%" stop-color="#c9963e"/>
+      </linearGradient>
+      <linearGradient id="bday-bow" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+        <stop offset="0%"   stop-color="#f0d080"/>
+        <stop offset="100%" stop-color="#c9963e"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Pulse ring -->
+  <span class="bbw-bday-gift-ring" aria-hidden="true"></span>
+</button>
+
+
+<!-- ═══════════════════════════════════════════
+     BIRTHDAY POPUP OVERLAY
+═══════════════════════════════════════════ -->
+<div id="bbwBdayOverlay"
+     class="bbw-bday-overlay"
+     role="dialog"
+     aria-modal="true"
+     aria-label="Birthday surprise"
+     aria-hidden="true">
+
+  <!-- Modal -->
+  <div class="bbw-bday-modal" id="bbwBdayModal">
+
+    <!-- Particules internes -->
+    <div class="bbw-bday-modal-particles" id="bbwBdayModalPtcl" aria-hidden="true"></div>
+
+    <!-- Confettis internes -->
+    <div class="bbw-bday-confetti-wrap" id="bbwBdayConfetti" aria-hidden="true"></div>
+
+    <!-- Bouton fermer -->
+    <button class="bbw-bday-close" id="bbwBdayClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" width="16" height="16">
+        <line x1="18" y1="6"  x2="6"  y2="18"/>
+        <line x1="6"  y1="6"  x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <!-- ── HEADER : Marquee ── -->
+    <div class="bbw-bday-marquee-wrap" aria-hidden="true">
+      <div class="bbw-bday-marquee-track" id="bbwBdayMarquee">
+        <!-- Injecté par JS depuis settings -->
+      </div>
+    </div>
+
+    <!-- ── Ballons décoratifs ── -->
+    <div class="bbw-bday-balloons" aria-hidden="true">
+      <span class="bbw-bday-balloon bbw-bday-balloon--1">🎈</span>
+      <span class="bbw-bday-balloon bbw-bday-balloon--2">🎉</span>
+      <span class="bbw-bday-balloon bbw-bday-balloon--3">🎂</span>
+      <span class="bbw-bday-balloon bbw-bday-balloon--4">🎈</span>
+      <span class="bbw-bday-balloon bbw-bday-balloon--5">✨</span>
+    </div>
+
+    <!-- ── BODY : Carousel de cards clients ── -->
+    <div class="bbw-bday-body">
+
+      <!-- Titre principal -->
+      <div class="bbw-bday-title-wrap">
+        <span class="bbw-bday-cake-icon" aria-hidden="true">🎂</span>
+        <h2 class="bbw-bday-main-title">Happy Birthday!</h2>
+        <span class="bbw-bday-cake-icon" aria-hidden="true">🎂</span>
+      </div>
+
+      <!-- Carousel -->
+      <div class="bbw-bday-carousel-wrap">
+        <div class="bbw-bday-carousel" id="bbwBdayCarousel">
+          <!-- Cards injectées par JS -->
+          <!-- Placeholder si aucun anniversaire aujourd'hui -->
+          <div class="bbw-bday-card bbw-bday-card--placeholder" id="bbwBdayPlaceholder">
+            <div class="bbw-bday-avatar bbw-bday-avatar--placeholder">🎁</div>
+            <p class="bbw-bday-no-bday">
+              No birthdays today — but yours could be next!
+            </p>
+          </div>
+        </div>
+
+        <!-- Dots navigation (injectés par JS si > 1 carte) -->
+        <div class="bbw-bday-dots" id="bbwBdayDots" aria-label="Birthday cards navigation"></div>
+
+        <!-- Flèches (injectées si > 1 carte) -->
+        <button class="bbw-bday-arrow bbw-bday-arrow--prev" id="bbwBdayPrev" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="16" height="16">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <button class="bbw-bday-arrow bbw-bday-arrow--next" id="bbwBdayNext" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="16" height="16">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ── FOOTER : Bouton subscribe ── -->
+    <div class="bbw-bday-footer">
+      <button class="bbw-bday-subscribe-btn" id="bbwBdaySubscribeBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" width="16" height="16">
+          <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <span id="bbwBdaySubBtnText">My Birthday Is Coming — Subscribe!</span>
+      </button>
+      <p class="bbw-bday-footer-note">
+        Subscribe with your birthday and get an exclusive discount 🎁
+      </p>
+    </div>
+
+  </div>
+</div>
+<!-- ═══ END BIRTHDAY GIFT ═══ -->
+
+
+
+
+
 `;
 
   /* ──────────────────────────────────────────────────────────

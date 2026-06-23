@@ -5674,6 +5674,25 @@
   "watermark": {
   "show": "yes",
   "text": "bbw4life.com"
-}
+  },
+  
+  "birthday_gift": {
+  "show": "yes",
+  "desktop_position": "left",
+  "mobile_position": "right",
+  "promo_code": "MYBIRTHDAY",
+  "promo_discount": "20%",
+  "marquee_texts": [
+    "🎂 Happy Birthday Dear Customer!",
+    "🎉 Today Is All For You!",
+    "💝 Special Discount Just For You!",
+    "👑 Beauty Has No Size!",
+    "✨ Celebrate You Today!"
+  ],
+  "birthday_message_template": "Today is your day — enjoy every moment and don't let life's challenges dim your shine.",
+  "subscribe_btn_text": "My Birthday Is Coming — Subscribe!",
+  "copy_label": "Copy Code",
+  "copied_label": "Copied!"
+  }
  }
 ]

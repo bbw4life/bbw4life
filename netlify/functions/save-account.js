@@ -466,6 +466,94 @@ if (action === 'aff-check-promo-used') {
   return { statusCode: 200, body: JSON.stringify({ success: true, used: usedVal === 'yes' }) };
 }
 
+
+
+
+// ════════════════════════════════════════════════════════════
+//  PATCH À INSÉRER DANS save-account.js
+//  Juste AVANT la ligne : throw new Error("Action inconnue");
+// ════════════════════════════════════════════════════════════
+
+    // ==================== GET TODAY BIRTHDAYS ====================
+    if (action === 'get-today-birthdays') {
+      // Récupère tous les clients dont le birthday correspond à aujourd'hui
+      // La date birthday est stockée en colonne AB (index 27) du sheet
+      // Format attendu : dd/mm/yyyy  ou  yyyy-mm-dd  ou  mm/dd/yyyy
+
+      const today = new Date();
+      const todayDay   = today.getDate();
+      const todayMonth = today.getMonth() + 1;
+
+      function parseBirthdaySheet(raw) {
+        if (!raw || typeof raw !== 'string') return null;
+        raw = raw.trim();
+
+        // ISO yyyy-mm-dd
+        const isoMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (isoMatch) {
+          return {
+            month: parseInt(isoMatch[2], 10),
+            day:   parseInt(isoMatch[3], 10)
+          };
+        }
+
+        // dd/mm/yy ou dd/mm/yyyy (le plus courant pour les Européens/Caraïbes)
+        const parts = raw.split('/');
+        if (parts.length >= 2) {
+          const d = parseInt(parts[0], 10);
+          const m = parseInt(parts[1], 10);
+          if (!isNaN(d) && !isNaN(m) && m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+            return { day: d, month: m };
+          }
+        }
+
+        // mm/dd/yyyy (US)
+        const usMatch = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+        if (usMatch) {
+          const m2 = parseInt(usMatch[1], 10);
+          const d2 = parseInt(usMatch[2], 10);
+          if (m2 <= 12 && d2 <= 31) {
+            return { day: d2, month: m2 };
+          }
+        }
+
+        return null;
+      }
+
+      const customers = [];
+
+      // rows[0] = headers → on commence à l'index 1
+      for (let i = 1; i < rows.length; i++) {
+        const row      = rows[i] || [];
+        const birthday = row[27] || '';   // colonne AB (index 27)
+        if (!birthday) continue;
+
+        const parsed = parseBirthdaySheet(birthday);
+        if (!parsed) continue;
+
+        if (parsed.day === todayDay && parsed.month === todayMonth) {
+          customers.push({
+            firstName: row[1] || '',   // colonne B
+            lastName:  row[0] || '',   // colonne A
+            email:     row[2] || '',   // colonne C
+          });
+        }
+      }
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          success:   true,
+          customers: customers,
+          count:     customers.length
+        })
+      };
+    }
+
+// ════════════════════════════════════════════════════════════
+//  FIN DU PATCH
+// ════════════════════════════════════════════════════════════
+
     throw new Error("Action inconnue");
   } catch (error) {
     console.error("SAVE ERROR:", error.message);

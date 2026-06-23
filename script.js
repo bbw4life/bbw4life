@@ -8378,18 +8378,787 @@ function loadProfilePhoto() {
   });
 })();
 
+
+
+
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — BIRTHDAY GIFT ICON + POPUP
+   birthday-gift.js
+   À inclure après script.js
+═══════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  /* ────────────────────────────────────────────────────────────
+     HELPERS
+  ────────────────────────────────────────────────────────────── */
+
+  /** Normalise une date "dd/mm/yy" ou "dd/mm/yyyy" ou "yyyy-mm-dd" → { day, month } */
+  function parseBirthday(raw) {
+    if (!raw || typeof raw !== 'string') return null;
+    raw = raw.trim();
+
+    // Format ISO yyyy-mm-dd
+    var isoMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (isoMatch) {
+      return { month: parseInt(isoMatch[2], 10), day: parseInt(isoMatch[3], 10) };
+    }
+
+    // Format dd/mm/yy ou dd/mm/yyyy
+    var parts = raw.split('/');
+    if (parts.length >= 2) {
+      var d = parseInt(parts[0], 10);
+      var m = parseInt(parts[1], 10);
+      if (!isNaN(d) && !isNaN(m) && m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+        return { day: d, month: m };
+      }
+    }
+
+    // Format mm/dd/yyyy (US)
+    var usMatch = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+    if (usMatch) {
+      var m2 = parseInt(usMatch[1], 10);
+      var d2 = parseInt(usMatch[2], 10);
+      if (m2 <= 12 && d2 <= 31) {
+        return { day: d2, month: m2 };
+      }
+    }
+
+    return null;
+  }
+
+  /** Vérifie si une date { day, month } correspond à aujourd'hui */
+  function isTodayBirthday(bdayObj) {
+    if (!bdayObj) return false;
+    var now = new Date();
+    return bdayObj.day === now.getDate() && bdayObj.month === (now.getMonth() + 1);
+  }
+
+  /** Génère initiales depuis prénom / nom */
+  function getInitials(firstName, lastName) {
+    var f = (firstName || '').trim().charAt(0).toUpperCase();
+    var l = (lastName  || '').trim().charAt(0).toUpperCase();
+    return (f + l) || '?';
+  }
+
+  /** Capitalise la première lettre */
+  function cap(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     DOM REFS
+  ────────────────────────────────────────────────────────────── */
+  var giftBtn      = document.getElementById('bbwBdayGiftBtn');
+  var overlay      = document.getElementById('bbwBdayOverlay');
+  var closeBtn     = document.getElementById('bbwBdayClose');
+  var carousel     = document.getElementById('bbwBdayCarousel');
+  var dotsEl       = document.getElementById('bbwBdayDots');
+  var prevBtn      = document.getElementById('bbwBdayPrev');
+  var nextBtn      = document.getElementById('bbwBdayNext');
+  var marqueeTrack = document.getElementById('bbwBdayMarquee');
+  var subBtn       = document.getElementById('bbwBdaySubscribeBtn');
+  var dotNotif     = document.getElementById('bbwBdayDot');
+  var subBtnText   = document.getElementById('bbwBdaySubBtnText');
+  var canvas       = document.getElementById('bbw-bday-canvas');
+
+  if (!giftBtn || !overlay) return;
+
+  /* ────────────────────────────────────────────────────────────
+     SETTINGS
+  ────────────────────────────────────────────────────────────── */
+  var CFG = {
+    show:              'yes',
+    desktop_position:  'left',
+    mobile_position:   'left',
+    promo_code:        'MYBIRTHDAY',
+    promo_discount:    '20%',
+    marquee_texts: [
+      '🎂 Happy Birthday Dear Customer!',
+      '🎉 Today Is All For You!',
+      '💝 Special Discount Just For You!',
+      '👑 Beauty Has No Size!',
+      '✨ Celebrate You Today!'
+    ],
+    birthday_message_template: "Today is your day — enjoy every moment and don't let life's challenges dim your shine.",
+    subscribe_btn_text: 'My Birthday Is Coming — Subscribe!',
+    copy_label:   'Copy Code',
+    copied_label: 'Copied!'
+  };
+
+  /** Applique les settings depuis products.data.json */
+  function applySettings(allProducts) {
+    var settings = allProducts.find(function (p) { return p.type === 'settings'; }) || {};
+    var bg = settings.birthday_gift || {};
+    if (bg.show              !== undefined) CFG.show              = bg.show;
+    if (bg.desktop_position  !== undefined) CFG.desktop_position  = bg.desktop_position;
+    if (bg.mobile_position   !== undefined) CFG.mobile_position   = bg.mobile_position;
+    if (bg.promo_code        !== undefined) CFG.promo_code        = bg.promo_code;
+    if (bg.promo_discount    !== undefined) CFG.promo_discount    = bg.promo_discount;
+    if (bg.marquee_texts     !== undefined) CFG.marquee_texts     = bg.marquee_texts;
+    if (bg.birthday_message_template !== undefined) CFG.birthday_message_template = bg.birthday_message_template;
+    if (bg.subscribe_btn_text !== undefined) {
+      CFG.subscribe_btn_text = bg.subscribe_btn_text;
+      if (subBtnText) subBtnText.textContent = CFG.subscribe_btn_text;
+    }
+    if (bg.copy_label   !== undefined) CFG.copy_label   = bg.copy_label;
+    if (bg.copied_label !== undefined) CFG.copied_label = bg.copied_label;
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     POSITION DU BOUTON SELON SETTINGS
+  ────────────────────────────────────────────────────────────── */
+  function applyPosition() {
+    var isMobile = window.innerWidth <= 768;
+    var pos = isMobile ? CFG.mobile_position.toLowerCase() : CFG.desktop_position.toLowerCase();
+
+    giftBtn.classList.remove(
+      'bbw-bday--desktop-right', 'bbw-bday--desktop-left',
+      'bbw-bday--mobile-right',  'bbw-bday--mobile-left'
+    );
+
+    if (isMobile) {
+      giftBtn.classList.add(pos === 'right' ? 'bbw-bday--mobile-right' : 'bbw-bday--mobile-left');
+    } else {
+      giftBtn.classList.add(pos === 'right' ? 'bbw-bday--desktop-right' : 'bbw-bday--desktop-left');
+    }
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     MARQUEE
+  ────────────────────────────────────────────────────────────── */
+  function buildMarquee() {
+    if (!marqueeTrack) return;
+    marqueeTrack.innerHTML = '';
+
+    var texts = CFG.marquee_texts;
+    if (!texts || !texts.length) return;
+
+    // Double pour boucle infinie
+    var fragment = '';
+    for (var r = 0; r < 2; r++) {
+      texts.forEach(function (txt) {
+        fragment +=
+          '<span class="bbw-bday-marquee-item">' + txt + '</span>' +
+          '<span class="bbw-bday-marquee-sep" aria-hidden="true">✦</span>';
+      });
+    }
+    marqueeTrack.innerHTML = fragment;
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     FETCH CLIENTS AVEC BIRTHDAY AUJOURD'HUI
+     Appel à save-account avec action get-all-birthdays
+     FALLBACK : scan du sheet via save-account
+  ────────────────────────────────────────────────────────────── */
+  async function fetchTodayBirthdays() {
+    try {
+      var res  = await fetch('/.netlify/functions/save-account', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ action: 'get-today-birthdays' })
+      });
+      var data = await res.json();
+      if (data.success && Array.isArray(data.customers)) {
+        return data.customers;
+      }
+    } catch (e) {
+      console.warn('[BdayGift] fetchTodayBirthdays failed:', e.message);
+    }
+    return [];
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     BUILD BIRTHDAY CARD
+  ────────────────────────────────────────────────────────────── */
+  function buildCard(customer) {
+    var firstName = cap(customer.firstName || '');
+    var lastName  = cap(customer.lastName  || '');
+    var initials  = getInitials(firstName, lastName);
+    var fullName  = [firstName, lastName].filter(Boolean).join(' ');
+
+    var message = CFG.birthday_message_template
+      .replace('[NAME]', firstName)
+      .replace('{name}', firstName);
+
+    var card = document.createElement('div');
+    card.className = 'bbw-bday-card';
+
+    // Avatar wrap (pour la couronne)
+    var avatarWrap = document.createElement('div');
+    avatarWrap.style.position = 'relative';
+    avatarWrap.style.display  = 'inline-block';
+
+    var crown = document.createElement('span');
+    crown.className   = 'bbw-bday-crown';
+    crown.textContent = '👑';
+
+    var avatar = document.createElement('div');
+    avatar.className   = 'bbw-bday-avatar';
+    avatar.textContent = initials;
+
+    avatarWrap.appendChild(crown);
+    avatarWrap.appendChild(avatar);
+    card.appendChild(avatarWrap);
+
+    // Nom
+    var nameEl = document.createElement('p');
+    nameEl.className   = 'bbw-bday-name';
+    nameEl.textContent = fullName || 'Customer';
+    card.appendChild(nameEl);
+
+    // Badge
+    var badge = document.createElement('span');
+    badge.className   = 'bbw-bday-age-badge';
+    badge.innerHTML   = '🎂 &nbsp;Birthday Today!';
+    card.appendChild(badge);
+
+    // Étoiles
+    var starsEl = document.createElement('div');
+    starsEl.className = 'bbw-bday-stars';
+    starsEl.innerHTML = '<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>';
+    card.appendChild(starsEl);
+
+    // Dédicace personnalisée
+    var msgWrap = document.createElement('div');
+    msgWrap.style.textAlign = 'center';
+
+    var salute = document.createElement('p');
+    salute.className   = 'bbw-bday-message';
+    salute.style.fontWeight = '700';
+    salute.style.color = '#FFD700';
+    salute.style.fontSize  = '0.95rem';
+    salute.textContent = '🎉 Happy Birthday, ' + (firstName || 'Beautiful') + '!';
+    msgWrap.appendChild(salute);
+
+    var msgEl = document.createElement('p');
+    msgEl.className   = 'bbw-bday-message';
+    msgEl.style.marginTop = '4px';
+    msgEl.textContent = message;
+    msgWrap.appendChild(msgEl);
+    card.appendChild(msgWrap);
+
+    // Divider
+    var hr = document.createElement('hr');
+    hr.className = 'bbw-bday-divider';
+    card.appendChild(hr);
+
+    // Promo code
+    var promoWrap = document.createElement('div');
+    promoWrap.className = 'bbw-bday-promo-wrap';
+
+    var promoLeft = document.createElement('div');
+    promoLeft.className = 'bbw-bday-promo-left';
+
+    var promoLabel = document.createElement('span');
+    promoLabel.className   = 'bbw-bday-promo-label';
+    promoLabel.textContent = '🎁 Your exclusive promo code';
+
+    var promoCode = document.createElement('span');
+    promoCode.className   = 'bbw-bday-promo-code';
+    promoCode.textContent = CFG.promo_code;
+
+    var promoDisc = document.createElement('span');
+    promoDisc.className   = 'bbw-bday-promo-discount';
+    promoDisc.textContent = '✓ Save ' + CFG.promo_discount + ' on your next order';
+
+    promoLeft.appendChild(promoLabel);
+    promoLeft.appendChild(promoCode);
+    promoLeft.appendChild(promoDisc);
+    promoWrap.appendChild(promoLeft);
+
+    // Bouton copier
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 'bbw-bday-copy-btn';
+    copyBtn.setAttribute('aria-label', 'Copy promo code');
+    copyBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"' +
+      ' stroke-linecap="round" width="14" height="14">' +
+      '<rect width="14" height="14" x="8" y="8" rx="2"/>' +
+      '<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>' +
+      '</svg>' +
+      '<span>' + CFG.copy_label + '</span>';
+
+    copyBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      navigator.clipboard.writeText(CFG.promo_code).then(function () {
+        copyBtn.classList.add('bbw-bday--copied');
+        copyBtn.querySelector('span').textContent = CFG.copied_label;
+        setTimeout(function () {
+          copyBtn.classList.remove('bbw-bday--copied');
+          copyBtn.querySelector('span').textContent = CFG.copy_label;
+        }, 2200);
+      }).catch(function () {
+        /* fallback select */
+        var range = document.createRange();
+        range.selectNode(promoCode);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+      });
+    });
+
+    promoWrap.appendChild(copyBtn);
+    card.appendChild(promoWrap);
+
+    return card;
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     CAROUSEL LOGIC
+  ────────────────────────────────────────────────────────────── */
+  var _cardCount    = 0;
+  var _currentCard  = 0;
+  var _autoTimer    = null;
+
+  function buildCarousel(customers) {
+    if (!carousel) return;
+    carousel.innerHTML = '';
+
+    // Enlever le placeholder
+    var placeholder = document.getElementById('bbwBdayPlaceholder');
+    if (placeholder) placeholder.style.display = 'none';
+
+    if (!customers || customers.length === 0) {
+      if (placeholder) placeholder.style.display = '';
+      _cardCount = 0;
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      if (dotsEl)  dotsEl.style.display  = 'none';
+      return;
+    }
+
+    _cardCount   = customers.length;
+    _currentCard = 0;
+
+    customers.forEach(function (customer) {
+      carousel.appendChild(buildCard(customer));
+    });
+
+    buildDots();
+    updateDots(0);
+    startAutoSlide();
+
+    // Afficher/masquer flèches
+    var showNav = _cardCount > 1;
+    if (prevBtn) prevBtn.style.display = showNav ? '' : 'none';
+    if (nextBtn) nextBtn.style.display = showNav ? '' : 'none';
+  }
+
+  function buildDots() {
+    if (!dotsEl) return;
+    dotsEl.innerHTML = '';
+    if (_cardCount <= 1) { dotsEl.style.display = 'none'; return; }
+    dotsEl.style.display = 'flex';
+
+    for (var i = 0; i < _cardCount; i++) {
+      (function (idx) {
+        var dot = document.createElement('button');
+        dot.className = 'bbw-bday-dot';
+        dot.setAttribute('aria-label', 'Customer ' + (idx + 1));
+        dot.addEventListener('click', function () {
+          goToCard(idx, 'left');
+          resetAutoSlide();
+        });
+        dotsEl.appendChild(dot);
+      })(i);
+    }
+  }
+
+  function updateDots(idx) {
+    if (!dotsEl) return;
+    dotsEl.querySelectorAll('.bbw-bday-dot').forEach(function (d, i) {
+      d.classList.toggle('bbw-bday--dot-active', i === idx);
+    });
+  }
+
+  function goToCard(idx, dir) {
+    if (_cardCount <= 1) return;
+    _currentCard = ((idx % _cardCount) + _cardCount) % _cardCount;
+
+    carousel.classList.remove('bbw-bday--slide-left', 'bbw-bday--slide-right');
+    void carousel.offsetHeight;
+    carousel.classList.add(dir === 'right' ? 'bbw-bday--slide-right' : 'bbw-bday--slide-left');
+
+    var cards = carousel.querySelectorAll('.bbw-bday-card');
+    cards.forEach(function (c) { c.style.display = 'none'; });
+    if (cards[_currentCard]) cards[_currentCard].style.display = '';
+
+    updateDots(_currentCard);
+  }
+
+  function startAutoSlide() {
+    if (_cardCount <= 1) return;
+    stopAutoSlide();
+    _autoTimer = setInterval(function () {
+      goToCard(_currentCard + 1, 'left');
+    }, 4000);
+  }
+
+  function stopAutoSlide() {
+    clearInterval(_autoTimer);
+    _autoTimer = null;
+  }
+
+  function resetAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function () {
+      goToCard(_currentCard - 1, 'right');
+      resetAutoSlide();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function () {
+      goToCard(_currentCard + 1, 'left');
+      resetAutoSlide();
+    });
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     PETAL / CONFETTI CANVAS BURST
+  ────────────────────────────────────────────────────────────── */
+  var _petalParticles = [];
+  var _petalRAF       = null;
+  var _petalDone      = false;
+
+  function firePetalBurst() {
+    if (!canvas) return;
+
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.display = 'block';
+    _petalDone = false;
+
+    var ctx     = canvas.getContext('2d');
+    var cx      = giftBtn.getBoundingClientRect().left + giftBtn.offsetWidth / 2;
+    var cy      = giftBtn.getBoundingClientRect().top  + giftBtn.offsetHeight / 2;
+    var colors  = [
+      '#c0385e','#FFD700','#7b3f6e','#e8bc6a',
+      '#ff6b9d','#fff','#c9963e','#d4506e',
+      '#f0d080','#a855f7'
+    ];
+    var shapes  = ['circle','rect','petal'];
+    var COUNT   = 90;
+
+    _petalParticles = [];
+    for (var i = 0; i < COUNT; i++) {
+      var angle = Math.random() * Math.PI * 2;
+      var speed = 5 + Math.random() * 12;
+      _petalParticles.push({
+        x:      cx,
+        y:      cy,
+        vx:     Math.cos(angle) * speed,
+        vy:     Math.sin(angle) * speed - (Math.random() * 6 + 2),
+        gravity: 0.28 + Math.random() * 0.18,
+        size:   4 + Math.random() * 8,
+        color:  colors[Math.floor(Math.random() * colors.length)],
+        shape:  shapes[Math.floor(Math.random() * shapes.length)],
+        rot:    Math.random() * 360,
+        rotV:   (Math.random() - 0.5) * 12,
+        alpha:  1,
+        alphaD: 0.012 + Math.random() * 0.012
+      });
+    }
+
+    function drawPetal(ctx, p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.fillStyle = p.color;
+
+      if (p.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (p.shape === 'rect') {
+        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+      } else {
+        /* petal = ellipse */
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.size / 2, p.size / 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function animate() {
+      if (_petalDone) { canvas.style.display = 'none'; return; }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var alive = false;
+
+      _petalParticles.forEach(function (p) {
+        p.x   += p.vx;
+        p.y   += p.vy;
+        p.vy  += p.gravity;
+        p.vx  *= 0.99;
+        p.rot += p.rotV;
+        p.alpha -= p.alphaD;
+
+        if (p.alpha > 0) {
+          alive = true;
+          drawPetal(ctx, p);
+        }
+      });
+
+      if (!alive) {
+        _petalDone = true;
+        canvas.style.display = 'none';
+        return;
+      }
+      _petalRAF = requestAnimationFrame(animate);
+    }
+
+    if (_petalRAF) cancelAnimationFrame(_petalRAF);
+    animate();
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     CONFETTIS INTERNES (dans la modal)
+  ────────────────────────────────────────────────────────────── */
+  function fireModalConfetti() {
+    var wrap = document.getElementById('bbwBdayConfetti');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+
+    var colors = [
+      '#c9963e','#c0385e','#e8bc6a','#7b3f6e',
+      '#FFD700','#fff','#d4506e','#f0d080','#a855f7'
+    ];
+
+    for (var i = 0; i < 50; i++) {
+      var piece = document.createElement('div');
+      piece.className = 'bbw-bday-confetti-piece';
+      var sz   = 5 + Math.random() * 9;
+      var dur  = 0.9 + Math.random() * 1.4;
+      var del  = Math.random() * 0.8;
+      var left = Math.random() * 100;
+      piece.style.cssText =
+        'left:' + left + '%;' +
+        'width:' + sz + 'px;' +
+        'height:' + sz + 'px;' +
+        'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+        'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
+        'animation-duration:' + dur + 's;' +
+        'animation-delay:' + del + 's;';
+      wrap.appendChild(piece);
+    }
+
+    setTimeout(function () { if (wrap) wrap.innerHTML = ''; }, 3000);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     PARTICULES INTERNES AMBIANT
+  ────────────────────────────────────────────────────────────── */
+  function spawnModalParticles() {
+    var container = document.getElementById('bbwBdayModalPtcl');
+    if (!container) return;
+    container.innerHTML = '';
+
+    var colors = [
+      'rgba(192,56,94,0.65)',
+      'rgba(201,150,62,0.5)',
+      'rgba(123,63,110,0.55)',
+      'rgba(255,215,0,0.45)'
+    ];
+
+    for (var i = 0; i < 20; i++) {
+      var p    = document.createElement('div');
+      p.className = 'bbw-bday-modal-ptcl';
+      var sz   = 3 + Math.random() * 5;
+      var dur  = 4 + Math.random() * 5;
+      var del  = Math.random() * 6;
+      var left = 5 + Math.random() * 90;
+      p.style.cssText =
+        'width:' + sz + 'px;' +
+        'height:' + sz + 'px;' +
+        'left:' + left + '%;' +
+        'bottom:-10px;' +
+        'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+        'animation-duration:' + dur + 's;' +
+        'animation-delay:' + del + 's;';
+      container.appendChild(p);
+    }
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     OPEN / CLOSE POPUP
+  ────────────────────────────────────────────────────────────── */
+  function openPopup() {
+    overlay.classList.add('bbw-bday--open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    // Animations
+    fireModalConfetti();
+    spawnModalParticles();
+    stopAutoSlide();
+    if (_cardCount > 0) startAutoSlide();
+  }
+
+  function closePopup() {
+    overlay.classList.remove('bbw-bday--open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    stopAutoSlide();
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     WIGGLE PÉRIODIQUE DU BOUTON
+  ────────────────────────────────────────────────────────────── */
+  function scheduleWiggle() {
+    setTimeout(function () {
+      giftBtn.classList.add('bbw-bday--wiggle');
+      setTimeout(function () {
+        giftBtn.classList.remove('bbw-bday--wiggle');
+        scheduleWiggle();
+      }, 700);
+    }, 6000 + Math.random() * 4000);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     EVENTS
+  ────────────────────────────────────────────────────────────── */
+  giftBtn.addEventListener('click', function () {
+    firePetalBurst();
+    setTimeout(openPopup, 300);
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closePopup);
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closePopup();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('bbw-bday--open')) closePopup();
+  });
+
+  /* Bouton subscribe → ouvre newsletter popup + ferme birthday popup */
+  if (subBtn) {
+    subBtn.addEventListener('click', function () {
+      /* Animation de fermeture */
+      overlay.querySelector('.bbw-bday-modal').style.transform =
+        'scale(1.06) translateY(-10px)';
+      setTimeout(function () {
+        closePopup();
+        /* Ouvrir le popup newsletter existant */
+        if (typeof window.openNewsletterPopup === 'function') {
+          window.openNewsletterPopup();
+        } else {
+          /* Fallback : trouver le déclencheur newsletter */
+          var nlTrigger = document.querySelector('[data-open-newsletter]');
+          if (nlTrigger) nlTrigger.click();
+          else {
+            var nlOverlay = document.getElementById('bbwNlOverlay');
+            if (nlOverlay) nlOverlay.classList.add('bbwnl-active');
+          }
+        }
+      }, 320);
+    });
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     RESIZE
+  ────────────────────────────────────────────────────────────── */
+  window.addEventListener('resize', function () {
+    applyPosition();
+    if (canvas) {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+  });
+
+  /* ────────────────────────────────────────────────────────────
+     INIT PRINCIPAL
+  ────────────────────────────────────────────────────────────── */
+  function init(allProducts) {
+    applySettings(allProducts);
+
+    /* Vérifier show */
+    if (CFG.show.toLowerCase().trim() !== 'yes') {
+      giftBtn.style.display = 'none';
+      return;
+    }
+
+    /* Appliquer position */
+    applyPosition();
+
+    /* Construire marquee */
+    buildMarquee();
+
+    /* Démarrer le wiggle */
+    scheduleWiggle();
+
+    /* Charger les anniversaires du jour depuis le sheet */
+    fetchTodayBirthdays().then(function (customers) {
+      var hasBdays = customers && customers.length > 0;
+
+      buildCarousel(customers);
+
+      /* Dot de notification si des anniversaires */
+      if (hasBdays && dotNotif) {
+        dotNotif.classList.add('bbw-bday--visible');
+      }
+    });
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     ATTENTE DU CHARGEMENT DES PRODUCTS
+  ────────────────────────────────────────────────────────────── */
+  if (window.__allProducts && window.__allProducts.length) {
+    init(window.__allProducts);
+  } else {
+    var tries = 0;
+    var poll  = setInterval(function () {
+      tries++;
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(poll);
+        init(window.__allProducts);
+      } else if (tries > 80) {
+        clearInterval(poll);
+        /* Démarrer quand même sans settings avancés */
+        applyPosition();
+        buildMarquee();
+        scheduleWiggle();
+        fetchTodayBirthdays().then(function (customers) {
+          buildCarousel(customers);
+          if (customers.length > 0 && dotNotif) {
+            dotNotif.classList.add('bbw-bday--visible');
+          }
+        });
+      }
+    }, 100);
+  }
+
+})();
+
+
+
+
+
+
+
+
+
   window.logout = () => {
     localStorage.clear();
     window.location.href = 'index.html';
   };
 
-
-
-
-
-
-
-  
 
  (function initAffiliationSystem() {
   const usernameInput  = document.getElementById('aff-username-input');
@@ -12782,3 +13551,5 @@ function injectColFbt() {
   observer.observe(document.body, { childList: true, subtree: true });
 
 })();
+
+

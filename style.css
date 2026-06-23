@@ -2746,9 +2746,6 @@ body {
     .payment-icons i { flex: 0 0 auto; }
 }
 
-
-
-
 /* ════════════════════════════════════════
    WISHLIST MODAL — BBW4LIFE Ultra Premium
    Beauty Has No Sizes
@@ -12436,3 +12433,834 @@ a:active {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — BIRTHDAY GIFT ICON + POPUP
+   birthday-gift.css
+═══════════════════════════════════════════════════════════════ */
+
+/* ──────────────────────────────────────────────────────────────
+   VARIABLES
+────────────────────────────────────────────────────────────── */
+:root {
+  --bday-rose:   #c0385e;
+  --bday-gold:   #c9963e;
+  --bday-plum:   #7b3f6e;
+  --bday-light:  #fff8f0;
+  --bday-shadow: rgba(192, 56, 94, 0.35);
+  --bday-radius: 20px;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   CANVAS PETAL BURST
+────────────────────────────────────────────────────────────── */
+#bbw-bday-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99990;
+  display: none;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   FLOATING GIFT BUTTON
+────────────────────────────────────────────────────────────── */
+.bbw-bday-gift-btn {
+  position: fixed;
+  bottom: 160px;
+  left: 18px;
+  z-index: 9990;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--bday-rose), var(--bday-plum));
+  box-shadow:
+    0 6px 24px var(--bday-shadow),
+    0 2px 8px rgba(0,0,0,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1),
+              box-shadow 0.25s ease;
+  will-change: transform;
+  outline: none;
+}
+
+/* Position desktop — droite */
+.bbw-bday-gift-btn.bbw-bday--desktop-right {
+  left: auto;
+  right: 18px;
+}
+/* Position mobile — gauche (par défaut) */
+@media (max-width: 768px) {
+  .bbw-bday-gift-btn.bbw-bday--mobile-right {
+    left: auto;
+    right: 18px;
+  }
+  .bbw-bday-gift-btn.bbw-bday--mobile-left {
+    left: 18px;
+    right: auto;
+  }
+}
+
+.bbw-bday-gift-btn:hover,
+.bbw-bday-gift-btn:focus-visible {
+  transform: scale(1.12) rotate(-6deg);
+  box-shadow:
+    0 10px 32px var(--bday-shadow),
+    0 4px 12px rgba(0,0,0,.22);
+}
+
+.bbw-bday-gift-btn:active {
+  transform: scale(0.95);
+}
+
+/* Bounce au chargement */
+@keyframes bday-btn-bounce {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(4deg); opacity: 1; }
+  80%  { transform: scale(0.95) rotate(-2deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.bbw-bday-gift-btn {
+  animation: bday-btn-bounce 0.7s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+
+/* Wiggle toutes les 6s */
+@keyframes bday-btn-wiggle {
+  0%,100% { transform: rotate(0); }
+  15%     { transform: rotate(-12deg) scale(1.06); }
+  30%     { transform: rotate(10deg) scale(1.06); }
+  45%     { transform: rotate(-8deg); }
+  60%     { transform: rotate(6deg); }
+  75%     { transform: rotate(-3deg); }
+}
+.bbw-bday-gift-btn.bbw-bday--wiggle {
+  animation: bday-btn-wiggle 0.7s ease-in-out;
+}
+
+/* SVG */
+.bbw-bday-gift-svg {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
+}
+
+/* Dot notification */
+.bbw-bday-gift-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 12px;
+  height: 12px;
+  background: #FFD700;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: none;
+}
+.bbw-bday-gift-dot.bbw-bday--visible {
+  display: block;
+  animation: bday-dot-pulse 1.6s infinite;
+}
+@keyframes bday-dot-pulse {
+  0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,215,0,.7); }
+  50%     { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(255,215,0,0); }
+}
+
+/* Pulse ring */
+.bbw-bday-gift-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(192,56,94,.5);
+  animation: bday-ring-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes bday-ring-pulse {
+  0%   { transform: scale(1);   opacity: .7; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   OVERLAY
+────────────────────────────────────────────────────────────── */
+.bbw-bday-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99991;
+  background: rgba(10, 4, 18, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.bbw-bday-overlay.bbw-bday--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   MODAL
+────────────────────────────────────────────────────────────── */
+.bbw-bday-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow: hidden;
+  border-radius: var(--bday-radius);
+  background: linear-gradient(160deg,
+    #1a0629 0%,
+    #2b0d42 40%,
+    #1e0828 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(201,150,62,.25),
+    0 24px 80px rgba(0,0,0,.65),
+    0 0 60px rgba(192,56,94,.18) inset;
+  transform: scale(0.82) translateY(30px);
+  transition: transform 0.45s cubic-bezier(.34,1.4,.64,1),
+              opacity   0.35s ease;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bbw-bday-overlay.bbw-bday--open .bbw-bday-modal {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Shimmer border */
+.bbw-bday-modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--bday-radius);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(201,150,62,.45) 25%,
+    rgba(192,56,94,.45) 50%,
+    rgba(123,63,110,.45) 75%,
+    transparent 100%
+  );
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: bday-border-spin 4s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes bday-border-spin {
+  to { transform: rotate(360deg) scale(1.02); }
+}
+
+/* Particules internes */
+.bbw-bday-modal-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bbw-bday-modal-ptcl {
+  position: absolute;
+  border-radius: 50%;
+  animation: bday-ptcl-rise linear infinite;
+  opacity: 0;
+}
+@keyframes bday-ptcl-rise {
+  0%   { transform: translateY(100%) scale(0); opacity: 0; }
+  15%  { opacity: .8; }
+  85%  { opacity: .4; }
+  100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
+}
+
+/* Confettis */
+.bbw-bday-confetti-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+.bbw-bday-confetti-piece {
+  position: absolute;
+  top: -10px;
+  animation: bday-conf-fall linear forwards;
+  border-radius: 2px;
+}
+@keyframes bday-conf-fall {
+  0%   { transform: translateY(0) rotate(0) scale(1);   opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg) scale(.5); opacity: 0; }
+}
+
+/* Bouton fermer */
+.bbw-bday-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+  backdrop-filter: blur(4px);
+}
+.bbw-bday-close:hover {
+  background: rgba(192,56,94,.5);
+  transform: rotate(90deg) scale(1.1);
+  color: #fff;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   HEADER MARQUEE
+────────────────────────────────────────────────────────────── */
+.bbw-bday-marquee-wrap {
+  position: relative;
+  z-index: 3;
+  overflow: hidden;
+  background: linear-gradient(90deg,
+    rgba(192,56,94,.9),
+    rgba(123,63,110,.9),
+    rgba(192,56,94,.9)
+  );
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(201,150,62,.3);
+}
+.bbw-bday-marquee-wrap::before,
+.bbw-bday-marquee-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 40px;
+  z-index: 2;
+}
+.bbw-bday-marquee-wrap::before { left: 0;  background: linear-gradient(90deg, rgba(26,6,41,1), transparent); }
+.bbw-bday-marquee-wrap::after  { right: 0; background: linear-gradient(-90deg, rgba(26,6,41,1), transparent); }
+
+.bbw-bday-marquee-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: bday-marquee 18s linear infinite;
+  will-change: transform;
+}
+@keyframes bday-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.bbw-bday-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 28px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #FFD700;
+  text-transform: uppercase;
+}
+.bbw-bday-marquee-sep {
+  color: rgba(201,150,62,.6);
+  margin: 0 6px;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   BALLONS
+────────────────────────────────────────────────────────────── */
+.bbw-bday-balloons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.bbw-bday-balloon {
+  position: absolute;
+  font-size: 1.6rem;
+  animation: bday-balloon-float ease-in-out infinite alternate;
+  opacity: 0.55;
+}
+.bbw-bday-balloon--1 { left: 6%;  top: 18%; animation-duration: 3.2s; animation-delay: 0s;    }
+.bbw-bday-balloon--2 { right: 8%; top: 12%; animation-duration: 4.0s; animation-delay: .6s;   }
+.bbw-bday-balloon--3 { left: 50%; top: 8%;  animation-duration: 3.6s; animation-delay: .3s;   }
+.bbw-bday-balloon--4 { right: 5%; top: 55%; animation-duration: 4.4s; animation-delay: 1.0s;  }
+.bbw-bday-balloon--5 { left: 8%;  top: 60%; animation-duration: 3.0s; animation-delay: .8s;   }
+@keyframes bday-balloon-float {
+  from { transform: translateY(0)   rotate(-6deg); }
+  to   { transform: translateY(-14px) rotate(6deg); }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   BODY
+────────────────────────────────────────────────────────────── */
+.bbw-bday-body {
+  position: relative;
+  z-index: 3;
+  padding: 20px 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Titre */
+.bbw-bday-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bbw-bday-cake-icon {
+  font-size: 1.8rem;
+  animation: bday-cake-bounce 1.5s ease-in-out infinite alternate;
+}
+@keyframes bday-cake-bounce {
+  from { transform: scale(1)    rotate(-5deg); }
+  to   { transform: scale(1.15) rotate(5deg); }
+}
+.bbw-bday-main-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #FFD700, #f0a0c0, #FFD700);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: bday-title-shimmer 3s linear infinite;
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+@keyframes bday-title-shimmer {
+  to { background-position: 200% center; }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   CAROUSEL
+────────────────────────────────────────────────────────────── */
+.bbw-bday-carousel-wrap {
+  position: relative;
+  width: 100%;
+}
+.bbw-bday-carousel {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   BIRTHDAY CARD
+────────────────────────────────────────────────────────────── */
+.bbw-bday-card {
+  min-width: 100%;
+  flex-shrink: 0;
+  background: linear-gradient(145deg,
+    rgba(255,255,255,.06),
+    rgba(255,255,255,.02)
+  );
+  border: 1px solid rgba(201,150,62,.22);
+  border-radius: 16px;
+  padding: 22px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  transition: transform 0.42s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer de fond sur la card */
+.bbw-bday-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%,
+    rgba(201,150,62,.12) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+/* Transition slide */
+.bbw-bday-carousel.bbw-bday--slide-left  .bbw-bday-card { animation: bday-slide-in-l 0.42s cubic-bezier(.4,0,.2,1); }
+.bbw-bday-carousel.bbw-bday--slide-right .bbw-bday-card { animation: bday-slide-in-r 0.42s cubic-bezier(.4,0,.2,1); }
+@keyframes bday-slide-in-l {
+  from { transform: translateX(60px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes bday-slide-in-r {
+  from { transform: translateX(-60px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+/* Placeholder */
+.bbw-bday-card--placeholder {
+  border-style: dashed;
+  border-color: rgba(201,150,62,.18);
+  background: transparent;
+  min-height: 140px;
+  justify-content: center;
+}
+.bbw-bday-no-bday {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,.5);
+  line-height: 1.6;
+  margin: 8px 0 0;
+}
+
+/* Avatar */
+.bbw-bday-avatar {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--bday-rose), var(--bday-plum));
+  border: 3px solid var(--bday-gold);
+  box-shadow: 0 4px 16px rgba(201,150,62,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+  animation: bday-avatar-pop 0.5s cubic-bezier(.34,1.56,.64,1) both;
+}
+.bbw-bday-avatar--placeholder { font-size: 2rem; }
+@keyframes bday-avatar-pop {
+  from { transform: scale(0) rotate(-20deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0);      opacity: 1; }
+}
+
+/* Crown au-dessus avatar */
+.bbw-bday-crown {
+  position: absolute;
+  top: -14px;
+  font-size: 1.1rem;
+  animation: bday-crown-bounce 1.8s ease-in-out infinite alternate;
+}
+@keyframes bday-crown-bounce {
+  from { transform: translateY(0) rotate(-8deg); }
+  to   { transform: translateY(-5px) rotate(8deg); }
+}
+
+/* Nom */
+.bbw-bday-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFD700;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+/* Badge anniversaire */
+.bbw-bday-age-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(90deg, var(--bday-rose), var(--bday-plum));
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 30px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Message */
+.bbw-bday-message {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,.78);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 340px;
+}
+
+/* Divider */
+.bbw-bday-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--bday-gold), transparent);
+  border: none;
+  border-radius: 2px;
+  margin: 4px 0;
+}
+
+/* Promo code */
+.bbw-bday-promo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,150,62,.12);
+  border: 1px solid rgba(201,150,62,.35);
+  border-radius: 10px;
+  padding: 10px 14px;
+  width: 100%;
+  max-width: 320px;
+  justify-content: space-between;
+}
+.bbw-bday-promo-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.bbw-bday-promo-label {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,.5);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.bbw-bday-promo-code {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #FFD700;
+  letter-spacing: 0.1em;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 12px rgba(255,215,0,.4);
+}
+.bbw-bday-promo-discount {
+  font-size: 0.72rem;
+  color: #aaf0a0;
+  font-weight: 700;
+}
+.bbw-bday-copy-btn {
+  background: linear-gradient(135deg, var(--bday-rose), var(--bday-plum));
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 14px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.bbw-bday-copy-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(192,56,94,.4);
+}
+.bbw-bday-copy-btn.bbw-bday--copied {
+  background: linear-gradient(135deg, #22a06b, #1a7a50);
+}
+.bbw-bday-copy-btn svg {
+  flex-shrink: 0;
+}
+
+/* Étoiles décoratives sur la card */
+.bbw-bday-stars {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+.bbw-bday-stars span {
+  color: #FFD700;
+  font-size: 0.9rem;
+  animation: bday-star-twinkle ease-in-out infinite alternate;
+}
+.bbw-bday-stars span:nth-child(1) { animation-duration: 1.2s; }
+.bbw-bday-stars span:nth-child(2) { animation-duration: 1.6s; animation-delay: .2s; }
+.bbw-bday-stars span:nth-child(3) { animation-duration: 1.0s; animation-delay: .4s; }
+.bbw-bday-stars span:nth-child(4) { animation-duration: 1.4s; animation-delay: .1s; }
+.bbw-bday-stars span:nth-child(5) { animation-duration: 1.8s; animation-delay: .3s; }
+@keyframes bday-star-twinkle {
+  from { opacity: .5; transform: scale(0.9); }
+  to   { opacity: 1;  transform: scale(1.1); }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   NAVIGATION DOTS
+────────────────────────────────────────────────────────────── */
+.bbw-bday-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 12px;
+}
+.bbw-bday-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.3);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s, border-color 0.25s;
+  padding: 0;
+}
+.bbw-bday-dot.bbw-bday--dot-active {
+  background: var(--bday-gold);
+  border-color: var(--bday-gold);
+  transform: scale(1.3);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   NAVIGATION ARROWS
+────────────────────────────────────────────────────────────── */
+.bbw-bday-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(0,0,0,.35);
+  color: rgba(255,255,255,.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s, transform 0.2s;
+  z-index: 5;
+}
+.bbw-bday-arrow:hover {
+  background: rgba(192,56,94,.6);
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+.bbw-bday-arrow--prev { left: -14px; }
+.bbw-bday-arrow--next { right: -14px; }
+
+/* ──────────────────────────────────────────────────────────────
+   FOOTER
+────────────────────────────────────────────────────────────── */
+.bbw-bday-footer {
+  position: relative;
+  z-index: 3;
+  padding: 12px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.bbw-bday-subscribe-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+  padding: 13px 20px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--bday-rose) 0%, var(--bday-plum) 100%);
+  box-shadow: 0 6px 20px rgba(192,56,94,.4);
+  transition: transform 0.22s, box-shadow 0.22s;
+  position: relative;
+  overflow: hidden;
+}
+.bbw-bday-subscribe-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,.15) 100%);
+}
+.bbw-bday-subscribe-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(192,56,94,.55);
+}
+.bbw-bday-subscribe-btn:active {
+  transform: scale(0.97);
+}
+
+.bbw-bday-footer-note {
+  font-size: 0.74rem;
+  color: rgba(255,255,255,.42);
+  margin: 0;
+  text-align: center;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   MOBILE
+────────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .bbw-bday-modal {
+    max-height: 92vh;
+    border-radius: 16px;
+  }
+  .bbw-bday-main-title {
+    font-size: 1.35rem;
+  }
+  .bbw-bday-body {
+    padding: 14px 14px 8px;
+  }
+  .bbw-bday-card {
+    padding: 16px 14px 14px;
+  }
+  .bbw-bday-avatar {
+    width: 52px;
+    height: 52px;
+    font-size: 1.25rem;
+  }
+  .bbw-bday-name {
+    font-size: 1rem;
+  }
+  .bbw-bday-message {
+    font-size: 0.82rem;
+  }
+  .bbw-bday-promo-code {
+    font-size: 0.95rem;
+  }
+  .bbw-bday-gift-btn {
+    width: 50px;
+    height: 50px;
+    bottom: 130px;
+  }
+  .bbw-bday-gift-svg {
+    width: 26px;
+    height: 26px;
+  }
+  .bbw-bday-arrow--prev { left: -10px; }
+  .bbw-bday-arrow--next { right: -10px; }
+}
