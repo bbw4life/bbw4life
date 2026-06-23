@@ -12444,11 +12444,11 @@ a:active {
    VARIABLES
 ────────────────────────────────────────────────────────────── */
 :root {
-  --bday-rose:   #c0385e;
-  --bday-gold:   #c9963e;
+  --bday-rose:   #a0243e;
+  --bday-gold:   #b8860b;
   --bday-plum:   #7b3f6e;
-  --bday-light:  #fff8f0;
-  --bday-shadow: rgba(192, 56, 94, 0.35);
+  --bday-light:  #fdf6ec;
+  --bday-shadow: rgba(184, 134, 11, 0.35);
   --bday-radius: 20px;
 }
 
@@ -12478,7 +12478,7 @@ a:active {
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  background: linear-gradient(135deg, var(--bday-rose), var(--bday-plum));
+  background: linear-gradient(135deg, #a0243e, #b8860b);
   box-shadow:
     0 6px 24px var(--bday-shadow),
     0 2px 8px rgba(0,0,0,.18);
@@ -12559,7 +12559,7 @@ a:active {
   right: 4px;
   width: 12px;
   height: 12px;
-  background: #FFD700;
+  background: #b8860b;
   border: 2px solid #fff;
   border-radius: 50%;
   display: none;
@@ -12569,8 +12569,8 @@ a:active {
   animation: bday-dot-pulse 1.6s infinite;
 }
 @keyframes bday-dot-pulse {
-  0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,215,0,.7); }
-  50%     { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(255,215,0,0); }
+  0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184,134,11,.7); }
+  50%     { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(184,134,11,0); }
 }
 
 /* Pulse ring */
@@ -12578,7 +12578,7 @@ a:active {
   position: absolute;
   inset: -4px;
   border-radius: 50%;
-  border: 2px solid rgba(192,56,94,.5);
+  border: 2px solid rgba(184,134,11,.5);
   animation: bday-ring-pulse 2.4s ease-out infinite;
   pointer-events: none;
 }
@@ -12594,7 +12594,7 @@ a:active {
   position: fixed;
   inset: 0;
   z-index: 99991;
-  background: rgba(10, 4, 18, 0.72);
+  background: rgba(20, 12, 4, 0.75);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   display: flex;
@@ -12611,7 +12611,7 @@ a:active {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   MODAL — DESKTOP: max-width élargi + overflow-y auto restauré
+   MODAL
 ────────────────────────────────────────────────────────────── */
 .bbw-bday-modal {
   position: relative;
@@ -12621,14 +12621,14 @@ a:active {
   overflow: hidden;
   border-radius: var(--bday-radius);
   background: linear-gradient(160deg,
-    #1a0629 0%,
-    #2b0d42 40%,
-    #1e0828 100%
+    #fdf6ec 0%,
+    #faf0e0 45%,
+    #f5e8d0 100%
   );
   box-shadow:
-    0 0 0 1px rgba(201,150,62,.25),
-    0 24px 80px rgba(0,0,0,.65),
-    0 0 60px rgba(192,56,94,.18) inset;
+    0 0 0 1px rgba(184,134,11,.30),
+    0 24px 80px rgba(0,0,0,.45),
+    0 0 40px rgba(184,134,11,.10) inset;
   transform: scale(0.82) translateY(30px);
   transition: transform 0.45s cubic-bezier(.34,1.4,.64,1),
               opacity   0.35s ease;
@@ -12650,9 +12650,9 @@ a:active {
   background: conic-gradient(
     from 0deg,
     transparent 0%,
-    rgba(201,150,62,.45) 25%,
-    rgba(192,56,94,.45) 50%,
-    rgba(123,63,110,.45) 75%,
+    rgba(184,134,11,.55) 25%,
+    rgba(160,36,62,.40) 50%,
+    rgba(184,134,11,.55) 75%,
     transparent 100%
   );
   padding: 1.5px;
@@ -12684,8 +12684,8 @@ a:active {
 }
 @keyframes bday-ptcl-rise {
   0%   { transform: translateY(100%) scale(0); opacity: 0; }
-  15%  { opacity: .8; }
-  85%  { opacity: .4; }
+  15%  { opacity: .6; }
+  85%  { opacity: .3; }
   100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
 }
 
@@ -12718,9 +12718,9 @@ a:active {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.2);
-  background: rgba(255,255,255,.08);
-  color: rgba(255,255,255,.8);
+  border: 1px solid rgba(184,134,11,.35);
+  background: rgba(184,134,11,.12);
+  color: #5c3a0a;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -12729,9 +12729,9 @@ a:active {
   backdrop-filter: blur(4px);
 }
 .bbw-bday-close:hover {
-  background: rgba(192,56,94,.5);
+  background: rgba(160,36,62,.15);
   transform: rotate(90deg) scale(1.1);
-  color: #fff;
+  color: #a0243e;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -12742,12 +12742,12 @@ a:active {
   z-index: 3;
   overflow: hidden;
   background: linear-gradient(90deg,
-    rgba(192,56,94,.9),
-    rgba(123,63,110,.9),
-    rgba(192,56,94,.9)
+    rgba(160,36,62,.92),
+    rgba(120,60,20,.92),
+    rgba(160,36,62,.92)
   );
   padding: 8px 0;
-  border-bottom: 1px solid rgba(201,150,62,.3);
+  border-bottom: 1px solid rgba(184,134,11,.4);
 }
 .bbw-bday-marquee-wrap::before,
 .bbw-bday-marquee-wrap::after {
@@ -12757,8 +12757,8 @@ a:active {
   width: 40px;
   z-index: 2;
 }
-.bbw-bday-marquee-wrap::before { left: 0;  background: linear-gradient(90deg, rgba(26,6,41,1), transparent); }
-.bbw-bday-marquee-wrap::after  { right: 0; background: linear-gradient(-90deg, rgba(26,6,41,1), transparent); }
+.bbw-bday-marquee-wrap::before { left: 0;  background: linear-gradient(90deg, rgba(160,36,62,1), transparent); }
+.bbw-bday-marquee-wrap::after  { right: 0; background: linear-gradient(-90deg, rgba(160,36,62,1), transparent); }
 
 .bbw-bday-marquee-track {
   display: flex;
@@ -12779,11 +12779,11 @@ a:active {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: #FFD700;
+  color: #fdf0c8;
   text-transform: uppercase;
 }
 .bbw-bday-marquee-sep {
-  color: rgba(201,150,62,.6);
+  color: rgba(253,240,200,.6);
   margin: 0 6px;
 }
 
@@ -12800,7 +12800,7 @@ a:active {
   position: absolute;
   font-size: 1.6rem;
   animation: bday-balloon-float ease-in-out infinite alternate;
-  opacity: 0.55;
+  opacity: 0.40;
 }
 .bbw-bday-balloon--1 { left: 6%;  top: 18%; animation-duration: 3.2s; animation-delay: 0s;    }
 .bbw-bday-balloon--2 { right: 8%; top: 12%; animation-duration: 4.0s; animation-delay: .6s;   }
@@ -12848,7 +12848,7 @@ a:active {
 .bbw-bday-main-title {
   font-size: 1.7rem;
   font-weight: 800;
-  background: linear-gradient(90deg, #FFD700, #f0a0c0, #FFD700);
+  background: linear-gradient(90deg, #8B5E00, #c0243e, #8B5E00);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -12888,10 +12888,10 @@ a:active {
   flex-shrink: 0;
   box-sizing: border-box;
   background: linear-gradient(145deg,
-    rgba(255,255,255,.06),
-    rgba(255,255,255,.02)
+    rgba(255,255,255,.85),
+    rgba(253,246,236,.70)
   );
-  border: 1px solid rgba(201,150,62,.22);
+  border: 1px solid rgba(184,134,11,.30);
   border-radius: 16px;
   padding: 22px 20px 18px;
   display: flex;
@@ -12911,7 +12911,7 @@ a:active {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 50% 0%,
-    rgba(201,150,62,.12) 0%,
+    rgba(184,134,11,.10) 0%,
     transparent 65%
   );
   pointer-events: none;
@@ -12932,14 +12932,14 @@ a:active {
 /* Placeholder */
 .bbw-bday-card--placeholder {
   border-style: dashed;
-  border-color: rgba(201,150,62,.18);
+  border-color: rgba(184,134,11,.22);
   background: transparent;
   min-height: 140px;
   justify-content: center;
 }
 .bbw-bday-no-bday {
   font-size: 0.85rem;
-  color: rgba(255,255,255,.5);
+  color: rgba(60,30,10,.55);
   line-height: 1.6;
   margin: 8px 0 0;
 }
@@ -12949,9 +12949,9 @@ a:active {
   width: 62px;
   height: 62px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--bday-rose), var(--bday-plum));
-  border: 3px solid var(--bday-gold);
-  box-shadow: 0 4px 16px rgba(201,150,62,.35);
+  background: linear-gradient(135deg, #a0243e, #b8860b);
+  border: 3px solid #b8860b;
+  box-shadow: 0 4px 16px rgba(184,134,11,.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12968,7 +12968,7 @@ a:active {
   to   { transform: scale(1) rotate(0);      opacity: 1; }
 }
 
-/* Crown au-dessus avatar */
+/* Crown */
 .bbw-bday-crown {
   position: absolute;
   top: -14px;
@@ -12984,7 +12984,7 @@ a:active {
 .bbw-bday-name {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #FFD700;
+  color: #8B5E00;
   letter-spacing: 0.02em;
   margin: 0;
   word-break: break-word;
@@ -12995,7 +12995,7 @@ a:active {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: linear-gradient(90deg, var(--bday-rose), var(--bday-plum));
+  background: linear-gradient(90deg, #a0243e, #b8860b);
   color: #fff;
   font-size: 0.72rem;
   font-weight: 700;
@@ -13008,7 +13008,7 @@ a:active {
 /* Message */
 .bbw-bday-message {
   font-size: 0.88rem;
-  color: rgba(255,255,255,.78);
+  color: rgba(50,25,5,.72);
   line-height: 1.65;
   margin: 0;
   max-width: 100%;
@@ -13019,7 +13019,7 @@ a:active {
 .bbw-bday-divider {
   width: 60px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--bday-gold), transparent);
+  background: linear-gradient(90deg, transparent, #b8860b, transparent);
   border: none;
   border-radius: 2px;
   margin: 4px 0;
@@ -13030,8 +13030,8 @@ a:active {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(201,150,62,.12);
-  border: 1px solid rgba(201,150,62,.35);
+  background: rgba(184,134,11,.10);
+  border: 1px solid rgba(184,134,11,.40);
   border-radius: 10px;
   padding: 10px 14px;
   width: 100%;
@@ -13048,7 +13048,7 @@ a:active {
 }
 .bbw-bday-promo-label {
   font-size: 0.68rem;
-  color: rgba(255,255,255,.5);
+  color: rgba(60,30,5,.55);
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-weight: 600;
@@ -13056,18 +13056,18 @@ a:active {
 .bbw-bday-promo-code {
   font-size: 1.1rem;
   font-weight: 800;
-  color: #FFD700;
+  color: #8B5E00;
   letter-spacing: 0.1em;
   font-family: 'Courier New', monospace;
-  text-shadow: 0 0 12px rgba(255,215,0,.4);
+  text-shadow: 0 0 12px rgba(184,134,11,.25);
 }
 .bbw-bday-promo-discount {
   font-size: 0.72rem;
-  color: #aaf0a0;
+  color: #2e7d32;
   font-weight: 700;
 }
 .bbw-bday-copy-btn {
-  background: linear-gradient(135deg, var(--bday-rose), var(--bday-plum));
+  background: linear-gradient(135deg, #a0243e, #b8860b);
   border: none;
   border-radius: 8px;
   color: #fff;
@@ -13084,7 +13084,7 @@ a:active {
 }
 .bbw-bday-copy-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 14px rgba(192,56,94,.4);
+  box-shadow: 0 4px 14px rgba(184,134,11,.4);
 }
 .bbw-bday-copy-btn.bbw-bday--copied {
   background: linear-gradient(135deg, #22a06b, #1a7a50);
@@ -13093,14 +13093,14 @@ a:active {
   flex-shrink: 0;
 }
 
-/* Étoiles décoratives sur la card */
+/* Étoiles décoratives */
 .bbw-bday-stars {
   display: flex;
   gap: 4px;
   justify-content: center;
 }
 .bbw-bday-stars span {
-  color: #FFD700;
+  color: #b8860b;
   font-size: 0.9rem;
   animation: bday-star-twinkle ease-in-out infinite alternate;
 }
@@ -13127,15 +13127,15 @@ a:active {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,.3);
+  border: 1.5px solid rgba(184,134,11,.4);
   background: transparent;
   cursor: pointer;
   transition: background 0.25s, transform 0.25s, border-color 0.25s;
   padding: 0;
 }
 .bbw-bday-dot.bbw-bday--dot-active {
-  background: var(--bday-gold);
-  border-color: var(--bday-gold);
+  background: #b8860b;
+  border-color: #b8860b;
   transform: scale(1.3);
 }
 
@@ -13149,9 +13149,9 @@ a:active {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.2);
-  background: rgba(0,0,0,.35);
-  color: rgba(255,255,255,.8);
+  border: 1px solid rgba(184,134,11,.35);
+  background: rgba(253,246,236,.80);
+  color: #5c3a0a;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -13161,8 +13161,8 @@ a:active {
   z-index: 5;
 }
 .bbw-bday-arrow:hover {
-  background: rgba(192,56,94,.6);
-  color: #fff;
+  background: rgba(160,36,62,.15);
+  color: #a0243e;
   transform: translateY(-50%) scale(1.1);
 }
 .bbw-bday-arrow--prev { left: -14px; }
@@ -13179,7 +13179,7 @@ a:active {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  border-top: 1px solid rgba(255,255,255,.06);
+  border-top: 1px solid rgba(184,134,11,.20);
 }
 
 .bbw-bday-subscribe-btn {
@@ -13197,8 +13197,8 @@ a:active {
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #fff;
-  background: linear-gradient(135deg, var(--bday-rose) 0%, var(--bday-plum) 100%);
-  box-shadow: 0 6px 20px rgba(192,56,94,.4);
+  background: linear-gradient(135deg, #a0243e 0%, #b8860b 100%);
+  box-shadow: 0 6px 20px rgba(184,134,11,.35);
   transition: transform 0.22s, box-shadow 0.22s;
   position: relative;
   overflow: hidden;
@@ -13211,7 +13211,7 @@ a:active {
 }
 .bbw-bday-subscribe-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(192,56,94,.55);
+  box-shadow: 0 10px 28px rgba(160,36,62,.45);
 }
 .bbw-bday-subscribe-btn:active {
   transform: scale(0.97);
@@ -13219,13 +13219,13 @@ a:active {
 
 .bbw-bday-footer-note {
   font-size: 0.74rem;
-  color: rgba(255,255,255,.42);
+  color: rgba(60,30,5,.50);
   margin: 0;
   text-align: center;
 }
 
 /* ──────────────────────────────────────────────────────────────
-   MOBILE — hauteur réduite + largeur augmentée
+   MOBILE
 ────────────────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .bbw-bday-overlay {
