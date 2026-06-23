@@ -187,13 +187,29 @@ function computeServerTotal(cart, settings, allProducts, shippingMethod, promoCo
 
     const inputCode = (promoCode || '').toUpperCase().trim();
 
-    if (birthdayCode && inputCode === birthdayCode) {
-      // Code birthday : appliqué sur le subtotal des articles non-gratuits
+   if (birthdayCode && inputCode === birthdayCode) {
       if (birthdayDiscount > 0) {
+        const birthdayAllowCombine = (birthdayCfg.allow_combine || 'no').toLowerCase().trim() === 'yes';
+
+        // Si allow_combine = yes → on applique sur tous les articles sauf les gratuits promo
+        // Si allow_combine = no  → même logique mais les gardes bundle/upsell/freePromo
+        //   sont déjà bloquées côté client ; côté serveur on calcule proprement dans les 2 cas
         const birthdaySubtotal = sanitized
           .filter(i => !i.isFreePromo)
           .reduce((s, i) => s + (parseFloat(i.price) || 0) * (parseInt(i.quantity) || 0), 0);
-        discountAmount = parseFloat((birthdaySubtotal * (birthdayDiscount / 100)).toFixed(2));
+
+        // allow_combine = no → bloquer si bundle ou upsell présents
+        if (!birthdayAllowCombine) {
+          const hasBundleOrUpsell = sanitized.some(i => i.fromBundle || i.fromUpsell);
+          if (hasBundleOrUpsell) {
+            discountAmount = 0;
+          } else {
+            discountAmount = parseFloat((birthdaySubtotal * (birthdayDiscount / 100)).toFixed(2));
+          }
+        } else {
+          // allow_combine = yes → s'applique sur tous les articles payants (bundle + upsell inclus)
+          discountAmount = parseFloat((birthdaySubtotal * (birthdayDiscount / 100)).toFixed(2));
+        }
       }
     } else {
       // Codes promos classiques (basés sur la quantité)

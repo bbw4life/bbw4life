@@ -1027,11 +1027,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     const hasFreePromo = cart.some(item => item.isFreePromo);
     const hasUpsell    = cart.some(i => i.fromUpsell);
 
-    if (hasBundle)    { promoMessage.textContent = "Promo codes cannot be used with bundles.";            promoMessage.style.color = 'red'; return; }
-    if (hasUpsell)    { promoMessage.textContent = "Promo codes cannot be combined with Kit discounts."; promoMessage.style.color = 'red'; return; }
-    if (hasFreePromo) { promoMessage.textContent = "Promo codes cannot be used with free promotional items."; promoMessage.style.color = 'red'; return; }
-    if (!input)       { promoMessage.textContent = "Please enter a promo code."; promoMessage.style.color = 'red'; return; }
+    if (!input) { promoMessage.textContent = "Please enter a promo code."; promoMessage.style.color = 'red'; return; }
 
+    // ── Lire allow_combine depuis les settings birthday ──
+    const birthdayAllowCombine = (birthdayCfg.allow_combine || 'no').toLowerCase().trim() === 'yes';
+    const isBirthdayCode       = birthdayCode && input === birthdayCode;
+
+    // Gardes de combinaison — ignorées pour le code birthday si allow_combine = yes
+    if (hasBundle    && !(isBirthdayCode && birthdayAllowCombine)) {
+        promoMessage.textContent = "Promo codes cannot be used with bundles.";
+        promoMessage.style.color = 'red'; return;
+    }
+    if (hasUpsell    && !(isBirthdayCode && birthdayAllowCombine)) {
+        promoMessage.textContent = "Promo codes cannot be combined with Kit discounts.";
+        promoMessage.style.color = 'red'; return;
+    }
+    if (hasFreePromo && !(isBirthdayCode && birthdayAllowCombine)) {
+        promoMessage.textContent = "Promo codes cannot be used with free promotional items.";
+        promoMessage.style.color = 'red'; return;
+    }
     // ══════════════════════════════════════════════════════
     //  CODE BIRTHDAY — vérification 3 conditions obligatoires
     // ══════════════════════════════════════════════════════
@@ -1114,12 +1128,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Vérification réussie — toutes les 3 conditions OK
             if (birthdayDiscount > 0) {
-                appliedPromo   = {
-                    code:        input,
-                    percent:     birthdayDiscount,
-                    isBirthday:  true
+                appliedPromo = {
+                    code:           input,
+                    percent:        birthdayDiscount,
+                    isBirthday:     true,
+                    allowCombine:   birthdayAllowCombine
                 };
-                discountAmount = getSubtotal() * (birthdayDiscount / 100);
+                const baseForDiscount = birthdayAllowCombine
+                    ? cart.filter(i => !i.isFreePromo).reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.quantity) || 0), 0)
+                    : getSubtotal();
+
+                discountAmount = baseForDiscount * (birthdayDiscount / 100);
 
                 promoMessage.innerHTML = `
                     <span style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(34,160,107,0.08);border:1px solid rgba(34,160,107,0.25);border-radius:10px">

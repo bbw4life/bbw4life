@@ -5675,13 +5675,14 @@
   "show": "yes",
   "text": "bbw4life.com"
   },
-  
+
   "birthday_gift": {
   "show": "yes",
   "desktop_position": "left",
   "mobile_position": "right",
   "promo_code": "MYBIRTHDAY",
   "promo_discount": "20%",
+  "allow_combine": "yes",
   "marquee_texts": [
     "🎂 Happy Birthday Dear Customer!",
     "🎉 Today Is All For You!",
