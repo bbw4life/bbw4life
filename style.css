@@ -12435,17 +12435,6 @@ a:active {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 /* ═══════════════════════════════════════════════════════════════
    BBW4LIFE — BIRTHDAY GIFT ICON + POPUP
    birthday-gift.css
@@ -12836,6 +12825,10 @@ a:active {
   gap: 16px;
   overflow-y: auto;
   flex: 1;
+  /* FIX MOBILE — empêche le débordement horizontal */
+  overflow-x: hidden;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 /* Titre */
@@ -12870,24 +12863,30 @@ a:active {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   CAROUSEL
+   CAROUSEL — FIX MOBILE
 ────────────────────────────────────────────────────────────── */
 .bbw-bday-carousel-wrap {
   position: relative;
   width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* FIX — bloque le débordement de la card */
 }
 .bbw-bday-carousel {
   display: flex;
   overflow: hidden;
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* ──────────────────────────────────────────────────────────────
-   BIRTHDAY CARD
+   BIRTHDAY CARD — FIX MOBILE
 ────────────────────────────────────────────────────────────── */
 .bbw-bday-card {
   min-width: 100%;
+  max-width: 100%;        /* FIX — empêche la card de dépasser */
+  width: 100%;            /* FIX — force la largeur */
   flex-shrink: 0;
+  box-sizing: border-box; /* FIX — padding inclus dans la largeur */
   background: linear-gradient(145deg,
     rgba(255,255,255,.06),
     rgba(255,255,255,.02)
@@ -12988,6 +12987,7 @@ a:active {
   color: #FFD700;
   letter-spacing: 0.02em;
   margin: 0;
+  word-break: break-word; /* FIX — nom long ne déborde pas */
 }
 
 /* Badge anniversaire */
@@ -13011,7 +13011,8 @@ a:active {
   color: rgba(255,255,255,.78);
   line-height: 1.65;
   margin: 0;
-  max-width: 340px;
+  max-width: 100%; /* FIX — était 340px, remplacé par 100% */
+  word-break: break-word;
 }
 
 /* Divider */
@@ -13034,7 +13035,8 @@ a:active {
   border-radius: 10px;
   padding: 10px 14px;
   width: 100%;
-  max-width: 320px;
+  max-width: 100%; /* FIX — était 320px, remplacé par 100% */
+  box-sizing: border-box;
   justify-content: space-between;
 }
 .bbw-bday-promo-left {
@@ -13042,6 +13044,7 @@ a:active {
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
+  min-width: 0; /* FIX — permet la troncature du texte */
 }
 .bbw-bday-promo-label {
   font-size: 0.68rem;
@@ -13233,10 +13236,10 @@ a:active {
     font-size: 1.35rem;
   }
   .bbw-bday-body {
-    padding: 14px 14px 8px;
+    padding: 14px 12px 8px; /* FIX — padding réduit sur mobile */
   }
   .bbw-bday-card {
-    padding: 16px 14px 14px;
+    padding: 16px 12px 14px; /* FIX — padding réduit sur mobile */
   }
   .bbw-bday-avatar {
     width: 52px;
@@ -13251,6 +13254,14 @@ a:active {
   }
   .bbw-bday-promo-code {
     font-size: 0.95rem;
+  }
+  .bbw-bday-promo-wrap {
+    flex-wrap: wrap; /* FIX — le bouton copy passe en dessous si pas assez de place */
+    gap: 10px;
+  }
+  .bbw-bday-copy-btn {
+    width: 100%; /* FIX — bouton pleine largeur sur très petit écran */
+    justify-content: center;
   }
   .bbw-bday-gift-btn {
     width: 50px;

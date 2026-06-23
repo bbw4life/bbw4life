@@ -8380,28 +8380,12 @@ function loadProfilePhoto() {
 
 
 
-
-
-
-
-
-
-
-
 /* ═══════════════════════════════════════════════════════════════
-   BBW4LIFE — BIRTHDAY GIFT ICON + POPUP
-   birthday-gift.js
-   À inclure après script.js
+   BBW4LIFE — BIRTHDAY GIFT ICON
 ═══════════════════════════════════════════════════════════════ */
 
 (function () {
   'use strict';
-
-  /* ────────────────────────────────────────────────────────────
-     HELPERS
-  ────────────────────────────────────────────────────────────── */
-
-  /** Normalise une date "dd/mm/yy" ou "dd/mm/yyyy" ou "yyyy-mm-dd" → { day, month } */
   function parseBirthday(raw) {
     if (!raw || typeof raw !== 'string') return null;
     raw = raw.trim();
@@ -9145,13 +9129,6 @@ function loadProfilePhoto() {
   }
 
 })();
-
-
-
-
-
-
-
 
 
   window.logout = () => {

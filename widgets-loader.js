@@ -360,10 +360,6 @@
 <div id="snow-container" aria-hidden="true"></div>
 
 
-
-
-
-
 <!-- ═══════════════════════════════════════════════════════
      BBW4LIFE — BIRTHDAY GIFT ICON + POPUP
      À insérer juste avant </body>
@@ -538,9 +534,6 @@
   </div>
 </div>
 <!-- ═══ END BIRTHDAY GIFT ═══ -->
-
-
-
 
 
 `;

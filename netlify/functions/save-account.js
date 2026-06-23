@@ -468,17 +468,8 @@ if (action === 'aff-check-promo-used') {
 
 
 
-
-// ════════════════════════════════════════════════════════════
-//  PATCH À INSÉRER DANS save-account.js
-//  Juste AVANT la ligne : throw new Error("Action inconnue");
-// ════════════════════════════════════════════════════════════
-
     // ==================== GET TODAY BIRTHDAYS ====================
     if (action === 'get-today-birthdays') {
-      // Récupère tous les clients dont le birthday correspond à aujourd'hui
-      // La date birthday est stockée en colonne AB (index 27) du sheet
-      // Format attendu : dd/mm/yyyy  ou  yyyy-mm-dd  ou  mm/dd/yyyy
 
       const today = new Date();
       const todayDay   = today.getDate();
@@ -550,9 +541,6 @@ if (action === 'aff-check-promo-used') {
       };
     }
 
-// ════════════════════════════════════════════════════════════
-//  FIN DU PATCH
-// ════════════════════════════════════════════════════════════
 
     throw new Error("Action inconnue");
   } catch (error) {
