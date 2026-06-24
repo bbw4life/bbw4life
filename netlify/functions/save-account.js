@@ -480,8 +480,8 @@ if (action === 'aff-check-promo-used') {
     if (action === 'get-today-birthdays') {
 
       const today = new Date();
-      const todayDay   = today.getDate();
-      const todayMonth = today.getMonth() + 1;
+      const todayDay   = body.clientDay   || today.getDate();
+      const todayMonth = body.clientMonth || (today.getMonth() + 1);
 
       function parseBirthdaySheet(raw) {
         if (!raw || typeof raw !== 'string') return null;
