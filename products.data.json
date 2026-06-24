@@ -5607,8 +5607,8 @@
   "promo_code_prefix": "Francenel467",
   "promo_code_discount_percent": 40,
   "pay_per_click": "yes",
-  "clicks_per_reward": 1000,
-  "click_reward_amount": 2
+  "clicks_per_reward": 3000,
+  "click_reward_amount": 4
 },
 "product_grid_section": {
     "section_id": "bbw-product-grid-featured",
