@@ -8496,8 +8496,8 @@ function loadProfilePhoto() {
     }
     if (bg.copy_label   !== undefined) CFG.copy_label   = bg.copy_label;
     if (bg.copied_label !== undefined) CFG.copied_label = bg.copied_label;
+    CFG._defaultCustomers = bg.default_customers || [];
   }
-
   /* ────────────────────────────────────────────────────────────
      POSITION DU BOUTON SELON SETTINGS
   ────────────────────────────────────────────────────────────── */
@@ -9124,17 +9124,11 @@ function loadProfilePhoto() {
           var hasBdays = customers && customers.length > 0;
 
           if (!hasBdays) {
-            // Pas de vrais clients — utiliser les 3 par défaut du jour
-            var allProducts = window.__allProducts || [];
-            var settings    = allProducts.find(function(p) { return p.type === 'settings'; }) || {};
-            var bdayCfg     = settings.birthday_gift || {};
-            var defaults    = bdayCfg.default_customers || [];
-
-            if (defaults.length > 0) {
-              // Choisir 3 au hasard selon le jour (déterministe par date)
-              var today     = new Date();
-              var seed      = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-              var shuffled  = defaults.slice().sort(function(a, b) {
+            var bdayCfg  = CFG._defaultCustomers || [];
+            if (bdayCfg.length > 0) {
+              var today = new Date();
+              var seed  = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+              var shuffled = bdayCfg.slice().sort(function() {
                 return ((seed * 9301 + 49297) % 233280) / 233280 - 0.5;
               });
               customers = shuffled.slice(0, 3);
