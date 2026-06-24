@@ -9121,8 +9121,29 @@ function loadProfilePhoto() {
         buildMarquee();
         scheduleWiggle();
         fetchTodayBirthdays().then(function (customers) {
+          var hasBdays = customers && customers.length > 0;
+
+          if (!hasBdays) {
+            // Pas de vrais clients — utiliser les 3 par défaut du jour
+            var allProducts = window.__allProducts || [];
+            var settings    = allProducts.find(function(p) { return p.type === 'settings'; }) || {};
+            var bdayCfg     = settings.birthday_gift || {};
+            var defaults    = bdayCfg.default_customers || [];
+
+            if (defaults.length > 0) {
+              // Choisir 3 au hasard selon le jour (déterministe par date)
+              var today     = new Date();
+              var seed      = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+              var shuffled  = defaults.slice().sort(function(a, b) {
+                return ((seed * 9301 + 49297) % 233280) / 233280 - 0.5;
+              });
+              customers = shuffled.slice(0, 3);
+            }
+          }
+
           buildCarousel(customers);
-          if (customers.length > 0 && dotNotif) {
+
+          if (hasBdays && dotNotif) {
             dotNotif.classList.add('bbw-bday--visible');
           }
         });

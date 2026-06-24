@@ -5697,6 +5697,20 @@
   "subscribe_btn_text": "My Birthday Is Coming — Subscribe!",
   "copy_label": "Copy Code",
   "copied_label": "Copied!"
+  },
+  "birthday_gift": {
+  "show": "yes",
+  "default_customers": [
+    { "firstName": "Sophia",   "lastName": "Laurent" },
+    { "firstName": "Isabella", "lastName": "Martin" },
+    { "firstName": "Amara",    "lastName": "Johnson" },
+    { "firstName": "Chloe",    "lastName": "Williams" },
+    { "firstName": "Destiny",  "lastName": "Brown" },
+    { "firstName": "Jasmine",  "lastName": "Davis" },
+    { "firstName": "Monique",  "lastName": "Wilson" },
+    { "firstName": "Keisha",   "lastName": "Thomas" },
+    { "firstName": "Valentina","lastName": "Garcia" }
+  ]
   }
  }
 ]
