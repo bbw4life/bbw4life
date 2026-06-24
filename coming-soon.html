@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>BBW4LIFE — Beauty Has No Size | Coming Soon</title>
+  <meta name="description" content="Something powerful is coming. BBW4LIFE — the plus-size fashion, beauty & lifestyle brand built for every curve. Join the waitlist.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black:  #0d0d0d;
+      --black2: #1a0812;
+      --gold:   #c9963e;
+      --gold2:  #e8bc6a;
+      --gold3:  #f5d080;
+      --rose:   #c0385e;
+      --plum:   #7b3f6e;
+      --ivory:  #fdf8f0;
+      --muted:  rgba(253,248,240,0.45);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--black);
+      color: var(--ivory);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════ CANVAS PARTICLES ═══════════════ */
+    #bbw-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ═══════════════ BG IMAGE ═══════════════ */
+    .cs-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg,
+          rgba(13,13,13,0.88) 0%,
+          rgba(26,8,18,0.75) 40%,
+          rgba(13,13,13,0.92) 100%);
+    }
+    .cs-bg img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      z-index: -1;
+      opacity: 0.38;
+      filter: saturate(0.7);
+    }
+
+    /* ═══════════════ SHIMMER LINES ═══════════════ */
+    .cs-shimmer-top,
+    .cs-shimmer-bottom {
+      position: fixed;
+      left: 0; right: 0;
+      height: 1.5px;
+      z-index: 10;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(201,150,62,0.55) 20%,
+        rgba(245,208,128,1) 50%,
+        rgba(201,150,62,0.55) 80%,
+        transparent);
+      background-size: 400% 100%;
+      animation: shimmerLine 3.5s ease-in-out infinite;
+    }
+    .cs-shimmer-top    { top: 0; }
+    .cs-shimmer-bottom { bottom: 0; }
+
+    @keyframes shimmerLine {
+      0%   { background-position: -400% 0; }
+      100% { background-position:  400% 0; }
+    }
+
+    /* ═══════════════ MAIN WRAPPER ═══════════════ */
+    .cs-page {
+      position: relative;
+      z-index: 5;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 80px;
+      text-align: center;
+      gap: 0;
+    }
+
+    /* ═══════════════ EYEBROW ═══════════════ */
+    .cs-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(201,150,62,0.09);
+      border: 1px solid rgba(201,150,62,0.28);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold2);
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .cs-eyebrow-dot {
+      width: 7px; height: 7px;
+      background: var(--rose);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);   opacity: 1; }
+      50%       { transform: scale(1.5); opacity: 0.6; }
+    }
+
+    /* ═══════════════ LOGO / TITLE ═══════════════ */
+    .cs-logo-wrap {
+      position: relative;
+      margin-bottom: 20px;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+    .cs-logo-glow {
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(ellipse at center,
+        rgba(201,150,62,0.18) 0%,
+        transparent 70%);
+      pointer-events: none;
+    }
+    .cs-brand {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(3.5rem, 10vw, 8.5rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      background: linear-gradient(135deg,
+        #fff     0%,
+        #e8bc6a  30%,
+        #f5d080  50%,
+        #c9963e  70%,
+        #fff     100%);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: goldShimmer 5s ease-in-out infinite;
+    }
+    @keyframes goldShimmer {
+      0%, 100% { background-position: 0%   50%; }
+      50%       { background-position: 100% 50%; }
+    }
+    .cs-tagline-top {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(0.85rem, 2vw, 1.15rem);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.28em;
+      color: rgba(232,188,106,0.65);
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    /* ═══════════════ HEADLINE ═══════════════ */
+    .cs-headline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(1.65rem, 5vw, 3.2rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ivory);
+      margin-bottom: 14px;
+      animation: fadeUp 1s 0.2s ease both;
+      max-width: 720px;
+    }
+    .cs-headline em {
+      font-style: italic;
+      background: linear-gradient(90deg, var(--rose), var(--plum));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cs-subhead {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(0.88rem, 2vw, 1.05rem);
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 560px;
+      margin-bottom: 44px;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+    .cs-subhead strong { color: var(--gold2); font-weight: 600; }
+
+    /* ═══════════════ COUNTDOWN ═══════════════ */
+    .cs-countdown {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(12px, 3vw, 32px);
+      margin-bottom: 52px;
+      animation: fadeUp 1s 0.4s ease both;
+    }
+    .cs-cd-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .cs-cd-num {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--ivory);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,150,62,0.22);
+      border-radius: 14px;
+      padding: clamp(10px,2vw,18px) clamp(14px,3vw,28px);
+      min-width: clamp(72px,12vw,110px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s;
+    }
+    .cs-cd-num::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.6;
+    }
+    .cs-cd-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.60rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(201,150,62,0.60);
+    }
+    .cs-cd-sep {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      color: rgba(201,150,62,0.35);
+      margin-top: 10px;
+      animation: blink 1s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    /* ═══════════════ EMAIL FORM ═══════════════ */
+    .cs-form-wrap {
+      width: 100%;
+      max-width: 520px;
+      margin-bottom: 36px;
+      animation: fadeUp 1s 0.5s ease both;
+    }
+    .cs-form-label {
+      display: block;
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold2);
+      margin-bottom: 12px;
+    }
+    .cs-form-inner {
+      display: flex;
+      gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,150,62,0.30);
+      border-radius: 100px;
+      padding: 6px 6px 6px 22px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .cs-form-inner:focus-within {
+      border-color: rgba(201,150,62,0.70);
+      box-shadow: 0 0 0 3px rgba(201,150,62,0.10), 0 8px 32px rgba(201,150,62,0.14);
+    }
+    .cs-form-inner input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--ivory);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 400;
+      min-width: 0;
+    }
+    .cs-form-inner input::placeholder { color: rgba(253,248,240,0.32); }
+    .cs-form-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--rose), var(--plum));
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      padding: 13px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: all 0.30s;
+      white-space: nowrap;
+    }
+    .cs-form-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(192,56,94,0.40);
+      background: linear-gradient(135deg, #d04070, #8b4f7e);
+    }
+    .cs-form-btn.loading { opacity: 0.6; pointer-events: none; }
+    .cs-form-btn.success {
+      background: linear-gradient(135deg, #22a06b, #167a52);
+    }
+    .cs-form-note {
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: rgba(253,248,240,0.30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .cs-form-note i { color: rgba(201,150,62,0.40); }
+
+    /* ═══════════════ SUCCESS MESSAGE ═══════════════ */
+    #cs-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 28px;
+      background: rgba(34,160,107,0.10);
+      border: 1px solid rgba(34,160,107,0.30);
+      border-radius: 16px;
+      animation: fadeUp 0.5s ease both;
+    }
+    #cs-success i { font-size: 2rem; color: #22a06b; }
+    #cs-success strong {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.15rem; color: var(--ivory);
+    }
+    #cs-success p { font-size: 0.78rem; color: var(--muted); }
+
+    /* ═══════════════ SOCIAL ICONS ═══════════════ */
+    .cs-social {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 48px;
+      animation: fadeUp 1s 0.6s ease both;
+    }
+    .cs-social-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(201,150,62,0.42);
+      font-weight: 600;
+    }
+    .cs-social-links {
+      display: flex;
+      gap: 10px;
+    }
+    .cs-social-link {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,150,62,0.20);
+      border-radius: 50%;
+      color: rgba(232,188,106,0.55);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: all 0.28s;
+    }
+    .cs-social-link:hover {
+      background: rgba(201,150,62,0.14);
+      border-color: rgba(201,150,62,0.55);
+      color: var(--gold2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(201,150,62,0.18);
+    }
+
+    /* ═══════════════ PILLARS ═══════════════ */
+    .cs-pillars {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 52px;
+      animation: fadeUp 1s 0.55s ease both;
+    }
+    .cs-pillar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(201,150,62,0.15);
+      border-radius: 100px;
+      padding: 9px 18px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: rgba(253,248,240,0.58);
+      transition: all 0.25s;
+    }
+    .cs-pillar:hover {
+      background: rgba(201,150,62,0.08);
+      border-color: rgba(201,150,62,0.38);
+      color: var(--gold2);
+    }
+    .cs-pillar i { color: var(--gold); font-size: 0.78rem; }
+
+    /* ═══════════════ BOTTOM STRIP ═══════════════ */
+    .cs-bottom {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 20;
+      background: linear-gradient(135deg, rgba(13,13,13,0.96), rgba(26,8,18,0.94));
+      border-top: 1px solid rgba(201,150,62,0.18);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .cs-bottom-left {
+      font-size: 0.68rem;
+      color: rgba(201,150,62,0.45);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .cs-bottom-left strong { color: rgba(201,150,62,0.70); }
+    .cs-bottom-right {
+      font-size: 0.68rem;
+      color: rgba(253,248,240,0.25);
+      text-align: right;
+    }
+    .cs-bottom-right a {
+      color: rgba(201,150,62,0.35);
+      text-decoration: none;
+      transition: color 0.22s;
+    }
+    .cs-bottom-right a:hover { color: var(--gold2); }
+
+    /* ═══════════════ DIVIDER ORNAMENT ═══════════════ */
+    .cs-ornament {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      animation: fadeUp 1s 0.35s ease both;
+    }
+    .cs-ornament-line {
+      flex: 1;
+      max-width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,150,62,0.35));
+    }
+    .cs-ornament-line:last-child {
+      background: linear-gradient(90deg, rgba(201,150,62,0.35), transparent);
+    }
+    .cs-ornament-icon {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.05rem;
+      color: rgba(201,150,62,0.45);
+      letter-spacing: 0.15em;
+    }
+
+    /* ═══════════════ ANIMATIONS ═══════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    /* ═══════════════ RESPONSIVE ═══════════════ */
+    @media (max-width: 600px) {
+      .cs-page { padding: 36px 18px 100px; }
+      .cs-form-inner { flex-direction: column; border-radius: 14px; padding: 14px 16px; gap: 10px; }
+      .cs-form-btn { justify-content: center; border-radius: 10px; }
+      .cs-countdown { gap: 10px; }
+      .cs-cd-num { min-width: 60px; border-radius: 10px; padding: 10px 14px; }
+      .cs-bottom { flex-direction: column; gap: 4px; text-align: center; padding: 10px 16px; }
+      .cs-bottom-right { text-align: center; }
+      .cs-pillars { gap: 8px; }
+      .cs-pillar { padding: 7px 14px; font-size: 0.68rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Particles canvas -->
+<canvas id="bbw-canvas"></canvas>
+
+<!-- Background -->
+<div class="cs-bg">
+  <img
+    src="https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_1.png?v=1774377685"
+    alt=""
+    loading="eager">
+</div>
+
+<!-- Shimmer border lines -->
+<div class="cs-shimmer-top"></div>
+<div class="cs-shimmer-bottom"></div>
+
+<!-- Main page -->
+<main class="cs-page" role="main">
+
+  <!-- Eyebrow -->
+  <div class="cs-eyebrow" aria-label="Status: Coming soon">
+    <span class="cs-eyebrow-dot"></span>
+    Something Powerful Is Coming
+  </div>
+
+  <!-- Brand -->
+  <div class="cs-logo-wrap">
+    <div class="cs-logo-glow"></div>
+    <h1 class="cs-brand">BBW4LIFE</h1>
+    <p class="cs-tagline-top">Beauty Has No Size</p>
+  </div>
+
+  <!-- Ornament -->
+  <div class="cs-ornament">
+    <div class="cs-ornament-line"></div>
+    <span class="cs-ornament-icon">✦ ♡ ✦</span>
+    <div class="cs-ornament-line"></div>
+  </div>
+
+  <!-- Headline -->
+  <h2 class="cs-headline">
+    The plus-size fashion platform<br>
+    <em>built for every curve.</em>
+  </h2>
+
+  <p class="cs-subhead">
+    Fashion, beauty &amp; lifestyle — for women who own every inch of themselves.
+    <strong>We're putting the finishing touches</strong> on something we think you'll love.
+  </p>
+
+  <!-- Countdown -->
+  <div class="cs-countdown" role="timer" aria-label="Launch countdown">
+    <div class="cs-cd-block">
+      <div class="cs-cd-num" id="cd-days">00</div>
+      <span class="cs-cd-label">Days</span>
+    </div>
+    <div class="cs-cd-sep" aria-hidden="true">:</div>
+    <div class="cs-cd-block">
+      <div class="cs-cd-num" id="cd-hours">00</div>
+      <span class="cs-cd-label">Hours</span>
+    </div>
+    <div class="cs-cd-sep" aria-hidden="true">:</div>
+    <div class="cs-cd-block">
+      <div class="cs-cd-num" id="cd-mins">00</div>
+      <span class="cs-cd-label">Minutes</span>
+    </div>
+    <div class="cs-cd-sep" aria-hidden="true">:</div>
+    <div class="cs-cd-block">
+      <div class="cs-cd-num" id="cd-secs">00</div>
+      <span class="cs-cd-label">Seconds</span>
+    </div>
+  </div>
+
+  <!-- Email form -->
+  <div class="cs-form-wrap">
+    <label class="cs-form-label" for="cs-email">
+      <i class="fas fa-crown" style="color:var(--gold);margin-right:6px;"></i>
+      Get early access — be first to know
+    </label>
+
+    <!-- Form -->
+    <div id="cs-form-area">
+      <div class="cs-form-inner">
+        <input
+          type="email"
+          id="cs-email"
+          placeholder="Your email address"
+          autocomplete="email"
+          aria-label="Email address">
+        <button class="cs-form-btn" id="cs-submit-btn" type="button">
+          <i class="fas fa-paper-plane"></i>
+          Notify Me
+        </button>
+      </div>
+      <p class="cs-form-note">
+        <i class="fas fa-lock"></i>
+        No spam, ever. Unsubscribe anytime.
+      </p>
+    </div>
+
+    <!-- Success state -->
+    <div id="cs-success" role="alert">
+      <i class="fas fa-heart" style="color:var(--rose);"></i>
+      <strong>You're on the list! ❤️</strong>
+      <p>We'll send you a personal note the moment we go live. Thank you for believing in us.</p>
+    </div>
+  </div>
+
+  <!-- Pillars -->
+  <div class="cs-pillars" aria-label="What we offer">
+    <div class="cs-pillar"><i class="fas fa-tshirt"></i> Plus-Size Fashion</div>
+    <div class="cs-pillar"><i class="fas fa-spa"></i> Beauty & Skincare</div>
+    <div class="cs-pillar"><i class="fas fa-gem"></i> Accessories</div>
+    <div class="cs-pillar"><i class="fas fa-shoe-prints"></i> Shoes & Heels</div>
+    <div class="cs-pillar"><i class="fas fa-heart"></i> Body Positivity</div>
+  </div>
+
+  <!-- Social -->
+  <div class="cs-social">
+    <span class="cs-social-label">Follow us</span>
+    <div class="cs-social-links" id="cs-social-links">
+      <!-- Injected by JS from settings -->
+    </div>
+  </div>
+
+</main>
+
+<!-- Bottom strip -->
+<footer class="cs-bottom" role="contentinfo">
+  <div class="cs-bottom-left">
+    <strong>BBW4LIFE</strong> &nbsp;·&nbsp; Beauty Has No Size
+  </div>
+  <div class="cs-bottom-right">
+    &copy; <span id="cs-year"></span> BBW4LIFE &nbsp;·&nbsp;
+    <a href="/policies/privacy.html">Privacy</a> &nbsp;·&nbsp;
+    <a href="/page/contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ═══════════════════════════════════════
+     1. YEAR
+  ═══════════════════════════════════════ */
+  document.getElementById('cs-year').textContent = new Date().getFullYear();
+
+  /* ═══════════════════════════════════════
+     2. COUNTDOWN — target date from settings or fallback
+  ═══════════════════════════════════════ */
+  var LAUNCH_DATE_FALLBACK = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days from now
+
+  function startCountdown(targetDate) {
+    var end = new Date(targetDate).getTime();
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function tick() {
+      var now  = Date.now();
+      var diff = Math.max(0, Math.floor((end - now) / 1000));
+      var dd   = Math.floor(diff / 86400);
+      var hh   = Math.floor((diff % 86400) / 3600);
+      var mm   = Math.floor((diff % 3600) / 60);
+      var ss   = diff % 60;
+      document.getElementById('cd-days').textContent  = pad(dd);
+      document.getElementById('cd-hours').textContent = pad(hh);
+      document.getElementById('cd-mins').textContent  = pad(mm);
+      document.getElementById('cd-secs').textContent  = pad(ss);
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* ═══════════════════════════════════════
+     3. LOAD SETTINGS (social links + launch date)
+  ═══════════════════════════════════════ */
+  fetch('/products.data.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var settings = (Array.isArray(data) ? data : []).find(function (p) { return p.type === 'settings'; }) || {};
+
+      /* ── Social links ── */
+      var sl = settings.social_links || {};
+      var map = [
+        { key: 'instagram', icon: 'fab fa-instagram', label: 'Instagram' },
+        { key: 'facebook',  icon: 'fab fa-facebook-f', label: 'Facebook' },
+        { key: 'tiktok',    icon: 'fab fa-tiktok', label: 'TikTok' },
+        { key: 'pinterest', icon: 'fab fa-pinterest-p', label: 'Pinterest' },
+        { key: 'youtube',   icon: 'fab fa-youtube', label: 'YouTube' },
+        { key: 'whatsapp',  icon: 'fab fa-whatsapp', label: 'WhatsApp' },
+        { key: 'twitter',   icon: 'fab fa-x-twitter', label: 'X / Twitter' }
+      ];
+      var container = document.getElementById('cs-social-links');
+      map.forEach(function (s) {
+        if (!sl[s.key]) return;
+        var a = document.createElement('a');
+        a.href = sl[s.key];
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'cs-social-link';
+        a.setAttribute('aria-label', s.label);
+        a.innerHTML = '<i class="' + s.icon + '"></i>';
+        container.appendChild(a);
+      });
+
+      /* ── Launch date from settings (optional) ── */
+      var launchDate = (settings.coming_soon && settings.coming_soon.launch_date)
+        ? new Date(settings.coming_soon.launch_date)
+        : LAUNCH_DATE_FALLBACK;
+
+      startCountdown(launchDate);
+    })
+    .catch(function () {
+      startCountdown(LAUNCH_DATE_FALLBACK);
+    });
+
+  /* ═══════════════════════════════════════
+     4. EMAIL SUBMIT — uses existing save-account function
+  ═══════════════════════════════════════ */
+  var submitBtn = document.getElementById('cs-submit-btn');
+  var emailInput = document.getElementById('cs-email');
+  var formArea = document.getElementById('cs-form-area');
+  var successBox = document.getElementById('cs-success');
+
+  submitBtn.addEventListener('click', async function () {
+    var email = (emailInput.value || '').trim();
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      emailInput.style.outline = '2px solid var(--rose)';
+      emailInput.focus();
+      setTimeout(function () { emailInput.style.outline = ''; }, 2000);
+      return;
+    }
+
+    submitBtn.classList.add('loading');
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+    try {
+      var res = await fetch('/.netlify/functions/save-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'newsletter-subscribe', email: email })
+      });
+      var data = await res.json();
+
+      if (data.success) {
+        formArea.style.display = 'none';
+        successBox.style.display = 'flex';
+      } else {
+        throw new Error(data.error || 'Failed');
+      }
+    } catch (err) {
+      submitBtn.classList.remove('loading');
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Notify Me';
+      alert('Something went wrong. Please try again.');
+    }
+  });
+
+  emailInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') submitBtn.click();
+  });
+
+  /* ═══════════════════════════════════════
+     5. CANVAS PARTICLES
+  ═══════════════════════════════════════ */
+  var canvas = document.getElementById('bbw-canvas');
+  var ctx    = canvas.getContext('2d');
+  var W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var COLORS = [
+    'rgba(201,150,62,',
+    'rgba(232,188,106,',
+    'rgba(245,208,128,',
+    'rgba(192,56,94,',
+    'rgba(123,63,110,'
+  ];
+
+  function Particle() {
+    this.reset();
+  }
+  Particle.prototype.reset = function () {
+    this.x     = Math.random() * W;
+    this.y     = H + 10;
+    this.vx    = (Math.random() - 0.5) * 0.5;
+    this.vy    = -(Math.random() * 0.8 + 0.3);
+    this.r     = Math.random() * 2.5 + 0.8;
+    this.alpha = Math.random() * 0.55 + 0.15;
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.life  = 0;
+    this.maxLife = Math.random() * 300 + 200;
+  };
+  Particle.prototype.draw = function () {
+    this.life++;
+    this.x += this.vx;
+    this.y += this.vy;
+    var fade = 1 - this.life / this.maxLife;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color + (this.alpha * fade).toFixed(2) + ')';
+    ctx.fill();
+    if (this.life >= this.maxLife || this.y < -10) this.reset();
+  };
+
+  for (var i = 0; i < 60; i++) {
+    var p = new Particle();
+    p.y = Math.random() * H; // spread initial positions
+    particles.push(p);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(function (p) { p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+})();
+</script>
+</body>
+</html>
