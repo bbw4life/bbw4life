@@ -51,7 +51,7 @@ exports.handler = async (event) => {
       return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear().toString().slice(-2)}`;
     }
 
-    const res = await sheets.spreadsheets.values.get({ spreadsheetId, range: "bbw4life-accounts!A:AE" });
+    const res = await sheets.spreadsheets.values.get({ spreadsheetId, range: "bbw4life-accounts!A:AF" });
     let rows = res.data.values || [];
     const rowIndex = rows.findIndex(row => normalize(row[2] || "") === normalize(email));
     const rowNum = rowIndex + 1;

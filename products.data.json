@@ -5682,7 +5682,7 @@
   "birthday_gift": {
   "show": "yes",
   "desktop_position": "left",
-  "mobile_position": "right",
+  "mobile_position": "left",
   "promo_code": "MYBIRTHDAY",
   "promo_discount": "20%",
   "allow_combine": "yes",
