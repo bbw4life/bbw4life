@@ -9715,19 +9715,17 @@ function loadProfilePhoto() {
             if (titleEl)  titleEl.textContent  = 'Click reward — ' + totalClicks.toLocaleString() + ' total clicks';
 
             // Stocker dans le sheet si la valeur a changé
-            if (parseFloat(aff.clickRewardEarned || 0) !== clickEarned) {
-              fetch('/.netlify/functions/save-account', {
-                method:  'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify({
-                  action:             'aff-update-click-reward',
-                  email:              userEmail,
-                  token:              localStorage.getItem('userAccountToken'),
-                  clickRewardEarned:  clickEarned,
-                  clicksPerReward:    clicksPerReward
-                })
-              }).catch(function() {});
-            }
+            fetch('/.netlify/functions/save-account', {
+              method:  'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body:    JSON.stringify({
+                action:             'aff-update-click-reward',
+                email:              userEmail,
+                token:              localStorage.getItem('userAccountToken'),
+                clickRewardEarned:  clickEarned,
+                clicksPerReward:    clicksPerReward
+              })
+            }).catch(function() {});
           }
         }
 
