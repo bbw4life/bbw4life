@@ -8496,7 +8496,6 @@ function loadProfilePhoto() {
     }
     if (bg.copy_label   !== undefined) CFG.copy_label   = bg.copy_label;
     if (bg.copied_label !== undefined) CFG.copied_label = bg.copied_label;
-    CFG._defaultCustomers = bg.default_customers || [];
   }
   /* ────────────────────────────────────────────────────────────
      POSITION DU BOUTON SELON SETTINGS
@@ -9093,9 +9092,20 @@ function loadProfilePhoto() {
     fetchTodayBirthdays().then(function (customers) {
       var hasBdays = customers && customers.length > 0;
 
+      if (!hasBdays) {
+        var bdayCfg  = CFG._defaultCustomers || [];
+        if (bdayCfg.length > 0) {
+          var today = new Date();
+          var seed  = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+          var shuffled = bdayCfg.slice().sort(function() {
+            return ((seed * 9301 + 49297) % 233280) / 233280 - 0.5;
+          });
+          customers = shuffled.slice(0, 3);
+        }
+      }
+
       buildCarousel(customers);
 
-      /* Dot de notification si des anniversaires */
       if (hasBdays && dotNotif) {
         dotNotif.classList.add('bbw-bday--visible');
       }
