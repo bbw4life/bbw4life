@@ -9718,12 +9718,12 @@ function loadProfilePhoto() {
             fetch('/.netlify/functions/save-account', {
               method:  'POST',
               headers: { 'Content-Type': 'application/json' },
-              body:    JSON.stringify({
+              body: JSON.stringify({
                 action:             'aff-update-click-reward',
                 email:              userEmail,
                 token:              localStorage.getItem('userAccountToken'),
                 clickRewardEarned:  clickEarned,
-                clicksPerReward:    clicksPerReward
+                clicksPerReward:    progressInTranche + ' / ' + clicksPerReward
               })
             }).catch(function() {});
           }
