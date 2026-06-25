@@ -266,8 +266,16 @@ exports.handler = async (event) => {
     const readyForEprolo = groupedCart.filter(item => item.variantsid);
     const notReady = cart.filter(item => !item.variantsid);
 
-    for (const item of notReady) await saveAsPending(item, shipping, BASE_URL, provider, paymentId);
-    for (const item of readyForEprolo) await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending");
+    // ── Récupérer fulfillment_method depuis shipping (envoyé par checkout.js) ──
+    const fulfillment_method = (shipping.fulfillment_method || 'eprolo').toLowerCase().trim();
+    console.log(`[VERIFY PAYMENT] Fulfillment method détecté: ${fulfillment_method}`);
+
+    for (const item of notReady) {
+      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending_stock", fulfillment_method);
+    }
+    for (const item of readyForEprolo) {
+      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending", fulfillment_method);
+    }
 
     console.log("🎯 Fulfillment terminé");
     return response(200, { success: true, fulfillmentStatus: "processing" });
@@ -277,12 +285,19 @@ exports.handler = async (event) => {
   }
 };
 
-async function saveAsPending(item, shipping, BASE_URL, provider, paymentId, status = "pending_stock") {
+async function saveAsPending(item, shipping, BASE_URL, provider, paymentId, status = "pending_stock", fulfillment_method = "eprolo") {
   try {
     await fetch(`${BASE_URL}/.netlify/functions/save-pending-order`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shipping, item, payment_provider: provider, payment_id: paymentId || "auto", status })
+      body: JSON.stringify({
+        shipping,
+        item,
+        payment_provider:   provider,
+        payment_id:         paymentId || "auto",
+        status,
+        fulfillment_method  // ← NOUVEAU
+      })
     });
   } catch (e) {
     console.error("saveAsPending failed:", e.message);

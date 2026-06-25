@@ -1,0 +1,59 @@
+# BBW4LIFE
+
+> BBW4LIFE est une marque de mode, beauté et lifestyle taille plus construite autour de la positivité corporelle. Tagline : "Beauty Has No Sizes." Nous célébrons les femmes aux courbes généreuses et combattons les standards de beauté irréalistes à travers des collections de mode, beauté et lifestyle soigneusement sélectionnées. Livraison mondiale gratuite. Retours 30 jours. Tailles XL à 6XL.
+
+## Core Pages
+
+- [Home](https://bbw4life.com/): Accueil — présentation de la marque, collections phares et mission Beauty Has No Sizes
+- [All Products](https://bbw4life.com/collections/bbw4life-all-product.html): Catalogue complet — toute la mode taille plus BBW4LIFE en un seul endroit
+- [All Collections](https://bbw4life.com/collections/bbw4life-all-collections.html): Toutes les collections — dresses, beauté, maillots, pantalons, chaussures et plus
+- [Our Story](https://bbw4life.com/page/our-story.html): L'histoire de BBW4LIFE — née d'un amour sincère, construite pour les femmes qui méritent d'être vues
+- [About](https://bbw4life.com/page/about.html): À propos — mission, valeurs et identité de la marque
+- [FAQ](https://bbw4life.com/page/faq.html): Questions fréquentes — livraison, retours, tailles, paiement, suivi commande
+- [Contact](https://bbw4life.com/page/contact.html): Support client — réponse réelle sous 24h, lun–sam 9h–18h EST, anglais/français/espagnol
+
+## Shop by Category
+
+- [Curvy Dresses](https://bbw4life.com/collections/curvy-dresses.html): Robes taille plus — maxi, bodycon, wrap, soirée, cocktail, tailles XL–6XL
+- [Curvy Woman](https://bbw4life.com/collections/curvy-woman.html): Mode femme — tops, bottoms, sets, tenues du quotidien, XL–6XL
+- [Pants & Skirts](https://bbw4life.com/collections/bbw4life-pants-skirts.html): Pantalons et jupes taille plus — wide leg, flare, midi, crayon, S–6XL
+- [Swimwear](https://bbw4life.com/collections/shoes-sandals.html): Maillots et bikinis taille plus — haute taille, bandage, une pièce, 0XL–4XL
+- [Shoes & Sandals](https://bbw4life.com/collections/shoes-sandals.html): Chaussures taille plus — stilettos, sandales, sneakers, boots, pointures 35–48
+- [Curvy Beauty](https://bbw4life.com/collections/curvy-beauty.html): Beauté — soins, maquillage, cheveux, bien-être pour femmes aux courbes
+- [Men Plus Size](https://bbw4life.com/collections/men-plus-size.html): Mode homme grande taille — pantalons, chemises, pulls, chaussures, M–5XL
+- [New Arrivals](https://bbw4life.com/collections/bbw4life-new-arrivals.html): Nouveautés — nouvelles pièces ajoutées chaque semaine
+- [Most Popular](https://bbw4life.com/collections/most-popular.html): Les plus populaires — bestsellers plébiscités par des milliers de femmes
+- [Featured Products](https://bbw4life.com/collections/bbw-features-products.html): Sélection phare — pièces mises en avant par BBW4LIFE cette semaine
+
+## Blog — BBW4LIFE Journal
+
+- [Journal](https://bbw4life.com/blog/blog.html): Articles hebdomadaires — mode taille plus, confiance en soi, beauté, lifestyle et témoignages
+- [Beauty Has No Sizes — The Movement](https://bbw4life.com/blog/article-featured.html): Article phare — le mouvement qui redéfinit la beauté pour toutes les femmes
+- [Stop Dieting](https://bbw4life.com/blog/article1.html): Arrêtez les régimes — comment les femmes BBW prennent vraiment soin d'elles
+- [Nutrition for Curvy Women](https://bbw4life.com/blog/article2.html): Manger pour se sentir bien, pas pour rétrécir
+- [Body Positive Affirmations](https://bbw4life.com/blog/article3.html): 7 affirmations qui changent le regard qu'on a sur soi
+- [Body Confidence](https://bbw4life.com/blog/article4.html): Comment arrêter de laisser les opinions des autres détruire votre confiance
+- [PCOS & Plus Size Body](https://bbw4life.com/blog/article5.html): SOPK et corps taille plus — comprendre ses hormones pour mieux vivre
+- [Gentle Home Exercises](https://bbw4life.com/blog/article6.html): Mouvements doux à la maison pour les femmes taille plus — sans jugement
+- [Plus Size Fashion 2026](https://bbw4life.com/blog/article7.html): Les tendances mode taille plus 2026 qui font tourner les têtes
+- [Body Acceptance Story](https://bbw4life.com/blog/article8.html): Comment j'ai arrêté d'avoir honte de mon corps — témoignage BBW4LIFE
+- [Wardrobe Essentials](https://bbw4life.com/blog/article9.html): 10 pièces indispensables pour les femmes taille plus qui assument leur style
+- [Style Guide All Occasions](https://bbw4life.com/blog/article10.html): Guide de style BBW — s'habiller avec confiance pour toutes les occasions
+- [Best Dresses for Curves](https://bbw4life.com/blog/article11.html): Trouver la robe qui sublime chaque courbe — guide complet
+- [BBW & Seduction](https://bbw4life.com/blog/article12.html): Votre corps est un cadeau, pas un obstacle — séduction et confiance BBW
+- [Dress to Shine](https://bbw4life.com/blog/article13.html): Comment s'habiller en BBW et se sentir BELLE — pas juste couverte
+- [Your Body Is a Power](https://bbw4life.com/blog/article14.html): Corps BBW et séduction — votre corps est une force, pas un problème
+- [BBW4LIFE Movement](https://bbw4life.com/blog/article15.html): Pourquoi être une grande belle femme est un style de vie, une fierté et une famille
+
+## Policies
+
+- [Shipping Information](https://bbw4life.com/policies/shipping.html): Livraison mondiale vers 54+ pays, délais, coûts et seuil livraison gratuite
+- [Return & Refund Policy](https://bbw4life.com/policies/refund.html): Retours 30 jours sans stress, remboursement complet garanti
+- [Privacy Policy](https://bbw4life.com/policies/privacy.html): Protection des données personnelles, conformité RGPD
+- [Terms & Conditions](https://bbw4life.com/policies/terms.html): Conditions générales expliquées clairement, sans surprises
+
+## Optional
+
+- [Order Tracking](https://bbw4life.com/page/order-tracking.html): Suivi commande en temps réel — entrez votre numéro de tracking
+- [Product Care](https://bbw4life.com/page/product-care.html): Guide d'entretien — comment prendre soin de vos pièces BBW4LIFE
+- [Sitemap](https://bbw4life.com/sitemap.xml): Index complet des URLs pour les crawlers

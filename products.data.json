@@ -4298,7 +4298,7 @@
     "thumbnails_desktop_horizontal_below": "no",
     "thumbnails_mobile_horizontal": "no",
     "thumbnails_mobile_vertical_left": "yes",
-    "sticky_media_mobile": "no",
+    "sticky_media_mobile": "yes",
     "swatch_scroll_mobile": "yes",
     "sticky_atc_mobile_threshold": 5.0,
     "sticky_atc_desktop_threshold": 4.5,

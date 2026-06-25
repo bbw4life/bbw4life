@@ -112,7 +112,7 @@ exports.handler = async (event) => {
         application_context: {
           return_url: `${returnUrl}?res_paypal=1`,
           cancel_url: returnUrl,
-          brand_name: 'CurvaFit',
+          brand_name: 'Bbw4life',
           user_action: 'PAY_NOW',
         },
       };

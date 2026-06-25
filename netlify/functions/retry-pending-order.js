@@ -11,7 +11,7 @@ async function getAutoFulfillMode(sheets, spreadsheetId) {
       range: "Settings!A1"
     });
     const value = (res.data.values?.[0]?.[0] || "yes").trim().toLowerCase();
-    return value === "no" ? "no" : "yes"; // sécurité : tout sauf "no" explicite = "yes"
+    return value === "no" ? "no" : "yes";
   } catch (e) {
     console.log('[RETRY PENDING] Onglet Settings introuvable, mode par défaut: yes');
     return "yes";
@@ -31,7 +31,8 @@ exports.handler = async () => {
     const sheets = google.sheets({ version: "v4", auth });
     const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 
-    const rangesToTry = ["bbw4life-pending-orders!A:R"];
+    // ── Lire jusqu'à la colonne T maintenant ──
+    const rangesToTry = ["bbw4life-pending-orders!A:T"];
     let rows = [];
     let activeTab = "";
     for (const range of rangesToTry) {
@@ -62,7 +63,7 @@ exports.handler = async () => {
 
       const shouldProcess = autoMode === "yes"
         ? (status === "pending" || status === "failed")
-        : (status === "approved"); // mode manuel : uniquement les lignes que TOI tu passes à "approved"
+        : (status === "approved");
 
       if (shouldProcess) {
         if (!groups[paymentId]) groups[paymentId] = [];
@@ -86,38 +87,72 @@ exports.handler = async () => {
       processed++;
 
       const firstRow = group[0].row;
+
+      // ── Shipping (colonnes A→R inchangées) ──
       const shipping = {
-        fullName: firstRow[3] || "",
-        email: firstRow[4] || "",
-        phone: firstRow[5] || "",
-        country: firstRow[6] || "Canada",
-        state: firstRow[7] || "",
-        city: firstRow[8] || "",
-        postalCode: firstRow[9] || "",
-        address: firstRow[10] || "",
+        fullName:        firstRow[3]  || "",
+        email:           firstRow[4]  || "",
+        phone:           firstRow[5]  || "",
+        country:         firstRow[6]  || "Canada",
+        state:           firstRow[7]  || "",
+        city:            firstRow[8]  || "",
+        postalCode:      firstRow[9]  || "",
+        address:         firstRow[10] || "",
         shipping_method: firstRow[17] || "Standard Shipping",
       };
+
+      // ── Résolution countryCode ──
       let countryCode = 'CA';
       try {
-        const countryRes = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(shipping.country)}?fullText=true&fields=cca2`);
+        const countryRes = await fetch(
+          `https://restcountries.com/v3.1/name/${encodeURIComponent(shipping.country)}?fullText=true&fields=cca2`
+        );
         if (countryRes.ok) countryCode = (await countryRes.json())[0]?.cca2 || 'CA';
       } catch {}
-      shipping.countryCode = countryCode;
+      shipping.countryCode  = countryCode;
       shipping.provinceCode = shipping.state.substring(0, 2).toUpperCase() || '';
 
+      // ── Lire fulfillment_method depuis colonne T (index 19) ──
+      const fulfillmentMethod = (firstRow[19] || 'eprolo').toLowerCase().trim();
+      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId}`);
+
+      // ── Construire cartMap depuis colonne M (index 12 = variant_id) ──
       const cartMap = {};
       group.forEach(({ row }) => {
         const variantsid = row[12] || "";
-        const quantity = parseInt(row[13]) || 1;
+        const quantity   = parseInt(row[13]) || 1;
         if (variantsid) cartMap[variantsid] = (cartMap[variantsid] || 0) + quantity;
       });
-      const cart = Object.keys(cartMap).map(v => ({ variantsid: v, quantity: cartMap[v] }));
 
       try {
-        const createRes = await fetch(`${process.env.BASE_URL}/.netlify/functions/create-eprolo-order`, {
-          method: "POST",
+        let endpoint;
+        let cartPayload;
+
+        if (fulfillmentMethod === 'cj') {
+          // ── CJ : besoin de cj_product_id (colonne L, index 11) + variant_id ──
+          endpoint = `${process.env.BASE_URL}/.netlify/functions/create-cj-order`;
+          cartPayload = group.map(({ row }) => ({
+            cj_product_id: row[11] || "",   // colonne L
+            cj_variant_id: row[12] || "",   // colonne M
+            variantsid:    row[12] || "",   // alias pour compatibilité
+            quantity:      parseInt(row[13]) || 1
+          }));
+          console.log(` → Envoi à create-cj-order`);
+
+        } else {
+          // ── Eprolo (défaut) : seulement variant_id ──
+          endpoint = `${process.env.BASE_URL}/.netlify/functions/create-eprolo-order`;
+          cartPayload = Object.keys(cartMap).map(v => ({
+            variantsid: v,
+            quantity:   cartMap[v]
+          }));
+          console.log(` → Envoi à create-eprolo-order`);
+        }
+
+        const createRes = await fetch(endpoint, {
+          method:  "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cart, shipping })
+          body:    JSON.stringify({ cart: cartPayload, shipping })
         });
         const createData = await createRes.json();
 
@@ -125,7 +160,7 @@ exports.handler = async () => {
           for (const { lineNumber } of group) {
             await sheets.spreadsheets.values.update({
               spreadsheetId,
-              range: `bbw4life-pending-orders!O${lineNumber}`,
+              range:            `bbw4life-pending-orders!O${lineNumber}`,
               valueInputOption: "RAW",
               resource: { values: [["successful"]] }
             });
@@ -133,14 +168,15 @@ exports.handler = async () => {
           successCount++;
           console.log(` ✅ SUCCÈS pour ${paymentId}`);
         } else {
-          throw new Error(createData.error || "Échec Eprolo");
+          throw new Error(createData.error || `Échec ${fulfillmentMethod}`);
         }
+
       } catch (err) {
         console.error(` ❌ ÉCHEC pour ${paymentId}: ${err.message}`);
         for (const { lineNumber } of group) {
           await sheets.spreadsheets.values.update({
             spreadsheetId,
-            range: `bbw4life-pending-orders!O${lineNumber}`,
+            range:            `bbw4life-pending-orders!O${lineNumber}`,
             valueInputOption: "RAW",
             resource: { values: [["failed"]] }
           });
@@ -152,6 +188,7 @@ exports.handler = async () => {
 
     console.log(`[RETRY PENDING] ✅ FIN - Traités: ${processed} | Réussis: ${successCount}`);
     return { statusCode: 200, body: JSON.stringify({ success: true, processed, fulfilled: successCount }) };
+
   } catch (error) {
     console.error("RETRY ERROR:", error.message);
     return { statusCode: 500, body: JSON.stringify({ success: false, error: error.message }) };

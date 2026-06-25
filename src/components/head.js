@@ -10,7 +10,7 @@ const SEO_MAP = {
     // ─────────────────────────────────────────────────────
     '/index': {
         title: 'BBW4LIFE — Beauty Has No Size | Plus Size Fashion for Curvy Women',
-        description: 'BBW4LIFE — the #1 plus size fashion brand for curvy women. Shop bold dresses, swimwear, beauty & more in sizes XL to 6XL. Free shipping on orders $50+. 30-day returns. Beauty Has No Size.',
+        description: 'BBW4LIFE — the #1 plus size fashion brand for curvy women. Shop bold dresses, swimwear, beauty & more in sizes XL to 6XL. Free shipping. 30-day returns. Beauty Has No Size.',
         keywords: 'plus size fashion, curvy women clothing, BBW4LIFE, body positive fashion, plus size dresses, BBW clothing, curvy fashion 2026, plus size swimwear, plus size beauty, BBW style, big beautiful women fashion, body positive brand, plus size outfits, curvy woman style, plus size collection, BBW4LIFE shop, plus size tops, curvy woman fashion, size XL to 6XL, body positive movement, plus size boutique, curvy woman dresses, BBW fashion store, plus size brand, size inclusive fashion, free shipping plus size, BBW4LIFE collection, curvy body fashion, plus size women clothing, beauty has no size',
         og_image: 'https://bbw4life.com/public/og-home.jpg',
         canonical: 'https://bbw4life.com/'
@@ -219,7 +219,7 @@ const SEO_MAP = {
         canonical: 'https://bbw4life.com/policies/shipping.html'
     },
 
-    '/policies/termsl.html': {
+    '/policies/terms.html': {
         title: 'Terms & Conditions — Clear, Honest & No Legal Traps | BBW4LIFE',
         description: 'Read the BBW4LIFE Terms & Conditions. Your rights, our responsibilities, return policy, order cancellation, payment security, and how BBW4LIFE works — explained in plain English. No surprises.',
         keywords: 'terms and conditions BBW4LIFE, BBW4LIFE terms, legal terms BBW4LIFE, BBW4LIFE user agreement, plus size brand terms, curvy fashion terms conditions, BBW4LIFE refund terms, BBW4LIFE return policy terms, order cancellation BBW4LIFE, BBW4LIFE payment terms, BBW4LIFE legal page, curvy fashion legal terms, plus size shop terms, BBW4LIFE policies, body positive brand terms, BBW4LIFE conditions, plus size fashion agreement, curvy fashion conditions, BBW4LIFE order terms, plus size brand legal, curvy woman shopping terms, BBW4LIFE terms of use, body positive shopping terms, BBW4LIFE user rights, plus size customer rights, BBW4LIFE responsibilities, curvy fashion customer terms, BBW4LIFE shop agreement, body positive legal, plus size legal notice',
@@ -1004,6 +1004,111 @@ function injectBlogSchema() {
     document.head.appendChild(script);
 }
 
+
+/* ════════════════════════════════════════════════════════
+   PRODUCT SCHEMA (JSON-LD) — pour Rich Snippets Google
+════════════════════════════════════════════════════════ */
+function injectProductSchema() {
+    const path = window.location.pathname;
+    if (!/\/products\/product\d+\.html/.test(path)) return;
+
+    fetch('/products.data.json')
+        .then(r => r.json())
+        .then(data => {
+            // Le fichier products.data.json se termine par un objet "settings" — on filtre
+            const products = Array.isArray(data) ? data.filter(p => p.url) : [];
+            const product = products.find(p => p.url === path);
+
+            if (!product) {
+                console.warn('[Product Schema] Aucun produit trouvé pour', path);
+                return;
+            }
+
+            const seo = SEO_MAP[path] || {};
+            const canonicalUrl = (seo.canonical) || ('https://bbw4life.com' + path);
+
+            // Construction de la liste des offres (une par variante active)
+            const offers = (product.variants || [])
+                .filter(v => v.active)
+                .slice(0, 50) // Google limite le nombre d'offres affichées utilement
+                .map(v => ({
+                    '@type': 'Offer',
+                    'sku': product.sku_internal || product.id,
+                    'price': v.price,
+                    'priceCurrency': product.currency || 'USD',
+                    'availability': 'https://schema.org/InStock',
+                    'url': canonicalUrl,
+                    'itemCondition': 'https://schema.org/NewCondition'
+                }));
+
+            const schema = {
+                '@context': 'https://schema.org',
+                '@type': 'Product',
+                'name': seo.title || product.title,
+                'description': seo.description || product.description,
+                'image': (product.media && product.media.length ? product.media : [product.image]),
+                'sku': product.sku_internal || product.id,
+                'brand': {
+                    '@type': 'Brand',
+                    'name': 'BBW4LIFE'
+                },
+                'url': canonicalUrl
+            };
+
+            // Note moyenne — uniquement si on a des reviews réelles
+            if (product.rating && product.reviews_count) {
+                schema.aggregateRating = {
+                    '@type': 'AggregateRating',
+                    'ratingValue': product.rating,
+                    'reviewCount': product.reviews_count,
+                    'bestRating': '5',
+                    'worstRating': '1'
+                };
+            }
+
+            // Offre simple si peu de variantes, ou AggregateOffer si plusieurs prix différents
+            const uniquePrices = [...new Set(offers.map(o => o.price))];
+
+            if (offers.length === 0) {
+                // Pas de variantes -> offre unique basée sur le prix produit
+                schema.offers = {
+                    '@type': 'Offer',
+                    'price': product.price,
+                    'priceCurrency': product.currency || 'USD',
+                    'availability': 'https://schema.org/InStock',
+                    'url': canonicalUrl,
+                    'itemCondition': 'https://schema.org/NewCondition'
+                };
+            } else if (uniquePrices.length === 1) {
+                // Toutes les variantes ont le même prix -> une seule offre suffit
+                schema.offers = offers[0];
+            } else {
+                // Prix variables -> AggregateOffer avec min/max
+                schema.offers = {
+                    '@type': 'AggregateOffer',
+                    'priceCurrency': product.currency || 'USD',
+                    'lowPrice': Math.min(...uniquePrices),
+                    'highPrice': Math.max(...uniquePrices),
+                    'offerCount': offers.length,
+                    'availability': 'https://schema.org/InStock',
+                    'url': canonicalUrl
+                };
+            }
+
+            
+            const existing = document.getElementById('product-schema-ld');
+            if (existing) existing.remove();
+
+            const script = document.createElement('script');
+            script.id = 'product-schema-ld';
+            script.type = 'application/ld+json';
+            script.text = JSON.stringify(schema);
+            document.head.appendChild(script);
+        })
+        .catch(err => console.error('[Product Schema] Erreur de chargement:', err));
+}
+
+
 function injectGlobalHead() {
     return fetch('/src/components/head.html')
         .then(r => r.text())
@@ -1100,4 +1205,5 @@ function injectGlobalHead() {
 injectGlobalHead().then(() => {
     injectPageSEO();
     injectBlogSchema();
+    injectProductSchema();
 });

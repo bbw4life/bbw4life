@@ -7,6 +7,7 @@ Disallow: /checkout/
 Disallow: /account.html
 Disallow: /src/
 Disallow: /public/
-Disallow: /policies/
+Disallow: /thankyou.html
 
 Sitemap: https://bbw4life.com/sitemap.xml
+Sitemap: https://bbw4life.com/llms.txt
