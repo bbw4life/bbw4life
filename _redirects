@@ -1,13 +1,2 @@
-/coming-soon.html    /coming-soon    301
-/coming-soon         /coming-soon.html    200
-/                    /index.html          200
-/collections/:page   /collections/:page.html      200
-/products/:page      /products/:page.html          200
-/blog/:page          /blog/:page.html              200
-/page/:page          /page/:page.html              200
-/policies/:page      /policies/:page.html          200
-/checkout/:page      /checkout/:page.html          200
-/account             /account.html                 200
-/cart                /cart.html                    200
 /*                   /coming-soon.html             200
 /*                   /404.html                     404
