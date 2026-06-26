@@ -132,8 +132,9 @@ exports.handler = async (event) => {
         postalCode: ship.address?.postal_code || "",
         country: countryName,
         countryCode: countryCode,
-        shipping_method: refParts[4] || "Standard Shipping"
-      };
+        shipping_method: refParts[4] || "Standard Shipping",
+        fulfillment_method: refParts[6] || "eprolo"
+    };
       console.log("[PAYPAL] Final shipping pulled:", JSON.stringify(shipping));
       paymentVerified = true;
 
