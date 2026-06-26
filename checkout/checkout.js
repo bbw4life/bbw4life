@@ -329,30 +329,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const fullPhone   = (phoneCode + phoneNumber).replace(/\s+/g, '');
         const address2El  = document.getElementById('address2') || document.getElementById('address-line2');
 
-        // ── Détecte fulfillment depuis countries.json (déjà chargé dans allCountries) ──
-        let fulfillment_method = 'eprolo'; // défaut
-        if (allCountries.length > 0) {
-            const countryEntry = allCountries.find(c => c.name.common === countryName);
-            if (countryEntry && countryEntry.fulfillment) {
-                fulfillment_method = countryEntry.fulfillment; // 'eprolo' ou 'cj'
-            }
-        }
-        console.log(`[CHECKOUT] Country: ${countryName} → Fulfillment: ${fulfillment_method}`);
-
         return {
-            firstName:          document.getElementById('first-name').value.trim(),
-            lastName:           document.getElementById('last-name').value.trim(),
-            email:              document.getElementById('email').value.trim(),
-            phone:              fullPhone,
-            country:            countryName,
-            countryCode:        countryCode,
-            city:               selectedCityName || document.getElementById('city').value.trim() || '',
-            state:              (document.getElementById('state') || {}).value?.trim() || '',
-            postalCode:         document.getElementById('postal-code').value.trim(),
-            address:            document.getElementById('address').value.trim(),
-            address2:           address2El ? address2El.value.trim() : '',
-            shipping_method:    document.querySelector('.shipping-option.selected')?.dataset.method || 'Standard Shipping',
-            fulfillment_method: fulfillment_method  // ← NOUVEAU
+            firstName:       document.getElementById('first-name').value.trim(),
+            lastName:        document.getElementById('last-name').value.trim(),
+            email:           document.getElementById('email').value.trim(),
+            phone:           fullPhone,
+            country:         countryName,
+            countryCode:     countryCode,
+            city:            selectedCityName || document.getElementById('city').value.trim() || '',
+            state:           (document.getElementById('state') || {}).value?.trim() || '',
+            postalCode:      document.getElementById('postal-code').value.trim(),
+            address:         document.getElementById('address').value.trim(),
+            address2:        address2El ? address2El.value.trim() : '',
+            shipping_method: document.querySelector('.shipping-option.selected')?.dataset.method || 'Standard Shipping',
         };
     }
 
