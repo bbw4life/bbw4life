@@ -8712,6 +8712,10 @@ function loadProfilePhoto() {
 
   function buildCarousel(customers) {
     if (!carousel) return;
+
+    // Si tableau vide → ne rien faire (garder defaults déjà affichés)
+    if (!customers || customers.length === 0) return;
+
     carousel.innerHTML = '';
 
     // Enlever le placeholder
