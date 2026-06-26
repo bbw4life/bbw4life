@@ -138,22 +138,23 @@ exports.handler = async (event) => {
       });
     }
 
-    // ← ICI — ajoute le bloc discount juste après
+    // ── Réduction via coupon Stripe (les line items négatifs sont rejetés par l'API) ──
+    let discounts = [];
     if (discountAmount > 0) {
-      lineItems.push({
-        price_data: {
-          currency: 'usd',
-          product_data: { name: `Promo Discount (${promoCode})` },
-          unit_amount: -Math.round(discountAmount * 100)
-        },
-        quantity: 1
+      const coupon = await stripe.coupons.create({
+        amount_off: Math.round(discountAmount * 100),
+        currency: 'usd',
+        duration: 'once',
+        name: `Promo ${promoCode}`
       });
+      discounts.push({ coupon: coupon.id });
     }
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
+      ...(discounts.length ? { discounts } : {}),
       success_url: `${process.env.BASE_URL}/thankyou.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url:  `${process.env.BASE_URL}/checkout.html`,
     });
