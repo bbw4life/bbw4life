@@ -9,7 +9,7 @@ const crypto = require('crypto');
 //  ENVIRONMENT
 // ════════════════════════════════════════════════════════════════
 const BASE_URL   = process.env.BASE_URL   || 'https://bbw4life.com';
-const FROM_EMAIL = process.env.FROM_EMAIL || 'BBW4LIFE <hello@bbw4life.com>';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'BBW4LIFE <support@bbw4life.com>';
 
 // ════════════════════════════════════════════════════════════════
 //  EMAIL TYPE CONSTANTS
@@ -27,6 +27,14 @@ const T = {
   PLAN_REQUEST:       'plan_request',
   CUSTOM_PRODUCT:     'custom_product',
   CART_ABANDONED:     'cart_abandoned',
+};
+
+// Newsletter delay thresholds (in days)
+const NEWSLETTER_DELAYS = {
+  [T.NEWSLETTER_2]: 3,
+  [T.NEWSLETTER_3]: 5,
+  [T.NEWSLETTER_4_BUYER]: 10,
+  [T.NEWSLETTER_4_NEW]:   10,
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -107,7 +115,7 @@ async function callGroq(userPrompt) {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  SETTINGS LOADER — from products.data.json
+//  SETTINGS LOADER
 // ════════════════════════════════════════════════════════════════
 let _cachedSettings = null;
 
@@ -170,11 +178,16 @@ async function sheetAppend(sheets, spreadsheetId, range, values) {
 const EMAIL_LOG_SHEET = 'bbw4life-email-log';
 
 async function loadEmailLog(sheets) {
+  // Col A=email, B=type, C=date_sent (ISO)
   const rows = await sheetRead(sheets, process.env.SHEET_ID_BBW4LIFE_ACCOUNTS, `${EMAIL_LOG_SHEET}!A:C`);
-  const set  = new Set();
-  rows.forEach(r => { if (r[0] && r[1]) set.add(`${r[0].toLowerCase()}||${r[1]}`); });
-  console.log(`[EmailLog] ${set.size} sent records loaded`);
-  return set;
+  const map  = new Map(); // key: "email||type" → date_sent ISO string
+  rows.forEach(r => {
+    if (r[0] && r[1]) {
+      map.set(`${r[0].toLowerCase()}||${r[1]}`, r[2] || '');
+    }
+  });
+  console.log(`[EmailLog] ${map.size} sent records loaded`);
+  return map;
 }
 
 async function markEmailSent(sheets, email, type) {
@@ -182,12 +195,31 @@ async function markEmailSent(sheets, email, type) {
     sheets,
     process.env.SHEET_ID_BBW4LIFE_ACCOUNTS,
     `${EMAIL_LOG_SHEET}!A:C`,
-    [email.toLowerCase(), type, new Date().toISOString().slice(0, 10)]
+    [email.toLowerCase(), type, new Date().toISOString()]
   );
 }
 
 function wasEmailSent(log, email, type) {
   return log.has(`${email.toLowerCase()}||${type}`);
+}
+
+// Returns how many days ago an email was sent (null if not sent)
+function daysSinceEmailSent(log, email, type) {
+  const key  = `${email.toLowerCase()}||${type}`;
+  const val  = log.get(key);
+  if (!val) return null;
+  const sent = new Date(val);
+  if (isNaN(sent.getTime())) return null;
+  return (Date.now() - sent.getTime()) / (1000 * 60 * 60 * 24);
+}
+
+// Check if enough days have passed since newsletter_1 was sent
+function newsletterDelayOk(log, email, type) {
+  const required = NEWSLETTER_DELAYS[type];
+  if (!required) return true;
+  const days = daysSinceEmailSent(log, email, T.NEWSLETTER_1);
+  if (days === null) return false; // newsletter_1 not sent yet
+  return days >= required;
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -215,11 +247,9 @@ async function deliver(to, subject, html) {
   }
 }
 
-
 // ════════════════════════════════════════════════════════════════
 //  EPROLO — TRACKING CHECKER
 // ════════════════════════════════════════════════════════════════
-
 function buildEproloSign() {
   const apiKey    = process.env.EPROLO_API_KEY;
   const apiSecret = process.env.EPROLO_API_SECRET;
@@ -231,36 +261,25 @@ function buildEproloSign() {
 async function getEproloOrderTracking(internalOrderId) {
   try {
     const { apiKey, timestamp, sign } = buildEproloSign();
-
     const url = `https://openapi.eprolo.com/order_list.html?sign=${sign}&timestamp=${timestamp}&order_id=${encodeURIComponent(internalOrderId)}&status=0&page_size=1`;
-
-    const res  = await fetch(url, {
-      method:  'GET',
-      headers: { 'apiKey': apiKey }
-    });
-
+    const res  = await fetch(url, { method: 'GET', headers: { 'apiKey': apiKey } });
     const text = await res.text();
     let data;
     try { data = JSON.parse(text); } catch { return null; }
-
     if (data.code !== '0' && data.code !== 0) {
       console.warn(`[EPROLO Tracking] API error: ${data.msg}`);
       return null;
     }
-
     const list  = (data.data && data.data.list) || [];
     const order = list[0];
     if (!order) return null;
-
     const logistics = (order.logistics || [])[0];
     if (!logistics || !logistics.tracking_number) return null;
-
     return {
       trackingNumber: logistics.tracking_number,
       carrier:        logistics.tracking_company || null,
       trackingUrl:    logistics.tracking_url     || null
     };
-
   } catch (e) {
     console.warn('[EPROLO Tracking] Error:', e.message);
     return null;
@@ -272,27 +291,20 @@ async function getEproloOrderTracking(internalOrderId) {
 // ════════════════════════════════════════════════════════════════
 async function runTrackingChecker(sheets, settings) {
   console.log('[Tracking] Starting tracking check...');
-
   const rows = await sheetRead(
     sheets,
     process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
     'bbw4life-pending-orders!A:S'
   );
+  if (rows.length <= 1) { console.log('[Tracking] No orders found'); return { checked: 0, found: 0 }; }
 
-  if (rows.length <= 1) {
-    console.log('[Tracking] No orders found');
-    return { checked: 0, found: 0 };
-  }
-
-  const now     = new Date();
-  let checked   = 0;
-  let found     = 0;
-
+  const now       = new Date();
+  let checked     = 0;
+  let found       = 0;
   const processed = new Set();
 
   for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-
+    const row             = rows[i];
     const internalOrderId = row[0]  || '';
     const paymentId       = row[2]  || '';
     const fullName        = row[3]  || '';
@@ -301,13 +313,13 @@ async function runTrackingChecker(sheets, settings) {
     const orderDateStr    = row[16] || '';
     const trackingCol     = row[18] || '';
 
-    if (trackingCol)                   continue;
-    if (status !== 'successful')       continue;
+    if (trackingCol)                    continue;
+    if (status !== 'successful')        continue;
     if (!email || !email.includes('@')) continue;
-    if (processed.has(paymentId))      continue;
+    if (processed.has(paymentId))       continue;
 
     if (orderDateStr) {
-      const orderDate = new Date(orderDateStr);
+      const orderDate    = new Date(orderDateStr);
       const hoursElapsed = (now - orderDate) / (1000 * 60 * 60);
       if (hoursElapsed < 24) {
         console.log(`[Tracking] Order ${internalOrderId} — only ${hoursElapsed.toFixed(1)}h elapsed, skipping`);
@@ -322,7 +334,6 @@ async function runTrackingChecker(sheets, settings) {
 
     if (result && result.trackingNumber) {
       found++;
-
       try {
         await sheets.spreadsheets.values.update({
           spreadsheetId: process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
@@ -345,7 +356,8 @@ async function runTrackingChecker(sheets, settings) {
           lastName,
           orderId:        internalOrderId,
           trackingNumber: result.trackingNumber,
-          carrier:        result.carrier || ''
+          carrier:        result.carrier || '',
+          trackingUrl:    result.trackingUrl || ''
         }, settings);
       });
 
@@ -364,11 +376,9 @@ async function runTrackingChecker(sheets, settings) {
       } catch (e) {
         console.warn('[Tracking] Telegram notify failed:', e.message);
       }
-
     } else {
       console.log(`[Tracking] ⏳ No tracking yet for ${internalOrderId}`);
     }
-
     await sleep(800);
   }
 
@@ -390,7 +400,6 @@ async function trySendDirect(email, type, composeFn) {
 // ════════════════════════════════════════════════════════════════
 //  EMAIL DESIGN SYSTEM — BBW4LIFE BRANDED
 // ════════════════════════════════════════════════════════════════
-
 const BBW = {
   rose:      '#c0385e',
   rose2:     '#e8245a',
@@ -406,16 +415,12 @@ const BBW = {
   textLight: '#9e8e96',
 };
 
-// Font Awesome CDN link — injected once in <head>
-const FA_CDN = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">`;
-
 const BASE_CSS = `
   body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
   table,td{mso-table-lspace:0pt;mso-table-rspace:0pt}
   img{-ms-interpolation-mode:bicubic;border:0;height:auto;line-height:100%;outline:none;text-decoration:none}
   body{margin:0!important;padding:0!important;background-color:#f9f0f5}
   a{color:inherit}
-  .fa-icon-cell{width:36px;text-align:center;vertical-align:top;padding-top:3px;}
   @media only screen and (max-width:620px){
     .ew{width:100%!important;border-radius:0!important}
     .ep{padding:24px 16px!important}
@@ -425,9 +430,20 @@ const BASE_CSS = `
   }
 `;
 
-// ── Settings-driven components ────────────────────────────────
+// ── SVG Social Icons ──────────────────────────────────────────
+const SVG_ICONS = {
+  facebook: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  instagram: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  tiktok: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  youtube: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="#fff"/></svg>`,
+  pinterest: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.852 0 1.265.64 1.265 1.408 0 .858-.546 2.14-.828 3.33-.236.995.499 1.806 1.476 1.806 1.772 0 3.135-1.868 3.135-4.565 0-2.386-1.716-4.054-4.163-4.054-2.836 0-4.5 2.127-4.5 4.326 0 .857.33 1.775.741 2.276a.3.3 0 0 1 .069.286c-.075.314-.243.995-.276 1.134-.044.181-.146.219-.337.132-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" fill="#fff"/></svg>`,
+  twitter: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4l16 16M4 20L20 4" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  whatsapp: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+};
+
+// ── Brand components ──────────────────────────────────────────
 function buildLogoComponent(settings) {
-  const logoUrl = (settings.logo_url || settings.logo || '');
+  const logoUrl  = settings.logo_url || settings.logo || '';
   const siteName = 'BBW4LIFE';
   if (logoUrl) {
     return `<a href="${BASE_URL}" target="_blank" style="display:inline-block;text-decoration:none;margin-bottom:20px;">
@@ -445,22 +461,9 @@ function buildLogoComponent(settings) {
   </a>`;
 }
 
-// ── Social footer with SVG icons ──────────────────────────────
 function buildSocialFooter(settings) {
   const social = settings.social_links || {};
-
-  // SVG paths for each network
-  const svgIcons = {
-    facebook: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>`,
-    instagram: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
-    tiktok: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>`,
-    youtube: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>`,
-    pinterest: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>`,
-    twitter: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
-    whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>`,
-  };
-
-  const links = [
+  const links  = [
     { key: 'facebook',  label: 'Facebook'  },
     { key: 'instagram', label: 'Instagram' },
     { key: 'tiktok',    label: 'TikTok'    },
@@ -468,7 +471,7 @@ function buildSocialFooter(settings) {
     { key: 'pinterest', label: 'Pinterest' },
     { key: 'twitter',   label: 'X'         },
     { key: 'whatsapp',  label: 'WhatsApp'  },
-  ].filter(l => social[l.key] && svgIcons[l.key]);
+  ].filter(l => social[l.key]);
 
   if (!links.length) return '';
 
@@ -476,13 +479,13 @@ function buildSocialFooter(settings) {
 <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto 16px;">
   <tr>
     ${links.map(l => `
-    <td style="padding:0 5px;">
+    <td style="padding:0 4px;">
       <a href="${social[l.key]}" target="_blank" title="${l.label}"
-         style="display:inline-block;width:36px;height:36px;border-radius:8px;
-                background:rgba(192,56,94,0.18);border:1px solid rgba(192,56,94,0.30);
-                text-align:center;line-height:36px;text-decoration:none;
-                color:#c0385e;vertical-align:middle;">
-        <span style="display:inline-block;vertical-align:middle;line-height:1;">${svgIcons[l.key]}</span>
+         style="display:inline-flex;align-items:center;justify-content:center;
+                width:36px;height:36px;border-radius:8px;
+                background:rgba(192,56,94,0.22);border:1px solid rgba(192,56,94,0.32);
+                text-decoration:none;vertical-align:middle;line-height:36px;text-align:center;">
+        ${SVG_ICONS[l.key] || ''}
       </a>
     </td>`).join('')}
   </tr>
@@ -519,8 +522,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
   const ceoHTML    = showCEO ? buildCEOSignature(settings) : '';
   const support    = (settings.contact_emails || {}).general || (settings.contact || {}).email || 'support@bbw4life.com';
   const whatsapp   = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
-
-  const grad = headerGrad || `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`;
+  const grad       = headerGrad || `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`;
 
   return `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -529,12 +531,10 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>BBW4LIFE</title>
-  ${FA_CDN}
   <style>${BASE_CSS}</style>
 </head>
 <body style="margin:0;padding:0;background-color:#f9f0f5;">
 
-<!-- Preheader -->
 <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;color:#f9f0f5;line-height:1px;">
   ${preheader}&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;
 </div>
@@ -558,7 +558,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
                   font-family:Arial,sans-serif;font-size:11px;font-weight:700;
                   color:rgba(255,255,255,0.88);letter-spacing:0.12em;text-transform:uppercase;
                   margin-bottom:14px;">${topBadge}</div><br>` : ''}
-                <h1 class="eh1" style="margin:0 0 0;font-family:Georgia,serif;font-size:28px;
+                <h1 class="eh1" style="margin:0;font-family:Georgia,serif;font-size:28px;
                     font-weight:700;color:#fff;line-height:1.2;letter-spacing:0.02em;">${headline}</h1>
                 ${subHeadline ? `<p style="margin:10px 0 0;font-family:Arial,sans-serif;
                     font-size:14px;color:rgba(255,255,255,0.78);line-height:1.5;">${subHeadline}</p>` : ''}
@@ -599,7 +599,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
           <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:11px;
               color:rgba(255,255,255,0.40);letter-spacing:0.15em;">BBW4LIFE</p>
           <p style="margin:0 0 10px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.30);font-style:italic;">Beauty Has No Sizes</p>
+              color:rgba(255,255,255,0.30);font-style:italic;">Beauty Has No Sizes 👑</p>
           <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
             <tr>
               <td style="padding:0 8px;">
@@ -621,7 +621,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
             </tr>
           </table>
           <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:10px;color:rgba(255,255,255,0.18);">
-            &copy; ${new Date().getFullYear()} BBW4LIFE &mdash; Built for every curve.
+            &copy; ${new Date().getFullYear()} BBW4LIFE — Built for every curve.
           </p>
         </td>
       </tr>
@@ -668,22 +668,16 @@ function cDivider() {
 </table>`;
 }
 
-// fa: Font Awesome class e.g. 'fas fa-tshirt'
-// color: optional icon color override
-function cHighlightBox(faClass, title, text, color, iconColor) {
-  const bg  = color || '#fdf0f3';
-  const bd  = `rgba(192,56,94,0.18)`;
-  const ic  = iconColor || BBW.rose;
+function cHighlightBox(icon, title, text, color) {
+  const bg = color || '#fdf0f3';
   return `
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-       style="margin:0 0 14px;border-radius:14px;overflow:hidden;background:${bg};border:1px solid ${bd};">
+       style="margin:0 0 14px;border-radius:14px;overflow:hidden;background:${bg};border:1px solid rgba(192,56,94,0.18);">
   <tr>
     <td style="padding:18px 20px;">
       <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
-          <td class="fa-icon-cell" width="36" style="vertical-align:top;padding-top:2px;text-align:center;">
-            <i class="${faClass}" style="font-size:20px;color:${ic};"></i>
-          </td>
+          <td width="36" style="vertical-align:top;padding-top:2px;font-size:22px;">${icon}</td>
           <td style="padding-left:12px;">
             <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">${title}</p>
             <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};line-height:1.55;">${text}</p>
@@ -712,7 +706,7 @@ function cOrderItem(item) {
       ${item.size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">Size: ${item.size}</p>`  : ''}
       ${item.color ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">Color: ${item.color}</p>` : ''}
       <p style="margin:4px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">
-        Qty: ${item.quantity} &nbsp;&middot;&nbsp;
+        Qty: ${item.quantity} &nbsp;·&nbsp;
         <span style="color:${BBW.rose};font-weight:700;">$${parseFloat(item.price * item.quantity).toFixed(2)}</span>
       </p>
     </td>
@@ -841,7 +835,7 @@ async function genCartAbandonedCopy(name) {
     `EMAIL TYPE: Abandoned cart recovery — BBW4LIFE.
 RECIPIENT: ${name}
 Write 2 short paragraphs (blank line between):
-- Para 1 (2 sentences): Notice she left something behind in her cart. Warm, curious tone, not guilt-tripping. Ask gently what held her back.
+- Para 1 (2 sentences): Notice she left something behind in her cart. Warm, curious tone, not guilt-tripping.
 - Para 2 (2 sentences): Reassure her items are saved and waiting. Mention a special gift below to help her finish her order.
 Plain text only, no greeting, no sign-off.`
   );
@@ -852,58 +846,46 @@ Plain text only, no greeting, no sign-off.`
 //  EMAIL COMPOSERS
 // ════════════════════════════════════════════════════════════════
 
-// ── 1. Welcome Email ──────────────────────────────────────────
 async function composeWelcome(firstName, settings) {
   const name = firstName || 'Beautiful';
   const copy = await genWelcomeCopy(name);
-
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-hand-wave" style="margin-right:6px;"></i>Hey ${name}
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Hey ${name} 👋</p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
       What's waiting for you:
     </p>
-    ${cHighlightBox('fas fa-shirt', 'Plus-Size Fashion', 'Hundreds of styles designed with your body in mind — dresses, tops, shoes, and more.')}
-    ${cHighlightBox('fas fa-wand-sparkles', 'Beauty &amp; Lifestyle', 'Products that make you feel as beautiful as you are.', '#fdf8f0', BBW.gold)}
-    ${cHighlightBox('fas fa-heart', 'A Community That Gets It', 'Real women, real stories, real support.', '#f0f8fd', BBW.rose)}
-    ${cCTA('Explore the Shop &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
-
+    ${cHighlightBox('👗', 'Plus-Size Fashion', 'Hundreds of styles designed with your body in mind — dresses, tops, shoes, and more.')}
+    ${cHighlightBox('💄', 'Beauty & Lifestyle', 'Products that make you feel as beautiful as you are.', '#fdf8f0')}
+    ${cHighlightBox('❤️', 'A Community That Gets It', 'Real women, real stories, real support.', '#f0f8fd')}
+    ${cCTA('Explore the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
   return {
-    subject: `Welcome to BBW4LIFE, ${name}! Beauty Has No Sizes`,
+    subject: `Welcome to BBW4LIFE, ${name}! Beauty Has No Sizes 👑`,
     html: masterTemplate({
-      preheader:    `You're officially part of the BBW4LIFE family — and we built this for exactly you.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 40%,${BBW.rose} 80%,${BBW.gold} 100%)`,
-      topBadge:     'Welcome to the family',
-      headline:     'You made it.',
-      subHeadline:  'BBW4LIFE was built for women exactly like you.',
-      bodyHTML,
-      settings,
-      showCEO:      true,
+      preheader:   `You're officially part of the BBW4LIFE family — and we built this for exactly you.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 40%,${BBW.rose} 80%,${BBW.gold} 100%)`,
+      topBadge:    'Welcome to the family',
+      headline:    'You made it. 👑',
+      subHeadline: 'BBW4LIFE was built for women exactly like you.',
+      bodyHTML, settings, showCEO: true,
     }),
   };
 }
 
-// ── 2. Order Confirmation ─────────────────────────────────────
 async function composeOrderConfirm(data, settings) {
-  const { firstName, lastName, email, orderId, items = [], total, shippingAddress } = data;
-  const name = firstName || lastName || 'Beautiful';
-  const copy = await genOrderConfirmCopy(name);
-
+  const { firstName, lastName, orderId, items = [], total, shippingAddress } = data;
+  const name     = firstName || lastName || 'Beautiful';
+  const copy     = await genOrderConfirmCopy(name);
   const itemsHTML = items.map(item => cOrderItem(item)).join('');
-
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-circle-check" style="margin-right:6px;"></i>Order Confirmed
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Order Confirmed ✅</p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
-      Your Order &mdash; <span style="color:${BBW.rose};">#${orderId || 'BBW4LIFE'}</span>
+      Your Order — <span style="color:${BBW.rose};">#${orderId || 'BBW4LIFE'}</span>
     </p>
     ${itemsHTML}
     ${total ? `
@@ -916,41 +898,33 @@ async function composeOrderConfirm(data, settings) {
     </table>` : ''}
     ${shippingAddress ? `
     ${cDivider()}
-    <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">
-      <i class="fas fa-location-dot" style="margin-right:6px;color:${BBW.rose};"></i>Shipping to:
-    </p>
+    <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">Shipping to:</p>
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};line-height:1.6;">${shippingAddress}</p>` : ''}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.6;">
       You'll receive a tracking number by email as soon as your order ships.<br>
       Questions? Reply to this email — we're always here.
     </p>`;
-
   return {
-    subject: `Order Confirmed! Your BBW4LIFE order is being prepared`,
+    subject: `Order Confirmed! Your BBW4LIFE order is being prepared 🛍️`,
     html: masterTemplate({
-      preheader:    `Your order has been confirmed — we're already preparing it with care.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 60%,${BBW.gold} 100%)`,
-      topBadge:     'Order Confirmed',
-      headline:     'Thank you for your order!',
-      subHeadline:  'We\'re preparing your package with love.',
-      bodyHTML,
-      settings,
+      preheader:   `Your order has been confirmed — we're already preparing it with care.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 60%,${BBW.gold} 100%)`,
+      topBadge:    'Order Confirmed',
+      headline:    'Thank you for your order! 🛍️',
+      subHeadline: 'We\'re preparing your package with love.',
+      bodyHTML, settings,
     }),
   };
 }
 
-// ── 3. Order Tracking ─────────────────────────────────────────
 async function composeOrderTracking(data, settings) {
-  const { firstName, lastName, orderId, trackingNumber, carrier } = data;
-  const name = firstName || lastName || 'Beautiful';
-  const copy = await genTrackingCopy(name);
-
+  const { firstName, lastName, orderId, trackingNumber, carrier, trackingUrl } = data;
+  const name   = firstName || lastName || 'Beautiful';
+  const copy   = await genTrackingCopy(name);
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-truck-fast" style="margin-right:6px;"></i>Your Order Is On Its Way
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Your Order Is On Its Way 🚚</p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -965,52 +939,45 @@ async function composeOrderTracking(data, settings) {
           </p>
           <p style="margin:0 0 10px;font-family:Georgia,serif;font-size:28px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.10em;">${trackingNumber}</p>
-          ${carrier ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">
-            <i class="fas fa-box" style="margin-right:5px;"></i>Carrier: ${carrier}</p>` : ''}
+          ${carrier ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Carrier: ${carrier}</p>` : ''}
         </td>
       </tr>
     </table>
-    ${cCTA('Track My Order &rarr;', data.trackingUrl || `${BASE_URL}/page/order-tracking.html`)}
+    ${cCTA('Track My Order →', trackingUrl || `${BASE_URL}/page/order-tracking.html`)}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
       Order: <strong style="color:${BBW.dark};">#${orderId || 'BBW4LIFE'}</strong>
     </p>`;
-
   return {
-    subject: `Your BBW4LIFE order is on its way! Tracking: ${trackingNumber}`,
+    subject: `Your BBW4LIFE order is on its way! 🚚 Tracking: ${trackingNumber}`,
     html: masterTemplate({
-      preheader:    `Your order has shipped — here's your tracking number: ${trackingNumber}`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Order Shipped',
-      headline:     'Your order is on its way!',
-      subHeadline:  'Track your package and watch the magic happen.',
-      bodyHTML,
-      settings,
+      preheader:   `Your order has shipped — here's your tracking number: ${trackingNumber}`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
+      topBadge:    'Order Shipped',
+      headline:    'Your order is on its way! 🚚',
+      subHeadline: 'Track your package and watch the magic happen.',
+      bodyHTML, settings,
     }),
   };
 }
 
-// ── 4. Newsletter #1 — Immediate ──────────────────────────────
 async function composeNewsletter1(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter1Copy(name);
-  const promos = (settings.promos || []);
+  const name   = firstName || 'Beautiful';
+  const copy   = await genNewsletter1Copy(name);
+  const promos = settings.promos || [];
   const promo  = promos[0];
-
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-circle-check" style="margin-right:6px;"></i>Subscription Confirmed
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Subscription Confirmed ✓</p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
       Here's what's coming your way:
     </p>
-    ${cHighlightBox('fas fa-lightbulb', 'Weekly Tips', 'Style and wellness tips built for real curvy women.')}
-    ${cHighlightBox('fas fa-gift', 'Exclusive Deals', 'Subscriber-only discount codes before they go public.', '#fdf8f0', BBW.gold)}
-    ${cHighlightBox('fas fa-star', 'New Arrivals First', "You'll always be the first to know.", '#f0f8fd', BBW.plum)}
-    ${cHighlightBox('fas fa-users', 'Real Stories', 'Success stories from women in our community.', '#f0fff4', '#2d7a4f')}
+    ${cHighlightBox('💡', 'Weekly Tips', 'Style and wellness tips built for real curvy women.')}
+    ${cHighlightBox('🎁', 'Exclusive Deals', 'Subscriber-only discount codes before they go public.', '#fdf8f0')}
+    ${cHighlightBox('✨', 'New Arrivals First', 'You\'ll always be the first to know.', '#f0f8fd')}
+    ${cHighlightBox('💪', 'Real Stories', 'Success stories from women in our community.', '#f0fff4')}
     ${promo ? `
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1018,52 +985,43 @@ async function composeNewsletter1(firstName, settings) {
       <tr>
         <td style="padding:24px;text-align:center;">
           <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">
-            <i class="fas fa-gift" style="margin-right:5px;"></i>Welcome Gift
-          </p>
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 Welcome Gift</p>
           <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:32px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.10em;">${promo.code}</p>
           <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">
-            ${promo.percent}% off &mdash; ${promo.items} items or more
+            ${promo.percent}% off — ${promo.items} items or more
           </p>
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Discover the Shop &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
-
+    ${cCTA('Discover the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
   return {
-    subject: `You're in! Welcome to the BBW4LIFE family`,
+    subject: `You're in! Welcome to the BBW4LIFE family 💕`,
     html: masterTemplate({
-      preheader:    `Your subscription is confirmed — exclusive tips, deals, and real stories incoming.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 55%,${BBW.gold} 100%)`,
-      topBadge:     'Newsletter Confirmed',
-      headline:     "You're officially inside.",
-      subHeadline:  'The best of BBW4LIFE, delivered to your inbox.',
-      bodyHTML,
-      settings,
-      showCEO:      true,
+      preheader:   `Your subscription is confirmed — exclusive tips, deals, and real stories incoming.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 55%,${BBW.gold} 100%)`,
+      topBadge:    'Newsletter Confirmed',
+      headline:    "You're officially inside. 💕",
+      subHeadline: 'The best of BBW4LIFE, delivered to your inbox.',
+      bodyHTML, settings, showCEO: true,
     }),
   };
 }
 
-// ── 5. Newsletter #2 — Day 3 ──────────────────────────────────
 async function composeNewsletter2(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter2Copy(name);
+  const name    = firstName || 'Beautiful';
+  const copy    = await genNewsletter2Copy(name);
   const support = (settings.contact_emails || {}).general || 'support@bbw4life.com';
-
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-comment-dots" style="margin-right:6px;"></i>Checking In
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Checking In 💬</p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
            style="border-radius:14px;overflow:hidden;background:#fdf0f3;border:1px solid rgba(192,56,94,0.15);">
       <tr>
         <td style="padding:22px;text-align:center;">
-          <i class="fas fa-comments" style="font-size:36px;color:${BBW.rose};display:block;margin-bottom:10px;"></i>
+          <p style="margin:0 0 6px;font-size:28px;">💬</p>
           <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">
             We'd love to hear from you
           </p>
@@ -1073,45 +1031,38 @@ async function composeNewsletter2(firstName, settings) {
           <a href="mailto:${support}" style="display:inline-block;padding:10px 28px;border-radius:40px;
              background:${BBW.rose};font-family:Arial,sans-serif;font-size:13px;
              font-weight:700;color:#fff;text-decoration:none;">
-            Reply Now &rarr;
+            Reply Now →
           </a>
         </td>
       </tr>
     </table>
-    ${cCTA('Browse the Shop &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
-
+    ${cCTA('Browse the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
   return {
-    subject: `Hey ${name}, how's your BBW4LIFE experience so far?`,
+    subject: `Hey ${name}, how's your BBW4LIFE experience so far? 💬`,
     html: masterTemplate({
-      preheader:    `We'd love to hear from you — your feedback shapes everything we do.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Just Checking In',
-      headline:     "How's it going?",
-      subHeadline:  'Your feedback genuinely shapes what we do.',
-      bodyHTML,
-      settings,
-      showCEO:      true,
+      preheader:   `We'd love to hear from you — your feedback shapes everything we do.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
+      topBadge:    'Just Checking In',
+      headline:    "How's it going? 💬",
+      subHeadline: 'Your feedback genuinely shapes what we do.',
+      bodyHTML, settings, showCEO: true,
     }),
   };
 }
 
-// ── 6. Newsletter #3 — Day 5 ──────────────────────────────────
 async function composeNewsletter3(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter3Copy(name);
+  const name   = firstName || 'Beautiful';
+  const copy   = await genNewsletter3Copy(name);
   const promos = settings.promos || [];
   const promo  = promos[1] || promos[0];
-
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-heart" style="margin-right:6px;"></i>Special For You
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Special For You 💕</p>
     ${cParagraphs(copy)}
     ${cDivider()}
-    ${cHighlightBox('fas fa-bag-shopping', 'Bundle Deals', 'Buy multiple items and save more — designed to reward women who shop smart.')}
-    ${cHighlightBox('fas fa-star', 'Customer Favorites', 'The pieces our community loves most, voted by real women.', '#fdf8f0', BBW.gold)}
-    ${cHighlightBox('fas fa-fire', 'Limited Promotions', 'Flash deals that come and go — stay subscribed to never miss one.', '#f0f8fd', '#d44500')}
+    ${cHighlightBox('🛍️', 'Bundle Deals', 'Buy multiple items and save more — designed to reward women who shop smart.')}
+    ${cHighlightBox('⭐', 'Customer Favorites', 'The pieces our community loves most, voted by real women.', '#fdf8f0')}
+    ${cHighlightBox('🔥', 'Limited Promotions', 'Flash deals that come and go — stay subscribed to never miss one.', '#f0f8fd')}
     ${promo ? `
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1119,77 +1070,62 @@ async function composeNewsletter3(firstName, settings) {
       <tr>
         <td style="padding:22px;text-align:center;">
           <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">
-            <i class="fas fa-heart" style="margin-right:5px;"></i>For Our Subscribers
-          </p>
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">💕 For Our Subscribers</p>
           <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:28px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.10em;">${promo.code}</p>
           <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">
-            ${promo.percent}% off &mdash; ${promo.items} items or more
+            ${promo.percent}% off — ${promo.items} items or more
           </p>
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Shop Our Favorites &rarr;', `${BASE_URL}/collections/most-popular.html`)}`;
-
+    ${cCTA('Shop Our Favorites →', `${BASE_URL}/collections/most-popular.html`)}`;
   return {
-    subject: `${name}, these are our customers' favorites`,
+    subject: `${name}, these are our customers' favorites 🔥`,
     html: masterTemplate({
-      preheader:    `Bundles, favorites, and exclusive promotions — all waiting for you.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 45%,${BBW.plum} 100%)`,
-      topBadge:     'Community Favorites',
-      headline:     "You deserve the best.",
-      subHeadline:  "Bundles, promotions, and our community's top picks.",
-      bodyHTML,
-      settings,
+      preheader:   `Bundles, favorites, and exclusive promotions — all waiting for you.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 45%,${BBW.plum} 100%)`,
+      topBadge:    'Community Favorites',
+      headline:    "You deserve the best. 🔥",
+      subHeadline: 'Bundles, promotions, and our community\'s top picks.',
+      bodyHTML, settings,
     }),
   };
 }
 
-// ── 7. Newsletter #4 — Day 10 (Buyer) ────────────────────────
 async function composeNewsletter4Buyer(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter4BuyerCopy(name);
-
+  const name   = firstName || 'Beautiful';
+  const copy   = await genNewsletter4BuyerCopy(name);
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-heart" style="margin-right:6px;"></i>Thank You
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Thank You 💕</p>
     ${cParagraphs(copy)}
     ${cDivider()}
-    ${cHighlightBox('fas fa-star', 'Share Your Experience', 'Your review helps other women feel confident in their choices.')}
-    ${cHighlightBox('fas fa-bag-shopping', 'Shop More', "New arrivals added regularly — there's always something new waiting for you.", '#fdf8f0', BBW.gold)}
-    ${cCTA('Leave a Review &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}
-    ${cCTA('Shop New Arrivals &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`, `linear-gradient(135deg,${BBW.gold},${BBW.rose})`)}`;
-
+    ${cHighlightBox('⭐', 'Share Your Experience', 'Your review helps other women feel confident in their choices.')}
+    ${cHighlightBox('🛍️', 'Shop More', 'New arrivals added regularly — there\'s always something new waiting for you.', '#fdf8f0')}
+    ${cCTA('Leave a Review →', `${BASE_URL}/collections/bbw4life-all-product.html`)}
+    ${cCTA('Shop New Arrivals →', `${BASE_URL}/collections/bbw4life-all-product.html`, `linear-gradient(135deg,${BBW.gold},${BBW.rose})`)}`;
   return {
-    subject: `Thank you for your trust, ${name}`,
+    subject: `Thank you for your trust, ${name} 💕`,
     html: masterTemplate({
-      preheader:    `We appreciate you and we'd love to hear about your experience.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.gold} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Customer Appreciation',
-      headline:     "Thank you for trusting us.",
-      subHeadline:  'Your experience matters to us more than anything.',
-      bodyHTML,
-      settings,
-      showCEO:      true,
+      preheader:   `We appreciate you and we'd love to hear about your experience.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.gold} 50%,${BBW.rose} 100%)`,
+      topBadge:    'Customer Appreciation',
+      headline:    "Thank you for trusting us. 💕",
+      subHeadline: 'Your experience matters to us more than anything.',
+      bodyHTML, settings, showCEO: true,
     }),
   };
 }
 
-// ── 8. Newsletter #4 — Day 10 (Non-Buyer) ────────────────────
 async function composeNewsletter4New(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter4NewCopy(name);
+  const name   = firstName || 'Beautiful';
+  const copy   = await genNewsletter4NewCopy(name);
   const promos = settings.promos || [];
   const promo  = promos[0];
-
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-gift" style="margin-right:6px;"></i>A Special Gift For You
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">A Special Gift For You 🎁</p>
     ${cParagraphs(copy)}
     ${promo ? `
     ${cDivider()}
@@ -1199,51 +1135,42 @@ async function composeNewsletter4New(firstName, settings) {
       <tr>
         <td style="padding:28px;text-align:center;">
           <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">
-            <i class="fas fa-gift" style="margin-right:5px;"></i>Exclusive Subscriber Offer
-          </p>
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 Exclusive Subscriber Offer</p>
           <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:34px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.12em;">${promo.code}</p>
           <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.78);">
-            ${promo.percent}% off &mdash; ${promo.items} items or more
+            ${promo.percent}% off — ${promo.items} items or more
           </p>
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Use My Discount &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}
+    ${cCTA('Use My Discount →', `${BASE_URL}/collections/bbw4life-all-product.html`)}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
-      Beauty Has No Sizes &mdash; and neither does this offer.
+      Beauty Has No Sizes — and neither does this offer. 👑
     </p>`;
-
   return {
-    subject: `${name}, here's an exclusive gift just for you`,
+    subject: `${name}, here's an exclusive gift just for you 🎁`,
     html: masterTemplate({
-      preheader:    `We prepared something special for you — an exclusive discount waiting inside.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Exclusive Offer',
-      headline:     "This is just for you.",
-      subHeadline:  'A special gift from the BBW4LIFE family.',
-      bodyHTML,
-      settings,
-      showCEO:      true,
+      preheader:   `We prepared something special for you — an exclusive discount waiting inside.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
+      topBadge:    'Exclusive Offer',
+      headline:    "This is just for you. 🎁",
+      subHeadline: 'A special gift from the BBW4LIFE family.',
+      bodyHTML, settings, showCEO: true,
     }),
   };
 }
 
-// ── 9. Contact Auto-Reply ─────────────────────────────────────
 async function composeContactReply(data, settings) {
   const { firstName, lastName, subject: msgSubject, category } = data;
-  const name = firstName || lastName || 'Beautiful';
-  const copy = await genContactReplyCopy(name);
-  const support = (settings.contact_emails || {}).general || 'support@bbw4life.com';
+  const name    = firstName || lastName || 'Beautiful';
+  const copy    = await genContactReplyCopy(name);
+  const support  = (settings.contact_emails || {}).general || 'support@bbw4life.com';
   const whatsapp = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
-
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-circle-check" style="margin-right:6px;"></i>Message Received
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Message Received ✅</p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1262,35 +1189,29 @@ async function composeContactReply(data, settings) {
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.7;">
       Need urgent help?<br>
       <a href="mailto:${support}" style="color:${BBW.rose};font-weight:700;text-decoration:none;">${support}</a>
-      &nbsp;&middot;&nbsp;
+      &nbsp;·&nbsp;
       <a href="${whatsapp}" target="_blank" style="color:${BBW.rose};font-weight:700;text-decoration:none;">WhatsApp Us</a>
     </p>`;
-
   return {
-    subject: `We received your message — BBW4LIFE Support`,
+    subject: `We received your message — BBW4LIFE Support ✅`,
     html: masterTemplate({
-      preheader:    `Your message has been received — our team will respond within 24-48 hours.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Support',
-      headline:     'Message received!',
-      subHeadline:  'Our team will respond within 24 to 48 hours.',
-      bodyHTML,
-      settings,
+      preheader:   `Your message has been received — our team will respond within 24-48 hours.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
+      topBadge:    'Support',
+      headline:    'Message received! ✅',
+      subHeadline: 'Our team will respond within 24 to 48 hours.',
+      bodyHTML, settings,
     }),
   };
 }
 
-// ── 10. Plan/Product Request ──────────────────────────────────
 async function composePlanRequest(data, settings) {
-  const { firstName, lastName, program, productId, size, color } = data;
-  const name = firstName || lastName || 'Beautiful';
-  const copy = await genPlanRequestCopy(name, program);
-
+  const { firstName, lastName, program, size, color } = data;
+  const name   = firstName || lastName || 'Beautiful';
+  const copy   = await genPlanRequestCopy(name, program);
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-circle-check" style="margin-right:6px;"></i>Request Received
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Request Received ✅</p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1299,7 +1220,7 @@ async function composePlanRequest(data, settings) {
                   border:1px solid rgba(201,150,62,0.28);">
       <tr>
         <td style="padding:24px;text-align:center;">
-          <i class="fas fa-clock" style="font-size:36px;color:${BBW.goldL};display:block;margin-bottom:12px;"></i>
+          <p style="margin:0 0 6px;font-size:32px;">⏳</p>
           <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">${program}</p>
           ${size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Size: ${size}</p>` : ''}
           ${color ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Color: ${color}</p>` : ''}
@@ -1309,33 +1230,30 @@ async function composePlanRequest(data, settings) {
         </td>
       </tr>
     </table>
-    ${cCTA('Browse the Shop &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
-
+    ${cCTA('Browse the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
   return {
-    subject: `Your BBW4LIFE product request has been received!`,
+    subject: `Your BBW4LIFE product request has been received! ⏳`,
     html: masterTemplate({
-      preheader:    `We've received your request for ${program} — our team will review it soon.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Request Confirmed',
-      headline:     "We've got your request!",
-      subHeadline:  "Our team is on it — we'll be in touch very soon.",
-      bodyHTML,
-      settings,
+      preheader:   `We've received your request for ${program} — our team will review it soon.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.gold} 100%)`,
+      topBadge:    'Request Confirmed',
+      headline:    "We've got your request! ⏳",
+      subHeadline: 'Our team is on it — we\'ll be in touch very soon.',
+      bodyHTML, settings,
     }),
   };
 }
 
-// ── 11. Custom Product Request ────────────────────────────────
 async function composeCustomProduct(data, settings) {
-  const { firstname, lastname, email, product_title, product_desc } = data;
-  const name = firstname || lastname || 'Beautiful';
-  const copy = await genCustomProductCopy(name, product_title);
-
+  // Compatible avec save-personalized-product.js
+  // data fields: firstname, lastname, email, product_title, product_desc
+  const name         = data.firstname || data.firstName || data.lastname || data.lastName || 'Beautiful';
+  const product_title = data.product_title || data.program || 'Your Custom Product';
+  const product_desc  = data.product_desc || '';
+  const copy          = await genCustomProductCopy(name, product_title);
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-palette" style="margin-right:6px;"></i>Design Request Received
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Design Request Received 🎨</p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1344,9 +1262,9 @@ async function composeCustomProduct(data, settings) {
                   border:1px solid rgba(201,150,62,0.28);">
       <tr>
         <td style="padding:24px;text-align:center;">
-          <i class="fas fa-pen-ruler" style="font-size:36px;color:${BBW.goldL};display:block;margin-bottom:12px;"></i>
+          <p style="margin:0 0 6px;font-size:32px;">🎨</p>
           <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">
-            ${product_title || 'Your Custom Product'}
+            ${product_title}
           </p>
           ${product_desc ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5;">${product_desc.substring(0, 100)}${product_desc.length > 100 ? '...' : ''}</p>` : ''}
           <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.goldL};">
@@ -1358,39 +1276,31 @@ async function composeCustomProduct(data, settings) {
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.7;">
       We evaluate every personalized product request carefully.<br>
-      If your idea becomes a product, you'll be the first to know.
+      If your idea becomes a product, you'll be the first to know. 👑
     </p>
-    ${cCTA('Explore Existing Products &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
-
+    ${cCTA('Explore Existing Products →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
   return {
-    subject: `Your personalized product request is with our design team!`,
+    subject: `Your personalized product request is with our design team! 🎨`,
     html: masterTemplate({
-      preheader:    `Your custom product idea has been received — our design team is reviewing it.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.plum} 100%)`,
-      topBadge:     'Design Request',
-      headline:     "We love your vision!",
-      subHeadline:  'Our design team will review your personalized product idea.',
-      bodyHTML,
-      settings,
-      showCEO:      true,
+      preheader:   `Your custom product idea has been received — our design team is reviewing it.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.plum} 100%)`,
+      topBadge:    'Design Request',
+      headline:    "We love your vision! 🎨",
+      subHeadline: 'Our design team will review your personalized product idea.',
+      bodyHTML, settings, showCEO: true,
     }),
   };
 }
 
-// ── 12. Abandoned Cart Recovery ───────────────────────────────
 async function composeCartAbandoned(data, settings) {
   const { firstName, lastName, items = [], promoCode, promoPercent, restartLink } = data;
-  const name = firstName || lastName || 'Beautiful';
-  const copy = await genCartAbandonedCopy(name);
-
-  const itemsHTML = items.map(item => cOrderItem(item)).join('');
+  const name            = firstName || lastName || 'Beautiful';
+  const copy            = await genCartAbandonedCopy(name);
+  const itemsHTML       = items.map(item => cOrderItem(item)).join('');
   const finalRestartLink = restartLink || `${BASE_URL}/checkout.html`;
-
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-      <i class="fas fa-cart-shopping" style="margin-right:6px;"></i>Your Cart Is Waiting
-    </p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Your Cart Is Waiting 🛍️</p>
     ${cParagraphs(copy)}
     ${itemsHTML ? `
     ${cDivider()}
@@ -1406,9 +1316,7 @@ async function composeCartAbandoned(data, settings) {
       <tr>
         <td style="padding:28px;text-align:center;">
           <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">
-            <i class="fas fa-gift" style="margin-right:5px;"></i>A Little Gift For You
-          </p>
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 A Little Gift For You</p>
           <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:34px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.12em;">${promoCode}</p>
           <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.78);">
@@ -1417,23 +1325,20 @@ async function composeCartAbandoned(data, settings) {
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Restart My Order &rarr;', finalRestartLink)}
+    ${cCTA('Restart My Order →', finalRestartLink)}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
-      Beauty Has No Sizes &mdash; and your spot in the BBW4LIFE family is still waiting.
+      Beauty Has No Sizes — and your spot in the BBW4LIFE family is still waiting. 👑
     </p>`;
-
   return {
-    subject: `${name}, you left something beautiful behind`,
+    subject: `${name}, you left something beautiful behind 🛍️`,
     html: masterTemplate({
-      preheader:    `Your cart is saved and waiting — plus a little gift to welcome you back.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Cart Saved For You',
-      headline:     "Don't forget this.",
-      subHeadline:  'Your items are exactly where you left them.',
-      bodyHTML,
-      settings,
-      showCEO:      true,
+      preheader:   `Your cart is saved and waiting — plus a little gift to welcome you back.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
+      topBadge:    'Cart Saved For You',
+      headline:    "Don't forget this. 🛍️",
+      subHeadline: 'Your items are exactly where you left them.',
+      bodyHTML, settings, showCEO: true,
     }),
   };
 }
@@ -1441,22 +1346,23 @@ async function composeCartAbandoned(data, settings) {
 // ════════════════════════════════════════════════════════════════
 //  SEND HELPER — with log check
 // ════════════════════════════════════════════════════════════════
-async function trySend(email, type, composeFn, sheets, sentLog, results, ...args) {
+async function trySend(email, type, composeFn, sheets, sentLog, results) {
   if (!email || !email.includes('@')) {
     console.warn(`[trySend] Invalid email: "${email}"`);
     return false;
   }
   if (wasEmailSent(sentLog, email, type)) {
     results.skipped.push({ email, type, reason: 'already sent' });
+    console.log(`[trySend] SKIP ${type} → ${email} (already sent)`);
     return false;
   }
   try {
     console.log(`[trySend] Composing ${type} for ${email}`);
-    const { subject, html } = await composeFn(...args);
+    const { subject, html } = await composeFn();
     const ok = await deliver(email, subject, html);
     if (ok) {
       await markEmailSent(sheets, email, type);
-      sentLog.add(`${email.toLowerCase()}||${type}`);
+      sentLog.set(`${email.toLowerCase()}||${type}`, new Date().toISOString());
       results.sent.push({ email, type });
     } else {
       results.errors.push({ email, type, reason: 'Resend delivery failed' });
@@ -1491,64 +1397,85 @@ exports.handler = async (event) => {
 
     // ── TRIGGER MODE (POST) ────────────────────────────────
     if (event.httpMethod === 'POST' && event.body) {
-      const body    = JSON.parse(event.body);
+      let body;
+      try { body = JSON.parse(event.body); }
+      catch (e) { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON body' }) }; }
+
       const trigger = body.trigger;
-
-      if (!trigger) {
-        return { statusCode: 400, headers, body: JSON.stringify({ error: 'trigger required' }) };
-      }
-
-      console.log(`[Handler] Trigger: ${trigger}`);
+      if (!trigger) return { statusCode: 400, headers, body: JSON.stringify({ error: 'trigger required' }) };
 
       const email = body.email;
       if (!email || !email.includes('@')) {
         return { statusCode: 400, headers, body: JSON.stringify({ error: 'Valid email required' }) };
       }
 
-      if (trigger === T.WELCOME) {
-        await trySend(email, T.WELCOME, () => composeWelcome(body.firstName, settings), sheets, sentLog, results);
-      }
+      console.log(`[Handler] POST trigger: ${trigger} → ${email}`);
 
-      if (trigger === T.ORDER_CONFIRM) {
-        await trySend(email, T.ORDER_CONFIRM,
-          () => composeOrderConfirm(body, settings),
-          sheets, sentLog, results);
-      }
+      switch (trigger) {
 
-      if (trigger === T.ORDER_TRACKING) {
-        await trySend(email, T.ORDER_TRACKING,
-          () => composeOrderTracking(body, settings),
-          sheets, sentLog, results);
-      }
+        case T.WELCOME:
+          await trySend(email, T.WELCOME,
+            () => composeWelcome(body.firstName || body.firstname || '', settings),
+            sheets, sentLog, results);
+          break;
 
-      if (trigger === T.NEWSLETTER_1) {
-        await trySend(email, T.NEWSLETTER_1,
-          () => composeNewsletter1(body.firstName, settings),
-          sheets, sentLog, results);
-      }
+        case T.ORDER_CONFIRM:
+          await trySend(email, T.ORDER_CONFIRM,
+            () => composeOrderConfirm(body, settings),
+            sheets, sentLog, results);
+          break;
 
-      if (trigger === 'contact_reply') {
-        await trySend(email, 'contact_reply',
-          () => composeContactReply(body, settings),
-          sheets, sentLog, results);
-      }
+        case T.ORDER_TRACKING:
+          await trySend(email, T.ORDER_TRACKING,
+            () => composeOrderTracking(body, settings),
+            sheets, sentLog, results);
+          break;
 
-      if (trigger === T.PLAN_REQUEST) {
-        await trySend(email, T.PLAN_REQUEST,
-          () => composePlanRequest(body, settings),
-          sheets, sentLog, results);
-      }
+        case T.NEWSLETTER_1:
+          await trySend(email, T.NEWSLETTER_1,
+            () => composeNewsletter1(body.firstName || body.firstname || '', settings),
+            sheets, sentLog, results);
+          break;
 
-      if (trigger === T.CUSTOM_PRODUCT) {
-        await trySend(email, T.CUSTOM_PRODUCT,
-          () => composeCustomProduct(body, settings),
-          sheets, sentLog, results);
-      }
+        case T.CONTACT_REPLY:
+          // contact_reply n'est PAS anti-doublon : un client peut écrire plusieurs fois
+          // On bypasse trySend et on envoie direct
+          try {
+            const { subject, html } = await composeContactReply(body, settings);
+            const ok = await deliver(email, subject, html);
+            if (ok) results.sent.push({ email, type: T.CONTACT_REPLY });
+            else    results.errors.push({ email, type: T.CONTACT_REPLY, reason: 'delivery failed' });
+          } catch (e) {
+            results.errors.push({ email, type: T.CONTACT_REPLY, reason: e.message });
+          }
+          break;
 
-      if (trigger === T.CART_ABANDONED) {
-        await trySend(email, T.CART_ABANDONED,
-          () => composeCartAbandoned(body, settings),
-          sheets, sentLog, results);
+        case T.PLAN_REQUEST:
+          await trySend(email, T.PLAN_REQUEST,
+            () => composePlanRequest(body, settings),
+            sheets, sentLog, results);
+          break;
+
+        case T.CUSTOM_PRODUCT:
+          // Pas anti-doublon : un client peut soumettre plusieurs designs
+          try {
+            const { subject, html } = await composeCustomProduct(body, settings);
+            const ok = await deliver(email, subject, html);
+            if (ok) results.sent.push({ email, type: T.CUSTOM_PRODUCT });
+            else    results.errors.push({ email, type: T.CUSTOM_PRODUCT, reason: 'delivery failed' });
+          } catch (e) {
+            results.errors.push({ email, type: T.CUSTOM_PRODUCT, reason: e.message });
+          }
+          break;
+
+        case T.CART_ABANDONED:
+          await trySend(email, T.CART_ABANDONED,
+            () => composeCartAbandoned(body, settings),
+            sheets, sentLog, results);
+          break;
+
+        default:
+          return { statusCode: 400, headers, body: JSON.stringify({ error: `Unknown trigger: ${trigger}` }) };
       }
 
       return {
@@ -1562,19 +1489,16 @@ exports.handler = async (event) => {
     if (event.httpMethod === 'GET') {
       const params = event.queryStringParameters || {};
 
+      // ── Tracking checker (cron toutes les 12h) ──
       if (params.action === 'tracking') {
-        const secret = params.secret;
-        if (secret !== process.env.REPORT_SECRET) {
+        if (params.secret !== process.env.REPORT_SECRET) {
           return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
         }
         const trackResult = await runTrackingChecker(sheets, settings);
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({ success: true, ...trackResult })
-        };
+        return { statusCode: 200, headers, body: JSON.stringify({ success: true, ...trackResult }) };
       }
 
+      // ── Newsletter batch sequence ──
       console.log('[Handler] Batch newsletter sequence mode');
 
       const accountRows = await sheetRead(
@@ -1586,6 +1510,7 @@ exports.handler = async (event) => {
       console.log(`[Batch] ${accountRows.length} account rows`);
 
       for (const row of accountRows) {
+        // A=LastName B=FirstName C=Email F=Newsletter G=Orders
         const lastName   = (row[0] || '').trim();
         const firstName  = (row[1] || '').trim();
         const email      = (row[2] || '').trim();
@@ -1593,43 +1518,65 @@ exports.handler = async (event) => {
         const orders     = parseInt(row[6] || 0, 10);
 
         if (!email || !email.includes('@')) continue;
+        if (newsletter !== 'yes')           continue;
 
         const name = firstName || lastName || 'Beautiful';
 
-        if (newsletter === 'yes') {
-          if (!wasEmailSent(sentLog, email, T.NEWSLETTER_1)) {
-            await trySend(email, T.NEWSLETTER_1,
-              () => composeNewsletter1(name, settings),
-              sheets, sentLog, results);
-            await sleep(500); continue;
-          }
-          if (!wasEmailSent(sentLog, email, T.NEWSLETTER_2)) {
-            await trySend(email, T.NEWSLETTER_2,
-              () => composeNewsletter2(name, settings),
-              sheets, sentLog, results);
-            await sleep(500); continue;
-          }
-          if (!wasEmailSent(sentLog, email, T.NEWSLETTER_3)) {
-            await trySend(email, T.NEWSLETTER_3,
-              () => composeNewsletter3(name, settings),
-              sheets, sentLog, results);
-            await sleep(500); continue;
-          }
+        // ── Step 1: newsletter_1 — envoi immédiat ──
+        if (!wasEmailSent(sentLog, email, T.NEWSLETTER_1)) {
+          await trySend(email, T.NEWSLETTER_1,
+            () => composeNewsletter1(name, settings),
+            sheets, sentLog, results);
+          await sleep(500);
+          continue; // Attendre le prochain cron pour la suite
+        }
 
-          const type10 = orders > 0 ? T.NEWSLETTER_4_BUYER : T.NEWSLETTER_4_NEW;
-          if (!wasEmailSent(sentLog, email, T.NEWSLETTER_4_BUYER) &&
-              !wasEmailSent(sentLog, email, T.NEWSLETTER_4_NEW)) {
-            if (orders > 0) {
-              await trySend(email, T.NEWSLETTER_4_BUYER,
-                () => composeNewsletter4Buyer(name, settings),
-                sheets, sentLog, results);
-            } else {
-              await trySend(email, T.NEWSLETTER_4_NEW,
-                () => composeNewsletter4New(name, settings),
-                sheets, sentLog, results);
-            }
-            await sleep(500);
+        // ── Step 2: newsletter_2 — après 3 jours ──
+        if (!wasEmailSent(sentLog, email, T.NEWSLETTER_2)) {
+          if (!newsletterDelayOk(sentLog, email, T.NEWSLETTER_2)) {
+            console.log(`[Batch] ${email} — newsletter_2 not ready yet (< 3 days)`);
+            continue;
           }
+          await trySend(email, T.NEWSLETTER_2,
+            () => composeNewsletter2(name, settings),
+            sheets, sentLog, results);
+          await sleep(500);
+          continue;
+        }
+
+        // ── Step 3: newsletter_3 — après 5 jours ──
+        if (!wasEmailSent(sentLog, email, T.NEWSLETTER_3)) {
+          if (!newsletterDelayOk(sentLog, email, T.NEWSLETTER_3)) {
+            console.log(`[Batch] ${email} — newsletter_3 not ready yet (< 5 days)`);
+            continue;
+          }
+          await trySend(email, T.NEWSLETTER_3,
+            () => composeNewsletter3(name, settings),
+            sheets, sentLog, results);
+          await sleep(500);
+          continue;
+        }
+
+        // ── Step 4: newsletter_4 — après 10 jours ──
+        const already4 = wasEmailSent(sentLog, email, T.NEWSLETTER_4_BUYER)
+                      || wasEmailSent(sentLog, email, T.NEWSLETTER_4_NEW);
+        if (!already4) {
+          // Vérifier délai depuis newsletter_1
+          const delayType = orders > 0 ? T.NEWSLETTER_4_BUYER : T.NEWSLETTER_4_NEW;
+          if (!newsletterDelayOk(sentLog, email, delayType)) {
+            console.log(`[Batch] ${email} — newsletter_4 not ready yet (< 10 days)`);
+            continue;
+          }
+          if (orders > 0) {
+            await trySend(email, T.NEWSLETTER_4_BUYER,
+              () => composeNewsletter4Buyer(name, settings),
+              sheets, sentLog, results);
+          } else {
+            await trySend(email, T.NEWSLETTER_4_NEW,
+              () => composeNewsletter4New(name, settings),
+              sheets, sentLog, results);
+          }
+          await sleep(500);
         }
       }
 
@@ -1639,22 +1586,13 @@ exports.handler = async (event) => {
         errors:  results.errors.length,
       };
       console.log(`[Batch] Done — sent:${summary.sent} skipped:${summary.skipped} errors:${summary.errors}`);
-
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ success: true, summary, results }),
-      };
+      return { statusCode: 200, headers, body: JSON.stringify({ success: true, summary, results }) };
     }
 
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
 
   } catch (fatal) {
     console.error('[Handler] Fatal error:', fatal.message, fatal.stack);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ success: false, error: fatal.message }),
-    };
+    return { statusCode: 500, headers, body: JSON.stringify({ success: false, error: fatal.message }) };
   }
 };
