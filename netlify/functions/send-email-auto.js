@@ -103,7 +103,7 @@ async function callGroq(userPrompt) {
       }
     }
   }
-  return null; // AI failed — use fallback
+  return null;
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -252,7 +252,6 @@ async function getEproloOrderTracking(internalOrderId) {
     const order = list[0];
     if (!order) return null;
 
-    // Tracking est dans logistics[]
     const logistics = (order.logistics || [])[0];
     if (!logistics || !logistics.tracking_number) return null;
 
@@ -289,7 +288,6 @@ async function runTrackingChecker(sheets, settings) {
   let checked   = 0;
   let found     = 0;
 
-  // Regrouper par payment_id pour éviter les doublons
   const processed = new Set();
 
   for (let i = 1; i < rows.length; i++) {
@@ -301,15 +299,13 @@ async function runTrackingChecker(sheets, settings) {
     const email           = row[4]  || '';
     const status          = (row[14] || '').toLowerCase();
     const orderDateStr    = row[16] || '';
-    const trackingCol     = row[18] || ''; // Col S = Tracking Number
+    const trackingCol     = row[18] || '';
 
-    // Skip si déjà un tracking ou pas successful
     if (trackingCol)                   continue;
     if (status !== 'successful')       continue;
     if (!email || !email.includes('@')) continue;
     if (processed.has(paymentId))      continue;
 
-    // Vérifier que 24h sont passées depuis la commande
     if (orderDateStr) {
       const orderDate = new Date(orderDateStr);
       const hoursElapsed = (now - orderDate) / (1000 * 60 * 60);
@@ -322,13 +318,11 @@ async function runTrackingChecker(sheets, settings) {
     checked++;
     processed.add(paymentId);
 
-    // Interroger EPROLO
     const result = await getEproloOrderTracking(internalOrderId);
 
     if (result && result.trackingNumber) {
       found++;
 
-      // 1. Sauvegarder le tracking dans le sheet (col S = index 18, ligne i+1)
       try {
         await sheets.spreadsheets.values.update({
           spreadsheetId: process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
@@ -341,7 +335,6 @@ async function runTrackingChecker(sheets, settings) {
         console.warn('[Tracking] Failed to save tracking:', e.message);
       }
 
-      // 2. Envoyer email tracking au client
       const nameParts = fullName.split(' ');
       const firstName = nameParts[0] || '';
       const lastName  = nameParts.slice(1).join(' ') || '';
@@ -358,7 +351,6 @@ async function runTrackingChecker(sheets, settings) {
 
       console.log(`[Tracking] ✅ Email sent to ${email}`);
 
-      // Notifier Telegram
       try {
         await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method:  'POST',
@@ -377,7 +369,6 @@ async function runTrackingChecker(sheets, settings) {
       console.log(`[Tracking] ⏳ No tracking yet for ${internalOrderId}`);
     }
 
-    // Pause entre chaque requête EPROLO
     await sleep(800);
   }
 
@@ -385,7 +376,6 @@ async function runTrackingChecker(sheets, settings) {
   return { checked, found };
 }
 
-// Helper send sans log check (pour tracking — 1 seul envoi par commande grâce au sheet)
 async function trySendDirect(email, type, composeFn) {
   if (!email || !email.includes('@')) return false;
   try {
@@ -401,7 +391,6 @@ async function trySendDirect(email, type, composeFn) {
 //  EMAIL DESIGN SYSTEM — BBW4LIFE BRANDED
 // ════════════════════════════════════════════════════════════════
 
-// ── Brand colors ──────────────────────────────────────────────
 const BBW = {
   rose:      '#c0385e',
   rose2:     '#e8245a',
@@ -417,13 +406,16 @@ const BBW = {
   textLight: '#9e8e96',
 };
 
-// ── Base CSS reset ─────────────────────────────────────────────
+// Font Awesome CDN link — injected once in <head>
+const FA_CDN = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">`;
+
 const BASE_CSS = `
   body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
   table,td{mso-table-lspace:0pt;mso-table-rspace:0pt}
   img{-ms-interpolation-mode:bicubic;border:0;height:auto;line-height:100%;outline:none;text-decoration:none}
   body{margin:0!important;padding:0!important;background-color:#f9f0f5}
   a{color:inherit}
+  .fa-icon-cell{width:36px;text-align:center;vertical-align:top;padding-top:3px;}
   @media only screen and (max-width:620px){
     .ew{width:100%!important;border-radius:0!important}
     .ep{padding:24px 16px!important}
@@ -442,7 +434,6 @@ function buildLogoComponent(settings) {
       <img src="${logoUrl}" alt="${siteName}" height="60" style="height:60px;width:auto;max-width:200px;display:block;">
     </a>`;
   }
-  // Text fallback
   return `<a href="${BASE_URL}" target="_blank" style="text-decoration:none;display:inline-block;margin-bottom:20px;">
     <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
       <tr>
@@ -454,17 +445,30 @@ function buildLogoComponent(settings) {
   </a>`;
 }
 
+// ── Social footer with SVG icons ──────────────────────────────
 function buildSocialFooter(settings) {
   const social = settings.social_links || {};
-  const links  = [
-    { key: 'facebook',  emoji: '📘', label: 'Facebook'  },
-    { key: 'instagram', emoji: '📸', label: 'Instagram' },
-    { key: 'tiktok',    emoji: '🎵', label: 'TikTok'    },
-    { key: 'youtube',   emoji: '▶️',  label: 'YouTube'   },
-    { key: 'pinterest', emoji: '📌', label: 'Pinterest' },
-    { key: 'twitter',   emoji: '🐦', label: 'X'         },
-    { key: 'whatsapp',  emoji: '💬', label: 'WhatsApp'  },
-  ].filter(l => social[l.key]);
+
+  // SVG paths for each network
+  const svgIcons = {
+    facebook: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>`,
+    instagram: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
+    tiktok: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>`,
+    youtube: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>`,
+    pinterest: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>`,
+    twitter: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+    whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>`,
+  };
+
+  const links = [
+    { key: 'facebook',  label: 'Facebook'  },
+    { key: 'instagram', label: 'Instagram' },
+    { key: 'tiktok',    label: 'TikTok'    },
+    { key: 'youtube',   label: 'YouTube'   },
+    { key: 'pinterest', label: 'Pinterest' },
+    { key: 'twitter',   label: 'X'         },
+    { key: 'whatsapp',  label: 'WhatsApp'  },
+  ].filter(l => social[l.key] && svgIcons[l.key]);
 
   if (!links.length) return '';
 
@@ -473,11 +477,12 @@ function buildSocialFooter(settings) {
   <tr>
     ${links.map(l => `
     <td style="padding:0 5px;">
-      <a href="${social[l.key]}" target="_blank"
+      <a href="${social[l.key]}" target="_blank" title="${l.label}"
          style="display:inline-block;width:36px;height:36px;border-radius:8px;
                 background:rgba(192,56,94,0.18);border:1px solid rgba(192,56,94,0.30);
-                text-align:center;line-height:36px;font-size:16px;text-decoration:none;">
-        ${l.emoji}
+                text-align:center;line-height:36px;text-decoration:none;
+                color:#c0385e;vertical-align:middle;">
+        <span style="display:inline-block;vertical-align:middle;line-height:1;">${svgIcons[l.key]}</span>
       </a>
     </td>`).join('')}
   </tr>
@@ -524,6 +529,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>BBW4LIFE</title>
+  ${FA_CDN}
   <style>${BASE_CSS}</style>
 </head>
 <body style="margin:0;padding:0;background-color:#f9f0f5;">
@@ -593,7 +599,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
           <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:11px;
               color:rgba(255,255,255,0.40);letter-spacing:0.15em;">BBW4LIFE</p>
           <p style="margin:0 0 10px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.30);font-style:italic;">Beauty Has No Sizes 👑</p>
+              color:rgba(255,255,255,0.30);font-style:italic;">Beauty Has No Sizes</p>
           <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
             <tr>
               <td style="padding:0 8px;">
@@ -615,7 +621,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
             </tr>
           </table>
           <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:10px;color:rgba(255,255,255,0.18);">
-            &copy; ${new Date().getFullYear()} BBW4LIFE — Built for every curve.
+            &copy; ${new Date().getFullYear()} BBW4LIFE &mdash; Built for every curve.
           </p>
         </td>
       </tr>
@@ -662,9 +668,12 @@ function cDivider() {
 </table>`;
 }
 
-function cHighlightBox(icon, title, text, color) {
-  const bg = color || '#fdf0f3';
-  const bd = `rgba(192,56,94,0.18)`;
+// fa: Font Awesome class e.g. 'fas fa-tshirt'
+// color: optional icon color override
+function cHighlightBox(faClass, title, text, color, iconColor) {
+  const bg  = color || '#fdf0f3';
+  const bd  = `rgba(192,56,94,0.18)`;
+  const ic  = iconColor || BBW.rose;
   return `
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
        style="margin:0 0 14px;border-radius:14px;overflow:hidden;background:${bg};border:1px solid ${bd};">
@@ -672,7 +681,9 @@ function cHighlightBox(icon, title, text, color) {
     <td style="padding:18px 20px;">
       <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
-          <td width="36" style="vertical-align:top;padding-top:2px;font-size:22px;">${icon}</td>
+          <td class="fa-icon-cell" width="36" style="vertical-align:top;padding-top:2px;text-align:center;">
+            <i class="${faClass}" style="font-size:20px;color:${ic};"></i>
+          </td>
           <td style="padding-left:12px;">
             <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">${title}</p>
             <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};line-height:1.55;">${text}</p>
@@ -701,7 +712,7 @@ function cOrderItem(item) {
       ${item.size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">Size: ${item.size}</p>`  : ''}
       ${item.color ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">Color: ${item.color}</p>` : ''}
       <p style="margin:4px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">
-        Qty: ${item.quantity} &nbsp;·&nbsp;
+        Qty: ${item.quantity} &nbsp;&middot;&nbsp;
         <span style="color:${BBW.rose};font-weight:700;">$${parseFloat(item.price * item.quantity).toFixed(2)}</span>
       </p>
     </td>
@@ -825,7 +836,6 @@ Plain text only.`
   return copy || `Your personalized product request has been received and we are genuinely impressed by your vision for ${productTitle}. At BBW4LIFE, we believe every woman deserves something made just for her.\n\nOur design team will carefully review your request and evaluate the possibility of bringing your idea to life on the website. We'll keep you posted — and whether or not it becomes a product, the fact that you shared your idea with us means a lot.`;
 }
 
-
 async function genCartAbandonedCopy(name) {
   const copy = await callGroq(
     `EMAIL TYPE: Abandoned cart recovery — BBW4LIFE.
@@ -849,24 +859,26 @@ async function composeWelcome(firstName, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Hey ${name} 👋</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-hand-wave" style="margin-right:6px;"></i>Hey ${name}
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
       What's waiting for you:
     </p>
-    ${cHighlightBox('👗', 'Plus-Size Fashion', 'Hundreds of styles designed with your body in mind — dresses, tops, shoes, and more.')}
-    ${cHighlightBox('💄', 'Beauty & Lifestyle', 'Products that make you feel as beautiful as you are.', '#fdf8f0')}
-    ${cHighlightBox('❤️', 'A Community That Gets It', 'Real women, real stories, real support.', '#f0f8fd')}
-    ${cCTA('Explore the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${cHighlightBox('fas fa-shirt', 'Plus-Size Fashion', 'Hundreds of styles designed with your body in mind — dresses, tops, shoes, and more.')}
+    ${cHighlightBox('fas fa-wand-sparkles', 'Beauty &amp; Lifestyle', 'Products that make you feel as beautiful as you are.', '#fdf8f0', BBW.gold)}
+    ${cHighlightBox('fas fa-heart', 'A Community That Gets It', 'Real women, real stories, real support.', '#f0f8fd', BBW.rose)}
+    ${cCTA('Explore the Shop &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
-    subject: `Welcome to BBW4LIFE, ${name}! Beauty Has No Sizes 👑`,
+    subject: `Welcome to BBW4LIFE, ${name}! Beauty Has No Sizes`,
     html: masterTemplate({
       preheader:    `You're officially part of the BBW4LIFE family — and we built this for exactly you.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 40%,${BBW.rose} 80%,${BBW.gold} 100%)`,
       topBadge:     'Welcome to the family',
-      headline:     'You made it. 👑',
+      headline:     'You made it.',
       subHeadline:  'BBW4LIFE was built for women exactly like you.',
       bodyHTML,
       settings,
@@ -885,11 +897,13 @@ async function composeOrderConfirm(data, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Order Confirmed ✅</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-circle-check" style="margin-right:6px;"></i>Order Confirmed
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
-      Your Order — <span style="color:${BBW.rose};">#${orderId || 'BBW4LIFE'}</span>
+      Your Order &mdash; <span style="color:${BBW.rose};">#${orderId || 'BBW4LIFE'}</span>
     </p>
     ${itemsHTML}
     ${total ? `
@@ -902,7 +916,9 @@ async function composeOrderConfirm(data, settings) {
     </table>` : ''}
     ${shippingAddress ? `
     ${cDivider()}
-    <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">Shipping to:</p>
+    <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">
+      <i class="fas fa-location-dot" style="margin-right:6px;color:${BBW.rose};"></i>Shipping to:
+    </p>
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};line-height:1.6;">${shippingAddress}</p>` : ''}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.6;">
@@ -911,12 +927,12 @@ async function composeOrderConfirm(data, settings) {
     </p>`;
 
   return {
-    subject: `Order Confirmed! Your BBW4LIFE order is being prepared 🛍️`,
+    subject: `Order Confirmed! Your BBW4LIFE order is being prepared`,
     html: masterTemplate({
       preheader:    `Your order has been confirmed — we're already preparing it with care.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 60%,${BBW.gold} 100%)`,
       topBadge:     'Order Confirmed',
-      headline:     'Thank you for your order! 🛍️',
+      headline:     'Thank you for your order!',
       subHeadline:  'We\'re preparing your package with love.',
       bodyHTML,
       settings,
@@ -932,7 +948,9 @@ async function composeOrderTracking(data, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Your Order Is On Its Way 🚚</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-truck-fast" style="margin-right:6px;"></i>Your Order Is On Its Way
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -947,23 +965,24 @@ async function composeOrderTracking(data, settings) {
           </p>
           <p style="margin:0 0 10px;font-family:Georgia,serif;font-size:28px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.10em;">${trackingNumber}</p>
-          ${carrier ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Carrier: ${carrier}</p>` : ''}
+          ${carrier ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">
+            <i class="fas fa-box" style="margin-right:5px;"></i>Carrier: ${carrier}</p>` : ''}
         </td>
       </tr>
     </table>
-    ${cCTA('Track My Order →', data.trackingUrl || `${BASE_URL}/page/order-tracking.html`)}
+    ${cCTA('Track My Order &rarr;', data.trackingUrl || `${BASE_URL}/page/order-tracking.html`)}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
       Order: <strong style="color:${BBW.dark};">#${orderId || 'BBW4LIFE'}</strong>
     </p>`;
 
   return {
-    subject: `Your BBW4LIFE order is on its way! 🚚 Tracking: ${trackingNumber}`,
+    subject: `Your BBW4LIFE order is on its way! Tracking: ${trackingNumber}`,
     html: masterTemplate({
       preheader:    `Your order has shipped — here's your tracking number: ${trackingNumber}`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
       topBadge:     'Order Shipped',
-      headline:     'Your order is on its way! 🚚',
+      headline:     'Your order is on its way!',
       subHeadline:  'Track your package and watch the magic happen.',
       bodyHTML,
       settings,
@@ -980,16 +999,18 @@ async function composeNewsletter1(firstName, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Subscription Confirmed ✓</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-circle-check" style="margin-right:6px;"></i>Subscription Confirmed
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
       Here's what's coming your way:
     </p>
-    ${cHighlightBox('💡', 'Weekly Tips', 'Style and wellness tips built for real curvy women.')}
-    ${cHighlightBox('🎁', 'Exclusive Deals', 'Subscriber-only discount codes before they go public.', '#fdf8f0')}
-    ${cHighlightBox('✨', 'New Arrivals First', 'You\'ll always be the first to know.', '#f0f8fd')}
-    ${cHighlightBox('💪', 'Real Stories', 'Success stories from women in our community.', '#f0fff4')}
+    ${cHighlightBox('fas fa-lightbulb', 'Weekly Tips', 'Style and wellness tips built for real curvy women.')}
+    ${cHighlightBox('fas fa-gift', 'Exclusive Deals', 'Subscriber-only discount codes before they go public.', '#fdf8f0', BBW.gold)}
+    ${cHighlightBox('fas fa-star', 'New Arrivals First', "You'll always be the first to know.", '#f0f8fd', BBW.plum)}
+    ${cHighlightBox('fas fa-users', 'Real Stories', 'Success stories from women in our community.', '#f0fff4', '#2d7a4f')}
     ${promo ? `
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -997,24 +1018,26 @@ async function composeNewsletter1(firstName, settings) {
       <tr>
         <td style="padding:24px;text-align:center;">
           <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 Welcome Gift</p>
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">
+            <i class="fas fa-gift" style="margin-right:5px;"></i>Welcome Gift
+          </p>
           <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:32px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.10em;">${promo.code}</p>
           <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">
-            ${promo.percent}% off — ${promo.items} items or more
+            ${promo.percent}% off &mdash; ${promo.items} items or more
           </p>
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Discover the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${cCTA('Discover the Shop &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
-    subject: `You're in! Welcome to the BBW4LIFE family 💕`,
+    subject: `You're in! Welcome to the BBW4LIFE family`,
     html: masterTemplate({
       preheader:    `Your subscription is confirmed — exclusive tips, deals, and real stories incoming.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 55%,${BBW.gold} 100%)`,
       topBadge:     'Newsletter Confirmed',
-      headline:     "You're officially inside. 💕",
+      headline:     "You're officially inside.",
       subHeadline:  'The best of BBW4LIFE, delivered to your inbox.',
       bodyHTML,
       settings,
@@ -1031,14 +1054,16 @@ async function composeNewsletter2(firstName, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Checking In 💬</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-comment-dots" style="margin-right:6px;"></i>Checking In
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
            style="border-radius:14px;overflow:hidden;background:#fdf0f3;border:1px solid rgba(192,56,94,0.15);">
       <tr>
         <td style="padding:22px;text-align:center;">
-          <p style="margin:0 0 6px;font-size:28px;">💬</p>
+          <i class="fas fa-comments" style="font-size:36px;color:${BBW.rose};display:block;margin-bottom:10px;"></i>
           <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">
             We'd love to hear from you
           </p>
@@ -1048,20 +1073,20 @@ async function composeNewsletter2(firstName, settings) {
           <a href="mailto:${support}" style="display:inline-block;padding:10px 28px;border-radius:40px;
              background:${BBW.rose};font-family:Arial,sans-serif;font-size:13px;
              font-weight:700;color:#fff;text-decoration:none;">
-            Reply Now →
+            Reply Now &rarr;
           </a>
         </td>
       </tr>
     </table>
-    ${cCTA('Browse the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${cCTA('Browse the Shop &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
-    subject: `Hey ${name}, how's your BBW4LIFE experience so far? 💬`,
+    subject: `Hey ${name}, how's your BBW4LIFE experience so far?`,
     html: masterTemplate({
       preheader:    `We'd love to hear from you — your feedback shapes everything we do.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
       topBadge:     'Just Checking In',
-      headline:     "How's it going? 💬",
+      headline:     "How's it going?",
       subHeadline:  'Your feedback genuinely shapes what we do.',
       bodyHTML,
       settings,
@@ -1079,12 +1104,14 @@ async function composeNewsletter3(firstName, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Special For You 💕</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-heart" style="margin-right:6px;"></i>Special For You
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
-    ${cHighlightBox('🛍️', 'Bundle Deals', 'Buy multiple items and save more — designed to reward women who shop smart.')}
-    ${cHighlightBox('⭐', 'Customer Favorites', 'The pieces our community loves most, voted by real women.', '#fdf8f0')}
-    ${cHighlightBox('🔥', 'Limited Promotions', 'Flash deals that come and go — stay subscribed to never miss one.', '#f0f8fd')}
+    ${cHighlightBox('fas fa-bag-shopping', 'Bundle Deals', 'Buy multiple items and save more — designed to reward women who shop smart.')}
+    ${cHighlightBox('fas fa-star', 'Customer Favorites', 'The pieces our community loves most, voted by real women.', '#fdf8f0', BBW.gold)}
+    ${cHighlightBox('fas fa-fire', 'Limited Promotions', 'Flash deals that come and go — stay subscribed to never miss one.', '#f0f8fd', '#d44500')}
     ${promo ? `
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1092,25 +1119,27 @@ async function composeNewsletter3(firstName, settings) {
       <tr>
         <td style="padding:22px;text-align:center;">
           <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">💕 For Our Subscribers</p>
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">
+            <i class="fas fa-heart" style="margin-right:5px;"></i>For Our Subscribers
+          </p>
           <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:28px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.10em;">${promo.code}</p>
           <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">
-            ${promo.percent}% off — ${promo.items} items or more
+            ${promo.percent}% off &mdash; ${promo.items} items or more
           </p>
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Shop Our Favorites →', `${BASE_URL}/collections/most-popular.html`)}`;
+    ${cCTA('Shop Our Favorites &rarr;', `${BASE_URL}/collections/most-popular.html`)}`;
 
   return {
-    subject: `${name}, these are our customers' favorites 🔥`,
+    subject: `${name}, these are our customers' favorites`,
     html: masterTemplate({
       preheader:    `Bundles, favorites, and exclusive promotions — all waiting for you.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 45%,${BBW.plum} 100%)`,
       topBadge:     'Community Favorites',
-      headline:     "You deserve the best. 🔥",
-      subHeadline:  'Bundles, promotions, and our community\'s top picks.',
+      headline:     "You deserve the best.",
+      subHeadline:  "Bundles, promotions, and our community's top picks.",
       bodyHTML,
       settings,
     }),
@@ -1124,21 +1153,23 @@ async function composeNewsletter4Buyer(firstName, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Thank You 💕</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-heart" style="margin-right:6px;"></i>Thank You
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
-    ${cHighlightBox('⭐', 'Share Your Experience', 'Your review helps other women feel confident in their choices.')}
-    ${cHighlightBox('🛍️', 'Shop More', 'New arrivals added regularly — there\'s always something new waiting for you.', '#fdf8f0')}
-    ${cCTA('Leave a Review →', `${BASE_URL}/collections/bbw4life-all-product.html`)}
-    ${cCTA('Shop New Arrivals →', `${BASE_URL}/collections/bbw4life-all-product.html`, `linear-gradient(135deg,${BBW.gold},${BBW.rose})`)}`;
+    ${cHighlightBox('fas fa-star', 'Share Your Experience', 'Your review helps other women feel confident in their choices.')}
+    ${cHighlightBox('fas fa-bag-shopping', 'Shop More', "New arrivals added regularly — there's always something new waiting for you.", '#fdf8f0', BBW.gold)}
+    ${cCTA('Leave a Review &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}
+    ${cCTA('Shop New Arrivals &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`, `linear-gradient(135deg,${BBW.gold},${BBW.rose})`)}`;
 
   return {
-    subject: `Thank you for your trust, ${name} 💕`,
+    subject: `Thank you for your trust, ${name}`,
     html: masterTemplate({
       preheader:    `We appreciate you and we'd love to hear about your experience.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.gold} 50%,${BBW.rose} 100%)`,
       topBadge:     'Customer Appreciation',
-      headline:     "Thank you for trusting us. 💕",
+      headline:     "Thank you for trusting us.",
       subHeadline:  'Your experience matters to us more than anything.',
       bodyHTML,
       settings,
@@ -1156,7 +1187,9 @@ async function composeNewsletter4New(firstName, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">A Special Gift For You 🎁</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-gift" style="margin-right:6px;"></i>A Special Gift For You
+    </p>
     ${cParagraphs(copy)}
     ${promo ? `
     ${cDivider()}
@@ -1166,28 +1199,30 @@ async function composeNewsletter4New(firstName, settings) {
       <tr>
         <td style="padding:28px;text-align:center;">
           <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 Exclusive Subscriber Offer</p>
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">
+            <i class="fas fa-gift" style="margin-right:5px;"></i>Exclusive Subscriber Offer
+          </p>
           <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:34px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.12em;">${promo.code}</p>
           <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.78);">
-            ${promo.percent}% off — ${promo.items} items or more
+            ${promo.percent}% off &mdash; ${promo.items} items or more
           </p>
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Use My Discount →', `${BASE_URL}/collections/bbw4life-all-product.html`)}
+    ${cCTA('Use My Discount &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
-      Beauty Has No Sizes — and neither does this offer. 👑
+      Beauty Has No Sizes &mdash; and neither does this offer.
     </p>`;
 
   return {
-    subject: `${name}, here's an exclusive gift just for you 🎁`,
+    subject: `${name}, here's an exclusive gift just for you`,
     html: masterTemplate({
       preheader:    `We prepared something special for you — an exclusive discount waiting inside.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
       topBadge:     'Exclusive Offer',
-      headline:     "This is just for you. 🎁",
+      headline:     "This is just for you.",
       subHeadline:  'A special gift from the BBW4LIFE family.',
       bodyHTML,
       settings,
@@ -1206,7 +1241,9 @@ async function composeContactReply(data, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Message Received ✅</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-circle-check" style="margin-right:6px;"></i>Message Received
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1225,17 +1262,17 @@ async function composeContactReply(data, settings) {
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.7;">
       Need urgent help?<br>
       <a href="mailto:${support}" style="color:${BBW.rose};font-weight:700;text-decoration:none;">${support}</a>
-      &nbsp;·&nbsp;
+      &nbsp;&middot;&nbsp;
       <a href="${whatsapp}" target="_blank" style="color:${BBW.rose};font-weight:700;text-decoration:none;">WhatsApp Us</a>
     </p>`;
 
   return {
-    subject: `We received your message — BBW4LIFE Support ✅`,
+    subject: `We received your message — BBW4LIFE Support`,
     html: masterTemplate({
       preheader:    `Your message has been received — our team will respond within 24-48 hours.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
       topBadge:     'Support',
-      headline:     'Message received! ✅',
+      headline:     'Message received!',
       subHeadline:  'Our team will respond within 24 to 48 hours.',
       bodyHTML,
       settings,
@@ -1251,7 +1288,9 @@ async function composePlanRequest(data, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Request Received ✅</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-circle-check" style="margin-right:6px;"></i>Request Received
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1260,7 +1299,7 @@ async function composePlanRequest(data, settings) {
                   border:1px solid rgba(201,150,62,0.28);">
       <tr>
         <td style="padding:24px;text-align:center;">
-          <p style="margin:0 0 6px;font-size:32px;">⏳</p>
+          <i class="fas fa-clock" style="font-size:36px;color:${BBW.goldL};display:block;margin-bottom:12px;"></i>
           <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">${program}</p>
           ${size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Size: ${size}</p>` : ''}
           ${color ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Color: ${color}</p>` : ''}
@@ -1270,16 +1309,16 @@ async function composePlanRequest(data, settings) {
         </td>
       </tr>
     </table>
-    ${cCTA('Browse the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${cCTA('Browse the Shop &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
-    subject: `Your BBW4LIFE product request has been received! ⏳`,
+    subject: `Your BBW4LIFE product request has been received!`,
     html: masterTemplate({
       preheader:    `We've received your request for ${program} — our team will review it soon.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.gold} 100%)`,
       topBadge:     'Request Confirmed',
-      headline:     "We've got your request! ⏳",
-      subHeadline:  'Our team is on it — we\'ll be in touch very soon.',
+      headline:     "We've got your request!",
+      subHeadline:  "Our team is on it — we'll be in touch very soon.",
       bodyHTML,
       settings,
     }),
@@ -1294,7 +1333,9 @@ async function composeCustomProduct(data, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Design Request Received 🎨</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-palette" style="margin-right:6px;"></i>Design Request Received
+    </p>
     ${cParagraphs(copy)}
     ${cDivider()}
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -1303,7 +1344,7 @@ async function composeCustomProduct(data, settings) {
                   border:1px solid rgba(201,150,62,0.28);">
       <tr>
         <td style="padding:24px;text-align:center;">
-          <p style="margin:0 0 6px;font-size:32px;">🎨</p>
+          <i class="fas fa-pen-ruler" style="font-size:36px;color:${BBW.goldL};display:block;margin-bottom:12px;"></i>
           <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">
             ${product_title || 'Your Custom Product'}
           </p>
@@ -1317,17 +1358,17 @@ async function composeCustomProduct(data, settings) {
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.7;">
       We evaluate every personalized product request carefully.<br>
-      If your idea becomes a product, you'll be the first to know. 👑
+      If your idea becomes a product, you'll be the first to know.
     </p>
-    ${cCTA('Explore Existing Products →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${cCTA('Explore Existing Products &rarr;', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
-    subject: `Your personalized product request is with our design team! 🎨`,
+    subject: `Your personalized product request is with our design team!`,
     html: masterTemplate({
       preheader:    `Your custom product idea has been received — our design team is reviewing it.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.plum} 100%)`,
       topBadge:     'Design Request',
-      headline:     "We love your vision! 🎨",
+      headline:     "We love your vision!",
       subHeadline:  'Our design team will review your personalized product idea.',
       bodyHTML,
       settings,
@@ -1347,7 +1388,9 @@ async function composeCartAbandoned(data, settings) {
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Your Cart Is Waiting 🛍️</p>
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+      <i class="fas fa-cart-shopping" style="margin-right:6px;"></i>Your Cart Is Waiting
+    </p>
     ${cParagraphs(copy)}
     ${itemsHTML ? `
     ${cDivider()}
@@ -1363,7 +1406,9 @@ async function composeCartAbandoned(data, settings) {
       <tr>
         <td style="padding:28px;text-align:center;">
           <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 A Little Gift For You</p>
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">
+            <i class="fas fa-gift" style="margin-right:5px;"></i>A Little Gift For You
+          </p>
           <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:34px;font-weight:700;
               color:${BBW.goldL};letter-spacing:0.12em;">${promoCode}</p>
           <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.78);">
@@ -1372,19 +1417,19 @@ async function composeCartAbandoned(data, settings) {
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Restart My Order →', finalRestartLink)}
+    ${cCTA('Restart My Order &rarr;', finalRestartLink)}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
-      Beauty Has No Sizes — and your spot in the BBW4LIFE family is still waiting. 👑
+      Beauty Has No Sizes &mdash; and your spot in the BBW4LIFE family is still waiting.
     </p>`;
 
   return {
-    subject: `${name}, you left something beautiful behind 🛍️`,
+    subject: `${name}, you left something beautiful behind`,
     html: masterTemplate({
       preheader:    `Your cart is saved and waiting — plus a little gift to welcome you back.`,
       headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
       topBadge:     'Cart Saved For You',
-      headline:     "Don't forget this. 🛍️",
+      headline:     "Don't forget this.",
       subHeadline:  'Your items are exactly where you left them.',
       bodyHTML,
       settings,
@@ -1440,7 +1485,6 @@ exports.handler = async (event) => {
   const results = { sent: [], skipped: [], errors: [] };
 
   try {
-    // Load settings once
     const settings = await loadSettings();
     const sheets   = getSheets();
     const sentLog  = await loadEmailLog(sheets);
@@ -1461,54 +1505,46 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers, body: JSON.stringify({ error: 'Valid email required' }) };
       }
 
-      // ── Welcome ──
       if (trigger === T.WELCOME) {
         await trySend(email, T.WELCOME, () => composeWelcome(body.firstName, settings), sheets, sentLog, results);
       }
 
-      // ── Order Confirmation ──
       if (trigger === T.ORDER_CONFIRM) {
         await trySend(email, T.ORDER_CONFIRM,
           () => composeOrderConfirm(body, settings),
           sheets, sentLog, results);
       }
 
-      // ── Order Tracking ──
       if (trigger === T.ORDER_TRACKING) {
         await trySend(email, T.ORDER_TRACKING,
           () => composeOrderTracking(body, settings),
           sheets, sentLog, results);
       }
 
-      // ── Newsletter #1 ──
       if (trigger === T.NEWSLETTER_1) {
         await trySend(email, T.NEWSLETTER_1,
           () => composeNewsletter1(body.firstName, settings),
           sheets, sentLog, results);
       }
 
-      // ── Contact Reply ──
       if (trigger === 'contact_reply') {
         await trySend(email, 'contact_reply',
           () => composeContactReply(body, settings),
           sheets, sentLog, results);
       }
 
-      // ── Plan Request ──
       if (trigger === T.PLAN_REQUEST) {
         await trySend(email, T.PLAN_REQUEST,
           () => composePlanRequest(body, settings),
           sheets, sentLog, results);
       }
 
-      // ── Custom Product ──
       if (trigger === T.CUSTOM_PRODUCT) {
         await trySend(email, T.CUSTOM_PRODUCT,
           () => composeCustomProduct(body, settings),
           sheets, sentLog, results);
       }
 
-      // ── Cart Abandoned ──
       if (trigger === T.CART_ABANDONED) {
         await trySend(email, T.CART_ABANDONED,
           () => composeCartAbandoned(body, settings),
@@ -1523,13 +1559,9 @@ exports.handler = async (event) => {
     }
 
     // ── BATCH / SCHEDULER MODE (GET) ──────────────────────
-    
-    // ── BATCH / SCHEDULER MODE (GET) ──────────────────────
-
     if (event.httpMethod === 'GET') {
       const params = event.queryStringParameters || {};
 
-      // ── Tracking checker (appelé par cron toutes les 12h) ──
       if (params.action === 'tracking') {
         const secret = params.secret;
         if (secret !== process.env.REPORT_SECRET) {
@@ -1543,7 +1575,6 @@ exports.handler = async (event) => {
         };
       }
 
-      // ── Newsletter batch (existant) ──
       console.log('[Handler] Batch newsletter sequence mode');
 
       const accountRows = await sheetRead(
@@ -1555,7 +1586,6 @@ exports.handler = async (event) => {
       console.log(`[Batch] ${accountRows.length} account rows`);
 
       for (const row of accountRows) {
-        // A=LastName B=FirstName C=Email F=Newsletter G=Orders H=TotalSpent
         const lastName   = (row[0] || '').trim();
         const firstName  = (row[1] || '').trim();
         const email      = (row[2] || '').trim();
@@ -1566,7 +1596,6 @@ exports.handler = async (event) => {
 
         const name = firstName || lastName || 'Beautiful';
 
-        // Newsletter sequence
         if (newsletter === 'yes') {
           if (!wasEmailSent(sentLog, email, T.NEWSLETTER_1)) {
             await trySend(email, T.NEWSLETTER_1,
@@ -1587,7 +1616,6 @@ exports.handler = async (event) => {
             await sleep(500); continue;
           }
 
-          // Day 10 — check if buyer or not
           const type10 = orders > 0 ? T.NEWSLETTER_4_BUYER : T.NEWSLETTER_4_NEW;
           if (!wasEmailSent(sentLog, email, T.NEWSLETTER_4_BUYER) &&
               !wasEmailSent(sentLog, email, T.NEWSLETTER_4_NEW)) {
