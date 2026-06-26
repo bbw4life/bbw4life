@@ -43,7 +43,7 @@ exports.handler = async (event) => {
   try {
     if (!event.body) return response(400, { success: false, error: "No data" });
 
-    const { cart: rawCart, shipping, shipping_cost, tax } = JSON.parse(event.body);
+    const { cart: rawCart, shipping, shipping_cost, tax, promoCode } = JSON.parse(event.body);
 
     if (!Array.isArray(rawCart) || rawCart.length === 0) {
       return response(400, { success: false, error: "Cart empty" });
@@ -91,7 +91,20 @@ exports.handler = async (event) => {
       };
     });
 
-    const finalTotal = (subtotal + shippingCost + taxAmount).toFixed(2);
+    let discountAmount = 0;
+    if (promoCode) {
+      const promos = settings.promos || [];
+      const inputCode = promoCode.toUpperCase().trim();
+      const paidQty = cart.filter(i => !i.isFreePromo)
+                          .reduce((s, i) => s + (parseInt(i.quantity) || 0), 0);
+      const promo = promos.find(
+        p => p.code && p.code.toUpperCase() === inputCode && p.items === paidQty
+      );
+      if (promo && promo.percent > 0) {
+        discountAmount = parseFloat((subtotal * (promo.percent / 100)).toFixed(2));
+      }
+    }
+    const finalTotal = Math.max(0, subtotal + shippingCost + taxAmount - discountAmount).toFixed(2);
     const custom_id = cart.map(item => item.cj_variant_id || '').join('|');
 
     const fullName = `${shipping.firstName || ''} ${shipping.lastName || ''}`.trim();
@@ -104,8 +117,9 @@ exports.handler = async (event) => {
           value: finalTotal,
           breakdown: {
             item_total: { currency_code: "USD", value: subtotal.toFixed(2) },
-            shipping: { currency_code: "USD", value: shippingCost.toFixed(2) },
-            tax_total: { currency_code: "USD", value: taxAmount.toFixed(2) }
+            shipping:   { currency_code: "USD", value: shippingCost.toFixed(2) },
+            tax_total:  { currency_code: "USD", value: taxAmount.toFixed(2) },
+            discount:   { currency_code: "USD", value: discountAmount.toFixed(2) }
           }
         },
         items: items,

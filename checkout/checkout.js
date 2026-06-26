@@ -474,7 +474,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     shipping: shippingData,
                     shipping_cost: shippingCost.toFixed(2),
                     tax: taxAmount.toFixed(2),
-                    cartToken
+                    cartToken,
+                    promoCode: appliedPromo ? appliedPromo.code : null
                 })
             });
             const data = await response.json();
