@@ -8714,16 +8714,12 @@ function loadProfilePhoto() {
     if (!carousel) return;
     carousel.innerHTML = '';
 
-    if (!customers || customers.length === 0) {
-      // Recréer le placeholder à chaque fois (il a été supprimé par innerHTML = '')
-      var placeholder = document.createElement('div');
-      placeholder.className = 'bbw-bday-card bbw-bday-card--placeholder';
-      placeholder.id = 'bbwBdayPlaceholder';
-      placeholder.innerHTML =
-        '<div class="bbw-bday-avatar bbw-bday-avatar--placeholder">🎁</div>' +
-        '<p class="bbw-bday-no-bday">No birthdays today — but yours could be next!</p>';
-      carousel.appendChild(placeholder);
+    // Enlever le placeholder
+    var placeholder = document.getElementById('bbwBdayPlaceholder');
+    if (placeholder) placeholder.style.display = 'none';
 
+    if (!customers || customers.length === 0) {
+      if (placeholder) placeholder.style.display = '';
       _cardCount = 0;
       if (prevBtn) prevBtn.style.display = 'none';
       if (nextBtn) nextBtn.style.display = 'none';
@@ -8742,10 +8738,11 @@ function loadProfilePhoto() {
     updateDots(0);
     startAutoSlide();
 
+    // Afficher/masquer flèches
     var showNav = _cardCount > 1;
     if (prevBtn) prevBtn.style.display = showNav ? '' : 'none';
     if (nextBtn) nextBtn.style.display = showNav ? '' : 'none';
-}
+  }
 
   function buildDots() {
     if (!dotsEl) return;
@@ -9076,109 +9073,80 @@ function loadProfilePhoto() {
     }
   });
 
+  
+
   /* ────────────────────────────────────────────────────────────
      INIT PRINCIPAL
   ────────────────────────────────────────────────────────────── */
-  function init(allProducts) {
+  async function init(allProducts) {
     applySettings(allProducts);
+
     if (CFG.show.toLowerCase().trim() !== 'yes') {
       giftBtn.style.display = 'none';
       return;
     }
+
     applyPosition();
     buildMarquee();
     scheduleWiggle();
-    
-    fetchTodayBirthdays().then(function (customers) {
-    if (customers && customers.length > 0) {
-      buildCarousel(customers);
-      if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
-    } else {
-      // Aucun birthday today → utiliser les clients par défaut
-      var defaults = (CFG.defaultCustomers || []);
-      if (defaults.length > 0) {
-        // Seed du jour pour un mélange différent chaque jour
-        var today = new Date();
-        var daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-        function seededRandom(seed) {
-          var x = Math.sin(seed) * 10000;
-          return x - Math.floor(x);
-        }
-        var shuffled = defaults.slice();
-        for (var i = shuffled.length - 1; i > 0; i--) {
-          var j = Math.floor(seededRandom(daySeed + i) * (i + 1));
-          var temp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = temp;
-        }
-        var picked = shuffled.slice(0, 3);
-        buildCarousel(picked);
-        // Pas de dot notification pour les défauts
+
+    const defaults = (CFG.defaultCustomers || []);
+
+    function getDefaultsForToday() {
+      if (!defaults.length) return [];
+      const today = new Date();
+      const daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+      function seededRandom(seed) {
+        var x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
       }
+      var shuffled = defaults.slice();
+      for (var i = shuffled.length - 1; i > 0; i--) {
+        var j = Math.floor(seededRandom(daySeed + i) * (i + 1));
+        var temp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = temp;
+      }
+      return shuffled.slice(0, 3);
     }
-  });
+
+    const picked = getDefaultsForToday();
+    if (picked.length) {
+      buildCarousel(picked);
+    }
+
+    try {
+      const customers = await fetchTodayBirthdays();
+      if (customers && customers.length > 0) {
+        buildCarousel(customers);
+        if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
+      }
+    } catch(e) {
+      console.warn('[BdayGift] fetchTodayBirthdays error:', e.message);
+    }
   }
 
   /* ────────────────────────────────────────────────────────────
      ATTENTE DU CHARGEMENT DES PRODUCTS
   ────────────────────────────────────────────────────────────── */
-  function runWithDefaultsFallback(allProducts) {
-    applySettings(allProducts);
-
-    if (CFG.show.toLowerCase().trim() !== 'yes') {
-      giftBtn.style.display = 'none';
-      return;
-    }
-
-    applyPosition();
-    buildMarquee();
-    scheduleWiggle();
-
-    fetchTodayBirthdays().then(function (customers) {
-      try {
-        if (customers && customers.length > 0) {
-          buildCarousel(customers);
-          if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
-          return;
-        }
-
-        var defaults = (CFG.defaultCustomers || []);
-        if (defaults.length > 0) {
-          var today = new Date();
-          var daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-          function seededRandom(seed) {
-            var x = Math.sin(seed) * 10000;
-            return x - Math.floor(x);
-          }
-          var shuffled = defaults.slice();
-          for (var i = shuffled.length - 1; i > 0; i--) {
-            var j = Math.floor(seededRandom(daySeed + i) * (i + 1));
-            var temp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = temp;
-          }
-          buildCarousel(shuffled.slice(0, 3));
-        } else {
-          buildCarousel([]);
-        }
-      } catch (err) {
-        console.error('[BdayGift] buildCarousel failed:', err);
-        buildCarousel([]); // fallback ultime : au moins le placeholder s'affiche
-      }
-    }).catch(function (err) {
-      console.error('[BdayGift] fetchTodayBirthdays chain failed:', err);
-      buildCarousel([]); // si tout plante, on affiche au moins le placeholder
-    });
-  }
-
   if (window.__allProducts && window.__allProducts.length) {
-    runWithDefaultsFallback(window.__allProducts);
+    init(window.__allProducts);
   } else {
     var tries = 0;
     var poll  = setInterval(function () {
       tries++;
       if (window.__allProducts && window.__allProducts.length) {
         clearInterval(poll);
-        runWithDefaultsFallback(window.__allProducts);
-      } else if (tries > 150) {
+        init(window.__allProducts);
+      } else if (tries > 80) {
         clearInterval(poll);
-        runWithDefaultsFallback(window.__allProducts || []);
+        applyPosition();
+        buildMarquee();
+        scheduleWiggle();
+        fetchTodayBirthdays().then(function (customers) {
+          if (customers && customers.length > 0) {
+            buildCarousel(customers);
+            if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
+          }
+        });
       }
     }, 100);
   }
@@ -13665,4 +13633,5 @@ function injectColFbt() {
   observer.observe(document.body, { childList: true, subtree: true });
 
 })();
+
 
