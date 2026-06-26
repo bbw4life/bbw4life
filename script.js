@@ -8792,7 +8792,7 @@ function loadProfilePhoto() {
     stopAutoSlide();
     _autoTimer = setInterval(function () {
       goToCard(_currentCard + 1, 'left');
-    }, 4000);
+    }, 5000);
   }
 
   function stopAutoSlide() {

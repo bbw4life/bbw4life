@@ -2,14 +2,14 @@
 process.removeAllListeners('warning');
 
 const { Resend } = require('resend');
-const { google }  = require('googleapis');
+const { google } = require('googleapis');
 const crypto = require('crypto');
 
 // ════════════════════════════════════════════════════════════════
 //  ENVIRONMENT
 // ════════════════════════════════════════════════════════════════
 const BASE_URL   = process.env.BASE_URL   || 'https://bbw4life.com';
-const FROM_EMAIL = process.env.FROM_EMAIL || 'BBW4LIFE <support@bbw4life.com>';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'BBW4LIFE <bbw4life@bbw4life.com>';
 
 // ════════════════════════════════════════════════════════════════
 //  EMAIL TYPE CONSTANTS
@@ -103,11 +103,11 @@ async function callGroq(userPrompt) {
       }
     }
   }
-  return null; // AI failed — use fallback
+  return null;
 }
 
 // ════════════════════════════════════════════════════════════════
-//  SETTINGS LOADER — from products.data.json
+//  SETTINGS LOADER
 // ════════════════════════════════════════════════════════════════
 let _cachedSettings = null;
 
@@ -119,7 +119,6 @@ async function loadSettings() {
     const data = await res.json();
     const arr  = Array.isArray(data) ? data : [];
     _cachedSettings = arr.find(p => p.type === 'settings') || {};
-    console.log('[Settings] Loaded from products.data.json');
     return _cachedSettings;
   } catch (e) {
     console.warn('[Settings] Failed to load:', e.message);
@@ -142,7 +141,7 @@ function getSheets() {
 }
 
 async function sheetRead(sheets, spreadsheetId, range) {
-  if (!spreadsheetId) { console.warn(`[Sheets] Missing ID for: ${range}`); return []; }
+  if (!spreadsheetId) return [];
   try {
     const res = await sheets.spreadsheets.values.get({ spreadsheetId, range });
     return res.data.values || [];
@@ -153,7 +152,7 @@ async function sheetRead(sheets, spreadsheetId, range) {
 }
 
 async function sheetAppend(sheets, spreadsheetId, range, values) {
-  if (!spreadsheetId) { console.warn(`[Sheets] Missing ID for append: ${range}`); return; }
+  if (!spreadsheetId) return;
   try {
     await sheets.spreadsheets.values.append({
       spreadsheetId, range,
@@ -215,11 +214,9 @@ async function deliver(to, subject, html) {
   }
 }
 
-
 // ════════════════════════════════════════════════════════════════
 //  EPROLO — TRACKING CHECKER
 // ════════════════════════════════════════════════════════════════
-
 function buildEproloSign() {
   const apiKey    = process.env.EPROLO_API_KEY;
   const apiSecret = process.env.EPROLO_API_SECRET;
@@ -231,37 +228,22 @@ function buildEproloSign() {
 async function getEproloOrderTracking(internalOrderId) {
   try {
     const { apiKey, timestamp, sign } = buildEproloSign();
-
     const url = `https://openapi.eprolo.com/order_list.html?sign=${sign}&timestamp=${timestamp}&order_id=${encodeURIComponent(internalOrderId)}&status=0&page_size=1`;
-
-    const res  = await fetch(url, {
-      method:  'GET',
-      headers: { 'apiKey': apiKey }
-    });
-
+    const res  = await fetch(url, { method: 'GET', headers: { 'apiKey': apiKey } });
     const text = await res.text();
     let data;
     try { data = JSON.parse(text); } catch { return null; }
-
-    if (data.code !== '0' && data.code !== 0) {
-      console.warn(`[EPROLO Tracking] API error: ${data.msg}`);
-      return null;
-    }
-
+    if (data.code !== '0' && data.code !== 0) return null;
     const list  = (data.data && data.data.list) || [];
     const order = list[0];
     if (!order) return null;
-
-    // Tracking est dans logistics[]
     const logistics = (order.logistics || [])[0];
     if (!logistics || !logistics.tracking_number) return null;
-
     return {
       trackingNumber: logistics.tracking_number,
       carrier:        logistics.tracking_company || null,
       trackingUrl:    logistics.tracking_url     || null
     };
-
   } catch (e) {
     console.warn('[EPROLO Tracking] Error:', e.message);
     return null;
@@ -269,79 +251,59 @@ async function getEproloOrderTracking(internalOrderId) {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  TRACKING SCHEDULER — appelé par cron-job.org toutes les 12h
+//  TRACKING SCHEDULER — cron toutes les 12h
 // ════════════════════════════════════════════════════════════════
 async function runTrackingChecker(sheets, settings) {
   console.log('[Tracking] Starting tracking check...');
-
   const rows = await sheetRead(
     sheets,
     process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
     'bbw4life-pending-orders!A:S'
   );
+  if (rows.length <= 1) { console.log('[Tracking] No orders found'); return { checked: 0, found: 0 }; }
 
-  if (rows.length <= 1) {
-    console.log('[Tracking] No orders found');
-    return { checked: 0, found: 0 };
-  }
-
-  const now     = new Date();
-  let checked   = 0;
-  let found     = 0;
-
-  // Regrouper par payment_id pour éviter les doublons
+  const now       = new Date();
+  let checked     = 0;
+  let found       = 0;
   const processed = new Set();
 
   for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-
+    const row             = rows[i];
     const internalOrderId = row[0]  || '';
     const paymentId       = row[2]  || '';
     const fullName        = row[3]  || '';
     const email           = row[4]  || '';
     const status          = (row[14] || '').toLowerCase();
     const orderDateStr    = row[16] || '';
-    const trackingCol     = row[18] || ''; // Col S = Tracking Number
+    const trackingCol     = row[18] || '';
 
-    // Skip si déjà un tracking ou pas successful
     if (trackingCol)                   continue;
     if (status !== 'successful')       continue;
     if (!email || !email.includes('@')) continue;
     if (processed.has(paymentId))      continue;
 
-    // Vérifier que 24h sont passées depuis la commande
     if (orderDateStr) {
-      const orderDate = new Date(orderDateStr);
+      const orderDate    = new Date(orderDateStr);
       const hoursElapsed = (now - orderDate) / (1000 * 60 * 60);
-      if (hoursElapsed < 24) {
-        console.log(`[Tracking] Order ${internalOrderId} — only ${hoursElapsed.toFixed(1)}h elapsed, skipping`);
-        continue;
-      }
+      if (hoursElapsed < 24) continue;
     }
 
     checked++;
     processed.add(paymentId);
 
-    // Interroger EPROLO
     const result = await getEproloOrderTracking(internalOrderId);
 
     if (result && result.trackingNumber) {
       found++;
-
-      // 1. Sauvegarder le tracking dans le sheet (col S = index 18, ligne i+1)
       try {
         await sheets.spreadsheets.values.update({
-          spreadsheetId: process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
-          range:         `bbw4life-pending-orders!S${i + 1}`,
+          spreadsheetId:    process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
+          range:            `bbw4life-pending-orders!S${i + 1}`,
           valueInputOption: 'RAW',
-          resource: { values: [[result.trackingNumber]] }
+          resource:         { values: [[result.trackingNumber]] }
         });
-        console.log(`[Tracking] ✅ Saved tracking ${result.trackingNumber} for order ${internalOrderId}`);
-      } catch (e) {
-        console.warn('[Tracking] Failed to save tracking:', e.message);
-      }
+      } catch (e) { console.warn('[Tracking] Failed to save tracking:', e.message); }
 
-      // 2. Envoyer email tracking au client
       const nameParts = fullName.split(' ');
       const firstName = nameParts[0] || '';
       const lastName  = nameParts.slice(1).join(' ') || '';
@@ -352,13 +314,11 @@ async function runTrackingChecker(sheets, settings) {
           lastName,
           orderId:        internalOrderId,
           trackingNumber: result.trackingNumber,
-          carrier:        result.carrier || ''
+          carrier:        result.carrier || '',
+          trackingUrl:    result.trackingUrl || ''
         }, settings);
       });
 
-      console.log(`[Tracking] ✅ Email sent to ${email}`);
-
-      // Notifier Telegram
       try {
         await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method:  'POST',
@@ -369,15 +329,9 @@ async function runTrackingChecker(sheets, settings) {
             parse_mode: 'HTML'
           })
         });
-      } catch (e) {
-        console.warn('[Tracking] Telegram notify failed:', e.message);
-      }
-
-    } else {
-      console.log(`[Tracking] ⏳ No tracking yet for ${internalOrderId}`);
+      } catch (e) { console.warn('[Tracking] Telegram notify failed:', e.message); }
     }
 
-    // Pause entre chaque requête EPROLO
     await sleep(800);
   }
 
@@ -385,7 +339,6 @@ async function runTrackingChecker(sheets, settings) {
   return { checked, found };
 }
 
-// Helper send sans log check (pour tracking — 1 seul envoi par commande grâce au sheet)
 async function trySendDirect(email, type, composeFn) {
   if (!email || !email.includes('@')) return false;
   try {
@@ -398,10 +351,8 @@ async function trySendDirect(email, type, composeFn) {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  EMAIL DESIGN SYSTEM — BBW4LIFE BRANDED
+//  BRAND COLORS
 // ════════════════════════════════════════════════════════════════
-
-// ── Brand colors ──────────────────────────────────────────────
 const BBW = {
   rose:      '#c0385e',
   rose2:     '#e8245a',
@@ -417,7 +368,6 @@ const BBW = {
   textLight: '#9e8e96',
 };
 
-// ── Base CSS reset ─────────────────────────────────────────────
 const BASE_CSS = `
   body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
   table,td{mso-table-lspace:0pt;mso-table-rspace:0pt}
@@ -433,16 +383,30 @@ const BASE_CSS = `
   }
 `;
 
-// ── Settings-driven components ────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  SVG SOCIAL ICONS
+// ════════════════════════════════════════════════════════════════
+const SOCIAL_SVGS = {
+  facebook: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 509.64" width="28" height="28"><rect fill="#0866FF" width="512" height="509.64" rx="115.612" ry="115.612"/><path fill="#fff" d="M287.015 509.64h-92.858V332.805h-52.79v-78.229h52.79v-33.709c0-87.134 39.432-127.522 124.977-127.522 16.217 0 44.203 3.181 55.651 6.361v70.915c-6.043-.636-16.536-.953-29.576-.953-41.976 0-58.194 15.9-58.194 57.241v27.667h83.618l-14.365 78.229h-69.253V509.64z"/></svg>`,
+  instagram: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="28" height="28"><defs><radialGradient id="ig" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect width="512" height="512" rx="115" fill="url(#ig)"/><path fill="#fff" fill-rule="nonzero" d="M170.663 256.157c-.083-47.121 38.055-85.4 85.167-85.482 47.121-.092 85.407 38.029 85.499 85.159.091 47.13-38.047 85.4-85.176 85.492-47.112.09-85.399-38.039-85.49-85.169zm-46.108.092c.141 72.602 59.106 131.327 131.69 131.185 72.592-.14 131.35-59.089 131.209-131.691-.141-72.577-59.114-131.336-131.715-131.194-72.585.141-131.325 59.114-131.184 131.7zm237.104-137.092c.033 16.954 13.817 30.682 30.772 30.649 16.961-.034 30.689-13.811 30.664-30.765-.033-16.954-13.818-30.69-30.78-30.656-16.962.033-30.689 13.818-30.656 30.772zm-208.696 345.4c-24.958-1.086-38.511-5.234-47.543-8.709-11.961-4.628-20.496-10.177-29.479-19.093-8.966-8.951-14.532-17.461-19.202-29.397-3.508-9.033-7.73-22.569-8.9-47.527-1.269-26.983-1.559-35.078-1.683-103.433-.133-68.338.116-76.434 1.294-103.441 1.069-24.941 5.242-38.512 8.709-47.536 4.628-11.977 10.161-20.496 19.094-29.478 8.949-8.983 17.459-14.532 29.403-19.202 9.025-3.526 22.561-7.715 47.511-8.9 26.998-1.278 35.085-1.551 103.423-1.684 68.353-.133 76.448.108 103.456 1.294 24.94 1.086 38.51 5.217 47.527 8.709 11.968 4.628 20.503 10.145 29.478 19.094 8.974 8.95 14.54 17.443 19.21 29.413 3.524 8.999 7.714 22.552 8.892 47.494 1.285 26.998 1.576 35.094 1.7 103.432.132 68.355-.117 76.451-1.302 103.442-1.087 24.957-5.226 38.52-8.709 47.56-4.629 11.953-10.161 20.488-19.103 29.471-8.941 8.949-17.451 14.531-29.403 19.201-9.009 3.517-22.561 7.714-47.494 8.9-26.998 1.269-35.086 1.56-103.448 1.684-68.338.133-76.424-.124-103.431-1.294z"/></svg>`,
+  twitter: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="28" height="28"><rect width="512" height="512" rx="256" fill="#000"/><path fill="#fff" fill-rule="nonzero" d="M318.64 157.549h33.401l-72.973 83.407 85.85 113.495h-67.222l-52.647-68.836-60.242 68.836h-33.423l78.052-89.212-82.354-107.69h68.924l47.59 62.917 55.044-62.917zm-11.724 176.908h18.51L205.95 176.493h-19.86l120.826 157.964z"/></svg>`,
+  pinterest: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="28" height="28"><rect width="512" height="512" rx="256" fill="#E60019"/><path fill="#fff" fill-rule="nonzero" d="M256 96c-88.41 0-160 71.59-160 160 0 67.74 41.45 126.04 100.53 150.78-1.39-12.55-2.64-31.81.55-45.5 3.05-12.43 20.38-86.36 20.38-86.36s-5.2-10.4-5.2-25.79c0-24.16 14.01-42.23 31.46-42.23 14.85 0 22.01 11.14 22.01 24.5 0 14.93-9.5 37.29-14.42 58.01-4.1 17.32 8.7 31.44 25.76 31.44 30.9 0 54.68-32.62 54.68-79.69 0-41.68-29.95-70.79-72.71-70.79-49.51 0-78.55 37.12-78.55 75.51 0 14.96 5.75 30.99 12.94 39.76.53.65.6 1.21.44 1.87-1.33 5.51-4.28 17.32-4.83 19.74-.77 3.18-2.52 3.87-5.83 2.32-21.72-10.11-35.29-41.87-35.29-67.38 0-54.9 39.87-105.3 114.93-105.3 60.32 0 107.22 43.01 107.22 100.48 0 59.96-37.79 108.18-90.26 108.18-17.64 0-34.21-9.18-39.85-20.01 0 0-8.72 33.24-10.84 41.37-4.1 15.79-15.49 35.74-22.55 47.1 16.27 5.02 33.54 7.71 51.46 7.71 88.41 0 160-71.59 160-160S344.41 96 256 96z"/></svg>`,
+  tiktok: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="28" height="28"><rect width="512" height="512" rx="256" fill="#000"/><path fill="#fff" d="M384 196.8c-28.8 0-55.68-9.6-77.44-25.6v116.48C306.56 356.48 265.6 396.8 214.4 396.8c-51.84 0-93.44-41.6-93.44-93.44 0-51.84 41.6-93.44 93.44-93.44 7.04 0 14.08.96 20.48 2.56v68.48c-6.4-3.2-13.44-4.48-20.48-4.48-27.52 0-49.92 22.4-49.92 49.92 0 27.52 22.4 49.92 49.92 49.92 27.52 0 50.56-22.08 50.56-49.92V115.2h64c6.4 36.48 36.48 64 70.72 67.2v64l-.48-.64z"/></svg>`,
+  whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="28" height="28"><rect width="512" height="512" rx="256" fill="#25D366"/><path fill="#fff" d="M256 96C167.6 96 96 167.6 96 256c0 30.8 8.4 59.6 23.2 84.4L96 416l77.2-23c23.8 13.2 51.2 20.8 82.8 20.8 88.4 0 160-71.6 160-160S344.4 96 256 96zm87.6 218.4c-3.6 10-21.2 19.2-29.2 20.4-7.6 1.2-17.2 1.6-27.6-2.8-6.4-2.8-14.4-6.4-24.8-12.4-43.6-24.4-71.6-68.4-73.6-71.6-2-2.8-16-21.2-16-40.4 0-19.2 10-28.4 13.6-32.4 3.6-4 7.6-5 10-5s5 0 7.2.4c2.4.4 5.6-.4 8.4 6.4 2.8 7.2 9.6 26.4 10.4 28.4.8 2 1.6 4.4.4 7.2-1.2 2.8-2 4.4-4 6.8-2 2.4-4.4 5.2-6 7.2-2 2.4-4.4 4.8-1.6 9.6 2.8 4.4 12 19.6 26 31.6 17.6 16 32.8 20.8 37.2 23.2 4.4 2.4 7.2 2 9.6-.8 2.8-2.8 11.6-13.6 14.8-18 3.2-4.4 6-3.6 10-2 4 1.6 25.2 12 29.6 14 4.4 2.4 7.2 3.2 8.4 5.2 1.2 2.4 1.2 12 -2.4 22z"/></svg>`,
+  youtube: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="28" height="28"><rect width="512" height="512" rx="115" fill="#FF0000"/><path fill="#fff" d="M415 195.2s-3.6-25.4-14.8-36.6c-14.2-14.8-30-14.8-37.4-15.8-52.2-3.8-130.6-3.8-130.6-3.8h-.4s-78.4 0-130.6 3.8c-7.4.8-23.2 1-37.4 15.8C52.4 169.8 48.8 195.2 48.8 195.2S45 224.8 45 254.4v27.8c0 29.6 3.8 59.2 3.8 59.2s3.6 25.4 14.8 36.6c14.2 14.8 32.8 14.4 41.2 15.8C134 397 232 397.8 232 397.8s78.4-.2 130.6-3.8c7.4-1 23.2-1 37.4-15.8 11.2-11.2 14.8-36.6 14.8-36.6s3.8-29.6 3.8-59.2v-27.8c0-29.6-3.6-59.2-3.6-59.2zM210 312V200l102 56.2L210 312z"/></svg>`,
+};
+
+// ════════════════════════════════════════════════════════════════
+//  SETTINGS-DRIVEN COMPONENTS
+// ════════════════════════════════════════════════════════════════
 function buildLogoComponent(settings) {
-  const logoUrl = (settings.logo_url || settings.logo || '');
+  const logoUrl  = settings.logo_url || settings.logo || '';
   const siteName = 'BBW4LIFE';
   if (logoUrl) {
     return `<a href="${BASE_URL}" target="_blank" style="display:inline-block;text-decoration:none;margin-bottom:20px;">
       <img src="${logoUrl}" alt="${siteName}" height="60" style="height:60px;width:auto;max-width:200px;display:block;">
     </a>`;
   }
-  // Text fallback
   return `<a href="${BASE_URL}" target="_blank" style="text-decoration:none;display:inline-block;margin-bottom:20px;">
     <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
       <tr>
@@ -457,13 +421,13 @@ function buildLogoComponent(settings) {
 function buildSocialFooter(settings) {
   const social = settings.social_links || {};
   const links  = [
-    { key: 'facebook',  emoji: '📘', label: 'Facebook'  },
-    { key: 'instagram', emoji: '📸', label: 'Instagram' },
-    { key: 'tiktok',    emoji: '🎵', label: 'TikTok'    },
-    { key: 'youtube',   emoji: '▶️',  label: 'YouTube'   },
-    { key: 'pinterest', emoji: '📌', label: 'Pinterest' },
-    { key: 'twitter',   emoji: '🐦', label: 'X'         },
-    { key: 'whatsapp',  emoji: '💬', label: 'WhatsApp'  },
+    { key: 'facebook',  label: 'Facebook',  svg: SOCIAL_SVGS.facebook },
+    { key: 'instagram', label: 'Instagram', svg: SOCIAL_SVGS.instagram },
+    { key: 'tiktok',    label: 'TikTok',    svg: SOCIAL_SVGS.tiktok },
+    { key: 'youtube',   label: 'YouTube',   svg: SOCIAL_SVGS.youtube },
+    { key: 'pinterest', label: 'Pinterest', svg: SOCIAL_SVGS.pinterest },
+    { key: 'twitter',   label: 'X',         svg: SOCIAL_SVGS.twitter },
+    { key: 'whatsapp',  label: 'WhatsApp',  svg: SOCIAL_SVGS.whatsapp },
   ].filter(l => social[l.key]);
 
   if (!links.length) return '';
@@ -472,12 +436,11 @@ function buildSocialFooter(settings) {
 <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto 16px;">
   <tr>
     ${links.map(l => `
-    <td style="padding:0 5px;">
-      <a href="${social[l.key]}" target="_blank"
-         style="display:inline-block;width:36px;height:36px;border-radius:8px;
-                background:rgba(192,56,94,0.18);border:1px solid rgba(192,56,94,0.30);
-                text-align:center;line-height:36px;font-size:16px;text-decoration:none;">
-        ${l.emoji}
+    <td style="padding:0 6px;">
+      <a href="${social[l.key]}" target="_blank" aria-label="${l.label}"
+         style="display:inline-block;width:40px;height:40px;border-radius:10px;
+                text-decoration:none;overflow:hidden;vertical-align:middle;">
+        ${l.svg}
       </a>
     </td>`).join('')}
   </tr>
@@ -507,15 +470,14 @@ function buildCEOSignature(settings) {
 </table>`;
 }
 
-// ── Master template wrapper ────────────────────────────────────
+// ── Master template ──────────────────────────────────────────
 function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline, bodyHTML, settings, showCEO = false }) {
   const logoHTML   = buildLogoComponent(settings);
   const socialHTML = buildSocialFooter(settings);
   const ceoHTML    = showCEO ? buildCEOSignature(settings) : '';
   const support    = (settings.contact_emails || {}).general || (settings.contact || {}).email || 'support@bbw4life.com';
   const whatsapp   = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
-
-  const grad = headerGrad || `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`;
+  const grad       = headerGrad || `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`;
 
   return `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -528,7 +490,6 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
 </head>
 <body style="margin:0;padding:0;background-color:#f9f0f5;">
 
-<!-- Preheader -->
 <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;color:#f9f0f5;line-height:1px;">
   ${preheader}&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;
 </div>
@@ -552,7 +513,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
                   font-family:Arial,sans-serif;font-size:11px;font-weight:700;
                   color:rgba(255,255,255,0.88);letter-spacing:0.12em;text-transform:uppercase;
                   margin-bottom:14px;">${topBadge}</div><br>` : ''}
-                <h1 class="eh1" style="margin:0 0 0;font-family:Georgia,serif;font-size:28px;
+                <h1 class="eh1" style="margin:0;font-family:Georgia,serif;font-size:28px;
                     font-weight:700;color:#fff;line-height:1.2;letter-spacing:0.02em;">${headline}</h1>
                 ${subHeadline ? `<p style="margin:10px 0 0;font-family:Arial,sans-serif;
                     font-size:14px;color:rgba(255,255,255,0.78);line-height:1.5;">${subHeadline}</p>` : ''}
@@ -627,7 +588,7 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
 </html>`;
 }
 
-// ── Reusable HTML components ──────────────────────────────────
+// ── HTML components ───────────────────────────────────────────
 function cParagraphs(text) {
   if (!text) return '';
   return text.split('\n').filter(p => p.trim()).map(p =>
@@ -664,10 +625,9 @@ function cDivider() {
 
 function cHighlightBox(icon, title, text, color) {
   const bg = color || '#fdf0f3';
-  const bd = `rgba(192,56,94,0.18)`;
   return `
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-       style="margin:0 0 14px;border-radius:14px;overflow:hidden;background:${bg};border:1px solid ${bd};">
+       style="margin:0 0 14px;border-radius:14px;overflow:hidden;background:${bg};border:1px solid rgba(192,56,94,0.18);">
   <tr>
     <td style="padding:18px 20px;">
       <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
@@ -694,15 +654,15 @@ function cOrderItem(item) {
     <td width="70" style="padding:0;vertical-align:top;">
       <img src="${item.image}" width="70" height="70"
            style="display:block;width:70px;height:70px;object-fit:cover;border-radius:12px 0 0 12px;"
-           alt="${item.title}">
+           alt="${item.title || 'Product'}">
     </td>` : ''}
     <td style="padding:14px 16px;vertical-align:middle;">
-      <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">${item.title}</p>
+      <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">${item.title || ''}</p>
       ${item.size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">Size: ${item.size}</p>`  : ''}
       ${item.color ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">Color: ${item.color}</p>` : ''}
       <p style="margin:4px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">
-        Qty: ${item.quantity} &nbsp;·&nbsp;
-        <span style="color:${BBW.rose};font-weight:700;">$${parseFloat(item.price * item.quantity).toFixed(2)}</span>
+        Qty: ${item.quantity || 1} &nbsp;·&nbsp;
+        <span style="color:${BBW.rose};font-weight:700;">$${parseFloat((item.price || 0) * (item.quantity || 1)).toFixed(2)}</span>
       </p>
     </td>
   </tr>
@@ -710,7 +670,7 @@ function cOrderItem(item) {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  AI COPY GENERATORS — with fallbacks
+//  AI COPY GENERATORS — avec fallbacks robustes
 // ════════════════════════════════════════════════════════════════
 
 async function genWelcomeCopy(name) {
@@ -729,7 +689,7 @@ async function genOrderConfirmCopy(name) {
   const copy = await callGroq(
     `EMAIL TYPE: Order confirmation for BBW4LIFE.
 RECIPIENT: ${name}
-Write 1 paragraph (2-3 sentences): Thank her for the order. Express genuine excitement. Mention order is being prepared.
+Write 1 paragraph (2-3 sentences): Thank her for the order. Express genuine excitement. Mention order is being prepared with care.
 Plain text only.`
   );
   return copy || `Thank you so much for your order — this means the world to us and we're already excited for you to receive it. Your items are being carefully prepared and will be on their way very soon. We'll send you a tracking number as soon as your package ships.`;
@@ -825,24 +785,23 @@ Plain text only.`
   return copy || `Your personalized product request has been received and we are genuinely impressed by your vision for ${productTitle}. At BBW4LIFE, we believe every woman deserves something made just for her.\n\nOur design team will carefully review your request and evaluate the possibility of bringing your idea to life on the website. We'll keep you posted — and whether or not it becomes a product, the fact that you shared your idea with us means a lot.`;
 }
 
-
 async function genCartAbandonedCopy(name) {
   const copy = await callGroq(
     `EMAIL TYPE: Abandoned cart recovery — BBW4LIFE.
 RECIPIENT: ${name}
 Write 2 short paragraphs (blank line between):
-- Para 1 (2 sentences): Notice she left something behind in her cart. Warm, curious tone, not guilt-tripping. Ask gently what held her back.
-- Para 2 (2 sentences): Reassure her items are saved and waiting. Mention a special gift below to help her finish her order.
+- Para 1 (2 sentences): Notice she left something behind in her cart. Warm, curious tone, not guilt-tripping.
+- Para 2 (2 sentences): Reassure her items are saved and waiting. Mention a special gift below.
 Plain text only, no greeting, no sign-off.`
   );
-  return copy || `We noticed you left something behind in your cart — and we just wanted to check in. Sometimes life gets busy, or maybe something wasn't quite clear, and we'd genuinely love to know if there's anything we can help with.\n\nYour items are safely saved and waiting for you, exactly where you left them. To make it even easier to come back, we've added a little gift below just for you.`;
+  return copy || `We noticed you left something behind in your cart — and we just wanted to check in. Sometimes life gets busy, and we'd genuinely love to know if there's anything we can help with.\n\nYour items are safely saved and waiting for you, exactly where you left them. To make it even easier to come back, we've added a little gift below just for you.`;
 }
 
 // ════════════════════════════════════════════════════════════════
 //  EMAIL COMPOSERS
 // ════════════════════════════════════════════════════════════════
 
-// ── 1. Welcome Email ──────────────────────────────────────────
+// ── 1. Welcome (après création de compte) ────────────────────
 async function composeWelcome(firstName, settings) {
   const name = firstName || 'Beautiful';
   const copy = await genWelcomeCopy(name);
@@ -863,25 +822,24 @@ async function composeWelcome(firstName, settings) {
   return {
     subject: `Welcome to BBW4LIFE, ${name}! Beauty Has No Sizes 👑`,
     html: masterTemplate({
-      preheader:    `You're officially part of the BBW4LIFE family — and we built this for exactly you.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 40%,${BBW.rose} 80%,${BBW.gold} 100%)`,
-      topBadge:     'Welcome to the family',
-      headline:     'You made it. 👑',
-      subHeadline:  'BBW4LIFE was built for women exactly like you.',
+      preheader:   `You're officially part of the BBW4LIFE family — and we built this for exactly you.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 40%,${BBW.rose} 80%,${BBW.gold} 100%)`,
+      topBadge:    'Welcome to the family',
+      headline:    'You made it. 👑',
+      subHeadline: 'BBW4LIFE was built for women exactly like you.',
       bodyHTML,
       settings,
-      showCEO:      true,
+      showCEO:     true,
     }),
   };
 }
 
-// ── 2. Order Confirmation ─────────────────────────────────────
+// ── 2. Order Confirmation (après paiement) ───────────────────
 async function composeOrderConfirm(data, settings) {
   const { firstName, lastName, email, orderId, items = [], total, shippingAddress } = data;
   const name = firstName || lastName || 'Beautiful';
   const copy = await genOrderConfirmCopy(name);
-
-  const itemsHTML = items.map(item => cOrderItem(item)).join('');
+  const itemsHTML = (items || []).map(item => cOrderItem(item)).join('');
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
@@ -913,20 +871,20 @@ async function composeOrderConfirm(data, settings) {
   return {
     subject: `Order Confirmed! Your BBW4LIFE order is being prepared 🛍️`,
     html: masterTemplate({
-      preheader:    `Your order has been confirmed — we're already preparing it with care.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 60%,${BBW.gold} 100%)`,
-      topBadge:     'Order Confirmed',
-      headline:     'Thank you for your order! 🛍️',
-      subHeadline:  'We\'re preparing your package with love.',
+      preheader:   `Your order has been confirmed — we're already preparing it with care.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 60%,${BBW.gold} 100%)`,
+      topBadge:    'Order Confirmed',
+      headline:    'Thank you for your order! 🛍️',
+      subHeadline: "We're preparing your package with love.",
       bodyHTML,
       settings,
     }),
   };
 }
 
-// ── 3. Order Tracking ─────────────────────────────────────────
+// ── 3. Order Tracking (quand EPROLO fournit le numéro) ───────
 async function composeOrderTracking(data, settings) {
-  const { firstName, lastName, orderId, trackingNumber, carrier } = data;
+  const { firstName, lastName, orderId, trackingNumber, carrier, trackingUrl } = data;
   const name = firstName || lastName || 'Beautiful';
   const copy = await genTrackingCopy(name);
 
@@ -951,7 +909,7 @@ async function composeOrderTracking(data, settings) {
         </td>
       </tr>
     </table>
-    ${cCTA('Track My Order →', data.trackingUrl || `${BASE_URL}/page/order-tracking.html`)}
+    ${cCTA('Track My Order →', trackingUrl || `${BASE_URL}/page/order-tracking.html`)}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
       Order: <strong style="color:${BBW.dark};">#${orderId || 'BBW4LIFE'}</strong>
@@ -960,23 +918,22 @@ async function composeOrderTracking(data, settings) {
   return {
     subject: `Your BBW4LIFE order is on its way! 🚚 Tracking: ${trackingNumber}`,
     html: masterTemplate({
-      preheader:    `Your order has shipped — here's your tracking number: ${trackingNumber}`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Order Shipped',
-      headline:     'Your order is on its way! 🚚',
-      subHeadline:  'Track your package and watch the magic happen.',
+      preheader:   `Your order has shipped — here's your tracking number: ${trackingNumber}`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
+      topBadge:    'Order Shipped',
+      headline:    'Your order is on its way! 🚚',
+      subHeadline: 'Track your package and watch the magic happen.',
       bodyHTML,
       settings,
     }),
   };
 }
 
-// ── 4. Newsletter #1 — Immediate ──────────────────────────────
+// ── 4. Newsletter #1 — Immédiat après subscription ───────────
 async function composeNewsletter1(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter1Copy(name);
-  const promos = (settings.promos || []);
-  const promo  = promos[0];
+  const name  = firstName || 'Beautiful';
+  const copy  = await genNewsletter1Copy(name);
+  const promo = (settings.promos || [])[0];
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
@@ -988,7 +945,7 @@ async function composeNewsletter1(firstName, settings) {
     </p>
     ${cHighlightBox('💡', 'Weekly Tips', 'Style and wellness tips built for real curvy women.')}
     ${cHighlightBox('🎁', 'Exclusive Deals', 'Subscriber-only discount codes before they go public.', '#fdf8f0')}
-    ${cHighlightBox('✨', 'New Arrivals First', 'You\'ll always be the first to know.', '#f0f8fd')}
+    ${cHighlightBox('✨', 'New Arrivals First', "You'll always be the first to know.", '#f0f8fd')}
     ${cHighlightBox('💪', 'Real Stories', 'Success stories from women in our community.', '#f0fff4')}
     ${promo ? `
     ${cDivider()}
@@ -1011,22 +968,22 @@ async function composeNewsletter1(firstName, settings) {
   return {
     subject: `You're in! Welcome to the BBW4LIFE family 💕`,
     html: masterTemplate({
-      preheader:    `Your subscription is confirmed — exclusive tips, deals, and real stories incoming.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 55%,${BBW.gold} 100%)`,
-      topBadge:     'Newsletter Confirmed',
-      headline:     "You're officially inside. 💕",
-      subHeadline:  'The best of BBW4LIFE, delivered to your inbox.',
+      preheader:   `Your subscription is confirmed — exclusive tips, deals, and real stories incoming.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 55%,${BBW.gold} 100%)`,
+      topBadge:    'Newsletter Confirmed',
+      headline:    "You're officially inside. 💕",
+      subHeadline: 'The best of BBW4LIFE, delivered to your inbox.',
       bodyHTML,
       settings,
-      showCEO:      true,
+      showCEO:     true,
     }),
   };
 }
 
-// ── 5. Newsletter #2 — Day 3 ──────────────────────────────────
+// ── 5. Newsletter #2 — Jour 3 ─────────────────────────────────
 async function composeNewsletter2(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter2Copy(name);
+  const name    = firstName || 'Beautiful';
+  const copy    = await genNewsletter2Copy(name);
   const support = (settings.contact_emails || {}).general || 'support@bbw4life.com';
 
   const bodyHTML = `
@@ -1058,24 +1015,23 @@ async function composeNewsletter2(firstName, settings) {
   return {
     subject: `Hey ${name}, how's your BBW4LIFE experience so far? 💬`,
     html: masterTemplate({
-      preheader:    `We'd love to hear from you — your feedback shapes everything we do.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Just Checking In',
-      headline:     "How's it going? 💬",
-      subHeadline:  'Your feedback genuinely shapes what we do.',
+      preheader:   `We'd love to hear from you — your feedback shapes everything we do.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
+      topBadge:    'Just Checking In',
+      headline:    "How's it going? 💬",
+      subHeadline: 'Your feedback genuinely shapes what we do.',
       bodyHTML,
       settings,
-      showCEO:      true,
+      showCEO:     true,
     }),
   };
 }
 
-// ── 6. Newsletter #3 — Day 5 ──────────────────────────────────
+// ── 6. Newsletter #3 — Jour 5 ─────────────────────────────────
 async function composeNewsletter3(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter3Copy(name);
-  const promos = settings.promos || [];
-  const promo  = promos[1] || promos[0];
+  const name  = firstName || 'Beautiful';
+  const copy  = await genNewsletter3Copy(name);
+  const promo = (settings.promos || [])[1] || (settings.promos || [])[0];
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
@@ -1106,18 +1062,18 @@ async function composeNewsletter3(firstName, settings) {
   return {
     subject: `${name}, these are our customers' favorites 🔥`,
     html: masterTemplate({
-      preheader:    `Bundles, favorites, and exclusive promotions — all waiting for you.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 45%,${BBW.plum} 100%)`,
-      topBadge:     'Community Favorites',
-      headline:     "You deserve the best. 🔥",
-      subHeadline:  'Bundles, promotions, and our community\'s top picks.',
+      preheader:   `Bundles, favorites, and exclusive promotions — all waiting for you.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 45%,${BBW.plum} 100%)`,
+      topBadge:    'Community Favorites',
+      headline:    'You deserve the best. 🔥',
+      subHeadline: "Bundles, promotions, and our community's top picks.",
       bodyHTML,
       settings,
     }),
   };
 }
 
-// ── 7. Newsletter #4 — Day 10 (Buyer) ────────────────────────
+// ── 7. Newsletter #4 — Jour 10 (Buyer) ───────────────────────
 async function composeNewsletter4Buyer(firstName, settings) {
   const name = firstName || 'Beautiful';
   const copy = await genNewsletter4BuyerCopy(name);
@@ -1135,24 +1091,23 @@ async function composeNewsletter4Buyer(firstName, settings) {
   return {
     subject: `Thank you for your trust, ${name} 💕`,
     html: masterTemplate({
-      preheader:    `We appreciate you and we'd love to hear about your experience.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.gold} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Customer Appreciation',
-      headline:     "Thank you for trusting us. 💕",
-      subHeadline:  'Your experience matters to us more than anything.',
+      preheader:   `We appreciate you and we'd love to hear about your experience.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.gold} 50%,${BBW.rose} 100%)`,
+      topBadge:    'Customer Appreciation',
+      headline:    'Thank you for trusting us. 💕',
+      subHeadline: 'Your experience matters to us more than anything.',
       bodyHTML,
       settings,
-      showCEO:      true,
+      showCEO:     true,
     }),
   };
 }
 
-// ── 8. Newsletter #4 — Day 10 (Non-Buyer) ────────────────────
+// ── 8. Newsletter #4 — Jour 10 (Non-Buyer) ───────────────────
 async function composeNewsletter4New(firstName, settings) {
-  const name = firstName || 'Beautiful';
-  const copy = await genNewsletter4NewCopy(name);
-  const promos = settings.promos || [];
-  const promo  = promos[0];
+  const name  = firstName || 'Beautiful';
+  const copy  = await genNewsletter4NewCopy(name);
+  const promo = (settings.promos || [])[0];
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
@@ -1184,14 +1139,14 @@ async function composeNewsletter4New(firstName, settings) {
   return {
     subject: `${name}, here's an exclusive gift just for you 🎁`,
     html: masterTemplate({
-      preheader:    `We prepared something special for you — an exclusive discount waiting inside.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Exclusive Offer',
-      headline:     "This is just for you. 🎁",
-      subHeadline:  'A special gift from the BBW4LIFE family.',
+      preheader:   `We prepared something special for you — an exclusive discount waiting inside.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
+      topBadge:    'Exclusive Offer',
+      headline:    'This is just for you. 🎁',
+      subHeadline: 'A special gift from the BBW4LIFE family.',
       bodyHTML,
       settings,
-      showCEO:      true,
+      showCEO:     true,
     }),
   };
 }
@@ -1199,8 +1154,8 @@ async function composeNewsletter4New(firstName, settings) {
 // ── 9. Contact Auto-Reply ─────────────────────────────────────
 async function composeContactReply(data, settings) {
   const { firstName, lastName, subject: msgSubject, category } = data;
-  const name = firstName || lastName || 'Beautiful';
-  const copy = await genContactReplyCopy(name);
+  const name    = firstName || lastName || 'Beautiful';
+  const copy    = await genContactReplyCopy(name);
   const support = (settings.contact_emails || {}).general || 'support@bbw4life.com';
   const whatsapp = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
 
@@ -1232,11 +1187,11 @@ async function composeContactReply(data, settings) {
   return {
     subject: `We received your message — BBW4LIFE Support ✅`,
     html: masterTemplate({
-      preheader:    `Your message has been received — our team will respond within 24-48 hours.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Support',
-      headline:     'Message received! ✅',
-      subHeadline:  'Our team will respond within 24 to 48 hours.',
+      preheader:   `Your message has been received — our team will respond within 24-48 hours.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
+      topBadge:    'Support',
+      headline:    'Message received! ✅',
+      subHeadline: 'Our team will respond within 24 to 48 hours.',
       bodyHTML,
       settings,
     }),
@@ -1245,7 +1200,7 @@ async function composeContactReply(data, settings) {
 
 // ── 10. Plan/Product Request ──────────────────────────────────
 async function composePlanRequest(data, settings) {
-  const { firstName, lastName, program, productId, size, color } = data;
+  const { firstName, lastName, program, size, color } = data;
   const name = firstName || lastName || 'Beautiful';
   const copy = await genPlanRequestCopy(name, program);
 
@@ -1261,7 +1216,7 @@ async function composePlanRequest(data, settings) {
       <tr>
         <td style="padding:24px;text-align:center;">
           <p style="margin:0 0 6px;font-size:32px;">⏳</p>
-          <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">${program}</p>
+          <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">${program || 'Your Product Request'}</p>
           ${size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Size: ${size}</p>` : ''}
           ${color ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Color: ${color}</p>` : ''}
           <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.goldL};">
@@ -1275,11 +1230,11 @@ async function composePlanRequest(data, settings) {
   return {
     subject: `Your BBW4LIFE product request has been received! ⏳`,
     html: masterTemplate({
-      preheader:    `We've received your request for ${program} — our team will review it soon.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Request Confirmed',
-      headline:     "We've got your request! ⏳",
-      subHeadline:  'Our team is on it — we\'ll be in touch very soon.',
+      preheader:   `We've received your request for ${program} — our team will review it soon.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.gold} 100%)`,
+      topBadge:    'Request Confirmed',
+      headline:    "We've got your request! ⏳",
+      subHeadline: "Our team is on it — we'll be in touch very soon.",
       bodyHTML,
       settings,
     }),
@@ -1288,9 +1243,13 @@ async function composePlanRequest(data, settings) {
 
 // ── 11. Custom Product Request ────────────────────────────────
 async function composeCustomProduct(data, settings) {
-  const { firstname, lastname, email, product_title, product_desc } = data;
-  const name = firstname || lastname || 'Beautiful';
-  const copy = await genCustomProductCopy(name, product_title);
+  // Accepte firstname/lastname OU firstName/lastName (les deux formats)
+  const firstName    = data.firstname    || data.firstName    || '';
+  const lastName     = data.lastname     || data.lastName     || '';
+  const productTitle = data.product_title || data.productTitle || 'Your Custom Product';
+  const productDesc  = data.product_desc  || data.productDesc  || '';
+  const name         = firstName || lastName || 'Beautiful';
+  const copy         = await genCustomProductCopy(name, productTitle);
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
@@ -1305,9 +1264,9 @@ async function composeCustomProduct(data, settings) {
         <td style="padding:24px;text-align:center;">
           <p style="margin:0 0 6px;font-size:32px;">🎨</p>
           <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">
-            ${product_title || 'Your Custom Product'}
+            ${productTitle}
           </p>
-          ${product_desc ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5;">${product_desc.substring(0, 100)}${product_desc.length > 100 ? '...' : ''}</p>` : ''}
+          ${productDesc ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5;">${productDesc.substring(0, 100)}${productDesc.length > 100 ? '...' : ''}</p>` : ''}
           <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.goldL};">
             Our design team will review your idea.
           </p>
@@ -1324,26 +1283,25 @@ async function composeCustomProduct(data, settings) {
   return {
     subject: `Your personalized product request is with our design team! 🎨`,
     html: masterTemplate({
-      preheader:    `Your custom product idea has been received — our design team is reviewing it.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.plum} 100%)`,
-      topBadge:     'Design Request',
-      headline:     "We love your vision! 🎨",
-      subHeadline:  'Our design team will review your personalized product idea.',
+      preheader:   `Your custom product idea has been received — our design team is reviewing it.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.plum} 100%)`,
+      topBadge:    'Design Request',
+      headline:    'We love your vision! 🎨',
+      subHeadline: 'Our design team will review your personalized product idea.',
       bodyHTML,
       settings,
-      showCEO:      true,
+      showCEO:     true,
     }),
   };
 }
 
-// ── 12. Abandoned Cart Recovery ───────────────────────────────
+// ── 12. Abandoned Cart ────────────────────────────────────────
 async function composeCartAbandoned(data, settings) {
   const { firstName, lastName, items = [], promoCode, promoPercent, restartLink } = data;
-  const name = firstName || lastName || 'Beautiful';
-  const copy = await genCartAbandonedCopy(name);
-
-  const itemsHTML = items.map(item => cOrderItem(item)).join('');
-  const finalRestartLink = restartLink || `${BASE_URL}/checkout.html`;
+  const name    = firstName || lastName || 'Beautiful';
+  const copy    = await genCartAbandonedCopy(name);
+  const itemsHTML = (items || []).map(item => cOrderItem(item)).join('');
+  const finalLink = restartLink || `${BASE_URL}/checkout.html`;
 
   const bodyHTML = `
     <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
@@ -1372,7 +1330,7 @@ async function composeCartAbandoned(data, settings) {
         </td>
       </tr>
     </table>` : ''}
-    ${cCTA('Restart My Order →', finalRestartLink)}
+    ${cCTA('Restart My Order →', finalLink)}
     ${cDivider()}
     <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
       Beauty Has No Sizes — and your spot in the BBW4LIFE family is still waiting. 👑
@@ -1381,44 +1339,72 @@ async function composeCartAbandoned(data, settings) {
   return {
     subject: `${name}, you left something beautiful behind 🛍️`,
     html: masterTemplate({
-      preheader:    `Your cart is saved and waiting — plus a little gift to welcome you back.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Cart Saved For You',
-      headline:     "Don't forget this. 🛍️",
-      subHeadline:  'Your items are exactly where you left them.',
+      preheader:   `Your cart is saved and waiting — plus a little gift to welcome you back.`,
+      headerGrad:  `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
+      topBadge:    'Cart Saved For You',
+      headline:    "Don't forget this. 🛍️",
+      subHeadline: 'Your items are exactly where you left them.',
       bodyHTML,
       settings,
-      showCEO:      true,
+      showCEO:     true,
     }),
   };
 }
 
 // ════════════════════════════════════════════════════════════════
-//  SEND HELPER — with log check
+//  SEND HELPERS
 // ════════════════════════════════════════════════════════════════
-async function trySend(email, type, composeFn, sheets, sentLog, results, ...args) {
+
+// trySend — avec vérification log anti-doublon
+async function trySend(email, type, composeFn, sheets, sentLog, results) {
   if (!email || !email.includes('@')) {
     console.warn(`[trySend] Invalid email: "${email}"`);
     return false;
   }
   if (wasEmailSent(sentLog, email, type)) {
     results.skipped.push({ email, type, reason: 'already sent' });
+    console.log(`[trySend] SKIP — already sent: ${email} / ${type}`);
     return false;
   }
   try {
     console.log(`[trySend] Composing ${type} for ${email}`);
-    const { subject, html } = await composeFn(...args);
+    const { subject, html } = await composeFn();
     const ok = await deliver(email, subject, html);
     if (ok) {
       await markEmailSent(sheets, email, type);
       sentLog.add(`${email.toLowerCase()}||${type}`);
       results.sent.push({ email, type });
+      console.log(`[trySend] ✅ Sent ${type} to ${email}`);
     } else {
       results.errors.push({ email, type, reason: 'Resend delivery failed' });
     }
     return ok;
   } catch (e) {
     console.error(`[trySend] Error ${email}/${type}:`, e.message);
+    results.errors.push({ email, type, reason: e.message });
+    return false;
+  }
+}
+
+
+async function trySendOnce(email, type, composeFn, results) {
+  if (!email || !email.includes('@')) {
+    console.warn(`[trySendOnce] Invalid email: "${email}"`);
+    return false;
+  }
+  try {
+    console.log(`[trySendOnce] Composing ${type} for ${email}`);
+    const { subject, html } = await composeFn();
+    const ok = await deliver(email, subject, html);
+    if (ok) {
+      results.sent.push({ email, type });
+      console.log(`[trySendOnce] ✅ Sent ${type} to ${email}`);
+    } else {
+      results.errors.push({ email, type, reason: 'Resend delivery failed' });
+    }
+    return ok;
+  } catch (e) {
+    console.error(`[trySendOnce] Error ${email}/${type}:`, e.message);
     results.errors.push({ email, type, reason: e.message });
     return false;
   }
@@ -1440,12 +1426,12 @@ exports.handler = async (event) => {
   const results = { sent: [], skipped: [], errors: [] };
 
   try {
-    // Load settings once
     const settings = await loadSettings();
     const sheets   = getSheets();
-    const sentLog  = await loadEmailLog(sheets);
 
-    // ── TRIGGER MODE (POST) ────────────────────────────────
+    // ════════════════════════════════════════════════════
+    //  MODE POST — trigger depuis une action client
+    // ════════════════════════════════════════════════════
     if (event.httpMethod === 'POST' && event.body) {
       const body    = JSON.parse(event.body);
       const trigger = body.trigger;
@@ -1454,65 +1440,135 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers, body: JSON.stringify({ error: 'trigger required' }) };
       }
 
-      console.log(`[Handler] Trigger: ${trigger}`);
-
-      const email = body.email;
+      const email = (body.email || '').trim();
       if (!email || !email.includes('@')) {
         return { statusCode: 400, headers, body: JSON.stringify({ error: 'Valid email required' }) };
       }
 
-      // ── Welcome ──
+      console.log(`[Handler] POST trigger: ${trigger} → ${email}`);
+
+      // ── WELCOME — après création de compte
+      // Utilise le log anti-doublon (1 welcome par compte)
       if (trigger === T.WELCOME) {
-        await trySend(email, T.WELCOME, () => composeWelcome(body.firstName, settings), sheets, sentLog, results);
+        const sentLog = await loadEmailLog(sheets);
+        await trySend(
+          email, T.WELCOME,
+          () => composeWelcome(body.firstName || body.firstName || '', settings),
+          sheets, sentLog, results
+        );
       }
 
-      // ── Order Confirmation ──
-      if (trigger === T.ORDER_CONFIRM) {
-        await trySend(email, T.ORDER_CONFIRM,
-          () => composeOrderConfirm(body, settings),
-          sheets, sentLog, results);
+      // ── ORDER CONFIRM — après paiement
+      // Email transactionnel : 1 envoi immédiat, pas de log
+      else if (trigger === T.ORDER_CONFIRM) {
+        await trySendOnce(
+          email, T.ORDER_CONFIRM,
+          () => composeOrderConfirm({
+            firstName:       body.firstName || '',
+            lastName:        body.lastName  || '',
+            email,
+            orderId:         body.orderId,
+            items:           body.items || [],
+            total:           body.total,
+            shippingAddress: body.shippingAddress || ''
+          }, settings),
+          results
+        );
       }
 
-      // ── Order Tracking ──
-      if (trigger === T.ORDER_TRACKING) {
-        await trySend(email, T.ORDER_TRACKING,
-          () => composeOrderTracking(body, settings),
-          sheets, sentLog, results);
+      // ── ORDER TRACKING — envoyé par le cron mais peut être appelé manuellement
+      else if (trigger === T.ORDER_TRACKING) {
+        await trySendOnce(
+          email, T.ORDER_TRACKING,
+          () => composeOrderTracking({
+            firstName:      body.firstName || '',
+            lastName:       body.lastName  || '',
+            orderId:        body.orderId,
+            trackingNumber: body.trackingNumber,
+            carrier:        body.carrier || '',
+            trackingUrl:    body.trackingUrl || ''
+          }, settings),
+          results
+        );
       }
 
-      // ── Newsletter #1 ──
-      if (trigger === T.NEWSLETTER_1) {
-        await trySend(email, T.NEWSLETTER_1,
-          () => composeNewsletter1(body.firstName, settings),
-          sheets, sentLog, results);
+      // ── NEWSLETTER #1 — après subscription
+      // Utilise le log anti-doublon
+      else if (trigger === T.NEWSLETTER_1) {
+        const sentLog = await loadEmailLog(sheets);
+        await trySend(
+          email, T.NEWSLETTER_1,
+          () => composeNewsletter1(body.firstName || '', settings),
+          sheets, sentLog, results
+        );
       }
 
-      // ── Contact Reply ──
-      if (trigger === 'contact_reply') {
-        await trySend(email, 'contact_reply',
-          () => composeContactReply(body, settings),
-          sheets, sentLog, results);
+      // ── CONTACT REPLY — après soumission du formulaire contact
+      // Email transactionnel : pas de log anti-doublon
+      else if (trigger === T.CONTACT_REPLY) {
+        await trySendOnce(
+          email, T.CONTACT_REPLY,
+          () => composeContactReply({
+            firstName: body.firstName || '',
+            lastName:  body.lastName  || '',
+            subject:   body.subject   || '',
+            category:  body.category  || ''
+          }, settings),
+          results
+        );
       }
 
-      // ── Plan Request ──
-      if (trigger === T.PLAN_REQUEST) {
-        await trySend(email, T.PLAN_REQUEST,
-          () => composePlanRequest(body, settings),
-          sheets, sentLog, results);
+      // ── PLAN REQUEST — après soumission product request
+      // Email transactionnel : pas de log anti-doublon
+      else if (trigger === T.PLAN_REQUEST) {
+        await trySendOnce(
+          email, T.PLAN_REQUEST,
+          () => composePlanRequest({
+            firstName: body.firstName || '',
+            lastName:  body.lastName  || '',
+            program:   body.program   || body.productTitle || '',
+            size:      body.size      || '',
+            color:     body.color     || ''
+          }, settings),
+          results
+        );
       }
 
-      // ── Custom Product ──
-      if (trigger === T.CUSTOM_PRODUCT) {
-        await trySend(email, T.CUSTOM_PRODUCT,
-          () => composeCustomProduct(body, settings),
-          sheets, sentLog, results);
+      // ── CUSTOM PRODUCT — après soumission produit personnalisé
+      // Email transactionnel : pas de log anti-doublon
+      else if (trigger === T.CUSTOM_PRODUCT) {
+        await trySendOnce(
+          email, T.CUSTOM_PRODUCT,
+          () => composeCustomProduct({
+            firstname:     body.firstname     || body.firstName || '',
+            lastname:      body.lastname      || body.lastName  || '',
+            product_title: body.product_title || body.productTitle || '',
+            product_desc:  body.product_desc  || body.productDesc  || ''
+          }, settings),
+          results
+        );
       }
 
-      // ── Cart Abandoned ──
-      if (trigger === T.CART_ABANDONED) {
-        await trySend(email, T.CART_ABANDONED,
-          () => composeCartAbandoned(body, settings),
-          sheets, sentLog, results);
+      // ── CART ABANDONED — relance panier
+      else if (trigger === T.CART_ABANDONED) {
+        const sentLog = await loadEmailLog(sheets);
+        await trySend(
+          email, T.CART_ABANDONED,
+          () => composeCartAbandoned({
+            firstName:   body.firstName   || '',
+            lastName:    body.lastName    || '',
+            items:       body.items       || [],
+            promoCode:   body.promoCode   || '',
+            promoPercent: body.promoPercent || '',
+            restartLink: body.restartLink || ''
+          }, settings),
+          sheets, sentLog, results
+        );
+      }
+
+      else {
+        console.warn(`[Handler] Unknown trigger: ${trigger}`);
+        return { statusCode: 400, headers, body: JSON.stringify({ error: `Unknown trigger: ${trigger}` }) };
       }
 
       return {
@@ -1522,30 +1578,25 @@ exports.handler = async (event) => {
       };
     }
 
-    // ── BATCH / SCHEDULER MODE (GET) ──────────────────────
-    
-    // ── BATCH / SCHEDULER MODE (GET) ──────────────────────
-
+    // ════════════════════════════════════════════════════
+    //  MODE GET — scheduler / batch
+    // ════════════════════════════════════════════════════
     if (event.httpMethod === 'GET') {
       const params = event.queryStringParameters || {};
 
-      // ── Tracking checker (appelé par cron toutes les 12h) ──
+      // ── Tracking checker (cron toutes les 12h)
       if (params.action === 'tracking') {
-        const secret = params.secret;
-        if (secret !== process.env.REPORT_SECRET) {
+        if (params.secret !== process.env.REPORT_SECRET) {
           return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
         }
         const trackResult = await runTrackingChecker(sheets, settings);
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({ success: true, ...trackResult })
-        };
+        return { statusCode: 200, headers, body: JSON.stringify({ success: true, ...trackResult }) };
       }
 
-      // ── Newsletter batch (existant) ──
+      // ── Newsletter batch — séquence jours 3 / 5 / 10
       console.log('[Handler] Batch newsletter sequence mode');
 
+      const sentLog     = await loadEmailLog(sheets);
       const accountRows = await sheetRead(
         sheets,
         process.env.SHEET_ID_BBW4LIFE_ACCOUNTS,
@@ -1555,7 +1606,6 @@ exports.handler = async (event) => {
       console.log(`[Batch] ${accountRows.length} account rows`);
 
       for (const row of accountRows) {
-        // A=LastName B=FirstName C=Email F=Newsletter G=Orders H=TotalSpent
         const lastName   = (row[0] || '').trim();
         const firstName  = (row[1] || '').trim();
         const email      = (row[2] || '').trim();
@@ -1566,31 +1616,36 @@ exports.handler = async (event) => {
 
         const name = firstName || lastName || 'Beautiful';
 
-        // Newsletter sequence
         if (newsletter === 'yes') {
+          // Newsletter #1 — normalement déjà envoyé au moment de la subscription
+          // mais on rattrape ici si pas encore envoyé
           if (!wasEmailSent(sentLog, email, T.NEWSLETTER_1)) {
             await trySend(email, T.NEWSLETTER_1,
               () => composeNewsletter1(name, settings),
               sheets, sentLog, results);
-            await sleep(500); continue;
+            await sleep(600);
+            continue;
           }
+          // Newsletter #2 — Jour 3
           if (!wasEmailSent(sentLog, email, T.NEWSLETTER_2)) {
             await trySend(email, T.NEWSLETTER_2,
               () => composeNewsletter2(name, settings),
               sheets, sentLog, results);
-            await sleep(500); continue;
+            await sleep(600);
+            continue;
           }
+          // Newsletter #3 — Jour 5
           if (!wasEmailSent(sentLog, email, T.NEWSLETTER_3)) {
             await trySend(email, T.NEWSLETTER_3,
               () => composeNewsletter3(name, settings),
               sheets, sentLog, results);
-            await sleep(500); continue;
+            await sleep(600);
+            continue;
           }
-
-          // Day 10 — check if buyer or not
-          const type10 = orders > 0 ? T.NEWSLETTER_4_BUYER : T.NEWSLETTER_4_NEW;
-          if (!wasEmailSent(sentLog, email, T.NEWSLETTER_4_BUYER) &&
-              !wasEmailSent(sentLog, email, T.NEWSLETTER_4_NEW)) {
+          // Newsletter #4 — Jour 10 (buyer vs non-buyer)
+          const alreadySent4 = wasEmailSent(sentLog, email, T.NEWSLETTER_4_BUYER) ||
+                               wasEmailSent(sentLog, email, T.NEWSLETTER_4_NEW);
+          if (!alreadySent4) {
             if (orders > 0) {
               await trySend(email, T.NEWSLETTER_4_BUYER,
                 () => composeNewsletter4Buyer(name, settings),
@@ -1600,7 +1655,7 @@ exports.handler = async (event) => {
                 () => composeNewsletter4New(name, settings),
                 sheets, sentLog, results);
             }
-            await sleep(500);
+            await sleep(600);
           }
         }
       }
@@ -1612,21 +1667,13 @@ exports.handler = async (event) => {
       };
       console.log(`[Batch] Done — sent:${summary.sent} skipped:${summary.skipped} errors:${summary.errors}`);
 
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ success: true, summary, results }),
-      };
+      return { statusCode: 200, headers, body: JSON.stringify({ success: true, summary, results }) };
     }
 
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
 
   } catch (fatal) {
     console.error('[Handler] Fatal error:', fatal.message, fatal.stack);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ success: false, error: fatal.message }),
-    };
+    return { statusCode: 500, headers, body: JSON.stringify({ success: false, error: fatal.message }) };
   }
 };
