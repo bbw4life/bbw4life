@@ -9078,48 +9078,38 @@ function loadProfilePhoto() {
   ────────────────────────────────────────────────────────────── */
   function init(allProducts) {
     applySettings(allProducts);
-
-    /* Vérifier show */
     if (CFG.show.toLowerCase().trim() !== 'yes') {
       giftBtn.style.display = 'none';
       return;
     }
-
-    /* Appliquer position */
     applyPosition();
-
-    /* Construire marquee */
     buildMarquee();
-
-    /* Démarrer le wiggle */
     scheduleWiggle();
 
-    fetchTodayBirthdays().then(function (customers) {
-    if (customers && customers.length > 0) {
-      buildCarousel(customers);
-      if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
-    } else {
-      // Aucun birthday today → utiliser les clients par défaut
-      var defaults = (CFG.defaultCustomers || []);
-      if (defaults.length > 0) {
-        // Seed du jour pour un mélange différent chaque jour
-        var today = new Date();
-        var daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-        function seededRandom(seed) {
-          var x = Math.sin(seed) * 10000;
-          return x - Math.floor(x);
+   fetchTodayBirthdays().then(function (customers) {
+      if (customers && customers.length > 0) {
+        buildCarousel(customers);
+        if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
+      } else {
+        var defaults = CFG.defaultCustomers || [];
+
+        if (defaults.length > 0) {
+          var today = new Date();
+          var daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+          function seededRandom(seed) {
+            var x = Math.sin(seed) * 10000;
+            return x - Math.floor(x);
+          }
+          var shuffled = defaults.slice();
+          for (var i = shuffled.length - 1; i > 0; i--) {
+            var j = Math.floor(seededRandom(daySeed + i) * (i + 1));
+            var temp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = temp;
+          }
+          var picked = shuffled.slice(0, 3);
+          buildCarousel(picked);
         }
-        var shuffled = defaults.slice();
-        for (var i = shuffled.length - 1; i > 0; i--) {
-          var j = Math.floor(seededRandom(daySeed + i) * (i + 1));
-          var temp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = temp;
-        }
-        var picked = shuffled.slice(0, 3);
-        buildCarousel(picked);
-        // Pas de dot notification pour les défauts
       }
-    }
-  });
+    });
   }
 
   /* ────────────────────────────────────────────────────────────
