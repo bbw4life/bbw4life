@@ -599,6 +599,11 @@ document.addEventListener('DOMContentLoaded', () => {
     makeDraggable(paulIndicator, {});
   }
 
+  const bdayGiftBtn = document.getElementById('bbwBdayGiftBtn');
+  if (bdayGiftBtn) {
+    makeDraggable(bdayGiftBtn, {});
+  }
+
 })();
 
 
@@ -8490,6 +8495,7 @@ function loadProfilePhoto() {
     if (bg.promo_discount    !== undefined) CFG.promo_discount    = bg.promo_discount;
     if (bg.marquee_texts     !== undefined) CFG.marquee_texts     = bg.marquee_texts;
     if (bg.birthday_message_template !== undefined) CFG.birthday_message_template = bg.birthday_message_template;
+    if (bg.default_customers !== undefined) CFG.defaultCustomers = bg.default_customers;
     if (bg.subscribe_btn_text !== undefined) {
       CFG.subscribe_btn_text = bg.subscribe_btn_text;
       if (subBtnText) subBtnText.textContent = CFG.subscribe_btn_text;
@@ -9088,17 +9094,32 @@ function loadProfilePhoto() {
     /* Démarrer le wiggle */
     scheduleWiggle();
 
-    /* Charger les anniversaires du jour depuis le sheet */
     fetchTodayBirthdays().then(function (customers) {
-      var hasBdays = customers && customers.length > 0;
-
+    if (customers && customers.length > 0) {
       buildCarousel(customers);
-
-      /* Dot de notification si des anniversaires */
-      if (hasBdays && dotNotif) {
-        dotNotif.classList.add('bbw-bday--visible');
+      if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
+    } else {
+      // Aucun birthday today → utiliser les clients par défaut
+      var defaults = (CFG.defaultCustomers || []);
+      if (defaults.length > 0) {
+        // Seed du jour pour un mélange différent chaque jour
+        var today = new Date();
+        var daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+        function seededRandom(seed) {
+          var x = Math.sin(seed) * 10000;
+          return x - Math.floor(x);
+        }
+        var shuffled = defaults.slice();
+        for (var i = shuffled.length - 1; i > 0; i--) {
+          var j = Math.floor(seededRandom(daySeed + i) * (i + 1));
+          var temp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = temp;
+        }
+        var picked = shuffled.slice(0, 3);
+        buildCarousel(picked);
+        // Pas de dot notification pour les défauts
       }
-    });
+    }
+  });
   }
 
   /* ────────────────────────────────────────────────────────────
