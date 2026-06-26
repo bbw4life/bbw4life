@@ -9133,29 +9133,37 @@ function loadProfilePhoto() {
     scheduleWiggle();
 
     fetchTodayBirthdays().then(function (customers) {
-      if (customers && customers.length > 0) {
-        buildCarousel(customers);
-        if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
-        return;
-      }
+      try {
+        if (customers && customers.length > 0) {
+          buildCarousel(customers);
+          if (dotNotif) dotNotif.classList.add('bbw-bday--visible');
+          return;
+        }
 
-      var defaults = (CFG.defaultCustomers || []);
-      if (defaults.length > 0) {
-        var today = new Date();
-        var daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-        function seededRandom(seed) {
-          var x = Math.sin(seed) * 10000;
-          return x - Math.floor(x);
+        var defaults = (CFG.defaultCustomers || []);
+        if (defaults.length > 0) {
+          var today = new Date();
+          var daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+          function seededRandom(seed) {
+            var x = Math.sin(seed) * 10000;
+            return x - Math.floor(x);
+          }
+          var shuffled = defaults.slice();
+          for (var i = shuffled.length - 1; i > 0; i--) {
+            var j = Math.floor(seededRandom(daySeed + i) * (i + 1));
+            var temp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = temp;
+          }
+          buildCarousel(shuffled.slice(0, 3));
+        } else {
+          buildCarousel([]);
         }
-        var shuffled = defaults.slice();
-        for (var i = shuffled.length - 1; i > 0; i--) {
-          var j = Math.floor(seededRandom(daySeed + i) * (i + 1));
-          var temp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = temp;
-        }
-        buildCarousel(shuffled.slice(0, 3));
-      } else {
-        buildCarousel([]);
+      } catch (err) {
+        console.error('[BdayGift] buildCarousel failed:', err);
+        buildCarousel([]); // fallback ultime : au moins le placeholder s'affiche
       }
+    }).catch(function (err) {
+      console.error('[BdayGift] fetchTodayBirthdays chain failed:', err);
+      buildCarousel([]); // si tout plante, on affiche au moins le placeholder
     });
   }
 
