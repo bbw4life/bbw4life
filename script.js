@@ -8714,12 +8714,16 @@ function loadProfilePhoto() {
     if (!carousel) return;
     carousel.innerHTML = '';
 
-    // Enlever le placeholder
-    var placeholder = document.getElementById('bbwBdayPlaceholder');
-    if (placeholder) placeholder.style.display = 'none';
-
     if (!customers || customers.length === 0) {
-      if (placeholder) placeholder.style.display = '';
+      // Recréer le placeholder à chaque fois (il a été supprimé par innerHTML = '')
+      var placeholder = document.createElement('div');
+      placeholder.className = 'bbw-bday-card bbw-bday-card--placeholder';
+      placeholder.id = 'bbwBdayPlaceholder';
+      placeholder.innerHTML =
+        '<div class="bbw-bday-avatar bbw-bday-avatar--placeholder">🎁</div>' +
+        '<p class="bbw-bday-no-bday">No birthdays today — but yours could be next!</p>';
+      carousel.appendChild(placeholder);
+
       _cardCount = 0;
       if (prevBtn) prevBtn.style.display = 'none';
       if (nextBtn) nextBtn.style.display = 'none';
@@ -8738,11 +8742,10 @@ function loadProfilePhoto() {
     updateDots(0);
     startAutoSlide();
 
-    // Afficher/masquer flèches
     var showNav = _cardCount > 1;
     if (prevBtn) prevBtn.style.display = showNav ? '' : 'none';
     if (nextBtn) nextBtn.style.display = showNav ? '' : 'none';
-  }
+}
 
   function buildDots() {
     if (!dotsEl) return;
