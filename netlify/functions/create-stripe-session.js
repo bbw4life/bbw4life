@@ -68,7 +68,7 @@ exports.handler = async (event) => {
   try {
     if (!event.body) throw new Error("No data received");
 
-    const { cart: rawCart, shipping } = JSON.parse(event.body);
+    const { cart: rawCart, shipping, promoCode } = JSON.parse(event.body);
 
     if (!Array.isArray(rawCart) || rawCart.length === 0) throw new Error("Invalid cart data");
 
@@ -77,6 +77,21 @@ exports.handler = async (event) => {
     const cart     = sanitizeCart(rawCart, settings);
     const shippingMethod = shipping?.shipping_method || 'Standard Shipping';
     const { subtotal, shippingCost, taxAmount } = computeTotals(cart, settings, shippingMethod);
+
+        // ── Discount promo ──
+        let discountAmount = 0;
+        if (promoCode) {
+          const promos      = settings.promos || [];
+          const inputCode   = promoCode.toUpperCase().trim();
+          const paidQty     = cart.filter(i => !i.isFreePromo)
+                                  .reduce((s, i) => s + (parseInt(i.quantity) || 0), 0);
+          const promo = promos.find(
+            p => p.code && p.code.toUpperCase() === inputCode && p.items === paidQty
+          );
+          if (promo && promo.percent > 0) {
+            discountAmount = parseFloat((subtotal * (promo.percent / 100)).toFixed(2));
+          }
+        }
 
     // ── Build Stripe line items ──
     const lineItems = cart.map(item => {
@@ -118,6 +133,18 @@ exports.handler = async (event) => {
           currency: 'usd',
           product_data: { name: 'Taxes' },
           unit_amount: Math.round(taxAmount * 100)
+        },
+        quantity: 1
+      });
+    }
+
+    // ← ICI — ajoute le bloc discount juste après
+    if (discountAmount > 0) {
+      lineItems.push({
+        price_data: {
+          currency: 'usd',
+          product_data: { name: `Promo Discount (${promoCode})` },
+          unit_amount: -Math.round(discountAmount * 100)
         },
         quantity: 1
       });

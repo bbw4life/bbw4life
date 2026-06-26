@@ -457,7 +457,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 body: JSON.stringify({
                     cart: sanitizedCart,
                     shipping: shippingData,
-                    cartToken
+                    cartToken,
+                    promoCode: appliedPromo ? appliedPromo.code : null
                 })
             });
             const data = await response.json();
