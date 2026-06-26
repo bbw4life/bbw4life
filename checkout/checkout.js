@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // ── ÉTAPE 3 : Paiement avec totaux serveur ──
         if (paymentMethod === 'stripe') {
-            const STRIPE_PUBLIC_KEY = "pk_test_51PMDwoF9QAVBUyaUqwc7ekbAhyZdI9oA3ubZT8b7TtWGrykoPLvsql4mexEwEoS5pggyssqN6jpj2w5VQMHOSftf00q97Rbt1f";
+            const STRIPE_PUBLIC_KEY = window.STRIPE_PUBLIC_KEY || "pk_live_51PMDwoF9QAVBUyaU9ffneo6gWLCCPP94en6PPapDPawI9mnKqWBnJUjTbjUzjw3B8Et2ZWLBQHfCxm2djyCkzvXw00sP60H2NX";
             const stripe = Stripe(STRIPE_PUBLIC_KEY);
             const response = await fetch('/.netlify/functions/create-stripe-session', {
                 method: 'POST',
