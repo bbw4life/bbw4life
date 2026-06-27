@@ -267,6 +267,19 @@ exports.handler = async (event) => {
       `📧 <b>Email:</b> ${email}\n` +
       `👗 <b>Produit demandé:</b> ${product_title}`
     );
+
+    fetch(`${process.env.BASE_URL}/.netlify/functions/send-email-auto`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        trigger:      'custom_product',
+        email:        email.trim().toLowerCase(),
+        firstName:    firstname.trim(),
+        productTitle: product_title.trim(),
+        productDesc:  product_desc.trim()
+      })
+    }).catch(e => console.warn('[Email] custom_product failed:', e.message));
+
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
 
   } catch (error) {
