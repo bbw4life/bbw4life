@@ -15,3 +15,7 @@
 [functions.detect-abandoned-cart]
   schedule = "*/10 * * * *"
   background = true
+
+[functions.reply-contact-message]
+  schedule = "*/1 * * * *"
+  background = true
