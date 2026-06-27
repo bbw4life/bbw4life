@@ -46,10 +46,17 @@ async function notifyTelegramWithPhotos(message, photos = []) {
     form.append('chat_id', process.env.TELEGRAM_CHAT_ID);
     form.append('media', JSON.stringify(media));
 
-    await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMediaGroup`, {
+    const res = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMediaGroup`, {
       method: 'POST',
+      headers: form.getHeaders(),
       body: form
     });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data.ok === false) {
+      console.warn('[Telegram] sendMediaGroup rejected:', JSON.stringify(data));
+      await notifyTelegram(message);
+    }
   } catch (e) {
     console.warn('[Telegram] Photo notification failed, falling back to text:', e.message);
     await notifyTelegram(message);
