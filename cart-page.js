@@ -984,13 +984,21 @@
 
     function buildProductLines() {
       var cart = getCart();
-      return cart.map(function (i) {
+      return cart.map(function (i, idx) {
         var qty  = i.quantity > 1 ? ' x' + i.quantity : '';
         var vars = '';
         if (i.color) vars += ' - ' + i.color;
         if (i.size)  vars += ' / ' + i.size;
-        return i.title + vars + qty + ' — $' + parseFloat(i.price).toFixed(2);
+        return '(' + (idx + 1) + ') ' + i.title + vars + qty + ' — $' + parseFloat(i.price).toFixed(2);
       }).join('\n');
+    }
+
+    function getRandomPromo() {
+      var allProducts = window.__allProducts || [];
+      var settings    = allProducts.find(function (p) { return p.type === 'settings'; }) || {};
+      var promos      = settings.promos || [];
+      if (!promos.length) return null;
+      return promos[Math.floor(Math.random() * promos.length)];
     }
 
     function buildShareMessage(platform) {
@@ -1001,24 +1009,35 @@
       var productLines = buildProductLines();
       var count        = cart.reduce(function (s, i) { return s + i.quantity; }, 0);
       var subtotal     = cart.reduce(function (s, i) { return s + parseFloat(i.price) * i.quantity; }, 0);
+      var promo        = getRandomPromo();
+
+      var titleLine = 'MY CART (' + count + ' ITEM' + (count > 1 ? 'S' : '') + ' — $' + subtotal.toFixed(2) + '):';
+
+      var promoLine = promo
+        ? '🎁 *PROMO CODE: ' + promo.code + '* — Buy ' + promo.items + '+ items and get ' + promo.percent + '% OFF!\n\n'
+        : '';
 
       var intro =
         'Hey my friend! I am on bbw4life.com and I put these ' + count +
         ' beautiful product' + (count > 1 ? 's' : '') + ' in my cart!\n' +
         'I am sharing them with you — click the link and they will be automatically added to your cart!\n\n' +
-        'My cart (' + count + ' item' + (count > 1 ? 's' : '') + ' — $' + subtotal.toFixed(2) + '):\n' +
+        '*' + titleLine + '*\n' +
         productLines + '\n\n' +
+        promoLine +
         'Click here to see my cart:\n' + shareUrl + '\n\n' +
         'BBW4LIFE — Beauty Has No Sizes | bbw4life.com';
 
       var twitterMsg =
         'Check out my BBW4LIFE cart! ' + count + ' amazing item' + (count > 1 ? 's' : '') + ' I\'m loving.\n\n' +
+        (promo ? 'Use code ' + promo.code + ' for ' + promo.percent + '% OFF (min. ' + promo.items + ' items)!\n\n' : '') +
         shareUrl + '\n\n' +
         '#BBW4LIFE #CurvyFashion #PlusSize';
 
       var pinterestMsg =
         'My BBW4LIFE shopping cart — ' + count + ' beautiful item' + (count > 1 ? 's' : '') + '!\n\n' +
-        productLines + '\n\n' + shareUrl;
+        productLines + '\n\n' +
+        promoLine +
+        shareUrl;
 
       if (platform === 'twitter')   return twitterMsg;
       if (platform === 'pinterest') return pinterestMsg;
