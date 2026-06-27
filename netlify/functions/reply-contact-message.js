@@ -37,21 +37,21 @@ async function callGroq(userPrompt) {
                 role: 'system',
                 content: `You are the senior customer support email writer for BBW4LIFE — a premium plus-size fashion and lifestyle brand with the tagline "Beauty Has No Sizes".
 
-            BRAND VOICE:
-            - Warm, professional, deeply human — like a best friend who genuinely cares
-            - Celebrates real bodies, real beauty, real confidence
-            - Never condescending, never robotic, never generic
+BRAND VOICE:
+- Warm, professional, deeply human — like a best friend who genuinely cares
+- Celebrates real bodies, real beauty, real confidence
+- Never condescending, never robotic, never generic
 
-            WRITING RULES:
-            1. Write ONLY the requested email body — no subject line
-            2. NO bullet points, NO markdown, NO asterisks
-            3. Maximum 3 sentences per paragraph
-            4. Every sentence must feel intentional — no filler
-            5. NEVER use: "embark on", "unleash", "game-changer"
-            6. ALWAYS use: conversational contractions (you're, we're, it's)
-            7. Output: Plain text only. Separate paragraphs with a blank line.
-            8. Start with a warm personal greeting using the customer's first name
-            9. End with a warm sign-off from the BBW4LIFE team`
+WRITING RULES:
+1. Write ONLY the requested email body — no subject line
+2. NO bullet points, NO markdown, NO asterisks
+3. Maximum 3 sentences per paragraph
+4. Every sentence must feel intentional — no filler
+5. NEVER use: "embark on", "unleash", "game-changer"
+6. ALWAYS use: conversational contractions (you're, we're, it's)
+7. Output: Plain text only. Separate paragraphs with a blank line.
+8. Start with a warm personal greeting using the customer's first name
+9. End with a warm sign-off from the BBW4LIFE team`
               },
               { role: 'user', content: userPrompt }
             ],
@@ -93,7 +93,7 @@ function getSheets() {
   return google.sheets({ version: 'v4', auth });
 }
 
-// ── Settings (pour logo, social, CEO) ─────────────────────────
+// ── Settings ───────────────────────────────────────────────────
 async function loadSettings() {
   try {
     const res  = await fetch(`${BASE_URL}/products.data.json`);
@@ -111,7 +111,7 @@ async function loadSettings() {
 function buildEmailHTML(firstName, subject, aiBody, settings) {
   const logoUrl  = settings.logo_url || settings.logo || '';
   const support  = (settings.contact_emails || {}).general || 'support@bbw4life.com';
-  const whatsapp = (settings.contact  || {}).whatsapp_url  || 'https://wa.me/18292677434';
+  const whatsapp = (settings.contact || {}).whatsapp_url   || 'https://wa.me/18292677434';
   const ceo      = settings.ceo || settings.founder || {};
 
   const logoHTML = logoUrl
@@ -266,7 +266,6 @@ exports.handler = async () => {
     const SHEET         = 'bbw4life-contact-messages';
     const settings      = await loadSettings();
 
-    // Lire toutes les lignes A:J
     const res  = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range: `${SHEET}!A:J`
@@ -283,73 +282,69 @@ exports.handler = async () => {
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
 
-      const firstName      = row[0] || '';
-      const lastName       = row[1] || '';
-      const email          = row[2] || '';
-      const originalSubject= row[3] || '';
-      const category       = row[4] || '';
-      const message        = row[5] || '';
-      const subjectResp    = (row[7] || '').trim();  // col H
-      const response       = (row[8] || '').trim();  // col I
-      const repliedAt      = (row[9] || '').trim();  // col J
+      const firstName       = row[0] || '';
+      const lastName        = row[1] || '';
+      const email           = row[2] || '';
+      const originalSubject = row[3] || '';
+      const category        = row[4] || '';
+      const message         = row[5] || '';
+      const subjectResp     = (row[7] !== undefined ? row[7] : '').trim();  // col H
+      const response        = (row[8] !== undefined ? row[8] : '').trim();  // col I
+      const repliedAt       = (row[9] !== undefined ? row[9] : '').trim();  // col J
 
-      // Skip si pas de réponse rédigée ou déjà envoyé
+      // Skip si pas de réponse rédigée
       if (!subjectResp || !response) continue;
-      if (repliedAt)                 continue;
+
+      // Skip si déjà envoyé
+      if (repliedAt && !repliedAt.startsWith('pending:')) continue;
+
       if (!email || !email.includes('@')) continue;
 
-      console.log(`[reply-contact-message] Processing row ${i + 1} — ${email}`);
-      const dateStr = row[6] || '';
-      if (dateStr) {
-        const parts = dateStr.split('/');
-        if (parts.length === 3) {
-          const year  = parseInt(parts[2]) + 2000;
-          const month = parseInt(parts[1]) - 1;
-          const day   = parseInt(parts[0]);
-          const msgDate = new Date(year, month, day);
-          const minutesElapsed = (Date.now() - msgDate.getTime()) / (1000 * 60);
-          if (minutesElapsed < 30) {
-            console.log(`[reply-contact-message] Row ${i + 1} — only ${minutesElapsed.toFixed(1)} min elapsed, skipping`);
-            continue;
-          }
-        }
+      console.log(`[reply-contact-message] Processing row ${i + 1} — ${email} — repliedAt: "${repliedAt}"`);
+
+      // ── Première détection : pas encore de pending ──
+      if (!repliedAt) {
+        await sheets.spreadsheets.values.update({
+          spreadsheetId,
+          range:            `${SHEET}!J${i + 1}`,
+          valueInputOption: 'RAW',
+          resource:         { values: [[`pending:${new Date().toISOString()}`]] }
+        });
+        console.log(`[reply-contact-message] Row ${i + 1} — marked as pending, will send in 2min`);
+        await sleep(500);
+        continue;
       }
 
+      // ── Pending détecté : vérifier délai ──
       if (repliedAt.startsWith('pending:')) {
-        const pendingTime = new Date(repliedAt.replace('pending:', ''));
+        const pendingTime         = new Date(repliedAt.replace('pending:', ''));
         const minutesSincePending = (Date.now() - pendingTime.getTime()) / (1000 * 60);
 
         if (minutesSincePending < 2) {
-          console.log(`[reply-contact-message] Row ${i + 1} — pending since ${minutesSincePending.toFixed(1)} min, waiting for 30min`);
+          console.log(`[reply-contact-message] Row ${i + 1} — pending since ${minutesSincePending.toFixed(1)} min, waiting`);
+          await sleep(500);
           continue;
         }
 
-        // 30 min écoulées — envoyer
-        console.log(`[reply-contact-message] Row ${i + 1} — 30min elapsed, sending reply to ${email}`);
+        console.log(`[reply-contact-message] Row ${i + 1} — ${minutesSincePending.toFixed(1)} min elapsed, sending to ${email}`);
 
-        // Appel Groq
         const aiPrompt = `You are replying to a customer support message for BBW4LIFE.
 
-        CUSTOMER: ${firstName} ${lastName}
-        ORIGINAL SUBJECT: ${originalSubject}
-        CATEGORY: ${category}
-        CUSTOMER MESSAGE: ${message}
+CUSTOMER: ${firstName} ${lastName}
+ORIGINAL SUBJECT: ${originalSubject}
+CATEGORY: ${category}
+CUSTOMER MESSAGE: ${message}
 
-        RESPONSE SUBJECT: ${subjectResp}
-        SUPPORT TEAM NOTES (use this to write the reply): ${response}
+RESPONSE SUBJECT: ${subjectResp}
+SUPPORT TEAM NOTES (use this to write the reply): ${response}
 
-        Write a warm, professional email body responding to this customer. Use the support notes as the basis for your response. Make it feel personal and caring, not copy-paste. The customer's name is ${firstName}.`;
+Write a warm, professional email body responding to this customer. Use the support notes as the basis for your response. Make it feel personal and caring, not copy-paste. The customer's name is ${firstName}.`;
 
         const aiBody = await callGroq(aiPrompt) || response;
-
-        // HTML email
-        const html = buildEmailHTML(firstName, subjectResp, aiBody, settings);
-
-        // Envoyer
-        const ok = await deliver(email, subjectResp, html);
+        const html   = buildEmailHTML(firstName, subjectResp, aiBody, settings);
+        const ok     = await deliver(email, subjectResp, html);
 
         if (ok) {
-          // Marquer comme envoyé en col J
           await sheets.spreadsheets.values.update({
             spreadsheetId,
             range:            `${SHEET}!J${i + 1}`,
@@ -360,18 +355,8 @@ exports.handler = async () => {
           processed++;
         }
 
-      } else {
-        // Première détection — stocker pending_at en col J
-        await sheets.spreadsheets.values.update({
-          spreadsheetId,
-          range:            `${SHEET}!J${i + 1}`,
-          valueInputOption: 'RAW',
-          resource:         { values: [[`pending:${new Date().toISOString()}`]] }
-        });
-        console.log(`[reply-contact-message] Row ${i + 1} — marked as pending, will send in 30min`);
+        await sleep(500);
       }
-
-      await sleep(500);
     }
 
     console.log(`[reply-contact-message] Done — processed: ${processed}`);
