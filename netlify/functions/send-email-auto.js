@@ -28,6 +28,7 @@ const T = {
   CUSTOM_PRODUCT:     'custom_product',
   CART_ABANDONED:     'cart_abandoned',
   STORY_RECEIVED:     'story_received',
+  REVIEW_RESPONSE:    'review_response',
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -841,6 +842,67 @@ Plain text only, no greeting, no sign-off.`
   return copy || `We noticed you left something behind in your cart — and we just wanted to check in. Sometimes life gets busy, or maybe something wasn't quite clear, and we'd genuinely love to know if there's anything we can help with.\n\nYour items are safely saved and waiting for you, exactly where you left them. To make it even easier to come back, we've added a little gift below just for you.`;
 }
 
+
+async function getProductName(productId) {
+  try {
+    const res  = await fetch(`${BASE_URL}/products.data.json`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    const arr  = Array.isArray(data) ? data : [];
+    const prod = arr.find(p => p.id === productId && p.type !== 'settings');
+    return prod ? (prod.name || prod.title || null) : null;
+  } catch (e) {
+    console.warn('[ProductName] Failed:', e.message);
+    return null;
+  }
+}
+
+function detectSentiment(title, text) {
+  const combined = `${title} ${text}`.toLowerCase();
+  const neg = [
+    'never arrived','never received','not received','jamais reçu','jamais arrivé',
+    'lost','perdu','broken','cassé','damaged','wrong','mauvais','disappointed',
+    'déçu','terrible','horrible','bad','refund','remboursement','scam','arnaque',
+    'too long','trop long','delay','retard','poor quality','mauvaise qualité',
+    'problem','problème','worst','never again','ripped','doesn\'t fit'
+  ];
+  const pos = [
+    'love','adore','amazing','beautiful','perfect','excellent','great','wonderful',
+    'fantastic','gorgeous','magnifique','parfait','superbe','incroyable','très bien',
+    'highly recommend','satisfied','happy','fast shipping','good quality',
+    'fits perfectly','worth it','five stars','5 stars','best','comfortable'
+  ];
+  let negScore = 0; let posScore = 0;
+  neg.forEach(k => { if (combined.includes(k)) negScore++; });
+  pos.forEach(k => { if (combined.includes(k)) posScore++; });
+  return negScore > posScore ? 'negative' : 'positive';
+}
+
+async function genReviewResponseCopy(firstName, title, text, productName, sentiment, promo, settings) {
+  const whatsapp    = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
+  const contactPage = `${BASE_URL}/page/contact.html`;
+
+  const userPrompt = sentiment === 'positive'
+    ? `Customer ${firstName} left a POSITIVE review about "${productName}".
+Title: "${title}"
+Review: "${text}"
+Write a short warm thank-you (2 paragraphs max). Mention their specific product "${productName}". 
+Add naturally: promo code ${promo ? promo.code : ''} — ${promo ? promo.percent + '% off on ' + promo.items + ' items or more' : ''}.
+End with a warm invite to shop again. Plain text only.`
+    : `Customer ${firstName} left a NEGATIVE review about "${productName}".
+Title: "${title}"
+Review: "${text}"
+Write a short sincere apology (2 paragraphs max). Address their EXACT issue from the review.
+Ask them kindly to reach us on WhatsApp: ${whatsapp} or contact page: ${contactPage} to resolve personally.
+Warm, humble, genuine. No excuses. Plain text only.`;
+
+  const copy = await callGroq(userPrompt);
+  return copy || (sentiment === 'positive'
+    ? `Thank you so much for your kind words about ${productName} — it means everything to us to know you love it. You just made our whole team smile.\n\nAs a small thank-you, here's an exclusive gift for you: use code ${promo ? promo.code : ''} for ${promo ? promo.percent + '% off' : 'a special discount'}. We can't wait to see what you pick next.`
+    : `We're truly sorry about your experience with ${productName} — this is not the standard we hold ourselves to, and we completely understand your frustration.\n\nPlease reach out to us on WhatsApp (${whatsapp}) or through our contact page (${contactPage}) so we can personally make this right for you.`
+  );
+}
+
 async function genStoryReceivedCopy(name) {
   const copy = await callGroq(
     `EMAIL TYPE: Story submission confirmation — BBW4LIFE community page.
@@ -1409,6 +1471,70 @@ async function composeCartAbandoned(data, settings) {
 }
 
 
+async function composeReviewResponse(data, settings) {
+  const { firstName, title, text, productId } = data;
+  const name        = firstName || 'Beautiful';
+  const productName = await getProductName(productId) || productId;
+  const sentiment   = detectSentiment(title, text);
+  const promos      = settings.promos || [];
+  const promo       = sentiment === 'positive' && promos.length
+    ? promos[Math.floor(Math.random() * promos.length)]
+    : null;
+
+  const copy = await genReviewResponseCopy(name, title, text, productName, sentiment, promo, settings);
+
+  const promoBlock = (sentiment === 'positive' && promo) ? `
+    ${cDivider()}
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+           style="border-radius:16px;overflow:hidden;
+                  background:linear-gradient(135deg,${BBW.dark2},${BBW.rose},${BBW.gold});">
+      <tr>
+        <td style="padding:26px;text-align:center;">
+          <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
+              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 Your Thank-You Gift</p>
+          <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:32px;font-weight:700;
+              color:${BBW.goldL};letter-spacing:0.12em;">${promo.code}</p>
+          <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.78);">
+            ${promo.percent}% off — ${promo.items} items or more
+          </p>
+        </td>
+      </tr>
+    </table>
+    ${cCTA('Shop Now →', `${BASE_URL}/collections/bbw4life-all-product.html`)}` : '';
+
+  const bodyHTML = `
+    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
+        ${sentiment === 'positive' ? 'Thank You 💕' : 'We\'re Sorry 💙'}
+    </p>
+    ${cParagraphs(copy)}
+    ${promoBlock}`;
+
+  const isPositive = sentiment === 'positive';
+  return {
+    subject: isPositive
+      ? `Thank you for your review, ${name}! 💕 Here's a gift for you`
+      : `We're truly sorry, ${name} — let's make this right 💙`,
+    html: masterTemplate({
+      preheader:   isPositive
+        ? `Your review made our day — here's a little thank-you gift just for you.`
+        : `We read your review and we want to make this right for you.`,
+      headerGrad:  isPositive
+        ? `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`
+        : `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 60%,${BBW.rose} 100%)`,
+      topBadge:    isPositive ? 'Review Appreciated' : 'We Hear You',
+      headline:    isPositive ? 'You made our day! 💕' : 'We\'re truly sorry. 💙',
+      subHeadline: isPositive
+        ? 'Thank you for sharing your experience with us.'
+        : 'Your experience matters — let\'s fix this together.',
+      bodyHTML,
+      settings,
+      showCEO: true,
+    }),
+  };
+}
+
+
 // ── 13. Story Submission Confirmation ────────────────────────
 async function composeStoryReceived(data, settings) {
   const { firstName } = data;
@@ -1616,6 +1742,12 @@ exports.handler = async (event) => {
       if (trigger === T.STORY_RECEIVED) {
         await trySend(email, T.STORY_RECEIVED,
           () => composeStoryReceived(body, settings),
+          sheets, sentLog, results);
+      }
+
+      if (trigger === T.REVIEW_RESPONSE) {
+        await trySend(email, T.REVIEW_RESPONSE,
+          () => composeReviewResponse(body, settings),
           sheets, sentLog, results);
       }
 

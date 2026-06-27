@@ -95,6 +95,11 @@ function notifyStoryReceived({ email, firstName }) {
   return notifyEmail('story_received', { email, firstName });
 }
 
+// 8 — Review response
+function notifyReviewResponse({ email, firstName, title, text, productId }) {
+  return notifyEmail('review_response', { email, firstName, title, text, productId });
+}
+
 // Abandoned cart recovery
 function notifyCartAbandoned({ email, firstName, items, promoCode, promoPercent, restartLink }) {
   return notifyEmail('cart_abandoned', { email, firstName, items, promoCode, promoPercent, restartLink });
@@ -114,5 +119,6 @@ module.exports = {
   notifyPlanRequest,
   notifyCustomProduct,
   notifyCartAbandoned,
-  notifyStoryReceived
+  notifyStoryReceived,
+  notifyReviewResponse
 };

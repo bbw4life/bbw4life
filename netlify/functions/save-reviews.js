@@ -1,6 +1,8 @@
 // netlify/functions/save-review.js
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
+const { notifyReviewResponse } = require('./notify-email');
+
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -75,11 +77,13 @@ exports.handler = async (event) => {
         console.log(`ℹ️ Email ${email} non trouvé dans les comptes`);
       }
 
-      fetch(`${process.env.URL}/.netlify/functions/send-email-auto`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ trigger: 'review_thanks', email, firstName: fullName.trim().split(' ')[0] }),
-      }).catch(e => console.warn('[Email] review_thanks trigger failed:', e.message));
+      notifyReviewResponse({
+        email,
+        firstName: fullName.trim().split(' ')[0],
+        title,
+        text,
+        productId
+      }).catch(e => console.warn('[ReviewEmail] Failed:', e.message));
 
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
