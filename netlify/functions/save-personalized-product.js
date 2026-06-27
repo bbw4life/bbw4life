@@ -270,7 +270,7 @@ exports.handler = async (event) => {
       `👗 <b>Produit demandé:</b> ${product_title}`
     );
 
-    notifyCustomProduct({ email: email.trim().toLowerCase(), firstName: firstname.trim(), productTitle: product_title.trim(), productDesc: product_desc.trim() }).catch(() => {});
+    notifyCustomProduct({ email: email.trim().toLowerCase(), firstName: firstname.trim(), firstname: firstname.trim(), productTitle: product_title.trim(), productDesc: product_desc.trim() }).catch(() => {});
 
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
 

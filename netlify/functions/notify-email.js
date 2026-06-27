@@ -87,7 +87,7 @@ function notifyPlanRequest({ email, firstName, lastName, program, productId, siz
 
 // 6 — Custom design request received
 function notifyCustomProduct({ email, firstName, productTitle, productDesc }) {
-  return notifyEmail('custom_product', { email, firstName, productTitle, productDesc });
+  return notifyEmail('custom_product', { email, firstname: firstName, lastname: '', product_title: productTitle, product_desc: productDesc });
 }
 
 // Abandoned cart recovery

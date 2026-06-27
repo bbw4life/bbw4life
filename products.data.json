@@ -4440,6 +4440,15 @@
       "whatsapp": "https://wa.me/XXXXXXXX",
       "twitter": "https://x.com/curvafit"
     },
+    "social_icons": {
+      "facebook":  "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.facebook.webp?v=1782565382",
+      "instagram": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.Instagram.png?v=1782565382",
+      "tiktok":    "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.Tiktok.webp?v=1782565382",
+      "youtube":   "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.youtube.webp?v=1782565382",
+      "pinterest": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.Pinterest.webp?v=1782565382",
+      "twitter":   "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.X_twitter.webp?v=1782565382",
+      "whatsapp":  "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.whatsapp.webp?v=1782565623"
+    },
     "snow_effect": {
       "show": "yes",
       "effect_none":    "no",
