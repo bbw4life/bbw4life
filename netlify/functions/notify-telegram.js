@@ -22,43 +22,43 @@ async function notifyTelegramWithPhotos(message, photos = []) {
   }
 
   try {
-    const FormData = require('form-data');
-    const form = new FormData();
+    // Envoyer le texte d'abord
+    await notifyTelegram(message);
 
-    const media = validPhotos.map((base64, i) => {
+    // Envoyer chaque photo séparément via sendPhoto
+    for (let i = 0; i < validPhotos.length; i++) {
+      const base64 = validPhotos[i];
       const matches = base64.match(/^data:image\/(\w+);base64,(.+)$/);
-      if (!matches) return null;
-      const ext    = matches[1] === 'jpeg' ? 'jpg' : matches[1];
+      if (!matches) continue;
+
       const buffer = Buffer.from(matches[2], 'base64');
-      const fieldName = `photo${i}`;
-      form.append(fieldName, buffer, { filename: `image${i}.${ext}`, contentType: `image/${matches[1]}` });
-      return {
-        type: 'photo',
-        media: `attach://${fieldName}`,
-        ...(i === 0 ? { caption: message, parse_mode: 'HTML' } : {})
-      };
-    }).filter(Boolean);
+      const ext = matches[1] === 'jpeg' ? 'jpg' : matches[1];
 
-    if (!media.length) {
-      return notifyTelegram(message);
+      const FormData = require('form-data');
+      const form = new FormData();
+      form.append('chat_id', process.env.TELEGRAM_CHAT_ID);
+      form.append('photo', buffer, {
+        filename: `image${i}.${ext}`,
+        contentType: `image/${matches[1]}`
+      });
+
+      const res = await fetch(
+        `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`,
+        {
+          method: 'POST',
+          headers: form.getHeaders(),
+          body: form
+        }
+      );
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) {
+        console.warn(`[Telegram] sendPhoto ${i} failed:`, JSON.stringify(data));
+      }
     }
 
-    form.append('chat_id', process.env.TELEGRAM_CHAT_ID);
-    form.append('media', JSON.stringify(media));
-
-    const res = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMediaGroup`, {
-      method: 'POST',
-      headers: form.getHeaders(),
-      body: form
-    });
-
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok || data.ok === false) {
-      console.warn('[Telegram] sendMediaGroup rejected:', JSON.stringify(data));
-      await notifyTelegram(message);
-    }
   } catch (e) {
-    console.warn('[Telegram] Photo notification failed, falling back to text:', e.message);
+    console.warn('[Telegram] Photo notification failed:', e.message);
     await notifyTelegram(message);
   }
 }
