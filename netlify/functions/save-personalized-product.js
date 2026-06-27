@@ -270,7 +270,7 @@ exports.handler = async (event) => {
       `👗 <b>Produit demandé:</b> ${product_title}`
     );
 
-    notifyCustomProduct({ email: email.trim().toLowerCase(), firstName: firstname.trim(), firstname: firstname.trim(), productTitle: product_title.trim(), productDesc: product_desc.trim() }).catch(() => {});
+    await notifyCustomProduct({ email: email.trim().toLowerCase(), firstName: firstname.trim(), productTitle: product_title.trim(), productDesc: product_desc.trim() }).catch(e => console.error('[save-personalized-product] notifyCustomProduct failed:', e.message));
 
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
 

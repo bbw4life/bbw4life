@@ -62,7 +62,7 @@ exports.handler = async (event) => {
         );
 
         // ── Email Contact Auto-Reply ──
-        notifyContactReply({ email, firstName, lastName, subject, category: category || 'N/A' }).catch(e => console.error('[save-message] notifyContactReply failed:', e.message));
+       await notifyContactReply({ email, firstName, lastName, subject, category: category || 'N/A' }).catch(e => console.error('[save-message] notifyContactReply failed:', e.message));
 
         return { statusCode: 200, body: JSON.stringify({ success: true }) };
     } catch (error) {
