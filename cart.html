@@ -463,29 +463,5 @@
     })
     .catch(err => console.error('Newsletter load error:', err));
 </script>
-
-<script>
-  (function(){
-    try {
-      var cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      if (!cart.length) {
-        var style = document.createElement('style');
-        style.textContent =
-          '#cp-layout{display:none!important;}' +
-          '#cp-countdown{display:none!important;}' +
-          '#cp-progress-container{display:none!important;}' +
-          '#cp-promo-message-wrap{display:none!important;}' +
-          '#cp-paul-banner{display:none!important;}' +
-          '#bbw-order-timeline-page{display:none!important;}' +
-          '#cp-share-section{display:none!important;}' +
-          '#cp-upsell-section{display:none!important;}' +
-          '#cp-extra-section{display:none!important;}' +
-          '#cp-marquee-strip{display:none!important;}';
-        document.head.appendChild(style);
-      }
-    } catch(e){}
-  })();
-</script>
-
 </body>
 </html>
