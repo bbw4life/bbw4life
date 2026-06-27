@@ -27,6 +27,7 @@ const T = {
   PLAN_REQUEST:       'plan_request',
   CUSTOM_PRODUCT:     'custom_product',
   CART_ABANDONED:     'cart_abandoned',
+  STORY_RECEIVED:     'story_received',
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -840,6 +841,18 @@ Plain text only, no greeting, no sign-off.`
   return copy || `We noticed you left something behind in your cart — and we just wanted to check in. Sometimes life gets busy, or maybe something wasn't quite clear, and we'd genuinely love to know if there's anything we can help with.\n\nYour items are safely saved and waiting for you, exactly where you left them. To make it even easier to come back, we've added a little gift below just for you.`;
 }
 
+async function genStoryReceivedCopy(name) {
+  const copy = await callGroq(
+    `EMAIL TYPE: Story submission confirmation — BBW4LIFE community page.
+RECIPIENT: ${name}
+Write 2 short paragraphs (blank line between):
+- Para 1 (2-3 sentences): Tell her her story genuinely moved us. Her courage to share it is extraordinary. The BBW4LIFE community needs voices like hers.
+- Para 2 (2 sentences): Let her know the team will review it carefully, and once approved it will be published on the Our Story page so other women can read it and find strength. Make her feel proud of what she shared.
+Plain text only, no greeting, no sign-off.`
+  );
+  return copy || `What you just shared stopped us in our tracks — your story is real, raw, and exactly the kind of truth that changes how women see themselves. The courage it takes to share something so personal is something we never take for granted, and we're deeply honored you chose to share it with us.\n\nOur team will review your story carefully, and once approved it will be published on our Our Story page — where other women just like you will read it, feel seen, and find the strength they've been looking for. Thank you for being part of something bigger than fashion.`;
+}
+
 // ════════════════════════════════════════════════════════════════
 //  EMAIL COMPOSERS
 // ════════════════════════════════════════════════════════════════
@@ -1395,6 +1408,60 @@ async function composeCartAbandoned(data, settings) {
   };
 }
 
+
+// ── 13. Story Submission Confirmation ────────────────────────
+async function composeStoryReceived(data, settings) {
+  const { firstName } = data;
+  const name = firstName || 'Beautiful';
+  const copy = await genStoryReceivedCopy(name);
+
+  const bodyHTML = `
+    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
+        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Story Received 💕</p>
+    ${cParagraphs(copy)}
+    ${cDivider()}
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+           style="border-radius:16px;overflow:hidden;
+                  background:linear-gradient(135deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%);
+                  border:1px solid rgba(201,150,62,0.28);">
+      <tr>
+        <td style="padding:32px;text-align:center;">
+          <p style="margin:0 0 8px;font-size:40px;">💌</p>
+          <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:18px;font-weight:700;
+              color:#fff;letter-spacing:0.03em;">Your story is in our hands.</p>
+          <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;
+              color:rgba(255,255,255,0.70);line-height:1.6;">
+            Once approved, it will be visible on our<br>
+            <strong style="color:${BBW.goldL};">Our Story</strong> page — for every woman who needs it.
+          </p>
+        </td>
+      </tr>
+    </table>
+    ${cDivider()}
+    ${cHighlightBox('👑', 'Beauty Has No Sizes', 'Every story shared here makes this community stronger. Thank you for being part of it.')}
+    ${cHighlightBox('🔍', 'Review Process', 'Our team reads every submission personally. You\'ll hear from us soon.', '#fdf8f0')}
+    ${cCTA('Read Other Stories →', `${BASE_URL}/page/our-story.html`)}
+    ${cDivider()}
+    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};
+        text-align:center;line-height:1.7;">
+      Questions? Just reply to this email — we read everything. 💕
+    </p>`;
+
+  return {
+    subject: `${name}, your story touched our hearts 💕`,
+    html: masterTemplate({
+      preheader:    `Your BBW4LIFE story has been received — our team will review it and publish it soon.`,
+      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 40%,${BBW.rose} 80%,${BBW.gold} 100%)`,
+      topBadge:     'Story Received',
+      headline:     "Your story matters. 💌",
+      subHeadline:  'We\'re honored you shared it with us.',
+      bodyHTML,
+      settings,
+      showCEO:      true,
+    }),
+  };
+}
+
 // ════════════════════════════════════════════════════════════════
 //  SEND HELPER — with log check
 // ════════════════════════════════════════════════════════════════
@@ -1542,6 +1609,13 @@ exports.handler = async (event) => {
       if (trigger === T.CART_ABANDONED) {
         await trySend(email, T.CART_ABANDONED,
           () => composeCartAbandoned(body, settings),
+          sheets, sentLog, results);
+      }
+
+      // ── Story Received ──
+      if (trigger === T.STORY_RECEIVED) {
+        await trySend(email, T.STORY_RECEIVED,
+          () => composeStoryReceived(body, settings),
           sheets, sentLog, results);
       }
 

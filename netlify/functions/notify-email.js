@@ -90,6 +90,11 @@ function notifyCustomProduct({ email, firstName, productTitle, productDesc }) {
   return notifyEmail('custom_product', { email, firstname: firstName, lastname: '', product_title: productTitle, product_desc: productDesc });
 }
 
+// 7 — Story submission confirmation
+function notifyStoryReceived({ email, firstName }) {
+  return notifyEmail('story_received', { email, firstName });
+}
+
 // Abandoned cart recovery
 function notifyCartAbandoned({ email, firstName, items, promoCode, promoPercent, restartLink }) {
   return notifyEmail('cart_abandoned', { email, firstName, items, promoCode, promoPercent, restartLink });
@@ -108,5 +113,6 @@ module.exports = {
   notifyContactReply,
   notifyPlanRequest,
   notifyCustomProduct,
-  notifyCartAbandoned
+  notifyCartAbandoned,
+  notifyStoryReceived
 };

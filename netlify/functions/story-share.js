@@ -1,6 +1,7 @@
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
 const { notifyTelegram } = require('./notify-telegram');
+const { notifyStoryReceived } = require('./notify-email');
 
 const SHEET_NAME = 'bbw4life-stories';
 
@@ -69,6 +70,10 @@ async function saveStory(body) {
     `🌍 <b>Pays:</b> ${country || 'N/A'}\n` +
     `⭐ <b>Note:</b> ${rating || '5'}/5`
   );
+  await notifyStoryReceived({ email, firstName }).catch(e =>
+    console.error('[story-share] notifyStoryReceived failed:', e.message)
+  );
+
   return { success: true };
 }
 
