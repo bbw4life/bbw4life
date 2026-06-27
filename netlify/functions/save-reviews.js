@@ -77,7 +77,7 @@ exports.handler = async (event) => {
         console.log(`ℹ️ Email ${email} non trouvé dans les comptes`);
       }
 
-      notifyReviewResponse({
+      await notifyReviewResponse({
         email,
         firstName: fullName.trim().split(' ')[0],
         title,
