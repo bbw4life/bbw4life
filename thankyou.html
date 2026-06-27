@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="thankyou-icons.css">
     <link rel="stylesheet" href="thanks-pup.css">
     <link rel="stylesheet" href="/products/products.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
@@ -81,9 +82,9 @@
 
     <div id="spinner" class="spinner"></div>
 
-    <div id="message" style="display: none;"></div>
+    <div id="message" style="display:none;"></div>
 
-    <div id="buttons" style="display: none;">
+    <div id="buttons" style="display:none;">
         <a href="/collections/bbw4life-all-product.html" class="button">
             <i class="fas fa-shopping-bag"></i>
             Continue Shopping
@@ -181,7 +182,6 @@
 </section>
 
 
-
 <section class="bbw-request-section" id="bbw-request-section" data-scroll-reveal style="display:none;">
     <div class="container">
         <div class="bbw-request-label">
@@ -193,16 +193,13 @@
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     BBW4LIFE — BANNER
-═══════════════════════════════════════════ -->
 <section class="bbw-custom-banner" id="bbw-banner-section" style="display:none;">
     <div class="bbw-cb-images">
         <div class="bbw-cb-img bbw-cb-img--left">
-            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_2_6.png?v=1778168126" alt="" loading="lazy">
+            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Article_card_11.1.png?v=1779050357" alt="" loading="lazy">
         </div>
         <div class="bbw-cb-img bbw-cb-img--right">
-            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_2_7.png?v=1778168128" alt="" loading="lazy">
+            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Article_card_14.1.png?v=1779050357" alt="" loading="lazy">
         </div>
     </div>
     <div class="bbw-cb-overlay"></div>
@@ -295,13 +292,12 @@ document.getElementById('copy-link-btn')?.addEventListener('click', function() {
 
 // ── Instagram share button ──
 document.getElementById('share-instagram-btn')?.addEventListener('click', function(e) {
-    e.preventDefault(); // Bloque l'ouverture immédiate
+    e.preventDefault();
     
     const msg = `🌸 I just ordered from BBW4LIFE — Beauty Has No Sizes! A brand that truly celebrates every curve and every woman. Check them out! 👉 ${window.location.origin}`;
 
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(msg).then(() => {
-            // Message copié → PUIS ouvre Instagram après 800ms
             this.innerHTML = '<i class="fab fa-instagram"></i> Message Copied!';
             setTimeout(() => {
                 window.open('https://www.instagram.com', '_blank');
@@ -325,6 +321,36 @@ document.getElementById('share-instagram-btn')?.addEventListener('click', functi
 </script>
 
 <script src="/pdg-francenel.js"></script>
+src= <script src="/script.js"></script>
+
+<footer class="ty-footer">
+  <div class="ty-footer__inner">
+    <a href="/index.html" class="ty-footer__logo">
+      <img src="/public/vrlogo bbw4life.png" alt="BBW4LIFE">
+    </a>
+    <nav class="ty-footer__links" aria-label="Policies">
+      <a href="/policies/return-policy.html">Return Policy</a>
+      <a href="/policies/shipping-policy.html">Shipping Policy</a>
+      <a href="/policies/terms.html">Terms of Service</a>
+      <a href="/policies/privacy.html">Privacy Policy</a>
+    </nav>
+    <p class="ty-footer__copy">
+      &copy; <span id="ty-year"></span> BBW4LIFE — Beauty Has No Sizes.
+      All rights reserved.
+    </p>
+  </div>
+</footer>
+<script>document.getElementById('ty-year').textContent = new Date().getFullYear();</script>
+
+<script>
+    window.STRIPE_PUBLIC_KEY = "pk_live_51PMDwoF9QAVBUyaU9ffneo6gWLCCPP94en6PPapDPawI9mnKqWBnJUjTbjUzjw3B8Et2ZWLBQHfCxm2djyCkzvXw00sP60H2NX";
+</script>
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AbHxiQOr022CZ5tf7LtOUlpW-NZxUMfCxankCaZnFJNcN6msJ_eNT3HAptmJhcaQDNltCahOOzi4CoPX&currency=USD&intent=capture"></script>
+
+<script src="/checkout/checkout.js"></script>
 <script src="/script.js"></script>
 
 </body>

@@ -566,6 +566,20 @@
   width: 100%;
 }
 
+
+.bbw-request-section--personalized .bbw-request-label {
+  color: #1a0f0a !important;
+}
+
+.bbw-request-section--personalized .bbw-request-label span {
+  color: #1a0f0a !important;
+}
+
+.bbw-request-section--personalized .bbw-request-label em {
+  color: #c9963e !important;
+  font-style: italic;
+}
+
 .plan-request-trigger-btn {
   display: flex;
   align-items: center;
@@ -599,11 +613,19 @@
 .plan-btn-icon {
   width: 44px;
   height: 44px;
-  background: rgba(201,150,62,0.20);
+  background: linear-gradient(135deg, #c9963e, #8b5e1a);
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
   font-size: 18px;
+  color: #fdf0f4;
+  animation: planBadgePulse 2s ease-in-out infinite;
+}
+
+.plan-btn-icon i {
+  color: #fdf0f4 !important;
+  font-size: 18px;
+  display: block;
 }
 
 .plan-btn-text {

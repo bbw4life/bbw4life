@@ -1,7 +1,5 @@
 /* ================================================================
    THANKYOU.CSS — CurvaFit Order Confirmation
-   Direction: Joyful Celebration · Warm Gratitude · Ultra Premium
-   Palette BBW4LIFE: rose #c0385e · gold #c9963e · vivid #FFD700
 ================================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
@@ -1004,3 +1002,105 @@ p.error {
   animation: none !important;
 }
 
+
+
+
+/* ================================================================
+   TY-FOOTER
+================================================================ */
+.ty-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  padding: 32px 24px 28px;
+  background: linear-gradient(135deg,
+    rgba(13,13,13,0.96) 0%,
+    rgba(26,26,26,0.98) 100%);
+  border-top: 1px solid rgba(201,150,62,0.22);
+}
+
+.ty-footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--bbw-rose),
+    var(--bbw-gold),
+    var(--bbw-gold-vivid),
+    var(--bbw-gold),
+    var(--bbw-rose));
+  background-size: 200% 100%;
+  animation: rainbowSlide 3s linear infinite;
+}
+
+.ty-footer__inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.ty-footer__logo img {
+  height: 36px;
+  width: auto;
+  opacity: 0.88;
+  filter: brightness(1.05);
+  transition: var(--transition);
+}
+.ty-footer__logo:hover img {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.ty-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 20px;
+}
+
+.ty-footer__links a {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.52);
+  text-decoration: none;
+  transition: var(--transition);
+  position: relative;
+}
+.ty-footer__links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--bbw-gold), var(--bbw-rose));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s ease;
+}
+.ty-footer__links a:hover {
+  color: var(--bbw-gold-light);
+}
+.ty-footer__links a:hover::after {
+  transform: scaleX(1);
+}
+
+.ty-footer__copy {
+  font-family: var(--font-body) !important;
+  font-size: 0.72rem !important;
+  color: rgba(255,255,255,0.28) !important;
+  margin: 0 !important;
+  letter-spacing: 0.03em;
+  line-height: 1.5 !important;
+}
+
+@media (max-width: 680px) {
+  .ty-footer { padding: 26px 18px 22px; }
+  .ty-footer__links { gap: 6px 14px; }
+}

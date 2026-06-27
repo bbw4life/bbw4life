@@ -37,10 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // ── Garde-fou côté client : si ce paiement a déjà été vérifié dans CETTE session,
-    // on n'appelle même pas le serveur — évite les appels réseau inutiles au refresh.
-    // Le blocage réel et définitif (même après 1 million de refresh, même sur un
-    // autre appareil/navigateur) est assuré côté serveur dans verify-payment.js.
     const verifiedId = sessionId || orderID;
     if (sessionStorage.getItem("paymentVerified") === verifiedId) {
         console.log("✅ Already verified in this session — skipping server call");
@@ -137,4 +133,4 @@ function displayError(message) {
     document.getElementById('message').innerHTML = `<p class="error">${message}</p>`;
     document.getElementById('message').style.display = 'block';
     document.getElementById('buttons').style.display = 'block';
-}
+} 
