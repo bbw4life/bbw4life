@@ -1,7 +1,7 @@
 // netlify/functions/save-personalized-product.js
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
-const { notifyTelegram } = require('./notify-telegram');
+const { notifyTelegram, notifyTelegramWithPhotos } = require('./notify-telegram');
 const { notifyCustomProduct } = require('./notify-email');
 
 exports.handler = async (event) => {
@@ -263,11 +263,12 @@ exports.handler = async (event) => {
       }
     });
 
-    await notifyTelegram(
+    await notifyTelegramWithPhotos(
       `🎨 <b>Pdg Francenel, un client vient de demander un produit personnalisé!</b>\n\n` +
       `👤 <b>Nom:</b> ${firstname} ${lastname}\n` +
       `📧 <b>Email:</b> ${email}\n` +
-      `👗 <b>Produit demandé:</b> ${product_title}`
+      `👗 <b>Produit demandé:</b> ${product_title}`,
+      [image1_base64, image2_base64]
     );
 
     await notifyCustomProduct({ email: email.trim().toLowerCase(), firstName: firstname.trim(), productTitle: product_title.trim(), productDesc: product_desc.trim() }).catch(e => console.error('[save-personalized-product] notifyCustomProduct failed:', e.message));

@@ -421,7 +421,7 @@ exports.handler = async () => {
         const pendingTime         = new Date(repliedAt.replace('pending:', ''));
         const minutesSincePending = (Date.now() - pendingTime.getTime()) / (1000 * 60);
 
-        if (minutesSincePending < 2) {
+        if (minutesSincePending < 30) {
           console.log(`[reply-contact-message] Row ${i + 1} — pending since ${minutesSincePending.toFixed(1)} min, waiting`);
           await sleep(500);
           continue;
