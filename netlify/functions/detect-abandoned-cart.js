@@ -2,6 +2,7 @@
 process.removeAllListeners('warning');
 const { google } = require("googleapis");
 const fetch = require("node-fetch");
+const { notifyCartAbandoned } = require('./notify-email');
 
 const ABANDON_THRESHOLD_MINUTES = 20;
 
@@ -197,25 +198,18 @@ exports.handler = async () => {
 
       // ── Envoyer l'email de relance au client ──
       if (email && email.includes('@')) {
-        try {
-          await fetch(`${process.env.BASE_URL}/.netlify/functions/send-email-auto`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              trigger:     'cart_abandoned',
-              email:       email,
-              firstName:   shipping.firstName || '',
-              lastName:    shipping.lastName  || '',
-              orderId:     orderId,
-              items:       cart,
-              promoCode:   promo ? promo.code    : null,
-              promoPercent: promo ? promo.percent : null,
-              restartLink: restartLink
-            })
-          });
+        const emailResult = await notifyCartAbandoned({
+          email,
+          firstName:    shipping.firstName || '',
+          items:        cart,
+          promoCode:    promo ? promo.code    : null,
+          promoPercent: promo ? promo.percent : null,
+          restartLink
+        });
+        if (emailResult.success) {
           console.log(`[ABANDONED CART] ✅ Email de relance envoyé à ${email}`);
-        } catch (e) {
-          console.warn(`[ABANDONED CART] Échec envoi email à ${email}:`, e.message);
+        } else {
+          console.warn(`[ABANDONED CART] Échec envoi email à ${email}:`, emailResult.error);
         }
       }
 

@@ -1,7 +1,8 @@
 // netlify/functions/save-message.js
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
-const { notifyTelegram } = require('./notify-telegram');   
+const { notifyTelegram } = require('./notify-telegram');
+const { notifyContactReply } = require('./notify-email');
 
 exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') {
@@ -59,21 +60,11 @@ exports.handler = async (event) => {
         `📌 <b>Sujet:</b> ${subject}\n` +
         `🗂️ <b>Catégorie:</b> ${category || 'N/A'}`
         );
-        // ── Email Contact Auto-Reply ──
-            fetch(`${process.env.BASE_URL}/.netlify/functions/send-email-auto`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                trigger:   'contact_reply',
-                email:     email,
-                firstName: firstName,
-                lastName:  lastName,
-                subject:   subject,
-                category:  category || 'N/A'
-            })
-            }).catch(e => console.warn('[Email] contact_reply failed:', e.message));
 
-            return { statusCode: 200, body: JSON.stringify({ success: true }) };
+        // ── Email Contact Auto-Reply ──
+        notifyContactReply({ email, firstName, lastName, subject, category: category || 'N/A' }).catch(() => {});
+
+        return { statusCode: 200, body: JSON.stringify({ success: true }) };
     } catch (error) {
         console.error("SAVE MESSAGE ERROR:", error.message);
         return { 

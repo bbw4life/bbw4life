@@ -2,6 +2,7 @@
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
 const { verifyAccountToken } = require('./account-token');
+const { notifyWelcome, notifyNewsletter1 } = require('./notify-email');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -66,23 +67,12 @@ exports.handler = async (event) => {
       await sheets.spreadsheets.values.append({
         spreadsheetId, range: "bbw4life-accounts!A:Z", valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", resource: { values }
       });
-      fetch(`${process.env.BASE_URL}/.netlify/functions/send-email-auto`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ trigger: 'welcome', email, firstName, lastName, newsletter }),
-      }).catch(e => console.warn('[Email] welcome trigger failed:', e.message));
+
+      notifyWelcome({ email, firstName, lastName }).catch(() => {});
 
       // ── Email Newsletter #1 ──
       if ((newsletter || '').toLowerCase() === 'yes') {
-        fetch(`${process.env.BASE_URL}/.netlify/functions/send-email-auto`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            trigger:   'newsletter_1',
-            email:     email,
-            firstName: firstName
-          })
-        }).catch(e => console.warn('[Email] newsletter_1 failed:', e.message));
+        notifyNewsletter1({ email, firstName }).catch(() => {});
       }
 
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
@@ -274,15 +264,7 @@ exports.handler = async (event) => {
       }
 
       // ── Email Newsletter #1 ──
-      fetch(`${process.env.BASE_URL}/.netlify/functions/send-email-auto`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          trigger:   'newsletter_1',
-          email:     email,
-          firstName: firstName || ''
-        })
-      }).catch(e => console.warn('[Email] newsletter_1 failed:', e.message));
+      notifyNewsletter1({ email, firstName: firstName || '' }).catch(() => {});
 
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }

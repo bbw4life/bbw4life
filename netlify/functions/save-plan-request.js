@@ -1,6 +1,8 @@
+// netlify/functions/save-plan-request.js
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
 const { notifyTelegram } = require('./notify-telegram');
+const { notifyPlanRequest } = require('./notify-email');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -64,20 +66,7 @@ exports.handler = async (event) => {
       resource:         { values }
     });
 
-    fetch(`${process.env.BASE_URL}/.netlify/functions/send-email-auto`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        trigger:   'plan_request',
-        email:     email,
-        firstName: firstName,
-        lastName:  lastName,
-        program:   program,
-        productId: productId || '',
-        size:      size  || '',
-        color:     color || ''
-      })
-    }).catch(e => console.warn('[Email] plan_request failed:', e.message));
+    notifyPlanRequest({ email, firstName, lastName, program, productId, size, color }).catch(() => {});
 
     await notifyTelegram(
     `⏳ <b>Pdg Francenel, un client vient de mettre en attente un des design BBW4LIFE!</b>\n\n` +

@@ -1,6 +1,8 @@
+// netlify/functions/save-personalized-product.js
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
 const { notifyTelegram } = require('./notify-telegram');
+const { notifyCustomProduct } = require('./notify-email');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -268,17 +270,7 @@ exports.handler = async (event) => {
       `👗 <b>Produit demandé:</b> ${product_title}`
     );
 
-    fetch(`${process.env.BASE_URL}/.netlify/functions/send-email-auto`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        trigger:      'custom_product',
-        email:        email.trim().toLowerCase(),
-        firstName:    firstname.trim(),
-        productTitle: product_title.trim(),
-        productDesc:  product_desc.trim()
-      })
-    }).catch(e => console.warn('[Email] custom_product failed:', e.message));
+    notifyCustomProduct({ email: email.trim().toLowerCase(), firstName: firstname.trim(), productTitle: product_title.trim(), productDesc: product_desc.trim() }).catch(() => {});
 
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
 
