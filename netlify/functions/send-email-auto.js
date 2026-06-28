@@ -431,8 +431,9 @@ const BASE_CSS = `
     .elogo{font-size:38px!important}
     .egrid td{display:block!important;width:100%!important;padding:8px 0!important;text-align:center!important}
     .hide-mobile{display:none!important}
-    .hero-img{display:none!important}
-    .hero-txt{width:100%!important;padding:32px 24px!important}
+    .hero-img td{width:50%!important}
+    .hero-img img{width:160px!important;max-width:160px!important}
+    .hero-txt{padding:20px 16px 0!important}
   }
 `;
 
@@ -488,8 +489,8 @@ function buildCEOFooter(settings) {
   const support = (settings.contact_emails || {}).general || 'support@bbw4life.com';
   const whatsapp = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
 
-  const photoHTML = ceo.photo
-    ? `<img src="${ceo.photo}" alt="${ceo.name || 'Francenel'}" width="90" height="90"
+  const photoHTML = (ceo.photo || 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg_Francenel.jpg?v=1778926866')
+    ? `<img src="${ceo.photo || 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg_Francenel.jpg?v=1778926866'}" alt="${ceo.name || 'Francenel'}" width="90" height="90"
          style="width:90px;height:90px;border-radius:50%;object-fit:cover;
                 border:3px solid ${BBW.pink};display:block;margin:0 auto 14px;">`
     : '';
@@ -622,7 +623,9 @@ function buildValueGrid() {
 // ── MASTER TEMPLATE — fidèle à l'image de référence ───────────
 function masterTemplate({ preheader, tagline, heroHeadline, heroSubline, topBadge, bodyHTML, settings, showValueGrid = false }) {
   const founder  = settings.founder || settings.ceo || {};
-  const heroImg  = founder.hero_image || '';
+  // Fallback direct sur l'URL connue si settings non encore chargé
+  const heroImg  = founder.hero_image
+    || 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.email.png?v=1782613828';
 
   // Logo BBW4LIFE style image : blanc + "4" en rose
   const logoHTML = `
