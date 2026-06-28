@@ -400,22 +400,25 @@ async function trySendDirect(email, type, composeFn) {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  EMAIL DESIGN SYSTEM — BBW4LIFE BRANDED
+//  EMAIL DESIGN SYSTEM — BBW4LIFE BRANDED  (v2 — "Hey Beautiful" look)
 // ════════════════════════════════════════════════════════════════
 
 // ── Brand colors ──────────────────────────────────────────────
 const BBW = {
-  rose:      '#c0385e',
-  rose2:     '#e8245a',
+  rose:      '#e0356f',
+  rose2:     '#ec1f63',
+  roseDeep:  '#c0185a',
+  pinkBg:    '#fbe4ec',
+  pinkSoft:  '#fdeef3',
   gold:      '#c9963e',
   goldL:     '#e8bc6a',
   plum:      '#7b3f6e',
   dark:      '#0d0d0d',
-  dark2:     '#1a0812',
+  dark2:     '#16080f',
   white:     '#ffffff',
-  offWhite:  '#fdf8f3',
+  offWhite:  '#fff8fa',
   textDark:  '#1a1618',
-  textMid:   '#42383e',
+  textMid:   '#4a3b42',
   textLight: '#9e8e96',
 };
 
@@ -424,102 +427,177 @@ const BASE_CSS = `
   body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
   table,td{mso-table-lspace:0pt;mso-table-rspace:0pt}
   img{-ms-interpolation-mode:bicubic;border:0;height:auto;line-height:100%;outline:none;text-decoration:none}
-  body{margin:0!important;padding:0!important;background-color:#f9f0f5}
+  body{margin:0!important;padding:0!important;background-color:#f7eef1}
   a{color:inherit}
   @media only screen and (max-width:620px){
     .ew{width:100%!important;border-radius:0!important}
-    .ep{padding:24px 16px!important}
-    .eh1{font-size:24px!important}
-    .egrid td{display:block!important;width:100%!important;padding:0 0 12px!important}
+    .ep{padding:24px 20px!important}
+    .eh1{font-size:30px!important}
+    .ehero-img{width:42%!important}
+    .egrid td{display:block!important;width:100%!important;padding:0 0 18px!important;text-align:center!important}
+    .efounder td{display:block!important;width:100%!important;text-align:center!important}
     .hide-mobile{display:none!important}
   }
 `;
 
+// ── Default social icon set (used when settings.social_icons is missing) ──
+const DEFAULT_SOCIAL_ICONS = {
+  facebook:  'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/facebook.svg',
+  instagram: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/instagram.svg',
+  pinterest: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/pinterest.svg',
+  youtube:   'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/youtube.svg',
+  tiktok:    'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/tiktok.svg',
+  twitter:   'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/x.svg',
+  whatsapp:  'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/whatsapp.svg',
+};
+
+const SOCIAL_BRAND_BG = {
+  facebook:  '#1877F2',
+  instagram: 'linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4)',
+  pinterest: '#E60023',
+  youtube:   '#FF0000',
+  tiktok:    '#000000',
+  twitter:   '#000000',
+  whatsapp:  '#25D366',
+};
+
 // ── Settings-driven components ────────────────────────────────
-function buildLogoComponent(settings) {
-  const logoUrl = (settings.logo_url || settings.logo || '');
+function buildLogoComponent(settings, variant = 'dark') {
+  const logoUrl  = (settings.logo_url || settings.logo || '');
   const siteName = 'BBW4LIFE';
   if (logoUrl) {
-    return `<a href="${BASE_URL}" target="_blank" style="display:inline-block;text-decoration:none;margin-bottom:20px;">
-      <img src="${logoUrl}" alt="${siteName}" height="60" style="height:60px;width:auto;max-width:200px;display:block;">
+    return `<a href="${BASE_URL}" target="_blank" style="display:inline-block;text-decoration:none;margin-bottom:14px;">
+      <img src="${logoUrl}" alt="${siteName}" height="54" style="height:54px;width:auto;max-width:200px;display:block;">
     </a>`;
   }
-  // Text fallback
-  return `<a href="${BASE_URL}" target="_blank" style="text-decoration:none;display:inline-block;margin-bottom:20px;">
-    <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
-      <tr>
-        <td style="border:1.5px solid rgba(255,255,255,0.35);border-radius:12px;padding:10px 28px;background:rgba(255,255,255,0.12);">
-          <span style="font-family:Georgia,serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:0.15em;">BBW<span style="color:${BBW.goldL};">4LIFE</span></span>
-        </td>
-      </tr>
-    </table>
-  </a>`;
+  const textColor = variant === 'dark' ? '#ffffff' : BBW.dark;
+  return `<a href="${BASE_URL}" target="_blank" style="text-decoration:none;display:inline-block;margin-bottom:6px;">
+    <span style="font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;color:${textColor};letter-spacing:0.01em;">BBW<span style="color:${BBW.rose2};">4</span>LIFE</span>
+  </a>
+  <table cellpadding="0" cellspacing="0" role="presentation" style="margin:6px auto 0;">
+    <tr><td style="border-top:1px solid rgba(224,53,111,0.45);width:140px;font-size:0;line-height:0;">&nbsp;</td></tr>
+  </table>`;
 }
 
+// ── Social footer — 7 brand icons, image-based, in colored circles ─────
 function buildSocialFooter(settings) {
-  const social = settings.social_links || {};
-  const icons  = settings.social_icons || {};
+  const social = settings.social_links  || {};
+  const icons  = { ...DEFAULT_SOCIAL_ICONS, ...(settings.social_icons || {}) };
 
-  const links = [
-    { key: 'facebook',  label: 'Facebook'  },
-    { key: 'instagram', label: 'Instagram' },
-    { key: 'tiktok',    label: 'TikTok'    },
-    { key: 'youtube',   label: 'YouTube'   },
-    { key: 'pinterest', label: 'Pinterest' },
-    { key: 'twitter',   label: 'X'         },
-    { key: 'whatsapp',  label: 'WhatsApp'  },
-  ].filter(l => social[l.key] && icons[l.key]);
+  const order = [
+    { key: 'facebook',  label: 'Facebook'   },
+    { key: 'instagram', label: 'Instagram'  },
+    { key: 'pinterest', label: 'Pinterest'  },
+    { key: 'youtube',   label: 'YouTube'    },
+    { key: 'tiktok',    label: 'TikTok'     },
+    { key: 'twitter',   label: 'X (Twitter)'},
+    { key: 'whatsapp',  label: 'WhatsApp'   },
+  ].filter(l => social[l.key]); // show icon as long as a link exists; icon falls back to default set
 
-  if (!links.length) return '';
+  if (!links_or(order)) return '';
 
   return `
-<table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto 16px;">
+<table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
   <tr>
-    ${links.map(l => `
-    <td style="padding:0 5px;">
+    ${order.map(l => `
+    <td style="padding:0 6px;text-align:center;">
       <a href="${social[l.key]}" target="_blank"
-         style="display:inline-block;width:36px;height:36px;border-radius:8px;
-                text-align:center;text-decoration:none;">
-        <img src="${icons[l.key]}" alt="${l.label}" width="36" height="36"
-             style="width:36px;height:36px;display:block;border-radius:8px;object-fit:cover;">
+         style="display:inline-block;width:38px;height:38px;border-radius:50%;
+                text-align:center;text-decoration:none;background:${SOCIAL_BRAND_BG[l.key] || BBW.rose};
+                line-height:38px;">
+        <img src="${icons[l.key]}" alt="${l.label}" width="18" height="18"
+             style="width:18px;height:18px;vertical-align:middle;filter:invert(1) brightness(2);">
       </a>
+      <p style="margin:6px 0 0;font-family:Arial,sans-serif;font-size:9px;color:rgba(255,255,255,0.55);">${l.label}</p>
     </td>`).join('')}
   </tr>
 </table>`;
 }
+function links_or(arr) { return arr && arr.length; }
 
-function buildCEOSignature(settings) {
-  const ceo = settings.ceo || settings.founder || {};
-  if (!ceo.name) return '';
-  const photoHTML = ceo.photo
-    ? `<img src="${ceo.photo}" alt="${ceo.name}" width="48" height="48"
-           style="width:48px;height:48px;border-radius:50%;object-fit:cover;
-                  border:2px solid ${BBW.gold};display:inline-block;vertical-align:middle;margin-right:12px;">`
-    : '';
+// ── Founder / CEO block — circular photo + quote, matches reference design ──
+function buildFounderSection(settings) {
+  const founder = settings.founder || settings.ceo || {};
+  if (!founder.name) return '';
+
+  const quote = founder.signature_quote
+    || (founder.mission ? founder.mission : 'My mission is simple: to empower curvy women to love themselves unapologetically and live their best life, every single day.');
+
   return `
-<table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-       style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(192,56,94,0.15);">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" class="efounder">
   <tr>
-    <td>
-      ${photoHTML}
-      <span style="display:inline-block;vertical-align:middle;">
-        <span style="display:block;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">${ceo.name}</span>
-        <span style="display:block;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">${ceo.title || 'Founder & CEO, BBW4LIFE'}</span>
-      </span>
+    <td width="86" style="vertical-align:top;padding-right:18px;">
+      ${founder.photo ? `
+      <table cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          <td style="border-radius:50%;border:2px solid ${BBW.rose};padding:3px;">
+            <img src="${founder.photo}" alt="${founder.name}" width="76" height="76"
+                 style="width:76px;height:76px;border-radius:50%;object-fit:cover;display:block;">
+          </td>
+        </tr>
+      </table>` : ''}
+    </td>
+    <td style="vertical-align:top;">
+      <p style="margin:0 0 2px;font-family:Georgia,serif;font-style:italic;font-size:12px;color:rgba(255,255,255,0.55);">
+        From the CEO &amp; Founder,
+      </p>
+      <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:19px;font-weight:700;color:${BBW.rose};letter-spacing:0.03em;">
+        ${(founder.name || '').toUpperCase()}
+      </p>
+      <p style="margin:0 0 10px;font-family:Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.72);line-height:1.6;font-style:italic;">
+        "${quote}"
+      </p>
+      <p style="margin:0;font-family:Georgia,serif;font-style:italic;font-size:15px;color:${BBW.rose};">
+        ${founder.name} &#9825;
+      </p>
     </td>
   </tr>
 </table>`;
 }
 
-// ── Master template wrapper ────────────────────────────────────
-function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline, bodyHTML, settings, showCEO = false }) {
-  const logoHTML   = buildLogoComponent(settings);
-  const socialHTML = buildSocialFooter(settings);
-  const ceoHTML    = showCEO ? buildCEOSignature(settings) : '';
-  const support    = (settings.contact_emails || {}).general || (settings.contact || {}).email || 'support@bbw4life.com';
-  const whatsapp   = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
+// ── Hero header with woman's photo, used on every email ──────────────
+function buildHeroHeader(settings, { topBadge, headline, subHeadline, accentWord }) {
+  const founderObj = settings.founder || settings.ceo || {};
+  const heroImage  = founderObj.hero_image || settings.hero_image || settings.hero_woman_image || '';
+  const logoHTML  = buildLogoComponent(settings, 'dark');
 
-  const grad = headerGrad || `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`;
+  return `
+<tr>
+  <td style="background:linear-gradient(180deg,${BBW.pinkBg} 0%,${BBW.pinkBg} 100%);padding:14px 0 0;text-align:center;">
+    <p style="margin:0 0 14px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;
+        color:${BBW.dark};letter-spacing:0.18em;">${topBadge || 'CONFIDENCE &middot; BEAUTY &middot; EMPOWERMENT'} &#9825;</p>
+  </td>
+</tr>
+<tr>
+  <td style="background:${BBW.dark};padding:0;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td width="56%" style="padding:38px 30px 38px 36px;vertical-align:middle;">
+          ${logoHTML}
+          <p style="margin:14px 0 0;font-family:Arial,sans-serif;font-size:15px;font-weight:700;
+              color:#fff;letter-spacing:0.02em;line-height:1.6;">
+            ${headline || 'LOVE YOUR <span style="color:'+BBW.rose+';">CURVES.</span><br>LIVE YOUR BEST LIFE.'}
+          </p>
+          ${subHeadline ? `<p style="margin:10px 0 0;font-family:Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.55);line-height:1.6;">${subHeadline}</p>` : ''}
+        </td>
+        <td width="44%" class="ehero-img" style="padding:0;vertical-align:bottom;">
+          ${heroImage ? `<img src="${heroImage}" alt="BBW4LIFE" width="280"
+               style="display:block;width:100%;max-width:280px;height:auto;margin-left:auto;">` : ''}
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td style="background:${BBW.pinkBg};height:14px;line-height:14px;font-size:0;">&nbsp;</td>
+</tr>`;
+}
+
+// ── Master template wrapper (v2) ────────────────────────────────────
+function masterTemplate({ preheader, topBadge, headline, subHeadline, bodyHTML, settings, showFounder = true, accentBox = null }) {
+  const support    = (settings.contact_emails || {}).general || (settings.contact || {}).email || 'support@bbw4life.com';
+  const founderSec = showFounder ? buildFounderSection(settings) : '';
+  const socialHTML = buildSocialFooter(settings);
 
   return `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -530,96 +608,74 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
   <title>BBW4LIFE</title>
   <style>${BASE_CSS}</style>
 </head>
-<body style="margin:0;padding:0;background-color:#f9f0f5;">
+<body style="margin:0;padding:0;background-color:#f7eef1;">
 
 <!-- Preheader -->
-<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;color:#f9f0f5;line-height:1px;">
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;color:#f7eef1;line-height:1px;">
   ${preheader}&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;
 </div>
 
-<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#f9f0f5;padding:32px 16px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#f7eef1;padding:24px 12px;">
   <tr><td align="center">
     <table class="ew" width="600" cellpadding="0" cellspacing="0" role="presentation"
-           style="max-width:600px;width:100%;border-radius:20px;overflow:hidden;
-                  box-shadow:0 20px 60px rgba(192,56,94,0.18);">
+           style="max-width:600px;width:100%;border-radius:18px;overflow:hidden;
+                  box-shadow:0 20px 60px rgba(192,24,90,0.16);">
 
-      <!-- HEADER -->
+      ${buildHeroHeader(settings, { topBadge, headline, subHeadline })}
+
+      <!-- BODY : "Hey Beautiful" intro + accent box -->
       <tr>
-        <td style="${grad};">
-          <div style="height:3px;background:linear-gradient(90deg,${BBW.gold},${BBW.rose},${BBW.goldL},${BBW.rose},${BBW.gold});"></div>
+        <td style="background:${BBW.offWhite};padding:34px 36px 6px;">
           <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
             <tr>
-              <td style="padding:36px 40px 32px;text-align:center;">
-                ${logoHTML}
-                ${topBadge ? `<div style="display:inline-block;padding:5px 18px;border-radius:20px;
-                  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.28);
-                  font-family:Arial,sans-serif;font-size:11px;font-weight:700;
-                  color:rgba(255,255,255,0.88);letter-spacing:0.12em;text-transform:uppercase;
-                  margin-bottom:14px;">${topBadge}</div><br>` : ''}
-                <h1 class="eh1" style="margin:0 0 0;font-family:Georgia,serif;font-size:28px;
-                    font-weight:700;color:#fff;line-height:1.2;letter-spacing:0.02em;">${headline}</h1>
-                ${subHeadline ? `<p style="margin:10px 0 0;font-family:Arial,sans-serif;
-                    font-size:14px;color:rgba(255,255,255,0.78);line-height:1.5;">${subHeadline}</p>` : ''}
+              <td style="vertical-align:top;${accentBox ? 'width:56%;padding-right:18px;' : ''}">
+                <p style="margin:0 0 4px;font-family:Georgia,serif;font-style:italic;font-size:30px;
+                    color:${BBW.roseDeep};">Hey Beautiful! &#9825;</p>
+                ${bodyHTML}
               </td>
+              ${accentBox ? `
+              <td style="vertical-align:top;width:44%;">
+                <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+                       style="background:${BBW.pinkSoft};border-radius:14px;">
+                  <tr><td style="padding:26px 18px;text-align:center;">${accentBox}</td></tr>
+                </table>
+              </td>` : ''}
             </tr>
           </table>
         </td>
       </tr>
 
-      <!-- BODY -->
+      <!-- DARK FOOTER : founder + socials + legal -->
       <tr>
-        <td class="ep" style="background:#fff;padding:36px 40px;">
-          ${bodyHTML}
-          ${ceoHTML}
-        </td>
-      </tr>
-
-      <!-- SOCIAL FOOTER -->
-      <tr>
-        <td style="background:#fdf8f3;padding:20px 40px;text-align:center;border-top:1px solid rgba(192,56,94,0.12);">
-          <p style="margin:0 0 12px;font-family:Arial,sans-serif;font-size:11px;
-              color:${BBW.textLight};letter-spacing:0.10em;text-transform:uppercase;">
-            Follow our community
-          </p>
-          ${socialHTML}
-          <p style="margin:8px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">
-            Need help?
-            <a href="mailto:${support}" style="color:${BBW.rose};text-decoration:none;font-weight:600;">${support}</a>
-            &nbsp;·&nbsp;
-            <a href="${whatsapp}" target="_blank" style="color:${BBW.rose};text-decoration:none;font-weight:600;">WhatsApp</a>
-          </p>
-        </td>
-      </tr>
-
-      <!-- BOTTOM FOOTER -->
-      <tr>
-        <td style="background:${BBW.dark2};padding:20px 40px;text-align:center;">
-          <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:11px;
-              color:rgba(255,255,255,0.40);letter-spacing:0.15em;">BBW4LIFE</p>
-          <p style="margin:0 0 10px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.30);font-style:italic;">Beauty Has No Sizes 👑</p>
-          <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
+        <td style="background:${BBW.dark2};padding:30px 36px 26px;">
+          ${founderSec}
+          ${founderSec ? `<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:24px 0 20px;"><tr><td style="height:1px;background:rgba(255,255,255,0.10);font-size:0;line-height:0;">&nbsp;</td></tr></table>` : ''}
+          <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
             <tr>
-              <td style="padding:0 8px;">
-                <a href="${BASE_URL}/collections/bbw4life-all-product.html" target="_blank"
-                   style="font-family:Arial,sans-serif;font-size:10px;color:${BBW.goldL};text-decoration:none;">Shop</a>
-              </td>
-              <td style="padding:0 8px;border-left:1px solid rgba(255,255,255,0.10);">
-                <a href="${BASE_URL}/policies/privacy.html" target="_blank"
-                   style="font-family:Arial,sans-serif;font-size:10px;color:${BBW.goldL};text-decoration:none;">Privacy</a>
-              </td>
-              <td style="padding:0 8px;border-left:1px solid rgba(255,255,255,0.10);">
-                <a href="${BASE_URL}/page/contact.html" target="_blank"
-                   style="font-family:Arial,sans-serif;font-size:10px;color:${BBW.goldL};text-decoration:none;">Contact</a>
-              </td>
-              <td style="padding:0 8px;border-left:1px solid rgba(255,255,255,0.10);">
-                <a href="${BASE_URL}/policies/refund.html" target="_blank"
-                   style="font-family:Arial,sans-serif;font-size:10px;color:${BBW.goldL};text-decoration:none;">Refunds</a>
+              <td align="center">
+                <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:20px;font-weight:700;color:#fff;">
+                  BBW<span style="color:${BBW.rose};">4</span>LIFE
+                </p>
+                <p style="margin:0 0 14px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.2em;color:${BBW.rose};text-transform:uppercase;">
+                  Stay Connected
+                </p>
+                ${socialHTML}
               </td>
             </tr>
           </table>
-          <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:10px;color:rgba(255,255,255,0.18);">
-            &copy; ${new Date().getFullYear()} BBW4LIFE — Built for every curve.
+          <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-top:22px;">
+            <tr><td style="height:1px;background:rgba(255,255,255,0.10);font-size:0;line-height:0;">&nbsp;</td></tr>
+          </table>
+          <p style="margin:16px 0 4px;font-family:Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.45);text-align:center;">
+            You are receiving this email because you are part of the BBW4LIFE family.
+          </p>
+          <p style="margin:0 0 10px;font-family:Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.45);text-align:center;">
+            No longer want to receive these emails?
+            <a href="${BASE_URL}/page/unsubscribe.html" style="color:${BBW.rose};text-decoration:underline;">Unsubscribe</a>
+          </p>
+          <p style="margin:0;font-family:Arial,sans-serif;font-size:10px;color:rgba(255,255,255,0.30);text-align:center;">
+            &copy; ${new Date().getFullYear()} BBW4LIFE. All rights reserved. &middot;
+            <a href="mailto:${support}" style="color:rgba(255,255,255,0.30);text-decoration:none;">${support}</a>
           </p>
         </td>
       </tr>
@@ -635,23 +691,22 @@ function masterTemplate({ preheader, headerGrad, topBadge, headline, subHeadline
 function cParagraphs(text) {
   if (!text) return '';
   return text.split('\n').filter(p => p.trim()).map(p =>
-    `<p style="margin:0 0 18px;font-family:Arial,sans-serif;font-size:15px;
+    `<p style="margin:0 0 16px;font-family:Arial,sans-serif;font-size:14px;
         color:${BBW.textMid};line-height:1.75;">${p}</p>`
   ).join('');
 }
 
 function cCTA(label, url, color) {
-  const bg = color || `linear-gradient(135deg,${BBW.rose} 0%,${BBW.plum} 100%)`;
+  const bg = color || BBW.rose;
   return `
-<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:28px 0 8px;">
+<table cellpadding="0" cellspacing="0" role="presentation" style="margin:18px 0 8px;">
   <tr>
-    <td align="center">
+    <td align="left">
       <a href="${url}" target="_blank"
-         style="display:inline-block;padding:16px 48px;border-radius:50px;
-                background:${bg};font-family:Arial,sans-serif;font-size:15px;
-                font-weight:700;color:#fff;text-decoration:none;letter-spacing:0.04em;
-                box-shadow:0 6px 24px rgba(192,56,94,0.38);">
-        ${label}
+         style="display:inline-block;padding:14px 34px;border-radius:8px;
+                background:${bg};font-family:Arial,sans-serif;font-size:13px;
+                font-weight:700;color:#fff;text-decoration:none;letter-spacing:0.05em;text-transform:uppercase;">
+        ${label} &nbsp;&rsaquo;
       </a>
     </td>
   </tr>
@@ -659,27 +714,61 @@ function cCTA(label, url, color) {
 }
 
 function cDivider() {
-  return `<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:24px 0;">
+  return `<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:22px 0;">
   <tr>
-    <td style="height:1px;background:linear-gradient(90deg,transparent,rgba(192,56,94,0.25),rgba(201,150,62,0.25),transparent);"></td>
+    <td style="height:1px;background:linear-gradient(90deg,transparent,rgba(224,53,111,0.22),rgba(201,150,62,0.22),transparent);"></td>
+  </tr>
+</table>`;
+}
+
+// ── "You are enough" style accent box, used on the right of the intro ──
+function cAccentBox(line1, scriptWord, line2) {
+  return `
+  <p style="margin:0 0 8px;font-size:26px;color:${BBW.dark};">&#9825;</p>
+  <p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:14px;font-weight:700;
+      color:${BBW.dark};letter-spacing:0.10em;">${line1}</p>
+  <p style="margin:0 0 2px;font-family:Georgia,serif;font-style:italic;font-size:34px;color:${BBW.roseDeep};">${scriptWord}</p>
+  <p style="margin:8px 0 0;font-family:Arial,sans-serif;font-size:13px;font-weight:700;
+      color:${BBW.dark};letter-spacing:0.10em;">${line2}</p>`;
+}
+
+// ── 4-icon benefits grid (Self Love / Confidence / Exclusive Offers / Community style) ──
+function cBenefitsGrid(items) {
+  return `
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" class="egrid" style="margin:8px 0 4px;background:${BBW.pinkSoft};border-radius:14px;">
+  <tr>
+    <td style="padding:26px 18px;">
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          ${items.map(it => `
+          <td style="text-align:center;vertical-align:top;padding:0 6px;">
+            <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto 10px;">
+              <tr><td style="width:54px;height:54px;border-radius:50%;background:#ffffff;text-align:center;vertical-align:middle;font-size:22px;line-height:54px;">${it.icon}</td></tr>
+            </table>
+            <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;color:${BBW.roseDeep};letter-spacing:0.04em;text-transform:uppercase;">${it.title}</p>
+            <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;color:${BBW.textMid};line-height:1.5;">${it.text}</p>
+          </td>`).join('')}
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>`;
 }
 
 function cHighlightBox(icon, title, text, color) {
-  const bg = color || '#fdf0f3';
-  const bd = `rgba(192,56,94,0.18)`;
+  const bg = color || BBW.pinkSoft;
+  const bd = `rgba(224,53,111,0.18)`;
   return `
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-       style="margin:0 0 14px;border-radius:14px;overflow:hidden;background:${bg};border:1px solid ${bd};">
+       style="margin:0 0 12px;border-radius:14px;overflow:hidden;background:${bg};border:1px solid ${bd};">
   <tr>
-    <td style="padding:18px 20px;">
+    <td style="padding:16px 18px;">
       <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
-          <td width="36" style="vertical-align:top;padding-top:2px;font-size:22px;">${icon}</td>
-          <td style="padding-left:12px;">
-            <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">${title}</p>
-            <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};line-height:1.55;">${text}</p>
+          <td width="32" style="vertical-align:top;padding-top:2px;font-size:20px;">${icon}</td>
+          <td style="padding-left:10px;">
+            <p style="margin:0 0 3px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">${title}</p>
+            <p style="margin:0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};line-height:1.55;">${text}</p>
           </td>
         </tr>
       </table>
@@ -692,7 +781,7 @@ function cOrderItem(item) {
   return `
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
        style="margin-bottom:10px;border-radius:12px;overflow:hidden;
-              background:#fdf8f3;border:1px solid rgba(201,150,62,0.18);">
+              background:#fff;border:1px solid rgba(224,53,111,0.16);">
   <tr>
     ${item.image ? `
     <td width="70" style="padding:0;vertical-align:top;">
@@ -705,8 +794,8 @@ function cOrderItem(item) {
       ${item.size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">Size: ${item.size}</p>`  : ''}
       ${item.color ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">Color: ${item.color}</p>` : ''}
       <p style="margin:4px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">
-        Qty: ${item.quantity} &nbsp;·&nbsp;
-        <span style="color:${BBW.rose};font-weight:700;">$${parseFloat(item.price * item.quantity).toFixed(2)}</span>
+        Qty: ${item.quantity} &nbsp;&middot;&nbsp;
+        <span style="color:${BBW.roseDeep};font-weight:700;">$${parseFloat(item.price * item.quantity).toFixed(2)}</span>
       </p>
     </td>
   </tr>
@@ -925,29 +1014,33 @@ async function composeWelcome(firstName, settings) {
   const copy = await genWelcomeCopy(name);
 
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Hey ${name} 👋</p>
     ${cParagraphs(copy)}
-    ${cDivider()}
-    <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
-      What's waiting for you:
+    ${cCTA('Explore Now', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+
+  const accentBox = cAccentBox('YOU ARE', 'enough', 'JUST AS YOU ARE.');
+
+  const benefits = cBenefitsGrid([
+    { icon: '&#9825;', title: 'Self Love',        text: 'Embrace who you are and love every inch.' },
+    { icon: '&#9819;', title: 'Confidence',        text: 'Walk in your power every single day.' },
+    { icon: '&#127873;', title: 'Exclusive Offers', text: 'Enjoy special deals just for you.' },
+    { icon: '&#128101;', title: 'Community',       text: 'Join a community that celebrates you.' },
+  ]);
+
+  const fullBody = `
+    <p style="margin:0 0 14px;font-family:Arial,sans-serif;font-size:14px;color:${BBW.textMid};line-height:1.75;">
+      Thank you for being part of the BBW4LIFE community. We celebrate real beauty, self-love, and confidence in every curve.
     </p>
-    ${cHighlightBox('👗', 'Plus-Size Fashion', 'Hundreds of styles designed with your body in mind — dresses, tops, shoes, and more.')}
-    ${cHighlightBox('💄', 'Beauty & Lifestyle', 'Products that make you feel as beautiful as you are.', '#fdf8f0')}
-    ${cHighlightBox('❤️', 'A Community That Gets It', 'Real women, real stories, real support.', '#f0f8fd')}
-    ${cCTA('Explore the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${bodyHTML}`;
 
   return {
     subject: `Welcome to BBW4LIFE, ${name}! Beauty Has No Sizes 👑`,
     html: masterTemplate({
       preheader:    `You're officially part of the BBW4LIFE family — and we built this for exactly you.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 40%,${BBW.rose} 80%,${BBW.gold} 100%)`,
-      topBadge:     'Welcome to the family',
-      headline:     'You made it. 👑',
-      subHeadline:  'BBW4LIFE was built for women exactly like you.',
-      bodyHTML,
+      topBadge:     'CONFIDENCE &middot; BEAUTY &middot; EMPOWERMENT',
+      headline:     `LOVE YOUR <span style="color:${BBW.rose};">CURVES.</span><br>LIVE YOUR BEST LIFE.`,
+      bodyHTML:     fullBody + benefits,
       settings,
-      showCEO:      true,
+      accentBox,
     }),
   };
 }
@@ -960,43 +1053,37 @@ async function composeOrderConfirm(data, settings) {
 
   const itemsHTML = items.map(item => cOrderItem(item)).join('');
 
+  const accentBox = cAccentBox('ORDER', 'confirmed', `#${orderId || 'BBW4LIFE'}`);
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Order Confirmed ✅</p>
     ${cParagraphs(copy)}
     ${cDivider()}
-    <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
-      Your Order — <span style="color:${BBW.rose};">#${orderId || 'BBW4LIFE'}</span>
+    <p style="margin:0 0 12px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">
+      Your Order — <span style="color:${BBW.roseDeep};">#${orderId || 'BBW4LIFE'}</span>
     </p>
     ${itemsHTML}
     ${total ? `
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="margin-top:14px;padding:14px;background:#fdf8f3;border-radius:10px;border:1px solid rgba(201,150,62,0.18);">
+           style="margin-top:12px;padding:14px;background:${BBW.pinkSoft};border-radius:10px;">
       <tr>
-        <td style="font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">Total</td>
-        <td style="text-align:right;font-family:Georgia,serif;font-size:17px;font-weight:700;color:${BBW.rose};">$${parseFloat(total).toFixed(2)}</td>
+        <td style="font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">Total</td>
+        <td style="text-align:right;font-family:Georgia,serif;font-size:16px;font-weight:700;color:${BBW.roseDeep};">$${parseFloat(total).toFixed(2)}</td>
       </tr>
     </table>` : ''}
     ${shippingAddress ? `
     ${cDivider()}
-    <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">Shipping to:</p>
-    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};line-height:1.6;">${shippingAddress}</p>` : ''}
-    ${cDivider()}
-    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.6;">
-      You'll receive a tracking number by email as soon as your order ships.<br>
-      Questions? Reply to this email — we're always here.
-    </p>`;
+    <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:13px;font-weight:700;color:${BBW.dark};">Shipping to:</p>
+    <p style="margin:0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};line-height:1.6;">${shippingAddress}</p>` : ''}`;
 
   return {
     subject: `Order Confirmed! Your BBW4LIFE order is being prepared 🛍️`,
     html: masterTemplate({
       preheader:    `Your order has been confirmed — we're already preparing it with care.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 60%,${BBW.gold} 100%)`,
-      topBadge:     'Order Confirmed',
-      headline:     'Thank you for your order! 🛍️',
-      subHeadline:  'We\'re preparing your package with love.',
+      topBadge:     'ORDER CONFIRMED',
+      headline:     `THANK YOU FOR YOUR <span style="color:${BBW.rose};">ORDER!</span>`,
       bodyHTML,
       settings,
+      accentBox,
     }),
   };
 }
@@ -1007,30 +1094,16 @@ async function composeOrderTracking(data, settings) {
   const name = firstName || lastName || 'Beautiful';
   const copy = await genTrackingCopy(name);
 
+  const accentBox = `
+    <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;color:${BBW.textLight};text-transform:uppercase;letter-spacing:0.10em;">Tracking Number</p>
+    <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:22px;font-weight:700;color:${BBW.roseDeep};letter-spacing:0.05em;">${trackingNumber}</p>
+    ${carrier ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};">Carrier: ${carrier}</p>` : ''}`;
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Your Order Is On Its Way 🚚</p>
     ${cParagraphs(copy)}
+    ${cCTA('Track My Order', data.trackingUrl || `${BASE_URL}/page/order-tracking.html`)}
     ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="margin:0 0 20px;border-radius:16px;overflow:hidden;
-                  background:linear-gradient(135deg,${BBW.dark2},${BBW.plum});
-                  border:1px solid rgba(201,150,62,0.28);">
-      <tr>
-        <td style="padding:28px;text-align:center;">
-          <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.12em;">
-            Tracking Number
-          </p>
-          <p style="margin:0 0 10px;font-family:Georgia,serif;font-size:28px;font-weight:700;
-              color:${BBW.goldL};letter-spacing:0.10em;">${trackingNumber}</p>
-          ${carrier ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Carrier: ${carrier}</p>` : ''}
-        </td>
-      </tr>
-    </table>
-    ${cCTA('Track My Order →', data.trackingUrl || `${BASE_URL}/page/order-tracking.html`)}
-    ${cDivider()}
-    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
+    <p style="margin:0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textLight};">
       Order: <strong style="color:${BBW.dark};">#${orderId || 'BBW4LIFE'}</strong>
     </p>`;
 
@@ -1038,12 +1111,11 @@ async function composeOrderTracking(data, settings) {
     subject: `Your BBW4LIFE order is on its way! 🚚 Tracking: ${trackingNumber}`,
     html: masterTemplate({
       preheader:    `Your order has shipped — here's your tracking number: ${trackingNumber}`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Order Shipped',
-      headline:     'Your order is on its way! 🚚',
-      subHeadline:  'Track your package and watch the magic happen.',
+      topBadge:     'ORDER SHIPPED',
+      headline:     `YOUR ORDER IS <span style="color:${BBW.rose};">ON ITS WAY!</span>`,
       bodyHTML,
       settings,
+      accentBox,
     }),
   };
 }
@@ -1055,47 +1127,31 @@ async function composeNewsletter1(firstName, settings) {
   const promos = (settings.promos || []);
   const promo  = promos[0];
 
+  const accentBox = promo
+    ? cAccentBox('WELCOME GIFT', promo.code, `${promo.percent}% OFF`)
+    : cAccentBox('YOU ARE', 'enough', 'JUST AS YOU ARE.');
+
+  const benefits = cBenefitsGrid([
+    { icon: '&#128161;', title: 'Weekly Tips',     text: 'Style and wellness tips for curvy women.' },
+    { icon: '&#127873;', title: 'Exclusive Deals',  text: 'Subscriber-only codes before they go public.' },
+    { icon: '&#10024;',  title: 'New Arrivals',     text: 'You\'ll always be the first to know.' },
+    { icon: '&#128170;', title: 'Real Stories',     text: 'Success stories from our community.' },
+  ]);
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Subscription Confirmed ✓</p>
     ${cParagraphs(copy)}
-    ${cDivider()}
-    <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
-      Here's what's coming your way:
-    </p>
-    ${cHighlightBox('💡', 'Weekly Tips', 'Style and wellness tips built for real curvy women.')}
-    ${cHighlightBox('🎁', 'Exclusive Deals', 'Subscriber-only discount codes before they go public.', '#fdf8f0')}
-    ${cHighlightBox('✨', 'New Arrivals First', 'You\'ll always be the first to know.', '#f0f8fd')}
-    ${cHighlightBox('💪', 'Real Stories', 'Success stories from women in our community.', '#f0fff4')}
-    ${promo ? `
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:16px;overflow:hidden;background:linear-gradient(135deg,${BBW.dark2},${BBW.rose});">
-      <tr>
-        <td style="padding:24px;text-align:center;">
-          <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 Welcome Gift</p>
-          <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:32px;font-weight:700;
-              color:${BBW.goldL};letter-spacing:0.10em;">${promo.code}</p>
-          <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">
-            ${promo.percent}% off — ${promo.items} items or more
-          </p>
-        </td>
-      </tr>
-    </table>` : ''}
-    ${cCTA('Discover the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${benefits}
+    ${cCTA('Discover The Shop', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
     subject: `You're in! Welcome to the BBW4LIFE family 💕`,
     html: masterTemplate({
       preheader:    `Your subscription is confirmed — exclusive tips, deals, and real stories incoming.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 55%,${BBW.gold} 100%)`,
-      topBadge:     'Newsletter Confirmed',
-      headline:     "You're officially inside. 💕",
-      subHeadline:  'The best of BBW4LIFE, delivered to your inbox.',
+      topBadge:     'NEWSLETTER CONFIRMED',
+      headline:     `YOU'RE OFFICIALLY <span style="color:${BBW.rose};">INSIDE.</span>`,
       bodyHTML,
       settings,
-      showCEO:      true,
+      accentBox,
     }),
   };
 }
@@ -1106,43 +1162,26 @@ async function composeNewsletter2(firstName, settings) {
   const copy = await genNewsletter2Copy(name);
   const support = (settings.contact_emails || {}).general || 'support@bbw4life.com';
 
+  const accentBox = `
+    <p style="margin:0 0 8px;font-size:24px;">&#128172;</p>
+    <p style="margin:0 0 10px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">We'd love to hear from you</p>
+    <a href="mailto:${support}" style="display:inline-block;padding:10px 24px;border-radius:8px;
+       background:${BBW.rose};font-family:Arial,sans-serif;font-size:12px;font-weight:700;
+       color:#fff;text-decoration:none;">Reply Now &rsaquo;</a>`;
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Checking In 💬</p>
     ${cParagraphs(copy)}
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:14px;overflow:hidden;background:#fdf0f3;border:1px solid rgba(192,56,94,0.15);">
-      <tr>
-        <td style="padding:22px;text-align:center;">
-          <p style="margin:0 0 6px;font-size:28px;">💬</p>
-          <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">
-            We'd love to hear from you
-          </p>
-          <p style="margin:0 0 14px;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};">
-            Simply reply to this email or contact us anytime.
-          </p>
-          <a href="mailto:${support}" style="display:inline-block;padding:10px 28px;border-radius:40px;
-             background:${BBW.rose};font-family:Arial,sans-serif;font-size:13px;
-             font-weight:700;color:#fff;text-decoration:none;">
-            Reply Now →
-          </a>
-        </td>
-      </tr>
-    </table>
-    ${cCTA('Browse the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${cCTA('Browse The Shop', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
     subject: `Hey ${name}, how's your BBW4LIFE experience so far? 💬`,
     html: masterTemplate({
       preheader:    `We'd love to hear from you — your feedback shapes everything we do.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Just Checking In',
-      headline:     "How's it going? 💬",
-      subHeadline:  'Your feedback genuinely shapes what we do.',
+      topBadge:     'JUST CHECKING IN',
+      headline:     `HOW'S IT <span style="color:${BBW.rose};">GOING?</span>`,
       bodyHTML,
       settings,
-      showCEO:      true,
+      accentBox,
     }),
   };
 }
@@ -1154,42 +1193,31 @@ async function composeNewsletter3(firstName, settings) {
   const promos = settings.promos || [];
   const promo  = promos[1] || promos[0];
 
+  const accentBox = promo
+    ? cAccentBox('FOR YOU', promo.code, `${promo.percent}% OFF`)
+    : cAccentBox('CUSTOMER', 'favorites', 'CHOSEN BY YOU.');
+
+  const benefits = cBenefitsGrid([
+    { icon: '&#128717;&#65039;', title: 'Bundle Deals',  text: 'Buy more, save more — built for smart shoppers.' },
+    { icon: '&#11088;',          title: 'Favorites',      text: 'The pieces our community loves most.' },
+    { icon: '&#128293;',         title: 'Flash Deals',    text: 'Limited promos — stay subscribed to catch them.' },
+    { icon: '&#9825;',           title: 'Made For You',   text: 'Every piece chosen with real women in mind.' },
+  ]);
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Special For You 💕</p>
     ${cParagraphs(copy)}
-    ${cDivider()}
-    ${cHighlightBox('🛍️', 'Bundle Deals', 'Buy multiple items and save more — designed to reward women who shop smart.')}
-    ${cHighlightBox('⭐', 'Customer Favorites', 'The pieces our community loves most, voted by real women.', '#fdf8f0')}
-    ${cHighlightBox('🔥', 'Limited Promotions', 'Flash deals that come and go — stay subscribed to never miss one.', '#f0f8fd')}
-    ${promo ? `
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:16px;overflow:hidden;background:linear-gradient(135deg,${BBW.plum},${BBW.rose});">
-      <tr>
-        <td style="padding:22px;text-align:center;">
-          <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">💕 For Our Subscribers</p>
-          <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:28px;font-weight:700;
-              color:${BBW.goldL};letter-spacing:0.10em;">${promo.code}</p>
-          <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">
-            ${promo.percent}% off — ${promo.items} items or more
-          </p>
-        </td>
-      </tr>
-    </table>` : ''}
-    ${cCTA('Shop Our Favorites →', `${BASE_URL}/collections/most-popular.html`)}`;
+    ${benefits}
+    ${cCTA('Shop Our Favorites', `${BASE_URL}/collections/most-popular.html`)}`;
 
   return {
     subject: `${name}, these are our customers' favorites 🔥`,
     html: masterTemplate({
       preheader:    `Bundles, favorites, and exclusive promotions — all waiting for you.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 45%,${BBW.plum} 100%)`,
-      topBadge:     'Community Favorites',
-      headline:     "You deserve the best. 🔥",
-      subHeadline:  'Bundles, promotions, and our community\'s top picks.',
+      topBadge:     'COMMUNITY FAVORITES',
+      headline:     `YOU DESERVE <span style="color:${BBW.rose};">THE BEST.</span>`,
       bodyHTML,
       settings,
+      accentBox,
     }),
   };
 }
@@ -1199,27 +1227,23 @@ async function composeNewsletter4Buyer(firstName, settings) {
   const name = firstName || 'Beautiful';
   const copy = await genNewsletter4BuyerCopy(name);
 
+  const accentBox = cAccentBox('THANK', 'you', 'FOR TRUSTING US.');
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Thank You 💕</p>
     ${cParagraphs(copy)}
-    ${cDivider()}
-    ${cHighlightBox('⭐', 'Share Your Experience', 'Your review helps other women feel confident in their choices.')}
-    ${cHighlightBox('🛍️', 'Shop More', 'New arrivals added regularly — there\'s always something new waiting for you.', '#fdf8f0')}
-    ${cCTA('Leave a Review →', `${BASE_URL}/collections/bbw4life-all-product.html`)}
-    ${cCTA('Shop New Arrivals →', `${BASE_URL}/collections/bbw4life-all-product.html`, `linear-gradient(135deg,${BBW.gold},${BBW.rose})`)}`;
+    ${cHighlightBox('&#11088;', 'Share Your Experience', 'Your review helps other women feel confident in their choices.')}
+    ${cHighlightBox('&#128717;&#65039;', 'Shop More', 'New arrivals added regularly.', BBW.pinkBg)}
+    ${cCTA('Leave A Review', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
     subject: `Thank you for your trust, ${name} 💕`,
     html: masterTemplate({
       preheader:    `We appreciate you and we'd love to hear about your experience.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.gold} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Customer Appreciation',
-      headline:     "Thank you for trusting us. 💕",
-      subHeadline:  'Your experience matters to us more than anything.',
+      topBadge:     'CUSTOMER APPRECIATION',
+      headline:     `THANK YOU FOR <span style="color:${BBW.rose};">TRUSTING US.</span>`,
       bodyHTML,
       settings,
-      showCEO:      true,
+      accentBox,
     }),
   };
 }
@@ -1231,44 +1255,23 @@ async function composeNewsletter4New(firstName, settings) {
   const promos = settings.promos || [];
   const promo  = promos[0];
 
+  const accentBox = promo
+    ? cAccentBox('EXCLUSIVE GIFT', promo.code, `${promo.percent}% OFF`)
+    : cAccentBox('A GIFT', 'for you', 'JUST BECAUSE.');
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">A Special Gift For You 🎁</p>
     ${cParagraphs(copy)}
-    ${promo ? `
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:16px;overflow:hidden;
-                  background:linear-gradient(135deg,${BBW.dark2},${BBW.rose},${BBW.gold});">
-      <tr>
-        <td style="padding:28px;text-align:center;">
-          <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 Exclusive Subscriber Offer</p>
-          <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:34px;font-weight:700;
-              color:${BBW.goldL};letter-spacing:0.12em;">${promo.code}</p>
-          <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.78);">
-            ${promo.percent}% off — ${promo.items} items or more
-          </p>
-        </td>
-      </tr>
-    </table>` : ''}
-    ${cCTA('Use My Discount →', `${BASE_URL}/collections/bbw4life-all-product.html`)}
-    ${cDivider()}
-    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
-      Beauty Has No Sizes — and neither does this offer. 👑
-    </p>`;
+    ${cCTA('Use My Discount', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
     subject: `${name}, here's an exclusive gift just for you 🎁`,
     html: masterTemplate({
       preheader:    `We prepared something special for you — an exclusive discount waiting inside.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Exclusive Offer',
-      headline:     "This is just for you. 🎁",
-      subHeadline:  'A special gift from the BBW4LIFE family.',
+      topBadge:     'EXCLUSIVE OFFER',
+      headline:     `THIS IS <span style="color:${BBW.rose};">JUST FOR YOU.</span>`,
       bodyHTML,
       settings,
-      showCEO:      true,
+      accentBox,
     }),
   };
 }
@@ -1281,41 +1284,26 @@ async function composeContactReply(data, settings) {
   const support = (settings.contact_emails || {}).general || 'support@bbw4life.com';
   const whatsapp = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
 
-  const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Message Received ✅</p>
-    ${cParagraphs(copy)}
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:14px;overflow:hidden;background:#fdf0f3;border:1px solid rgba(192,56,94,0.15);">
-      <tr>
-        <td style="padding:20px;">
-          <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">
-            Your message details:
-          </p>
-          ${msgSubject ? `<p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};"><strong>Subject:</strong> ${msgSubject}</p>` : ''}
-          ${category   ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textMid};"><strong>Category:</strong> ${category}</p>` : ''}
-        </td>
-      </tr>
-    </table>
-    ${cDivider()}
-    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.7;">
-      Need urgent help?<br>
-      <a href="mailto:${support}" style="color:${BBW.rose};font-weight:700;text-decoration:none;">${support}</a>
-      &nbsp;·&nbsp;
-      <a href="${whatsapp}" target="_blank" style="color:${BBW.rose};font-weight:700;text-decoration:none;">WhatsApp Us</a>
+  const accentBox = `
+    <p style="margin:0 0 8px;font-size:24px;">&#9989;</p>
+    ${msgSubject ? `<p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};"><strong>Subject:</strong> ${msgSubject}</p>` : ''}
+    ${category   ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};"><strong>Category:</strong> ${category}</p>` : ''}
+    <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:11px;color:${BBW.textLight};">
+      <a href="mailto:${support}" style="color:${BBW.roseDeep};font-weight:700;text-decoration:none;">${support}</a><br>
+      <a href="${whatsapp}" target="_blank" style="color:${BBW.roseDeep};font-weight:700;text-decoration:none;">WhatsApp Us</a>
     </p>`;
+
+  const bodyHTML = `${cParagraphs(copy)}`;
 
   return {
     subject: `We received your message — BBW4LIFE Support ✅`,
     html: masterTemplate({
       preheader:    `Your message has been received — our team will respond within 24-48 hours.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%)`,
-      topBadge:     'Support',
-      headline:     'Message received! ✅',
-      subHeadline:  'Our team will respond within 24 to 48 hours.',
+      topBadge:     'SUPPORT',
+      headline:     `MESSAGE <span style="color:${BBW.rose};">RECEIVED!</span>`,
       bodyHTML,
       settings,
+      accentBox,
     }),
   };
 }
@@ -1326,39 +1314,25 @@ async function composePlanRequest(data, settings) {
   const name = firstName || lastName || 'Beautiful';
   const copy = await genPlanRequestCopy(name, program);
 
+  const accentBox = `
+    <p style="margin:0 0 8px;font-size:26px;">&#9203;</p>
+    <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">${program}</p>
+    ${size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};">Size: ${size}</p>` : ''}
+    ${color ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};">Color: ${color}</p>` : ''}`;
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Request Received ✅</p>
     ${cParagraphs(copy)}
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:14px;overflow:hidden;
-                  background:linear-gradient(135deg,${BBW.dark2},${BBW.plum});
-                  border:1px solid rgba(201,150,62,0.28);">
-      <tr>
-        <td style="padding:24px;text-align:center;">
-          <p style="margin:0 0 6px;font-size:32px;">⏳</p>
-          <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">${program}</p>
-          ${size  ? `<p style="margin:0 0 2px;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Size: ${size}</p>` : ''}
-          ${color ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);">Color: ${color}</p>` : ''}
-          <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.goldL};">
-            Our team will be in touch soon.
-          </p>
-        </td>
-      </tr>
-    </table>
-    ${cCTA('Browse the Shop →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${cCTA('Browse The Shop', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
     subject: `Your BBW4LIFE product request has been received! ⏳`,
     html: masterTemplate({
       preheader:    `We've received your request for ${program} — our team will review it soon.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Request Confirmed',
-      headline:     "We've got your request! ⏳",
-      subHeadline:  'Our team is on it — we\'ll be in touch very soon.',
+      topBadge:     'REQUEST CONFIRMED',
+      headline:     `WE'VE GOT <span style="color:${BBW.rose};">YOUR REQUEST!</span>`,
       bodyHTML,
       settings,
+      accentBox,
     }),
   };
 }
@@ -1369,46 +1343,26 @@ async function composeCustomProduct(data, settings) {
   const name = firstname || lastname || 'Beautiful';
   const copy = await genCustomProductCopy(name, product_title);
 
-  const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Design Request Received 🎨</p>
-    ${cParagraphs(copy)}
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:14px;overflow:hidden;
-                  background:linear-gradient(135deg,${BBW.dark2},${BBW.rose});
-                  border:1px solid rgba(201,150,62,0.28);">
-      <tr>
-        <td style="padding:24px;text-align:center;">
-          <p style="margin:0 0 6px;font-size:32px;">🎨</p>
-          <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;">
-            ${product_title || 'Your Custom Product'}
-          </p>
-          ${product_desc ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5;">${product_desc.substring(0, 100)}${product_desc.length > 100 ? '...' : ''}</p>` : ''}
-          <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.goldL};">
-            Our design team will review your idea.
-          </p>
-        </td>
-      </tr>
-    </table>
-    ${cDivider()}
-    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;line-height:1.7;">
-      We evaluate every personalized product request carefully.<br>
-      If your idea becomes a product, you'll be the first to know. 👑
+  const accentBox = `
+    <p style="margin:0 0 8px;font-size:26px;">&#127912;</p>
+    <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">
+      ${product_title || 'Your Custom Product'}
     </p>
-    ${cCTA('Explore Existing Products →', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
+    ${product_desc ? `<p style="margin:0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};line-height:1.5;">${product_desc.substring(0, 100)}${product_desc.length > 100 ? '...' : ''}</p>` : ''}`;
+
+  const bodyHTML = `
+    ${cParagraphs(copy)}
+    ${cCTA('Explore Existing Products', `${BASE_URL}/collections/bbw4life-all-product.html`)}`;
 
   return {
     subject: `Your personalized product request is with our design team! 🎨`,
     html: masterTemplate({
       preheader:    `Your custom product idea has been received — our design team is reviewing it.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.plum} 100%)`,
-      topBadge:     'Design Request',
-      headline:     "We love your vision! 🎨",
-      subHeadline:  'Our design team will review your personalized product idea.',
+      topBadge:     'DESIGN REQUEST',
+      headline:     `WE LOVE <span style="color:${BBW.rose};">YOUR VISION!</span>`,
       bodyHTML,
       settings,
-      showCEO:      true,
+      accentBox,
     }),
   };
 }
@@ -1422,50 +1376,27 @@ async function composeCartAbandoned(data, settings) {
   const itemsHTML = items.map(item => cOrderItem(item)).join('');
   const finalRestartLink = restartLink || `${BASE_URL}/checkout.html`;
 
+  const accentBox = promoCode
+    ? cAccentBox('A GIFT', promoCode, promoPercent ? `${promoPercent}% OFF` : 'FOR YOU')
+    : cAccentBox('YOUR CART', 'is waiting', 'COME BACK.');
+
   const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Your Cart Is Waiting 🛍️</p>
     ${cParagraphs(copy)}
     ${itemsHTML ? `
     ${cDivider()}
-    <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">
-      Still in your cart:
-    </p>
+    <p style="margin:0 0 12px;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">Still in your cart:</p>
     ${itemsHTML}` : ''}
-    ${promoCode ? `
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:16px;overflow:hidden;
-                  background:linear-gradient(135deg,${BBW.dark2},${BBW.rose},${BBW.gold});">
-      <tr>
-        <td style="padding:28px;text-align:center;">
-          <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 A Little Gift For You</p>
-          <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:34px;font-weight:700;
-              color:${BBW.goldL};letter-spacing:0.12em;">${promoCode}</p>
-          <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.78);">
-            ${promoPercent ? `${promoPercent}% off your order` : 'Exclusive discount'}
-          </p>
-        </td>
-      </tr>
-    </table>` : ''}
-    ${cCTA('Restart My Order →', finalRestartLink)}
-    ${cDivider()}
-    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};text-align:center;">
-      Beauty Has No Sizes — and your spot in the BBW4LIFE family is still waiting. 👑
-    </p>`;
+    ${cCTA('Restart My Order', finalRestartLink)}`;
 
   return {
     subject: `${name}, you left something beautiful behind 🛍️`,
     html: masterTemplate({
       preheader:    `Your cart is saved and waiting — plus a little gift to welcome you back.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`,
-      topBadge:     'Cart Saved For You',
-      headline:     "Don't forget this. 🛍️",
-      subHeadline:  'Your items are exactly where you left them.',
+      topBadge:     'CART SAVED FOR YOU',
+      headline:     `DON'T FORGET <span style="color:${BBW.rose};">THIS.</span>`,
       bodyHTML,
       settings,
-      showCEO:      true,
+      accentBox,
     }),
   };
 }
@@ -1482,35 +1413,15 @@ async function composeReviewResponse(data, settings) {
     : null;
 
   const copy = await genReviewResponseCopy(name, title, text, productName, sentiment, promo, settings);
-
-  const promoBlock = (sentiment === 'positive' && promo) ? `
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:16px;overflow:hidden;
-                  background:linear-gradient(135deg,${BBW.dark2},${BBW.rose},${BBW.gold});">
-      <tr>
-        <td style="padding:26px;text-align:center;">
-          <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;
-              color:rgba(255,255,255,0.60);text-transform:uppercase;letter-spacing:0.12em;">🎁 Your Thank-You Gift</p>
-          <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:32px;font-weight:700;
-              color:${BBW.goldL};letter-spacing:0.12em;">${promo.code}</p>
-          <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.78);">
-            ${promo.percent}% off — ${promo.items} items or more
-          </p>
-        </td>
-      </tr>
-    </table>
-    ${cCTA('Shop Now →', `${BASE_URL}/collections/bbw4life-all-product.html`)}` : '';
-
-  const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">
-        ${sentiment === 'positive' ? 'Thank You 💕' : 'We\'re Sorry 💙'}
-    </p>
-    ${cParagraphs(copy)}
-    ${promoBlock}`;
-
   const isPositive = sentiment === 'positive';
+
+  const accentBox = isPositive
+    ? (promo ? cAccentBox('THANK', 'you', `CODE ${promo.code}`) : cAccentBox('THANK', 'you', 'FOR SHARING.'))
+    : `<p style="margin:0 0 8px;font-size:26px;">&#128150;</p><p style="margin:0;font-family:Georgia,serif;font-size:14px;font-weight:700;color:${BBW.dark};">We're listening.</p>`;
+
+  const bodyHTML = `${cParagraphs(copy)}
+  ${isPositive && promo ? cCTA('Shop Now', `${BASE_URL}/collections/bbw4life-all-product.html`) : ''}`;
+
   return {
     subject: isPositive
       ? `Thank you for your review, ${name}! 💕 Here's a gift for you`
@@ -1519,17 +1430,13 @@ async function composeReviewResponse(data, settings) {
       preheader:   isPositive
         ? `Your review made our day — here's a little thank-you gift just for you.`
         : `We read your review and we want to make this right for you.`,
-      headerGrad:  isPositive
-        ? `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.rose} 50%,${BBW.gold} 100%)`
-        : `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 60%,${BBW.rose} 100%)`,
-      topBadge:    isPositive ? 'Review Appreciated' : 'We Hear You',
-      headline:    isPositive ? 'You made our day! 💕' : 'We\'re truly sorry. 💙',
-      subHeadline: isPositive
-        ? 'Thank you for sharing your experience with us.'
-        : 'Your experience matters — let\'s fix this together.',
+      topBadge:    isPositive ? 'REVIEW APPRECIATED' : 'WE HEAR YOU',
+      headline:    isPositive
+        ? `YOU MADE <span style="color:${BBW.rose};">OUR DAY!</span>`
+        : `WE'RE TRULY <span style="color:${BBW.rose};">SORRY.</span>`,
       bodyHTML,
       settings,
-      showCEO: true,
+      accentBox,
     }),
   };
 }
@@ -1541,49 +1448,28 @@ async function composeStoryReceived(data, settings) {
   const name = firstName || 'Beautiful';
   const copy = await genStoryReceivedCopy(name);
 
-  const bodyHTML = `
-    <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;
-        color:${BBW.rose};letter-spacing:0.08em;text-transform:uppercase;">Story Received 💕</p>
-    ${cParagraphs(copy)}
-    ${cDivider()}
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-           style="border-radius:16px;overflow:hidden;
-                  background:linear-gradient(135deg,${BBW.dark2} 0%,${BBW.plum} 50%,${BBW.rose} 100%);
-                  border:1px solid rgba(201,150,62,0.28);">
-      <tr>
-        <td style="padding:32px;text-align:center;">
-          <p style="margin:0 0 8px;font-size:40px;">💌</p>
-          <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:18px;font-weight:700;
-              color:#fff;letter-spacing:0.03em;">Your story is in our hands.</p>
-          <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;
-              color:rgba(255,255,255,0.70);line-height:1.6;">
-            Once approved, it will be visible on our<br>
-            <strong style="color:${BBW.goldL};">Our Story</strong> page — for every woman who needs it.
-          </p>
-        </td>
-      </tr>
-    </table>
-    ${cDivider()}
-    ${cHighlightBox('👑', 'Beauty Has No Sizes', 'Every story shared here makes this community stronger. Thank you for being part of it.')}
-    ${cHighlightBox('🔍', 'Review Process', 'Our team reads every submission personally. You\'ll hear from us soon.', '#fdf8f0')}
-    ${cCTA('Read Other Stories →', `${BASE_URL}/page/our-story.html`)}
-    ${cDivider()}
-    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;color:${BBW.textLight};
-        text-align:center;line-height:1.7;">
-      Questions? Just reply to this email — we read everything. 💕
+  const accentBox = `
+    <p style="margin:0 0 8px;font-size:28px;">&#128140;</p>
+    <p style="margin:0 0 6px;font-family:Georgia,serif;font-size:15px;font-weight:700;color:${BBW.dark};">Your story is in our hands.</p>
+    <p style="margin:0;font-family:Arial,sans-serif;font-size:12px;color:${BBW.textMid};line-height:1.5;">
+      Once approved, it will be visible on our <strong style="color:${BBW.roseDeep};">Our Story</strong> page.
     </p>`;
+
+  const bodyHTML = `
+    ${cParagraphs(copy)}
+    ${cHighlightBox('&#128081;', 'Beauty Has No Sizes', 'Every story shared here makes this community stronger.')}
+    ${cHighlightBox('&#128269;', 'Review Process', 'Our team reads every submission personally.', BBW.pinkBg)}
+    ${cCTA('Read Other Stories', `${BASE_URL}/page/our-story.html`)}`;
 
   return {
     subject: `${name}, your story touched our hearts 💕`,
     html: masterTemplate({
       preheader:    `Your BBW4LIFE story has been received — our team will review it and publish it soon.`,
-      headerGrad:   `background:linear-gradient(145deg,${BBW.dark2} 0%,${BBW.plum} 40%,${BBW.rose} 80%,${BBW.gold} 100%)`,
-      topBadge:     'Story Received',
-      headline:     "Your story matters. 💌",
-      subHeadline:  'We\'re honored you shared it with us.',
+      topBadge:     'STORY RECEIVED',
+      headline:     `YOUR STORY <span style="color:${BBW.rose};">MATTERS.</span>`,
       bodyHTML,
       settings,
-      showCEO:      true,
+      accentBox,
     }),
   };
 }
