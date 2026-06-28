@@ -17,5 +17,5 @@
   background = true
 
 [functions.reply-contact-message]
-  schedule = "*/5 * * * *"
+  schedule = "*/1 * * * *"
   background = true
