@@ -17,7 +17,9 @@ const GROQ_MODELS = [
 let modelIdx = 0;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-// ── Brand colors ───────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  BRAND COLORS
+// ════════════════════════════════════════════════════════════════
 const BBW = {
   pink:      '#e8245a',
   pinkDark:  '#c0385e',
@@ -34,7 +36,9 @@ const BBW = {
   goldL:     '#e8bc6a',
 };
 
-// ── Base CSS ───────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  BASE CSS
+// ════════════════════════════════════════════════════════════════
 const BASE_CSS = `
   body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
   table,td{mso-table-lspace:0pt;mso-table-rspace:0pt}
@@ -46,7 +50,6 @@ const BASE_CSS = `
     .ep{padding:24px 16px!important}
     .eh1{font-size:26px!important}
     .elogo{font-size:38px!important}
-    .egrid td{display:block!important;width:100%!important;padding:8px 0!important;text-align:center!important}
     .hide-mobile{display:none!important}
     .hero-img td{width:50%!important}
     .hero-img img{width:160px!important;max-width:160px!important}
@@ -54,7 +57,9 @@ const BASE_CSS = `
   }
 `;
 
-// ── Groq ───────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  GROQ
+// ════════════════════════════════════════════════════════════════
 async function callGroq(userPrompt) {
   for (let attempt = 0; attempt < GROQ_MODELS.length; attempt++) {
     const idx   = (modelIdx + attempt) % GROQ_MODELS.length;
@@ -119,7 +124,9 @@ WRITING RULES:
   return null;
 }
 
-// ── Sheets ─────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  SHEETS
+// ════════════════════════════════════════════════════════════════
 function getSheets() {
   const auth = new google.auth.GoogleAuth({
     credentials: {
@@ -131,7 +138,9 @@ function getSheets() {
   return google.sheets({ version: 'v4', auth });
 }
 
-// ── Settings ───────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  SETTINGS
+// ════════════════════════════════════════════════════════════════
 async function loadSettings() {
   try {
     const res  = await fetch(`${BASE_URL}/products.data.json`);
@@ -145,7 +154,9 @@ async function loadSettings() {
   }
 }
 
-// ── Social icons ───────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  SOCIAL ICONS
+// ════════════════════════════════════════════════════════════════
 function buildSocialIcons(settings) {
   const social = settings.social_links || {};
   const icons  = settings.social_icons  || {};
@@ -191,7 +202,9 @@ function buildSocialIcons(settings) {
 </table>`;
 }
 
-// ── CEO Footer ─────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  CEO FOOTER BLOCK
+// ════════════════════════════════════════════════════════════════
 function buildCEOFooter(settings) {
   const ceo      = settings.founder || settings.ceo || {};
   const support  = (settings.contact_emails || {}).general || 'support@bbw4life.com';
@@ -260,7 +273,9 @@ function buildCEOFooter(settings) {
         <td style="padding:16px 36px;border-top:1px solid rgba(255,255,255,0.07);text-align:center;">
           <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:11px;
               color:rgba(255,255,255,0.30);line-height:1.6;">
-            You are receiving this email because you contacted BBW4LIFE support.<br>
+            You are receiving this email because you contacted the BBW4LIFE support team.<br>
+            No longer want to receive these emails?
+            <a href="${BASE_URL}/unsubscribe" style="color:${BBW.pink};text-decoration:underline;">Unsubscribe</a>
           </p>
           <table cellpadding="0" cellspacing="0" role="presentation" style="margin:10px auto 0;">
             <tr>
@@ -293,8 +308,10 @@ function buildCEOFooter(settings) {
 </tr>`;
 }
 
-// ── Master Template ────────────────────────────────────────────
-function buildEmailHTML(subjectResp, aiBody, settings) {
+// ════════════════════════════════════════════════════════════════
+//  MASTER TEMPLATE — identique à send-email-auto.js
+// ════════════════════════════════════════════════════════════════
+function masterTemplate({ preheader, heroHeadline, heroSubline, bodyHTML, settings }) {
   const founder = settings.founder || settings.ceo || {};
   const heroImg = founder.hero_image
     || 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw.email.png?v=1782613828';
@@ -305,10 +322,6 @@ function buildEmailHTML(subjectResp, aiBody, settings) {
   BBW<span style="color:${BBW.pink};">4</span>LIFE<span style="color:${BBW.pink};font-size:28px;">♡</span>
 </p>
 <div style="width:60px;height:2px;background:${BBW.pink};margin:10px 0 16px;"></div>`;
-
-  const bodyParagraphs = aiBody.split('\n').filter(p => p.trim()).map(p =>
-    `<p style="margin:0 0 18px;font-family:Arial,sans-serif;font-size:15px;color:${BBW.textMid};line-height:1.75;">${p}</p>`
-  ).join('');
 
   return `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -323,7 +336,7 @@ function buildEmailHTML(subjectResp, aiBody, settings) {
 
 <!-- Preheader -->
 <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;color:#f9eef3;line-height:1px;">
-  ${subjectResp} — BBW4LIFE Support&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;
+  ${preheader}&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;
 </div>
 
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -357,11 +370,11 @@ function buildEmailHTML(subjectResp, aiBody, settings) {
                 ${logoHTML}
                 <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:13px;
                     font-weight:700;color:${BBW.white};letter-spacing:0.04em;text-transform:uppercase;">
-                  SUPPORT <span style="color:${BBW.pink};">RESPONSE.</span>
+                  ${heroHeadline || 'SUPPORT <span style="color:' + BBW.pink + ';">REPLY.</span>'}
                 </p>
                 <p style="margin:0 0 24px;font-family:Arial,sans-serif;font-size:13px;
                     font-weight:700;color:rgba(255,255,255,0.75);letter-spacing:0.04em;text-transform:uppercase;">
-                  WE'RE HERE FOR YOU.
+                  ${heroSubline || 'WE\'RE HERE FOR YOU.'}
                 </p>
               </td>
               <!-- Right: Hero image -->
@@ -374,7 +387,7 @@ function buildEmailHTML(subjectResp, aiBody, settings) {
             </tr>
           </table>
 
-          <!-- Wave SVG transition noir → blanc -->
+          <!-- Wave SVG transition -->
           <div style="line-height:0;font-size:0;display:block;overflow:hidden;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 48" width="600" height="48"
                  style="display:block;width:100%;height:auto;" preserveAspectRatio="none">
@@ -387,9 +400,8 @@ function buildEmailHTML(subjectResp, aiBody, settings) {
 
       <!-- BODY -->
       <tr>
-        <td class="ep" style="background:${BBW.white};padding:36px 40px 36px;">
-          ${bodyParagraphs}
-          <div style="height:8px;"></div>
+        <td class="ep" style="background:${BBW.white};padding:36px 40px 32px;">
+          ${bodyHTML}
         </td>
       </tr>
 
@@ -403,7 +415,62 @@ function buildEmailHTML(subjectResp, aiBody, settings) {
 </html>`;
 }
 
-// ── Resend ─────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  COMPOSANTS RÉUTILISABLES
+// ════════════════════════════════════════════════════════════════
+function cParagraphs(text) {
+  if (!text) return '';
+  return text.split('\n').filter(p => p.trim()).map(p =>
+    `<p style="margin:0 0 18px;font-family:Arial,sans-serif;font-size:15px;
+        color:${BBW.textMid};line-height:1.75;">${p}</p>`
+  ).join('');
+}
+
+function cDivider() {
+  return `<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:22px 0;">
+  <tr>
+    <td style="height:1px;background:linear-gradient(90deg,transparent,rgba(232,36,90,0.25),transparent);"></td>
+  </tr>
+</table>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  EMAIL BUILDER
+// ════════════════════════════════════════════════════════════════
+function buildEmailHTML(subjectResp, aiBody, settings) {
+  const support  = (settings.contact_emails || {}).general || 'support@bbw4life.com';
+  const whatsapp = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
+
+  const bodyHTML = `
+    <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:26px;
+        font-weight:700;color:${BBW.textDark};font-style:italic;">Hello ♡</p>
+    <p style="margin:0 0 22px;font-family:Arial,sans-serif;font-size:12px;
+        color:${BBW.pink};letter-spacing:0.08em;text-transform:uppercase;font-weight:700;">
+      Support Response
+    </p>
+    ${cParagraphs(aiBody)}
+    ${cDivider()}
+    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;
+        color:${BBW.textLight};text-align:center;line-height:1.7;">
+      Need further assistance?<br>
+      <a href="mailto:${support}" style="color:${BBW.pink};font-weight:700;text-decoration:none;">${support}</a>
+      &nbsp;·&nbsp;
+      <a href="${whatsapp}" target="_blank" style="color:${BBW.pink};font-weight:700;text-decoration:none;">WhatsApp Us</a>
+    </p>
+    <div style="height:32px;"></div>`;
+
+  return masterTemplate({
+    preheader:   `${subjectResp} — BBW4LIFE Support`,
+    heroHeadline: `SUPPORT <span style="color:${BBW.pink};">REPLY.</span>`,
+    heroSubline:  "WE'RE HERE FOR YOU.",
+    bodyHTML,
+    settings,
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RESEND
+// ════════════════════════════════════════════════════════════════
 async function deliver(to, subject, html) {
   if (!process.env.RESEND_API_KEY) {
     console.error('[Resend] Missing RESEND_API_KEY');
@@ -460,16 +527,21 @@ exports.handler = async () => {
       const originalSubject = row[3] || '';
       const category        = row[4] || '';
       const message         = row[5] || '';
-      const subjectResp     = (row[7] !== undefined ? row[7] : '').trim();
-      const response        = (row[8] !== undefined ? row[8] : '').trim();
-      const repliedAt       = (row[9] !== undefined ? row[9] : '').trim();
+      const subjectResp     = (row[7] !== undefined ? row[7] : '').trim();  // col H
+      const response        = (row[8] !== undefined ? row[8] : '').trim();  // col I
+      const repliedAt       = (row[9] !== undefined ? row[9] : '').trim();  // col J
 
+      // Skip si pas de réponse rédigée
       if (!subjectResp || !response) continue;
+
+      // Skip si déjà envoyé (sent:...)
       if (repliedAt && !repliedAt.startsWith('pending:')) continue;
+
       if (!email || !email.includes('@')) continue;
 
       console.log(`[reply-contact-message] Processing row ${i + 1} — ${email} — repliedAt: "${repliedAt}"`);
 
+      // ── Première détection : pas encore de pending ──
       if (!repliedAt) {
         await sheets.spreadsheets.values.update({
           spreadsheetId,
@@ -482,11 +554,12 @@ exports.handler = async () => {
         continue;
       }
 
+      // ── Pending détecté : vérifier délai ──
       if (repliedAt.startsWith('pending:')) {
         const pendingTime         = new Date(repliedAt.replace('pending:', ''));
         const minutesSincePending = (Date.now() - pendingTime.getTime()) / (1000 * 60);
 
-        if (minutesSincePending < 2) {
+        if (minutesSincePending < 30) {
           console.log(`[reply-contact-message] Row ${i + 1} — pending since ${minutesSincePending.toFixed(1)} min, waiting`);
           await sleep(500);
           continue;
