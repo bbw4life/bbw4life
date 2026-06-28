@@ -1934,8 +1934,8 @@ exports.handler = async (event) => {
 
         const name = firstName || lastName || 'Beautiful';
 
-        if (newsletter === 'yes') {
-          if (!wasEmailSent(sentLog, email, T.NEWSLETTER_1)) {
+        if (newsletter !== 'yes') continue;
+         if (!wasEmailSent(sentLog, email, T.NEWSLETTER_1)) {
             await trySend(email, T.NEWSLETTER_1,
               () => composeNewsletter1(name, settings),
               sheets, sentLog, results);
@@ -1968,7 +1968,7 @@ exports.handler = async (event) => {
             await sleep(500);
           }
         }
-      }
+      
 
       const summary = {
         sent:    results.sent.length,

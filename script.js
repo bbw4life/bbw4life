@@ -6355,17 +6355,6 @@ if (newsletterForm) {
           }, 4000);
         }
 
-        // Trigger newsletter_1 email
-        fetch('/.netlify/functions/send-email-auto', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            trigger: 'newsletter_1',
-            email: email,
-            firstName: ''
-          })
-        }).catch(function() {});
-
       } else {
         showErrorPopup("Error: " + (data.error || "Unknown"));
         if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
