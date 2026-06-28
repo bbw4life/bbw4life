@@ -1265,3 +1265,388 @@
   });
 
 })();
+
+
+/* ================================================================
+   BBW4LIFE — CART EXTRA PRODUCTS
+   cart-extra-products.js
+================================================================ */
+
+(function initCartExtraProducts() {
+  'use strict';
+
+  
+  function getCart() {
+    if (typeof window.__getCart === 'function') return window.__getCart();
+    try { return JSON.parse(localStorage.getItem('cart') || '[]'); } catch (e) { return []; }
+  }
+  function setCart(c) {
+    if (typeof window.__setCart === 'function') window.__setCart(c);
+    localStorage.setItem('cart', JSON.stringify(c));
+  }
+  function saveAndSync() {
+    if (typeof window.saveCart === 'function')                    window.saveCart();
+    if (typeof window.updateCartQuantityInSheet === 'function')   window.updateCartQuantityInSheet();
+    if (typeof window.updateBadges === 'function')                window.updateBadges();
+    if (typeof window.renderCart === 'function')                  window.renderCart();
+  }
+
+  function upgradeImg(url, size) {
+    if (typeof window.upgradeShopifyImageUrl === 'function') return window.upgradeShopifyImageUrl(url, size || 400);
+    return url;
+  }
+
+  function getProductUrl(id, allProducts) {
+    if (typeof window.getProductUrl === 'function') return window.getProductUrl(id);
+    var idx = (allProducts || []).findIndex(function (p) { return p.id === id; });
+    return idx === -1 ? '/collections/bbw4life-all-product.html' : '/products/product' + (idx + 1) + '.html';
+  }
+
+  function fmt(price) {
+    return '$' + parseFloat(price).toFixed(2);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     BUILD CARD
+     context: 'page' | 'drawer'
+  ────────────────────────────────────────────────────────── */
+  function buildCard(prod, btnText, allProducts, context) {
+    var prefix   = context === 'drawer' ? 'drawer-extra' : 'cp-extra';
+    var imgSrc   = upgradeImg(prod.image, context === 'drawer' ? 200 : 400);
+    var hoverSrc = prod.image_hover ? upgradeImg(prod.image_hover, context === 'drawer' ? 200 : 400) : '';
+
+    var discountPct = 0;
+    if (prod.compare_price && parseFloat(prod.compare_price) > parseFloat(prod.price)) {
+      discountPct = Math.round(((parseFloat(prod.compare_price) - parseFloat(prod.price)) / parseFloat(prod.compare_price)) * 100);
+    }
+
+    var badgeHTML = '';
+    if (prod.badge && prod.badge.text) {
+      badgeHTML = '<span class="' + prefix + '-card__badge">' + prod.badge.text + '</span>';
+    }
+
+    var discountHTML = discountPct > 0
+      ? '<span class="' + prefix + '-card__discount">-' + discountPct + '%</span>'
+      : '';
+
+    var compareHTML = (prod.compare_price && parseFloat(prod.compare_price) > parseFloat(prod.price))
+      ? '<span class="' + prefix + '-card__compare">' + fmt(prod.compare_price) + '</span>'
+      : '';
+
+    var hoverImgHTML = hoverSrc
+      ? '<img class="' + prefix + '-card__img-hover" src="' + hoverSrc + '" alt="" loading="lazy" aria-hidden="true">'
+      : '';
+
+    var url = getProductUrl(prod.id, allProducts);
+
+    var card = document.createElement('div');
+    card.className = prefix + '-card';
+    card.dataset.id = prod.id;
+
+    card.innerHTML =
+      '<a href="' + url + '" class="' + prefix + '-card__img-wrap" tabindex="-1" aria-hidden="true">' +
+        '<img class="' + prefix + '-card__img" src="' + imgSrc + '" alt="' + prod.title + '" loading="lazy">' +
+        hoverImgHTML +
+        badgeHTML +
+        discountHTML +
+      '</a>' +
+      '<div class="' + prefix + '-card__body">' +
+        '<a href="' + url + '" class="' + prefix + '-card__title">' + prod.title + '</a>' +
+        '<div class="' + prefix + '-card__prices">' +
+          '<span class="' + prefix + '-card__price">' + fmt(prod.price) + '</span>' +
+          compareHTML +
+        '</div>' +
+        '<button class="' + prefix + '-card__btn" data-product-id="' + prod.id + '">' +
+          '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>' +
+            '<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>' +
+          '</svg>' +
+          btnText +
+        '</button>' +
+      '</div>';
+
+    
+    var btn = card.querySelector('.' + prefix + '-card__btn');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      handleAddToCart(prod, btn, allProducts);
+    });
+
+    return card;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     ADD TO CART
+  ────────────────────────────────────────────────────────── */
+  function handleAddToCart(prod, btn, allProducts) {
+    var variant     = prod.variants && prod.variants.length ? prod.variants[0] : null;
+    var price       = variant ? parseFloat(variant.price) : parseFloat(prod.price);
+    var compare     = parseFloat(prod.compare_price) || price;
+    var color       = variant ? (variant.color || null) : null;
+    var size        = variant ? (variant.size  || null) : null;
+    var cjVariantId = variant ? variant.vid : null;
+
+    var colorObj = (color && prod.colors)
+      ? prod.colors.find(function (c) { return c.name === color; })
+      : null;
+    var image = upgradeImg(colorObj ? (colorObj.image || prod.image) : prod.image);
+
+    var cart = getCart();
+    var existing = cart.find(function (i) {
+      return i.id === prod.id && i.color === color && i.size === size;
+    });
+
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({
+        id:            prod.id,
+        title:         prod.title,
+        price:         price,
+        compare_price: compare,
+        image:         image,
+        size:          size  || null,
+        color:         color || null,
+        quantity:      1,
+        fromExtraSuggestion: true,
+        cj_product_id: prod.cj_id,
+        cj_variant_id: cjVariantId
+      });
+    }
+
+    setCart(cart);
+    saveAndSync();
+
+    
+    var originalHTML = btn.innerHTML;
+    btn.classList.add('added');
+    btn.innerHTML =
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Added!';
+    setTimeout(function () {
+      btn.classList.remove('added');
+      btn.innerHTML = originalHTML;
+    }, 2200);
+
+    
+    if (typeof window.openCartDrawer === 'function' && document.getElementById('cart-page-main')) {
+      
+    } else if (typeof window.openCartDrawer === 'function') {
+      window.openCartDrawer();
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     SLIDER LOGIC
+  ────────────────────────────────────────────────────────── */
+  function initSlider(track, dotsContainer, prevBtn, nextBtn, perPage) {
+    var cards       = track.querySelectorAll('[class$="-card"]');
+    var totalPages  = Math.ceil(cards.length / perPage);
+    var currentPage = 0;
+
+    
+    dotsContainer.innerHTML = '';
+    for (var i = 0; i < totalPages; i++) {
+      (function (idx) {
+        var dot = document.createElement('button');
+        dot.className = 'cp-extra-dot' + (idx === 0 ? ' active' : '');
+
+        
+        var isDrawer = dotsContainer.id === 'drawer-extra-dots';
+        if (isDrawer) dot.className = 'drawer-extra-dot' + (idx === 0 ? ' active' : '');
+
+        dot.setAttribute('aria-label', 'Page ' + (idx + 1));
+        dot.addEventListener('click', function () { goTo(idx); });
+        dotsContainer.appendChild(dot);
+      })(i);
+    }
+
+    if (totalPages <= 1) {
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      dotsContainer.style.display = 'none';
+      return;
+    }
+
+    function goTo(page) {
+        currentPage = Math.max(0, Math.min(page, totalPages - 1));
+
+        var card    = track.querySelector('[class$="-card"]');
+        var gap     = parseInt(getComputedStyle(track).gap) || 14;
+        var cardW   = card ? card.offsetWidth : 0;
+
+        
+        var viewport   = track.parentElement;
+        var totalW     = cards.length * (cardW + gap) - gap;
+        var maxOffset  = Math.max(0, totalW - viewport.offsetWidth);
+        var rawOffset  = currentPage * perPage * (cardW + gap);
+        var offset     = Math.min(rawOffset, maxOffset);
+
+        track.style.transform = 'translateX(-' + offset + 'px)';
+
+      
+      var dots = dotsContainer.querySelectorAll('[class$="-dot"]');
+      dots.forEach(function (d, i) {
+        d.classList.toggle('active', i === currentPage);
+      });
+
+      if (prevBtn) prevBtn.disabled = (currentPage === 0);
+      if (nextBtn) nextBtn.disabled = (currentPage >= totalPages - 1);
+    }
+
+    if (prevBtn) {
+      prevBtn.disabled = true;
+      prevBtn.addEventListener('click', function () { goTo(currentPage - 1); });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () { goTo(currentPage + 1); });
+    }
+
+    
+    var touchStartX = 0;
+    track.parentElement.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    track.parentElement.addEventListener('touchend', function (e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) goTo(currentPage + 1);
+        else          goTo(currentPage - 1);
+      }
+    }, { passive: true });
+
+    
+    goTo(0);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     INIT PAGE CART
+  ────────────────────────────────────────────────────────── */
+  function initPageCart(allProducts, cfg) {
+    var section    = document.getElementById('cp-extra-section');
+    var track      = document.getElementById('cp-extra-track');
+    var dots       = document.getElementById('cp-extra-dots');
+    var prevBtn    = document.getElementById('cp-extra-prev');
+    var nextBtn    = document.getElementById('cp-extra-next');
+
+    if (!section || !track) return;
+
+    var btnText  = cfg.btn_text || 'Add to Cart';
+    var ids      = cfg.product_ids || [];
+
+    var products = ids
+      .map(function (id) { return allProducts.find(function (p) { return p.id === id; }); })
+      .filter(Boolean);
+
+    if (!products.length) { section.style.display = 'none'; return; }
+
+    
+    track.innerHTML = '';
+    products.forEach(function (prod) {
+      track.appendChild(buildCard(prod, btnText, allProducts, 'page'));
+    });
+
+    var cartCheck = (typeof window.__getCart === 'function')
+      ? window.__getCart()
+      : JSON.parse(localStorage.getItem('cart') || '[]');
+    section.style.display = cartCheck.length === 0 ? 'none' : '';
+
+    
+    var perPage = window.innerWidth <= 768 ? 2 : 3;
+    initSlider(track, dots, prevBtn, nextBtn, perPage);
+
+    
+    var resizeTimer = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        var pp = window.innerWidth <= 768 ? 2 : 3;
+        track.style.transform = 'translateX(0)';
+        initSlider(track, dots, prevBtn, nextBtn, pp);
+      }, 200);
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     INIT CART DRAWER
+  ────────────────────────────────────────────────────────── */
+  function initDrawer(allProducts, cfg) {
+    var section = document.getElementById('drawer-extra-section');
+    var track   = document.getElementById('drawer-extra-track');
+    var dots    = document.getElementById('drawer-extra-dots');
+    var prevBtn = document.getElementById('drawer-extra-prev');
+    var nextBtn = document.getElementById('drawer-extra-next');
+
+    if (!section || !track) return;
+
+    var btnText  = cfg.btn_text || 'Add to Cart';
+    var ids      = cfg.product_ids || [];
+
+    var products = ids
+      .map(function (id) { return allProducts.find(function (p) { return p.id === id; }); })
+      .filter(Boolean);
+
+    if (!products.length) { section.style.display = 'none'; return; }
+
+    
+    track.innerHTML = '';
+    products.forEach(function (prod) {
+      track.appendChild(buildCard(prod, btnText, allProducts, 'drawer'));
+    });
+
+    section.style.display = '';
+
+    
+    initSlider(track, dots, prevBtn, nextBtn, 2);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     MAIN — wait for products
+  ────────────────────────────────────────────────────────── */
+  function run(allProducts) {
+    var settings = allProducts.find(function (p) { return p.type === 'settings'; }) || {};
+    var cfg      = settings.cart_extra_products;
+
+    if (!cfg || !cfg.product_ids || !cfg.product_ids.length) return;
+
+    
+    if (document.getElementById('cp-extra-section')) {
+      initPageCart(allProducts, cfg);
+
+      document.addEventListener('cart:update', function () {
+        var section = document.getElementById('cp-extra-section');
+        if (!section) return;
+        var cart = (typeof window.__getCart === 'function')
+          ? window.__getCart()
+          : JSON.parse(localStorage.getItem('cart') || '[]');
+        section.style.display = cart.length === 0 ? 'none' : '';
+      });
+    }
+
+    
+    initDrawer(allProducts, cfg);
+
+    
+    document.addEventListener('cart:update', function () {
+      var section = document.getElementById('drawer-extra-section');
+      if (section && section.innerHTML.trim() !== '') return;
+      initDrawer(allProducts, cfg);
+    });
+  }
+
+  if (window.__allProducts && window.__allProducts.length) {
+    run(window.__allProducts);
+  } else {
+    var tries = 0;
+    var poll = setInterval(function () {
+      tries++;
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(poll);
+        run(window.__allProducts);
+      } else if (tries > 120) {
+        clearInterval(poll);
+      }
+    }, 100);
+  }
+
+})();
