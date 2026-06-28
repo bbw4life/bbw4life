@@ -1912,11 +1912,7 @@ exports.handler = async (event) => {
         };
       }
 
-      // Protection — même secret que le tracking
-      if (!params.secret || params.secret !== process.env.REPORT_SECRET) {
-        return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
-      }
-
+      // ── Newsletter batch (existant) ──
       console.log('[Handler] Batch newsletter sequence mode');
 
       const accountRows = await sheetRead(
