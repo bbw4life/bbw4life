@@ -166,6 +166,7 @@ exports.handler = async (event) => {
       color:         item.color         || '',
       size:          item.size          || '',
       image_variant: item.image_variant || item.image || '',
+      image:         item.image_variant || item.image || '',
       price:         item.price,
       quantity:      item.quantity,
       lineTotal:     item.price * item.quantity,
