@@ -264,7 +264,11 @@ exports.handler = async (event) => {
       }
 
       // ── Email Newsletter #1 ──
-      notifyNewsletter1({ email, firstName: firstName || '' }).catch(() => {});
+      await fetch('https://bbw4life.com/.netlify/functions/send-email-auto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ trigger: 'newsletter_1', email, firstName: firstName || '' })
+      }).catch(() => {});
 
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
