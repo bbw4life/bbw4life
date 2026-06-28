@@ -434,21 +434,25 @@ const BASE_CSS = `
     .ep{padding:24px 20px!important}
     .eh1{font-size:30px!important}
     .ehero-img{width:42%!important}
-    .egrid td{display:block!important;width:100%!important;padding:0 0 18px!important;text-align:center!important}
+    .egrid td{display:block!important;width:100%!important;padding:0 0 12px!important;text-align:center!important}
+    .efoot-col{display:block!important;width:100%!important;padding:0 0 18px!important;text-align:center!important}
+    .efooter-split td[width="1"]{display:none!important}
     .efounder td{display:block!important;width:100%!important;text-align:center!important}
     .hide-mobile{display:none!important}
   }
 `;
 
 // ── Default social icon set (used when settings.social_icons is missing) ──
+// White-colored icons served directly (no CSS filter needed — filters are
+// stripped by most email clients, which is why icons disappeared before).
 const DEFAULT_SOCIAL_ICONS = {
-  facebook:  'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/facebook.svg',
-  instagram: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/instagram.svg',
-  pinterest: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/pinterest.svg',
-  youtube:   'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/youtube.svg',
-  tiktok:    'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/tiktok.svg',
-  twitter:   'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/x.svg',
-  whatsapp:  'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@develop/icons/whatsapp.svg',
+  facebook:  'https://cdn.simpleicons.org/facebook/ffffff',
+  instagram: 'https://cdn.simpleicons.org/instagram/ffffff',
+  pinterest: 'https://cdn.simpleicons.org/pinterest/ffffff',
+  youtube:   'https://cdn.simpleicons.org/youtube/ffffff',
+  tiktok:    'https://cdn.simpleicons.org/tiktok/ffffff',
+  twitter:   'https://cdn.simpleicons.org/x/ffffff',
+  whatsapp:  'https://cdn.simpleicons.org/whatsapp/ffffff',
 };
 
 const SOCIAL_BRAND_BG = {
@@ -501,13 +505,17 @@ function buildSocialFooter(settings) {
   <tr>
     ${order.map(l => `
     <td style="padding:0 6px;text-align:center;">
-      <a href="${social[l.key]}" target="_blank"
-         style="display:inline-block;width:38px;height:38px;border-radius:50%;
-                text-align:center;text-decoration:none;background:${SOCIAL_BRAND_BG[l.key] || BBW.rose};
-                line-height:38px;">
-        <img src="${icons[l.key]}" alt="${l.label}" width="18" height="18"
-             style="width:18px;height:18px;vertical-align:middle;filter:invert(1) brightness(2);">
-      </a>
+      <table width="38" height="38" cellpadding="0" cellspacing="0" role="presentation" style="width:38px;height:38px;">
+        <tr>
+          <td width="38" height="38" align="center" valign="middle"
+              style="width:38px;height:38px;border-radius:19px;background:${SOCIAL_BRAND_BG[l.key] || BBW.rose};">
+            <a href="${social[l.key]}" target="_blank" style="text-decoration:none;display:inline-block;line-height:0;">
+              <img src="${icons[l.key]}" alt="${l.label}" width="18" height="18"
+                   style="width:18px;height:18px;display:inline-block;vertical-align:middle;border:0;">
+            </a>
+          </td>
+        </tr>
+      </table>
       <p style="margin:6px 0 0;font-family:Arial,sans-serif;font-size:9px;color:rgba(255,255,255,0.55);">${l.label}</p>
     </td>`).join('')}
   </tr>
@@ -580,9 +588,9 @@ function buildHeroHeader(settings, { topBadge, headline, subHeadline, accentWord
           </p>
           ${subHeadline ? `<p style="margin:10px 0 0;font-family:Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.55);line-height:1.6;">${subHeadline}</p>` : ''}
         </td>
-        <td width="44%" class="ehero-img" style="padding:0;vertical-align:bottom;">
-          ${heroImage ? `<img src="${heroImage}" alt="BBW4LIFE" width="280"
-               style="display:block;width:100%;max-width:280px;height:auto;margin-left:auto;">` : ''}
+        <td width="44%" class="ehero-img" style="padding:0;vertical-align:bottom;font-size:0;line-height:0;">
+          ${heroImage ? `<img src="${heroImage}" alt="BBW4LIFE" width="320"
+               style="display:block;width:100%;max-width:320px;min-height:1px;height:auto;margin-left:auto;border:0;">` : ''}
         </td>
       </tr>
     </table>
@@ -645,14 +653,16 @@ function masterTemplate({ preheader, topBadge, headline, subHeadline, bodyHTML, 
         </td>
       </tr>
 
-      <!-- DARK FOOTER : founder + socials + legal -->
+      <!-- DARK FOOTER : founder | divider | brand + socials -->
       <tr>
         <td style="background:${BBW.dark2};padding:30px 36px 26px;">
-          ${founderSec}
-          ${founderSec ? `<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:24px 0 20px;"><tr><td style="height:1px;background:rgba(255,255,255,0.10);font-size:0;line-height:0;">&nbsp;</td></tr></table>` : ''}
-          <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+          <table width="100%" cellpadding="0" cellspacing="0" role="presentation" class="efooter-split">
             <tr>
-              <td align="center">
+              <td class="efoot-col" style="vertical-align:top;width:58%;padding-right:20px;">
+                ${founderSec}
+              </td>
+              ${founderSec ? `<td width="1" style="background:rgba(255,255,255,0.12);font-size:0;line-height:0;">&nbsp;</td>` : ''}
+              <td class="efoot-col" style="vertical-align:top;width:42%;${founderSec ? 'padding-left:20px;' : ''}text-align:center;">
                 <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:20px;font-weight:700;color:#fff;">
                   BBW<span style="color:${BBW.rose};">4</span>LIFE
                 </p>
@@ -737,15 +747,18 @@ function cBenefitsGrid(items) {
   return `
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation" class="egrid" style="margin:8px 0 4px;background:${BBW.pinkSoft};border-radius:14px;">
   <tr>
-    <td style="padding:26px 18px;">
+    <td style="padding:26px 14px;">
       <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
           ${items.map(it => `
-          <td style="text-align:center;vertical-align:top;padding:0 6px;">
-            <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto 10px;">
-              <tr><td style="width:54px;height:54px;border-radius:50%;background:#ffffff;text-align:center;vertical-align:middle;font-size:22px;line-height:54px;">${it.icon}</td></tr>
+          <td width="25%" align="center" valign="top" style="width:25%;text-align:center;vertical-align:top;padding:0 4px;">
+            <table width="54" height="54" cellpadding="0" cellspacing="0" role="presentation" style="width:54px;height:54px;margin:0 auto 10px;">
+              <tr>
+                <td width="54" height="54" align="center" valign="middle"
+                    style="width:54px;height:54px;border-radius:27px;background:#ffffff;font-size:22px;line-height:1;">${it.icon}</td>
+              </tr>
             </table>
-            <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;color:${BBW.roseDeep};letter-spacing:0.04em;text-transform:uppercase;">${it.title}</p>
+            <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:${BBW.roseDeep};letter-spacing:0.03em;text-transform:uppercase;">${it.title}</p>
             <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;color:${BBW.textMid};line-height:1.5;">${it.text}</p>
           </td>`).join('')}
         </tr>
