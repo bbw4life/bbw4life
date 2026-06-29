@@ -1091,7 +1091,7 @@ function showErrorPopup(message) {
         const pages = wv.pages || [];
 
         // Only apply on listed pages
-        if (!pages.some(p => currentPath.endsWith(p) || currentPath === p)) return;
+        if (!pages.some(p => currentPath.endsWith(p) || currentPath === p || currentPath.includes(p))) return;
 
         const widgetMap = {
           'cf_chat_toggle': document.getElementById('cf-chat-toggle'),

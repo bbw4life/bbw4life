@@ -58,18 +58,18 @@
     contact_text:               'Available Monday to Friday/ 7h:Am-10PM',
     email_link:                 'support@bbw4life.com',
     whatsapp_chat_now_text:     '💬 Chat With Us',
-    phone_number:               '18093770077',
+    phone_number:               '18298940709',
     phone_suffix_text:          '/Only text please',
-    whatsapp_number:            '18296221518',
+    whatsapp_number:            '18298940709',
     whatsapp_send_button_text:  'Send',
 
     social_title: 'Follow us in social Media',
     social_links: {
-      facebook:  '#',
-      twitter:   '#',
-      instagram: '#',
-      youtube:   '#',
-      tiktok:    '#'
+      facebook:  '',
+      twitter:   '',
+      instagram: '',
+      youtube:   '',
+      tiktok:    ''
     },
 
     novelty_title:          'NEW GEMS TO DISCOVER',
