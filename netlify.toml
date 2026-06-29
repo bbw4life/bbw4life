@@ -24,378 +24,461 @@
 # PRODUCT PAGES — Pretty URLs
 # ─────────────────────────────────────────────
 [[redirects]]
-  from = "/bbw4life/glam-heels"
+  from = "/bbw4life/glam-heels-cross-strap-stiletto-sandals"
   to = "/products/product1.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/retrorun-sneakers"
+  from = "/bbw4life/retrorun-sneakers-chunky-sole-street-style"
   to = "/products/product2.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/bohoflip-sandals"
+  from = "/bbw4life/bohoflip-sandals-embroidered-boho-flip-flops"
   to = "/products/product3.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/powerheels"
+  from = "/bbw4life/powerheels-12cm-stiletto-pumps"
   to = "/products/product4.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/winterboost-boots"
+  from = "/bbw4life/winterboost-boots-ankle-boots"
   to = "/products/product5.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/colorstilettos"
+  from = "/bbw4life/colorstilettos-vibrant-stiletto-flip-flops"
   to = "/products/product6.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/nightchic-dress"
+  from = "/bbw4life/nightchic-dress-mock-neck-long-sleeve-printed"
   to = "/products/product7.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/slitlux-dress"
+  from = "/bbw4life/slitlux-dress-cutout-slit-round-neck"
   to = "/products/product8.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/plaidoverall-dress"
+  from = "/bbw4life/plaidoverall-dress-wide-strap-dungaree"
   to = "/products/product9.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/floralflounce-dress"
+  from = "/bbw4life/floralflounce-dress-surplice-flounce-sleeve-maxi"
   to = "/products/product10.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/vintagesquare-dress"
+  from = "/bbw4life/vintagesquare-dress-printed-square-neck"
   to = "/products/product11.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/paisleybelt-dress"
+  from = "/bbw4life/paisleybelt-dress-orange-floral-print-belted"
   to = "/products/product12.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/meshduo-set"
+  from = "/bbw4life/meshduo-set-sheer-mesh-long-dress-suit"
   to = "/products/product13.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/meshglam-dress"
+  from = "/bbw4life/meshglam-dress-solid-color-stitching-maxi"
   to = "/products/product14.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/linenbreeze-dress"
+  from = "/bbw4life/linenbreeze-dress-cotton-linen-button-down"
   to = "/products/product15.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/stripedmini-dress"
+  from = "/bbw4life/stripedmini-dress-vneck-long-sleeve"
   to = "/products/product16.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/loungerobe"
+  from = "/bbw4life/loungerobe-loose-sleepwear-bathrobe"
   to = "/products/product17.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/lacenight-dress"
+  from = "/bbw4life/lacenight-dress-sexy-short-strap-lace-nightdress"
   to = "/products/product18.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/lacethong-set"
+  from = "/bbw4life/lacethong-set-sheer-lace-skirt-lingerie"
   to = "/products/product19.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/solidsexy-bikini"
+  from = "/bbw4life/solidsexy-bikini-high-waist-hot-swimsuit"
   to = "/products/product20.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/curvebikini"
+  from = "/bbw4life/curvebikini-solid-color-high-waist-swimwear"
   to = "/products/product21.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/leopardnight-set"
+  from = "/bbw4life/leopardnight-set-mesh-pajama-lingerie-dress"
   to = "/products/product22.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/supportbra"
+  from = "/bbw4life/supportbra-large-cup-breathable-mesh-bra"
   to = "/products/product23.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/laceromper"
+  from = "/bbw4life/laceromper-jumpsuit-lace-splicing-thong"
   to = "/products/product24.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/stripedbikini"
+  from = "/bbw4life/stripedbikini-print-striped-swimwear"
   to = "/products/product25.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/tubebikinii"
+  from = "/bbw4life/tubebikinii-tube-top-swimsuit"
   to = "/products/product26.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/ruffleone-bikini"
+  from = "/bbw4life/ruffleone-bikini-vneck-ruffled-one-piece"
   to = "/products/product27.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/bandagebikini"
+  from = "/bbw4life/bandagebikini-solid-color-bandage-swimsuit"
   to = "/products/product28.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/contrastone-piece"
+  from = "/bbw4life/contrastone-piece-contrasting-color-swimwear"
   to = "/products/product29.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/premiumbikini"
+  from = "/bbw4life/premiumbikini-plus-size-swimsuit-collection"
   to = "/products/product30.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/irregulartop"
+  from = "/bbw4life/irregulartop-loose-round-neck-irregular-hem"
   to = "/products/product31.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/christmassweat"
+  from = "/bbw4life/christmassweat-casual-holiday-sweatshirt"
   to = "/products/product32.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/dalmationshorts"
+  from = "/bbw4life/dalmationshorts-high-waist-dalmatian-print"
   to = "/products/product33.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/leopardshirt"
+  from = "/bbw4life/leopardshirt-irregular-collar-spliced-blouse"
   to = "/products/product34.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/drawstringpants"
+  from = "/bbw4life/drawstringpants-casual-pants-with-pockets"
   to = "/products/product35.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/cropslimpants"
+  from = "/bbw4life/cropslimpants-mens-drawstring-cropped-pants"
   to = "/products/product36.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/haremprints"
+  from = "/bbw4life/haremprints-printed-harem-trousers-men"
   to = "/products/product37.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/loosejeans"
+  from = "/bbw4life/loosejeans-mens-relaxed-fit-denim"
   to = "/products/product38.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/britishloafers"
+  from = "/bbw4life/britishloafers-formal-tassel-party-shoes-men"
   to = "/products/product39.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/airmesh-runners"
+  from = "/bbw4life/airmesh-runners-professional-sports-sneakers-men"
   to = "/products/product40.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/leathercasuals"
+  from = "/bbw4life/leathercasuals-mens-breathable-flat-sneakers"
   to = "/products/product41.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/businessdress-shoes"
+  from = "/bbw4life/businessdress-shoes-classic-wedding-formal"
   to = "/products/product42.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/hollowsneakers"
+  from = "/bbw4life/hollowsneakers-mesh-big-size-fashion-shoes-men"
   to = "/products/product43.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/tendtrainers"
+  from = "/bbw4life/tendtrainers-mens-outdoor-sport-sneakers"
   to = "/products/product44.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/patentloafers"
+  from = "/bbw4life/patentloafers-luxury-patent-leather-party-shoes"
   to = "/products/product45.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/collarshirt"
+  from = "/bbw4life/collarshirt-mens-plus-size-button-down"
   to = "/products/product46.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/geopolo-shirt"
+  from = "/bbw4life/geopolo-shirt-geometric-print-men-polo"
   to = "/products/product47.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/stripedcollar-sweater"
+  from = "/bbw4life/stripedcollar-sweater-mens-casual-knit"
   to = "/products/product48.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/turtlenecklux"
+  from = "/bbw4life/turtlenecklux-mens-plus-size-turtleneck-sweater"
   to = "/products/product49.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/hikejacket"
+  from = "/bbw4life/hikejacket-waterproof-outdoor-jacket"
   to = "/products/product50.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/roundneck-sweatshirt"
+  from = "/bbw4life/roundneck-sweatshirt-mens-plus-size-pullover"
   to = "/products/product51.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/nailbond-glue"
+  from = "/bbw4life/nailbond-glue-strong-uv-nail-tips-adhesive"
   to = "/products/product52.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/bownails"
+  from = "/bbw4life/bownails-manicure-long-almond-fake-nails"
   to = "/products/product53.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/nailrepair-lotion"
+  from = "/bbw4life/nailrepair-lotion-nourishing-nail-solution"
   to = "/products/product54.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/browdye-pencil"
+  from = "/bbw4life/browdye-pencil-waterproof-quick-dry-eyebrow"
   to = "/products/product55.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/curl-volume-mascara"
+  from = "/bbw4life/curl-volume-mascara-4d-waterproof-formula"
   to = "/products/product56.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/browkit-pro"
+  from = "/bbw4life/browkit-pro-waterproof-eyebrow-stencil-cream"
   to = "/products/product57.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/obsidian-lip-balm"
+  from = "/bbw4life/obsidian-lip-balm-warming-moisture-treatment"
   to = "/products/product58.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/tearoff-lip-gloss"
+  from = "/bbw4life/tearoff-lip-gloss-4-color-long-lasting-peel"
   to = "/products/product59.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/gingerclean-pads"
+  from = "/bbw4life/gingerclean-pads-ginger-lemon-makeup-remover"
   to = "/products/product60.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/deeprepair-hair-mask"
+  from = "/bbw4life/deeprepair-hair-mask-moisturizing-smoothing"
   to = "/products/product61.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/batanaglow-oil"
+  from = "/bbw4life/batanaglow-oil-moisturizing-hair-care"
   to = "/products/product62.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/batanaboost-oil"
+  from = "/bbw4life/batanaboost-oil-120ml-hair-growth-conditioner"
   to = "/products/product63.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/poreclean-gel"
+  from = "/bbw4life/poreclean-gel-deep-exfoliating-anti-acne"
   to = "/products/product64.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/knucklewhite-serum"
+  from = "/bbw4life/knucklewhite-serum-hand-joint-skin-brightener"
   to = "/products/product65.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/propolis-glow-essence"
+  from = "/bbw4life/propolis-glow-essence-brightening-facial-serum"
   to = "/products/product66.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/menglow-cream"
+  from = "/bbw4life/menglow-cream-concealing-brightening-lazy-cream"
   to = "/products/product67.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/iceglow-grid-set"
+  from = "/bbw4life/iceglow-grid-set-silicone-facial-cooling-tool"
   to = "/products/product68.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/glamsatin-dress"
+  from = "/bbw4life/glamsatin-dress-black-halter-ruched-maxi"
   to = "/products/product69.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/powersuit"
+  from = "/bbw4life/powersuit-ivory-structured-skirt-suit"
   to = "/products/product70.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/bohofloral-maxi"
+  from = "/bbw4life/bohofloral-maxi-wrap-floral-bishop-sleeve-dress"
   to = "/products/product71.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/cozylounge-set"
+  from = "/bbw4life/cozylounge-set-cream-tank-beige-wide-leg"
   to = "/products/product72.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/blushlace-gown"
+  from = "/bbw4life/blushlace-gown-lace-cap-sleeve-empire-maxi"
   to = "/products/product73.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/tealempire-gown"
+  from = "/bbw4life/tealempire-gown-sleeveless-vneck-formal-maxi"
   to = "/products/product74.html"
   status = 200
 
 [[redirects]]
-  from = "/bbw4life/jacquardpower-suit"
+  from = "/bbw4life/jacquardpower-suit-multicolor-floral-brocade"
   to = "/products/product75.html"
+  status = 200
+
+# ─────────────────────────────────────────────
+# BLOG ARTICLES — Pretty URLs
+# ─────────────────────────────────────────────
+[[redirects]]
+  from = "/bbw4life/journal/beauty-has-no-sizes-movement-redefining-beauty"
+  to = "/blog/article-featured.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/stop-dieting-how-bbw-women-take-care-of-themselves"
+  to = "/blog/article1.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/nutrition-curvy-women-eat-to-feel-amazing-not-to-shrink"
+  to = "/blog/article2.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/7-body-positive-affirmations-that-change-how-you-see-yourself"
+  to = "/blog/article3.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/stop-letting-opinions-destroy-your-body-confidence"
+  to = "/blog/article4.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/pcos-plus-size-body-understanding-your-hormones"
+  to = "/blog/article5.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/gentle-home-exercises-plus-size-women-move-without-injury"
+  to = "/blog/article6.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/plus-size-fashion-2026-outfits-that-turn-heads"
+  to = "/blog/article7.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/how-i-stopped-being-ashamed-of-my-body-and-started-loving-it"
+  to = "/blog/article8.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/10-must-have-wardrobe-pieces-plus-size-women"
+  to = "/blog/article9.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/bbw-style-guide-dress-confidently-for-every-occasion"
+  to = "/blog/article10.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/plus-size-dresses-find-the-model-that-flatters-every-curve"
+  to = "/blog/article11.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/bbw-and-seduction-your-body-is-a-gift-not-an-obstacle"
+  to = "/blog/article12.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/how-to-dress-as-bbw-and-feel-beautiful-not-just-covered"
+  to = "/blog/article13.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/bbw-and-seduction-your-body-is-a-power-not-a-problem"
+  to = "/blog/article14.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/journal/bbw4life-big-beautiful-woman-lifestyle-pride-family"
+  to = "/blog/article15.html"
   status = 200
 
 # ─────────────────────────────────────────────
