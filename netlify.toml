@@ -19,3 +19,389 @@
 [functions.reply-contact-message]
   schedule = "*/5 * * * *"
   background = true
+
+# ─────────────────────────────────────────────
+# PRODUCT PAGES — Pretty URLs
+# ─────────────────────────────────────────────
+[[redirects]]
+  from = "/bbw4life/glam-heels"
+  to = "/products/product1.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/retrorun-sneakers"
+  to = "/products/product2.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/bohoflip-sandals"
+  to = "/products/product3.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/powerheels"
+  to = "/products/product4.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/winterboost-boots"
+  to = "/products/product5.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/colorstilettos"
+  to = "/products/product6.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/nightchic-dress"
+  to = "/products/product7.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/slitlux-dress"
+  to = "/products/product8.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/plaidoverall-dress"
+  to = "/products/product9.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/floralflounce-dress"
+  to = "/products/product10.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/vintagesquare-dress"
+  to = "/products/product11.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/paisleybelt-dress"
+  to = "/products/product12.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/meshduo-set"
+  to = "/products/product13.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/meshglam-dress"
+  to = "/products/product14.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/linenbreeze-dress"
+  to = "/products/product15.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/stripedmini-dress"
+  to = "/products/product16.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/loungerobe"
+  to = "/products/product17.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/lacenight-dress"
+  to = "/products/product18.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/lacethong-set"
+  to = "/products/product19.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/solidsexy-bikini"
+  to = "/products/product20.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/curvebikini"
+  to = "/products/product21.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/leopardnight-set"
+  to = "/products/product22.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/supportbra"
+  to = "/products/product23.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/laceromper"
+  to = "/products/product24.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/stripedbikini"
+  to = "/products/product25.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/tubebikinii"
+  to = "/products/product26.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/ruffleone-bikini"
+  to = "/products/product27.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/bandagebikini"
+  to = "/products/product28.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/contrastone-piece"
+  to = "/products/product29.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/premiumbikini"
+  to = "/products/product30.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/irregulartop"
+  to = "/products/product31.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/christmassweat"
+  to = "/products/product32.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/dalmationshorts"
+  to = "/products/product33.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/leopardshirt"
+  to = "/products/product34.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/drawstringpants"
+  to = "/products/product35.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/cropslimpants"
+  to = "/products/product36.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/haremprints"
+  to = "/products/product37.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/loosejeans"
+  to = "/products/product38.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/britishloafers"
+  to = "/products/product39.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/airmesh-runners"
+  to = "/products/product40.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/leathercasuals"
+  to = "/products/product41.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/businessdress-shoes"
+  to = "/products/product42.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/hollowsneakers"
+  to = "/products/product43.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/tendtrainers"
+  to = "/products/product44.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/patentloafers"
+  to = "/products/product45.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/collarshirt"
+  to = "/products/product46.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/geopolo-shirt"
+  to = "/products/product47.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/stripedcollar-sweater"
+  to = "/products/product48.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/turtlenecklux"
+  to = "/products/product49.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/hikejacket"
+  to = "/products/product50.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/roundneck-sweatshirt"
+  to = "/products/product51.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/nailbond-glue"
+  to = "/products/product52.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/bownails"
+  to = "/products/product53.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/nailrepair-lotion"
+  to = "/products/product54.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/browdye-pencil"
+  to = "/products/product55.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/curl-volume-mascara"
+  to = "/products/product56.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/browkit-pro"
+  to = "/products/product57.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/obsidian-lip-balm"
+  to = "/products/product58.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/tearoff-lip-gloss"
+  to = "/products/product59.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/gingerclean-pads"
+  to = "/products/product60.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/deeprepair-hair-mask"
+  to = "/products/product61.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/batanaglow-oil"
+  to = "/products/product62.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/batanaboost-oil"
+  to = "/products/product63.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/poreclean-gel"
+  to = "/products/product64.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/knucklewhite-serum"
+  to = "/products/product65.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/propolis-glow-essence"
+  to = "/products/product66.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/menglow-cream"
+  to = "/products/product67.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/iceglow-grid-set"
+  to = "/products/product68.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/glamsatin-dress"
+  to = "/products/product69.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/powersuit"
+  to = "/products/product70.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/bohofloral-maxi"
+  to = "/products/product71.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/cozylounge-set"
+  to = "/products/product72.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/blushlace-gown"
+  to = "/products/product73.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/tealempire-gown"
+  to = "/products/product74.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/jacquardpower-suit"
+  to = "/products/product75.html"
+  status = 200
+
+# ─────────────────────────────────────────────
+# CART
+# ─────────────────────────────────────────────
+[[redirects]]
+  from = "/bbw4life/cart"
+  to = "/cart.html"
+  status = 200

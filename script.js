@@ -2476,6 +2476,21 @@ function showErrorPopup(message) {
               'Pdg-Francenel-product75': 'jacquardpower-suit',
             };
 
+
+            // ── PRETTY URL — History API ──
+            (function () {
+              const productSection = document.querySelector('.product-section');
+              if (!productSection) return;
+              const pid  = productSection.dataset.productId;
+              const slug = PRODUCT_SLUGS[pid];
+              if (slug) {
+                const prettyUrl = '/bbw4life/' + slug;
+                if (window.location.pathname !== prettyUrl) {
+                  window.history.replaceState({}, document.title, prettyUrl);
+                }
+              }
+            })();
+
               // ── Récupérer les données du produit courant
               function getShareData() {
                 const productSection = document.querySelector('.product-section');
