@@ -1,3 +1,88 @@
+# ════════════════════════════════════════════════════════════
+# 301 — FORCE L'URL PROPRE DANS LA BARRE D'ADRESSE
+# Si quelqu'un visite /products/productN.html directement,
+# il est redirigé (visible) vers /bbw4life/slug-name
+# ════════════════════════════════════════════════════════════
+/products/product1.html    /bbw4life/glam-heels                  301
+/products/product2.html    /bbw4life/retrorun-sneakers            301
+/products/product3.html    /bbw4life/bohoflip-sandals             301
+/products/product4.html    /bbw4life/powerheels                   301
+/products/product5.html    /bbw4life/winterboost-boots            301
+/products/product6.html    /bbw4life/colorstilettos               301
+/products/product7.html    /bbw4life/nightchic-dress              301
+/products/product8.html    /bbw4life/slitlux-dress                301
+/products/product9.html    /bbw4life/plaidoverall-dress           301
+/products/product10.html   /bbw4life/floralflounce-dress          301
+/products/product11.html   /bbw4life/vintagesquare-dress          301
+/products/product12.html   /bbw4life/paisleybelt-dress            301
+/products/product13.html   /bbw4life/meshduo-set                  301
+/products/product14.html   /bbw4life/meshglam-dress               301
+/products/product15.html   /bbw4life/linenbreeze-dress            301
+/products/product16.html   /bbw4life/stripedmini-dress            301
+/products/product17.html   /bbw4life/loungerobe                   301
+/products/product18.html   /bbw4life/lacenight-dress              301
+/products/product19.html   /bbw4life/lacethong-set                301
+/products/product20.html   /bbw4life/solidsexy-bikini             301
+/products/product21.html   /bbw4life/curvebikini                  301
+/products/product22.html   /bbw4life/leopardnight-set             301
+/products/product23.html   /bbw4life/supportbra                   301
+/products/product24.html   /bbw4life/laceromper                   301
+/products/product25.html   /bbw4life/stripedbikini                301
+/products/product26.html   /bbw4life/tubebikinii                  301
+/products/product27.html   /bbw4life/ruffleone-bikini             301
+/products/product28.html   /bbw4life/bandagebikini                301
+/products/product29.html   /bbw4life/contrastone-piece            301
+/products/product30.html   /bbw4life/premiumbikini                301
+/products/product31.html   /bbw4life/irregulartop                 301
+/products/product32.html   /bbw4life/christmassweat               301
+/products/product33.html   /bbw4life/dalmationshorts              301
+/products/product34.html   /bbw4life/leopardshirt                 301
+/products/product35.html   /bbw4life/drawstringpants              301
+/products/product36.html   /bbw4life/cropslimpants                301
+/products/product37.html   /bbw4life/haremprints                  301
+/products/product38.html   /bbw4life/loosejeans                   301
+/products/product39.html   /bbw4life/britishloafers               301
+/products/product40.html   /bbw4life/airmesh-runners              301
+/products/product41.html   /bbw4life/leathercasuals               301
+/products/product42.html   /bbw4life/businessdress-shoes          301
+/products/product43.html   /bbw4life/hollowsneakers               301
+/products/product44.html   /bbw4life/tendtrainers                 301
+/products/product45.html   /bbw4life/patentloafers                301
+/products/product46.html   /bbw4life/collarshirt                  301
+/products/product47.html   /bbw4life/geopolo-shirt                301
+/products/product48.html   /bbw4life/stripedcollar-sweater        301
+/products/product49.html   /bbw4life/turtlenecklux                301
+/products/product50.html   /bbw4life/hikejacket                   301
+/products/product51.html   /bbw4life/roundneck-sweatshirt         301
+/products/product52.html   /bbw4life/nailbond-glue                301
+/products/product53.html   /bbw4life/bownails                     301
+/products/product54.html   /bbw4life/nailrepair-lotion            301
+/products/product55.html   /bbw4life/browdye-pencil               301
+/products/product56.html   /bbw4life/curl-volume-mascara          301
+/products/product57.html   /bbw4life/browkit-pro                  301
+/products/product58.html   /bbw4life/obsidian-lip-balm            301
+/products/product59.html   /bbw4life/tearoff-lip-gloss            301
+/products/product60.html   /bbw4life/gingerclean-pads             301
+/products/product61.html   /bbw4life/deeprepair-hair-mask         301
+/products/product62.html   /bbw4life/batanaglow-oil               301
+/products/product63.html   /bbw4life/batanaboost-oil              301
+/products/product64.html   /bbw4life/poreclean-gel                301
+/products/product65.html   /bbw4life/knucklewhite-serum           301
+/products/product66.html   /bbw4life/propolis-glow-essence        301
+/products/product67.html   /bbw4life/menglow-cream                301
+/products/product68.html   /bbw4life/iceglow-grid-set             301
+/products/product69.html   /bbw4life/glamsatin-dress              301
+/products/product70.html   /bbw4life/powersuit                    301
+/products/product71.html   /bbw4life/bohofloral-maxi              301
+/products/product72.html   /bbw4life/cozylounge-set               301
+/products/product73.html   /bbw4life/blushlace-gown               301
+/products/product74.html   /bbw4life/tealempire-gown              301
+/products/product75.html   /bbw4life/jacquardpower-suit           301
+
+# ════════════════════════════════════════════════════════════
+# 200 — REWRITE INTERNE (URL propre affichée, contenu servi)
+# Ne pas toucher : ce sont tes règles d'origine
+# ════════════════════════════════════════════════════════════
 /bbw4life/glam-heels                  /products/product1.html   200
 /bbw4life/retrorun-sneakers           /products/product2.html   200
 /bbw4life/bohoflip-sandals            /products/product3.html   200
@@ -106,7 +191,7 @@
 /collections/curvy-woman       /collections/curvy-woman.html                 200
 /collections/beauty            /collections/curvy-beauty.html                200
 /collections/men               /collections/men-plus-size.html               200
-/collections/shoes             /collections/shoes-sandals.html               200
+/collections/shoes             /collections/shoes-sandals.html                200
 /collections/pants-skirts      /collections/bbw4life-pants-skirts.html       200
 
 # PAGES

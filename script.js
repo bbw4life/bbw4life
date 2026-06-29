@@ -904,88 +904,7 @@ function showErrorPopup(message) {
 }
 
   // ====================== GET PRODUCT URL ======================
- const PRODUCT_SLUGS_MAP = {
-  'Pdg-Francenel-product1':  'glam-heels',
-  'Pdg-Francenel-product2':  'retrorun-sneakers',
-  'Pdg-Francenel-product3':  'bohoflip-sandals',
-  'Pdg-Francenel-product4':  'powerheels',
-  'Pdg-Francenel-product5':  'winterboost-boots',
-  'Pdg-Francenel-product6':  'colorstilettos',
-  'Pdg-Francenel-product7':  'nightchic-dress',
-  'Pdg-Francenel-product8':  'slitlux-dress',
-  'Pdg-Francenel-product9':  'plaidoverall-dress',
-  'Pdg-Francenel-product10': 'floralflounce-dress',
-  'Pdg-Francenel-product11': 'vintagesquare-dress',
-  'Pdg-Francenel-product12': 'paisleybelt-dress',
-  'Pdg-Francenel-product13': 'meshduo-set',
-  'Pdg-Francenel-product14': 'meshglam-dress',
-  'Pdg-Francenel-product15': 'linenbreeze-dress',
-  'Pdg-Francenel-product16': 'stripedmini-dress',
-  'Pdg-Francenel-product17': 'loungerobe',
-  'Pdg-Francenel-product18': 'lacenight-dress',
-  'Pdg-Francenel-product19': 'lacethong-set',
-  'Pdg-Francenel-product20': 'solidsexy-bikini',
-  'Pdg-Francenel-product21': 'curvebikini',
-  'Pdg-Francenel-product22': 'leopardnight-set',
-  'Pdg-Francenel-product23': 'supportbra',
-  'Pdg-Francenel-product24': 'laceromper',
-  'Pdg-Francenel-product25': 'stripedbikini',
-  'Pdg-Francenel-product26': 'tubebikinii',
-  'Pdg-Francenel-product27': 'ruffleone-bikini',
-  'Pdg-Francenel-product28': 'bandagebikini',
-  'Pdg-Francenel-product29': 'contrastone-piece',
-  'Pdg-Francenel-product30': 'premiumbikini',
-  'Pdg-Francenel-product31': 'irregulartop',
-  'Pdg-Francenel-product32': 'christmassweat',
-  'Pdg-Francenel-product33': 'dalmationshorts',
-  'Pdg-Francenel-product34': 'leopardshirt',
-  'Pdg-Francenel-product35': 'drawstringpants',
-  'Pdg-Francenel-product36': 'cropslimpants',
-  'Pdg-Francenel-product37': 'haremprints',
-  'Pdg-Francenel-product38': 'loosejeans',
-  'Pdg-Francenel-product39': 'britishloafers',
-  'Pdg-Francenel-product40': 'airmesh-runners',
-  'Pdg-Francenel-product41': 'leathercasuals',
-  'Pdg-Francenel-product42': 'businessdress-shoes',
-  'Pdg-Francenel-product43': 'hollowsneakers',
-  'Pdg-Francenel-product44': 'tendtrainers',
-  'Pdg-Francenel-product45': 'patentloafers',
-  'Pdg-Francenel-product46': 'collarshirt',
-  'Pdg-Francenel-product47': 'geopolo-shirt',
-  'Pdg-Francenel-product48': 'stripedcollar-sweater',
-  'Pdg-Francenel-product49': 'turtlenecklux',
-  'Pdg-Francenel-product50': 'hikejacket',
-  'Pdg-Francenel-product51': 'roundneck-sweatshirt',
-  'Pdg-Francenel-product52': 'nailbond-glue',
-  'Pdg-Francenel-product53': 'bownails',
-  'Pdg-Francenel-product54': 'nailrepair-lotion',
-  'Pdg-Francenel-product55': 'browdye-pencil',
-  'Pdg-Francenel-product56': 'curl-volume-mascara',
-  'Pdg-Francenel-product57': 'browkit-pro',
-  'Pdg-Francenel-product58': 'obsidian-lip-balm',
-  'Pdg-Francenel-product59': 'tearoff-lip-gloss',
-  'Pdg-Francenel-product60': 'gingerclean-pads',
-  'Pdg-Francenel-product61': 'deeprepair-hair-mask',
-  'Pdg-Francenel-product62': 'batanaglow-oil',
-  'Pdg-Francenel-product63': 'batanaboost-oil',
-  'Pdg-Francenel-product64': 'poreclean-gel',
-  'Pdg-Francenel-product65': 'knucklewhite-serum',
-  'Pdg-Francenel-product66': 'propolis-glow-essence',
-  'Pdg-Francenel-product67': 'menglow-cream',
-  'Pdg-Francenel-product68': 'iceglow-grid-set',
-  'Pdg-Francenel-product69': 'glamsatin-dress',
-  'Pdg-Francenel-product70': 'powersuit',
-  'Pdg-Francenel-product71': 'bohofloral-maxi',
-  'Pdg-Francenel-product72': 'cozylounge-set',
-  'Pdg-Francenel-product73': 'blushlace-gown',
-  'Pdg-Francenel-product74': 'tealempire-gown',
-  'Pdg-Francenel-product75': 'jacquardpower-suit'
-};
-
-function getProductUrl(id) {
-  const slug = PRODUCT_SLUGS_MAP[id];
-  if (slug) return `/bbw4life/${slug}`;
-
+  function getProductUrl(id) {
   if (!products || !Array.isArray(products) || products.length === 0) { return '/collections/bbw4life-all-product.html'; }
   const productIndex = products.findIndex(p => String(p.id) === String(id));
   if (productIndex === -1) { return '/collections/bbw4life-all-product.html'; }
@@ -13811,11 +13730,5 @@ function injectColFbt() {
   observer.observe(document.body, { childList: true, subtree: true });
 
 })();
-
-
-
-
-
-
 
 
