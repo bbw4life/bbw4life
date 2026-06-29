@@ -112,8 +112,8 @@
           subtitle:    found.subtitle,
           image:       found.image,
           product_ids: found.product_ids || [],
-          page_size:   12,
-          max_price:   200,
+          page_size:   found.page_size  || 12,
+          max_price:   found.max_price  || 300,
           hero_title:   found.title,
           hero_subtitle: found.subtitle || '',
           hero_eyebrow: found.name || ''

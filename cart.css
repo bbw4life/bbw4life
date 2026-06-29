@@ -1159,7 +1159,7 @@
   z-index: 1000;
   background: linear-gradient(135deg, #0d0d0d 0%, #1a0812 55%, #0d0d0d 100%);
   border-top: 1px solid rgba(201,150,62,0.32);
-  padding: 6px 16px 4px;
+  padding: 0px 16px 4px;
   box-sizing: border-box;
   width: 100%;
   box-shadow: 0 -6px 32px rgba(13,0,26,0.38);
@@ -1199,6 +1199,14 @@
   font-family: 'Cormorant Garamond', Georgia, serif !important;
   font-size: 1.22rem !important;
   font-weight: 700 !important;
+}
+
+
+
+@media (max-width: 768px) {
+  #footer-container {
+    margin-bottom: 50px;
+  }
 }
 
 /* ================================================================

@@ -4292,7 +4292,7 @@
   {
     "type": "settings",
     "inventory_display_mode": "anderson",
-    "show_nowpayments": "yes",
+    "show_nowpayments": "no",
     "product_title_badge": "yes",
     "thumbnails_desktop_vertical_left": "yes",
     "thumbnails_desktop_horizontal_below": "no",
@@ -4370,7 +4370,7 @@
       "countdown_minutes": 10,
       "countdown_text": "⚡ Offer expires in:",
       "countdown_suffix": "min",
-      "free_shipping_threshold": 350,
+      "free_shipping_threshold": 150,
       "show_free_shipping_bar": "Yes",
       "progress_message": "Add ${remaining} more paul for FREE shipping!",
       "progress_success_message": "🎉You've unlocked FREE shipping!",
@@ -4391,7 +4391,7 @@
       "banner_slide_duration_ms": 5000
     },
     "preloader": {
-      "show": "yes",
+      "show": "no",
       "style_pulse_logo":   "no",
       "style_progress_bar": "yes",
       "style_spinner_ring": "no",
@@ -5407,8 +5407,6 @@
         "rotateIn": "no",
         "glowPop": "no"
       },
-      "page_size": 12,
-      "max_price": 100,
       "hero_title": "Gear Built For Your Curves",
       "hero_subtitle": "Every product designed with curvy women in mind — comfortable, effective, beautiful.",
       "hero_eyebrow": "Our Full Collection"
@@ -5582,6 +5580,8 @@
       "url": "/collections/bbw4life-all-product.html",
       "cta_label": "Shop All Products →",
       "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/BBW4LIFE_All_Products.png?v=1777936945",
+      "page_size": 16,
+      "max_price": 100,
       "product_ids": [
 
         "-- WOMAN : SHOES --",
