@@ -49,7 +49,7 @@
     <div class="reviews-carousel" id="cart-reviews-carousel"></div>
     <div class="marquee-container cart-marquee">
       <div class="marquee-content">
-        <span>Free Shipping on Orders Over $350!</span>
+        <span>Free Shipping on Orders Over <span class="col-marquee-free-shipping"></span>+</span>
         <span>Secure Checkout Guaranteed!</span>
         <span>30-Day Money Back Guarantee!</span>
         <span>Shop Now and Save Big!</span>
