@@ -2774,59 +2774,12 @@ function showErrorPopup(message) {
               modalImg.style.transform = '';
             };
             closeBtn.addEventListener('click', closeModal);
-
-
-
-
-
-            let tapStartTime = 0;
-            let tapStartX = 0, tapStartY = 0;
-
-            modalImg.addEventListener('touchstart', (e) => {
-              if (e.touches.length > 1) return;
-
-              tapStartTime = Date.now();
-              tapStartX = e.touches[0].clientX;
-              tapStartY = e.touches[0].clientY;
-
-              if (scale <= 1) return; // pas de drag tant qu'on n'a pas zoomé
-              isDraggingZoom = true;
-              lastTouchX = e.touches[0].clientX;
-              lastTouchY = e.touches[0].clientY;
-              modalImg.style.transition = 'none';
-              e.preventDefault();
-            });
-
-            modalImg.addEventListener('touchend', (e) => {
-              isDraggingZoom = false;
-
-              // Détecte un vrai "tap" : peu de mouvement, durée courte
-              const dt = Date.now() - tapStartTime;
-              const lastTouch = e.changedTouches[0];
-              const dx = Math.abs(lastTouch.clientX - tapStartX);
-              const dy = Math.abs(lastTouch.clientY - tapStartY);
-
-              if (dt < 300 && dx < 10 && dy < 10) {
-                // C'est un tap → toggle zoom
-                if (scale > 1) { scale = 1; translateX = 0; translateY = 0; }
-                else { scale = 2.5; }
-                calculateBounds(); clampTranslate(); updateTransform(true);
-              }
-            });
-
-            // Garde le click pour desktop uniquement
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
             modalImg.addEventListener('click', () => {
-              if (isTouchDevice) return; // évite double-déclenchement sur mobile
               if (scale > 1) { scale = 1; translateX = 0; translateY = 0; }
               else { scale = 2.5; }
               calculateBounds(); clampTranslate(); updateTransform(true);
             });
-           
-
-
-
-
-
             modalImg.addEventListener('touchstart', (e) => {
               if (e.touches.length > 1 || scale <= 1) return;
               isDraggingZoom = true;
@@ -13280,7 +13233,7 @@ startAutoSlide();
       -ms-user-select:     none;
       user-select:         none;
     }
-    body.bbw-no-select img {
+    body.bbw-no-select img:not(#modal-zoom-image):not(.main-image img) {
       pointer-events: none;
     }
   `;
@@ -13318,13 +13271,10 @@ startAutoSlide();
 
     if ((cp.disable_devtools_key || 'no').toLowerCase() === 'yes') {
       document.addEventListener('keydown', function(e) {
-        // F12
         if (e.keyCode === 123) { e.preventDefault(); return false; }
-        // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C
         if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
           e.preventDefault(); return false;
         }
-        // Ctrl+U (view source)
         if (e.ctrlKey && e.keyCode === 85) { e.preventDefault(); return false; }
       });
     }
@@ -13780,5 +13730,3 @@ function injectColFbt() {
   observer.observe(document.body, { childList: true, subtree: true });
 
 })();
-
-

@@ -149,7 +149,7 @@ const SEO_MAP = {
         canonical: 'https://bbw4life.com/page/order-tracking.html'
     },
 
-    '/page/product-care.html': {
+    '/page/products-care.html': {
         title: 'Product Care Guide — Keep Your BBW4LIFE Pieces Beautiful | BBW4LIFE',
         description: 'Learn how to care for your BBW4LIFE clothing the right way. Washing tips, drying instructions, storage guides and fabric care advice to keep your curvy fashion looking brand new for longer.',
         keywords: 'product care BBW4LIFE, clothing care guide, wardrobe tips curvy fashion, BBW4LIFE washing guide, plus size clothing care, curvy fashion care instructions, BBW4LIFE fabric care, how to wash plus size clothes, clothing maintenance BBW4LIFE, curvy fashion washing tips, BBW4LIFE care label, plus size wardrobe care, curvy woman clothing tips, BBW4LIFE style maintenance, fabric care plus size, BBW clothing instructions, curvy dress care guide, plus size fashion maintenance, BBW4LIFE how to care, clothing longevity curvy, BBW4LIFE wardrobe guide, curvy fashion storage tips, plus size clothing storage, BBW4LIFE drying guide, curvy fashion fabric guide, plus size style care, BBW4LIFE clothing longevity, body positive wardrobe care, curvy woman wardrobe tips, plus size garment care',
