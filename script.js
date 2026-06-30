@@ -1090,11 +1090,18 @@ function showErrorPopup(message) {
         const wv = settings.widget_visibility;
         if (!wv) return;
 
-        const currentPath = window.location.pathname;
         const pages = wv.pages || [];
+        const currentPath = window.location.pathname;
 
-        // Only apply on listed pages
-        if (!pages.some(p => currentPath.endsWith(p) || currentPath === p || currentPath.includes(p))) return;
+        // ── Détecte une page produit même si l'URL a été réécrite par pretty-url.js ──
+        const isProductPage = !!document.querySelector('.product-section[data-product-id]');
+
+        const matches = pages.some(p => {
+          if (p === '/products/product' && isProductPage) return true;
+          return currentPath.endsWith(p) || currentPath === p || currentPath.includes(p);
+        });
+
+        if (!matches) return;
 
         const widgetMap = {
           'cf_chat_toggle': document.getElementById('cf-chat-toggle'),
