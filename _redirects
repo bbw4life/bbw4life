@@ -1,1 +1,108 @@
-/*  /404.html  404
+# ─────────────────────────────────────────────
+# PRODUCT PAGES — Pretty URLs
+# ─────────────────────────────────────────────
+/bbw4life/glam-heels-cross-strap-stiletto-sandals              /products/product1.html   200
+/bbw4life/retrorun-sneakers-chunky-sole-street-style            /products/product2.html   200
+/bbw4life/bohoflip-sandals-embroidered-boho-flip-flops          /products/product3.html   200
+/bbw4life/powerheels-12cm-stiletto-pumps                        /products/product4.html   200
+/bbw4life/winterboost-boots-ankle-boots                         /products/product5.html   200
+/bbw4life/colorstilettos-vibrant-stiletto-flip-flops            /products/product6.html   200
+/bbw4life/nightchic-dress-mock-neck-long-sleeve-printed         /products/product7.html   200
+/bbw4life/slitlux-dress-cutout-slit-round-neck                  /products/product8.html   200
+/bbw4life/plaidoverall-dress-wide-strap-dungaree                /products/product9.html   200
+/bbw4life/floralflounce-dress-surplice-flounce-sleeve-maxi      /products/product10.html  200
+/bbw4life/vintagesquare-dress-printed-square-neck               /products/product11.html  200
+/bbw4life/paisleybelt-dress-orange-floral-print-belted          /products/product12.html  200
+/bbw4life/meshduo-set-sheer-mesh-long-dress-suit                /products/product13.html  200
+/bbw4life/meshglam-dress-solid-color-stitching-maxi             /products/product14.html  200
+/bbw4life/linenbreeze-dress-cotton-linen-button-down            /products/product15.html  200
+/bbw4life/stripedmini-dress-vneck-long-sleeve                   /products/product16.html  200
+/bbw4life/loungerobe-loose-sleepwear-bathrobe                   /products/product17.html  200
+/bbw4life/lacenight-dress-sexy-short-strap-lace-nightdress      /products/product18.html  200
+/bbw4life/lacethong-set-sheer-lace-skirt-lingerie               /products/product19.html  200
+/bbw4life/solidsexy-bikini-high-waist-hot-swimsuit              /products/product20.html  200
+/bbw4life/curvebikini-solid-color-high-waist-swimwear           /products/product21.html  200
+/bbw4life/leopardnight-set-mesh-pajama-lingerie-dress           /products/product22.html  200
+/bbw4life/supportbra-large-cup-breathable-mesh-bra              /products/product23.html  200
+/bbw4life/laceromper-jumpsuit-lace-splicing-thong               /products/product24.html  200
+/bbw4life/stripedbikini-print-striped-swimwear                  /products/product25.html  200
+/bbw4life/tubebikinii-tube-top-swimsuit                         /products/product26.html  200
+/bbw4life/ruffleone-bikini-vneck-ruffled-one-piece              /products/product27.html  200
+/bbw4life/bandagebikini-solid-color-bandage-swimsuit            /products/product28.html  200
+/bbw4life/contrastone-piece-contrasting-color-swimwear          /products/product29.html  200
+/bbw4life/premiumbikini-plus-size-swimsuit-collection           /products/product30.html  200
+/bbw4life/irregulartop-loose-round-neck-irregular-hem           /products/product31.html  200
+/bbw4life/christmassweat-casual-holiday-sweatshirt              /products/product32.html  200
+/bbw4life/dalmationshorts-high-waist-dalmatian-print            /products/product33.html  200
+/bbw4life/leopardshirt-irregular-collar-spliced-blouse          /products/product34.html  200
+/bbw4life/drawstringpants-casual-pants-with-pockets             /products/product35.html  200
+/bbw4life/cropslimpants-mens-drawstring-cropped-pants           /products/product36.html  200
+/bbw4life/haremprints-printed-harem-trousers-men                /products/product37.html  200
+/bbw4life/loosejeans-mens-relaxed-fit-denim                     /products/product38.html  200
+/bbw4life/britishloafers-formal-tassel-party-shoes-men          /products/product39.html  200
+/bbw4life/airmesh-runners-professional-sports-sneakers-men      /products/product40.html  200
+/bbw4life/leathercasuals-mens-breathable-flat-sneakers          /products/product41.html  200
+/bbw4life/businessdress-shoes-classic-wedding-formal            /products/product42.html  200
+/bbw4life/hollowsneakers-mesh-big-size-fashion-shoes-men        /products/product43.html  200
+/bbw4life/tendtrainers-mens-outdoor-sport-sneakers              /products/product44.html  200
+/bbw4life/patentloafers-luxury-patent-leather-party-shoes       /products/product45.html  200
+/bbw4life/collarshirt-mens-plus-size-button-down                /products/product46.html  200
+/bbw4life/geopolo-shirt-geometric-print-men-polo                /products/product47.html  200
+/bbw4life/stripedcollar-sweater-mens-casual-knit                /products/product48.html  200
+/bbw4life/turtlenecklux-mens-plus-size-turtleneck-sweater       /products/product49.html  200
+/bbw4life/hikejacket-waterproof-outdoor-jacket                  /products/product50.html  200
+/bbw4life/roundneck-sweatshirt-mens-plus-size-pullover          /products/product51.html  200
+/bbw4life/nailbond-glue-strong-uv-nail-tips-adhesive            /products/product52.html  200
+/bbw4life/bownails-manicure-long-almond-fake-nails              /products/product53.html  200
+/bbw4life/nailrepair-lotion-nourishing-nail-solution            /products/product54.html  200
+/bbw4life/browdye-pencil-waterproof-quick-dry-eyebrow           /products/product55.html  200
+/bbw4life/curl-volume-mascara-4d-waterproof-formula             /products/product56.html  200
+/bbw4life/browkit-pro-waterproof-eyebrow-stencil-cream          /products/product57.html  200
+/bbw4life/obsidian-lip-balm-warming-moisture-treatment          /products/product58.html  200
+/bbw4life/tearoff-lip-gloss-4-color-long-lasting-peel           /products/product59.html  200
+/bbw4life/gingerclean-pads-ginger-lemon-makeup-remover          /products/product60.html  200
+/bbw4life/deeprepair-hair-mask-moisturizing-smoothing           /products/product61.html  200
+/bbw4life/batanaglow-oil-moisturizing-hair-care                 /products/product62.html  200
+/bbw4life/batanaboost-oil-120ml-hair-growth-conditioner         /products/product63.html  200
+/bbw4life/poreclean-gel-deep-exfoliating-anti-acne              /products/product64.html  200
+/bbw4life/knucklewhite-serum-hand-joint-skin-brightener         /products/product65.html  200
+/bbw4life/propolis-glow-essence-brightening-facial-serum        /products/product66.html  200
+/bbw4life/menglow-cream-concealing-brightening-lazy-cream       /products/product67.html  200
+/bbw4life/iceglow-grid-set-silicone-facial-cooling-tool         /products/product68.html  200
+/bbw4life/glamsatin-dress-black-halter-ruched-maxi              /products/product69.html  200
+/bbw4life/powersuit-ivory-structured-skirt-suit                 /products/product70.html  200
+/bbw4life/bohofloral-maxi-wrap-floral-bishop-sleeve-dress       /products/product71.html  200
+/bbw4life/cozylounge-set-cream-tank-beige-wide-leg              /products/product72.html  200
+/bbw4life/blushlace-gown-lace-cap-sleeve-empire-maxi            /products/product73.html  200
+/bbw4life/tealempire-gown-sleeveless-vneck-formal-maxi          /products/product74.html  200
+/bbw4life/jacquardpower-suit-multicolor-floral-brocade          /products/product75.html  200
+
+# ─────────────────────────────────────────────
+# BLOG ARTICLES — Pretty URLs
+# ─────────────────────────────────────────────
+/bbw4life/journal/beauty-has-no-sizes-movement-redefining-beauty                    /blog/article-featured.html  200
+/bbw4life/journal/stop-dieting-how-bbw-women-take-care-of-themselves                /blog/article1.html          200
+/bbw4life/journal/nutrition-curvy-women-eat-to-feel-amazing-not-to-shrink           /blog/article2.html          200
+/bbw4life/journal/7-body-positive-affirmations-that-change-how-you-see-yourself     /blog/article3.html          200
+/bbw4life/journal/stop-letting-opinions-destroy-your-body-confidence                /blog/article4.html          200
+/bbw4life/journal/pcos-plus-size-body-understanding-your-hormones                   /blog/article5.html          200
+/bbw4life/journal/gentle-home-exercises-plus-size-women-move-without-injury         /blog/article6.html          200
+/bbw4life/journal/plus-size-fashion-2026-outfits-that-turn-heads                    /blog/article7.html          200
+/bbw4life/journal/how-i-stopped-being-ashamed-of-my-body-and-started-loving-it      /blog/article8.html          200
+/bbw4life/journal/10-must-have-wardrobe-pieces-plus-size-women                      /blog/article9.html          200
+/bbw4life/journal/bbw-style-guide-dress-confidently-for-every-occasion              /blog/article10.html         200
+/bbw4life/journal/plus-size-dresses-find-the-model-that-flatters-every-curve        /blog/article11.html         200
+/bbw4life/journal/bbw-and-seduction-your-body-is-a-gift-not-an-obstacle             /blog/article12.html         200
+/bbw4life/journal/how-to-dress-as-bbw-and-feel-beautiful-not-just-covered           /blog/article13.html         200
+/bbw4life/journal/bbw-and-seduction-your-body-is-a-power-not-a-problem              /blog/article14.html         200
+/bbw4life/journal/bbw4life-big-beautiful-woman-lifestyle-pride-family               /blog/article15.html         200
+
+# ─────────────────────────────────────────────
+# CART
+# ─────────────────────────────────────────────
+/bbw4life/cart    /cart.html   200
+
+# ─────────────────────────────────────────────
+# CATCH-ALL — must stay LAST (order matters)
+# ─────────────────────────────────────────────
+/*    /404.html   404
