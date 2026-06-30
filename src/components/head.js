@@ -1138,6 +1138,14 @@ function injectGlobalHead() {
 
             let seo = SEO_MAP[path] || SEO_MAP[pathWithHtml];
 
+            // ── Fallback : path est une pretty URL → retrouver l'URL réelle via BBW_SLUGS ──
+            if (!seo && window.BBW_SLUGS) {
+                const realPath = Object.keys(window.BBW_SLUGS).find(
+                    key => window.BBW_SLUGS[key] === path
+                );
+                if (realPath) seo = SEO_MAP[realPath];
+            }
+
    
     if (!seo && /\/products\/product\d+\.html/.test(path)) {
         seo = {
