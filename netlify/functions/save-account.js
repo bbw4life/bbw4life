@@ -87,9 +87,11 @@ exports.handler = async (event) => {
         ]] }
       });
 
-      // ── Email de confirmation — ENVOI IMMÉDIAT ──
+      // ── Email de confirmation — ENVOI IMMÉDIAT (attendu avant de répondre) ──
       const confirmToken = generateConfirmToken(email);
-      notifyConfirmEmail({ email, firstName, confirmToken }).catch(() => {});
+      await notifyConfirmEmail({ email, firstName, confirmToken }).catch((e) => {
+        console.warn('[signup] notifyConfirmEmail failed:', e.message);
+      });
 
       return { statusCode: 200, body: JSON.stringify({ success: true, requireConfirmation: true }) };
     }
