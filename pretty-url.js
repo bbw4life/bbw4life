@@ -98,6 +98,7 @@
 
   window.BBW_SLUGS = SLUGS;
   var path = window.location.pathname;
+  window.__BBW_ORIGINAL_PATH__ = path; 
   var pretty = SLUGS[path];
   if (pretty && path !== pretty) {
     window.history.replaceState({}, document.title, pretty);
