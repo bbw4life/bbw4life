@@ -4299,7 +4299,7 @@
     "thumbnails_mobile_horizontal": "no",
     "thumbnails_mobile_vertical_left": "yes",
     "sticky_media_mobile": "yes",
-    "swatch_scroll_mobile": "yes",
+    "swatch_scroll_mobile": "no",
     "sticky_atc_mobile_threshold": 5.0,
     "sticky_atc_desktop_threshold": 4.5,
     "theme_color": "#000000",
@@ -4679,7 +4679,8 @@
           "/blog/article13.html",
           "/blog/article14.html",
           "/blog/article15.html",
-          "/products/product"
+          "/products/product",
+          "ALL_PRODUCT_PAGES"
         ],
         "cf_chat_toggle": "yes",
         "paul_trigger": "no",

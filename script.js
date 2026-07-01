@@ -1089,11 +1089,19 @@ function showErrorPopup(message) {
         const settings = products.find(p => p.type === 'settings') || {};
         const wv = settings.widget_visibility;
         if (!wv) return;
-        const currentPath = window.__bbwOriginalPath || window.location.pathname;
+
+        const currentPath = window.location.pathname;
         const pages = wv.pages || [];
 
+        const isProductPage = !!document.querySelector('.product-section');
+
         // Only apply on listed pages
-        if (!pages.some(p => currentPath.endsWith(p) || currentPath === p || currentPath.includes(p))) return;
+        const matches = pages.some(p => {
+          if (p === 'ALL_PRODUCT_PAGES') return isProductPage;
+          return currentPath.endsWith(p) || currentPath === p || currentPath.includes(p);
+        });
+
+        if (!matches) return;
 
         const widgetMap = {
           'cf_chat_toggle': document.getElementById('cf-chat-toggle'),
