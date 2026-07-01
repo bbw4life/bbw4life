@@ -1090,16 +1090,11 @@ function showErrorPopup(message) {
         const wv = settings.widget_visibility;
         if (!wv) return;
 
-        const currentPath = window.__BBW_ORIGINAL_PATH__ || window.location.pathname;
+        const currentPath = window.location.pathname;
         const pages = wv.pages || [];
 
-        // Détection fiable des pages produit, indépendante de l'URL affichée
-        const isProductPage = !!document.querySelector('.product-section[data-product-id]');
-
-        const matchesPathList  = pages.some(p => currentPath.endsWith(p) || currentPath === p || currentPath.includes(p));
-        const matchesProductRule = pages.includes('/products/product') && isProductPage;
-
-        if (!matchesPathList && !matchesProductRule) return;
+        // Only apply on listed pages
+        if (!pages.some(p => currentPath.endsWith(p) || currentPath === p || currentPath.includes(p))) return;
 
         const widgetMap = {
           'cf_chat_toggle': document.getElementById('cf-chat-toggle'),
