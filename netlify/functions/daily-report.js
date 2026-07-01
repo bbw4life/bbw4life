@@ -46,6 +46,21 @@ exports.handler = async (event) => {
       });
     } catch(e) { console.warn('Orders read failed:', e.message); }
 
+     // ── Paniers abandonnés du jour ──
+    let abandonedToday = 0;
+    try {
+      const abandonedRes = await sheets.spreadsheets.values.get({
+        spreadsheetId: process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
+        range: 'Abandoned_Carts!A:J'
+      });
+      const abandonedRows = (abandonedRes.data.values || []).slice(1);
+      abandonedRows.forEach(row => {
+        if (row[7] && row[7].toString().startsWith(new Date().toISOString().slice(0, 10))) {
+          abandonedToday++;
+        }
+      });
+    } catch(e) { console.warn('Abandoned carts read failed:', e.message); }
+
     // ── 2. Nouveaux clients du jour ──
     let newClients = 0;
     try {
@@ -116,6 +131,7 @@ exports.handler = async (event) => {
       `📊 <b>Rapport Quotidien BBW4LIFE</b>\n` +
       `📅 <b>${today}</b>\n\n` +
       `🛍️ <b>Commandes:</b> ${ordersToday}\n` +
+      `🛒 <b>Paniers abandonnés:</b> ${abandonedToday}\n` +
       `👥 <b>Nouveaux clients:</b> ${newClients}\n` +
       `💌 <b>Messages contact:</b> ${messagesTODAY}\n` +
       `📖 <b>Stories soumises:</b> ${storiesToday}\n` +

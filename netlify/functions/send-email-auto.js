@@ -1592,7 +1592,7 @@ async function composeCartAbandoned(data, settings) {
   const copy = await genCartAbandonedCopy(name);
 
   const itemsHTML = items.map(item => cOrderItem(item)).join('');
-  const finalRestartLink = restartLink || `${BASE_URL}/checkout.html`;
+  const finalRestartLink = restartLink || `${BASE_URL}/checkout/checkout.html`;
 
   const bodyHTML = `
     <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:26px;

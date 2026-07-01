@@ -59,7 +59,7 @@ const SEO_MAP = {
     },
 
     '/collections/bbw-features-products.html': {
-        title: 'New Arrivals — Fresh Plus Size Styles Every Week | BBW4LIFE',
+        title: 'BBW Feature — Plus Size Fashion by the New BBW4LIFE Brand',
         description: 'Discover BBW4LIFE\'s latest plus size arrivals. Bold new styles added every week — handpicked for curvy women who love to shine. Sizes XL to 6XL. Free shipping on $50+. Shop before they sell out.',
         keywords: 'new arrivals plus size, new curvy fashion, BBW4LIFE new arrivals, featured plus size products, new BBW fashion, curvy fashion new arrivals, plus size new styles, BBW4LIFE featured, new plus size dresses, curvy new arrivals, BBW new collection, plus size trending styles, new curvy dresses, BBW4LIFE this week, plus size fresh styles, curvy fashion 2026, new arrivals curvy woman, BBW4LIFE weekly drops, plus size hot new, curvy styles drop, BBW new styles, plus size fashion drops, featured curvy collection, BBW4LIFE drop, new plus size arrivals, curvy fashion update, weekly plus size arrivals, BBW featured products, body positive new arrivals, curvy woman new styles',
         og_image: 'https://bbw4life.com/public/og-new.jpg',
