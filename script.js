@@ -1093,7 +1093,13 @@ function showErrorPopup(message) {
         const currentPath = window.__BBW_ORIGINAL_PATH__ || window.location.pathname;
         const pages = wv.pages || [];
 
-        if (!pages.some(p => currentPath.endsWith(p) || currentPath === p || currentPath.includes(p))) return;
+        // Détection fiable des pages produit, indépendante de l'URL affichée
+        const isProductPage = !!document.querySelector('.product-section[data-product-id]');
+
+        const matchesPathList  = pages.some(p => currentPath.endsWith(p) || currentPath === p || currentPath.includes(p));
+        const matchesProductRule = pages.includes('/products/product') && isProductPage;
+
+        if (!matchesPathList && !matchesProductRule) return;
 
         const widgetMap = {
           'cf_chat_toggle': document.getElementById('cf-chat-toggle'),
