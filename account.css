@@ -3064,3 +3064,89 @@ a.stat-wishlist-link.stat-item {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+
+/* ══════════════════════════════════════════
+   PROFILE BIRTHDAY FIELD
+══════════════════════════════════════════ */
+.profile-birthday-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 28px;
+  padding-left: 24px;
+  border-left: 1px solid rgba(201, 150, 62, 0.20);
+}
+
+.profile-birthday-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--slate);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-birthday-label i {
+  color: #c0385e;
+}
+
+.profile-birthday-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-birthday-input {
+  padding: 8px 12px;
+  border: 1.5px solid rgba(201, 150, 62, 0.28);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.profile-birthday-input:focus {
+  border-color: rgba(184, 48, 88, 0.55);
+}
+
+.profile-birthday-save-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #c0385e, #7b3f6e);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.profile-birthday-save-btn:hover { opacity: 0.88; }
+.profile-birthday-save-btn:disabled { opacity: 0.6; cursor: default; }
+
+.profile-birthday-msg {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.74rem;
+  margin: 0;
+  min-height: 14px;
+}
+
+.profile-birthday-msg.success { color: #22a06b; }
+.profile-birthday-msg.error   { color: #e74c3c; }
+
+@media (max-width: 480px) {
+  .profile-birthday-block {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+    margin-top: 10px;
+    width: 100%;
+  }
+}
