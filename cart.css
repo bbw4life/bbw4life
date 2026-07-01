@@ -1201,10 +1201,8 @@
   font-weight: 700 !important;
 }
 
-
-
 @media (max-width: 768px) {
-  #footer-container {
+  .cart-page #footer-container {
     margin-bottom: 50px;
   }
 }
