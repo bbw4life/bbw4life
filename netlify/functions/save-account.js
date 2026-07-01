@@ -60,6 +60,13 @@ exports.handler = async (event) => {
     // ==================== SIGNUP ====================
     if (action === 'signup') {
       if (!lastName || !firstName || !email || !password) throw new Error("Données manquantes");
+
+      if (rowIndex !== -1) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ success: false, error: 'EMAIL_ALREADY_EXISTS' })
+        };
+      }
       const passNormalized = normalize(password);
       const memberSince = formatDate();
       const values = [[normalize(lastName), normalize(firstName), normalize(email), normalize(phone), passNormalized, newsletter,

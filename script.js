@@ -7861,6 +7861,167 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+  /* ── DEVICE ACCOUNT FLAG — helpers ── */
+  function bbwGetDeviceAccountEmail() {
+    var fromLS = localStorage.getItem('bbw_device_account_email');
+    if (fromLS) return fromLS;
+    var match = document.cookie.match(/(?:^|;\s*)bbw_device_account=([^;]+)/);
+    if (match) return decodeURIComponent(match[1]);
+    return null;
+  }
+
+  function bbwSetDeviceAccountEmail(email) {
+    try { localStorage.setItem('bbw_device_account_email', email); } catch (e) {}
+    var expires = new Date(Date.now() + 400 * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = 'bbw_device_account=' + encodeURIComponent(email) + ';expires=' + expires + ';path=/;SameSite=Lax';
+  }
+
+  /* ── ACCOUNT BLOCK POPUP — CSS injecté une seule fois ── */
+  (function injectAccountBlockPopupCSS() {
+    if (document.getElementById('abp-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'abp-styles';
+    style.textContent = `
+      #account-block-popup {
+        position: fixed; inset: 0; z-index: 999999;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(20,10,15,0.60);
+        backdrop-filter: blur(3px);
+        opacity: 0; transition: opacity 0.3s ease;
+        padding: 20px;
+      }
+      #account-block-popup.abp-visible { opacity: 1; }
+      .abp-modal {
+        position: relative;
+        width: 100%;
+        max-width: 360px;
+        background: #fffdf9;
+        border-radius: 18px;
+        padding: 30px 26px 24px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(192,56,94,0.28);
+        transform: scale(0.9) translateY(10px);
+        transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        overflow: hidden;
+      }
+      #account-block-popup.abp-visible .abp-modal { transform: scale(1) translateY(0); }
+      .abp-close {
+        position: absolute; top: 12px; right: 12px;
+        width: 28px; height: 28px; border-radius: 50%;
+        background: #f5eaea; border: none; color: #7b3f6e;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: background 0.2s;
+        z-index: 2;
+      }
+      .abp-close:hover { background: #eddede; }
+      .abp-icon-wrap {
+        width: 60px; height: 60px; margin: 0 auto 16px;
+        border-radius: 50%;
+        background: linear-gradient(135deg,#fff3e0,#fde3e3);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.8rem;
+        border: 2px solid rgba(192,56,94,0.15);
+      }
+      .abp-title {
+        font-size: 1.16rem; font-weight: 800; color: #7b3f6e;
+        margin: 0 0 10px;
+      }
+      .abp-text {
+        font-size: 0.88rem; color: #6b5560; line-height: 1.6;
+        margin: 0 0 22px;
+      }
+      .abp-btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 8px;
+        width: 100%;
+        background: linear-gradient(135deg,#c0385e,#7b3f6e);
+        color: #fff; font-weight: 700; font-size: 0.90rem;
+        padding: 13px 18px; border-radius: 30px;
+        text-decoration: none;
+        box-shadow: 0 6px 16px rgba(192,56,94,0.35);
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: none; cursor: pointer;
+        box-sizing: border-box;
+      }
+      .abp-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(192,56,94,0.45); }
+      @media (max-width: 420px) {
+        .abp-modal { max-width: 310px; padding: 26px 20px 20px; }
+      }
+    `;
+    document.head.appendChild(style);
+  })();
+
+  /* ── ACCOUNT BLOCK POPUP — fonction d'affichage ── */
+  window.showAccountBlockPopup = function (type) {
+    var existing = document.getElementById('account-block-popup');
+    if (existing) existing.remove();
+
+    var CONTENT = {
+      duplicate_email: {
+        icon:  '⚠️',
+        title: 'Account Already Exists',
+        text:  'Dear customer, this email address already exists in our records. Please log in to access your account instead of creating a new one.',
+        btn:   'Log In Now'
+      },
+      device_limit: {
+        icon:  '⚠️',
+        title: 'Account Limit Reached',
+        text:  'Dear customer, an account has already been created from this device. For security reasons, only one account is allowed per device. Please log in with your existing account.',
+        btn:   'Log In Now'
+      }
+    };
+
+    var cfg = CONTENT[type] || CONTENT.duplicate_email;
+
+    var overlay = document.createElement('div');
+    overlay.id = 'account-block-popup';
+    overlay.innerHTML =
+      '<div class="abp-modal">' +
+        '<button class="abp-close" id="abp-close-btn" aria-label="Close">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">' +
+            '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>' +
+          '</svg>' +
+        '</button>' +
+        '<div class="abp-icon-wrap">' + cfg.icon + '</div>' +
+        '<h3 class="abp-title">' + cfg.title + '</h3>' +
+        '<p class="abp-text">' + cfg.text + '</p>' +
+        '<button type="button" class="abp-btn" id="abp-login-btn">' +
+          '<i class="fi fi-rr-sign-in-alt"></i> ' + cfg.btn +
+        '</button>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { overlay.classList.add('abp-visible'); });
+    });
+
+    function closeAbp() {
+      overlay.classList.remove('abp-visible');
+      setTimeout(function () {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 300);
+    }
+
+    document.getElementById('abp-login-btn').addEventListener('click', function () {
+      closeAbp();
+      var signupForm = document.getElementById('signupForm');
+      var loginForm  = document.getElementById('loginForm');
+      if (signupForm) signupForm.style.display = 'none';
+      if (loginForm)  loginForm.style.display  = 'block';
+    });
+
+    document.getElementById('abp-close-btn').addEventListener('click', closeAbp);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeAbp();
+    });
+  };
+
+
+
+
+
   /* ── EMAIL CONFIRM POPUP — CSS injecté une seule fois ── */
   (function injectEmailConfirmPopupCSS() {
     if (document.getElementById('ecp-styles')) return;
@@ -8122,6 +8283,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const password   = signupForm.querySelector('input[placeholder*="Password"], input[type="password"], #signup-password').value.trim();
       const newsletter = signupForm.querySelector('input[type="checkbox"]').checked ? "Yes" : "No";
       if (!password) return window.showToast("Password is required");
+
+      // ── Restriction "un seul compte par appareil" ──
+      const settingsNow   = (window.__allProducts || []).find(p => p.type === 'settings') || {};
+      const allowMultiple = ((settingsNow.account_restrictions || {}).allow_multiple_accounts_per_device || 'yes').toLowerCase().trim();
+      if (allowMultiple === 'no' && bbwGetDeviceAccountEmail()) {
+        window.showAccountBlockPopup('device_limit');
+        return;
+      }
+
       const originalText = registerBtn.textContent;
       registerBtn.textContent = "Creating account..."; registerBtn.disabled = true;
       try {
@@ -8130,6 +8300,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.success) {
           registerBtn.textContent = "Account created!";
           window.showEmailConfirmPopup(email);
+          if (allowMultiple === 'no') {
+            bbwSetDeviceAccountEmail(email);
+          }
           setTimeout(() => {
             if (paulPopupOverlay) paulPopupOverlay.classList.remove('active');
             if (signupForm) signupForm.reset();
@@ -8137,7 +8310,14 @@ document.addEventListener('DOMContentLoaded', () => {
             registerBtn.disabled = false;
           }, 1500);
         }
-        else { registerBtn.textContent = originalText; registerBtn.disabled = false; window.showToast("Error: " + (data.error || "Unknown")); }
+        else {
+          registerBtn.textContent = originalText; registerBtn.disabled = false;
+          if (data.error === 'EMAIL_ALREADY_EXISTS') {
+            window.showAccountBlockPopup('duplicate_email');
+          } else {
+            window.showToast("Error: " + (data.error || "Unknown"));
+          }
+        }
       } catch (err) { registerBtn.textContent = originalText; registerBtn.disabled = false; window.showToast("Network error"); }
     });
   }

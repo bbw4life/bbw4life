@@ -4314,6 +4314,9 @@
       "typing_label": "Berline is typing…",
       "powered_by": "Powered by BBW4LIFE AI · Press Enter to send"
     },
+    "account_restrictions": {
+      "allow_multiple_accounts_per_device": "no"
+    },
     "founder": {
         "name": "Francenel",
         "full_name": "Paul Francenel",
