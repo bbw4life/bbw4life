@@ -3066,44 +3066,26 @@ a.stat-wishlist-link.stat-item {
 }
 
 
-
-
-
 /* ══════════════════════════════════════════
    PROFILE BIRTHDAY FIELD
 ══════════════════════════════════════════ */
-.profile-photo-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.profile-photo-block {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
 .profile-birthday-block {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-left: auto;
-  padding-left: 20px;
+  margin-left: 28px;
+  padding-left: 24px;
   border-left: 1px solid rgba(201, 150, 62, 0.20);
 }
 
 .profile-birthday-label {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: var(--slate);
   display: flex;
   align-items: center;
   gap: 6px;
-  white-space: nowrap;
 }
 
 .profile-birthday-label i {
@@ -3113,19 +3095,18 @@ a.stat-wishlist-link.stat-item {
 .profile-birthday-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .profile-birthday-input {
-  padding: 7px 10px;
+  padding: 8px 12px;
   border: 1.5px solid rgba(201, 150, 62, 0.28);
   border-radius: 8px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   color: var(--charcoal);
   background: #fafafa;
   outline: none;
-  max-width: 140px;
   transition: border-color 0.2s;
 }
 
@@ -3134,13 +3115,13 @@ a.stat-wishlist-link.stat-item {
 }
 
 .profile-birthday-save-btn {
-  padding: 7px 14px;
+  padding: 8px 16px;
   background: linear-gradient(135deg, #c0385e, #7b3f6e);
   color: #fff;
   border: none;
   border-radius: 8px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
@@ -3152,7 +3133,7 @@ a.stat-wishlist-link.stat-item {
 
 .profile-birthday-msg {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.70rem;
+  font-size: 0.74rem;
   margin: 0;
   min-height: 14px;
 }
@@ -3161,19 +3142,11 @@ a.stat-wishlist-link.stat-item {
 .profile-birthday-msg.error   { color: #e74c3c; }
 
 @media (max-width: 480px) {
-  .profile-photo-block {
-    flex-direction: row !important;
-    align-items: center !important;
-  }
-  .profile-photo-left {
-    gap: 12px;
-  }
   .profile-birthday-block {
     margin-left: 0;
-    padding-left: 12px;
-    border-left: 1px solid rgba(201, 150, 62, 0.20);
-  }
-  .profile-birthday-input {
-    max-width: 110px;
+    padding-left: 0;
+    border-left: none;
+    margin-top: 10px;
+    width: 100%;
   }
 }

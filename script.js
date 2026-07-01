@@ -1089,8 +1089,7 @@ function showErrorPopup(message) {
         const settings = products.find(p => p.type === 'settings') || {};
         const wv = settings.widget_visibility;
         if (!wv) return;
-
-        const currentPath = window.location.pathname;
+        const currentPath = window.__bbwOriginalPath || window.location.pathname;
         const pages = wv.pages || [];
 
         // Only apply on listed pages

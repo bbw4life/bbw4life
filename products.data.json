@@ -4359,8 +4359,8 @@
       { "icon": "fi fi-sr-gift",          "label": "Gift ideas",       "msg": "I want to buy a gift for a curvy woman I love — what do you suggest?" },
       { "icon": "fi fi-sr-headset",       "label": "Human support",    "msg": "I need to speak with a real person from your team." }
     ],
-    "tax_rate": 0.2,
-    "shipping_cost": 20.0,
+    "tax_rate": 0.1,
+    "shipping_cost": 20.81,
     "shipping_standard_delay": "10-15 business days",
     "shipping_express_delay": "3–10 business days",
     "shipping_dhl_delay": "2–10 business days",
@@ -4679,8 +4679,7 @@
           "/blog/article13.html",
           "/blog/article14.html",
           "/blog/article15.html",
-          "/products/product",
-          "/bbw4life"
+          "/products/product"
         ],
         "cf_chat_toggle": "yes",
         "paul_trigger": "no",

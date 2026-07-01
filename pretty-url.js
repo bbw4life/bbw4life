@@ -96,8 +96,9 @@
     '/blog/article15.html': '/bbw4life/journal/bbw4life-big-beautiful-woman-lifestyle-pride-family',
   };
 
-  window.BBW_SLUGS = SLUGS;
+ window.BBW_SLUGS = SLUGS;
   var path = window.location.pathname;
+  window.__bbwOriginalPath = path;
   var pretty = SLUGS[path];
   if (pretty && path !== pretty) {
     window.history.replaceState({}, document.title, pretty);
