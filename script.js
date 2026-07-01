@@ -7887,6 +7887,7 @@ document.addEventListener('DOMContentLoaded', () => {
         box-shadow: 0 20px 60px rgba(192,56,94,0.25);
         transform: scale(0.9) translateY(10px);
         transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        overflow: hidden; /* FIX #1 : empêche le bouton/son ombre de déborder du cadre arrondi */
       }
       #email-confirm-popup.ecp-visible .ecp-modal { transform: scale(1) translateY(0); }
       .ecp-close {
@@ -7895,6 +7896,7 @@ document.addEventListener('DOMContentLoaded', () => {
         background: #f5eaea; border: none; color: #7b3f6e;
         display: flex; align-items: center; justify-content: center;
         cursor: pointer; transition: background 0.2s;
+        z-index: 2;
       }
       .ecp-close:hover { background: #eddede; }
       .ecp-icon-wrap {
@@ -7923,6 +7925,7 @@ document.addEventListener('DOMContentLoaded', () => {
         box-shadow: 0 6px 16px rgba(192,56,94,0.35);
         transition: transform 0.2s, box-shadow 0.2s;
         border: none; cursor: pointer;
+        box-sizing: border-box; /* FIX #1 : évite tout dépassement lié au padding/border */
       }
       .ecp-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(192,56,94,0.45); }
       .ecp-progress {
@@ -7964,7 +7967,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return map[domain] || ('https://' + domain);
     }
 
+    // FIX #2 : détection mobile
+    function isMobileDevice() {
+      return /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+    }
+
     var webmailUrl = getWebmailUrl(email);
+    var mobile = isMobileDevice();
 
     var overlay = document.createElement('div');
     overlay.id = 'email-confirm-popup';
@@ -7978,9 +7987,9 @@ document.addEventListener('DOMContentLoaded', () => {
         '<div class="ecp-icon-wrap">📧</div>' +
         '<h3 class="ecp-title">Confirm Your Email</h3>' +
         '<p class="ecp-text">Please confirm your email before logging in.<br>Check your inbox for the confirmation link.</p>' +
-        '<a href="' + webmailUrl + '" target="_blank" rel="noopener noreferrer" class="ecp-btn">' +
+        '<button type="button" class="ecp-btn" id="ecp-open-mail-btn">' +
           '<i class="fi fi-rr-envelope"></i> Go to My Email' +
-        '</a>' +
+        '</button>' +
         '<div class="ecp-progress"><div class="ecp-progress-fill" id="ecp-progress-fill"></div></div>' +
       '</div>';
     document.body.appendChild(overlay);
@@ -7992,12 +8001,12 @@ document.addEventListener('DOMContentLoaded', () => {
     var fill = document.getElementById('ecp-progress-fill');
     if (fill) {
       requestAnimationFrame(function () {
-        fill.style.transition = 'width 8s linear';
+        fill.style.transition = 'width 10s linear'; // FIX #3 : 10s au lieu de 8s
         fill.style.width = '0%';
       });
     }
 
-    var autoTimer = setTimeout(closeEcp, 8000);
+    var autoTimer = setTimeout(closeEcp, 10000); // FIX #3 : 10s au lieu de 8s
 
     function closeEcp() {
       clearTimeout(autoTimer);
@@ -8006,6 +8015,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
       }, 300);
     }
+
+    // FIX #2 : ouverture de l'app mail native sur mobile, quel que soit le fournisseur
+    document.getElementById('ecp-open-mail-btn').addEventListener('click', function () {
+      if (mobile) {
+        // tente d'ouvrir l'app mail par défaut du téléphone (Gmail, Outlook, Mail iOS, etc.)
+        window.location.href = 'mailto:';
+        // si aucune app ne prend le relais (rare), on retombe sur le webmail après un court délai
+        setTimeout(function () {
+          if (!document.hidden) {
+            window.open(webmailUrl, '_blank');
+          }
+        }, 1200);
+      } else {
+        window.open(webmailUrl, '_blank', 'noopener,noreferrer');
+      }
+    });
 
     document.getElementById('ecp-close-btn').addEventListener('click', closeEcp);
     overlay.addEventListener('click', function (e) {
