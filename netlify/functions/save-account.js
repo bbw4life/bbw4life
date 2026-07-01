@@ -1,8 +1,8 @@
 // netlify/functions/save-account.js
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
-const { verifyAccountToken } = require('./account-token');
-const { notifyWelcome, notifyNewsletter1 } = require('./notify-email');
+const { verifyAccountToken, generateConfirmToken, verifyConfirmToken } = require('./account-token');
+const { notifyWelcome, notifyNewsletter1, notifyConfirmEmail } = require('./notify-email');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -68,12 +68,47 @@ exports.handler = async (event) => {
         spreadsheetId, range: "bbw4life-accounts!A:Z", valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", resource: { values }
       });
 
+      // ── Marquer le compte comme non confirmé (colonne AF) ──
+      const newRowNum = rows.length + 1;
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `bbw4life-accounts!AF${newRowNum}`,
+        valueInputOption: "RAW",
+        resource: { values: [["no"]] }
+      });
+
+      // ── Email de confirmation (remplace l'accès direct au compte) ──
+      const confirmToken = generateConfirmToken(email);
+      notifyConfirmEmail({ email, firstName, confirmToken }).catch(() => {});
+
       notifyWelcome({ email, firstName, lastName }).catch(() => {});
 
       // ── Email Newsletter #1 ──
       if ((newsletter || '').toLowerCase() === 'yes') {
         notifyNewsletter1({ email, firstName }).catch(() => {});
       }
+
+      return { statusCode: 200, body: JSON.stringify({ success: true, requireConfirmation: true }) };
+    }
+
+
+    // ==================== CONFIRM ACCOUNT (email verification) ====================
+    if (action === 'confirm-account') {
+      const { confirmToken } = body;
+      if (!email || !confirmToken) throw new Error("Missing confirmation data");
+
+      if (!verifyConfirmToken(email, confirmToken)) {
+        return { statusCode: 401, body: JSON.stringify({ success: false, error: 'INVALID_TOKEN' }) };
+      }
+
+      if (rowIndex === -1) throw new Error("Utilisateur non trouvé");
+
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `bbw4life-accounts!AF${rowNum}`,
+        valueInputOption: "RAW",
+        resource: { values: [["yes"]] }
+      });
 
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }

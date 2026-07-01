@@ -7859,6 +7859,32 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => toast.classList.remove('show'), 5000);
   };
 
+  /* ── EMAIL CONFIRMATION HANDLER (lien reçu par email) ── */
+  if (isAccountPage) {
+    const urlParams   = new URLSearchParams(window.location.search);
+    const confirmTok  = urlParams.get('confirm_token');
+    const confirmMail = urlParams.get('email');
+    if (confirmTok && confirmMail) {
+      fetch('/.netlify/functions/save-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'confirm-account', email: confirmMail, confirmToken: confirmTok })
+      })
+      .then(r => r.json())
+      .then(data => {
+        window.history.replaceState({}, '', '/account.html');
+        if (data.success) {
+          window.showToast("Your email has been confirmed! Please log in. ✅");
+        } else {
+          window.showToast("This confirmation link is invalid or expired.");
+        }
+      })
+      .catch(() => {
+        window.history.replaceState({}, '', '/account.html');
+      });
+    }
+  }
+
   window.openAccountPopup = (id) => {
     const popup = document.getElementById(id);
     if (popup) popup.classList.add('open');
@@ -7936,7 +7962,16 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const res  = await fetch('/.netlify/functions/save-account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lastName, firstName, email, phone, password, newsletter }) });
         const data = await res.json();
-        if (data.success) { registerBtn.textContent = "Your profil is ready..."; window.showToast("Account created successfully!"); setTimeout(() => goToLogin.click(), 800); }
+        if (data.success) {
+          registerBtn.textContent = "Account created!";
+          window.showToast("Please check your email to confirm your account. 📧");
+          setTimeout(() => {
+            if (paulPopupOverlay) paulPopupOverlay.classList.remove('active');
+            if (signupForm) signupForm.reset();
+            registerBtn.textContent = originalText;
+            registerBtn.disabled = false;
+          }, 1500);
+        }
         else { registerBtn.textContent = originalText; registerBtn.disabled = false; window.showToast("Error: " + (data.error || "Unknown")); }
       } catch (err) { registerBtn.textContent = originalText; registerBtn.disabled = false; window.showToast("Network error"); }
     });
@@ -8072,7 +8107,15 @@ document.addEventListener('DOMContentLoaded', () => {
           window.showToast(`Welcome ${data.user.firstName} !`);
           paulPopupOverlay.classList.remove('active');
           if (isAccountPage) location.reload(); else window.location.href = '/account.html';
-        } else { loginBtn.textContent = originalText; loginBtn.disabled = false; window.showToast("Incorrect email or password"); }
+        } else {
+          loginBtn.textContent = originalText;
+          loginBtn.disabled = false;
+          if (data.error === 'EMAIL_NOT_CONFIRMED') {
+            window.showToast("Please confirm your email before logging in. Check your inbox! 📧");
+          } else {
+            window.showToast("Incorrect email or password");
+          }
+        }
       } catch (err) { loginBtn.textContent = originalText; loginBtn.disabled = false; window.showToast("Network error"); }
     });
   }

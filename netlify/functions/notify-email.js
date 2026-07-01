@@ -101,8 +101,14 @@ function notifyReviewResponse({ email, firstName, title, text, productId }) {
 }
 
 // Abandoned cart recovery
-function notifyCartAbandoned({ email, firstName, items, promoCode, promoPercent, restartLink }) {
-  return notifyEmail('cart_abandoned', { email, firstName, items, promoCode, promoPercent, restartLink });
+function notifyCartAbandoned({ email, orderId, firstName, items, promoCode, promoPercent, restartLink }) {
+  return notifyEmail('cart_abandoned', { email, orderId, firstName, items, promoCode, promoPercent, restartLink });
+}
+
+// Confirmation d'email après signup
+function notifyConfirmEmail({ email, firstName, confirmToken }) {
+  const confirmUrl = `${BASE_URL}/account.html?confirm_token=${encodeURIComponent(confirmToken)}&email=${encodeURIComponent(email)}`;
+  return notifyEmail('confirm_account', { email, firstName, confirmUrl });
 }
 
 module.exports = {
@@ -120,5 +126,6 @@ module.exports = {
   notifyCustomProduct,
   notifyCartAbandoned,
   notifyStoryReceived,
-  notifyReviewResponse
+  notifyReviewResponse,
+  notifyConfirmEmail
 };

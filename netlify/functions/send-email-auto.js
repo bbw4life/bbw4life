@@ -27,6 +27,7 @@ const T = {
   PLAN_REQUEST:       'plan_request',
   CUSTOM_PRODUCT:     'custom_product',
   CART_ABANDONED:     'cart_abandoned',
+  CONFIRM_ACCOUNT:    'confirm_account',
   STORY_RECEIVED:     'story_received',
   REVIEW_RESPONSE:    'review_response',
 };
@@ -1121,6 +1122,45 @@ async function composeWelcome(firstName, settings) {
   };
 }
 
+
+// ── Confirmation d'email après signup ──
+async function composeConfirmAccount(data, settings) {
+  const { firstName, confirmUrl } = data;
+  const name = firstName || 'Beautiful';
+
+  const bodyHTML = `
+    <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:26px;
+        font-weight:700;color:${BBW.textDark};font-style:italic;">Hey ${name}! ♡</p>
+    <p style="margin:0 0 22px;font-family:Arial,sans-serif;font-size:12px;
+        color:${BBW.pink};letter-spacing:0.08em;text-transform:uppercase;font-weight:700;">
+      Confirm Your Email ✉️
+    </p>
+    <p style="margin:0 0 18px;font-family:Arial,sans-serif;font-size:15px;
+        color:${BBW.textMid};line-height:1.75;">
+      Welcome to BBW4LIFE! We're so glad you're here. Before you can log in and start shopping,
+      please confirm your email address by clicking the button below.
+    </p>
+    ${cCTA('CONFIRM MY ACCOUNT &nbsp;›', confirmUrl)}
+    ${cDivider()}
+    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;
+        color:${BBW.textLight};text-align:center;line-height:1.6;">
+      If you didn't create this account, you can safely ignore this email.
+    </p>
+    <div style="height:32px;"></div>`;
+
+  return {
+    subject: `Please confirm your BBW4LIFE account, ${name} ✉️`,
+    html: masterTemplate({
+      preheader:    `One quick step — confirm your email to activate your account.`,
+      tagline:      'CONFIDENCE. BEAUTY. EMPOWERMENT.',
+      heroHeadline: `ALMOST <span style="color:${BBW.pink};">THERE!</span>`,
+      heroSubline:  'CONFIRM YOUR EMAIL TO GET STARTED.',
+      bodyHTML,
+      settings,
+    }),
+  };
+}
+
 // ── 2. Order Confirmation ─────────────────────────────────────
 async function composeOrderConfirm(data, settings) {
   const { firstName, lastName, orderId, items = [], total, shippingAddress } = data;
@@ -1810,6 +1850,12 @@ exports.handler = async (event) => {
         await trySend(email, T.WELCOME, () => composeWelcome(body.firstName, settings), sheets, sentLog, results);
       }
 
+      if (trigger === T.CONFIRM_ACCOUNT) {
+        await trySend(email, T.CONFIRM_ACCOUNT,
+          () => composeConfirmAccount(body, settings),
+          sheets, sentLog, results);
+      }
+
       if (trigger === T.ORDER_CONFIRM) {
         await trySend(email, T.ORDER_CONFIRM,
           () => composeOrderConfirm(body, settings),
@@ -1871,7 +1917,8 @@ exports.handler = async (event) => {
       }
 
       if (trigger === T.CART_ABANDONED) {
-        await trySend(email, T.CART_ABANDONED,
+        const dedupeType = `${T.CART_ABANDONED}_${body.orderId || Date.now()}`;
+        await trySend(email, dedupeType,
           () => composeCartAbandoned(body, settings),
           sheets, sentLog, results);
       }

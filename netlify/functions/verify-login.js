@@ -33,7 +33,7 @@ exports.handler = async (event) => {
 
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: "bbw4life-accounts!A:Z"
+      range: "bbw4life-accounts!A:AF"
     });
     const rows = res.data.values || [];
 
@@ -46,13 +46,20 @@ exports.handler = async (event) => {
     });
 
     if (!userRow) {
-      console.log("❌ Aucun utilisateur trouvé avec cet email/mot de passe");
+      console.log("❌ No user found with this email/password");
       return {
         statusCode: 401,
-        body: JSON.stringify({ success: false, error: "Email ou mot de passe incorrect" })
+        body: JSON.stringify({ success: false, error: "Incorrect email or password" })
       };
     }
-
+    // ── Block if account is not confirmed (column AF) ──
+    const emailConfirmed = (userRow[31] || '').toLowerCase().trim();
+    if (emailConfirmed !== 'yes') {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ success: false, error: "EMAIL_NOT_CONFIRMED" })
+      };
+    }
     const user = {
       lastName:     userRow[0]  || "",
       firstName:    userRow[1]  || "",

@@ -198,8 +198,9 @@ exports.handler = async () => {
 
       // ── Envoyer l'email de relance au client ──
       if (email && email.includes('@')) {
-        const emailResult = await notifyCartAbandoned({
+       const emailResult = await notifyCartAbandoned({
           email,
+          orderId,
           firstName:    shipping.firstName || '',
           items:        cart,
           promoCode:    promo ? promo.code    : null,
