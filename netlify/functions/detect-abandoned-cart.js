@@ -164,7 +164,7 @@ exports.handler = async () => {
       console.log(`[ABANDONED CART] Détecté : ${orderId} | ${minutesElapsed.toFixed(1)} min écoulées`);
 
       const promo = pickRandomPromo(settings);
-      const restartLink = `${process.env.BASE_URL || ''}/checkout.html?restore=${encodeURIComponent(orderId)}`;
+      const restartLink = `${process.env.BASE_URL || ''}/checkout/checkout.html?restore=${encodeURIComponent(orderId)}`;
 
       // ── Sauvegarder dans Abandoned_Carts ──
       try {
