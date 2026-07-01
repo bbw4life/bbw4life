@@ -104,6 +104,43 @@ async function getAndDeleteTempOrder(orderId) {
   return { cart, shipping };
 }
 
+
+// ── Supprime la ligne Temp_Orders correspondant à un orderId, sans la retourner ──
+async function deleteTempOrderByPaymentId(orderId) {
+  const sheets = getSheetsClient();
+
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: SPREADSHEET_ID,
+    range: SHEET_RANGE
+  });
+
+  const rows = res.data.values || [];
+  const rowIndex = rows.findIndex(row => row[0] === orderId);
+  if (rowIndex === -1) return false;
+
+  const sheetMeta = await sheets.spreadsheets.get({ spreadsheetId: SPREADSHEET_ID });
+  const sheetObj  = sheetMeta.data.sheets.find(s => s.properties.title === SHEET_TAB);
+  const sheetId   = sheetObj ? sheetObj.properties.sheetId : 0;
+
+  await sheets.spreadsheets.batchUpdate({
+    spreadsheetId: SPREADSHEET_ID,
+    resource: {
+      requests: [{
+        deleteDimension: {
+          range: {
+            sheetId: sheetId,
+            dimension: "ROWS",
+            startIndex: rowIndex,
+            endIndex: rowIndex + 1
+          }
+        }
+      }]
+    }
+  });
+  return true;
+}
+
+
 // ── Vérifie si paymentId a déjà été traité (lecture fiable, onglet dédié) ──
 async function isOrderAlreadyProcessed(paymentId) {
   const sheets = getSheetsClient();
@@ -149,6 +186,7 @@ async function markOrderAsProcessed(paymentId) {
 module.exports = {
   saveTempOrder,
   getAndDeleteTempOrder,
+  deleteTempOrderByPaymentId,
   isOrderAlreadyProcessed,
   markOrderAsProcessed
 };

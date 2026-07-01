@@ -3,6 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const fetch = require('node-fetch');
 const {
   getAndDeleteTempOrder,
+  deleteTempOrderByPaymentId,
   isOrderAlreadyProcessed,
   markOrderAsProcessed
 } = require('./temp-orders-store');
@@ -75,6 +76,12 @@ exports.handler = async (event) => {
       const finalOrderRes = await fetch(`${PAYPAL_BASE}/v2/checkout/orders/${orderID}`, { headers: { Authorization: `Bearer ${access_token}` } });
       const finalOrderData = await finalOrderRes.json();
       if (finalOrderData.status !== "COMPLETED") throw new Error("PayPal payment not completed");
+
+      try {
+        await deleteTempOrderByPaymentId(orderID);
+      } catch (e) {
+        console.warn("[PAYPAL] deleteTempOrderByPaymentId failed:", e.message);
+      }
 
       purchaseUnit = finalOrderData.purchase_units?.[0] || {};
       const storedVariants = purchaseUnit.custom_id ? purchaseUnit.custom_id.split('|') : [];

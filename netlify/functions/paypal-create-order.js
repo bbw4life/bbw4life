@@ -1,5 +1,6 @@
 process.removeAllListeners('warning');
 const fetch = require('node-fetch');
+const { saveTempOrder } = require('./temp-orders-store');
 
 // ── Fetch settings from products.data.json ──────────────────────────
 async function getSettings() {
@@ -191,6 +192,13 @@ exports.handler = async (event) => {
       throw new Error(errText || "PayPal order creation failed");
     }
     const orderData = await orderRes.json();
+
+    // ── Sauvegarde temporaire pour la détection de panier abandonné ──
+    try {
+      await saveTempOrder(orderData.id, cart, shipping);
+    } catch (e) {
+      console.warn("[PAYPAL] saveTempOrder failed:", e.message);
+    }
 
     return response(200, {
       success: true,
