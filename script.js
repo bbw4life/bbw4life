@@ -7859,6 +7859,163 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => toast.classList.remove('show'), 5000);
   };
 
+
+
+  /* ── EMAIL CONFIRM POPUP — CSS injecté une seule fois ── */
+  (function injectEmailConfirmPopupCSS() {
+    if (document.getElementById('ecp-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'ecp-styles';
+    style.textContent = `
+      #email-confirm-popup {
+        position: fixed; inset: 0; z-index: 999999;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(20,10,15,0.55);
+        backdrop-filter: blur(3px);
+        opacity: 0; transition: opacity 0.3s ease;
+        padding: 20px;
+      }
+      #email-confirm-popup.ecp-visible { opacity: 1; }
+      .ecp-modal {
+        position: relative;
+        width: 100%;
+        max-width: 340px;
+        background: #fffdf9;
+        border-radius: 18px;
+        padding: 28px 24px 22px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(192,56,94,0.25);
+        transform: scale(0.9) translateY(10px);
+        transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      }
+      #email-confirm-popup.ecp-visible .ecp-modal { transform: scale(1) translateY(0); }
+      .ecp-close {
+        position: absolute; top: 12px; right: 12px;
+        width: 28px; height: 28px; border-radius: 50%;
+        background: #f5eaea; border: none; color: #7b3f6e;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: background 0.2s;
+      }
+      .ecp-close:hover { background: #eddede; }
+      .ecp-icon-wrap {
+        width: 56px; height: 56px; margin: 0 auto 14px;
+        border-radius: 50%;
+        background: linear-gradient(135deg,#fdf1e7,#fbe6ec);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.6rem;
+      }
+      .ecp-title {
+        font-size: 1.12rem; font-weight: 800; color: #7b3f6e;
+        margin: 0 0 8px;
+      }
+      .ecp-text {
+        font-size: 0.86rem; color: #6b5560; line-height: 1.5;
+        margin: 0 0 20px;
+      }
+      .ecp-btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 8px;
+        width: 100%;
+        background: linear-gradient(135deg,#c0385e,#7b3f6e);
+        color: #fff; font-weight: 700; font-size: 0.88rem;
+        padding: 12px 18px; border-radius: 30px;
+        text-decoration: none;
+        box-shadow: 0 6px 16px rgba(192,56,94,0.35);
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: none; cursor: pointer;
+      }
+      .ecp-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(192,56,94,0.45); }
+      .ecp-progress {
+        margin-top: 16px; height: 3px; width: 100%;
+        background: #f1e6ea; border-radius: 3px; overflow: hidden;
+      }
+      .ecp-progress-fill {
+        height: 100%; width: 100%;
+        background: linear-gradient(90deg,#c9963e,#c0385e);
+      }
+      @media (max-width: 420px) {
+        .ecp-modal { max-width: 300px; padding: 24px 18px 20px; }
+      }
+    `;
+    document.head.appendChild(style);
+  })();
+
+  /* ── EMAIL CONFIRM POPUP — fonction d'affichage ── */
+  window.showEmailConfirmPopup = function (email) {
+    var existing = document.getElementById('email-confirm-popup');
+    if (existing) existing.remove();
+
+    function getWebmailUrl(mail) {
+      if (!mail || mail.indexOf('@') === -1) return 'https://mail.google.com';
+      var domain = mail.split('@')[1].toLowerCase();
+      var map = {
+        'gmail.com':      'https://mail.google.com',
+        'googlemail.com': 'https://mail.google.com',
+        'yahoo.com':      'https://mail.yahoo.com',
+        'yahoo.fr':       'https://mail.yahoo.com',
+        'outlook.com':    'https://outlook.live.com/mail/0/inbox',
+        'hotmail.com':    'https://outlook.live.com/mail/0/inbox',
+        'live.com':       'https://outlook.live.com/mail/0/inbox',
+        'msn.com':        'https://outlook.live.com/mail/0/inbox',
+        'icloud.com':     'https://www.icloud.com/mail',
+        'me.com':         'https://www.icloud.com/mail',
+        'aol.com':        'https://mail.aol.com'
+      };
+      return map[domain] || ('https://' + domain);
+    }
+
+    var webmailUrl = getWebmailUrl(email);
+
+    var overlay = document.createElement('div');
+    overlay.id = 'email-confirm-popup';
+    overlay.innerHTML =
+      '<div class="ecp-modal">' +
+        '<button class="ecp-close" id="ecp-close-btn" aria-label="Close">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">' +
+            '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>' +
+          '</svg>' +
+        '</button>' +
+        '<div class="ecp-icon-wrap">📧</div>' +
+        '<h3 class="ecp-title">Confirm Your Email</h3>' +
+        '<p class="ecp-text">Please confirm your email before logging in.<br>Check your inbox for the confirmation link.</p>' +
+        '<a href="' + webmailUrl + '" target="_blank" rel="noopener noreferrer" class="ecp-btn">' +
+          '<i class="fi fi-rr-envelope"></i> Go to My Email' +
+        '</a>' +
+        '<div class="ecp-progress"><div class="ecp-progress-fill" id="ecp-progress-fill"></div></div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { overlay.classList.add('ecp-visible'); });
+    });
+
+    var fill = document.getElementById('ecp-progress-fill');
+    if (fill) {
+      requestAnimationFrame(function () {
+        fill.style.transition = 'width 8s linear';
+        fill.style.width = '0%';
+      });
+    }
+
+    var autoTimer = setTimeout(closeEcp, 8000);
+
+    function closeEcp() {
+      clearTimeout(autoTimer);
+      overlay.classList.remove('ecp-visible');
+      setTimeout(function () {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 300);
+    }
+
+    document.getElementById('ecp-close-btn').addEventListener('click', closeEcp);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeEcp();
+    });
+  };
+
+
+
+
   /* ── EMAIL CONFIRMATION HANDLER (lien reçu par email) ── */
   if (isAccountPage) {
     const urlParams   = new URLSearchParams(window.location.search);
@@ -8111,7 +8268,7 @@ document.addEventListener('DOMContentLoaded', () => {
           loginBtn.textContent = originalText;
           loginBtn.disabled = false;
           if (data.error === 'EMAIL_NOT_CONFIRMED') {
-            window.showToast("Please confirm your email before logging in. Check your inbox! 📧");
+            window.showEmailConfirmPopup(email);
           } else {
             window.showToast("Incorrect email or password");
           }
