@@ -3069,13 +3069,18 @@ a.stat-wishlist-link.stat-item {
 /* ══════════════════════════════════════════
    PROFILE BIRTHDAY FIELD
 ══════════════════════════════════════════ */
+.profile-photo-block {
+  flex-wrap: nowrap;
+}
+
 .profile-birthday-block {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-left: 28px;
+  margin-left: auto;
   padding-left: 24px;
   border-left: 1px solid rgba(201, 150, 62, 0.20);
+  flex-shrink: 0;
 }
 
 .profile-birthday-label {
@@ -3086,6 +3091,7 @@ a.stat-wishlist-link.stat-item {
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 
 .profile-birthday-label i {
@@ -3141,7 +3147,10 @@ a.stat-wishlist-link.stat-item {
 .profile-birthday-msg.success { color: #22a06b; }
 .profile-birthday-msg.error   { color: #e74c3c; }
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
+  .profile-photo-block {
+    flex-wrap: wrap;
+  }
   .profile-birthday-block {
     margin-left: 0;
     padding-left: 0;
