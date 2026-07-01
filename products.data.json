@@ -6138,9 +6138,9 @@
   "commission_percent": 10,
   "jackpot_orders_threshold": 30,
   "jackpot_reward_amount": 100,
-  "promo_code_unlock_percent": 80,
+  "promo_code_unlock_percent": 90,
   "promo_code_prefix": "Francenel467",
-  "promo_code_discount_percent": 5,
+  "promo_code_discount_percent": 50,
   "pay_per_click": "yes",
   "clicks_per_reward": 4000,
   "click_reward_amount": 5

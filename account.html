@@ -109,6 +109,17 @@
             <h1 class="customer__title">My Account</h1>
             <p class="profile-photo-hint">Click the pencil to update your photo</p>
           </div>
+
+          <div class="profile-birthday-block" id="profile-birthday-block">
+            <label for="profile-birthday-input" class="profile-birthday-label">
+              <i class="fi fi-rr-gift"></i> Your Birthday
+            </label>
+            <div class="profile-birthday-row">
+              <input type="date" id="profile-birthday-input" class="profile-birthday-input">
+              <button type="button" id="profile-birthday-save-btn" class="profile-birthday-save-btn">Save</button>
+            </div>
+            <p class="profile-birthday-msg" id="profile-birthday-msg"></p>
+          </div>
         </div>
 
         <a href="#" class="logout-btn" onclick="logout()">

@@ -207,7 +207,8 @@ exports.handler = async (event) => {
           city:           currentRow[11] || "",
           state:          currentRow[12] || "",
           zip:            currentRow[13] || "",
-          savedCart:      currentRow[28] || "[]"
+          savedCart:      currentRow[28] || "[]",
+           birthday:       currentRow[27] || ""
         })
       };
     }
@@ -244,7 +245,7 @@ exports.handler = async (event) => {
             valueInputOption: "RAW",
             resource: { values: [[birthday]] }
           });
-        }
+        } 
       } else {
         const rowData = [
           normalize(lastName) || "",

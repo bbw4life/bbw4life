@@ -8480,6 +8480,66 @@ function loadProfilePhoto() {
 })();
 
 
+/* ── PROFILE BIRTHDAY ── */
+(function initProfileBirthday() {
+  var bdayInput   = document.getElementById('profile-birthday-input');
+  var bdaySaveBtn = document.getElementById('profile-birthday-save-btn');
+  var bdayMsg     = document.getElementById('profile-birthday-msg');
+  if (!bdayInput || !bdaySaveBtn) return;
+
+  function showBdayMsg(text, type) {
+    bdayMsg.textContent = text;
+    bdayMsg.className   = 'profile-birthday-msg' + (type ? ' ' + type : '');
+  }
+
+  async function loadBirthday() {
+    var email = localStorage.getItem('userEmail');
+    var token = localStorage.getItem('userAccountToken');
+    if (!email) return;
+    try {
+      var res  = await fetch('/.netlify/functions/save-account', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ action: 'get-stats', email: email, token: token })
+      });
+      var data = await res.json();
+      if (data.birthday) bdayInput.value = data.birthday;
+    } catch (e) {}
+  }
+
+  bdaySaveBtn.addEventListener('click', async function () {
+    var email = localStorage.getItem('userEmail');
+    if (!email) { showBdayMsg('Please log in first.', 'error'); return; }
+
+    var birthday = bdayInput.value;
+    if (!birthday) { showBdayMsg('Please select a date.', 'error'); return; }
+
+    bdaySaveBtn.disabled = true;
+    showBdayMsg('Saving...', '');
+
+    try {
+      var res  = await fetch('/.netlify/functions/save-account', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ action: 'newsletter-subscribe', email: email, birthday: birthday })
+      });
+      var data = await res.json();
+      if (data.success) {
+        showBdayMsg('Birthday saved! 🎂', 'success');
+      } else {
+        showBdayMsg(data.error || 'Something went wrong.', 'error');
+      }
+    } catch (e) {
+      showBdayMsg('Network error.', 'error');
+    } finally {
+      bdaySaveBtn.disabled = false;
+    }
+  });
+
+  loadBirthday();
+})();
+
+
 
 /* ═══════════════════════════════════════════════════════════════
    BBW4LIFE — BIRTHDAY GIFT ICON
