@@ -8121,7 +8121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await res.json();
         if (data.success) {
           registerBtn.textContent = "Account created!";
-          window.showToast("Please check your email to confirm your account. 📧");
+          window.showEmailConfirmPopup(email);
           setTimeout(() => {
             if (paulPopupOverlay) paulPopupOverlay.classList.remove('active');
             if (signupForm) signupForm.reset();
