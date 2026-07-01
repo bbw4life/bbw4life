@@ -379,6 +379,73 @@ async function runTrackingChecker(sheets, settings) {
   return { checked, found };
 }
 
+
+async function runEmailQueueProcessor(sheets, sentLog, settings) {
+  console.log('[Queue] Checking scheduled emails...');
+  const rows = await sheetRead(
+    sheets,
+    process.env.SHEET_ID_BBW4LIFE_ACCOUNTS,
+    'bbw4life-accounts!A:AJ'
+  );
+
+  if (!rows.length) return { processed: 0 };
+
+  const now = new Date();
+  let processed = 0;
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+
+    const firstName = row[1] || '';
+    const email      = row[2] || '';
+
+    const welcomeScheduledAt    = row[32] || '';
+    const welcomeSent           = (row[33] || '').toLowerCase();
+    const newsletterScheduledAt = row[34] || '';
+    const newsletterSent        = (row[35] || '').toLowerCase();
+
+    if (!email || !email.includes('@')) continue;
+
+    if (welcomeScheduledAt && welcomeSent === 'no' && new Date(welcomeScheduledAt) <= now) {
+      const single = { sent: [], skipped: [], errors: [] };
+      const ok = await trySend(
+        email, T.WELCOME,
+        () => composeWelcome(firstName, settings),
+        sheets, sentLog, single
+      );
+      await sheets.spreadsheets.values.update({
+        spreadsheetId: process.env.SHEET_ID_BBW4LIFE_ACCOUNTS,
+        range: `bbw4life-accounts!AH${i + 1}`,
+        valueInputOption: 'RAW',
+        resource: { values: [['yes']] }
+      });
+      if (ok) processed++;
+      await sleep(400);
+    }
+
+    if (newsletterScheduledAt && newsletterSent === 'no' && new Date(newsletterScheduledAt) <= now) {
+      const single = { sent: [], skipped: [], errors: [] };
+      const ok = await trySend(
+        email, T.NEWSLETTER_1,
+        () => composeNewsletter1(firstName, settings),
+        sheets, sentLog, single
+      );
+      await sheets.spreadsheets.values.update({
+        spreadsheetId: process.env.SHEET_ID_BBW4LIFE_ACCOUNTS,
+        range: `bbw4life-accounts!AJ${i + 1}`,
+        valueInputOption: 'RAW',
+        resource: { values: [['yes']] }
+      });
+      if (ok) processed++;
+      await sleep(400);
+    }
+  }
+
+  console.log(`[Queue] Done — processed: ${processed}`);
+  return { processed };
+}
+
+
 async function trySendDirect(email, type, composeFn) {
   if (!email || !email.includes('@')) return false;
   try {
@@ -1956,6 +2023,19 @@ exports.handler = async (event) => {
           statusCode: 200,
           headers,
           body: JSON.stringify({ success: true, ...trackResult })
+        };
+      }
+
+      if (params.action === 'process-queue') {
+        const secret = params.secret;
+        if (secret !== process.env.REPORT_SECRET) {
+          return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+        }
+        const queueResult = await runEmailQueueProcessor(sheets, sentLog, settings);
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({ success: true, ...queueResult })
         };
       }
 

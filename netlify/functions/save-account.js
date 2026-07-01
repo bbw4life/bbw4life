@@ -68,25 +68,28 @@ exports.handler = async (event) => {
         spreadsheetId, range: "bbw4life-accounts!A:Z", valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", resource: { values }
       });
 
-      // ── Marquer le compte comme non confirmé (colonne AF) ──
-      const newRowNum = rows.length + 1;
+     const newRowNum = rows.length + 1;
+      const isSubscribed = (newsletter || '').toLowerCase() === 'yes';
+      const welcomeScheduledAt    = new Date(Date.now() + 60 * 1000).toISOString();      // +1 min
+      const newsletterScheduledAt = new Date(Date.now() + 2 * 60 * 1000).toISOString();  // +2 min
+
+  
       await sheets.spreadsheets.values.update({
         spreadsheetId,
-        range: `bbw4life-accounts!AF${newRowNum}`,
+        range: `bbw4life-accounts!AF${newRowNum}:AJ${newRowNum}`,
         valueInputOption: "RAW",
-        resource: { values: [["no"]] }
+        resource: { values: [[
+          "no",
+          welcomeScheduledAt,
+          "no",
+          isSubscribed ? newsletterScheduledAt : "",
+          isSubscribed ? "no" : "skip"
+        ]] }
       });
 
-      // ── Email de confirmation (remplace l'accès direct au compte) ──
+      // ── Email de confirmation — ENVOI IMMÉDIAT ──
       const confirmToken = generateConfirmToken(email);
       notifyConfirmEmail({ email, firstName, confirmToken }).catch(() => {});
-
-      notifyWelcome({ email, firstName, lastName }).catch(() => {});
-
-      // ── Email Newsletter #1 ──
-      if ((newsletter || '').toLowerCase() === 'yes') {
-        notifyNewsletter1({ email, firstName }).catch(() => {});
-      }
 
       return { statusCode: 200, body: JSON.stringify({ success: true, requireConfirmation: true }) };
     }

@@ -20,6 +20,10 @@
   schedule = "*/5 * * * *"
   background = true
 
+[functions.process-email-queue]
+  schedule = "* * * * *"
+  background = true
+
 # ─────────────────────────────────────────────
 # PRODUCT PAGES — Pretty URLs
 # ─────────────────────────────────────────────
