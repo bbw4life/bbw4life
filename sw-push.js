@@ -26,21 +26,36 @@ self.addEventListener('push', function (event) {
 });
 
 self.addEventListener('notificationclick', function (event) {
-  event.notification.close();
-  if (event.action === 'dismiss') return;
+  const notification = event.notification;
+  const action = event.action;
+  notification.close();
 
-  const url = (event.notification.data && event.notification.data.url) || '/';
+  if (action === 'dismiss') return;
+
+  const url = (notification.data && notification.data.url) || '/';
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {
-      for (const client of clientList) {
-        if ('navigate' in client) {
-          client.navigate(url);
-          if ('focus' in client) return client.focus();
-          return;
+    (async () => {
+      const allClients = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+
+      // Cherche une fenêtre déjà ouverte sur ton domaine
+      for (const client of allClients) {
+        try {
+          const clientOrigin = new URL(client.url).origin;
+          const targetOrigin = new URL(url, self.location.origin).origin;
+          if (clientOrigin === targetOrigin && 'navigate' in client) {
+            const navigatedClient = await client.navigate(url);
+            return navigatedClient.focus ? navigatedClient.focus() : client.focus();
+          }
+        } catch (e) {
+          // continue vers le client suivant
         }
       }
-      if (clients.openWindow) return clients.openWindow(url);
-    })
+
+      // Aucune fenêtre ouverte → en ouvrir une nouvelle
+      if (clients.openWindow) {
+        return clients.openWindow(url);
+      }
+    })()
   );
 });
