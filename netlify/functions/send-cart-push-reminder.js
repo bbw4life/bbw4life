@@ -26,7 +26,8 @@ const SPREADSHEET_ID = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 const TAB   = 'Push_Subscriptions';
 const RANGE = `${TAB}!A:I`;
 const BASE_URL = process.env.BASE_URL || 'https://bbw4life.com';
-const LOGO_URL = `${BASE_URL}/public/vrlogo%20bbw4life.png`;
+const LOGO_URL = `${BASE_URL}/public/bbw4life%20favicon.png`;
+const CART_URL = `${BASE_URL}/?openCart=true`;
 
 async function getSettings() {
   try {
@@ -49,7 +50,6 @@ async function getTabSheetId(sheets) {
 }
 
 async function deleteRow(sheets, sheetId, rowIndex) {
-  // rowIndex is 0-based sheet row (row 0 = header). We pass the actual sheet row number (0-based).
   await sheets.spreadsheets.batchUpdate({
     spreadsheetId: SPREADSHEET_ID,
     resource: {
@@ -81,7 +81,6 @@ exports.handler = async () => {
     const now = new Date();
     let processed = 0;
 
-    // On traite de bas en haut pour que la suppression de lignes ne décale pas les index restants à traiter
     for (let i = rows.length - 1; i >= 1; i--) {
       const row = rows[i];
       const [deviceId, endpoint, p256dh, auth, cartJson, lastUpdatedStr, lastNotifiedStr, promoSent, notifyCountStr] = row;
@@ -120,7 +119,7 @@ exports.handler = async () => {
         body,
         icon:  LOGO_URL,
         badge: LOGO_URL,
-        url:   `${BASE_URL}/checkout/checkout.html`
+        url:   CART_URL
       });
 
       const subscription = { endpoint, keys: { p256dh, auth } };
@@ -139,7 +138,6 @@ exports.handler = async () => {
         const statusCode = err.statusCode || (err.body && err.body.statusCode) || null;
 
         if (statusCode === 404 || statusCode === 410) {
-          // Abonnement mort → on supprime la ligne définitivement
           console.warn(`[send-cart-push-reminder] Subscription gone (${statusCode}) for ${deviceId} — deleting row.`);
           try {
             const sheetId = await getTabSheetId(sheets);
@@ -148,7 +146,6 @@ exports.handler = async () => {
             console.warn(`[send-cart-push-reminder] Could not delete row for ${deviceId}:`, delErr.message);
           }
         } else {
-          // Autre erreur → on marque quand même Last Notified pour éviter de re-spammer toutes les 15 min
           console.warn(`[send-cart-push-reminder] Failed for ${deviceId} (status ${statusCode || 'unknown'}):`, err.message);
           try {
             await sheets.spreadsheets.values.update({

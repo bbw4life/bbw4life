@@ -7853,6 +7853,20 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
     setTimeout(() => { if (typeof openCartDrawer === 'function') openCartDrawer(); }, 1200);
   }
 
+
+  // ====================== PUSH NOTIFICATION → OPEN CART ======================
+  (function checkOpenCartFromPush() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('openCart') === 'true') {
+      setTimeout(() => {
+        if (typeof openCartDrawer === 'function') openCartDrawer();
+      }, 800);
+      params.delete('openCart');
+      const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '') + window.location.hash;
+      window.history.replaceState({}, '', newUrl);
+    }
+  })();
+
   (function initHeaderParticles() {
     function create() {
       const header = document.querySelector('.sticky-header');
