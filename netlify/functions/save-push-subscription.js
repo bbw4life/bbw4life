@@ -14,7 +14,7 @@ function getSheetsClient() {
 
 const SPREADSHEET_ID = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 const TAB   = 'Push_Subscriptions';
-const RANGE = `${TAB}!A:H`;
+const RANGE = `${TAB}!A:I`;
 
 async function ensureTabExists(sheets) {
   const meta = await sheets.spreadsheets.get({ spreadsheetId: SPREADSHEET_ID });
@@ -34,7 +34,7 @@ async function ensureTabExists(sheets) {
     resource: {
       values: [[
         'Device ID', 'Endpoint', 'P256dh', 'Auth',
-        'Cart JSON', 'Last Updated', 'Last Notified', 'Promo Sent'
+        'Cart JSON', 'Last Updated', 'Last Notified', 'Promo Sent', 'Notify Count'
       ]]
     }
   });
@@ -78,7 +78,8 @@ exports.handler = async (event) => {
       JSON.stringify(cart || []),
       new Date().toISOString(),
       rowIndex !== -1 ? (rows[rowIndex][6] || '') : '',
-      rowIndex !== -1 ? (rows[rowIndex][7] || '') : ''
+      rowIndex !== -1 ? (rows[rowIndex][7] || '') : '',
+      rowIndex !== -1 ? (rows[rowIndex][8] || 0)  : 0
     ];
 
     if (rowIndex === -1) {
@@ -92,7 +93,7 @@ exports.handler = async (event) => {
     } else {
       await sheets.spreadsheets.values.update({
         spreadsheetId: SPREADSHEET_ID,
-        range: `${TAB}!A${rowIndex + 1}:H${rowIndex + 1}`,
+        range: `${TAB}!A${rowIndex + 1}:I${rowIndex + 1}`,
         valueInputOption: 'RAW',
         resource: { values: [rowValues] }
       });

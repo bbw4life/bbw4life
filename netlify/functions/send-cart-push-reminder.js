@@ -3,7 +3,7 @@ const { google } = require('googleapis');
 const webpush = require('web-push');
 
 const REMINDER_THRESHOLD_MINUTES = 1;
-const RENOTIFY_COOLDOWN_HOURS    = 24;
+const REMINDER_SCHEDULE_HOURS = [0, 1, 6, 24, 48, 72];
 
 webpush.setVapidDetails(
   process.env.VAPID_SUBJECT,
@@ -24,8 +24,9 @@ function getSheetsClient() {
 
 const SPREADSHEET_ID = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 const TAB   = 'Push_Subscriptions';
-const RANGE = `${TAB}!A:H`;
+const RANGE = `${TAB}!A:I`;
 const BASE_URL = process.env.BASE_URL || 'https://bbw4life.com';
+const LOGO_URL = `${BASE_URL}/public/vrlogo%20bbw4life.png`;
 
 async function getSettings() {
   try {
@@ -83,7 +84,7 @@ exports.handler = async () => {
     // On traite de bas en haut pour que la suppression de lignes ne décale pas les index restants à traiter
     for (let i = rows.length - 1; i >= 1; i--) {
       const row = rows[i];
-      const [deviceId, endpoint, p256dh, auth, cartJson, lastUpdatedStr, lastNotifiedStr] = row;
+      const [deviceId, endpoint, p256dh, auth, cartJson, lastUpdatedStr, lastNotifiedStr, promoSent, notifyCountStr] = row;
 
       if (!endpoint || !cartJson) continue;
 
@@ -93,12 +94,18 @@ exports.handler = async () => {
 
       const lastUpdated = lastUpdatedStr ? new Date(lastUpdatedStr) : null;
       if (!lastUpdated) continue;
-      const minutesSinceUpdate = (now - lastUpdated) / (1000 * 60);
-      if (minutesSinceUpdate < REMINDER_THRESHOLD_MINUTES) continue;
 
-      if (lastNotifiedStr) {
+      const notifyCount = parseInt(notifyCountStr) || 0;
+      const scheduleIdx = Math.min(notifyCount, REMINDER_SCHEDULE_HOURS.length - 1);
+      const requiredGapHours = REMINDER_SCHEDULE_HOURS[scheduleIdx];
+
+      if (notifyCount === 0) {
+        const minutesSinceUpdate = (now - lastUpdated) / (1000 * 60);
+        if (minutesSinceUpdate < REMINDER_THRESHOLD_MINUTES) continue;
+      } else {
+        if (!lastNotifiedStr) continue;
         const hoursSinceNotified = (now - new Date(lastNotifiedStr)) / (1000 * 60 * 60);
-        if (hoursSinceNotified < RENOTIFY_COOLDOWN_HOURS) continue;
+        if (hoursSinceNotified < requiredGapHours) continue;
       }
 
       const promo = pickRandomPromo(settings);
@@ -111,8 +118,8 @@ exports.handler = async () => {
       const payload = JSON.stringify({
         title: 'BBW4LIFE',
         body,
-        icon:  `${BASE_URL}/vrlogo-bbw4life.png`,
-        badge: `${BASE_URL}/vrlogo-bbw4life.png`,
+        icon:  LOGO_URL,
+        badge: LOGO_URL,
         url:   `${BASE_URL}/checkout/checkout.html`
       });
 
@@ -124,9 +131,9 @@ exports.handler = async () => {
 
         await sheets.spreadsheets.values.update({
           spreadsheetId: SPREADSHEET_ID,
-          range: `${TAB}!G${i + 1}:H${i + 1}`,
+          range: `${TAB}!G${i + 1}:I${i + 1}`,
           valueInputOption: 'RAW',
-          resource: { values: [[now.toISOString(), promo ? promo.code : '']] }
+          resource: { values: [[now.toISOString(), promo ? promo.code : '', notifyCount + 1]] }
         });
       } catch (err) {
         const statusCode = err.statusCode || (err.body && err.body.statusCode) || null;
