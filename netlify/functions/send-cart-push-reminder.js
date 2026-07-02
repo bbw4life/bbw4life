@@ -2,7 +2,7 @@ process.removeAllListeners('warning');
 const { google } = require('googleapis');
 const webpush = require('web-push');
 
-const REMINDER_THRESHOLD_MINUTES = 1;
+const REMINDER_THRESHOLD_MINUTES = 20;
 const RENOTIFY_COOLDOWN_HOURS    = 24;
 
 webpush.setVapidDetails(
@@ -41,6 +41,31 @@ function pickRandomPromo(settings) {
   return promos[Math.floor(Math.random() * promos.length)];
 }
 
+async function getTabSheetId(sheets) {
+  const meta = await sheets.spreadsheets.get({ spreadsheetId: SPREADSHEET_ID });
+  const tab = meta.data.sheets.find(s => s.properties.title === TAB);
+  return tab ? tab.properties.sheetId : null;
+}
+
+async function deleteRow(sheets, sheetId, rowIndex) {
+  // rowIndex is 0-based sheet row (row 0 = header). We pass the actual sheet row number (0-based).
+  await sheets.spreadsheets.batchUpdate({
+    spreadsheetId: SPREADSHEET_ID,
+    resource: {
+      requests: [{
+        deleteDimension: {
+          range: {
+            sheetId,
+            dimension: 'ROWS',
+            startIndex: rowIndex,
+            endIndex: rowIndex + 1
+          }
+        }
+      }]
+    }
+  });
+}
+
 exports.handler = async () => {
   try {
     const sheets = getSheetsClient();
@@ -55,7 +80,8 @@ exports.handler = async () => {
     const now = new Date();
     let processed = 0;
 
-    for (let i = 1; i < rows.length; i++) {
+    // On traite de bas en haut pour que la suppression de lignes ne décale pas les index restants à traiter
+    for (let i = rows.length - 1; i >= 1; i--) {
       const row = rows[i];
       const [deviceId, endpoint, p256dh, auth, cartJson, lastUpdatedStr, lastNotifiedStr] = row;
 
@@ -85,8 +111,9 @@ exports.handler = async () => {
       const payload = JSON.stringify({
         title: 'BBW4LIFE',
         body,
-        icon: `${BASE_URL}/images/logo-192.png`,
-        url:  `${BASE_URL}/checkout/checkout.html`
+        icon:  `${BASE_URL}/vrlogo-bbw4life.png`,
+        badge: `${BASE_URL}/vrlogo-bbw4life.png`,
+        url:   `${BASE_URL}/checkout/checkout.html`
       });
 
       const subscription = { endpoint, keys: { p256dh, auth } };
@@ -102,7 +129,31 @@ exports.handler = async () => {
           resource: { values: [[now.toISOString(), promo ? promo.code : '']] }
         });
       } catch (err) {
-        console.warn(`[send-cart-push-reminder] Failed for ${deviceId}:`, err.message);
+        const statusCode = err.statusCode || (err.body && err.body.statusCode) || null;
+
+        if (statusCode === 404 || statusCode === 410) {
+          // Abonnement mort → on supprime la ligne définitivement
+          console.warn(`[send-cart-push-reminder] Subscription gone (${statusCode}) for ${deviceId} — deleting row.`);
+          try {
+            const sheetId = await getTabSheetId(sheets);
+            if (sheetId !== null) await deleteRow(sheets, sheetId, i);
+          } catch (delErr) {
+            console.warn(`[send-cart-push-reminder] Could not delete row for ${deviceId}:`, delErr.message);
+          }
+        } else {
+          // Autre erreur → on marque quand même Last Notified pour éviter de re-spammer toutes les 15 min
+          console.warn(`[send-cart-push-reminder] Failed for ${deviceId} (status ${statusCode || 'unknown'}):`, err.message);
+          try {
+            await sheets.spreadsheets.values.update({
+              spreadsheetId: SPREADSHEET_ID,
+              range: `${TAB}!G${i + 1}:G${i + 1}`,
+              valueInputOption: 'RAW',
+              resource: { values: [[now.toISOString()]] }
+            });
+          } catch (updErr) {
+            console.warn(`[send-cart-push-reminder] Could not update Last Notified for ${deviceId}:`, updErr.message);
+          }
+        }
       }
 
       await new Promise(r => setTimeout(r, 300));

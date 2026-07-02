@@ -105,7 +105,7 @@ function bbwShowPromoWarningPopup(code, discountPct) {
   const settings = allProducts.find(function(p) { return p.type === 'settings'; }) || {};
   const whatsappUrl = (settings.contact && settings.contact.whatsapp_url)
     ? settings.contact.whatsapp_url
-    : 'https://wa.me/18292677434'; // fallback
+    : 'https://wa.me/1828940709'; // fallback
 
   const overlay = document.createElement('div');
   overlay.id = 'bbw-promo-popup-overlay';
