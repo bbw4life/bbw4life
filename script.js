@@ -1,3 +1,6 @@
+const BBW_VAPID_PUBLIC_KEY = 'BPAy2x7jsTHvHMYA5uLWKZAbmwpAtUlFtCbgSiALsYFH4EKhSTxUemonrVf-xzg5FxsQIB4GXZdA_N5gwvLWF8Y';
+
+
 (function captureAffiliateRef() {
   const urlParams = new URLSearchParams(window.location.search);
   const refParam  = urlParams.get('ref');
@@ -26,6 +29,69 @@
     return null;
   };
 })();
+
+
+
+function bbwGetPushDeviceId() {
+  let id = localStorage.getItem('bbw_push_device_id');
+  if (!id) {
+    id = 'dev_' + Math.random().toString(36).slice(2, 10) + '_' + Date.now();
+    localStorage.setItem('bbw_push_device_id', id);
+  }
+  return id;
+}
+
+function bbwUrlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+let bbwPushInitInProgress = false;
+
+async function bbwInitCartPushReminder() {
+  if (bbwPushInitInProgress) return;
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  if (Notification.permission === 'denied') return;
+
+  const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
+  if (!currentCart.length) return;
+
+  bbwPushInitInProgress = true;
+
+  try {
+    const registration = await navigator.serviceWorker.register('/sw-push.js');
+    let subscription = await registration.pushManager.getSubscription();
+
+    if (!subscription) {
+      if (Notification.permission !== 'granted') {
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') { bbwPushInitInProgress = false; return; }
+      }
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: bbwUrlBase64ToUint8Array(BBW_VAPID_PUBLIC_KEY)
+      });
+    }
+
+    const deviceId = bbwGetPushDeviceId();
+
+    await fetch('/.netlify/functions/save-push-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceId, subscription, cart: currentCart })
+    });
+  } catch (e) {
+    console.warn('[PushReminder] init failed:', e.message);
+  }
+
+  bbwPushInitInProgress = false;
+}
 
 
 function bbwShowPromoWarningPopup(code, discountPct) {
@@ -6480,6 +6546,7 @@ document.addEventListener('submit', async function(e) {
   window.cart = cart;
   document.dispatchEvent(new Event('cart:update'));
   if (typeof window.__rcRefresh === 'function') window.__rcRefresh();
+  bbwInitCartPushReminder();
 
   // ── Sync vers le sheet si connecté ──
   const userEmail = localStorage.getItem('userEmail');

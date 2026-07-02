@@ -24,6 +24,10 @@
   schedule = "* * * * *"
   background = true
 
+[functions."send-cart-push-reminder"]
+  schedule = "*/1 * * * *"
+  background = true
+
 # ─────────────────────────────────────────────
 # PRODUCT PAGES — Pretty URLs
 # ─────────────────────────────────────────────
