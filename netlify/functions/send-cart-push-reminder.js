@@ -2,7 +2,7 @@ process.removeAllListeners('warning');
 const { google } = require('googleapis');
 const webpush = require('web-push');
 
-const REMINDER_THRESHOLD_MINUTES = 20;
+const REMINDER_THRESHOLD_MINUTES = 1;
 const RENOTIFY_COOLDOWN_HOURS    = 24;
 
 webpush.setVapidDetails(
