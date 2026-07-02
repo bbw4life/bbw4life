@@ -1,3 +1,11 @@
+self.addEventListener('install', function (event) {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', function (event) {
+  event.waitUntil(clients.claim());
+});
+
 self.addEventListener('push', function (event) {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch (e) {}
@@ -38,7 +46,6 @@ self.addEventListener('notificationclick', function (event) {
     (async () => {
       const allClients = await clients.matchAll({ type: 'window', includeUncontrolled: true });
 
-      // Cherche une fenêtre déjà ouverte sur ton domaine
       for (const client of allClients) {
         try {
           const clientOrigin = new URL(client.url).origin;
@@ -47,12 +54,9 @@ self.addEventListener('notificationclick', function (event) {
             const navigatedClient = await client.navigate(url);
             return navigatedClient.focus ? navigatedClient.focus() : client.focus();
           }
-        } catch (e) {
-          // continue vers le client suivant
-        }
+        } catch (e) {}
       }
 
-      // Aucune fenêtre ouverte → en ouvrir une nouvelle
       if (clients.openWindow) {
         return clients.openWindow(url);
       }

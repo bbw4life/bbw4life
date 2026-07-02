@@ -94,6 +94,39 @@ async function bbwInitCartPushReminder() {
 }
 
 
+async function bbwSubscribeGeneral() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  if (Notification.permission === 'denied') return;
+
+  try {
+    const registration = await navigator.serviceWorker.register('/sw-push.js');
+    let subscription = await registration.pushManager.getSubscription();
+
+    if (!subscription) {
+      if (Notification.permission !== 'granted') {
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') return;
+      }
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: bbwUrlBase64ToUint8Array(BBW_VAPID_PUBLIC_KEY)
+      });
+    }
+
+    const deviceId = bbwGetPushDeviceId();
+    const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    await fetch('/.netlify/functions/save-push-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceId, subscription, cart: currentCart })
+    });
+  } catch (e) {
+    console.warn('[PushGeneral] init failed:', e.message);
+  }
+}
+
+
 function bbwShowPromoWarningPopup(code, discountPct) {
   if (document.getElementById('bbw-promo-popup-overlay')) {
     document.getElementById('bbw-promo-popup-overlay').classList.add('bbw-promo-popup--visible');
@@ -11901,6 +11934,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const analytics = document.getElementById('cfck-analytics')?.checked ?? true;
       const marketing = document.getElementById('cfck-marketing')?.checked ?? false;
       saveConsent({ analytics, marketing });
+      if (marketing && typeof bbwSubscribeGeneral === 'function') bbwSubscribeGeneral();
       showConfirmAndClose('Your preferences have been saved!');
     });
 
@@ -11911,6 +11945,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (analyticsEl) analyticsEl.checked = true;
       if (marketingEl) marketingEl.checked = true;
       saveConsent({ analytics: true, marketing: true });
+      if (typeof bbwSubscribeGeneral === 'function') bbwSubscribeGeneral();
       showConfirmAndClose('All cookies accepted. Thank you! 🎉');
     });
 

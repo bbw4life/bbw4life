@@ -2,8 +2,9 @@ process.removeAllListeners('warning');
 const { google } = require('googleapis');
 const webpush = require('web-push');
 
-const REMINDER_THRESHOLD_MINUTES = 1;
+const REMINDER_THRESHOLD_MINUTES = 10;
 const REMINDER_SCHEDULE_HOURS = [0, 1, 6, 24, 48, 72];
+const MARKETING_INTERVAL_HOURS = 72;
 
 webpush.setVapidDetails(
   process.env.VAPID_SUBJECT,
@@ -43,6 +44,16 @@ function pickRandomPromo(settings) {
   return promos[Math.floor(Math.random() * promos.length)];
 }
 
+// ── Messages marketing pour les abonnés sans panier ──
+function pickMarketingMessage(settings) {
+  const pool = settings.marketing_push_messages || [
+    { body: "New arrivals just dropped 👑 Come see what's new!", url: '/collections/bbw4life-all-product.html' },
+    { body: "Flash sale — up to 40% off today only! 🔥", url: '/collections/bbw4life-all-product.html' },
+    { body: "Beauty Has No Sizes 💕 Your next favorite piece is waiting.", url: '/collections/bbw4life-all-product.html' }
+  ];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
 async function getTabSheetId(sheets) {
   const meta = await sheets.spreadsheets.get({ spreadsheetId: SPREADSHEET_ID });
   const tab = meta.data.sheets.find(s => s.properties.title === TAB);
@@ -55,12 +66,7 @@ async function deleteRow(sheets, sheetId, rowIndex) {
     resource: {
       requests: [{
         deleteDimension: {
-          range: {
-            sheetId,
-            dimension: 'ROWS',
-            startIndex: rowIndex,
-            endIndex: rowIndex + 1
-          }
+          range: { sheetId, dimension: 'ROWS', startIndex: rowIndex, endIndex: rowIndex + 1 }
         }
       }]
     }
@@ -85,42 +91,68 @@ exports.handler = async () => {
       const row = rows[i];
       const [deviceId, endpoint, p256dh, auth, cartJson, lastUpdatedStr, lastNotifiedStr, promoSent, notifyCountStr] = row;
 
-      if (!endpoint || !cartJson) continue;
+      if (!endpoint) continue;
 
       let cart = [];
-      try { cart = JSON.parse(cartJson); } catch {}
-      if (!cart.length) continue;
-
-      const lastUpdated = lastUpdatedStr ? new Date(lastUpdatedStr) : null;
-      if (!lastUpdated) continue;
+      try { cart = JSON.parse(cartJson || '[]'); } catch {}
 
       const notifyCount = parseInt(notifyCountStr) || 0;
-      const scheduleIdx = Math.min(notifyCount, REMINDER_SCHEDULE_HOURS.length - 1);
-      const requiredGapHours = REMINDER_SCHEDULE_HOURS[scheduleIdx];
+      let payload = null;
 
-      if (notifyCount === 0) {
-        const minutesSinceUpdate = (now - lastUpdated) / (1000 * 60);
-        if (minutesSinceUpdate < REMINDER_THRESHOLD_MINUTES) continue;
+      // ══════════════════════════════════
+      //  CAS 1 — Panier avec produits
+      // ══════════════════════════════════
+      if (cart.length > 0) {
+        const lastUpdated = lastUpdatedStr ? new Date(lastUpdatedStr) : null;
+        if (!lastUpdated) continue;
+
+        const scheduleIdx = Math.min(notifyCount, REMINDER_SCHEDULE_HOURS.length - 1);
+        const requiredGapHours = REMINDER_SCHEDULE_HOURS[scheduleIdx];
+
+        if (notifyCount === 0) {
+          const minutesSinceUpdate = (now - lastUpdated) / (1000 * 60);
+          if (minutesSinceUpdate < REMINDER_THRESHOLD_MINUTES) continue;
+        } else {
+          if (!lastNotifiedStr) continue;
+          const hoursSinceNotified = (now - new Date(lastNotifiedStr)) / (1000 * 60 * 60);
+          if (hoursSinceNotified < requiredGapHours) continue;
+        }
+
+        const promo = pickRandomPromo(settings);
+        const itemCount = cart.reduce((sum, it) => sum + (parseInt(it.quantity) || 1), 0);
+
+        const body = promo
+          ? `You left ${itemCount} item(s) in your cart. Use code ${promo.code} for ${promo.percent}% off!`
+          : `You left ${itemCount} item(s) in your cart. Come back and grab them before they're gone!`;
+
+        payload = JSON.stringify({
+          title: 'BBW4LIFE',
+          body,
+          icon:  LOGO_URL,
+          badge: LOGO_URL,
+          url:   CART_URL
+        });
+
+      // ══════════════════════════════════
+      //  CAS 2 — Panier vide → marketing
+      // ══════════════════════════════════
       } else {
-        if (!lastNotifiedStr) continue;
-        const hoursSinceNotified = (now - new Date(lastNotifiedStr)) / (1000 * 60 * 60);
-        if (hoursSinceNotified < requiredGapHours) continue;
+        if (lastNotifiedStr) {
+          const hoursSince = (now - new Date(lastNotifiedStr)) / (1000 * 60 * 60);
+          if (hoursSince < MARKETING_INTERVAL_HOURS) continue;
+        }
+
+        const msg = pickMarketingMessage(settings);
+        payload = JSON.stringify({
+          title: 'BBW4LIFE',
+          body:  msg.body,
+          icon:  LOGO_URL,
+          badge: LOGO_URL,
+          url:   `${BASE_URL}${msg.url}`
+        });
       }
 
-      const promo = pickRandomPromo(settings);
-      const itemCount = cart.reduce((sum, it) => sum + (parseInt(it.quantity) || 1), 0);
-
-      const body = promo
-        ? `You left ${itemCount} item(s) in your cart. Use code ${promo.code} for ${promo.percent}% off!`
-        : `You left ${itemCount} item(s) in your cart. Come back and grab them before they're gone!`;
-
-      const payload = JSON.stringify({
-        title: 'BBW4LIFE',
-        body,
-        icon:  LOGO_URL,
-        badge: LOGO_URL,
-        url:   CART_URL
-      });
+      if (!payload) continue;
 
       const subscription = { endpoint, keys: { p256dh, auth } };
 
@@ -132,7 +164,7 @@ exports.handler = async () => {
           spreadsheetId: SPREADSHEET_ID,
           range: `${TAB}!G${i + 1}:I${i + 1}`,
           valueInputOption: 'RAW',
-          resource: { values: [[now.toISOString(), promo ? promo.code : '', notifyCount + 1]] }
+          resource: { values: [[now.toISOString(), '', notifyCount + 1]] }
         });
       } catch (err) {
         const statusCode = err.statusCode || (err.body && err.body.statusCode) || null;
@@ -154,9 +186,7 @@ exports.handler = async () => {
               valueInputOption: 'RAW',
               resource: { values: [[now.toISOString()]] }
             });
-          } catch (updErr) {
-            console.warn(`[send-cart-push-reminder] Could not update Last Notified for ${deviceId}:`, updErr.message);
-          }
+          } catch (updErr) {}
         }
       }
 
