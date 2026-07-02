@@ -2,6 +2,7 @@
 process.removeAllListeners('warning');
 const { google } = require("googleapis");
 const fetch = require("node-fetch");
+const { notifyTelegram } = require('./notify-telegram');
 const { notifyCartAbandoned } = require('./notify-email');
 
 const ABANDON_THRESHOLD_MINUTES = 20;
@@ -78,21 +79,14 @@ async function notifyTelegramAbandoned(orderId, shipping, cart, promo) {
   try {
     const itemCount = (cart || []).reduce((sum, i) => sum + (parseInt(i.quantity) || 1), 0);
     const fullName  = shipping.fullName || `${shipping.firstName || ''} ${shipping.lastName || ''}`.trim();
-    await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: process.env.TELEGRAM_CHAT_ID,
-        text:
-          `🛒 <b>Pdg Francenel, un panier vient d'être abandonné !</b>\n\n` +
-          `🆔 <b>Order ID:</b> ${orderId}\n` +
-          `👤 <b>Client:</b> ${fullName || 'N/A'}\n` +
-          `📧 <b>Email:</b> ${shipping.email || 'N/A'}\n` +
-          `📦 <b>Articles:</b> ${itemCount}\n` +
-          `🎁 <b>Code promo envoyé:</b> ${promo ? `${promo.code} (${promo.percent}%)` : 'aucun disponible'}`,
-        parse_mode: "HTML"
-      })
-    });
+    await notifyTelegram(
+      `🛒 <b>Pdg Francenel, un panier vient d'être abandonné !</b>\n\n` +
+      `🆔 <b>Order ID:</b> ${orderId}\n` +
+      `👤 <b>Client:</b> ${fullName || 'N/A'}\n` +
+      `📧 <b>Email:</b> ${shipping.email || 'N/A'}\n` +
+      `📦 <b>Articles:</b> ${itemCount}\n` +
+      `🎁 <b>Code promo envoyé:</b> ${promo ? `${promo.code} (${promo.percent}%)` : 'aucun disponible'}`
+    );
   } catch (e) {
     console.warn("[ABANDONED CART] Telegram notify failed:", e.message);
   }
@@ -140,8 +134,6 @@ exports.handler = async () => {
     const now = new Date();
     const settings = await getSettings();
 
-    // On traite du bas vers le haut pour que les suppressions de lignes
-    // n'invalident pas les indices des lignes restant à traiter.
     let processed = 0;
     for (let i = rows.length - 1; i >= 0; i--) {
       const row = rows[i];
@@ -167,6 +159,7 @@ exports.handler = async () => {
       const restartLink = `${process.env.BASE_URL || ''}/checkout/checkout.html?restore=${encodeURIComponent(orderId)}`;
 
       // ── Sauvegarder dans Abandoned_Carts ──
+      let savedOk = true;
       try {
         await sheets.spreadsheets.values.append({
           spreadsheetId: SPREADSHEET_ID,
@@ -190,7 +183,7 @@ exports.handler = async () => {
         });
       } catch (e) {
         console.error(`[ABANDONED CART] Échec sauvegarde ${orderId}:`, e.message);
-        continue; // ne pas supprimer le temp order si la sauvegarde a échoué
+        savedOk = false; // on continue quand même vers Telegram/email
       }
 
       // ── Notifier Telegram ──
@@ -214,11 +207,13 @@ exports.handler = async () => {
         }
       }
 
-      // ── Supprimer la ligne de Temp_Orders pour ne pas la retraiter ──
-      try {
-        await deleteTempOrderRow(sheets, i);
-      } catch (e) {
-        console.error(`[ABANDONED CART] Échec suppression Temp_Orders ligne ${i}:`, e.message);
+      // ── Supprimer la ligne de Temp_Orders (seulement si la sauvegarde a réussi) ──
+      if (savedOk) {
+        try {
+          await deleteTempOrderRow(sheets, i);
+        } catch (e) {
+          console.error(`[ABANDONED CART] Échec suppression Temp_Orders ligne ${i}:`, e.message);
+        }
       }
 
       processed++;

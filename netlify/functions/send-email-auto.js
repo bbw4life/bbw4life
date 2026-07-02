@@ -9,7 +9,7 @@ const crypto = require('crypto');
 //  ENVIRONMENT
 // ════════════════════════════════════════════════════════════════
 const BASE_URL   = process.env.BASE_URL   || 'https://bbw4life.com';
-const FROM_EMAIL = process.env.FROM_EMAIL || 'BBW4LIFE <hello@bbw4life.com>';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'BBW4LIFE <bbw4life@bbw4life.com>';
 
 // ════════════════════════════════════════════════════════════════
 //  EMAIL TYPE CONSTANTS
@@ -1106,7 +1106,7 @@ function detectSentiment(title, text) {
 }
 
 async function genReviewResponseCopy(firstName, title, text, productName, sentiment, promo, settings) {
-  const whatsapp    = (settings.contact || {}).whatsapp_url || 'https://wa.me/18292677434';
+  const whatsapp    = (settings.contact || {}).whatsapp_url || 'https://wa.me/18298940709';
   const contactPage = `${BASE_URL}/page/contact.html`;
 
   const userPrompt = sentiment === 'positive'

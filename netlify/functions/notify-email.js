@@ -1,4 +1,6 @@
 // netlify/functions/notify-email.js
+process.removeAllListeners('warning');
+const fetch = require('node-fetch');
 
 const BASE_URL = process.env.BASE_URL || 'https://bbw4life.com';
 const ENDPOINT = `${BASE_URL}/.netlify/functions/send-email-auto`;
