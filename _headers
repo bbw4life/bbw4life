@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────
+# BBW4LIFE — Netlify _headers
+# Force l'indexation sur toutes les pages publiques
+# et bloque l'indexation des pages privées (compte, checkout)
+# ─────────────────────────────────────────────
+
+# Toutes les pages par défaut : indexables
+/*
+  X-Robots-Tag: index, follow
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Pages privées / sans intérêt SEO : noindex explicite
+/account*
+  X-Robots-Tag: noindex, nofollow
+
+/checkout/*
+  X-Robots-Tag: noindex, nofollow
+
+/cart*
+  X-Robots-Tag: noindex, nofollow

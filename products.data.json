@@ -4582,6 +4582,7 @@
     "enable_media_zoom": "yes",
     "plans_available": "no",
     "reservation_price": 10,
+    "loyalty_points_per_order": 10,
     "collapsible_order_summary": "No",
     "header_search_always_visible": "yes",
     "flash_deal": {

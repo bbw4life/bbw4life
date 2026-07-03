@@ -24,7 +24,8 @@ exports.handler = async (event) => {
       'update-password',
       'aff-get-stats',
       'aff-create',
-      'aff-withdraw-request'
+      'aff-withdraw-request',
+      'get-abandoned-carts'
     ];
 
     if (PROTECTED_ACTIONS.includes(action)) {
@@ -661,6 +662,50 @@ if (action === 'aff-update-click-reward') {
 
   return { statusCode: 200, body: JSON.stringify({ success: true }) };
 }
+
+
+
+
+
+// ==================== GET ABANDONED CARTS (pour l'icône) ====================
+    if (action === 'get-abandoned-carts') {
+      if (!email) throw new Error("Email required");
+
+      const abandonedSpreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
+      const abandonedRes = await sheets.spreadsheets.values.get({
+        spreadsheetId: abandonedSpreadsheetId,
+        range: "Abandoned_Carts!A:J"
+      });
+      const abandonedRows = abandonedRes.data.values || [];
+      const normalizedEmail = normalize(email);
+
+      const carts = [];
+      for (let i = 1; i < abandonedRows.length; i++) { // skip header
+        const row = abandonedRows[i];
+        const [orderId, rowEmail, , , cartJson, , , createdAt, status] = row;
+        if (!orderId || normalize(rowEmail || '') !== normalizedEmail) continue;
+        if ((status || '').toLowerCase() !== 'abandoned') continue;
+
+        let itemCount = 0;
+        try {
+          const cart = JSON.parse(cartJson || "[]");
+          itemCount = cart.reduce((sum, it) => sum + (parseInt(it.quantity) || 1), 0);
+        } catch (e) {}
+
+        carts.push({ orderId, createdAt: createdAt || '', itemCount });
+      }
+
+      carts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ success: true, carts, count: carts.length })
+      };
+    }
+
+
+
+
 
 
     throw new Error("Action inconnue");

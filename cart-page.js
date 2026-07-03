@@ -355,7 +355,8 @@
       }
       return sum;
     }, 0);
-    const points = Math.floor(subtotal);
+    const POINTS_PER_ORDER = parseInt(settings.loyalty_points_per_order) || 10;
+    const points = cart.length > 0 ? POINTS_PER_ORDER : 0;
     const shippingFree = subtotal >= threshold;
 
     const shippingEl = document.getElementById('cp-shipping-val');
