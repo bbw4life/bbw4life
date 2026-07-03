@@ -98,6 +98,7 @@ exports.handler = async () => {
 
       const notifyCount = parseInt(notifyCountStr) || 0;
       let payload = null;
+      let promoCodeToStore = '';
 
       // ══════════════════════════════════
       //  CAS 1 — Panier avec produits
@@ -119,6 +120,7 @@ exports.handler = async () => {
         }
 
         const promo = pickRandomPromo(settings);
+        promoCodeToStore = promo ? promo.code : '';
         const itemCount = cart.reduce((sum, it) => sum + (parseInt(it.quantity) || 1), 0);
 
         const body = promo
@@ -164,7 +166,7 @@ exports.handler = async () => {
           spreadsheetId: SPREADSHEET_ID,
           range: `${TAB}!G${i + 1}:I${i + 1}`,
           valueInputOption: 'RAW',
-          resource: { values: [[now.toISOString(), '', notifyCount + 1]] }
+          resource: { values: [[now.toISOString(), promoCodeToStore, notifyCount + 1]] }
         });
       } catch (err) {
         const statusCode = err.statusCode || (err.body && err.body.statusCode) || null;

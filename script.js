@@ -32,6 +32,23 @@ const BBW_VAPID_PUBLIC_KEY = 'BPAy2x7jsTHvHMYA5uLWKZAbmwpAtUlFtCbgSiALsYFH4EKhST
 
 
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', function (event) {
+    if (event.data && event.data.type === 'OPEN_CART') {
+      let tries = 0;
+      const tryOpen = setInterval(function () {
+        tries++;
+        if (typeof window.openCartDrawer === 'function') {
+          clearInterval(tryOpen);
+          window.openCartDrawer();
+        } else if (tries > 30) {
+          clearInterval(tryOpen);
+        }
+      }, 200);
+    }
+  });
+}
+
 function bbwGetPushDeviceId() {
   let id = localStorage.getItem('bbw_push_device_id');
   if (!id) {

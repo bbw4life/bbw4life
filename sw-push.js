@@ -36,30 +36,23 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   const notification = event.notification;
   const action = event.action;
+  const url = (notification.data && notification.data.url) || '/';
   notification.close();
 
   if (action === 'dismiss') return;
 
-  const url = (notification.data && notification.data.url) || '/';
-
   event.waitUntil(
-    (async () => {
-      const allClients = await clients.matchAll({ type: 'window', includeUncontrolled: true });
-
-      for (const client of allClients) {
-        try {
-          const clientOrigin = new URL(client.url).origin;
-          const targetOrigin = new URL(url, self.location.origin).origin;
-          if (clientOrigin === targetOrigin && 'navigate' in client) {
-            const navigatedClient = await client.navigate(url);
-            return navigatedClient.focus ? navigatedClient.focus() : client.focus();
-          }
-        } catch (e) {}
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (windowClients) {
+      for (let i = 0; i < windowClients.length; i++) {
+        const client = windowClients[i];
+        if ('focus' in client) {
+          client.postMessage({ type: 'OPEN_CART', url: url });
+          return client.focus();
+        }
       }
-
       if (clients.openWindow) {
         return clients.openWindow(url);
       }
-    })()
+    })
   );
 });
