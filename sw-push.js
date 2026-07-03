@@ -38,9 +38,7 @@ self.addEventListener('notificationclick', function (event) {
   const action = event.action;
   const url = (notification.data && notification.data.url) || '/';
   notification.close();
-
   if (action === 'dismiss') return;
-
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (windowClients) {
       for (let i = 0; i < windowClients.length; i++) {

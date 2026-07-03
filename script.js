@@ -566,14 +566,14 @@ document.addEventListener('DOMContentLoaded', () => {
 ══════════════════════════════════════════════════════ */
 (function hideBrokenImagePlaceholders() {
   const style = document.createElement('style');
-  style.id = 'bbw-broken-img-hide';
+  style.id = 'bbw-content-protection-css';
   style.textContent = `
-    img:not([src]),
-    img[src=""],
-    img[src="undefined"],
-    img[src="null"] {
-      visibility: hidden !important;
-      opacity: 0 !important;
+    body.bbw-no-select,
+    body.bbw-no-select * {
+      -webkit-user-select: none;
+      -moz-user-select:    none;
+      -ms-user-select:     none;
+      user-select:         none;
     }
   `;
   document.head.appendChild(style);
@@ -13830,9 +13830,6 @@ startAutoSlide();
       -moz-user-select:    none;
       -ms-user-select:     none;
       user-select:         none;
-    }
-    body.bbw-no-select img:not(#modal-zoom-image):not(.main-image img) {
-      pointer-events: none;
     }
   `;
   document.head.appendChild(style);
