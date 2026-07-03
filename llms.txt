@@ -55,5 +55,5 @@
 ## Optional
 
 - [Order Tracking](https://bbw4life.com/page/order-tracking.html): Suivi commande en temps réel — entrez votre numéro de tracking
-- [Product Care](https://bbw4life.com/page/product-care.html): Guide d'entretien — comment prendre soin de vos pièces BBW4LIFE
+- [Product Care](https://bbw4life.com/page/products-care.html): Guide d'entretien — comment prendre soin de vos pièces BBW4LIFE
 - [Sitemap](https://bbw4life.com/sitemap.xml): Index complet des URLs pour les crawlers

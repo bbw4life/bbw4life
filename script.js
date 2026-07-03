@@ -9841,74 +9841,37 @@ function loadProfilePhoto() {
 
 
 /* ════════════════════════════════════════════════════════════════
-   BBW4LIFE — ABANDONED CART ICON (à côté du bouton anniversaire)
+   BBW4LIFE — ABANDONED CART CARD (à côté du champ Birthday)
 ════════════════════════════════════════════════════════════════ */
-(function initAbandonedCartIcon() {
+(function initAbandonedCartCard() {
   'use strict';
 
   var userEmail = localStorage.getItem('userEmail') || '';
   var userToken = localStorage.getItem('userAccountToken') || '';
-  if (!userEmail || !userToken) return; // seulement pour les clients connectés
+  if (!userEmail || !userToken) return; // client non connecté
 
-  var ICON_SVG =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-    'stroke-linecap="round" stroke-linejoin="round" width="22" height="22">' +
-    '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>' +
-    '<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>' +
-    '</svg>';
+  /* ── Card ── */
+  var card = document.createElement('button');
+  card.id = 'bbwAcCard';
+  card.type = 'button';
+  card.setAttribute('aria-label', 'Your abandoned carts');
+  card.innerHTML =
+    '<span class="bbw-ac-card-icon">' +
+      '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>' +
+      '<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>' +
+      '</svg>' +
+      '<span class="bbw-ac-card-badge" id="bbwAcBadge">0</span>' +
+    '</span>' +
+    '<span class="bbw-ac-card-text">' +
+      '<strong class="bbw-ac-card-title">You left something beautiful behind</strong>' +
+      '<span class="bbw-ac-card-sub" id="bbwAcSub">Tap to resume your order</span>' +
+    '</span>' +
+    '<svg class="bbw-ac-card-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" ' +
+    'stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>';
 
-  var btn = document.createElement('button');
-  btn.id = 'bbwAbandonedCartBtn';
-  btn.setAttribute('aria-label', 'Your abandoned carts');
-  btn.innerHTML = ICON_SVG + '<span class="bbw-ac-badge" id="bbwAcBadge">0</span>';
-  btn.style.display = 'none';
-  document.body.appendChild(btn);
-
-  var style = document.createElement('style');
-  style.textContent =
-    '#bbwAbandonedCartBtn{position:fixed;z-index:99997;width:52px;height:52px;' +
-    'border-radius:50%;background:linear-gradient(135deg,#1e1a1c,#3a2e36);' +
-    'border:2px solid rgba(201,150,62,.45);color:#e8bc6a;display:flex;' +
-    'align-items:center;justify-content:center;cursor:pointer;' +
-    'box-shadow:0 6px 20px rgba(0,0,0,.35);' +
-    'transition:transform .25s cubic-bezier(.34,1.56,.64,1)}' +
-    '#bbwAbandonedCartBtn:hover{transform:scale(1.08)}' +
-    '.bbw-ac-badge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;' +
-    'padding:0 5px;border-radius:999px;background:linear-gradient(135deg,#c0385e,#7b3f6e);' +
-    'color:#fff;font-family:"DM Sans",sans-serif;font-size:.70rem;font-weight:700;' +
-    'display:flex;align-items:center;justify-content:center;border:2px solid #1a0a12}' +
-    '#bbwAcOverlay{position:fixed;inset:0;z-index:999997;background:rgba(0,0,0,.65);' +
-    'backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;' +
-    'padding:20px;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}' +
-    '#bbwAcOverlay.bbw-ac--visible{opacity:1;visibility:visible}' +
-    '.bbw-ac-modal{background:linear-gradient(150deg,#1a0a12,#2a0e1c);' +
-    'border:1px solid rgba(201,150,62,.30);border-radius:18px;max-width:440px;width:100%;' +
-    'max-height:80vh;overflow-y:auto;padding:26px 22px;' +
-    'transform:translateY(16px) scale(.97);' +
-    'transition:transform .35s cubic-bezier(.34,1.4,.64,1)}' +
-    '#bbwAcOverlay.bbw-ac--visible .bbw-ac-modal{transform:translateY(0) scale(1)}' +
-    '.bbw-ac-modal h3{color:#fff;font-family:"Cormorant Garamond",Georgia,serif;' +
-    'font-size:1.4rem;margin:0 0 4px;text-align:center}' +
-    '.bbw-ac-modal p.bbw-ac-sub{color:rgba(255,255,255,.45);font-family:"DM Sans",sans-serif;' +
-    'font-size:.78rem;text-align:center;margin:0 0 18px}' +
-    '.bbw-ac-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);' +
-    'border:1px solid rgba(201,150,62,.18);border-radius:12px;padding:12px 14px;' +
-    'margin-bottom:10px;cursor:pointer;transition:background .2s,border-color .2s}' +
-    '.bbw-ac-item:hover{background:rgba(201,150,62,.10);border-color:rgba(201,150,62,.40)}' +
-    '.bbw-ac-item-icon{width:38px;height:38px;border-radius:50%;background:rgba(184,48,88,.20);' +
-    'display:flex;align-items:center;justify-content:center;color:#f5a0b8;flex-shrink:0}' +
-    '.bbw-ac-item-info{flex:1;min-width:0}' +
-    '.bbw-ac-item-date{color:#e8bc6a;font-family:"DM Sans",sans-serif;font-size:.82rem;' +
-    'font-weight:700;margin:0 0 2px}' +
-    '.bbw-ac-item-count{color:rgba(255,255,255,.50);font-family:"DM Sans",sans-serif;' +
-    'font-size:.74rem;margin:0}' +
-    '.bbw-ac-item-arrow{color:rgba(255,255,255,.30);flex-shrink:0}' +
-    '.bbw-ac-close{display:block;margin:14px auto 0;background:transparent;' +
-    'border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.55);border-radius:999px;' +
-    'padding:8px 20px;font-family:"DM Sans",sans-serif;font-size:.78rem;cursor:pointer}' +
-    '.bbw-ac-close:hover{color:#fff;border-color:rgba(255,255,255,.30)}';
-  document.head.appendChild(style);
-
+  /* ── Modal (paniers multiples) ── */
   var overlay = document.createElement('div');
   overlay.id = 'bbwAcOverlay';
   overlay.innerHTML =
@@ -9968,7 +9931,7 @@ function loadProfilePhoto() {
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
 
-  btn.addEventListener('click', function () {
+  card.addEventListener('click', function () {
     if (!carts.length) return;
     if (carts.length === 1) {
       goToCheckout(carts[0].orderId);
@@ -9977,33 +9940,21 @@ function loadProfilePhoto() {
     }
   });
 
-  /* ── Positionner l'icône à droite du bouton anniversaire ── */
-  function positionNextToGift() {
-    var giftBtn = document.getElementById('bbwBdayGiftBtn');
-    if (!giftBtn) return;
-    var rect = giftBtn.getBoundingClientRect();
-    var isRight = rect.left > window.innerWidth / 2;
-    if (isRight) {
-      btn.style.left  = 'auto';
-      btn.style.right = (window.innerWidth - rect.left + 12) + 'px';
-    } else {
-      btn.style.right = 'auto';
-      btn.style.left  = (rect.right + 12) + 'px';
-    }
-    btn.style.top = rect.top + 'px';
+  /* ── Insertion à côté du champ Birthday (dans la même ligne flex) ── */
+  function insertCard() {
+    var row = document.querySelector('.profile-birthday-row');
+    if (!row) return false;
+    row.appendChild(card);
+    return true;
   }
 
-  function watchGiftBtn() {
-    var giftBtn = document.getElementById('bbwBdayGiftBtn');
-    if (!giftBtn) { setTimeout(watchGiftBtn, 300); return; }
-    positionNextToGift();
-    var obs = new MutationObserver(positionNextToGift);
-    obs.observe(giftBtn, { attributes: true, attributeFilter: ['style'] });
-    window.addEventListener('resize', positionNextToGift);
-    window.addEventListener('scroll', positionNextToGift, { passive: true });
-  }
+  var tries = 0;
+  var waitDom = setInterval(function () {
+    tries++;
+    if (insertCard() || tries > 60) clearInterval(waitDom);
+  }, 150);
 
-  /* ── Charger les paniers abandonnés du client via save-account.js (existant) ── */
+  /* ── Charger les paniers abandonnés ── */
   fetch('/.netlify/functions/save-account', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10011,14 +9962,20 @@ function loadProfilePhoto() {
   })
     .then(function (r) { return r.json(); })
     .then(function (data) {
+      console.log('[AbandonedCartCard] réponse:', data);
       if (!data.success || !data.carts || !data.carts.length) return;
       carts = data.carts;
       var badge = document.getElementById('bbwAcBadge');
+      var sub   = document.getElementById('bbwAcSub');
       if (badge) badge.textContent = carts.length;
-      btn.style.display = 'flex';
-      watchGiftBtn();
+      if (sub) {
+        sub.textContent = carts.length === 1
+          ? 'Tap to resume your order'
+          : carts.length + ' orders waiting for you';
+      }
+      card.style.display = 'inline-flex';
     })
-    .catch(function (e) { console.warn('[AbandonedCartIcon] fetch failed:', e.message); });
+    .catch(function (e) { console.warn('[AbandonedCartCard] fetch failed:', e.message); });
 
 })();
 
