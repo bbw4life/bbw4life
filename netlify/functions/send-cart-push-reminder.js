@@ -132,7 +132,8 @@ exports.handler = async () => {
           body,
           icon:  LOGO_URL,
           badge: LOGO_URL,
-          url:   CART_URL
+          url:   CART_URL,
+          hasCart: true
         });
 
       // ══════════════════════════════════
@@ -150,7 +151,8 @@ exports.handler = async () => {
           body:  msg.body,
           icon:  LOGO_URL,
           badge: LOGO_URL,
-          url:   `${BASE_URL}${msg.url}`
+          url:   `${BASE_URL}${msg.url}`,
+          hasCart: false
         });
       }
 

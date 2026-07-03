@@ -10,7 +10,19 @@ self.addEventListener('push', function (event) {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch (e) {}
 
-  const title = data.title || 'BBW4LIFE';
+  const title   = data.title || 'BBW4LIFE';
+  const hasCart = data.hasCart === true;
+
+  // ── Actions dynamiques selon le type de notification ──
+  const actions = hasCart
+    ? [
+        { action: 'open_cart', title: '🛒 View Cart' },
+        { action: 'dismiss',   title: 'Dismiss' }
+      ]
+    : [
+        { action: 'open_url', title: '👑 Shop Now' },
+        { action: 'dismiss',  title: 'Dismiss' }
+      ];
 
   const options = {
     body: data.body || 'You have items waiting in your cart 🛍️',
@@ -23,11 +35,8 @@ self.addEventListener('push', function (event) {
     silent: false,
     timestamp: Date.now(),
     vibrate: [100, 50, 100],
-    data: { url: data.url || '/' },
-    actions: [
-      { action: 'open_cart', title: '🛒 View Cart' },
-      { action: 'dismiss',   title: 'Dismiss' }
-    ]
+    data: { url: data.url || '/', hasCart: hasCart },
+    actions: actions
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
@@ -36,21 +45,42 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   const notification = event.notification;
   const action = event.action;
-  const url = (notification.data && notification.data.url) || '/';
+  const targetUrl = (notification.data && notification.data.url) || '/';
+  const hasCart   = (notification.data && notification.data.hasCart) || false;
+
   notification.close();
+
   if (action === 'dismiss') return;
+
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (windowClients) {
-      for (let i = 0; i < windowClients.length; i++) {
-        const client = windowClients[i];
-        if ('focus' in client) {
-          client.postMessage({ type: 'OPEN_CART', url: url });
-          return client.focus();
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then(function (windowClients) {
+        // Cherche un onglet déjà ouvert sur notre domaine
+        let target = null;
+        for (let i = 0; i < windowClients.length; i++) {
+          const c = windowClients[i];
+          if (c.url && c.url.indexOf(self.location.origin) === 0) {
+            target = c;
+            break;
+          }
         }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(url);
-      }
-    })
+
+        if (target) {
+          // Seul le clic "open_cart" (panier) déclenche l'ouverture du drawer
+          if (action === 'open_cart' || hasCart) {
+            target.postMessage({ type: 'OPEN_CART', url: targetUrl });
+          }
+          return target.focus().catch(function () {
+            return clients.openWindow(targetUrl);
+          });
+        }
+
+        // Aucun onglet trouvé → ouverture directe, fiable à 100%
+        return clients.openWindow(targetUrl);
+      })
+      .catch(function (err) {
+        console.error('[SW] notificationclick failed, forcing openWindow:', err);
+        return clients.openWindow(targetUrl);
+      })
   );
 });
