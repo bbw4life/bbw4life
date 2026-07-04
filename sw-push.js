@@ -13,7 +13,6 @@ self.addEventListener('push', function (event) {
   const title   = data.title || 'BBW4LIFE';
   const hasCart = data.hasCart === true;
 
-  // ── Actions dynamiques selon le type de notification ──
   const actions = hasCart
     ? [
         { action: 'open_cart', title: '🛒 View Cart' },
@@ -53,44 +52,24 @@ self.addEventListener('notificationclick', function (event) {
   if (action === 'dismiss') return;
 
   const wantsCart = (action === 'open_cart' || (action === '' && hasCart));
+  const finalUrl = wantsCart ? targetUrl : targetUrl;
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then(function (windowClients) {
-        let target = null;
-        for (let i = 0; i < windowClients.length; i++) {
-          const c = windowClients[i];
-          if (c.url && c.url.indexOf(self.location.origin) === 0) {
-            target = c;
-            break;
-          }
+    clients.openWindow(finalUrl)
+      .then(function (windowClient) {
+        // Une fois la fenêtre ouverte, on peut envoyer le message
+        // pour ouvrir le drawer panier si nécessaire.
+        if (wantsCart && windowClient) {
+          // Petit délai pour laisser la page charger le script.js
+          // qui écoute ce message.
+          setTimeout(function () {
+            windowClient.postMessage({ type: 'OPEN_CART', url: finalUrl });
+          }, 1500);
         }
-
-        if (target) {
-          if (wantsCart) {
-            // Onglet déjà ouvert → juste ouvrir le drawer, pas besoin de navigation
-            target.postMessage({ type: 'OPEN_CART', url: targetUrl });
-            return target.focus();
-          }
-          // "Shop Now" ou clic sur le corps (hors panier) → navigue réellement l'onglet
-          if ('navigate' in target) {
-            return target.navigate(targetUrl)
-              .then(function (navigated) {
-                return navigated ? navigated.focus() : target.focus();
-              })
-              .catch(function () {
-                return clients.openWindow(targetUrl);
-              });
-          }
-          return clients.openWindow(targetUrl);
-        }
-
-        // Aucun onglet ouvert → nouvelle fenêtre directement sur l'URL cible
-        return clients.openWindow(targetUrl);
+        return windowClient;
       })
       .catch(function (err) {
-        console.error('[SW] notificationclick failed, forcing openWindow:', err);
-        return clients.openWindow(targetUrl);
+        console.error('[SW] openWindow failed:', err);
       })
   );
 });
