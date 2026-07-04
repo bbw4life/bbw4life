@@ -52,10 +52,11 @@ self.addEventListener('notificationclick', function (event) {
 
   if (action === 'dismiss') return;
 
+  const wantsCart = (action === 'open_cart' || (action === '' && hasCart));
+
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true })
       .then(function (windowClients) {
-        // Cherche un onglet déjà ouvert sur notre domaine
         let target = null;
         for (let i = 0; i < windowClients.length; i++) {
           const c = windowClients[i];
@@ -66,16 +67,25 @@ self.addEventListener('notificationclick', function (event) {
         }
 
         if (target) {
-          // Seul le clic "open_cart" (panier) déclenche l'ouverture du drawer
-          if (action === 'open_cart' || hasCart) {
+          if (wantsCart) {
+            // Onglet déjà ouvert → juste ouvrir le drawer, pas besoin de navigation
             target.postMessage({ type: 'OPEN_CART', url: targetUrl });
+            return target.focus();
           }
-          return target.focus().catch(function () {
-            return clients.openWindow(targetUrl);
-          });
+          // "Shop Now" ou clic sur le corps (hors panier) → navigue réellement l'onglet
+          if ('navigate' in target) {
+            return target.navigate(targetUrl)
+              .then(function (navigated) {
+                return navigated ? navigated.focus() : target.focus();
+              })
+              .catch(function () {
+                return clients.openWindow(targetUrl);
+              });
+          }
+          return clients.openWindow(targetUrl);
         }
 
-        // Aucun onglet trouvé → ouverture directe, fiable à 100%
+        // Aucun onglet ouvert → nouvelle fenêtre directement sur l'URL cible
         return clients.openWindow(targetUrl);
       })
       .catch(function (err) {
