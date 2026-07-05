@@ -60,6 +60,7 @@ body {
   padding-top: var(--bbw-total-top) !important;
 }
 
+
 /* ═══════════════════════════════════════════════════════════════
    ANNOUNCEMENT BAR
 ═══════════════════════════════════════════════════════════════ */
@@ -4365,4 +4366,45 @@ a.plan-close-thanks-btn {
   #bbw-order-timeline-drawer .bbw-ot-icon { width: 40px; height: 40px; }
   #bbw-order-timeline-drawer .bbw-ot-icon svg { width: 20px; height: 20px; }
   .bbw-ot-label { font-size: 0.65rem; }
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   FIX CROSS-BROWSER — Flash/transparence popups Safari & Firefox mobile
+═══════════════════════════════════════════════════════════ */
+.mpp-overlay:not(.open),
+.plan-popup-overlay:not(.active),
+.bbq-overlay:not(.bbq-active),
+.bbws-overlay:not(.bbws-active),
+.bbwl-overlay:not(.bbwl-active),
+.bwflash-overlay:not(.bwflash-active),
+#paulPopup:not(.active),
+.wishlist-modal:not(.active),
+.cart-drawer:not(.active),
+#bbwBdayOverlay:not(.bbw-bday--open),
+#cf-chat-window:not(.cf-open) {
+  visibility: hidden !important;
+}
+
+
+@media (max-width: 768px) {
+  #bbwBdayOverlay:not(.bbw-bday--open) {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .paul-popup-overlay:not(.active),
+  #paulPopup:not(.active) {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .paul-popup {
+    animation: paulPopupFadeMobile 0.28s ease forwards !important;
+  }
+}
+
+@keyframes paulPopupFadeMobile {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

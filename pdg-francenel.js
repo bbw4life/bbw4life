@@ -3,8 +3,7 @@
   'use strict';
 
   /* ──────────────────────────────────────────────────────────
-     1. HTML DES WIDGETS — injecté directement dans le DOM
-        (pas de fetch = pas de problème de timing)
+     1. HTML Pdg Francenel — injecté directement dans le DOM
   ────────────────────────────────────────────────────────── */
   var WIDGETS_HTML = `
 

@@ -1526,6 +1526,8 @@
 .col-grid.list-view .col-card__quick-view { display: none; }
 .col-grid.list-view .col-card__select { top: 8px; right: 8px; }
 
+
+
 /* ================================================================
    CARD ANIMATIONS (structure 100% préservée)
 ================================================================ */
@@ -1658,6 +1660,7 @@
     animation-duration: 0.5s, 4s;
   }
 }
+
 
 /* ================================================================
    PAGINATION

@@ -612,10 +612,9 @@
         rotateIn:    'col-anim--rotateIn',
         glowPop:     'col-anim--glowPop'
       };
-      const cardAnims = colSettings.col_card_animations || {};
+      const cardAnims = settings.col_card_animations || {};
       const activeAnim = Object.keys(cardAnims).find(k => (cardAnims[k] || '').toLowerCase() === 'yes');
       animationClass = (activeAnim && animMap[activeAnim]) ? animMap[activeAnim] : 'col-anim--fadeSlideUp';
-
       
       const realProducts = data.filter(p => !p.type && p.active !== false);
       if (productIds.length > 0) {

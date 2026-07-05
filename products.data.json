@@ -4394,7 +4394,7 @@
       "banner_slide_duration_ms": 5000
     },
     "preloader": {
-      "show": "yes",
+      "show": "no",
       "style_pulse_logo":   "no",
       "style_progress_bar": "yes",
       "style_spinner_ring": "no",
@@ -4587,6 +4587,15 @@
     "header_search_always_visible": "yes",
     "flash_deal": {
       "hours": 10
+    },
+    "col_card_animations": {
+      "fadeSlideUp": "no",
+      "zoomFade": "no",
+      "flipIn": "yes",
+      "slideLeft": "no",
+      "slideRight": "no",
+      "rotateIn": "no",
+      "glowPop": "no"
     },
     "top_starter_products": {
       "label": "Best products to start your weight loss journey",
@@ -5403,15 +5412,6 @@
         "Pdg-Francenel-product23",
         "Pdg-Francenel-product24"
       ],
-      "col_card_animations": {
-        "fadeSlideUp": "no",
-        "zoomFade": "no",
-        "flipIn": "yes",
-        "slideLeft": "no",
-        "slideRight": "no",
-        "rotateIn": "no",
-        "glowPop": "no"
-      },
       "hero_title": "Gear Built For Your Curves",
       "hero_subtitle": "Every product designed with curvy women in mind — comfortable, effective, beautiful.",
       "hero_eyebrow": "Our Full Collection"
