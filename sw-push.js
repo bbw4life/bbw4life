@@ -44,32 +44,42 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   const notification = event.notification;
   const action = event.action;
-  const targetUrl = (notification.data && notification.data.url) || '/';
-  const hasCart   = (notification.data && notification.data.hasCart) || false;
+  const data = notification.data || {};
+  const targetUrl = data.url || '/';
+  const hasCart = data.hasCart || false;
 
   notification.close();
 
   if (action === 'dismiss') return;
 
   const wantsCart = (action === 'open_cart' || (action === '' && hasCart));
-  const finalUrl = wantsCart ? targetUrl : targetUrl;
 
   event.waitUntil(
-    clients.openWindow(finalUrl)
-      .then(function (windowClient) {
-        // Une fois la fenêtre ouverte, on peut envoyer le message
-        // pour ouvrir le drawer panier si nécessaire.
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (windowClients) {
+      // Cherche un onglet déjà ouvert sur le même site
+      for (const client of windowClients) {
+        if (client.url.startsWith(self.location.origin) && 'focus' in client) {
+          return client.focus().then(function (focusedClient) {
+            if (wantsCart) {
+              focusedClient.postMessage({ type: 'OPEN_CART', url: targetUrl });
+            } else if ('navigate' in focusedClient) {
+              focusedClient.navigate(targetUrl);
+            }
+            return focusedClient;
+          });
+        }
+      }
+      // Sinon on ouvre une nouvelle fenêtre
+      return clients.openWindow(targetUrl).then(function (windowClient) {
         if (wantsCart && windowClient) {
-          // Petit délai pour laisser la page charger le script.js
-          // qui écoute ce message.
           setTimeout(function () {
-            windowClient.postMessage({ type: 'OPEN_CART', url: finalUrl });
+            windowClient.postMessage({ type: 'OPEN_CART', url: targetUrl });
           }, 1500);
         }
         return windowClient;
-      })
-      .catch(function (err) {
-        console.error('[SW] openWindow failed:', err);
-      })
+      });
+    }).catch(function (err) {
+      console.error('[SW] notificationclick failed:', err);
+    })
   );
 });

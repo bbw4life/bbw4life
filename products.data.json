@@ -4373,7 +4373,7 @@
       "countdown_minutes": 10,
       "countdown_text": "⚡ Offer expires in:",
       "countdown_suffix": "min",
-      "free_shipping_threshold": 150,
+      "free_shipping_threshold": 200,
       "show_free_shipping_bar": "Yes",
       "progress_message": "Add ${remaining} more paul for FREE shipping!",
       "progress_success_message": "🎉You've unlocked FREE shipping!",

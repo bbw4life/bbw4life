@@ -1768,14 +1768,14 @@ document.addEventListener('click', function (e) {
   var CD_KEY         = 'bd_countdown_end';
 
   function openPopup() {
-    overlay.classList.add('bd-active');
+    overlay.classList.add('bwflash-active');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     startUrgencyBar();
   }
 
   function closePopup() {
-    overlay.classList.remove('bd-active');
+    overlay.classList.remove('bwflash-active');
     overlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
@@ -1913,37 +1913,37 @@ document.addEventListener('click', function (e) {
     shown.forEach(function (p, i) {
       if (i > 0) {
         var div = document.createElement('div');
-        div.className = 'bd-promo-divider';
+        div.className = 'bwflash-promo-divider';
         listEl.appendChild(div);
       }
 
       var row = document.createElement('div');
-      row.className = 'bd-promo-row';
+      row.className = 'bwflash-promo-row';
 
       var pct = document.createElement('span');
-      pct.className   = 'bd-promo-percent';
+      pct.className   = 'bwflash-promo-percent';
       pct.textContent = p.percent + '% OFF';
 
       var items = document.createElement('span');
-      items.className   = 'bd-promo-items';
+      items.className   = 'bwflash-promo-items';
       items.textContent = 'On ' + p.items + '+ items';
 
       var pill = document.createElement('span');
-      pill.className   = 'bd-code-pill';
+      pill.className   = 'bwflash-code-pill';
       pill.textContent = p.code;
       pill.title       = 'Click to copy';
 
       var copyBtn = document.createElement('button');
-      copyBtn.className = 'bd-copy-btn';
+      copyBtn.className = 'bwflash-copy-btn';
       copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
 
       (function (code, btn) {
         function doCopy() {
           navigator.clipboard.writeText(code).then(function () {
-            btn.classList.add('copied');
+            btn.classList.add('bwflash-copied');
             btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
             setTimeout(function () {
-              btn.classList.remove('copied');
+              btn.classList.remove('bwflash-copied');
               btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
             }, 2200);
           }).catch(function () {
@@ -1953,10 +1953,10 @@ document.addEventListener('click', function (e) {
             ta.select();
             document.execCommand('copy');
             document.body.removeChild(ta);
-            btn.classList.add('copied');
+            btn.classList.add('bwflash-copied');
             btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
             setTimeout(function () {
-              btn.classList.remove('copied');
+              btn.classList.remove('bwflash-copied');
               btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
             }, 2200);
           });
