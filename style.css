@@ -1,3 +1,11 @@
+/* ================================================================
+   BBW4LIFE — CART DRAWER — ULTRA PREMIUM LUMIÈRE
+================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
+
+
 :root {
 
   /* ═══════════════════════════════════════
@@ -1268,16 +1276,6 @@ body {
     pointer-events: all;
   }
 }
-
-
-
-
-
-/* ================================================================
-   BBW4LIFE — CART DRAWER — ULTRA PREMIUM LUMIÈRE
-================================================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
 
 .cart-overlay {
@@ -3814,13 +3812,32 @@ body {
     z-index: 10000;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     padding: 16px;
     box-sizing: border-box;
 }
 
-.paul-popup-overlay.active { display: flex; }
+.paul-popup-overlay.active {
+    display: flex;
+}
+
+.paul-popup-overlay.active::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .paul-popup-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(5, 0, 10, 0.96) !important;
+  }
+}
+
 
 /* ================================================================
    POPUP BOX
@@ -12143,7 +12160,6 @@ body {
 
 
 
-
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -12593,23 +12609,37 @@ a:active {
    OVERLAY
 ────────────────────────────────────────────────────────────── */
 .bbw-bday-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 99991;
-  background: rgba(10, 4, 18, 0.72);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99991 !important;
+  background: rgba(10, 4, 18, 0.72) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.35s ease !important;
 }
+
+.bbw-bday-overlay::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
 .bbw-bday-overlay.bbw-bday--open {
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.bbw-bday-modal {
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -13278,6 +13308,8 @@ a:active {
   .bbw-bday-arrow--prev { left: -10px; }
   .bbw-bday-arrow--next { right: -10px; }
 }
+
+
 
 
 

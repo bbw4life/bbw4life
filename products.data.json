@@ -4589,9 +4589,9 @@
       "hours": 10
     },
     "col_card_animations": {
-      "fadeSlideUp": "no",
+      "fadeSlideUp": "yes",
       "zoomFade": "no",
-      "flipIn": "yes",
+      "flipIn": "no",
       "slideLeft": "no",
       "slideRight": "no",
       "rotateIn": "no",

@@ -1528,6 +1528,7 @@
 
 
 
+
 /* ================================================================
    CARD ANIMATIONS (structure 100% préservée)
 ================================================================ */
@@ -1604,6 +1605,7 @@
   50%  { box-shadow: 0 8px 35px rgba(192,56,94,0.35); transform: scale(1.04); }
   100% { box-shadow: 0 4px 15px rgba(192,56,94,0.08); transform: scale(1); }
 }
+
 
 .col-anim--fadeSlideUp {
   animation: colFadeSlideUpIn 0.7s cubic-bezier(0.22,1,0.36,1) both,

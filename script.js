@@ -8367,7 +8367,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!paulPopupOverlay || !loginForm || !signupForm) return;
     paulPopupOverlay.classList.add('active');
     loginForm.style.display = 'block'; signupForm.style.display = 'none';
-  }
+}
   function closePaulPopup() {
     if (isAccountPage) return;
     if (paulPopupOverlay) paulPopupOverlay.classList.remove('active');
@@ -9672,22 +9672,32 @@ function loadProfilePhoto() {
      OPEN / CLOSE POPUP
   ────────────────────────────────────────────────────────────── */
   function openPopup() {
-    overlay.classList.add('bbw-bday--open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    overlay.style.display = 'flex';
 
-    // Animations
-    fireModalConfetti();
-    spawnModalParticles();
-    stopAutoSlide();
-    if (_cardCount > 0) startAutoSlide();
-  }
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        overlay.classList.add('bbw-bday--open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        // Animations
+        fireModalConfetti();
+        spawnModalParticles();
+        stopAutoSlide();
+        if (_cardCount > 0) startAutoSlide();
+      });
+    });
+}
 
   function closePopup() {
     overlay.classList.remove('bbw-bday--open');
     overlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     stopAutoSlide();
+
+    setTimeout(function () {
+      overlay.style.display = 'none';
+    }, 400);
   }
 
   /* ────────────────────────────────────────────────────────────
@@ -14470,3 +14480,5 @@ function injectColFbt() {
   observer.observe(document.body, { childList: true, subtree: true });
 
 })();
+
+

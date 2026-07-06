@@ -4370,6 +4370,7 @@ a.plan-close-thanks-btn {
 
 
 
+
 /* ═══════════════════════════════════════════════════════════
    FIX CROSS-BROWSER — Flash/transparence popups Safari & Firefox mobile
 ═══════════════════════════════════════════════════════════ */
@@ -4379,32 +4380,17 @@ a.plan-close-thanks-btn {
 .bbws-overlay:not(.bbws-active),
 .bbwl-overlay:not(.bbwl-active),
 .bwflash-overlay:not(.bwflash-active),
-#paulPopup:not(.active),
 .wishlist-modal:not(.active),
 .cart-drawer:not(.active),
 #bbwBdayOverlay:not(.bbw-bday--open),
+.paul-popup-overlay:not(.active),
 #cf-chat-window:not(.cf-open) {
   visibility: hidden !important;
 }
 
 
-@media (max-width: 768px) {
-  #bbwBdayOverlay:not(.bbw-bday--open) {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  .paul-popup-overlay:not(.active),
-  #paulPopup:not(.active) {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  .paul-popup {
-    animation: paulPopupFadeMobile 0.28s ease forwards !important;
-  }
-}
-
 @keyframes paulPopupFadeMobile {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+

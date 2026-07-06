@@ -439,7 +439,8 @@
      role="dialog"
      aria-modal="true"
      aria-label="Birthday surprise"
-     aria-hidden="true">
+     aria-hidden="true"
+     style="display:none;">
 
   <!-- Modal -->
   <div class="bbw-bday-modal" id="bbwBdayModal">
