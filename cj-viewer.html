@@ -375,6 +375,10 @@
 <script>
   /* ══════════════════════════════════════
      GATE — Password protection
+     (identique au viewer Eprolo : mot de passe
+     vérifié côté serveur via get-private-settings,
+     qui lit settings.eprolo_viewer_password
+     dans les variables Netlify)
   ══════════════════════════════════════ */
   (function () {
     'use strict';
@@ -869,22 +873,35 @@
     }
     view.innerHTML = products.map((p, i) => {
       const vars = p.variants || [];
-      const rowsHTML = vars.map(v => {
-        const vid    = v.vid || v.variantId || 'N/A';
-        const sku    = v.variantSku || v.sku || 'N/A';
-        const name   = v.variantNameEn || v.variantName || '';
-        const price  = v.variantSellPrice ?? v.variantStandardPrice ?? v.variantPrice ?? 'N/A';
-        const weight = v.variantWeight ?? 'N/A';
-        const image  = v.variantImage || '';
-        return `<tr>
-          <td class="td-id">${esc(vid)}</td>
-          <td class="td-sku">${esc(sku)}</td>
-          <td class="td-name">${esc(name)}</td>
-          <td class="td-price">$${esc(String(price))}</td>
-          <td class="td-weight">${esc(String(weight))}g</td>
-          <td class="td-img">${image ? `<a href="${esc(image)}" target="_blank" rel="noopener">image</a>` : '—'}</td>
-        </tr>`;
-      }).join('');
+
+      // Regroupement par couleur (déjà calculé côté fonction Netlify : v.color / v.size)
+      const colorGroups = {};
+      vars.forEach(v => {
+        const color = v.color || 'N/A';
+        if (!colorGroups[color]) colorGroups[color] = [];
+        colorGroups[color].push(v);
+      });
+
+      const variantsHTML = Object.entries(colorGroups).map(([color, group]) => `
+        <div class="color-group">
+          <div class="color-label">
+            <div class="color-swatch" style="background:${getSwatchColor(color)}"></div>
+            <span class="color-name">${esc(color)}</span>
+            <span class="color-count">${group.length} taille(s)</span>
+          </div>
+          <table class="variants-table">
+            <thead><tr><th>ID</th><th>SKU</th><th>SIZE</th><th>PRIX</th><th>POIDS</th><th>STOCK</th><th>IMAGE</th></tr></thead>
+            <tbody>${group.map(v => `<tr>
+              <td class="td-id">${esc(v.vid)}</td>
+              <td class="td-sku">${esc(v.sku)}</td>
+              <td class="td-size">${esc(v.size) || '—'}</td>
+              <td class="td-price">$${esc(String(v.price))}</td>
+              <td class="td-weight">${esc(String(v.weight))}g</td>
+              <td class="td-stock" style="color:${stockColor(v.stock)}">${esc(String(v.stock))}</td>
+              <td class="td-img">${v.image ? `<a href="${esc(v.image)}" target="_blank" rel="noopener">image</a>` : '—'}</td>
+            </tr>`).join('')}</tbody>
+          </table>
+        </div>`).join('');
 
       return `
         <div class="product-card" id="card-cj-${i}">
@@ -898,15 +915,7 @@
             </div>
             <span class="chevron">▶</span>
           </div>
-          <div class="variants-body">
-            ${vars.length ? `
-            <div class="color-group">
-              <table class="variants-table">
-                <thead><tr><th>ID Variant</th><th>SKU</th><th>Nom</th><th>Prix</th><th>Poids</th><th>Image</th></tr></thead>
-                <tbody>${rowsHTML}</tbody>
-              </table>
-            </div>` : '<div style="padding:16px 20px;color:var(--text-dim);">Aucun variant.</div>'}
-          </div>
+          <div class="variants-body">${variantsHTML || '<div style="padding:16px 20px;color:var(--text-dim);">Aucun variant.</div>'}</div>
         </div>`;
     }).join('');
   }

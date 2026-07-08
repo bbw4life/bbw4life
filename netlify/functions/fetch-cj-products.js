@@ -30,6 +30,59 @@ async function getCJAccessToken() {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// ── Extraction couleur / taille à partir du nom du variant ─────
+// CJ colle souvent "Titre du produit + Couleur + Taille" dans un seul
+// champ (variantNameEn). On calcule le préfixe commun à tous les
+// variants d'un même produit, puis on isole le reste en "couleur" + "taille".
+function commonPrefixWords(strings) {
+  const clean = strings.filter(Boolean).map(s => s.trim().split(/\s+/));
+  if (!clean.length) return [];
+  const minLen = Math.min(...clean.map(w => w.length));
+  const prefix = [];
+  for (let i = 0; i < minLen; i++) {
+    const word = clean[0][i];
+    if (clean.every(w => w[i] === word)) prefix.push(word);
+    else break;
+  }
+  return prefix;
+}
+
+const SIZE_PATTERN = /^(XXS|XS|S|M|L|XL|XXL|XXXL|\d+[A-Za-z]{0,3}|[0-9]+)$/i;
+
+function splitColorSize(remainder) {
+  const words = remainder.trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return { color: 'N/A', size: '' };
+  const last = words[words.length - 1];
+  if (words.length > 1 && SIZE_PATTERN.test(last)) {
+    return { color: words.slice(0, -1).join(' '), size: last };
+  }
+  return { color: remainder.trim(), size: '' };
+}
+
+function enrichVariants(variants) {
+  const names  = variants.map(v => v.variantNameEn || v.variantName || '');
+  const prefix = commonPrefixWords(names);
+
+  return variants.map((v) => {
+    const name      = v.variantNameEn || v.variantName || '';
+    const words     = name.trim().split(/\s+/).filter(Boolean);
+    const remainder = words.slice(prefix.length).join(' ');
+    const { color, size } = splitColorSize(remainder);
+
+    return {
+      ...v,
+      vid:    v.vid || v.variantId || 'N/A',
+      sku:    v.variantSku || v.sku || 'N/A',
+      price:  v.variantSellPrice ?? v.variantStandardPrice ?? v.variantPrice ?? 'N/A',
+      weight: v.variantWeight ?? 'N/A',
+      stock:  v.variantStock ?? v.stock ?? v.inventory ?? v.remainNum ?? v.inventoryNum ?? v.variantSellNum ?? 'N/A',
+      image:  v.variantImage || '',
+      color:  color || 'N/A',
+      size:   size || '',
+    };
+  });
+}
+
 exports.handler = async (event) => {
   const logs = [];
   const log = (msg) => { console.log(msg); logs.push(msg); };
@@ -85,7 +138,7 @@ exports.handler = async (event) => {
 
         if (data.result === true && Array.isArray(data.data)) {
           log(`  ✅  ${pid}  →  OK  (${data.data.length} variant(s))  [${label}]`);
-          allProducts.push({ pid, label, variants: data.data });
+          allProducts.push({ pid, label, variants: enrichVariants(data.data) });
         } else {
           const errMsg = data.message || responseText.slice(0, 200) || 'réponse invalide';
           log(`  ⚠️  ${pid}  →  ERREUR : ${errMsg}  [${label}]`);
@@ -117,20 +170,21 @@ exports.handler = async (event) => {
         return;
       }
 
+      // Regroupement par couleur, comme pour Eprolo
+      const colorGroups = {};
       product.variants.forEach((v) => {
-        // NB: les noms de champs ci-dessous couvrent les variantes les
-        // plus courantes de la réponse CJ. Si ton compte renvoie des
-        // clés différentes, regarde le "log brut" côté HTML (JSON complet
-        // dispo dans la réponse) pour ajuster les noms si besoin.
-        const vid    = v.vid || v.variantId || 'N/A';
-        const sku    = v.variantSku || v.sku || 'N/A';
-        const name   = v.variantNameEn || v.variantName || '';
-        const price  = v.variantSellPrice ?? v.variantStandardPrice ?? v.variantPrice ?? 'N/A';
-        const weight = v.variantWeight ?? 'N/A';
-        const image  = v.variantImage || '';
+        const color = v.color || 'N/A';
+        if (!colorGroups[color]) colorGroups[color] = [];
+        colorGroups[color].push(v);
+      });
 
-        log(`        ID: ${vid}  |  SKU: ${sku}  |  PRIX: $${price}  |  POIDS: ${weight}g  |  ${name}`);
-        if (image) log(`              IMG: ${image}`);
+      Object.entries(colorGroups).forEach(([color, vars]) => {
+        log(`        🎨  ${color}  (${vars.length} taille(s))`);
+        vars.forEach((v) => {
+          const sizeStr = v.size ? `SIZE: ${v.size.padEnd(6)}` : `SIZE: ${'—'.padEnd(6)}`;
+          log(`              ID: ${v.vid}  |  ${sizeStr}  |  SKU: ${v.sku}  |  PRIX: $${v.price}  |  POIDS: ${v.weight}g  |  STOCK: ${v.stock}`);
+        });
+        log("");
       });
     });
 
