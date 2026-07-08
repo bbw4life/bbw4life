@@ -821,7 +821,25 @@
     s.rawLogs = []; s.allProducts = [];
 
     try {
-      const res  = await fetch('/.netlify/functions/fetch-cj-products');
+      const res = await fetch('/.netlify/functions/fetch-cj-products');
+
+      if (!res.ok) {
+        document.getElementById('skeleton-view-cj').style.display = 'none';
+        setStatus('cj', 'err', `Erreur HTTP ${res.status} — la fonction "fetch-cj-products" est introuvable ou a planté. Vérifie qu'elle est bien déployée sur Netlify.`);
+        runBtn.disabled = false;
+        runBtn.textContent = '▶  Récupérer les produits CJ';
+        return;
+      }
+
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        document.getElementById('skeleton-view-cj').style.display = 'none';
+        setStatus('cj', 'err', 'La fonction Netlify a renvoyé une page HTML au lieu de JSON — vérifie qu\'elle est bien déployée à /.netlify/functions/fetch-cj-products.');
+        runBtn.disabled = false;
+        runBtn.textContent = '▶  Récupérer les produits CJ';
+        return;
+      }
+
       const data = await res.json();
 
       document.getElementById('skeleton-view-cj').style.display = 'none';
