@@ -17,6 +17,41 @@ async function getCJAccessToken() {
   return data.data.accessToken;
 }
 
+// ── NOUVEAU : récupérer le logisticName via freightCalculate ──────
+// CJ exige ce champ dans createOrderV2. On demande les options
+// disponibles pour ces produits/cette destination, et on prend
+// l'option la moins chère.
+async function getCJLogisticName(token, fromCountryCode, destCountryCode, products) {
+  const url = 'https://developers.cjdropshipping.com/api2.0/v1/logistic/freightCalculate';
+  const body = {
+    startCountryCode: fromCountryCode,
+    endCountryCode:   destCountryCode,
+    products: products.map(p => ({ vid: p.vid, quantity: p.quantity }))
+  };
+
+  const res = await fetch(url, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json', 'CJ-Access-Token': token },
+    body:    JSON.stringify(body)
+  });
+
+  const responseText = await res.text();
+  console.log('[CJ ORDER] freightCalculate response:', responseText);
+
+  let data = {};
+  try { data = JSON.parse(responseText); } catch {}
+
+  if (data.result === true && Array.isArray(data.data) && data.data.length > 0) {
+    // On prend l'option la moins chère
+    const cheapest = data.data.reduce((min, o) =>
+      (Number(o.logisticPrice) ?? Infinity) < (Number(min.logisticPrice) ?? Infinity) ? o : min
+    , data.data[0]);
+    return cheapest.logisticName || null;
+  }
+
+  return null;
+}
+
 exports.handler = async (event) => {
   console.log('[CJ ORDER] Function invoked');
   try {
@@ -49,6 +84,7 @@ exports.handler = async (event) => {
     const phone      = normalize(shipping.phone      || '0000000000');
     const email      = normalize(shipping.email      || '');
 
+    // ── Pays d'origine (entrepôt CJ) requis par createOrderV2 ──────
     const fromCountryCode = (shipping.fromCountryCode || 'CN').toUpperCase();
 
     // ── Construire les produits ────────────────────────────────────
@@ -67,12 +103,23 @@ exports.handler = async (event) => {
       };
     });
 
+    // ── NOUVEAU : récupérer logisticName (obligatoire pour CJ) ─────
+    const logisticName = await getCJLogisticName(token, fromCountryCode, countryCode, products);
+    if (!logisticName) {
+      throw new Error(
+        `Aucune option logistique CJ trouvée pour ${fromCountryCode} → ${countryCode}. ` +
+        `Vérifie que le produit est livrable vers cette destination.`
+      );
+    }
+    console.log('[CJ ORDER] logisticName sélectionné:', logisticName);
+
     const uniqueOrderId = `BBW-CJ-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
 
     // ── Body de la commande CJ ────────────────────────────────────
     const orderBody = {
       orderNumber:          uniqueOrderId,
-      fromCountryCode:      fromCountryCode,   // ← NOUVEAU (corrige l'erreur 1600300)
+      fromCountryCode:      fromCountryCode,
+      logisticName:         logisticName,      // ← NOUVEAU (corrige l'erreur 1600300 bis)
       shippingZip:          postalCode,
       shippingCountryCode:  countryCode,
       shippingCountry:      country,

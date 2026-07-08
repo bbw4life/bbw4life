@@ -2857,7 +2857,7 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_47.1.png?v=1778005550",
     "sizes": ["S","M","L","XL","XXL"],
     "colors": [
-      { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_47_white.png?v=1778520662", "active": true },
+      { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_47_black.png?v=1778520662", "active": true },
       { "name": "White", "hex": "#FFFFFF", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_47_white.png?v=1778520662", "active": true }
     ],
     "variants": [
