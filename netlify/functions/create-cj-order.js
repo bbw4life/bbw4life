@@ -2,6 +2,8 @@
 process.removeAllListeners('warning');
 const fetch = require('node-fetch');
 
+const DEFAULT_FROM_COUNTRY_CODE = process.env.CJ_FROM_COUNTRY_CODE || 'CN';
+
 // ── Obtenir Access Token depuis API Key ──────────────────────────
 async function getCJAccessToken() {
   const res = await fetch('https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken', {
@@ -48,6 +50,7 @@ exports.handler = async (event) => {
     const countryCode = (shipping.countryCode || 'US').toUpperCase();
     const phone      = normalize(shipping.phone      || '0000000000');
     const email      = normalize(shipping.email      || '');
+    const fromCountryCode = (shipping.fromCountryCode || DEFAULT_FROM_COUNTRY_CODE).toUpperCase();
 
     // ── Construire les produits ────────────────────────────────────
     // Chaque item doit avoir : cj_product_id, cj_variant_id, quantity
@@ -70,6 +73,7 @@ exports.handler = async (event) => {
     // ── Body de la commande CJ ────────────────────────────────────
     const orderBody = {
       orderNumber:          uniqueOrderId,
+      fromCountryCode:      fromCountryCode,
       shippingZip:          postalCode,
       shippingCountryCode:  countryCode,
       shippingCountry:      country,

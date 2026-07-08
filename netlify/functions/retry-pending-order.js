@@ -2,6 +2,19 @@
 process.removeAllListeners('warning');
 const { google } = require("googleapis");
 const fetch = require("node-fetch");
+const countries = require("./countries.json");
+
+// ── Table pays construite depuis countries.json (une seule fois, en mémoire) ──
+const COUNTRY_LOOKUP = {};
+countries.forEach(c => {
+  const name = (c.name?.common || '').trim().toLowerCase();
+  if (name) COUNTRY_LOOKUP[name] = { code: c.cca2, fulfillment: c.fulfillment };
+});
+
+function resolveCountry(countryName) {
+  const key = (countryName || '').trim().toLowerCase();
+  return COUNTRY_LOOKUP[key] || null;
+}
 
 // ── Lit le switch global Yes/No depuis l'onglet Settings ──
 async function getAutoFulfillMode(sheets, spreadsheetId) {
@@ -101,20 +114,18 @@ exports.handler = async () => {
         shipping_method: firstRow[17] || "Standard Shipping",
       };
 
-      // ── Résolution countryCode ──
-      let countryCode = 'CA';
-      try {
-        const countryRes = await fetch(
-          `https://restcountries.com/v3.1/name/${encodeURIComponent(shipping.country)}?fullText=true&fields=cca2`
-        );
-        if (countryRes.ok) countryCode = (await countryRes.json())[0]?.cca2 || 'CA';
-      } catch {}
-      shipping.countryCode  = countryCode;
+      // ── Résolution countryCode via countries.json (plus d'appel réseau externe) ──
+      const countryMatch = resolveCountry(shipping.country);
+      if (!countryMatch) {
+        console.warn(` ⚠️  Pays "${shipping.country}" introuvable dans countries.json, fallback US`);
+      }
+      shipping.countryCode  = countryMatch?.code || 'US';
       shipping.provinceCode = shipping.state.substring(0, 2).toUpperCase() || '';
 
-      // ── Lire fulfillment_method depuis colonne T (index 19) ──
-      const fulfillmentMethod = (firstRow[19] || 'eprolo').toLowerCase().trim();
-      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId}`);
+      // ── Lire fulfillment_method : priorité à la colonne T, sinon déduit de countries.json ──
+      const columnTValue = (firstRow[19] || '').toLowerCase().trim();
+      const fulfillmentMethod = columnTValue || countryMatch?.fulfillment || 'eprolo';
+      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId} | Pays: ${shipping.country} (${shipping.countryCode})`);
 
       // ── Construire cartMap depuis colonne M (index 12 = variant_id) ──
       const cartMap = {};
