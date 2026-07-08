@@ -3211,7 +3211,7 @@
     "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
     "title": "NailBond Glue — Strong UV Nail Tips Adhesive",
     "description": "Ultra-strong nail glue gel for rhinestones, tips, and gems. Dries fast, bonds hard, and keeps your nail art flawless longer.",
-    "price": 10.04,
+    "price": 1.04,
     "compare_price": 19.31,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_52.png?v=1778005483",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_52.1.png?v=1778005474",
@@ -3221,8 +3221,8 @@
       { "name": "Light Pink", "hex": "#F5C6D0", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_52_light_pink.png?v=1778709102", "active": true }
     ],
     "variants": [
-      {"vid":"713477480","color":"Metallic Pink","size":"20g","price":10.04,"active":true},
-      {"vid":"713477481","color":"Light Pink","size":"30g","price":10.04,"active":true}
+      {"vid":"713477480","color":"Metallic Pink","size":"20g","price":1.04,"active":true},
+      {"vid":"713477481","color":"Light Pink","size":"30g","price":1.04,"active":true}
     ],
     "media": [
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_52_1.png?v=1778709107",

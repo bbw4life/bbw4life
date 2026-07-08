@@ -1,7 +1,53 @@
 // save-pending-order.js
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
+const fetch = require('node-fetch');
 const { notifyTelegram } = require('./notify-telegram');
+
+// ── Obtenir Access Token CJ (identique à create-cj-order.js) ──────
+async function getCJAccessToken() {
+  const res = await fetch('https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ apiKey: process.env.CJ_API_KEY })
+  });
+
+  const data = await res.json();
+  if (!data.result || !data.data?.accessToken) {
+    throw new Error('CJ auth failed: ' + (data.message || JSON.stringify(data)));
+  }
+  return data.data.accessToken;
+}
+
+// ── Résoudre fromCountryCode via le vid (entrepôt avec le plus de stock) ──
+async function getCJFromCountryCode(vid, token) {
+  try {
+    const url = `https://developers.cjdropshipping.com/api2.0/v1/product/stock/queryByVid?vid=${encodeURIComponent(vid)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'CJ-Access-Token': token }
+    });
+    const responseText = await response.text();
+
+    let data = {};
+    try { data = JSON.parse(responseText); } catch {}
+
+    if (data.result === true && Array.isArray(data.data) && data.data.length > 0) {
+      // On choisit l'entrepôt qui a le plus de stock disponible
+      const best = data.data.reduce((max, w) =>
+        (Number(w.totalInventoryNum) || 0) > (Number(max.totalInventoryNum) || 0) ? w : max
+      , data.data[0]);
+
+      const code = best.countryCode || best.areaEn || '';
+      if (code) return String(code).toUpperCase();
+    }
+
+    console.log('[SAVE PENDING] ⚠️ Aucun countryCode trouvé pour vid:', vid, '| Réponse:', responseText.slice(0, 200));
+  } catch (err) {
+    console.error('[SAVE PENDING] ❌ Erreur getCJFromCountryCode:', err.message);
+  }
+  return ''; // laissé vide si échec, create-cj-order appliquera son propre fallback
+}
 
 exports.handler = async (event) => {
   console.log('[SAVE PENDING] Function invoked');
@@ -34,6 +80,23 @@ exports.handler = async (event) => {
     shipping.city       = normalize(shipping.city);
     shipping.postalCode = normalize(shipping.postalCode);
     shipping.address    = normalize(shipping.address);
+
+    // ── NOUVEAU : résolution fromCountryCode uniquement pour CJ ──────
+    let fromCountryCode = '';
+    if (fulfillment_method === 'cj') {
+      const cjVid = item.variantsid || item.cj_variant_id || '';
+      if (cjVid && process.env.CJ_API_KEY) {
+        try {
+          const cjToken = await getCJAccessToken();
+          fromCountryCode = await getCJFromCountryCode(cjVid, cjToken);
+          console.log(`[SAVE PENDING] fromCountryCode CJ résolu: "${fromCountryCode}" (vid: ${cjVid})`);
+        } catch (err) {
+          console.error('[SAVE PENDING] ❌ Impossible de résoudre fromCountryCode:', err.message);
+        }
+      } else {
+        console.log('[SAVE PENDING] ⚠️ vid ou CJ_API_KEY manquant, fromCountryCode laissé vide');
+      }
+    }
 
     const auth = new google.auth.GoogleAuth({
       credentials: {
@@ -68,10 +131,11 @@ exports.handler = async (event) => {
       now,                                                    // Q
       shipping.shipping_method || 'Standard Shipping',        // R
       '',                                                     // S ← réservé
-      fulfillment_method                                      // T ← 'eprolo' ou 'cj'
+      fulfillment_method,                                     // T ← 'eprolo' ou 'cj'
+      fromCountryCode                                          // U ← NOUVEAU : pays d'origine CJ
     ]];
 
-    const rangesToTry = ['bbw4life-pending-orders!A:T'];
+    const rangesToTry = ['bbw4life-pending-orders!A:U'];
 
     let success = false;
     for (const range of rangesToTry) {

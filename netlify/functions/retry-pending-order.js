@@ -31,8 +31,8 @@ exports.handler = async () => {
     const sheets = google.sheets({ version: "v4", auth });
     const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 
-    // ── Lire jusqu'à la colonne T maintenant ──
-    const rangesToTry = ["bbw4life-pending-orders!A:T"];
+    // ── Lire jusqu'à la colonne U maintenant (ajout fromCountryCode) ──
+    const rangesToTry = ["bbw4life-pending-orders!A:U"];
     let rows = [];
     let activeTab = "";
     for (const range of rangesToTry) {
@@ -114,7 +114,11 @@ exports.handler = async () => {
 
       // ── Lire fulfillment_method depuis colonne T (index 19) ──
       const fulfillmentMethod = (firstRow[19] || 'eprolo').toLowerCase().trim();
-      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId}`);
+
+      // ── NOUVEAU : lire fromCountryCode depuis colonne U (index 20) ──
+      shipping.fromCountryCode = (firstRow[20] || '').toUpperCase().trim();
+
+      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId} | fromCountryCode: ${shipping.fromCountryCode || '(vide)'}`);
 
       // ── Construire cartMap depuis colonne M (index 12 = variant_id) ──
       const cartMap = {};
