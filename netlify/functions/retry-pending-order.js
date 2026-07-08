@@ -1,20 +1,7 @@
-// retry-pending-order.js - VERSION AMÉLIORÉE (traite un par un sans se bloquer)
+// retry-pending-order.js - 
 process.removeAllListeners('warning');
 const { google } = require("googleapis");
 const fetch = require("node-fetch");
-const countries = require("./countries.json");
-
-// ── Table pays construite depuis countries.json (une seule fois, en mémoire) ──
-const COUNTRY_LOOKUP = {};
-countries.forEach(c => {
-  const name = (c.name?.common || '').trim().toLowerCase();
-  if (name) COUNTRY_LOOKUP[name] = { code: c.cca2, fulfillment: c.fulfillment };
-});
-
-function resolveCountry(countryName) {
-  const key = (countryName || '').trim().toLowerCase();
-  return COUNTRY_LOOKUP[key] || null;
-}
 
 // ── Lit le switch global Yes/No depuis l'onglet Settings ──
 async function getAutoFulfillMode(sheets, spreadsheetId) {
@@ -44,7 +31,7 @@ exports.handler = async () => {
     const sheets = google.sheets({ version: "v4", auth });
     const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 
-    // ── Lire jusqu'à la colonne T maintenant ──
+    // ── Lire jusqu'à la colonne T ──
     const rangesToTry = ["bbw4life-pending-orders!A:T"];
     let rows = [];
     let activeTab = "";
@@ -114,18 +101,20 @@ exports.handler = async () => {
         shipping_method: firstRow[17] || "Standard Shipping",
       };
 
-      // ── Résolution countryCode via countries.json (plus d'appel réseau externe) ──
-      const countryMatch = resolveCountry(shipping.country);
-      if (!countryMatch) {
-        console.warn(` ⚠️  Pays "${shipping.country}" introuvable dans countries.json, fallback US`);
-      }
-      shipping.countryCode  = countryMatch?.code || 'US';
+      // ── Résolution countryCode ──
+      let countryCode = 'CA';
+      try {
+        const countryRes = await fetch(
+          `https://restcountries.com/v3.1/name/${encodeURIComponent(shipping.country)}?fullText=true&fields=cca2`
+        );
+        if (countryRes.ok) countryCode = (await countryRes.json())[0]?.cca2 || 'CA';
+      } catch {}
+      shipping.countryCode  = countryCode;
       shipping.provinceCode = shipping.state.substring(0, 2).toUpperCase() || '';
 
-      // ── Lire fulfillment_method : priorité à la colonne T, sinon déduit de countries.json ──
-      const columnTValue = (firstRow[19] || '').toLowerCase().trim();
-      const fulfillmentMethod = columnTValue || countryMatch?.fulfillment || 'eprolo';
-      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId} | Pays: ${shipping.country} (${shipping.countryCode})`);
+      // ── Lire fulfillment_method depuis colonne T (index 19) ──
+      const fulfillmentMethod = (firstRow[19] || 'eprolo').toLowerCase().trim();
+      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId}`);
 
       // ── Construire cartMap depuis colonne M (index 12 = variant_id) ──
       const cartMap = {};
@@ -138,6 +127,7 @@ exports.handler = async () => {
       try {
         let endpoint;
         let cartPayload;
+        let fromCountryCode = null;
 
         if (fulfillmentMethod === 'cj') {
           // ── CJ : besoin de cj_product_id (colonne L, index 11) + variant_id ──
@@ -148,7 +138,49 @@ exports.handler = async () => {
             variantsid:    row[12] || "",   // alias pour compatibilité
             quantity:      parseInt(row[13]) || 1
           }));
-          console.log(` → Envoi à create-cj-order`);
+
+          // ── NOUVEAU : récupérer le fromCountryCode via fetch-cj-stock.js ──
+          const vids = [...new Set(group.map(({ row }) => row[12]).filter(Boolean))];
+          const originsByVid = {};
+
+          try {
+            const stockRes = await fetch(`${process.env.BASE_URL}/.netlify/functions/fetch-cj-stock`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ vids })
+            });
+            const stockData = await stockRes.json();
+            if (stockData.success && stockData.origins) {
+              Object.assign(originsByVid, stockData.origins);
+              console.log(` 🌍 Origines CJ récupérées :`, originsByVid);
+            } else {
+              console.log(` ⚠️ Impossible de récupérer les origines CJ :`, stockData.error || 'réponse invalide');
+            }
+          } catch (stockErr) {
+            console.log(` ⚠️ Erreur appel fetch-cj-stock :`, stockErr.message);
+          }
+
+          // ── Écrire fromCountryCode en colonne U pour CHAQUE ligne de la commande ──
+          for (const { row, lineNumber } of group) {
+            const vid = row[12] || "";
+            const originCode = originsByVid[vid] || 'CN';
+            try {
+              await sheets.spreadsheets.values.update({
+                spreadsheetId,
+                range:            `bbw4life-pending-orders!U${lineNumber}`,
+                valueInputOption: "RAW",
+                resource: { values: [[originCode]] }
+              });
+            } catch (writeErr) {
+              console.log(` ⚠️ Échec écriture colonne U ligne ${lineNumber} :`, writeErr.message);
+            }
+          }
+
+          // ── fromCountryCode global de la commande = celui du 1er variant ──
+          const firstVid = group[0].row[12] || "";
+          fromCountryCode = originsByVid[firstVid] || 'CN';
+
+          console.log(` → Envoi à create-cj-order (fromCountryCode: ${fromCountryCode})`);
 
         } else {
           // ── Eprolo (défaut) : seulement variant_id ──
@@ -160,10 +192,13 @@ exports.handler = async () => {
           console.log(` → Envoi à create-eprolo-order`);
         }
 
+        const requestBody = { cart: cartPayload, shipping };
+        if (fulfillmentMethod === 'cj') requestBody.fromCountryCode = fromCountryCode;
+
         const createRes = await fetch(endpoint, {
           method:  "POST",
           headers: { "Content-Type": "application/json" },
-          body:    JSON.stringify({ cart: cartPayload, shipping })
+          body:    JSON.stringify(requestBody)
         });
         const createData = await createRes.json();
 

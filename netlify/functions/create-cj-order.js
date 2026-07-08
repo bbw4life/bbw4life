@@ -2,8 +2,6 @@
 process.removeAllListeners('warning');
 const fetch = require('node-fetch');
 
-const DEFAULT_FROM_COUNTRY_CODE = process.env.CJ_FROM_COUNTRY_CODE || 'CN';
-
 // ── Obtenir Access Token depuis API Key ──────────────────────────
 async function getCJAccessToken() {
   const res = await fetch('https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken', {
@@ -24,7 +22,7 @@ exports.handler = async (event) => {
   try {
     if (!event.body) throw new Error('No data received');
 
-    const { cart, shipping } = JSON.parse(event.body);
+    const { cart, shipping, fromCountryCode } = JSON.parse(event.body);
     if (!Array.isArray(cart) || cart.length === 0) throw new Error('Invalid cart data');
 
     if (!process.env.CJ_API_KEY) {
@@ -50,7 +48,6 @@ exports.handler = async (event) => {
     const countryCode = (shipping.countryCode || 'US').toUpperCase();
     const phone      = normalize(shipping.phone      || '0000000000');
     const email      = normalize(shipping.email      || '');
-    const fromCountryCode = (shipping.fromCountryCode || DEFAULT_FROM_COUNTRY_CODE).toUpperCase();
 
     // ── Construire les produits ────────────────────────────────────
     // Chaque item doit avoir : cj_product_id, cj_variant_id, quantity
@@ -70,10 +67,12 @@ exports.handler = async (event) => {
 
     const uniqueOrderId = `BBW-CJ-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
 
+    
+    const resolvedFromCountryCode = (fromCountryCode || 'CN').toUpperCase();
+
     // ── Body de la commande CJ ────────────────────────────────────
     const orderBody = {
       orderNumber:          uniqueOrderId,
-      fromCountryCode:      fromCountryCode,
       shippingZip:          postalCode,
       shippingCountryCode:  countryCode,
       shippingCountry:      country,
@@ -85,6 +84,7 @@ exports.handler = async (event) => {
       shippingPhone:        phone,
       shippingEmail:        email,
       remark:               'BBW4LIFE website order',
+      fromCountryCode:      resolvedFromCountryCode,
       products
     };
 

@@ -68,10 +68,11 @@ exports.handler = async (event) => {
       now,                                                    // Q
       shipping.shipping_method || 'Standard Shipping',        // R
       '',                                                     // S ← réservé
-      fulfillment_method                                      // T ← 'eprolo' ou 'cj'
+      fulfillment_method,                                     // T ← 'eprolo' ou 'cj'
+      ''                                                      // U ← fromCountryCode (rempli par retry-pending-order.js si CJ)
     ]];
 
-    const rangesToTry = ['bbw4life-pending-orders!A:T'];
+    const rangesToTry = ['bbw4life-pending-orders!A:U'];
 
     let success = false;
     for (const range of rangesToTry) {
