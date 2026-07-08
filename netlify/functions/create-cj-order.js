@@ -49,12 +49,6 @@ exports.handler = async (event) => {
     const phone      = normalize(shipping.phone      || '0000000000');
     const email      = normalize(shipping.email      || '');
 
-    // ── NOUVEAU : pays d'origine (entrepôt CJ) requis par createOrderV2 ──
-    // Vient de la colonne U du sheet (résolu dans save-pending-order.js via
-    // l'API stock/queryByVid). Fallback 'CN' si absent, pour ne jamais bloquer
-    // un envoi manuel/test qui n'aurait pas ce champ.
-    const fromCountryCode = (shipping.fromCountryCode || 'CN').toUpperCase();
-
     // ── Construire les produits ────────────────────────────────────
     // Chaque item doit avoir : cj_product_id, cj_variant_id, quantity
     const products = cart.map(item => {
@@ -76,7 +70,6 @@ exports.handler = async (event) => {
     // ── Body de la commande CJ ────────────────────────────────────
     const orderBody = {
       orderNumber:          uniqueOrderId,
-      fromCountryCode:      fromCountryCode,   // ← NOUVEAU (corrige l'erreur 1600300)
       shippingZip:          postalCode,
       shippingCountryCode:  countryCode,
       shippingCountry:      country,
