@@ -883,9 +883,8 @@
       });
 
       const variantsHTML = Object.entries(colorGroups).map(([color, group]) => `
-        <div class="color-group">
+        <div class="color-group" style="border-left:3px solid ${getSwatchColor(color)};padding-left:17px;">
           <div class="color-label">
-            <div class="color-swatch" style="background:${getSwatchColor(color)}"></div>
             <span class="color-name">${esc(color)}</span>
             <span class="color-count">${group.length} taille(s)</span>
           </div>

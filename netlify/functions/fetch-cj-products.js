@@ -3,6 +3,9 @@ process.removeAllListeners('warning');
 
 // ══════════════════════════════════════════════════════════════
 //  Liste des Product IDs CJ à interroger.
+//  Ajoute ici tes "pid" CJ (visibles dans l'URL produit CJ, ou
+//  renvoyés par leur API de recherche produit).
+//  "label" est juste pour l'affichage dans le log/HTML (optionnel).
 // ══════════════════════════════════════════════════════════════
 const PRODUCT_IDS = [
   { pid: "2604220334371632700" },
@@ -53,8 +56,9 @@ function splitColorSize(remainder) {
   const words = remainder.trim().split(/\s+/).filter(Boolean);
   if (!words.length) return { color: 'N/A', size: '' };
   const last = words[words.length - 1];
-  if (words.length > 1 && SIZE_PATTERN.test(last)) {
-    return { color: words.slice(0, -1).join(' '), size: last };
+  if (SIZE_PATTERN.test(last)) {
+    const colorWords = words.slice(0, -1);
+    return { color: colorWords.length ? colorWords.join(' ') : 'N/A', size: last };
   }
   return { color: remainder.trim(), size: '' };
 }
@@ -81,6 +85,28 @@ function enrichVariants(variants) {
       size:   size || '',
     };
   });
+}
+
+// ── Stock par variant ────────────────────────────────────────────
+// L'endpoint variant/query ne renvoie pas le stock : CJ a un endpoint
+// séparé par vid pour l'inventaire (entrepôts).
+async function fetchVariantStock(vid, token) {
+  try {
+    const url = `https://developers.cjdropshipping.com/api2.0/v1/product/stock/queryByVid?vid=${encodeURIComponent(vid)}`;
+    const res  = await fetch(url, { method: "GET", headers: { "CJ-Access-Token": token } });
+    const text = await res.text();
+
+    let data = {};
+    try { data = JSON.parse(text); } catch {}
+
+    if (data.result === true && Array.isArray(data.data)) {
+      const total = data.data.reduce((sum, w) => sum + (parseInt(w.storageNum ?? w.stock ?? w.num ?? 0) || 0), 0);
+      return total;
+    }
+    return 'N/A';
+  } catch {
+    return 'N/A';
+  }
 }
 
 exports.handler = async (event) => {
@@ -138,7 +164,17 @@ exports.handler = async (event) => {
 
         if (data.result === true && Array.isArray(data.data)) {
           log(`  ✅  ${pid}  →  OK  (${data.data.length} variant(s))  [${label}]`);
-          allProducts.push({ pid, label, variants: enrichVariants(data.data) });
+          const variants = enrichVariants(data.data);
+
+          // Récupération du stock par variant (endpoint séparé chez CJ)
+          for (const v of variants) {
+            if (v.stock === 'N/A') {
+              v.stock = await fetchVariantStock(v.vid, token);
+              await sleep(350); // respecter le rate-limit CJ
+            }
+          }
+
+          allProducts.push({ pid, label, variants });
         } else {
           const errMsg = data.message || responseText.slice(0, 200) || 'réponse invalide';
           log(`  ⚠️  ${pid}  →  ERREUR : ${errMsg}  [${label}]`);
