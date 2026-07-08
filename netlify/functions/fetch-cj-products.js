@@ -1,4 +1,4 @@
-// fetch-cj-products.js — RÉCUPÉRATION DES VARIANTS CJ DROPSHIPPING
+// fetch-cj-products.js — RÉCUPÉRATION DES VARIANTS CJ DROPSHIPPING (par lots)
 process.removeAllListeners('warning');
 
 // ══════════════════════════════════════════════════════════════
@@ -12,6 +12,12 @@ const PRODUCT_IDS = [
 
 const SEP  = "═".repeat(80);
 const SEP2 = "─".repeat(80);
+
+// ── Délai entre chaque appel CJ pour respecter le rate-limit (~1 req/s) ──
+const CJ_REQUEST_DELAY_MS = 1100;
+
+
+const BATCH_SIZE = 6;
 
 // ── Auth : Access Token CJ (même logique que create-cj-order.js) ──
 async function getCJAccessToken() {
@@ -77,9 +83,17 @@ exports.handler = async (event) => {
   const logs = [];
   const log = (msg) => { console.log(msg); logs.push(msg); };
 
+  const params = event.queryStringParameters || {};
+  const offset = Math.max(0, parseInt(params.offset, 10) || 0);
+  const limit  = Math.max(1, parseInt(params.limit, 10) || BATCH_SIZE);
+
+  const batch     = PRODUCT_IDS.slice(offset, offset + limit);
+  const hasMore   = offset + limit < PRODUCT_IDS.length;
+  const nextOffset = offset + limit;
+
   log(SEP);
-  log("  CJ DROPSHIPPING — RÉCUPÉRATION DES VARIANTS");
-  log(`  Liste : ${PRODUCT_IDS.length} produit(s)`);
+  log(`  CJ DROPSHIPPING — LOT ${PRODUCT_IDS.length ? offset + 1 : 0}-${offset + batch.length} / ${PRODUCT_IDS.length}`);
+  log(`  Délai entre appels : ${CJ_REQUEST_DELAY_MS}ms  |  Taille du lot : ${limit}`);
   log(SEP);
 
   if (!process.env.CJ_API_KEY) {
@@ -97,7 +111,17 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ success: true, total: 0, logs, products: [] })
+      body: JSON.stringify({ success: true, total: 0, offset, limit, hasMore: false, nextOffset, logs, products: [] })
+    };
+  }
+
+  if (!batch.length) {
+    // offset dépasse la liste : tout a déjà été traité par les lots précédents
+    log("  ✅  Tous les produits ont déjà été traités.");
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ success: true, total: PRODUCT_IDS.length, offset, limit, hasMore: false, nextOffset, logs, products: [] })
     };
   }
 
@@ -107,10 +131,10 @@ exports.handler = async (event) => {
     log("  🔑  Access token CJ obtenu");
     log(SEP2);
 
-    // ── 2) Boucle SÉQUENTIELLE (CJ impose un rate-limit strict) ──
+    // ── 2) Boucle SÉQUENTIELLE sur le lot uniquement ──
     const allProducts = [];
 
-    for (const entry of PRODUCT_IDS) {
+    for (const entry of batch) {
       const pid   = entry.pid;
       const label = entry.label || pid;
 
@@ -139,11 +163,11 @@ exports.handler = async (event) => {
       }
 
       // Pause entre chaque appel pour respecter le rate-limit CJ (~1 req/s)
-      await sleep(400);
+      await sleep(CJ_REQUEST_DELAY_MS);
     }
 
     log(SEP);
-    log(`  TOTAL RÉCUPÉRÉS : ${allProducts.length} / ${PRODUCT_IDS.length}`);
+    log(`  LOT TERMINÉ : ${allProducts.length} / ${batch.length}  (global : ${offset + batch.length} / ${PRODUCT_IDS.length})`);
     log(SEP);
 
     allProducts.forEach((product, index) => {
@@ -151,7 +175,7 @@ exports.handler = async (event) => {
 
       log("");
       log(SEP);
-      log(`  [${String(index + 1).padStart(2, '0')}]  ${product.label}`);
+      log(`  [${String(offset + index + 1).padStart(2, '0')}]  ${product.label}`);
       log(`        PID : ${product.pid}    |    Variants : ${varCount}`);
       log(SEP2);
 
@@ -160,7 +184,6 @@ exports.handler = async (event) => {
         return;
       }
 
-      // ── Regroupement par couleur (même logique que côté Eprolo) ──
       const colorGroups = {};
       product.variants.forEach((v) => {
         const { color, size } = extractVariantInfo(v);
@@ -185,7 +208,7 @@ exports.handler = async (event) => {
     });
 
     log(SEP);
-    log("  ✅  FIN DU LOG");
+    log(hasMore ? "  ➡️  LOT SUIVANT À VENIR..." : "  ✅  FIN DU LOG (dernier lot)");
     log(SEP);
 
     return {
@@ -195,10 +218,14 @@ exports.handler = async (event) => {
         "Access-Control-Allow-Origin": "*"
       },
       body: JSON.stringify({
-        success:  true,
-        total:    allProducts.length,
-        logs:     logs,
-        products: allProducts
+        success:    true,
+        total:      PRODUCT_IDS.length,
+        offset,
+        limit,
+        hasMore,
+        nextOffset,
+        logs:       logs,
+        products:   allProducts
       })
     };
 

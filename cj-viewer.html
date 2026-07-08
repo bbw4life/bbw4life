@@ -594,7 +594,7 @@
 
   const state = {
     eprolo: { rawLogs: [], allProducts: [], logVisible: false, activeCategory: 'ALL', activeSubcategory: 'ALL' },
-    cj:     { rawLogs: [], allProducts: [], logVisible: false, stockLoaded: {}, stockValues: {} }
+    cj:     { rawLogs: [], allProducts: [], rawProducts: [], logVisible: false, stockLoaded: {}, stockValues: {} }
   };
 
   /* ══════════════════════════════════════
@@ -805,14 +805,6 @@
     return CJ_SIZE_PATTERN.test(String(str).trim());
   }
 
-  // Extraction couleur / taille / stock d'un variant CJ.
-  // Priorité : tableau structuré `variantProperty` (le plus fiable).
-  // Fallback : clé combinée `variantKey` (ex: "Black-XL", ou juste "XL" si le
-  // produit n'a pas de variation de couleur — dans ce cas color reste N/A).
-  // Un token isolé est classé via CJ_SIZE_PATTERN plutôt que d'être assigné
-  // par défaut à la couleur (c'était le bug précédent).
-  // NB stock : CJ ne renvoie PAS le stock dans cet endpoint variant/query ;
-  // il faut un appel séparé à l'endpoint d'inventaire CJ pour l'obtenir.
   function extractCJVariantInfo(v) {
     let color = null;
     let size  = null;
@@ -879,15 +871,18 @@
     return [];
   }
 
+  // Nombre de produits par lot côté frontend (doit correspondre au défaut du backend)
+  const CJ_PRODUCTS_BATCH_SIZE = 6;
+  // Nombre de variants par lot pour le stock (doit rester <= MAX_VIDS_PER_CALL côté backend)
+  const CJ_STOCK_BATCH_SIZE = 8;
+
   async function fetchCJ() {
     const s = state.cj;
     const runBtn  = document.getElementById('run-btn-cj');
     const copyBtn = document.getElementById('copy-btn-cj');
 
     runBtn.disabled = true;
-    runBtn.textContent = '⏳  Chargement...';
     copyBtn.style.display = 'none';
-    setStatus('cj', 'running', 'Appel en cours vers Netlify (CJ peut être plus lent, requêtes séquentielles)...');
 
     document.getElementById('product-view-cj').style.display = 'none';
     document.getElementById('product-view-cj').innerHTML = '';
@@ -895,40 +890,61 @@
     document.getElementById('stats-row-cj').style.display = 'none';
     document.getElementById('log-section-cj').style.display = 'none';
     document.getElementById('log-output-cj').innerHTML = '';
-    s.rawLogs = []; s.allProducts = []; s.stockLoaded = {}; s.stockValues = {};
+    s.rawLogs = []; s.allProducts = []; s.rawProducts = []; s.stockLoaded = {}; s.stockValues = {};
+
+    let offset = 0;
+    let hasMore = true;
+    let totalExpected = null;
+    let batchNum = 0;
+    let hadError = false;
 
     try {
-      const res  = await fetch('/.netlify/functions/fetch-cj-products');
-      const data = await res.json();
+      while (hasMore) {
+        batchNum++;
+        setStatus('cj', 'running', `Récupération lot ${batchNum} (produits ${offset + 1} à ${offset + CJ_PRODUCTS_BATCH_SIZE})...`);
+        runBtn.textContent = `⏳  Lot ${batchNum}...`;
 
-      document.getElementById('skeleton-view-cj').style.display = 'none';
-      s.rawLogs = data.logs || [];
+        const res  = await fetch(`/.netlify/functions/fetch-cj-products?offset=${offset}&limit=${CJ_PRODUCTS_BATCH_SIZE}`);
+        const data = await res.json();
 
-      if (data.success) {
-        s.allProducts = parseCJ(data);
+        if (!data.success) {
+          s.rawLogs = s.rawLogs.concat(data.logs || []);
+          setStatus('cj', 'err', 'Erreur : ' + (data.error || 'Vérifie la fonction Netlify.'));
+          renderRawLog('cj', s.rawLogs);
+          document.getElementById('log-section-cj').style.display = 'block';
+          hadError = true;
+          break;
+        }
+
+        totalExpected = data.total;
+        s.rawLogs = s.rawLogs.concat(data.logs || []);
+        s.rawProducts = s.rawProducts.concat(data.products || []);
+        s.allProducts = parseCJ({ products: s.rawProducts });
+
+        document.getElementById('skeleton-view-cj').style.display = 'none';
         renderCJCards();
         renderRawLog('cj', s.rawLogs);
 
         const variantTotal = s.allProducts.reduce((sum, p) => sum + (p.variants ? p.variants.length : 0), 0);
-        const errCount = s.rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
-
         document.getElementById('stat-total-cj').textContent = s.allProducts.length;
         document.getElementById('stat-variants-cj').textContent = variantTotal;
-        document.getElementById('stat-errors-cj').textContent = errCount;
+        document.getElementById('stat-errors-cj').textContent = s.rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
         document.getElementById('stats-row-cj').style.display = 'flex';
 
-        if (s.allProducts.length === 0 && errCount === 0) {
-          setStatus('cj', 'err', 'Aucun product id configuré. Ajoute tes pid dans fetch-cj-products.js (tableau PRODUCT_IDS).');
+        hasMore = !!data.hasMore;
+        offset  = data.nextOffset;
+      }
+
+      if (!hadError) {
+        const variantTotal = s.allProducts.reduce((sum, p) => sum + (p.variants ? p.variants.length : 0), 0);
+        if (s.allProducts.length === 0) {
+          setStatus('cj', 'err', 'Aucun produit récupéré. Vérifie PRODUCT_IDS ou les logs.');
         } else {
-          setStatus('cj', 'ok', `${s.allProducts.length} produits récupérés · ${variantTotal} variants au total`);
+          setStatus('cj', 'ok', `${s.allProducts.length} produits récupérés (${totalExpected} au total) · ${variantTotal} variants`);
         }
         copyBtn.style.display = 'inline-flex';
         copyBtn.textContent = '⧉  Copier le log brut';
         copyBtn.classList.remove('copied');
-        document.getElementById('log-section-cj').style.display = 'block';
-      } else {
-        setStatus('cj', 'err', 'Erreur : ' + (data.error || 'Vérifie la fonction Netlify.'));
-        renderRawLog('cj', s.rawLogs);
         document.getElementById('log-section-cj').style.display = 'block';
       }
     } catch (err) {
@@ -996,12 +1012,32 @@
     }
   }
 
+  function refreshCJStockDisplay(i) {
+    const s = state.cj;
+    document.querySelectorAll(`#card-cj-${i} tr[data-vid]`).forEach(tr => {
+      const vid = tr.getAttribute('data-vid');
+      const td = tr.querySelector('.td-stock');
+      if (!td || !(vid in s.stockValues)) return;
+      const val = s.stockValues[vid];
+      if (val === 'ERR') {
+        td.textContent = 'Erreur';
+        td.style.color = 'var(--accent2)';
+      } else if (val === null || val === undefined) {
+        td.textContent = 'N/A';
+        td.style.color = 'var(--text-dim)';
+      } else {
+        td.textContent = val;
+        td.style.color = stockColor(val);
+      }
+    });
+  }
+
   // Charge le stock réel pour un produit CJ à la demande (dès qu'on déplie sa carte).
-  // Évite de faire 1 appel CJ par variant dès le chargement initial (risque de timeout
-  // Netlify si un produit a beaucoup de variants).
+  // Découpé en lots de CJ_STOCK_BATCH_SIZE vids pour rester sous le timeout Netlify,
+  // même si le produit a 20+ variants. Chaque lot met à jour la table progressivement.
   async function loadCJStockForProduct(i) {
     const s = state.cj;
-    if (s.stockLoaded[i]) return; // déjà chargé ou en cours
+    if (s.stockLoaded[i]) return;
     s.stockLoaded[i] = true;
 
     const product = s.allProducts[i];
@@ -1018,43 +1054,37 @@
       td.style.color = 'var(--text-dim)';
     });
 
-    try {
-      const res = await fetch('/.netlify/functions/fetch-cj-stock', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ vids })
-      });
-      const data = await res.json();
-
-      if (data.success) {
-        Object.assign(s.stockValues, data.stocks);
-        document.querySelectorAll(`#card-cj-${i} tr[data-vid]`).forEach(tr => {
-          const vid = tr.getAttribute('data-vid');
-          const td = tr.querySelector('.td-stock');
-          if (!td) return;
-          const val = s.stockValues[vid];
-          if (val === null || val === undefined) {
-            td.textContent = 'N/A';
-            td.style.color = 'var(--text-dim)';
-          } else {
-            td.textContent = val;
-            td.style.color = stockColor(val);
-          }
-        });
-      } else {
-        document.querySelectorAll(`#card-cj-${i} .td-stock`).forEach(td => {
-          td.textContent = 'Erreur';
-          td.style.color = 'var(--accent2)';
-        });
-        s.stockLoaded[i] = false; // permet de réessayer en refermant/rouvrant
-      }
-    } catch (err) {
-      document.querySelectorAll(`#card-cj-${i} .td-stock`).forEach(td => {
-        td.textContent = 'Erreur';
-        td.style.color = 'var(--accent2)';
-      });
-      s.stockLoaded[i] = false;
+    const chunks = [];
+    for (let c = 0; c < vids.length; c += CJ_STOCK_BATCH_SIZE) {
+      chunks.push(vids.slice(c, c + CJ_STOCK_BATCH_SIZE));
     }
+
+    let anyError = false;
+
+    for (const chunk of chunks) {
+      try {
+        const res = await fetch('/.netlify/functions/fetch-cj-stock', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ vids: chunk })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          Object.assign(s.stockValues, data.stocks);
+        } else {
+          chunk.forEach(vid => { s.stockValues[vid] = 'ERR'; });
+          anyError = true;
+        }
+      } catch (err) {
+        chunk.forEach(vid => { s.stockValues[vid] = 'ERR'; });
+        anyError = true;
+      }
+
+      refreshCJStockDisplay(i);
+    }
+
+    if (anyError) s.stockLoaded[i] = false; // permet de réessayer en refermant/rouvrant
   }
 </script>
 </body>
