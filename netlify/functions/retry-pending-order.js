@@ -1,4 +1,4 @@
-// retry-pending-order.js - 
+// retry-pending-order.js - VERSION AMÉLIORÉE (traite un par un sans se bloquer)
 process.removeAllListeners('warning');
 const { google } = require("googleapis");
 const fetch = require("node-fetch");
@@ -31,7 +31,7 @@ exports.handler = async () => {
     const sheets = google.sheets({ version: "v4", auth });
     const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 
-    // ── Lire jusqu'à la colonne T ──
+    // ── Lire jusqu'à la colonne T maintenant ──
     const rangesToTry = ["bbw4life-pending-orders!A:T"];
     let rows = [];
     let activeTab = "";
@@ -127,7 +127,6 @@ exports.handler = async () => {
       try {
         let endpoint;
         let cartPayload;
-        let fromCountryCode = null;
 
         if (fulfillmentMethod === 'cj') {
           // ── CJ : besoin de cj_product_id (colonne L, index 11) + variant_id ──
@@ -138,49 +137,7 @@ exports.handler = async () => {
             variantsid:    row[12] || "",   // alias pour compatibilité
             quantity:      parseInt(row[13]) || 1
           }));
-
-          // ── NOUVEAU : récupérer le fromCountryCode via fetch-cj-stock.js ──
-          const vids = [...new Set(group.map(({ row }) => row[12]).filter(Boolean))];
-          const originsByVid = {};
-
-          try {
-            const stockRes = await fetch(`${process.env.BASE_URL}/.netlify/functions/fetch-cj-stock`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ vids })
-            });
-            const stockData = await stockRes.json();
-            if (stockData.success && stockData.origins) {
-              Object.assign(originsByVid, stockData.origins);
-              console.log(` 🌍 Origines CJ récupérées :`, originsByVid);
-            } else {
-              console.log(` ⚠️ Impossible de récupérer les origines CJ :`, stockData.error || 'réponse invalide');
-            }
-          } catch (stockErr) {
-            console.log(` ⚠️ Erreur appel fetch-cj-stock :`, stockErr.message);
-          }
-
-          // ── Écrire fromCountryCode en colonne U pour CHAQUE ligne de la commande ──
-          for (const { row, lineNumber } of group) {
-            const vid = row[12] || "";
-            const originCode = originsByVid[vid] || 'CN';
-            try {
-              await sheets.spreadsheets.values.update({
-                spreadsheetId,
-                range:            `bbw4life-pending-orders!U${lineNumber}`,
-                valueInputOption: "RAW",
-                resource: { values: [[originCode]] }
-              });
-            } catch (writeErr) {
-              console.log(` ⚠️ Échec écriture colonne U ligne ${lineNumber} :`, writeErr.message);
-            }
-          }
-
-          // ── fromCountryCode global de la commande = celui du 1er variant ──
-          const firstVid = group[0].row[12] || "";
-          fromCountryCode = originsByVid[firstVid] || 'CN';
-
-          console.log(` → Envoi à create-cj-order (fromCountryCode: ${fromCountryCode})`);
+          console.log(` → Envoi à create-cj-order`);
 
         } else {
           // ── Eprolo (défaut) : seulement variant_id ──
@@ -192,13 +149,10 @@ exports.handler = async () => {
           console.log(` → Envoi à create-eprolo-order`);
         }
 
-        const requestBody = { cart: cartPayload, shipping };
-        if (fulfillmentMethod === 'cj') requestBody.fromCountryCode = fromCountryCode;
-
         const createRes = await fetch(endpoint, {
           method:  "POST",
           headers: { "Content-Type": "application/json" },
-          body:    JSON.stringify(requestBody)
+          body:    JSON.stringify({ cart: cartPayload, shipping })
         });
         const createData = await createRes.json();
 

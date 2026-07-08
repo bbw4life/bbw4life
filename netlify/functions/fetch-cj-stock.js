@@ -51,7 +51,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ success: true, stocks: {}, origins: {}, truncated: false, logs: ["Aucun vid fourni."] })
+      body: JSON.stringify({ success: true, stocks: {}, truncated: false, logs: ["Aucun vid fourni."] })
     };
   }
 
@@ -76,7 +76,6 @@ exports.handler = async (event) => {
     log("  🔑  Access token CJ obtenu");
 
     const stocks = {};
-    const origins = {}; // ← NOUVEAU : countryCode de l'entrepôt d'origine par vid (pour fromCountryCode CJ)
 
     for (const vid of vids) {
       try {
@@ -93,28 +92,14 @@ exports.handler = async (event) => {
         if (data.result === true && Array.isArray(data.data)) {
           const total = data.data.reduce((sum, w) => sum + (Number(w.totalInventoryNum) || 0), 0);
           stocks[vid] = total;
-
-          // ── Détermination du pays d'origine (entrepôt avec le plus de stock dispo) ──
-          let originCode = null;
-          if (data.data.length) {
-            const withStock = data.data.filter((w) => (Number(w.totalInventoryNum) || 0) > 0);
-            const best = withStock.length
-              ? withStock.reduce((a, b) => (Number(b.totalInventoryNum) || 0) > (Number(a.totalInventoryNum) || 0) ? b : a)
-              : data.data[0];
-            originCode = best?.countryCode || null;
-          }
-          origins[vid] = originCode || 'CN'; // fallback CN si l'API ne renvoie rien
-
-          log(`  ✅  ${vid}  →  ${total} en stock  (${data.data.length} entrepôt(s))  |  origine: ${origins[vid]}`);
+          log(`  ✅  ${vid}  →  ${total} en stock  (${data.data.length} entrepôt(s))`);
         } else {
           stocks[vid] = null;
-          origins[vid] = 'CN'; // fallback sécurité, ne jamais laisser vide
           const errMsg = data.message || responseText.slice(0, 150) || 'réponse invalide';
           log(`  ⚠️  ${vid}  →  ERREUR : ${errMsg}`);
         }
       } catch (err) {
         stocks[vid] = null;
-        origins[vid] = 'CN';
         log(`  ❌  ${vid}  →  EXCEPTION : ${err.message}`);
       }
 
@@ -127,7 +112,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ success: true, stocks, origins, truncated, processed: vids.length, requested: vidsRaw.length, logs })
+      body: JSON.stringify({ success: true, stocks, truncated, processed: vids.length, requested: vidsRaw.length, logs })
     };
 
   } catch (error) {
