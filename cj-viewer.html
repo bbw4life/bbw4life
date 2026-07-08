@@ -375,10 +375,6 @@
 <script>
   /* ══════════════════════════════════════
      GATE — Password protection
-     (identique au viewer Eprolo : mot de passe
-     vérifié côté serveur via get-private-settings,
-     qui lit settings.eprolo_viewer_password
-     dans les variables Netlify)
   ══════════════════════════════════════ */
   (function () {
     'use strict';
@@ -802,6 +798,67 @@
   /* ══════════════════════════════════════
      CJ DROPSHIPPING
   ══════════════════════════════════════ */
+
+  // Extraction couleur / taille / stock d'un variant CJ.
+  // Priorité : tableau structuré `variantProperty` (le plus fiable).
+  // Fallback : clé combinée `variantKey` type "Black-M".
+  // NB stock : le nom du champ stock n'est pas garanti selon les comptes CJ.
+  // Si "N/A" s'affiche partout, regarde le JSON brut (log) pour ajuster le nom.
+  function extractCJVariantInfo(v) {
+    let color = 'N/A';
+    let size  = 'N/A';
+
+    if (Array.isArray(v.variantProperty) && v.variantProperty.length) {
+      v.variantProperty.forEach(prop => {
+        const key = String(prop.pidName || prop.pidKey || '').toLowerCase();
+        const val = prop.vidName || prop.vidKey || '';
+        if (key.includes('color') || key.includes('colour')) color = val;
+        else if (key.includes('size')) size = val;
+      });
+    }
+
+    if ((color === 'N/A' || size === 'N/A') && v.variantKey) {
+      const parts = String(v.variantKey).split('-');
+      if (parts.length >= 2) {
+        if (size === 'N/A')  size  = parts[parts.length - 1].trim();
+        if (color === 'N/A') color = parts.slice(0, -1).join('-').trim();
+      } else if (color === 'N/A') {
+        color = v.variantKey;
+      }
+    }
+
+    const stock = v.variantStock ?? v.stockNum ?? v.remainNum ?? v.inventoryNum ?? v.availableStock ?? v.stock ?? 'N/A';
+
+    return { color: color || 'N/A', size: size || 'N/A', stock };
+  }
+
+  function parseCJ(data) {
+    if (data.products && Array.isArray(data.products)) {
+      return data.products.map(p => {
+        const colorGroups = {};
+        (p.variants || []).forEach(v => {
+          const { color, size, stock } = extractCJVariantInfo(v);
+          if (!colorGroups[color]) colorGroups[color] = [];
+          colorGroups[color].push({
+            id: v.vid || v.variantId || 'N/A',
+            sku: v.variantSku || v.sku || 'N/A',
+            name: v.variantNameEn || v.variantName || '',
+            price: v.variantSellPrice ?? v.variantStandardPrice ?? v.variantPrice ?? 'N/A',
+            weight: v.variantWeight ?? 'N/A',
+            image: v.variantImage || '',
+            size, stock,
+          });
+        });
+        return {
+          pid: p.pid, label: p.label || p.pid, colorGroups,
+          variants: p.variants || [],
+          status: 'ok',
+        };
+      });
+    }
+    return [];
+  }
+
   async function fetchCJ() {
     const s = state.cj;
     const runBtn  = document.getElementById('run-btn-cj');
@@ -821,32 +878,14 @@
     s.rawLogs = []; s.allProducts = [];
 
     try {
-      const res = await fetch('/.netlify/functions/fetch-cj-products');
-
-      if (!res.ok) {
-        document.getElementById('skeleton-view-cj').style.display = 'none';
-        setStatus('cj', 'err', `Erreur HTTP ${res.status} — la fonction "fetch-cj-products" est introuvable ou a planté. Vérifie qu'elle est bien déployée sur Netlify.`);
-        runBtn.disabled = false;
-        runBtn.textContent = '▶  Récupérer les produits CJ';
-        return;
-      }
-
-      const contentType = res.headers.get('content-type') || '';
-      if (!contentType.includes('application/json')) {
-        document.getElementById('skeleton-view-cj').style.display = 'none';
-        setStatus('cj', 'err', 'La fonction Netlify a renvoyé une page HTML au lieu de JSON — vérifie qu\'elle est bien déployée à /.netlify/functions/fetch-cj-products.');
-        runBtn.disabled = false;
-        runBtn.textContent = '▶  Récupérer les produits CJ';
-        return;
-      }
-
+      const res  = await fetch('/.netlify/functions/fetch-cj-products');
       const data = await res.json();
 
       document.getElementById('skeleton-view-cj').style.display = 'none';
       s.rawLogs = data.logs || [];
 
       if (data.success) {
-        s.allProducts = data.products || [];
+        s.allProducts = parseCJ(data);
         renderCJCards();
         renderRawLog('cj', s.rawLogs);
 
@@ -890,26 +929,18 @@
       return;
     }
     view.innerHTML = products.map((p, i) => {
-      const vars = p.variants || [];
-
-      // Regroupement par couleur (déjà calculé côté fonction Netlify : v.color / v.size)
-      const colorGroups = {};
-      vars.forEach(v => {
-        const color = v.color || 'N/A';
-        if (!colorGroups[color]) colorGroups[color] = [];
-        colorGroups[color].push(v);
-      });
-
-      const variantsHTML = Object.entries(colorGroups).map(([color, group]) => `
-        <div class="color-group" style="border-left:3px solid ${getSwatchColor(color)};padding-left:17px;">
+      const varCount = p.variants.length;
+      const variantsHTML = Object.entries(p.colorGroups).map(([color, vars]) => `
+        <div class="color-group">
           <div class="color-label">
+            <div class="color-swatch" style="background:${getSwatchColor(color)}"></div>
             <span class="color-name">${esc(color)}</span>
-            <span class="color-count">${group.length} taille(s)</span>
+            <span class="color-count">${vars.length} taille(s)</span>
           </div>
           <table class="variants-table">
-            <thead><tr><th>ID</th><th>SKU</th><th>SIZE</th><th>PRIX</th><th>POIDS</th><th>STOCK</th><th>IMAGE</th></tr></thead>
-            <tbody>${group.map(v => `<tr>
-              <td class="td-id">${esc(v.vid)}</td>
+            <thead><tr><th>ID</th><th>SKU</th><th>SIZE</th><th>PRIX</th><th>POIDS</th><th>STOCK</th><th>IMG</th></tr></thead>
+            <tbody>${vars.map(v => `<tr>
+              <td class="td-id">${esc(v.id)}</td>
               <td class="td-sku">${esc(v.sku)}</td>
               <td class="td-size">${esc(v.size) || '—'}</td>
               <td class="td-price">$${esc(String(v.price))}</td>
@@ -919,7 +950,6 @@
             </tr>`).join('')}</tbody>
           </table>
         </div>`).join('');
-
       return `
         <div class="product-card" id="card-cj-${i}">
           <div class="product-header" onclick="toggleCard('cj', ${i})">
@@ -928,7 +958,7 @@
             <span class="p-id">${esc(String(p.pid))}</span>
             <div class="p-badges">
               <span class="badge badge-ok">OK</span>
-              <span class="badge badge-variants">${vars.length} variants</span>
+              <span class="badge badge-variants">${varCount} variants</span>
             </div>
             <span class="chevron">▶</span>
           </div>

@@ -3,9 +3,6 @@ process.removeAllListeners('warning');
 
 // ══════════════════════════════════════════════════════════════
 //  Liste des Product IDs CJ à interroger.
-//  Ajoute ici tes "pid" CJ (visibles dans l'URL produit CJ, ou
-//  renvoyés par leur API de recherche produit).
-//  "label" est juste pour l'affichage dans le log/HTML (optionnel).
 // ══════════════════════════════════════════════════════════════
 const PRODUCT_IDS = [
   { pid: "2604220334371632700" },
@@ -32,81 +29,32 @@ async function getCJAccessToken() {
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+function extractVariantInfo(v) {
+  let color = 'N/A';
+  let size  = 'N/A';
 
-// ── Extraction couleur / taille à partir du nom du variant ─────
-// CJ colle souvent "Titre du produit + Couleur + Taille" dans un seul
-// champ (variantNameEn). On calcule le préfixe commun à tous les
-// variants d'un même produit, puis on isole le reste en "couleur" + "taille".
-function commonPrefixWords(strings) {
-  const clean = strings.filter(Boolean).map(s => s.trim().split(/\s+/));
-  if (!clean.length) return [];
-  const minLen = Math.min(...clean.map(w => w.length));
-  const prefix = [];
-  for (let i = 0; i < minLen; i++) {
-    const word = clean[0][i];
-    if (clean.every(w => w[i] === word)) prefix.push(word);
-    else break;
+  if (Array.isArray(v.variantProperty) && v.variantProperty.length) {
+    v.variantProperty.forEach((prop) => {
+      const key = String(prop.pidName || prop.pidKey || '').toLowerCase();
+      const val = prop.vidName || prop.vidKey || '';
+      if (key.includes('color') || key.includes('colour')) color = val;
+      else if (key.includes('size')) size = val;
+    });
   }
-  return prefix;
-}
 
-const SIZE_PATTERN = /^(XXS|XS|S|M|L|XL|XXL|XXXL|\d+[A-Za-z]{0,3}|[0-9]+)$/i;
-
-function splitColorSize(remainder) {
-  const words = remainder.trim().split(/\s+/).filter(Boolean);
-  if (!words.length) return { color: 'N/A', size: '' };
-  const last = words[words.length - 1];
-  if (SIZE_PATTERN.test(last)) {
-    const colorWords = words.slice(0, -1);
-    return { color: colorWords.length ? colorWords.join(' ') : 'N/A', size: last };
-  }
-  return { color: remainder.trim(), size: '' };
-}
-
-function enrichVariants(variants) {
-  const names  = variants.map(v => v.variantNameEn || v.variantName || '');
-  const prefix = commonPrefixWords(names);
-
-  return variants.map((v) => {
-    const name      = v.variantNameEn || v.variantName || '';
-    const words     = name.trim().split(/\s+/).filter(Boolean);
-    const remainder = words.slice(prefix.length).join(' ');
-    const { color, size } = splitColorSize(remainder);
-
-    return {
-      ...v,
-      vid:    v.vid || v.variantId || 'N/A',
-      sku:    v.variantSku || v.sku || 'N/A',
-      price:  v.variantSellPrice ?? v.variantStandardPrice ?? v.variantPrice ?? 'N/A',
-      weight: v.variantWeight ?? 'N/A',
-      stock:  v.variantStock ?? v.stock ?? v.inventory ?? v.remainNum ?? v.inventoryNum ?? v.variantSellNum ?? 'N/A',
-      image:  v.variantImage || '',
-      color:  color || 'N/A',
-      size:   size || '',
-    };
-  });
-}
-
-// ── Stock par variant ────────────────────────────────────────────
-// L'endpoint variant/query ne renvoie pas le stock : CJ a un endpoint
-// séparé par vid pour l'inventaire (entrepôts).
-async function fetchVariantStock(vid, token) {
-  try {
-    const url = `https://developers.cjdropshipping.com/api2.0/v1/product/stock/queryByVid?vid=${encodeURIComponent(vid)}`;
-    const res  = await fetch(url, { method: "GET", headers: { "CJ-Access-Token": token } });
-    const text = await res.text();
-
-    let data = {};
-    try { data = JSON.parse(text); } catch {}
-
-    if (data.result === true && Array.isArray(data.data)) {
-      const total = data.data.reduce((sum, w) => sum + (parseInt(w.storageNum ?? w.stock ?? w.num ?? 0) || 0), 0);
-      return total;
+  if ((color === 'N/A' || size === 'N/A') && v.variantKey) {
+    const parts = String(v.variantKey).split('-');
+    if (parts.length >= 2) {
+      if (size === 'N/A')  size  = parts[parts.length - 1].trim();
+      if (color === 'N/A') color = parts.slice(0, -1).join('-').trim();
+    } else if (color === 'N/A') {
+      color = v.variantKey;
     }
-    return 'N/A';
-  } catch {
-    return 'N/A';
   }
+
+  const stock = v.variantStock ?? v.stockNum ?? v.remainNum ?? v.inventoryNum ?? v.availableStock ?? v.stock ?? 'N/A';
+
+  return { color: color || 'N/A', size: size || 'N/A', stock };
 }
 
 exports.handler = async (event) => {
@@ -164,17 +112,7 @@ exports.handler = async (event) => {
 
         if (data.result === true && Array.isArray(data.data)) {
           log(`  ✅  ${pid}  →  OK  (${data.data.length} variant(s))  [${label}]`);
-          const variants = enrichVariants(data.data);
-
-          // Récupération du stock par variant (endpoint séparé chez CJ)
-          for (const v of variants) {
-            if (v.stock === 'N/A') {
-              v.stock = await fetchVariantStock(v.vid, token);
-              await sleep(350); // respecter le rate-limit CJ
-            }
-          }
-
-          allProducts.push({ pid, label, variants });
+          allProducts.push({ pid, label, variants: data.data });
         } else {
           const errMsg = data.message || responseText.slice(0, 200) || 'réponse invalide';
           log(`  ⚠️  ${pid}  →  ERREUR : ${errMsg}  [${label}]`);
@@ -206,21 +144,27 @@ exports.handler = async (event) => {
         return;
       }
 
-      // Regroupement par couleur, comme pour Eprolo
+      // ── Regroupement par couleur (même logique que côté Eprolo) ──
       const colorGroups = {};
       product.variants.forEach((v) => {
-        const color = v.color || 'N/A';
+        const { color, size, stock } = extractVariantInfo(v);
         if (!colorGroups[color]) colorGroups[color] = [];
-        colorGroups[color].push(v);
+        colorGroups[color].push({ v, size, stock });
       });
 
-      Object.entries(colorGroups).forEach(([color, vars]) => {
-        log(`        🎨  ${color}  (${vars.length} taille(s))`);
-        vars.forEach((v) => {
-          const sizeStr = v.size ? `SIZE: ${v.size.padEnd(6)}` : `SIZE: ${'—'.padEnd(6)}`;
-          log(`              ID: ${v.vid}  |  ${sizeStr}  |  SKU: ${v.sku}  |  PRIX: $${v.price}  |  POIDS: ${v.weight}g  |  STOCK: ${v.stock}`);
+      Object.entries(colorGroups).forEach(([color, entries]) => {
+        log(`        ● ${color}  (${entries.length} taille(s))`);
+        entries.forEach(({ v, size, stock }) => {
+          const vid    = v.vid || v.variantId || 'N/A';
+          const sku    = v.variantSku || v.sku || 'N/A';
+          const name   = v.variantNameEn || v.variantName || '';
+          const price  = v.variantSellPrice ?? v.variantStandardPrice ?? v.variantPrice ?? 'N/A';
+          const weight = v.variantWeight ?? 'N/A';
+          const image  = v.variantImage || '';
+
+          log(`              ID: ${vid}  |  SKU: ${sku}  |  SIZE: ${size}  |  PRIX: $${price}  |  POIDS: ${weight}g  |  STOCK: ${stock}  |  ${name}`);
+          if (image) log(`                    IMG: ${image}`);
         });
-        log("");
       });
     });
 
