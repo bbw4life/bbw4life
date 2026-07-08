@@ -1201,6 +1201,9 @@ body {
 .bbw-drawer__pay-icon.fa-cc-diners-club { color: #004b87; background: #fff; }
 .bbw-drawer__pay-icon.fa-apple-pay      { color: #000000; background: #fff; }
 .bbw-drawer__pay-icon.fa-google-pay     { color: #4285f4; background: #fff; }
+.bbw-drawer__pay-icon.fa-btc            { color: #f7931a; background: #fff; }
+.bbw-drawer__pay-icon.fa-ethereum       { color: #627eea; background: #fff; }
+.bbw-drawer__pay-icon.fa-coins          { color: #26a17b; background: #fff; }
 
 .bbw-drawer__pay-icon:hover {
   background: #f5f5f5;

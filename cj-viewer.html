@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, noodp">
+  <meta name="googlebot" content="noindex, nofollow">
+  <title>Inventory Viewer — Eprolo / CJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #080b10;
+      --surface:   #0f1318;
+      --border:    #1e2530;
+      --accent:    #00e5ff;
+      --accent2:   #ff3d7f;
+      --green:     #00ff9d;
+      --yellow:    #ffd600;
+      --muted:     #4a5568;
+      --text:      #c8d6e5;
+      --text-dim:  #5a6a7e;
+      --mono:      'Space Mono', monospace;
+      --display:   'Syne', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ═══ GATE ═══ */
+    #gate-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    #gate-screen::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px; opacity: 0.35; pointer-events: none;
+    }
+    .gate-box {
+      position: relative; z-index: 1;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 48px 40px; width: 100%; max-width: 420px; text-align: center;
+    }
+    .gate-box::before {
+      content: ''; position: absolute; top: -1px; left: 20%; right: 20%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent); border-radius: 2px;
+    }
+    .gate-icon { font-size: 28px; margin-bottom: 20px; display: block; color: var(--accent); letter-spacing: 0.1em; font-family: var(--mono); }
+    .gate-title { font-family: var(--display); font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .gate-title span { color: var(--accent2); }
+    .gate-subtitle { font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 32px; }
+    .gate-input-wrap { position: relative; margin-bottom: 14px; }
+    .gate-input-wrap input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 5px;
+      padding: 12px 44px 12px 16px; color: var(--text); font-family: var(--mono); font-size: 13px;
+      letter-spacing: 0.15em; outline: none; transition: border-color 0.2s;
+    }
+    .gate-input-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,229,255,0.08); }
+    .gate-input-wrap input.shake { animation: shake 0.38s ease; border-color: var(--accent2) !important; }
+    .gate-eye {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 14px; padding: 4px; transition: color 0.2s;
+    }
+    .gate-eye:hover { color: var(--accent); }
+    .gate-btn {
+      width: 100%; background: var(--accent); color: #000; border: none; border-radius: 5px;
+      padding: 12px; font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; cursor: pointer; transition: box-shadow 0.2s, opacity 0.2s; margin-top: 4px;
+    }
+    .gate-btn:hover { box-shadow: 0 0 24px rgba(0,229,255,0.35); }
+    .gate-btn:active { opacity: 0.85; }
+    .gate-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .gate-attempts { margin-top: 14px; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; min-height: 16px; }
+    .gate-lock-msg { font-size: 11px; color: var(--accent2); margin-top: 14px; letter-spacing: 0.05em; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); } 18% { transform: translateX(-6px); } 36% { transform: translateX(6px); }
+      54% { transform: translateX(-4px); } 72% { transform: translateX(4px); }
+    }
+    .gate-screen-exit { animation: gateExit 0.4s ease forwards; }
+    @keyframes gateExit { to { opacity: 0; transform: scale(1.04); pointer-events: none; } }
+
+    #dashboard { display: none; }
+
+    .wrap { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 48px 28px 80px; }
+
+    header { margin-bottom: 32px; border-left: 3px solid var(--accent); padding-left: 18px; }
+    header .label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+    header h1 { font-family: var(--display); font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; color: #fff; letter-spacing: -0.02em; line-height: 1.1; }
+    header h1 span { color: var(--accent2); }
+    .subtitle { margin-top: 8px; color: var(--text-dim); font-size: 11px; letter-spacing: 0.05em; }
+
+    /* ═══ Source tabs (Eprolo / CJ) ═══ */
+    .source-tabs { display: flex; gap: 8px; margin-bottom: 32px; }
+    .source-tab {
+      flex: 1; padding: 14px 20px; border-radius: 6px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-dim); font-family: var(--display);
+      font-size: 14px; font-weight: 800; letter-spacing: 0.02em; cursor: pointer; transition: all 0.2s;
+      text-align: center;
+    }
+    .source-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .source-tab.active.eprolo { background: rgba(0,229,255,0.1); border-color: var(--accent); color: var(--accent); }
+    .source-tab.active.cj     { background: rgba(255,61,127,0.1); border-color: var(--accent2); color: var(--accent2); }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .controls { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 4px;
+      border: none; cursor: pointer; font-family: var(--mono); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.2s; position: relative; overflow: hidden;
+    }
+    .btn::after { content: ''; position: absolute; inset: 0; background: white; opacity: 0; transition: opacity 0.15s; }
+    .btn:hover::after { opacity: 0.07; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-run { background: var(--accent); color: #000; box-shadow: 0 0 20px rgba(0,229,255,0.25); }
+    .btn-run:hover:not(:disabled) { box-shadow: 0 0 30px rgba(0,229,255,0.45); }
+    .btn-run.cj { background: var(--accent2); box-shadow: 0 0 20px rgba(255,61,127,0.25); }
+    .btn-run.cj:hover:not(:disabled) { box-shadow: 0 0 30px rgba(255,61,127,0.45); }
+    .btn-copy { background: transparent; color: var(--green); border: 1px solid var(--green); display: none; }
+    .btn-copy:hover { box-shadow: 0 0 16px rgba(0,255,157,0.2); }
+    .btn-copy.copied { color: #fff; border-color: var(--green); background: rgba(0,255,157,0.12); }
+
+    .status-bar { font-size: 11px; color: var(--text-dim); display: flex; align-items: center; gap: 8px; margin-bottom: 20px; min-height: 20px; }
+    .status-bar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+    .status-bar.running .dot { background: var(--accent); animation: pulse 1s infinite; }
+    .status-bar.ok  .dot { background: var(--green); }
+    .status-bar.err .dot { background: var(--accent2); }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .stats { display: none; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px 20px; min-width: 130px; }
+    .stat-card .s-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+    .stat-card .s-value { font-family: var(--display); font-size: 1.6rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .stat-card .s-value.green { color: var(--green); }
+    .stat-card .s-value.pink  { color: var(--accent2); }
+
+    .cat-tabs { display: none; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .cat-tab {
+      padding: 7px 16px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface);
+      color: var(--text-dim); font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+    }
+    .cat-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .cat-tab.active { background: rgba(0,229,255,0.1); border-color: var(--accent); color: var(--accent); }
+    .cat-tab.all-tab.active { background: rgba(255,61,127,0.1); border-color: var(--accent2); color: var(--accent2); }
+
+    .subcat-row { display: none; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; padding-left: 4px; }
+    .subcat-chip {
+      padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); background: transparent;
+      color: var(--text-dim); font-family: var(--mono); font-size: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+    .subcat-chip:hover { border-color: var(--yellow); color: var(--yellow); }
+    .subcat-chip.active { background: rgba(255,214,0,0.1); border-color: var(--yellow); color: var(--yellow); }
+
+    .product-view { display: none; }
+    .product-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; transition: border-color 0.2s; }
+    .product-card:hover { border-color: var(--accent); }
+    .product-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; user-select: none; gap: 12px; }
+    .product-header:hover { background: rgba(255,255,255,0.02); }
+    .p-index { font-size: 10px; color: var(--text-dim); min-width: 26px; }
+    .p-title { font-family: var(--display); font-size: 14px; font-weight: 700; color: #fff; flex: 1; letter-spacing: -0.01em; }
+    .p-id { font-size: 10px; color: var(--text-dim); font-family: var(--mono); }
+    .p-badges { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+    .badge { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; font-weight: 700; }
+    .badge-variants { background: rgba(0,229,255,0.1); color: var(--accent); border: 1px solid rgba(0,229,255,0.2); }
+    .badge-ok  { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
+    .badge-err { background: rgba(255,61,127,0.1); color: var(--accent2); border: 1px solid rgba(255,61,127,0.2); }
+    .badge-subcat { background: rgba(255,214,0,0.08); color: var(--yellow); border: 1px solid rgba(255,214,0,0.2); }
+    .chevron { color: var(--text-dim); transition: transform 0.25s; font-size: 10px; }
+    .product-card.open .chevron { transform: rotate(90deg); }
+    .variants-body { display: none; border-top: 1px solid var(--border); }
+    .product-card.open .variants-body { display: block; }
+    .color-group { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .color-group:last-child { border-bottom: none; }
+    .color-label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .color-swatch { width: 12px; height: 12px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+    .color-name { font-family: var(--display); font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 0.02em; }
+    .color-count { font-size: 10px; color: var(--text-dim); }
+    .variants-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .variants-table th {
+      text-align: left; color: var(--text-dim); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 4px 10px; border-bottom: 1px solid var(--border); font-weight: 400;
+    }
+    .variants-table td { padding: 7px 10px; border-bottom: 1px solid rgba(30,37,48,0.6); vertical-align: middle; }
+    .variants-table tr:last-child td { border-bottom: none; }
+    .variants-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .td-id { color: var(--text-dim); font-size: 10px; }
+    .td-sku { color: var(--text-dim); font-size: 10px; }
+    .td-size { color: var(--accent); font-weight: 700; }
+    .td-price { color: var(--yellow); font-weight: 700; }
+    .td-weight { color: var(--text); }
+    .td-stock { font-weight: 700; }
+    .td-name { color: var(--text); font-size: 10px; }
+    .td-img a { color: var(--accent); text-decoration: none; }
+    .td-img a:hover { text-decoration: underline; }
+
+    .log-section { display: none; margin-top: 32px; }
+    .section-toggle {
+      display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--text-dim);
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; user-select: none;
+    }
+    .section-toggle:hover { color: var(--text); }
+    .log-output {
+      background: #030506; border: 1px solid var(--border); border-radius: 6px; padding: 20px;
+      white-space: pre-wrap; word-break: break-all; font-size: 11px; line-height: 1.7; max-height: 400px;
+      overflow-y: auto; display: none;
+    }
+    .log-output.visible { display: block; }
+    .log-ok { color: var(--green); }
+    .log-warn { color: var(--yellow); }
+    .log-err { color: var(--accent2); }
+    .log-sep { color: #1e2530; }
+    .log-title { color: var(--accent); font-weight: 700; }
+    .log-dim { color: #3a4a5e; }
+    .log-info { color: var(--text); }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, #151c24 50%, var(--surface) 75%);
+      background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 4px; height: 14px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .skeleton-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     GATE SCREEN — shown until password OK
+══════════════════════════════════════ -->
+<div id="gate-screen">
+  <div class="gate-box">
+    <span class="gate-icon">// INVENTORY</span>
+    <h2 class="gate-title">INVENTORY <span>VIEWER</span></h2>
+    <p class="gate-subtitle">Restricted Access — Authorize to continue</p>
+    <div class="gate-input-wrap">
+      <input type="password" id="gate-pwd" placeholder="Enter password" autocomplete="off" spellcheck="false">
+      <button class="gate-eye" id="gate-eye-btn" tabindex="-1" title="Show/Hide">👁</button>
+    </div>
+    <button class="gate-btn" id="gate-submit-btn">Unlock →</button>
+    <p class="gate-attempts" id="gate-attempts-msg"></p>
+    <p class="gate-lock-msg" id="gate-lock-msg" style="display:none;"></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MAIN DASHBOARD
+══════════════════════════════════════ -->
+<div id="dashboard">
+<div class="wrap">
+
+  <header>
+    <div class="label">// Inventory Dashboard</div>
+    <h1>PRODUCT <span>VIEWER</span></h1>
+    <p class="subtitle" id="header-subtitle">Prêt · Netlify Functions · fetch natif Node 18+</p>
+  </header>
+
+  <div class="source-tabs">
+    <button class="source-tab eprolo active" id="tab-btn-eprolo" onclick="switchSource('eprolo')">EPROLO</button>
+    <button class="source-tab cj" id="tab-btn-cj" onclick="switchSource('cj')">CJ DROPSHIPPING</button>
+  </div>
+
+  <!-- ═══════════════ PANEL EPROLO ═══════════════ -->
+  <div class="panel active" id="panel-eprolo">
+
+    <div class="controls">
+      <button class="btn btn-run" id="run-btn-eprolo" onclick="fetchEprolo()">▶ &nbsp;Récupérer les produits Eprolo</button>
+      <button class="btn btn-copy" id="copy-btn-eprolo" onclick="copyLogs('eprolo')">⧉ &nbsp;Copier le log brut</button>
+    </div>
+
+    <div class="status-bar" id="status-bar-eprolo">
+      <div class="dot"></div>
+      <span id="status-text-eprolo">Prêt. Clique sur le bouton pour lancer.</span>
+    </div>
+
+    <div class="stats" id="stats-row-eprolo">
+      <div class="stat-card"><div class="s-label">Produits</div><div class="s-value" id="stat-total-eprolo">0</div></div>
+      <div class="stat-card"><div class="s-label">Variants</div><div class="s-value green" id="stat-variants-eprolo">0</div></div>
+      <div class="stat-card"><div class="s-label">Erreurs</div><div class="s-value pink" id="stat-errors-eprolo">0</div></div>
+    </div>
+
+    <div class="cat-tabs" id="cat-tabs-eprolo"></div>
+    <div class="subcat-row" id="subcat-row-eprolo"></div>
+    <div class="product-view" id="product-view-eprolo"></div>
+
+    <div id="skeleton-view-eprolo" style="display:none">
+      <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:220px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:180px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:260px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+    </div>
+
+    <div class="log-section" id="log-section-eprolo">
+      <div class="section-toggle" onclick="toggleLog('eprolo')">
+        <span id="log-toggle-icon-eprolo">▶</span><span>Log brut</span>
+      </div>
+      <pre class="log-output" id="log-output-eprolo"></pre>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════ PANEL CJ ═══════════════ -->
+  <div class="panel" id="panel-cj">
+
+    <div class="controls">
+      <button class="btn btn-run cj" id="run-btn-cj" onclick="fetchCJ()">▶ &nbsp;Récupérer les produits CJ</button>
+      <button class="btn btn-copy" id="copy-btn-cj" onclick="copyLogs('cj')">⧉ &nbsp;Copier le log brut</button>
+    </div>
+
+    <div class="status-bar" id="status-bar-cj">
+      <div class="dot"></div>
+      <span id="status-text-cj">Prêt. Clique sur le bouton pour lancer.</span>
+    </div>
+
+    <div class="stats" id="stats-row-cj">
+      <div class="stat-card"><div class="s-label">Produits</div><div class="s-value" id="stat-total-cj">0</div></div>
+      <div class="stat-card"><div class="s-label">Variants</div><div class="s-value green" id="stat-variants-cj">0</div></div>
+      <div class="stat-card"><div class="s-label">Erreurs</div><div class="s-value pink" id="stat-errors-cj">0</div></div>
+    </div>
+
+    <div class="product-view" id="product-view-cj"></div>
+
+    <div id="skeleton-view-cj" style="display:none">
+      <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:220px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:180px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="width:30px;height:10px"></div><div class="skeleton" style="width:260px"></div><div class="skeleton" style="width:60px;height:10px;margin-left:auto"></div></div>
+    </div>
+
+    <div class="log-section" id="log-section-cj">
+      <div class="section-toggle" onclick="toggleLog('cj')">
+        <span id="log-toggle-icon-cj">▶</span><span>Log brut</span>
+      </div>
+      <pre class="log-output" id="log-output-cj"></pre>
+    </div>
+
+  </div>
+
+</div>
+</div>
+
+<script>
+  /* ══════════════════════════════════════
+     GATE — Password protection
+  ══════════════════════════════════════ */
+  (function () {
+    'use strict';
+
+    const MAX_ATTEMPTS  = 5;
+    const LOCK_DURATION = 5 * 60 * 1000;
+    const SESSION_KEY   = 'eprolo_auth_ok';
+    const LOCK_KEY      = 'eprolo_lock_until';
+    const ATTEMPT_KEY   = 'eprolo_attempts';
+
+    const gateScreen   = document.getElementById('gate-screen');
+    const gateInput    = document.getElementById('gate-pwd');
+    const gateSubmit   = document.getElementById('gate-submit-btn');
+    const gateEyeBtn   = document.getElementById('gate-eye-btn');
+    const gateAttempts = document.getElementById('gate-attempts-msg');
+    const gateLockMsg  = document.getElementById('gate-lock-msg');
+    const dashboard    = document.getElementById('dashboard');
+
+    let passwordLoaded = false;
+
+    fetch('/.netlify/functions/get-private-settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: '__ping__' })
+    })
+      .then(function () {
+        passwordLoaded = true;
+        if (sessionStorage.getItem(SESSION_KEY) === 'yes') {
+          unlockDashboard(false);
+          return;
+        }
+        checkLockState();
+        gateInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryUnlock(); });
+        gateSubmit.addEventListener('click', tryUnlock);
+      })
+      .catch(function () {
+        gateInput.disabled  = true;
+        gateSubmit.disabled = true;
+        gateAttempts.textContent = 'Unable to load configuration.';
+      });
+
+    gateEyeBtn.addEventListener('click', function () {
+      gateInput.type = gateInput.type === 'password' ? 'text' : 'password';
+    });
+
+    function checkLockState() {
+      var lockUntil = parseInt(localStorage.getItem(LOCK_KEY) || '0');
+      var now = Date.now();
+      if (lockUntil > now) applyLock(lockUntil - now);
+    }
+
+    function tryUnlock() {
+      if (!passwordLoaded) return;
+      var lockUntil = parseInt(localStorage.getItem(LOCK_KEY) || '0');
+      if (lockUntil > Date.now()) return;
+
+      var val = gateInput.value;
+      var attempts = parseInt(localStorage.getItem(ATTEMPT_KEY) || '0');
+
+      gateSubmit.disabled = true;
+      gateSubmit.textContent = 'Checking...';
+
+      fetch('/.netlify/functions/get-private-settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: val })
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        gateSubmit.disabled = false;
+        gateSubmit.textContent = 'Unlock →';
+
+        if (data.ok) {
+          localStorage.removeItem(ATTEMPT_KEY);
+          localStorage.removeItem(LOCK_KEY);
+          sessionStorage.setItem(SESSION_KEY, 'yes');
+          unlockDashboard(true);
+        } else {
+          attempts++;
+          localStorage.setItem(ATTEMPT_KEY, attempts);
+          gateInput.value = '';
+          gateInput.classList.add('shake');
+          setTimeout(function () { gateInput.classList.remove('shake'); }, 400);
+
+          var remaining = MAX_ATTEMPTS - attempts;
+          if (remaining <= 0) {
+            var lockUntilNew = Date.now() + LOCK_DURATION;
+            localStorage.setItem(LOCK_KEY, lockUntilNew);
+            localStorage.removeItem(ATTEMPT_KEY);
+            applyLock(LOCK_DURATION);
+          } else {
+            gateAttempts.textContent = remaining + ' attempt' + (remaining > 1 ? 's' : '') + ' remaining';
+          }
+        }
+      })
+      .catch(function () {
+        gateSubmit.disabled = false;
+        gateSubmit.textContent = 'Unlock →';
+        gateAttempts.textContent = 'Connection error. Try again.';
+      });
+    }
+
+    function applyLock(msRemaining) {
+      gateInput.disabled = true;
+      gateSubmit.disabled = true;
+      gateInput.placeholder = 'Locked';
+      gateAttempts.textContent = '';
+      gateLockMsg.style.display = 'block';
+
+      function tick() {
+        var left = parseInt(localStorage.getItem(LOCK_KEY) || '0') - Date.now();
+        if (left <= 0) {
+          localStorage.removeItem(LOCK_KEY);
+          localStorage.removeItem(ATTEMPT_KEY);
+          gateInput.disabled = false;
+          gateSubmit.disabled = false;
+          gateInput.placeholder = 'Enter password';
+          gateLockMsg.style.display = 'none';
+          gateAttempts.textContent = '';
+          gateInput.focus();
+          return;
+        }
+        var m = Math.floor(left / 60000);
+        var s = Math.floor((left % 60000) / 1000);
+        gateLockMsg.textContent = 'Too many attempts — locked for ' + m + ':' + (s < 10 ? '0' : '') + s;
+        setTimeout(tick, 1000);
+      }
+      tick();
+    }
+
+    function unlockDashboard(animate) {
+      if (animate) {
+        gateScreen.classList.add('gate-screen-exit');
+        setTimeout(function () {
+          gateScreen.style.display = 'none';
+          dashboard.style.display = 'block';
+        }, 420);
+      } else {
+        gateScreen.style.display = 'none';
+        dashboard.style.display = 'block';
+      }
+    }
+  })();
+
+  /* ══════════════════════════════════════
+     SOURCE TABS
+  ══════════════════════════════════════ */
+  function switchSource(source) {
+    document.getElementById('tab-btn-eprolo').classList.toggle('active', source === 'eprolo');
+    document.getElementById('tab-btn-cj').classList.toggle('active', source === 'cj');
+    document.getElementById('panel-eprolo').classList.toggle('active', source === 'eprolo');
+    document.getElementById('panel-cj').classList.toggle('active', source === 'cj');
+  }
+
+  /* ══════════════════════════════════════
+     HELPERS PARTAGÉS
+  ══════════════════════════════════════ */
+  function esc(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function stockColor(val) {
+    const n = parseInt(val);
+    if (isNaN(n)) return 'var(--text-dim)';
+    if (n === 0)  return 'var(--accent2)';
+    if (n < 10)   return 'var(--yellow)';
+    return 'var(--green)';
+  }
+
+  const COLOR_MAP = {
+    black:'#222', white:'#eee', red:'#e74c3c', blue:'#3498db',
+    green:'#2ecc71', yellow:'#f1c40f', pink:'#e91e8c', purple:'#9b59b6',
+    orange:'#e67e22', grey:'#7f8c8d', gray:'#7f8c8d', navy:'#2c3e7a',
+    beige:'#d4b896', brown:'#8b6347', silver:'#bdc3c7', gold:'#f0c040',
+    teal:'#1abc9c', coral:'#ff6b6b', lavender:'#9b8ec4', cyan:'#00bcd4',
+  };
+  function getSwatchColor(colorName) {
+    const key = colorName.toLowerCase().split(' ')[0];
+    return COLOR_MAP[key] || `hsl(${Math.abs(colorName.charCodeAt(0)*37 + colorName.charCodeAt(1)*17) % 360},55%,55%)`;
+  }
+
+  function setStatus(source, type, msg) {
+    document.getElementById('status-bar-' + source).className = 'status-bar ' + type;
+    document.getElementById('status-text-' + source).textContent = msg;
+  }
+
+  function toggleLog(source) {
+    state[source].logVisible = !state[source].logVisible;
+    document.getElementById('log-output-' + source).classList.toggle('visible', state[source].logVisible);
+    document.getElementById('log-toggle-icon-' + source).textContent = state[source].logVisible ? '▼' : '▶';
+  }
+
+  function renderRawLog(source, logs) {
+    const output = document.getElementById('log-output-' + source);
+    output.innerHTML = logs.map(line => {
+      let cls = 'log-info';
+      if (line.includes('✅')) cls = 'log-ok';
+      else if (line.includes('⚠️')) cls = 'log-warn';
+      else if (line.includes('❌')) cls = 'log-err';
+      else if (/^[═─\s]{5,}$/.test(line)) cls = 'log-sep';
+      else if (line.includes('EPROLO') || line.includes('CJ DROPSHIPPING') || line.includes('TOTAL') || line.includes('FIN')) cls = 'log-title';
+      else if (line.includes('ID :') || line.includes('PID :') || line.includes('Variants :')) cls = 'log-dim';
+      return `<span class="${cls}">${esc(line)}</span>`;
+    }).join('\n');
+  }
+
+  function copyLogs(source) {
+    const logs = state[source].rawLogs;
+    if (!logs.length) return;
+    navigator.clipboard.writeText(logs.join('\n')).then(() => {
+      const btn = document.getElementById('copy-btn-' + source);
+      btn.textContent = '✅  Copié !';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '⧉  Copier le log brut'; btn.classList.remove('copied'); }, 2500);
+    });
+  }
+
+  const state = {
+    eprolo: { rawLogs: [], allProducts: [], logVisible: false, activeCategory: 'ALL', activeSubcategory: 'ALL' },
+    cj:     { rawLogs: [], allProducts: [], logVisible: false }
+  };
+
+  /* ══════════════════════════════════════
+     EPROLO
+  ══════════════════════════════════════ */
+  const EPROLO_CATEGORIES = [
+    { category: "Beauty",          subcategories: ["Nails","Eyebrow","Lips","Makeup","Haircare","Skincare"] },
+    { category: "Main Plus Size",  subcategories: ["Pants","Shoes","Shirt","Sweater"] },
+    { category: "Plus Size Woman", subcategories: ["Shoes","Dresses","Bathrobe","Sexy","Breathable","Bikini","Plus Size Top"] },
+  ];
+
+  async function fetchEprolo() {
+    const s = state.eprolo;
+    const runBtn  = document.getElementById('run-btn-eprolo');
+    const copyBtn = document.getElementById('copy-btn-eprolo');
+
+    runBtn.disabled = true;
+    runBtn.textContent = '⏳  Chargement...';
+    copyBtn.style.display = 'none';
+    setStatus('eprolo', 'running', 'Appel en cours vers Netlify...');
+
+    document.getElementById('product-view-eprolo').style.display = 'none';
+    document.getElementById('product-view-eprolo').innerHTML = '';
+    document.getElementById('skeleton-view-eprolo').style.display = 'block';
+    document.getElementById('stats-row-eprolo').style.display = 'none';
+    document.getElementById('cat-tabs-eprolo').style.display = 'none';
+    document.getElementById('subcat-row-eprolo').style.display = 'none';
+    document.getElementById('log-section-eprolo').style.display = 'none';
+    document.getElementById('log-output-eprolo').innerHTML = '';
+    s.rawLogs = []; s.allProducts = []; s.activeCategory = 'ALL'; s.activeSubcategory = 'ALL';
+
+    try {
+      const res  = await fetch('/.netlify/functions/fetch-eprolo-products');
+      const data = await res.json();
+
+      document.getElementById('skeleton-view-eprolo').style.display = 'none';
+      s.rawLogs = data.logs || [];
+
+      if (data.success) {
+        s.allProducts = parseEprolo(data);
+        renderEprolCatTabs();
+        renderEprolSubcatChips();
+        renderEprolCards();
+        renderRawLog('eprolo', s.rawLogs);
+
+        const variantTotal = s.allProducts.reduce((sum, p) => sum + p.variants.length, 0);
+        const errCount = s.rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
+
+        document.getElementById('stat-total-eprolo').textContent = s.allProducts.length;
+        document.getElementById('stat-variants-eprolo').textContent = variantTotal;
+        document.getElementById('stat-errors-eprolo').textContent = errCount;
+        document.getElementById('stats-row-eprolo').style.display = 'flex';
+        document.getElementById('header-subtitle').textContent = `${s.allProducts.length} produits Eprolo · 3 catégories`;
+
+        setStatus('eprolo', 'ok', `${s.allProducts.length} produits récupérés · ${variantTotal} variants au total`);
+        copyBtn.style.display = 'inline-flex';
+        copyBtn.textContent = '⧉  Copier le log brut';
+        copyBtn.classList.remove('copied');
+        document.getElementById('log-section-eprolo').style.display = 'block';
+      } else {
+        setStatus('eprolo', 'err', 'Aucune donnée retournée. Vérifie la fonction Netlify.');
+      }
+    } catch (err) {
+      document.getElementById('skeleton-view-eprolo').style.display = 'none';
+      setStatus('eprolo', 'err', 'Erreur : ' + err.message);
+    }
+
+    runBtn.disabled = false;
+    runBtn.textContent = '▶  Récupérer les produits Eprolo';
+  }
+
+  function parseEprolo(data) {
+    if (data.products && Array.isArray(data.products)) {
+      return data.products.map(p => {
+        const colorGroups = {};
+        (p.variantlist || []).forEach(v => {
+          let color = (v.option1 || 'N/A').replace(/ one$/i, '').trim();
+          color = color.charAt(0).toUpperCase() + color.slice(1);
+          const size = (v.option2 || '').trim();
+          const option3 = (v.option3 || '').trim();
+          if (!colorGroups[color]) colorGroups[color] = [];
+          colorGroups[color].push({
+            id: v.id, sku: v.sku || 'N/A', price: v.cost || 'N/A',
+            weight: v.weight || 'N/A',
+            stock: v.inventory_quantity !== undefined ? v.inventory_quantity : 'N/A',
+            size, option3,
+          });
+        });
+        return {
+          id: p.id, title: p.title, colorGroups,
+          variants: p.variantlist || [],
+          category: p.category || '', subcategory: p.subcategory || '',
+          status: 'ok',
+        };
+      });
+    }
+    return [];
+  }
+
+  function getEprolFiltered() {
+    const s = state.eprolo;
+    return s.allProducts.filter(p => {
+      const catOk = s.activeCategory === 'ALL' || p.category === s.activeCategory;
+      const subOk = s.activeSubcategory === 'ALL' || p.subcategory === s.activeSubcategory;
+      return catOk && subOk;
+    });
+  }
+
+  function renderEprolCatTabs() {
+    const s = state.eprolo;
+    const tabs = document.getElementById('cat-tabs-eprolo');
+    tabs.innerHTML = '';
+    const allTab = document.createElement('button');
+    allTab.className = 'cat-tab all-tab' + (s.activeCategory === 'ALL' ? ' active' : '');
+    allTab.textContent = `Tous (${s.allProducts.length})`;
+    allTab.onclick = () => { s.activeCategory = 'ALL'; s.activeSubcategory = 'ALL'; renderEprolCatTabs(); renderEprolSubcatChips(); renderEprolCards(); };
+    tabs.appendChild(allTab);
+    EPROLO_CATEGORIES.forEach(cat => {
+      const count = s.allProducts.filter(p => p.category === cat.category).length;
+      const btn = document.createElement('button');
+      btn.className = 'cat-tab' + (s.activeCategory === cat.category ? ' active' : '');
+      btn.textContent = `${cat.category} (${count})`;
+      btn.onclick = () => { s.activeCategory = cat.category; s.activeSubcategory = 'ALL'; renderEprolCatTabs(); renderEprolSubcatChips(); renderEprolCards(); };
+      tabs.appendChild(btn);
+    });
+    tabs.style.display = 'flex';
+  }
+
+  function renderEprolSubcatChips() {
+    const s = state.eprolo;
+    const row = document.getElementById('subcat-row-eprolo');
+    row.innerHTML = '';
+    if (s.activeCategory === 'ALL') { row.style.display = 'none'; return; }
+    const catDef = EPROLO_CATEGORIES.find(c => c.category === s.activeCategory);
+    if (!catDef) { row.style.display = 'none'; return; }
+    const allChip = document.createElement('button');
+    allChip.className = 'subcat-chip' + (s.activeSubcategory === 'ALL' ? ' active' : '');
+    allChip.textContent = 'Tout';
+    allChip.onclick = () => { s.activeSubcategory = 'ALL'; renderEprolSubcatChips(); renderEprolCards(); };
+    row.appendChild(allChip);
+    catDef.subcategories.forEach(sub => {
+      const count = s.allProducts.filter(p => p.category === s.activeCategory && p.subcategory === sub).length;
+      if (count === 0) return;
+      const chip = document.createElement('button');
+      chip.className = 'subcat-chip' + (s.activeSubcategory === sub ? ' active' : '');
+      chip.textContent = `${sub} (${count})`;
+      chip.onclick = () => { s.activeSubcategory = sub; renderEprolSubcatChips(); renderEprolCards(); };
+      row.appendChild(chip);
+    });
+    row.style.display = 'flex';
+  }
+
+  function renderEprolCards() {
+    const view = document.getElementById('product-view-eprolo');
+    const filtered = getEprolFiltered();
+    view.style.display = 'block';
+    if (!filtered.length) {
+      view.innerHTML = `<div style="color:var(--text-dim);padding:20px;text-align:center;font-size:12px;">Aucun produit dans cette sélection.</div>`;
+      return;
+    }
+    view.innerHTML = filtered.map((p, i) => {
+      const varCount = p.variants.length;
+      const variantsHTML = Object.entries(p.colorGroups).map(([color, vars]) => `
+        <div class="color-group">
+          <div class="color-label">
+            <div class="color-swatch" style="background:${getSwatchColor(color)}"></div>
+            <span class="color-name">${esc(color)}</span>
+            <span class="color-count">${vars.length} taille(s)</span>
+          </div>
+          <table class="variants-table">
+            <thead><tr><th>ID</th><th>SKU</th><th>SIZE</th><th>PRIX</th><th>POIDS</th><th>STOCK</th>${vars.some(v => v.option3) ? '<th>OPT3</th>' : ''}</tr></thead>
+            <tbody>${vars.map(v => `<tr>
+              <td class="td-id">${esc(v.id)}</td>
+              <td class="td-sku">${esc(v.sku)}</td>
+              <td class="td-size">${esc(v.size) || '—'}</td>
+              <td class="td-price">$${esc(String(v.price))}</td>
+              <td class="td-weight">${esc(String(v.weight))}g</td>
+              <td class="td-stock" style="color:${stockColor(v.stock)}">${esc(String(v.stock))}</td>
+              ${vars.some(vv => vv.option3) ? `<td>${esc(v.option3)}</td>` : ''}
+            </tr>`).join('')}</tbody>
+          </table>
+        </div>`).join('');
+      return `
+        <div class="product-card" id="card-eprolo-${i}">
+          <div class="product-header" onclick="toggleCard('eprolo', ${i})">
+            <span class="p-index">#${String(i+1).padStart(2,'0')}</span>
+            <span class="p-title">${esc(p.title)}</span>
+            <span class="p-id">${esc(String(p.id))}</span>
+            <div class="p-badges">
+              <span class="badge badge-subcat">${esc(p.subcategory)}</span>
+              <span class="badge badge-ok">OK</span>
+              <span class="badge badge-variants">${varCount} variants</span>
+            </div>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="variants-body">${variantsHTML || '<div style="padding:16px 20px;color:var(--text-dim);">Aucun variant.</div>'}</div>
+        </div>`;
+    }).join('');
+  }
+
+  /* ══════════════════════════════════════
+     CJ DROPSHIPPING
+  ══════════════════════════════════════ */
+  async function fetchCJ() {
+    const s = state.cj;
+    const runBtn  = document.getElementById('run-btn-cj');
+    const copyBtn = document.getElementById('copy-btn-cj');
+
+    runBtn.disabled = true;
+    runBtn.textContent = '⏳  Chargement...';
+    copyBtn.style.display = 'none';
+    setStatus('cj', 'running', 'Appel en cours vers Netlify (CJ peut être plus lent, requêtes séquentielles)...');
+
+    document.getElementById('product-view-cj').style.display = 'none';
+    document.getElementById('product-view-cj').innerHTML = '';
+    document.getElementById('skeleton-view-cj').style.display = 'block';
+    document.getElementById('stats-row-cj').style.display = 'none';
+    document.getElementById('log-section-cj').style.display = 'none';
+    document.getElementById('log-output-cj').innerHTML = '';
+    s.rawLogs = []; s.allProducts = [];
+
+    try {
+      const res  = await fetch('/.netlify/functions/fetch-cj-products');
+      const data = await res.json();
+
+      document.getElementById('skeleton-view-cj').style.display = 'none';
+      s.rawLogs = data.logs || [];
+
+      if (data.success) {
+        s.allProducts = data.products || [];
+        renderCJCards();
+        renderRawLog('cj', s.rawLogs);
+
+        const variantTotal = s.allProducts.reduce((sum, p) => sum + (p.variants ? p.variants.length : 0), 0);
+        const errCount = s.rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
+
+        document.getElementById('stat-total-cj').textContent = s.allProducts.length;
+        document.getElementById('stat-variants-cj').textContent = variantTotal;
+        document.getElementById('stat-errors-cj').textContent = errCount;
+        document.getElementById('stats-row-cj').style.display = 'flex';
+
+        if (s.allProducts.length === 0 && errCount === 0) {
+          setStatus('cj', 'err', 'Aucun product id configuré. Ajoute tes pid dans fetch-cj-products.js (tableau PRODUCT_IDS).');
+        } else {
+          setStatus('cj', 'ok', `${s.allProducts.length} produits récupérés · ${variantTotal} variants au total`);
+        }
+        copyBtn.style.display = 'inline-flex';
+        copyBtn.textContent = '⧉  Copier le log brut';
+        copyBtn.classList.remove('copied');
+        document.getElementById('log-section-cj').style.display = 'block';
+      } else {
+        setStatus('cj', 'err', 'Erreur : ' + (data.error || 'Vérifie la fonction Netlify.'));
+        renderRawLog('cj', s.rawLogs);
+        document.getElementById('log-section-cj').style.display = 'block';
+      }
+    } catch (err) {
+      document.getElementById('skeleton-view-cj').style.display = 'none';
+      setStatus('cj', 'err', 'Erreur : ' + err.message);
+    }
+
+    runBtn.disabled = false;
+    runBtn.textContent = '▶  Récupérer les produits CJ';
+  }
+
+  function renderCJCards() {
+    const view = document.getElementById('product-view-cj');
+    const products = state.cj.allProducts;
+    view.style.display = 'block';
+    if (!products.length) {
+      view.innerHTML = `<div style="color:var(--text-dim);padding:20px;text-align:center;font-size:12px;">Aucun produit récupéré.</div>`;
+      return;
+    }
+    view.innerHTML = products.map((p, i) => {
+      const vars = p.variants || [];
+      const rowsHTML = vars.map(v => {
+        const vid    = v.vid || v.variantId || 'N/A';
+        const sku    = v.variantSku || v.sku || 'N/A';
+        const name   = v.variantNameEn || v.variantName || '';
+        const price  = v.variantSellPrice ?? v.variantStandardPrice ?? v.variantPrice ?? 'N/A';
+        const weight = v.variantWeight ?? 'N/A';
+        const image  = v.variantImage || '';
+        return `<tr>
+          <td class="td-id">${esc(vid)}</td>
+          <td class="td-sku">${esc(sku)}</td>
+          <td class="td-name">${esc(name)}</td>
+          <td class="td-price">$${esc(String(price))}</td>
+          <td class="td-weight">${esc(String(weight))}g</td>
+          <td class="td-img">${image ? `<a href="${esc(image)}" target="_blank" rel="noopener">image</a>` : '—'}</td>
+        </tr>`;
+      }).join('');
+
+      return `
+        <div class="product-card" id="card-cj-${i}">
+          <div class="product-header" onclick="toggleCard('cj', ${i})">
+            <span class="p-index">#${String(i+1).padStart(2,'0')}</span>
+            <span class="p-title">${esc(p.label || p.pid)}</span>
+            <span class="p-id">${esc(String(p.pid))}</span>
+            <div class="p-badges">
+              <span class="badge badge-ok">OK</span>
+              <span class="badge badge-variants">${vars.length} variants</span>
+            </div>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="variants-body">
+            ${vars.length ? `
+            <div class="color-group">
+              <table class="variants-table">
+                <thead><tr><th>ID Variant</th><th>SKU</th><th>Nom</th><th>Prix</th><th>Poids</th><th>Image</th></tr></thead>
+                <tbody>${rowsHTML}</tbody>
+              </table>
+            </div>` : '<div style="padding:16px 20px;color:var(--text-dim);">Aucun variant.</div>'}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function toggleCard(source, i) {
+    document.getElementById('card-' + source + '-' + i).classList.toggle('open');
+  }
+</script>
+</body>
+</html>

@@ -995,6 +995,9 @@
 .bbw-footer__pay-icon.fa-cc-diners-club { color: #004b87; background: #fff; }
 .bbw-footer__pay-icon.fa-apple-pay      { color: #000000; background: #fff; }
 .bbw-footer__pay-icon.fa-google-pay     { color: #4285f4; background: #fff; }
+.bbw-footer__pay-icon.fa-btc            { color: #f7931a; background: #fff; }
+.bbw-footer__pay-icon.fa-ethereum       { color: #627eea; background: #fff; }
+.bbw-footer__pay-icon.fa-coins          { color: #26a17b; background: #fff; }
 
 .bbw-footer__pay-icon:hover,
 .bbw-footer__pay-icon.fa-cc-visa:hover,
@@ -1005,7 +1008,10 @@
 .bbw-footer__pay-icon.fa-cc-jcb:hover,
 .bbw-footer__pay-icon.fa-cc-diners-club:hover,
 .bbw-footer__pay-icon.fa-apple-pay:hover,
-.bbw-footer__pay-icon.fa-google-pay:hover {
+.bbw-footer__pay-icon.fa-google-pay:hover,
+.bbw-footer__pay-icon.fa-btc:hover,
+.bbw-footer__pay-icon.fa-ethereum:hover,
+.bbw-footer__pay-icon.fa-coins:hover {
   background: #f5f5f5;
   border-color: var(--bbw-gold);
   transform: scale(1.12) translateY(-2px);

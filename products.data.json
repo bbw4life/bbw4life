@@ -5331,7 +5331,7 @@
       ]
     },
     "show_countdown": "yes",
-    "countdown_end_date": "2026-07-05T23:59:59",
+    "countdown_end_date": "2026-07-10T23:59:59",
     "countdown_label_days":    "DAYS",
     "countdown_label_hours":   "HOURS",
     "countdown_label_minutes": "MIN",

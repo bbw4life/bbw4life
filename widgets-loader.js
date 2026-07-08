@@ -55,7 +55,7 @@
         <span>Shop Now and Save Big!</span>
       </div>
     </div>
-    <div class="payment-icons">
+   <div class="payment-icons">
       <i class="fab fa-cc-visa"></i>
       <i class="fab fa-cc-mastercard"></i>
       <i class="fab fa-cc-paypal"></i>
@@ -64,6 +64,9 @@
       <i class="fab fa-cc-apple-pay"></i>
       <i class="fab fa-google-pay"></i>
       <i class="fab fa-cc-stripe"></i>
+      <i class="fab fa-btc" title="Bitcoin"></i>
+      <i class="fab fa-ethereum" title="Ethereum"></i>
+      <i class="fas fa-coins" title="USDT / Cryptocurrencies"></i>
     </div>
 
     
