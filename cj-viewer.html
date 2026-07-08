@@ -594,7 +594,7 @@
 
   const state = {
     eprolo: { rawLogs: [], allProducts: [], logVisible: false, activeCategory: 'ALL', activeSubcategory: 'ALL' },
-    cj:     { rawLogs: [], allProducts: [], logVisible: false }
+    cj:     { rawLogs: [], allProducts: [], logVisible: false, stockLoaded: {}, stockValues: {} }
   };
 
   /* ══════════════════════════════════════
@@ -799,37 +799,57 @@
      CJ DROPSHIPPING
   ══════════════════════════════════════ */
 
+  // Reconnaît un token de type "taille" (XS, S, M, L, XL, 2XL... ou numérique)
+  const CJ_SIZE_PATTERN = /^(XXS|XS|S|M|L|XL|XXL|XXXL|[2-6]XL|ONE\s*SIZE|OS|\d+(\.\d+)?(CM|IN|MM)?)$/i;
+  function isCJSizeToken(str) {
+    return CJ_SIZE_PATTERN.test(String(str).trim());
+  }
+
   // Extraction couleur / taille / stock d'un variant CJ.
   // Priorité : tableau structuré `variantProperty` (le plus fiable).
-  // Fallback : clé combinée `variantKey` type "Black-M".
-  // NB stock : le nom du champ stock n'est pas garanti selon les comptes CJ.
-  // Si "N/A" s'affiche partout, regarde le JSON brut (log) pour ajuster le nom.
+  // Fallback : clé combinée `variantKey` (ex: "Black-XL", ou juste "XL" si le
+  // produit n'a pas de variation de couleur — dans ce cas color reste N/A).
+  // Un token isolé est classé via CJ_SIZE_PATTERN plutôt que d'être assigné
+  // par défaut à la couleur (c'était le bug précédent).
+  // NB stock : CJ ne renvoie PAS le stock dans cet endpoint variant/query ;
+  // il faut un appel séparé à l'endpoint d'inventaire CJ pour l'obtenir.
   function extractCJVariantInfo(v) {
-    let color = 'N/A';
-    let size  = 'N/A';
+    let color = null;
+    let size  = null;
 
     if (Array.isArray(v.variantProperty) && v.variantProperty.length) {
       v.variantProperty.forEach(prop => {
-        const key = String(prop.pidName || prop.pidKey || '').toLowerCase();
-        const val = prop.vidName || prop.vidKey || '';
-        if (key.includes('color') || key.includes('colour')) color = val;
-        else if (key.includes('size')) size = val;
+        const key = String(prop.pidName || prop.pidKey || prop.pid || '').toLowerCase();
+        const val = String(prop.vidName || prop.vidKey || '').trim();
+        if (!val) return;
+        if (key.includes('color') || key.includes('colour')) { color = val; return; }
+        if (key.includes('size')) { size = val; return; }
+        if (isCJSizeToken(val) && size === null) size = val;
+        else if (color === null) color = val;
       });
     }
 
-    if ((color === 'N/A' || size === 'N/A') && v.variantKey) {
-      const parts = String(v.variantKey).split('-');
+    if ((color === null || size === null) && v.variantKey) {
+      const parts = String(v.variantKey).split(/[-_,]/).map(s => s.trim()).filter(Boolean);
+
       if (parts.length >= 2) {
-        if (size === 'N/A')  size  = parts[parts.length - 1].trim();
-        if (color === 'N/A') color = parts.slice(0, -1).join('-').trim();
-      } else if (color === 'N/A') {
-        color = v.variantKey;
+        const sizeParts  = parts.filter(isCJSizeToken);
+        const colorParts = parts.filter(p => !isCJSizeToken(p));
+        if (size === null)  size  = sizeParts.length  ? sizeParts.join(' ')  : parts[parts.length - 1];
+        if (color === null) color = colorParts.length ? colorParts.join('-') : parts.slice(0, -1).join('-');
+      } else if (parts.length === 1) {
+        const token = parts[0];
+        if (isCJSizeToken(token)) { if (size === null) size = token; }
+        else { if (color === null) color = token; }
       }
     }
 
-    const stock = v.variantStock ?? v.stockNum ?? v.remainNum ?? v.inventoryNum ?? v.availableStock ?? v.stock ?? 'N/A';
+    if (color === null) color = 'N/A';
+    if (size === null)  size  = 'N/A';
 
-    return { color: color || 'N/A', size: size || 'N/A', stock };
+    // Le stock n'existe pas dans /product/variant/query (confirmé via doc CJ).
+    // Il est chargé à la demande via fetch-cj-stock.js quand la carte s'ouvre.
+    return { color, size };
   }
 
   function parseCJ(data) {
@@ -837,7 +857,7 @@
       return data.products.map(p => {
         const colorGroups = {};
         (p.variants || []).forEach(v => {
-          const { color, size, stock } = extractCJVariantInfo(v);
+          const { color, size } = extractCJVariantInfo(v);
           if (!colorGroups[color]) colorGroups[color] = [];
           colorGroups[color].push({
             id: v.vid || v.variantId || 'N/A',
@@ -846,7 +866,7 @@
             price: v.variantSellPrice ?? v.variantStandardPrice ?? v.variantPrice ?? 'N/A',
             weight: v.variantWeight ?? 'N/A',
             image: v.variantImage || '',
-            size, stock,
+            size, stock: null, // pas encore chargé — voir loadCJStockForProduct()
           });
         });
         return {
@@ -875,7 +895,7 @@
     document.getElementById('stats-row-cj').style.display = 'none';
     document.getElementById('log-section-cj').style.display = 'none';
     document.getElementById('log-output-cj').innerHTML = '';
-    s.rawLogs = []; s.allProducts = [];
+    s.rawLogs = []; s.allProducts = []; s.stockLoaded = {}; s.stockValues = {};
 
     try {
       const res  = await fetch('/.netlify/functions/fetch-cj-products');
@@ -939,13 +959,13 @@
           </div>
           <table class="variants-table">
             <thead><tr><th>ID</th><th>SKU</th><th>SIZE</th><th>PRIX</th><th>POIDS</th><th>STOCK</th><th>IMG</th></tr></thead>
-            <tbody>${vars.map(v => `<tr>
+            <tbody>${vars.map(v => `<tr data-vid="${esc(v.id)}">
               <td class="td-id">${esc(v.id)}</td>
               <td class="td-sku">${esc(v.sku)}</td>
               <td class="td-size">${esc(v.size) || '—'}</td>
               <td class="td-price">$${esc(String(v.price))}</td>
               <td class="td-weight">${esc(String(v.weight))}g</td>
-              <td class="td-stock" style="color:${stockColor(v.stock)}">${esc(String(v.stock))}</td>
+              <td class="td-stock" style="color:var(--text-dim)">—</td>
               <td class="td-img">${v.image ? `<a href="${esc(v.image)}" target="_blank" rel="noopener">image</a>` : '—'}</td>
             </tr>`).join('')}</tbody>
           </table>
@@ -968,7 +988,73 @@
   }
 
   function toggleCard(source, i) {
-    document.getElementById('card-' + source + '-' + i).classList.toggle('open');
+    const card = document.getElementById('card-' + source + '-' + i);
+    const wasOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    if (source === 'cj' && !wasOpen) {
+      loadCJStockForProduct(i);
+    }
+  }
+
+  // Charge le stock réel pour un produit CJ à la demande (dès qu'on déplie sa carte).
+  // Évite de faire 1 appel CJ par variant dès le chargement initial (risque de timeout
+  // Netlify si un produit a beaucoup de variants).
+  async function loadCJStockForProduct(i) {
+    const s = state.cj;
+    if (s.stockLoaded[i]) return; // déjà chargé ou en cours
+    s.stockLoaded[i] = true;
+
+    const product = s.allProducts[i];
+    if (!product) return;
+
+    const vids = [];
+    Object.values(product.colorGroups).forEach(vars => {
+      vars.forEach(v => { if (v.id && v.id !== 'N/A') vids.push(v.id); });
+    });
+    if (!vids.length) return;
+
+    document.querySelectorAll(`#card-cj-${i} .td-stock`).forEach(td => {
+      td.textContent = '…';
+      td.style.color = 'var(--text-dim)';
+    });
+
+    try {
+      const res = await fetch('/.netlify/functions/fetch-cj-stock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vids })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        Object.assign(s.stockValues, data.stocks);
+        document.querySelectorAll(`#card-cj-${i} tr[data-vid]`).forEach(tr => {
+          const vid = tr.getAttribute('data-vid');
+          const td = tr.querySelector('.td-stock');
+          if (!td) return;
+          const val = s.stockValues[vid];
+          if (val === null || val === undefined) {
+            td.textContent = 'N/A';
+            td.style.color = 'var(--text-dim)';
+          } else {
+            td.textContent = val;
+            td.style.color = stockColor(val);
+          }
+        });
+      } else {
+        document.querySelectorAll(`#card-cj-${i} .td-stock`).forEach(td => {
+          td.textContent = 'Erreur';
+          td.style.color = 'var(--accent2)';
+        });
+        s.stockLoaded[i] = false; // permet de réessayer en refermant/rouvrant
+      }
+    } catch (err) {
+      document.querySelectorAll(`#card-cj-${i} .td-stock`).forEach(td => {
+        td.textContent = 'Erreur';
+        td.style.color = 'var(--accent2)';
+      });
+      s.stockLoaded[i] = false;
+    }
   }
 </script>
 </body>

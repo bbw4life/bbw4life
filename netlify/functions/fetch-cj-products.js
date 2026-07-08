@@ -29,32 +29,48 @@ async function getCJAccessToken() {
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Reconnaît un token de type "taille" (XS, S, M, L, XL, 2XL... ou numérique)
+const CJ_SIZE_PATTERN = /^(XXS|XS|S|M|L|XL|XXL|XXXL|[2-6]XL|ONE\s*SIZE|OS|\d+(\.\d+)?(CM|IN|MM)?)$/i;
+function isCJSizeToken(str) {
+  return CJ_SIZE_PATTERN.test(String(str).trim());
+}
+
 function extractVariantInfo(v) {
-  let color = 'N/A';
-  let size  = 'N/A';
+  let color = null;
+  let size  = null;
 
   if (Array.isArray(v.variantProperty) && v.variantProperty.length) {
     v.variantProperty.forEach((prop) => {
-      const key = String(prop.pidName || prop.pidKey || '').toLowerCase();
-      const val = prop.vidName || prop.vidKey || '';
-      if (key.includes('color') || key.includes('colour')) color = val;
-      else if (key.includes('size')) size = val;
+      const key = String(prop.pidName || prop.pidKey || prop.pid || '').toLowerCase();
+      const val = String(prop.vidName || prop.vidKey || '').trim();
+      if (!val) return;
+      if (key.includes('color') || key.includes('colour')) { color = val; return; }
+      if (key.includes('size')) { size = val; return; }
+      if (isCJSizeToken(val) && size === null) size = val;
+      else if (color === null) color = val;
     });
   }
 
-  if ((color === 'N/A' || size === 'N/A') && v.variantKey) {
-    const parts = String(v.variantKey).split('-');
+  if ((color === null || size === null) && v.variantKey) {
+    const parts = String(v.variantKey).split(/[-_,]/).map((s) => s.trim()).filter(Boolean);
+
     if (parts.length >= 2) {
-      if (size === 'N/A')  size  = parts[parts.length - 1].trim();
-      if (color === 'N/A') color = parts.slice(0, -1).join('-').trim();
-    } else if (color === 'N/A') {
-      color = v.variantKey;
+      const sizeParts  = parts.filter(isCJSizeToken);
+      const colorParts = parts.filter((p) => !isCJSizeToken(p));
+      if (size === null)  size  = sizeParts.length  ? sizeParts.join(' ')  : parts[parts.length - 1];
+      if (color === null) color = colorParts.length ? colorParts.join('-') : parts.slice(0, -1).join('-');
+    } else if (parts.length === 1) {
+      const token = parts[0];
+      if (isCJSizeToken(token)) { if (size === null) size = token; }
+      else { if (color === null) color = token; }
     }
   }
 
-  const stock = v.variantStock ?? v.stockNum ?? v.remainNum ?? v.inventoryNum ?? v.availableStock ?? v.stock ?? 'N/A';
+  if (color === null) color = 'N/A';
+  if (size === null)  size  = 'N/A';
 
-  return { color: color || 'N/A', size: size || 'N/A', stock };
+  return { color, size };
 }
 
 exports.handler = async (event) => {
@@ -147,14 +163,14 @@ exports.handler = async (event) => {
       // ── Regroupement par couleur (même logique que côté Eprolo) ──
       const colorGroups = {};
       product.variants.forEach((v) => {
-        const { color, size, stock } = extractVariantInfo(v);
+        const { color, size } = extractVariantInfo(v);
         if (!colorGroups[color]) colorGroups[color] = [];
-        colorGroups[color].push({ v, size, stock });
+        colorGroups[color].push({ v, size });
       });
 
       Object.entries(colorGroups).forEach(([color, entries]) => {
         log(`        ● ${color}  (${entries.length} taille(s))`);
-        entries.forEach(({ v, size, stock }) => {
+        entries.forEach(({ v, size }) => {
           const vid    = v.vid || v.variantId || 'N/A';
           const sku    = v.variantSku || v.sku || 'N/A';
           const name   = v.variantNameEn || v.variantName || '';
@@ -162,7 +178,7 @@ exports.handler = async (event) => {
           const weight = v.variantWeight ?? 'N/A';
           const image  = v.variantImage || '';
 
-          log(`              ID: ${vid}  |  SKU: ${sku}  |  SIZE: ${size}  |  PRIX: $${price}  |  POIDS: ${weight}g  |  STOCK: ${stock}  |  ${name}`);
+          log(`              ID: ${vid}  |  SKU: ${sku}  |  SIZE: ${size}  |  PRIX: $${price}  |  POIDS: ${weight}g  |  STOCK: voir dashboard  |  ${name}`);
           if (image) log(`                    IMG: ${image}`);
         });
       });
