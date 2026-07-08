@@ -3,6 +3,10 @@ process.removeAllListeners('warning');
 const { google } = require("googleapis");
 const fetch = require("node-fetch");
 
+// ── Délai entre deux appels CJ pour respecter le rate-limit (~1 req/s) ──
+const CJ_REQUEST_DELAY_MS = 1100;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 // ── Lit le switch global Yes/No depuis l'onglet Settings ──
 async function getAutoFulfillMode(sheets, spreadsheetId) {
   try {
@@ -18,6 +22,50 @@ async function getAutoFulfillMode(sheets, spreadsheetId) {
   }
 }
 
+// ── Auth CJ ─────────────────────────────────────────────────────
+async function getCJAccessToken() {
+  const res = await fetch('https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ apiKey: process.env.CJ_API_KEY })
+  });
+  const data = await res.json();
+  if (!data.result || !data.data?.accessToken) {
+    throw new Error('CJ auth failed: ' + (data.message || JSON.stringify(data)));
+  }
+  return data.data.accessToken;
+}
+
+// ── Interroge CJ pour obtenir le vrai fromCountryCode (entrepôt) ──
+// Basé sur le vid, via l'entrepôt qui a le plus de stock disponible.
+async function getCJFromCountryCode(vid, token) {
+  try {
+    const url = `https://developers.cjdropshipping.com/api2.0/v1/product/stock/queryByVid?vid=${encodeURIComponent(vid)}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { "CJ-Access-Token": token }
+    });
+    const responseText = await response.text();
+
+    let data = {};
+    try { data = JSON.parse(responseText); } catch {}
+
+    if (data.result === true && Array.isArray(data.data) && data.data.length > 0) {
+      const best = data.data.reduce((max, w) =>
+        (Number(w.totalInventoryNum) || 0) > (Number(max.totalInventoryNum) || 0) ? w : max
+      , data.data[0]);
+
+      const code = best.countryCode || best.areaEn || '';
+      if (code) return String(code).toUpperCase();
+    }
+
+    console.log(`   ⚠️ Aucun countryCode trouvé pour vid ${vid} | Réponse: ${responseText.slice(0, 200)}`);
+  } catch (err) {
+    console.error(`   ❌ Erreur getCJFromCountryCode (vid ${vid}):`, err.message);
+  }
+  return null;
+}
+
 exports.handler = async () => {
   console.log('[RETRY PENDING] 🚀 Démarrage - ' + new Date().toISOString());
   try {
@@ -31,7 +79,7 @@ exports.handler = async () => {
     const sheets = google.sheets({ version: "v4", auth });
     const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 
-    // ── Lire jusqu'à la colonne U maintenant (ajout fromCountryCode) ──
+    // ── Lire jusqu'à la colonne U (fromCountryCode) ──
     const rangesToTry = ["bbw4life-pending-orders!A:U"];
     let rows = [];
     let activeTab = "";
@@ -101,7 +149,7 @@ exports.handler = async () => {
         shipping_method: firstRow[17] || "Standard Shipping",
       };
 
-      // ── Résolution countryCode ──
+      // ── Résolution countryCode (destination) ──
       let countryCode = 'CA';
       try {
         const countryRes = await fetch(
@@ -114,11 +162,7 @@ exports.handler = async () => {
 
       // ── Lire fulfillment_method depuis colonne T (index 19) ──
       const fulfillmentMethod = (firstRow[19] || 'eprolo').toLowerCase().trim();
-
-      // ── NOUVEAU : lire fromCountryCode depuis colonne U (index 20) ──
-      shipping.fromCountryCode = (firstRow[20] || '').toUpperCase().trim();
-
-      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId} | fromCountryCode: ${shipping.fromCountryCode || '(vide)'}`);
+      console.log(` 🚚 Fulfillment: ${fulfillmentMethod.toUpperCase()} | PaymentID: ${paymentId}`);
 
       // ── Construire cartMap depuis colonne M (index 12 = variant_id) ──
       const cartMap = {};
@@ -133,7 +177,48 @@ exports.handler = async () => {
         let cartPayload;
 
         if (fulfillmentMethod === 'cj') {
-          // ── CJ : besoin de cj_product_id (colonne L, index 11) + variant_id ──
+          // ── Vérifier colonne L (pid) et colonne M (vid) ──
+          const pid = firstRow[11] || '';
+          const vid = firstRow[12] || '';
+          console.log(`   🔎 Vérification produit CJ → pid (col L): ${pid || '(vide)'} | vid (col M): ${vid || '(vide)'}`);
+
+          if (!pid) throw new Error(`Colonne L (cj_product_id) vide pour paymentId ${paymentId}`);
+          if (!vid) throw new Error(`Colonne M (variant_id) vide pour paymentId ${paymentId}`);
+
+          // ── Interroger l'API CJ pour obtenir le vrai fromCountryCode ──
+          let resolvedFromCountryCode = (firstRow[20] || '').toUpperCase().trim();
+          try {
+            const cjToken = await getCJAccessToken();
+            const apiCountryCode = await getCJFromCountryCode(vid, cjToken);
+
+            if (apiCountryCode) {
+              resolvedFromCountryCode = apiCountryCode;
+              console.log(`   ✅ fromCountryCode résolu via API CJ: ${resolvedFromCountryCode} (vid: ${vid})`);
+
+              // Écrire la vraie valeur dans la colonne U pour toutes les lignes du groupe
+              for (const { lineNumber } of group) {
+                await sheets.spreadsheets.values.update({
+                  spreadsheetId,
+                  range: `bbw4life-pending-orders!U${lineNumber}`,
+                  valueInputOption: "RAW",
+                  resource: { values: [[resolvedFromCountryCode]] }
+                });
+              }
+            } else {
+              console.log(`   ⚠️ API CJ n'a renvoyé aucun countryCode, on garde la valeur existante: ${resolvedFromCountryCode || '(vide)'}`);
+            }
+          } catch (err) {
+            console.error(`   ❌ Erreur résolution fromCountryCode via API: ${err.message}`);
+          }
+
+          shipping.fromCountryCode = resolvedFromCountryCode;
+
+          // ── Pause avant d'envoyer la commande à CJ, pour ne pas enchaîner
+          //    trop vite après l'appel stock/queryByVid (rate-limit CJ ~1 req/s) ──
+          console.log(`   ⏳ Pause ${CJ_REQUEST_DELAY_MS}ms avant l'envoi de la commande à CJ...`);
+          await sleep(CJ_REQUEST_DELAY_MS);
+
+          // ── CJ : besoin de cj_product_id (colonne L) + variant_id ──
           endpoint = `${process.env.BASE_URL}/.netlify/functions/create-cj-order`;
           cartPayload = group.map(({ row }) => ({
             cj_product_id: row[11] || "",   // colonne L
@@ -168,6 +253,18 @@ exports.handler = async () => {
               valueInputOption: "RAW",
               resource: { values: [["successful"]] }
             });
+          }
+          // ── NOUVEAU : sauvegarder le cj_order_id en colonne V (pour le tracking CJ) ──
+          if (fulfillmentMethod === 'cj' && createData.orderId) {
+            for (const { lineNumber } of group) {
+              await sheets.spreadsheets.values.update({
+                spreadsheetId,
+                range:            `bbw4life-pending-orders!V${lineNumber}`,
+                valueInputOption: "RAW",
+                resource: { values: [[createData.orderId]] }
+              });
+            }
+            console.log(` 🆔 cj_order_id sauvegardé : ${createData.orderId}`);
           }
           successCount++;
           console.log(` ✅ SUCCÈS pour ${paymentId}`);

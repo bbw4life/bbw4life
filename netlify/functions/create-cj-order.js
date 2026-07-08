@@ -2,6 +2,10 @@
 process.removeAllListeners('warning');
 const fetch = require('node-fetch');
 
+// ── Délai entre deux appels CJ pour respecter le rate-limit (~1 req/s) ──
+const CJ_REQUEST_DELAY_MS = 1100;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 // ── Obtenir Access Token depuis API Key ──────────────────────────
 async function getCJAccessToken() {
   const res = await fetch('https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken', {
@@ -112,6 +116,11 @@ exports.handler = async (event) => {
       );
     }
     console.log('[CJ ORDER] logisticName sélectionné:', logisticName);
+
+    // ── Pause avant createOrderV2, pour ne pas enchaîner trop vite
+    //    après freightCalculate (rate-limit CJ ~1 req/s) ──
+    console.log(`[CJ ORDER] ⏳ Pause ${CJ_REQUEST_DELAY_MS}ms avant createOrderV2...`);
+    await sleep(CJ_REQUEST_DELAY_MS);
 
     const uniqueOrderId = `BBW-CJ-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
 

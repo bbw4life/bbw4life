@@ -270,6 +270,54 @@ async function getEproloOrderTracking(internalOrderId) {
   }
 }
 
+
+// ════════════════════════════════════════════════════════════════
+//  CJ — AUTH + TRACKING CHECKER
+// ════════════════════════════════════════════════════════════════
+async function getCJAccessToken() {
+  const res = await fetch('https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ apiKey: process.env.CJ_API_KEY })
+  });
+  const data = await res.json();
+  if (!data.result || !data.data?.accessToken) {
+    throw new Error('CJ auth failed: ' + (data.message || JSON.stringify(data)));
+  }
+  return data.data.accessToken;
+}
+
+async function getCJOrderTracking(cjOrderId, token) {
+  try {
+    const url = `https://developers.cjdropshipping.com/api2.0/v1/shopping/order/getOrderDetail?orderId=${encodeURIComponent(cjOrderId)}`;
+    const res = await fetch(url, {
+      method:  'GET',
+      headers: { 'CJ-Access-Token': token }
+    });
+    const text = await res.text();
+
+    let data;
+    try { data = JSON.parse(text); } catch { return null; }
+
+    if (data.result !== true || !data.data) {
+      console.warn(`[CJ Tracking] API error: ${data.message}`);
+      return null;
+    }
+
+    const trackNumber = data.data.trackNumber;
+    if (!trackNumber) return null;
+
+    return {
+      trackingNumber: trackNumber,
+      carrier:        data.data.logisticName || null,
+      trackingUrl:    null
+    };
+  } catch (e) {
+    console.warn('[CJ Tracking] Error:', e.message);
+    return null;
+  }
+}
+
 // ════════════════════════════════════════════════════════════════
 //  TRACKING SCHEDULER — appelé par cron-job.org toutes les 12h
 // ════════════════════════════════════════════════════════════════
@@ -279,7 +327,7 @@ async function runTrackingChecker(sheets, settings) {
   const rows = await sheetRead(
     sheets,
     process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
-    'bbw4life-pending-orders!A:S'
+    'bbw4life-pending-orders!A:V'
   );
 
   if (rows.length <= 1) {
@@ -290,19 +338,22 @@ async function runTrackingChecker(sheets, settings) {
   const now     = new Date();
   let checked   = 0;
   let found     = 0;
+  let cjToken   = null; // ── récupéré à la volée, une seule fois, si besoin ──
 
   const processed = new Set();
 
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
 
-    const internalOrderId = row[0]  || '';
-    const paymentId       = row[2]  || '';
-    const fullName        = row[3]  || '';
-    const email           = row[4]  || '';
-    const status          = (row[14] || '').toLowerCase();
-    const orderDateStr    = row[16] || '';
-    const trackingCol     = row[18] || '';
+    const internalOrderId   = row[0]  || '';
+    const paymentId         = row[2]  || '';
+    const fullName          = row[3]  || '';
+    const email              = row[4]  || '';
+    const status             = (row[14] || '').toLowerCase();
+    const orderDateStr       = row[16] || '';
+    const trackingCol        = row[18] || '';
+    const fulfillmentMethod  = (row[19] || 'eprolo').toLowerCase().trim();
+    const cjOrderId          = row[21] || '';
 
     if (trackingCol)                   continue;
     if (status !== 'successful')       continue;
@@ -321,7 +372,22 @@ async function runTrackingChecker(sheets, settings) {
     checked++;
     processed.add(paymentId);
 
-    const result = await getEproloOrderTracking(internalOrderId);
+    let result = null;
+
+    if (fulfillmentMethod === 'cj') {
+      if (!cjOrderId) {
+        console.log(`[Tracking] ⚠️ CJ order ${internalOrderId} — cj_order_id manquant en colonne V, skip`);
+      } else {
+        try {
+          if (!cjToken) cjToken = await getCJAccessToken();
+          result = await getCJOrderTracking(cjOrderId, cjToken);
+        } catch (e) {
+          console.warn('[Tracking] CJ auth/tracking error:', e.message);
+        }
+      }
+    } else {
+      result = await getEproloOrderTracking(internalOrderId);
+    }
 
     if (result && result.trackingNumber) {
       found++;
@@ -333,7 +399,7 @@ async function runTrackingChecker(sheets, settings) {
           valueInputOption: 'RAW',
           resource: { values: [[result.trackingNumber]] }
         });
-        console.log(`[Tracking] ✅ Saved tracking ${result.trackingNumber} for order ${internalOrderId}`);
+        console.log(`[Tracking] ✅ Saved tracking ${result.trackingNumber} for order ${internalOrderId} (${fulfillmentMethod.toUpperCase()})`);
       } catch (e) {
         console.warn('[Tracking] Failed to save tracking:', e.message);
       }
@@ -360,7 +426,7 @@ async function runTrackingChecker(sheets, settings) {
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({
             chat_id:    process.env.TELEGRAM_CHAT_ID,
-            text:       `📦 <b>Tracking trouvé!</b>\n\n👤 <b>Client:</b> ${fullName}\n📧 <b>Email:</b> ${email}\n🔢 <b>Tracking:</b> ${result.trackingNumber}\n🚚 <b>Carrier:</b> ${result.carrier || 'N/A'}`,
+            text:       `📦 <b>Tracking trouvé! (${fulfillmentMethod.toUpperCase()})</b>\n\n👤 <b>Client:</b> ${fullName}\n📧 <b>Email:</b> ${email}\n🔢 <b>Tracking:</b> ${result.trackingNumber}\n🚚 <b>Carrier:</b> ${result.carrier || 'N/A'}`,
             parse_mode: 'HTML'
           })
         });
@@ -369,7 +435,7 @@ async function runTrackingChecker(sheets, settings) {
       }
 
     } else {
-      console.log(`[Tracking] ⏳ No tracking yet for ${internalOrderId}`);
+      console.log(`[Tracking] ⏳ No tracking yet for ${internalOrderId} (${fulfillmentMethod.toUpperCase()})`);
     }
 
     await sleep(800);
