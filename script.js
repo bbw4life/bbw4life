@@ -7588,19 +7588,104 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
 
 
 // ================================================================
+//   WISHLIST SLUG MAP — déclaré UNE SEULE FOIS, partagé
+// ================================================================
+const BBW_WISHLIST_SLUG_MAP = {
+  'Pdg-Francenel-product1':  'glam-heels-cross-strap-stiletto-sandals',
+  'Pdg-Francenel-product2':  'retrorun-sneakers-chunky-sole-street-style',
+  'Pdg-Francenel-product3':  'bohoflip-sandals-embroidered-boho-flip-flops',
+  'Pdg-Francenel-product4':  'powerheels-12cm-stiletto-pumps',
+  'Pdg-Francenel-product5':  'winterboost-boots-ankle-boots',
+  'Pdg-Francenel-product6':  'colorstilettos-vibrant-stiletto-flip-flops',
+  'Pdg-Francenel-product7':  'nightchic-dress-mock-neck-long-sleeve-printed',
+  'Pdg-Francenel-product8':  'slitlux-dress-cutout-slit-round-neck',
+  'Pdg-Francenel-product9':  'plaidoverall-dress-wide-strap-dungaree',
+  'Pdg-Francenel-product10': 'floralflounce-dress-surplice-flounce-sleeve-maxi',
+  'Pdg-Francenel-product11': 'vintagesquare-dress-printed-square-neck',
+  'Pdg-Francenel-product12': 'paisleybelt-dress-orange-floral-print-belted',
+  'Pdg-Francenel-product13': 'meshduo-set-sheer-mesh-long-dress-suit',
+  'Pdg-Francenel-product14': 'meshglam-dress-solid-color-stitching-maxi',
+  'Pdg-Francenel-product15': 'linenbreeze-dress-cotton-linen-button-down',
+  'Pdg-Francenel-product16': 'stripedmini-dress-vneck-long-sleeve',
+  'Pdg-Francenel-product17': 'loungerobe-loose-sleepwear-bathrobe',
+  'Pdg-Francenel-product18': 'lacenight-dress-sexy-short-strap-lace-nightdress',
+  'Pdg-Francenel-product19': 'lacethong-set-sheer-lace-skirt-lingerie',
+  'Pdg-Francenel-product20': 'solidsexy-bikini-high-waist-hot-swimsuit',
+  'Pdg-Francenel-product21': 'curvebikini-solid-color-high-waist-swimwear',
+  'Pdg-Francenel-product22': 'leopardnight-set-mesh-pajama-lingerie-dress',
+  'Pdg-Francenel-product23': 'supportbra-large-cup-breathable-mesh-bra',
+  'Pdg-Francenel-product24': 'laceromper-jumpsuit-lace-splicing-thong',
+  'Pdg-Francenel-product25': 'stripedbikini-print-striped-swimwear',
+  'Pdg-Francenel-product26': 'tubebikinii-tube-top-swimsuit',
+  'Pdg-Francenel-product27': 'ruffleone-bikini-vneck-ruffled-one-piece',
+  'Pdg-Francenel-product28': 'bandagebikini-solid-color-bandage-swimsuit',
+  'Pdg-Francenel-product29': 'contrastone-piece-contrasting-color-swimwear',
+  'Pdg-Francenel-product30': 'premiumbikini-plus-size-swimsuit-collection',
+  'Pdg-Francenel-product31': 'irregulartop-loose-round-neck-irregular-hem',
+  'Pdg-Francenel-product32': 'christmassweat-casual-holiday-sweatshirt',
+  'Pdg-Francenel-product33': 'dalmationshorts-high-waist-dalmatian-print',
+  'Pdg-Francenel-product34': 'leopardshirt-irregular-collar-spliced-blouse',
+  'Pdg-Francenel-product35': 'drawstringpants-casual-pants-with-pockets',
+  'Pdg-Francenel-product36': 'cropslimpants-mens-drawstring-cropped-pants',
+  'Pdg-Francenel-product37': 'haremprints-printed-harem-trousers-men',
+  'Pdg-Francenel-product38': 'loosejeans-mens-relaxed-fit-denim',
+  'Pdg-Francenel-product39': 'britishloafers-formal-tassel-party-shoes-men',
+  'Pdg-Francenel-product40': 'airmesh-runners-professional-sports-sneakers-men',
+  'Pdg-Francenel-product41': 'leathercasuals-mens-breathable-flat-sneakers',
+  'Pdg-Francenel-product42': 'businessdress-shoes-classic-wedding-formal',
+  'Pdg-Francenel-product43': 'hollowsneakers-mesh-big-size-fashion-shoes-men',
+  'Pdg-Francenel-product44': 'tendtrainers-mens-outdoor-sport-sneakers',
+  'Pdg-Francenel-product45': 'patentloafers-luxury-patent-leather-party-shoes',
+  'Pdg-Francenel-product46': 'collarshirt-mens-plus-size-button-down',
+  'Pdg-Francenel-product47': 'geopolo-shirt-geometric-print-men-polo',
+  'Pdg-Francenel-product48': 'stripedcollar-sweater-mens-casual-knit',
+  'Pdg-Francenel-product49': 'turtlenecklux-mens-plus-size-turtleneck-sweater',
+  'Pdg-Francenel-product50': 'hikejacket-waterproof-outdoor-jacket',
+  'Pdg-Francenel-product51': 'roundneck-sweatshirt-mens-plus-size-pullover',
+  'Pdg-Francenel-product52': 'nailbond-glue-strong-uv-nail-tips-adhesive',
+  'Pdg-Francenel-product53': 'bownails-manicure-long-almond-fake-nails',
+  'Pdg-Francenel-product54': 'nailrepair-lotion-nourishing-nail-solution',
+  'Pdg-Francenel-product55': 'browdye-pencil-waterproof-quick-dry-eyebrow',
+  'Pdg-Francenel-product56': 'curl-volume-mascara-4d-waterproof-formula',
+  'Pdg-Francenel-product57': 'browkit-pro-waterproof-eyebrow-stencil-cream',
+  'Pdg-Francenel-product58': 'obsidian-lip-balm-warming-moisture-treatment',
+  'Pdg-Francenel-product59': 'tearoff-lip-gloss-4-color-long-lasting-peel',
+  'Pdg-Francenel-product60': 'gingerclean-pads-ginger-lemon-makeup-remover',
+  'Pdg-Francenel-product61': 'deeprepair-hair-mask-moisturizing-smoothing',
+  'Pdg-Francenel-product62': 'batanaglow-oil-moisturizing-hair-care',
+  'Pdg-Francenel-product63': 'batanaboost-oil-120ml-hair-growth-conditioner',
+  'Pdg-Francenel-product64': 'poreclean-gel-deep-exfoliating-anti-acne',
+  'Pdg-Francenel-product65': 'knucklewhite-serum-hand-joint-skin-brightener',
+  'Pdg-Francenel-product66': 'propolis-glow-essence-brightening-facial-serum',
+  'Pdg-Francenel-product67': 'menglow-cream-concealing-brightening-lazy-cream',
+  'Pdg-Francenel-product68': 'iceglow-grid-set-silicone-facial-cooling-tool',
+  'Pdg-Francenel-product69': 'glamsatin-dress-black-halter-ruched-maxi',
+  'Pdg-Francenel-product70': 'powersuit-ivory-structured-skirt-suit',
+  'Pdg-Francenel-product71': 'bohofloral-maxi-wrap-floral-bishop-sleeve-dress',
+  'Pdg-Francenel-product72': 'cozylounge-set-cream-tank-beige-wide-leg',
+  'Pdg-Francenel-product73': 'blushlace-gown-lace-cap-sleeve-empire-maxi',
+  'Pdg-Francenel-product74': 'tealempire-gown-sleeveless-vneck-formal-maxi',
+  'Pdg-Francenel-product75': 'jacquardpower-suit-multicolor-floral-brocade',
+};
+
+// ================================================================
 //   WISHLIST SHARE SYSTEM
 // ================================================================
 (function initWishlistShare() {
 
-    // ── Génère le lien de partage avec tous les IDs de la wishlist ──
-    function buildShareUrl() {
-        if (!wishlist || wishlist.length === 0) return null;
-        const base = window.location.origin;
-        const ids  = wishlist.join(',');
-        return `${base}/collection.html?wishlist_share=${encodeURIComponent(ids)}`;
+    function buildProductUrl(id) {
+        const slug = BBW_WISHLIST_SLUG_MAP[id];
+        return slug
+            ? window.location.origin + '/bbw4life/' + slug
+            : window.location.origin + (typeof window.getProductUrl === 'function' ? window.getProductUrl(id) : '/collections/bbw4life-all-product.html');
     }
 
-    // ── Génère le message marketing pour chaque plateforme ──
+    function buildShareUrl() {
+        if (!wishlist || wishlist.length === 0) return null;
+        const slugs = wishlist.map(id => BBW_WISHLIST_SLUG_MAP[id] || id).join(',');
+        return window.location.origin + '/collections/bbw4life-all-product.html?wishlist_share=' + encodeURIComponent(slugs);
+    }
+
     function buildShareMessage(platform) {
         if (!wishlist || !wishlist.length || !products || !products.length) return null;
 
@@ -7608,30 +7693,26 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
         const items = wishlist.map(id => {
             const p = products.find(pr => pr.id === id);
             if (!p) return null;
-            const productUrl = typeof window.getProductUrl === 'function'
-                ? window.location.origin + '/' + window.getProductUrl(id)
-                : window.location.origin + '/collections/bbw4life-all-product.html';
-            return { title: p.title, price: p.price, url: productUrl };
+            return { title: p.title, price: p.price, url: buildProductUrl(id) };
         }).filter(Boolean);
 
         if (!items.length) return null;
 
-        const itemLines = items.map(i =>
-            `✨ ${i.title} — $${i.price.toFixed(2)}\n🔗 ${i.url}`
-        ).join('\n\n');
+        const itemLines = items.map((i, idx) =>
+            `(${idx + 1}) *${i.title}* — $${i.price.toFixed(2)}`
+        ).join('\n');
 
         const messages = {
-            whatsapp: `👋 Hey! I've been shopping on *CurvaFit* and I can't stop adding things to my wishlist 😍\n\nHere are the products I'm absolutely OBSESSED with:\n\n${itemLines}\n\n💫 Click any link to view — they'll be saved in your wishlist automatically!\n\n🛍️ Shop all: ${shareUrl}`,
-            twitter:  `I just found my new favourite fitness picks on @CurvaFit 🔥\n\nCheck out my wishlist — these items are 🤌\n\n${shareUrl}\n\n#CurvaFit #FitnessStyle #WishlistGoals`,
-            facebook: `💕 Ladies, I found some AMAZING pieces on CurvaFit that I need you to see!\n\nI've added them to my wishlist — tap the link to discover them all (they'll be saved for you automatically!) 👇\n\n${shareUrl}`,
-            pinterest:`✨ My CurvaFit Wishlist — save these gorgeous fitness picks before they're gone! 🛍️\n\n${shareUrl}`,
+            whatsapp: `👋 Hey! I've been shopping on *BBW4LIFE* and I can't stop adding things to my wishlist 😍\n\nHere are the products I'm absolutely OBSESSED with:\n\n${itemLines}\n\n💫 Click any link to view — they'll be saved in your wishlist automatically!\n\n🛍️ Shop all: ${shareUrl}\n\nBBW4LIFE — Beauty Has No Sizes | bbw4life.com`,
+            twitter:  `I just found my new favourite plus-size picks on BBW4LIFE 🔥\n\nCheck out my wishlist — these items are 🤌\n\n${shareUrl}\n\n#BBW4LIFE #CurvyFashion #WishlistGoals`,
+            facebook: `💕 Ladies, I found some AMAZING pieces on BBW4LIFE that I need you to see!\n\nI've added them to my wishlist — tap the link to discover them all (they'll be saved for you automatically!) 👇\n\n${shareUrl}`,
+            pinterest:`✨ My BBW4LIFE Wishlist — save these gorgeous plus-size picks before they're gone! 🛍️\n\n${shareUrl}`,
             copy:     shareUrl
         };
 
         return messages[platform] || shareUrl;
     }
 
-    // ── Toast notification ──
     function showShareToast(msg) {
         let toast = document.querySelector('.wishlist-share-toast');
         if (!toast) {
@@ -7644,7 +7725,6 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
         setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // ── Handler principal de partage ──
     function handleWishlistShare(platform) {
         if (!wishlist || wishlist.length === 0) {
             showShareToast('Your wishlist is empty!');
@@ -7656,9 +7736,9 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
 
         const urls = {
           whatsapp:  `https://wa.me/?text=${encodeURIComponent(message)}`,
-         twitter: `https://x.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Check out my CurvaFit wishlist! 🛍️')}`,
+          twitter:   `https://x.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Check out my BBW4LIFE wishlist! 🛍️')}`,
           facebook:  `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(message)}`,
-          pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&description=${encodeURIComponent('My CurvaFit wishlist')}`,
+          pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&description=${encodeURIComponent('My BBW4LIFE wishlist')}`,
           instagram: null
       };
 
@@ -7675,10 +7755,8 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
         }
     }
 
-    // ── Expose globalement pour les boutons HTML ──
     window.handleWishlistShare = handleWishlistShare;
 
-    // ── Écoute les clics sur les boutons de partage ──
     document.addEventListener('click', function(e) {
         const btn = e.target.closest('[data-wishlist-share]');
         if (!btn) return;
@@ -7693,13 +7771,15 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
 // ================================================================
 (function initWishlistShareReceiver() {
     const params = new URLSearchParams(window.location.search);
-    const sharedIds = params.get('wishlist_share');
-    if (!sharedIds) return;
+    const sharedSlugs = params.get('wishlist_share');
+    if (!sharedSlugs) return;
 
-    const ids = decodeURIComponent(sharedIds).split(',').filter(Boolean);
-    if (!ids.length) return;
+    const reverseMap = {};
+    Object.keys(BBW_WISHLIST_SLUG_MAP).forEach(k => { reverseMap[BBW_WISHLIST_SLUG_MAP[k]] = k; });
 
-    // Attendre que products soit chargé
+    let ids = decodeURIComponent(sharedSlugs).split(',').filter(Boolean);
+    ids = ids.map(s => reverseMap[s] || s);
+
     function addSharedToWishlist() {
         ids.forEach(id => {
             const exists = products.find(p => p.id === id);
@@ -7712,7 +7792,6 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
         updateBadges();
         updateWishlistIcons();
 
-        // Notification visuelle
         const count = ids.length;
         setTimeout(() => {
             let toast = document.querySelector('.wishlist-share-toast');
@@ -7725,18 +7804,15 @@ const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 4000);
 
-            // Ouvrir la wishlist automatiquement
             setTimeout(() => {
                 if (typeof openWishlistModal === 'function') openWishlistModal();
             }, 800);
         }, 1200);
 
-        // Nettoyer l'URL
         const cleanUrl = window.location.pathname;
         window.history.replaceState({}, '', cleanUrl);
     }
 
-    // Si products déjà chargé → immédiatement, sinon attendre
     if (products && products.length > 0) {
         addSharedToWishlist();
     } else {
