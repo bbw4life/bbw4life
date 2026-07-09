@@ -7683,7 +7683,7 @@ const BBW_WISHLIST_SLUG_MAP = {
     function buildShareUrl() {
         if (!wishlist || wishlist.length === 0) return null;
         const slugs = wishlist.map(id => BBW_WISHLIST_SLUG_MAP[id] || id).join(',');
-        return window.location.origin + '/collections/bbw4life-all-product.html?wishlist_share=' + encodeURIComponent(slugs);
+        return window.location.origin + '/collections/bbw4life-all-product?wishlist_share=' + encodeURIComponent(slugs);
     }
 
     function buildShareMessage(platform) {
