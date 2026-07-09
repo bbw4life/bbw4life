@@ -13253,16 +13253,17 @@ a:active {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   MOBILE — hauteur réduite + largeur augmentée
+   MOBILE — remplace tout le bloc @media (max-width: 480px) existant
 ────────────────────────────────────────────────────────────── */
-@media (max-width: 480px) {
+@media (max-width: 680px) {
   .bbw-bday-overlay {
-    padding: 4px;
+    padding: 6px !important;
   }
   .bbw-bday-modal {
-    max-height: 86vh;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 91vh;
     overflow-y: auto;
-    width: calc(100% - 8px);
     border-radius: 16px;
   }
   .bbw-bday-main-title {
@@ -13273,6 +13274,9 @@ a:active {
   }
   .bbw-bday-card {
     padding: 16px 12px 14px;
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
   }
   .bbw-bday-avatar {
     width: 52px;
@@ -13285,12 +13289,17 @@ a:active {
   .bbw-bday-message {
     font-size: 0.82rem;
   }
+  .bbw-bday-promo-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .bbw-bday-promo-left {
+    align-items: center;
+    text-align: center;
+  }
   .bbw-bday-promo-code {
     font-size: 0.95rem;
-  }
-  .bbw-bday-promo-wrap {
-    flex-wrap: wrap;
-    gap: 10px;
   }
   .bbw-bday-copy-btn {
     width: 100%;
@@ -13307,6 +13316,9 @@ a:active {
   }
   .bbw-bday-arrow--prev { left: -10px; }
   .bbw-bday-arrow--next { right: -10px; }
+  .bbw-bday-subscribe-btn {
+    max-width: 100%;
+  }
 }
 
 
