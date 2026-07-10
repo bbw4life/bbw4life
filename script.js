@@ -12669,24 +12669,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var $ = function (id) { return document.getElementById(id); };
 
-  function reAnimate(els, delayMs) {
-    delayMs = delayMs || 0;
-    els.forEach(function (el) {
-      if (!el) return;
-      el.style.animation = 'none';
-      el.style.opacity   = '0';
-      el.style.transform = 'translateY(16px)';
-      void el.offsetHeight;
-      setTimeout(function () {
-        el.style.animation = '';
-        el.classList.remove('bbw-hero--anim-reset');
-        el.classList.add('bbw-hero--anim-play');
-        setTimeout(function () {
-          el.classList.remove('bbw-hero--anim-play');
-        }, 700);
-      }, delayMs);
-    });
-  }
 
   waitForProducts(function (allProducts) {
 
@@ -12787,17 +12769,22 @@ document.addEventListener('DOMContentLoaded', function () {
       // Thumbs et dots cachés en mode vidéo
       if (thumbsEl) thumbsEl.style.display = 'none';
       if (dotsEl)   dotsEl.style.display   = 'none';
-    } else {
-      /* Mode images */
-      images.forEach(function (src, i) {
-        var img = document.createElement('img');
-        img.src     = src;
-        img.alt     = (slides[i] && slides[i].title) ? slides[i].title : 'BBW4LIFE banner ' + (i + 1);
-        img.loading = i === 0 ? 'eager' : 'lazy';
-        if (i === 0) img.classList.add('bbw-hero--active');
-        mediaEl.appendChild(img);
-      });
-    }
+      } else {
+        var placeholderEl = document.getElementById('bbwHeroVideoPlaceholder');
+        if (placeholderEl && placeholderEl.parentNode) {
+          placeholderEl.parentNode.removeChild(placeholderEl);
+        }
+
+        /* Mode images */
+        images.forEach(function (src, i) {
+          var img = document.createElement('img');
+          img.src     = src;
+          img.alt     = (slides[i] && slides[i].title) ? slides[i].title : 'BBW4LIFE banner ' + (i + 1);
+          img.loading = i === 0 ? 'eager' : 'lazy';
+          if (i === 0) img.classList.add('bbw-hero--active');
+          mediaEl.appendChild(img);
+        });
+      }
 
     /* ════════════════════════════════════════════════════════
        2. THUMBNAILS
@@ -12852,13 +12839,36 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════
        4. CONTENU TEXTUEL
     ════════════════════════════════════════════════════════ */
+    var _heroFirstRender = true;
+
     function updateContent(idx) {
       var slide = slides[idx] || {};
-      if (titleEl)    titleEl.textContent    = slide.title    || '';
-      if (subtitleEl) subtitleEl.textContent = slide.subtitle || '';
-      if (textEl)     textEl.textContent     = slide.text     || '';
+      var els = [titleEl, subtitleEl, textEl, cdWrap, btnWrap].filter(Boolean);
 
-      reAnimate([titleEl, subtitleEl, textEl, cdWrap, btnWrap], 0);
+      // Premier rendu : pas de fondu, on affiche direct
+      if (_heroFirstRender) {
+        if (titleEl)    titleEl.textContent    = slide.title    || '';
+        if (subtitleEl) subtitleEl.textContent = slide.subtitle || '';
+        if (textEl)     textEl.textContent     = slide.text     || '';
+        _heroFirstRender = false;
+        return;
+      }
+
+      // Crossfade doux : fondu sortant → changement de texte → fondu entrant
+      els.forEach(function (el) {
+        el.style.transition = 'opacity 0.4s ease';
+        el.style.opacity = '0';
+      });
+
+      setTimeout(function () {
+        if (titleEl)    titleEl.textContent    = slide.title    || '';
+        if (subtitleEl) subtitleEl.textContent = slide.subtitle || '';
+        if (textEl)     textEl.textContent     = slide.text     || '';
+
+        els.forEach(function (el) {
+          el.style.opacity = '1';
+        });
+      }, 400);
     }
 
     updateContent(0);
@@ -12890,20 +12900,75 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var endTime = new Date(countdownEnd).getTime();
 
+      /* ── NOUVEAU : boucle automatique + style cercle ── */
+      var autoLoop   = (cfg.countdown_auto_loop || 'no').toLowerCase().trim() === 'yes';
+      var cycleDays  = parseFloat(cfg.countdown_cycle_days)       || 5;
+      var pauseHours = parseFloat(cfg.countdown_loop_pause_hours) || 24;
+      var cycleMs    = cycleDays  * 86400000;
+      var pauseMs    = pauseHours * 3600000;
+      var periodMs   = cycleMs + pauseMs;
+      var showCircle = (cfg.countdown_style_circle || 'no').toLowerCase().trim() === 'yes';
+
+      var ringFg = null;
+      var RING_CIRC = 2 * Math.PI * 54;
+
+      if (showCircle && !cdWrap.querySelector('.bbw-cd-ring-svg')) {
+        cdWrap.classList.add('bbw-cd--circle-mode');
+        var ringWrap = document.createElement('div');
+        ringWrap.className = 'bbw-cd-ring-wrap';
+        ringWrap.style.cssText = 'position:relative;width:100%;display:flex;justify-content:center;margin-bottom:8px;';
+        ringWrap.innerHTML =
+          '<svg class="bbw-cd-ring-svg" width="120" height="120" viewBox="0 0 120 120">' +
+            '<circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="8"/>' +
+            '<circle class="bbw-cd-ring-fg" cx="60" cy="60" r="54" fill="none" stroke="#c9963e" stroke-width="8" ' +
+              'stroke-linecap="round" transform="rotate(-90 60 60)" ' +
+              'style="stroke-dasharray:' + RING_CIRC.toFixed(2) + ';stroke-dashoffset:0;transition:stroke-dashoffset 0.9s linear;"/>' +
+          '</svg>';
+        cdWrap.insertBefore(ringWrap, cdWrap.firstChild);
+        ringFg = ringWrap.querySelector('.bbw-cd-ring-fg');
+      }
+
       function pad(n) { return String(n).padStart(2, '0'); }
 
       function tickCountdown() {
-        var now  = Date.now();
-        var diff = Math.max(0, Math.floor((endTime - now) / 1000));
-        var dd   = Math.floor(diff / 86400);
-        var hh   = Math.floor((diff % 86400) / 3600);
-        var mm   = Math.floor((diff % 3600) / 60);
-        var ss   = diff % 60;
+        var now = Date.now();
+        var diffSec;
+        var pctElapsed = 0;
+
+        if (!autoLoop || now <= endTime) {
+          /* Compte à rebours normal jusqu'à la date définie */
+          diffSec = Math.max(0, Math.floor((endTime - now) / 1000));
+          if (showCircle) {
+            var remainingMs = Math.max(0, endTime - now);
+            pctElapsed = 1 - (remainingMs / cycleMs);
+          }
+        } else {
+          /* Date dépassée → boucle automatique */
+          var elapsed = (now - endTime) % periodMs;
+          if (elapsed < pauseMs) {
+            diffSec    = 0;
+            pctElapsed = 1;
+          } else {
+            var remainingMs = periodMs - elapsed;
+            diffSec    = Math.floor(remainingMs / 1000);
+            pctElapsed = 1 - (remainingMs / cycleMs);
+          }
+        }
+
+        var dd = Math.floor(diffSec / 86400);
+        var hh = Math.floor((diffSec % 86400) / 3600);
+        var mm = Math.floor((diffSec % 3600) / 60);
+        var ss = diffSec % 60;
 
         if (cdDays)  cdDays.textContent  = pad(dd);
         if (cdHours) cdHours.textContent = pad(hh);
         if (cdMins)  cdMins.textContent  = pad(mm);
         if (cdSecs)  cdSecs.textContent  = pad(ss);
+
+        if (showCircle && ringFg) {
+          var clamped = Math.max(0, Math.min(1, pctElapsed));
+          ringFg.style.strokeDashoffset = (RING_CIRC * clamped).toFixed(2);
+        }
       }
 
       tickCountdown();
@@ -14556,5 +14621,3 @@ function injectColFbt() {
   observer.observe(document.body, { childList: true, subtree: true });
 
 })();
-
-

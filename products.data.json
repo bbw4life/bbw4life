@@ -4375,7 +4375,7 @@
       "countdown_suffix": "min",
       "free_shipping_threshold": 200,
       "show_free_shipping_bar": "Yes",
-      "progress_message": "Add ${remaining} more paul for FREE shipping!",
+      "progress_message": "Add ${remaining} more for FREE shipping!",
       "progress_success_message": "🎉You've unlocked FREE shipping!",
       "promo_buy_quantity": 9,
       "promo_get_quantity": 3,
@@ -5306,58 +5306,62 @@
       "delay_seconds": 20,
       "duration_seconds": 15
     },
-   "hero_banner": {
-    "video_url": "https://cdn.shopify.com/videos/c/o/v/1debb10519ba4aa9b6c83632cd24407d.mp4",
-    "images": [
-      "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_1.png?v=1774377685",
-      "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_2.png?v=1774377685",
-      "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_3.png?v=1774377686"
-    ],
-    "show_thumbnails": "yes",
-    "thumbnails_position_desktop": "right",
-    "thumbnails_position_mobile": "top",
-    "show_individual_buttons": "no",
-    "button_1": { "text": "Discover",   "url": "/collections/nouveautes.html" },
-    "button_2": { "text": "Promotions", "url": "/collections/soldes.html" },
-    "button_3": { "text": "Our brands", "url": "/collections/marques.html" },
-    "main_button": {
-      "text": "Unlock the Full Pack", 
-      "product_ids": [
-        "Pdg-Francenel-product4",
-        "Pdg-Francenel-product13",
-        "Pdg-Francenel-product14",
-        "Pdg-Francenel-product15",
-        "Pdg-Francenel-product2"
-      ]
+    "hero_banner": {
+      "video_url": "https://cdn.shopify.com/videos/c/o/v/1debb10519ba4aa9b6c83632cd24407d.mp4",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_1.png?v=1774377685",
+        "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_2.png?v=1774377685",
+        "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_3.png?v=1774377686"
+      ],
+      "show_thumbnails": "yes",
+      "thumbnails_position_desktop": "right",
+      "thumbnails_position_mobile": "top",
+      "show_individual_buttons": "no",
+      "button_1": { "text": "Discover",   "url": "/collections/nouveautes.html" },
+      "button_2": { "text": "Promotions", "url": "/collections/soldes.html" },
+      "button_3": { "text": "Our brands", "url": "/collections/marques.html" },
+      "main_button": {
+        "text": "Unlock the Full Pack", 
+        "product_ids": [
+          "Pdg-Francenel-product4",
+          "Pdg-Francenel-product13",
+          "Pdg-Francenel-product14",
+          "Pdg-Francenel-product15",
+          "Pdg-Francenel-product2"
+        ]
+      },
+      "show_countdown": "yes",
+      "countdown_end_date": "2026-07-15T23:59:59",
+      "countdown_label_days":    "DAYS",
+      "countdown_label_hours":   "HOURS",
+      "countdown_label_minutes": "MIN",
+      "countdown_label_seconds": "SEC",
+      "countdown_style_circle": "no",
+      "countdown_auto_loop": "yes",
+      "countdown_cycle_days": 5,
+      "countdown_loop_pause_hours": 24,
+      "slides": [
+        {
+          "title":    "BEAUTY HAS NO SIZES",
+          "subtitle": "You Are Beautiful As You Are",
+          "text":     "Every curve tells a story. Every body deserves to be celebrated, not hidden."
+        },
+        {
+          "title":    "FOR EVERY CURVE",
+          "subtitle": "Style Made For You",
+          "text":     "Fashion that embraces who you are — because you were never meant to fit in a box."
+        },
+        {
+          "title":    "JOIN THE MOVEMENT",
+          "subtitle": "Thousands of Women. One Family.",
+          "text":     "You are loved, respected and valued here. Welcome to BBW4LIFE."
+        }
+      ],
+      "rotation_interval_seconds": 5,
+      "text_color":    "#ffffff",
+      "button_color":  "#000000",
+      "button_text_color": "#ffffff"
     },
-    "show_countdown": "yes",
-    "countdown_end_date": "2026-07-10T23:59:59",
-    "countdown_label_days":    "DAYS",
-    "countdown_label_hours":   "HOURS",
-    "countdown_label_minutes": "MIN",
-    "countdown_label_seconds": "SEC",
-    "slides": [
-      {
-        "title":    "BEAUTY HAS NO SIZES",
-        "subtitle": "You Are Beautiful As You Are",
-        "text":     "Every curve tells a story. Every body deserves to be celebrated, not hidden."
-      },
-      {
-        "title":    "FOR EVERY CURVE",
-        "subtitle": "Style Made For You",
-        "text":     "Fashion that embraces who you are — because you were never meant to fit in a box."
-      },
-      {
-        "title":    "JOIN THE MOVEMENT",
-        "subtitle": "Thousands of Women. One Family.",
-        "text":     "You are loved, respected and valued here. Welcome to BBW4LIFE."
-      }
-    ],
-    "rotation_interval_seconds": 5,
-    "text_color":    "#ffffff",
-    "button_color":  "#000000",
-    "button_text_color": "#ffffff"
-  },
     "collection_slider": {
     "product_ids": [
       "Pdg-Francenel-product1",

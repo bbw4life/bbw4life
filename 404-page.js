@@ -157,3 +157,27 @@
     });
   }
 })();
+
+
+
+/* ──────────────────────────────────────────────────
+   5. FREE SHIPPING THRESHOLD — header injection
+──────────────────────────────────────────────────── */
+(function () {
+  var els = document.querySelectorAll('.hdr-free-shipping-threshold');
+  if (!els.length) return;
+
+  fetch('/products.data.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var arr      = Array.isArray(data) ? data : [];
+      var settings = arr.find(function (p) { return p.type === 'settings'; }) || {};
+      var threshold = (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold)
+        ? settings.cart_drawer.free_shipping_threshold
+        : 75;
+      els.forEach(function (el) { el.textContent = threshold; });
+    })
+    .catch(function () {
+      els.forEach(function (el) { el.textContent = 75; });
+    });
+})();
