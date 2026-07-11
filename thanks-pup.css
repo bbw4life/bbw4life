@@ -45,8 +45,8 @@
   text-align: left;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   box-shadow: 0 6px 28px rgba(201,150,62,0.16);
-  max-width: 500px;
-  width: 90%;
+  max-width: 100%;
+  width: 100%;
   position: relative;
   overflow: hidden;
 }

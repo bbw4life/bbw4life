@@ -793,8 +793,8 @@ p.error {
     rgba(192,56,94,0.05));
   border-radius: var(--radius);
   padding: 20px 28px;
-  max-width: 640px;
-  margin: 0 auto 32px;
+  max-width: 100%;
+  margin: 0 0 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1035,7 +1035,7 @@ p.error {
 }
 
 .ty-footer__inner {
-  max-width: 640px;
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
