@@ -280,10 +280,10 @@ exports.handler = async (event) => {
     console.log(`[VERIFY PAYMENT] Fulfillment method détecté: ${fulfillment_method}`);
 
     for (const item of notReady) {
-      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending_stock", fulfillment_method);
+      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending_stock", fulfillment_method, totalAmount);
     }
     for (const item of readyForEprolo) {
-      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending", fulfillment_method);
+      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending", fulfillment_method, totalAmount);
     }
 
     console.log("🎯 Fulfillment terminé");
@@ -294,7 +294,7 @@ exports.handler = async (event) => {
   }
 };
 
-async function saveAsPending(item, shipping, BASE_URL, provider, paymentId, status = "pending_stock", fulfillment_method = "eprolo") {
+async function saveAsPending(item, shipping, BASE_URL, provider, paymentId, status = "pending_stock", fulfillment_method = "eprolo", orderTotal = 0) {
   try {
     await fetch(`${BASE_URL}/.netlify/functions/save-pending-order`, {
       method: "POST",
@@ -305,7 +305,8 @@ async function saveAsPending(item, shipping, BASE_URL, provider, paymentId, stat
         payment_provider:   provider,
         payment_id:         paymentId || "auto",
         status,
-        fulfillment_method  // ← NOUVEAU
+        fulfillment_method, // ← NOUVEAU
+        orderTotal           // ← NOUVEAU : montant total vérifié côté serveur
       })
     });
   } catch (e) {

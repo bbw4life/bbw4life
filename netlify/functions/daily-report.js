@@ -33,15 +33,21 @@ exports.handler = async (event) => {
     // ── 1. Commandes du jour ──
     let ordersToday = 0;
     let revenueToday = 0;
+    const countedOrderIds = new Set(); // évite de compter le même payment_id 2x (multi-articles)
     try {
       const ordersRes = await sheets.spreadsheets.values.get({
         spreadsheetId: process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
-        range: 'bbw4life-pending-orders!A:R'
+        range: 'bbw4life-pending-orders!A:W'
       });
       const orderRows = (ordersRes.data.values || []).slice(1);
       orderRows.forEach(row => {
         if (row[16] && row[16].toString().startsWith(new Date().toISOString().slice(0, 10))) {
           ordersToday++;
+          const orderId = row[2]; // colonne C = payment_id
+          if (orderId && !countedOrderIds.has(orderId)) {
+            countedOrderIds.add(orderId);
+            revenueToday += parseFloat(row[22]) || 0; // colonne W
+          }
         }
       });
     } catch(e) { console.warn('Orders read failed:', e.message); }
@@ -131,6 +137,7 @@ exports.handler = async (event) => {
       `📊 <b>Rapport Quotidien BBW4LIFE</b>\n` +
       `📅 <b>${today}</b>\n\n` +
       `🛍️ <b>Commandes:</b> ${ordersToday}\n` +
+      `💰 <b>Chiffre d'affaires:</b> $${revenueToday.toFixed(2)}\n` +
       `🛒 <b>Paniers abandonnés:</b> ${abandonedToday}\n` +
       `👥 <b>Nouveaux clients:</b> ${newClients}\n` +
       `💌 <b>Messages contact:</b> ${messagesTODAY}\n` +

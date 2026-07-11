@@ -3884,7 +3884,7 @@
     "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
     "title": "MenGlow Cream — Concealing Brightening Lazy Cream",
     "description": "Refreshing non-greasy men's face cream that conceals, brightens skin tone and minimizes pores — effortless grooming daily.",
-    "price": 27.37,
+    "price": 2.37,
     "compare_price": 40.28,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_67.png?v=1778005449",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_67.1.png?v=1778005566",
@@ -3893,7 +3893,7 @@
       { "name": "White creme", "hex": "#F5F5F5", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_67_white.png?v=1778758918", "active": true }
     ],
     "variants": [
-      {"vid":"713477293","color":"White Creme","size":"","price":27.37,"active":true}
+      {"vid":"713477293","color":"White Creme","size":"","price":2.37,"active":true}
     ],
   "media": [
     "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_67_1.png?v=1778759407",

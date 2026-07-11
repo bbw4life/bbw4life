@@ -9,13 +9,14 @@ exports.handler = async (event) => {
     if (!event.body) return response(400, { success: false, error: 'No data received' });
 
     const body = JSON.parse(event.body);
-    let {
+   let {
       shipping,
       item,
       payment_provider,
       payment_id,
       status             = 'pending',
-      fulfillment_method = 'eprolo'   // 'eprolo' ou 'cj'
+      fulfillment_method = 'eprolo',  // 'eprolo' ou 'cj'
+      orderTotal          = 0 
     } = body;
 
     if (!payment_id) throw new Error('Missing payment_id');
@@ -48,9 +49,7 @@ exports.handler = async (event) => {
     const now           = new Date().toISOString();
     const internalOrderId = `PENDING_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
-    // ── Colonne U (fromCountryCode) : laissée vide ici volontairement.
-    // Elle est remplie par retry-pending-order.js, qui interroge l'API CJ
-    // au moment du traitement réel de la commande (pas au checkout).
+    // ── Colonne U (fromCountryCode)
     const values = [[
       internalOrderId,                                        // A
       payment_provider || '',                                 // B
@@ -72,10 +71,12 @@ exports.handler = async (event) => {
       shipping.shipping_method || 'Standard Shipping',        // R
       '',                                                     // S ← réservé
       fulfillment_method,                                     // T ← 'eprolo' ou 'cj'
-      ''                                                       // U ← rempli plus tard par retry-pending-order
+      '',                                                      // U ← rempli plus tard par retry-pending-order
+      '',                                                      // V ← réservé
+      parseFloat(orderTotal) || 0                              // W ← montant total vérifié côté serveur
     ]];
 
-    const rangesToTry = ['bbw4life-pending-orders!A:U'];
+    const rangesToTry = ['bbw4life-pending-orders!A:W'];
 
     let success = false;
     for (const range of rangesToTry) {
@@ -104,6 +105,7 @@ exports.handler = async (event) => {
       `👤 <b>Client:</b> ${shipping.fullName}\n` +
       `📧 <b>Email:</b> ${shipping.email}\n` +
       `💳 <b>Paiement:</b> ${payment_provider}\n` +
+      `💰 <b>Montant vérifié:</b> $${(parseFloat(orderTotal) || 0).toFixed(2)}\n` +
       `📦 <b>Quantité:</b> ${item.quantity || 1}\n` +
       `🌍 <b>Pays:</b> ${shipping.country}\n` +
       `🚚 <b>Fulfillment:</b> ${fulfillment_method.toUpperCase()}`
