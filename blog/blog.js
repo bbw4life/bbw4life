@@ -33,14 +33,14 @@ document.addEventListener('DOMContentLoaded', function () {
       if (featuredContainer && f) {
         featuredContainer.innerHTML = `
           <div class="featured-card">
-            <div class="featured-img-wrap">
+            <a href="${f.url}" class="featured-img-wrap">
               <img src="${f.image}" alt="${f.imageAlt}">
               <span class="featured-badge">Featured</span>
               <span class="featured-new-badge">This Week</span>
               <div class="featured-read-time">
                 <i class="fi fi-rr-clock"></i> ${f.readTime}
               </div>
-            </div>
+            </a>
             <div class="featured-body">
               <span class="category-badge">${f.badge}</span>
               <h2>${f.title}</h2>
