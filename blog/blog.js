@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
           return `
             <article class="blog-card" data-category="${card.category}" id="${card.id}">
               <div class="blog-card-img-wrap">
-                <img src="${card.image}" alt="${card.imageAlt}" loading="lazy">
+                <a href="${card.url}" class="card-img-link"><img src="${card.image}" alt="${card.imageAlt}" loading="lazy"></a>
                 <span class="card-category-badge">${card.badge}</span>
                 ${card.isNew ? '<span class="card-new-badge">New</span>' : ''}
                 <button class="card-bookmark" aria-label="Bookmark article" title="Save article"><i class="fi fi-rr-bookmark"></i></button>

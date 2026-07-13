@@ -2550,3 +2550,8 @@
     padding-right: 0;
   }
 }
+
+.card-img-link {
+  display: block;
+  line-height: 0;
+}
