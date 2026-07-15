@@ -986,7 +986,7 @@ function injectBlogSchema() {
         'headline': seo.title,
         'description': seo.description,
         'image': seo.og_image,
-        'url': seo.canonical,
+        'url': window.__canonicalUrl,
         'publisher': {
             '@type': 'Organization',
             'name': 'BBW4LIFE',
@@ -995,7 +995,7 @@ function injectBlogSchema() {
                 'url': 'https://bbw4life.com/public/vrlogo bbw4life.png'
             }
         },
-        'mainEntityOfPage': seo.canonical
+        'mainEntityOfPage': window.__canonicalUrl
     };
 
     const script = document.createElement('script');
@@ -1025,7 +1025,7 @@ function injectProductSchema() {
             }
 
             const seo = SEO_MAP[path] || {};
-            const canonicalUrl = (seo.canonical) || ('https://bbw4life.com' + path);
+            const canonicalUrl = window.__canonicalUrl || ('https://bbw4life.com' + path);
 
             // Construction de la liste des offres (une par variante active)
             const offers = (product.variants || [])
@@ -1133,48 +1133,55 @@ function injectGlobalHead() {
 
         
         function injectPageSEO() {
-            const path = window.location.pathname;
-            const pathWithHtml = path.endsWith('.html') ? path : path + '.html';
+    const path = window.location.pathname;
+    const pathWithHtml = path.endsWith('.html') ? path : path + '.html';
 
-            let seo = SEO_MAP[path] || SEO_MAP[pathWithHtml];
+    let seo = SEO_MAP[path] || SEO_MAP[pathWithHtml];
+    let rawPath = SEO_MAP[path] ? path : (SEO_MAP[pathWithHtml] ? pathWithHtml : null);
 
-            // ── Fallback : path est une pretty URL → retrouver l'URL réelle via BBW_SLUGS ──
-            if (!seo && window.BBW_SLUGS) {
-                const realPath = Object.keys(window.BBW_SLUGS).find(
-                    key => window.BBW_SLUGS[key] === path
-                );
-                if (realPath) seo = SEO_MAP[realPath];
-            }
+    // ── Fallback : path est une pretty URL → retrouver l'URL réelle via BBW_SLUGS ──
+    if (!seo && window.BBW_SLUGS) {
+        const realPath = Object.keys(window.BBW_SLUGS).find(
+            key => window.BBW_SLUGS[key] === path
+        );
+        if (realPath) {
+            seo = SEO_MAP[realPath];
+            rawPath = realPath;
+        }
+    }
 
-   
     if (!seo && /\/products\/product\d+\.html/.test(path)) {
         seo = {
             title: 'Product | BBW4LIFE — Plus Size Fashion',
             description: 'Discover this stunning plus size piece at BBW4LIFE. Bold, beautiful and made for your curves. Sizes XL to 6XL. Free shipping. 30-day returns.',
             keywords: 'plus size product, curvy fashion, BBW4LIFE, plus size clothing, curvy woman outfit, body positive fashion',
-            og_image: 'https://bbw4life.com/public/og-home.jpg',
-            canonical: 'https://bbw4life.com' + path
+            og_image: 'https://bbw4life.com/public/og-home.jpg'
         };
+        rawPath = path;
     }
 
-    
     if (!seo) {
         seo = {
             title: 'BBW4LIFE — Beauty Has No Size | Plus Size Fashion',
             description: 'BBW4LIFE — Bold plus size fashion for curvy women. Beauty Has No Size. Shop dresses, swimwear, beauty and more.',
             keywords: 'BBW4LIFE, plus size fashion, curvy women, body positive fashion, beauty has no size',
-            og_image: 'https://bbw4life.com/public/og-home.jpg',
-            canonical: 'https://bbw4life.com' + path
+            og_image: 'https://bbw4life.com/public/og-home.jpg'
         };
+        rawPath = path;
     }
 
- 
-    
+    // ── CANONICAL DYNAMIQUE : toujours la version pretty si elle existe ──
+    let canonicalPath = path;
+    if (rawPath && window.BBW_SLUGS && window.BBW_SLUGS[rawPath]) {
+        canonicalPath = window.BBW_SLUGS[rawPath];
+    }
+    const canonicalUrl = 'https://bbw4life.com' + canonicalPath;
+    window.__canonicalUrl = canonicalUrl;
+
     document.title = seo.title;
     window.__seoTitle = seo.title;
     document.dispatchEvent(new CustomEvent('seo:ready', { detail: { title: seo.title } }));
 
-    
     function setMeta(selector, attr, value) {
         let el = document.querySelector(selector);
         if (!el) {
@@ -1184,30 +1191,26 @@ function injectGlobalHead() {
         el.setAttribute(attr, value);
     }
 
-    
     setMeta('meta[name="description"]',   'content', seo.description);
     setMeta('meta[name="keywords"]',      'content', seo.keywords);
     setMeta('meta[name="robots"]',        'content', 'index, follow');
 
-    
     setMeta('meta[property="og:title"]',       'content', seo.title);
     setMeta('meta[property="og:description"]', 'content', seo.description);
     setMeta('meta[property="og:image"]',       'content', seo.og_image);
-    setMeta('meta[property="og:url"]',         'content', seo.canonical);
+    setMeta('meta[property="og:url"]',         'content', canonicalUrl);
 
-    
     setMeta('meta[name="twitter:title"]',       'content', seo.title);
     setMeta('meta[name="twitter:description"]', 'content', seo.description);
     setMeta('meta[name="twitter:image"]',       'content', seo.og_image);
 
-    
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
         canonical = document.createElement('link');
         canonical.rel = 'canonical';
         document.head.appendChild(canonical);
     }
-    canonical.href = seo.canonical;
+    canonical.href = canonicalUrl;
 }
 
 injectGlobalHead().then(() => {
