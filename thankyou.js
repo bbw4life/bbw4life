@@ -133,4 +133,70 @@ function displayError(message) {
     document.getElementById('message').innerHTML = `<p class="error">${message}</p>`;
     document.getElementById('message').style.display = 'block';
     document.getElementById('buttons').style.display = 'block';
-} 
+}
+
+// ── Footer year + share buttons (moved out of inline <script> for CSP compliance) ──
+document.addEventListener('DOMContentLoaded', () => {
+    const yearEl = document.getElementById('ty-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // ── Copy link button ──
+    document.getElementById('copy-link-btn')?.addEventListener('click', function() {
+        const msg = `🌸 I just ordered from BBW4LIFE — Beauty Has No Sizes! A brand that truly celebrates every curve and every woman. Check them out! 👉 ${window.location.origin}`;
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(msg).then(() => {
+                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                this.style.background = 'var(--green)';
+                this.style.color = '#fff';
+                this.style.borderColor = 'var(--green)';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-link"></i> Copy Link';
+                    this.style.background = '';
+                    this.style.color = '';
+                    this.style.borderColor = '';
+                }, 2500);
+            });
+        } else {
+            const el = document.createElement('textarea');
+            el.value = msg;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-link"></i> Copy Link';
+            }, 2500);
+        }
+    });
+
+    // ── Instagram share button ──
+    document.getElementById('share-instagram-btn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const msg = `🌸 I just ordered from BBW4LIFE — Beauty Has No Sizes! A brand that truly celebrates every curve and every woman. Check them out! 👉 ${window.location.origin}`;
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(msg).then(() => {
+                this.innerHTML = '<i class="fab fa-instagram"></i> Message Copied!';
+                setTimeout(() => {
+                    window.open('https://www.instagram.com', '_blank');
+                    this.innerHTML = '<i class="fab fa-instagram"></i> Instagram';
+                }, 800);
+            });
+        } else {
+            const el = document.createElement('textarea');
+            el.value = msg;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            this.innerHTML = '<i class="fab fa-instagram"></i> Message Copied!';
+            setTimeout(() => {
+                window.open('https://www.instagram.com', '_blank');
+                this.innerHTML = '<i class="fab fa-instagram"></i> Instagram';
+            }, 800);
+        }
+    });
+});

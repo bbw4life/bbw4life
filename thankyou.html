@@ -259,67 +259,6 @@
 </div>
 
 <script src="thankyou.js"></script>
-<script>
-// ── Copy link button ──
-document.getElementById('copy-link-btn')?.addEventListener('click', function() {
-    const msg = `🌸 I just ordered from BBW4LIFE — Beauty Has No Sizes! A brand that truly celebrates every curve and every woman. Check them out! 👉 ${window.location.origin}`;
-
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(msg).then(() => {
-            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-            this.style.background = 'var(--green)';
-            this.style.color = '#fff';
-            this.style.borderColor = 'var(--green)';
-            setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-link"></i> Copy Link';
-                this.style.background = '';
-                this.style.color = '';
-                this.style.borderColor = '';
-            }, 2500);
-        });
-    } else {
-        const el = document.createElement('textarea');
-        el.value = msg;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        setTimeout(() => {
-            this.innerHTML = '<i class="fas fa-link"></i> Copy Link';
-        }, 2500);
-    }
-});
-
-// ── Instagram share button ──
-document.getElementById('share-instagram-btn')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    const msg = `🌸 I just ordered from BBW4LIFE — Beauty Has No Sizes! A brand that truly celebrates every curve and every woman. Check them out! 👉 ${window.location.origin}`;
-
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(msg).then(() => {
-            this.innerHTML = '<i class="fab fa-instagram"></i> Message Copied!';
-            setTimeout(() => {
-                window.open('https://www.instagram.com', '_blank');
-                this.innerHTML = '<i class="fab fa-instagram"></i> Instagram';
-            }, 800);
-        });
-    } else {
-        const el = document.createElement('textarea');
-        el.value = msg;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        this.innerHTML = '<i class="fab fa-instagram"></i> Message Copied!';
-        setTimeout(() => {
-            window.open('https://www.instagram.com', '_blank');
-            this.innerHTML = '<i class="fab fa-instagram"></i> Instagram';
-        }, 800);
-    }
-});
-</script>
 
 <script src="/pdg-francenel.js"></script>
 <script src="/script.js"></script>
@@ -341,11 +280,6 @@ document.getElementById('share-instagram-btn')?.addEventListener('click', functi
     </p>
   </div>
 </footer>
-<script>document.getElementById('ty-year').textContent = new Date().getFullYear();</script>
-
-<script>
-    window.STRIPE_PUBLIC_KEY = "pk_live_51PMDwoF9QAVBUyaU9ffneo6gWLCCPP94en6PPapDPawI9mnKqWBnJUjTbjUzjw3B8Et2ZWLBQHfCxm2djyCkzvXw00sP60H2NX";
-</script>
 
 <script src="https://js.stripe.com/v3/"></script>
 
