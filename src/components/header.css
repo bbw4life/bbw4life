@@ -13,7 +13,7 @@
      LAYOUT — HEADER
   ═══════════════════════════════════════ */
   --ann-bar-h:        40px;
-  --bbw-header-h:     96px;
+  --bbw-header-h:     84px;
   --bbw-bc-h:         36px;
   --bbw-total-top:    calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
   --bbw-drawer-w:     340px;
@@ -407,7 +407,7 @@ body {
   /* Ne doit jamais dépasser --bbw-header-h : un logo plus grand que le
      header déborde visuellement (et reste cliquable) par-dessus le
      breadcrumb juste en dessous, ce qui bloque les clics dessus. */
-  height: 92px;
+  height: 78px;
   width: auto;
   object-fit: contain;
   transition: var(--bbw-transition);
@@ -1403,7 +1403,7 @@ body {
 @media (max-width: 768px) {
   :root {
     --ann-bar-h:     40px;
-    --bbw-header-h:  64px;
+    --bbw-header-h:  56px;
     --bbw-bc-h:      32px;
     --bbw-total-top: calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
     --bbw-drawer-w:  min(100vw, 420px);
@@ -1413,7 +1413,7 @@ body {
 
   .bbw-header__inner { padding: 0 14px; gap: 6px; }
   .bbw-burger { width: 40px; height: 40px; min-width: 40px; border-radius: 2px; }
-  .bbw-logo__img  { height: 60px; }
+  .bbw-logo__img  { height: 52px; }
   .bbw-logo__text { font-size: 1.4rem; }
 
   .bbw-search__bar {
@@ -1471,7 +1471,7 @@ body {
 @media (max-width: 420px) {
   :root {
     --ann-bar-h:     40px;
-    --bbw-header-h:  60px;
+    --bbw-header-h:  52px;
     --bbw-bc-h:      32px;
     --bbw-total-top: calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
   }
@@ -1479,7 +1479,7 @@ body {
   .bbw-header__inner { padding: 0 10px; gap: 4px; }
   .bbw-burger { width: 34px; height: 34px; min-width: 34px; border-radius: 2px; }
   .bbw-burger__bar { width: 16px; }
-  .bbw-logo__img { height: 56px; }
+  .bbw-logo__img { height: 44px; }
   .bbw-search { display: flex !important; flex: 0 0 auto; }
   .bbw-search__bar { height: var(--bbw-header-h); }
   .bbw-icon-btn { width: 32px; height: 32px; min-width: 32px; font-size: 14px; border-radius: 2px; }
