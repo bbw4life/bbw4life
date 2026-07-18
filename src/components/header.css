@@ -1489,11 +1489,10 @@ body {
    BREADCRUMBS
 ═══════════════════════════════════════════════════════════════ */
 #bc-nav {
-  /* sticky (et non fixed) : réserve sa propre hauteur dans le flux
-     normal pour que le hero ne démarre jamais sous lui, tout en
-     restant visuellement collé sous le header pendant le scroll. */
-  position: sticky;
-  top: var(--bbw-total-top);
+  /* Position normale, dans le flux — ne colle pas à l'écran et ne
+     peut donc jamais chevaucher le contenu qui suit (hero, titres...)
+     sur les pages internes, quelle que soit leur mise en page. */
+  position: relative;
   width: 100%;
   z-index: 900;
   background: linear-gradient(110deg, #fffbf9 0%, #fff0f4 50%, #fffbf9 100%);
@@ -1510,9 +1509,20 @@ body {
   transition: background-color 0.45s ease, backdrop-filter 0.45s ease;
 }
 
+/* Sticky + transparence au scroll — réservé à la home (body.home-page).
+   Sur les pages internes (about, produits, collections, blog...), les
+   sections qui suivent le breadcrumb (souvent des hero pleine hauteur
+   avec contenu centré verticalement) n'ont pas été conçues pour
+   qu'un breadcrumb reste collé à l'écran par-dessus elles pendant le
+   scroll — ça provoquait un chevauchement avec leurs titres. */
+body.home-page #bc-nav {
+  position: sticky;
+  top: var(--bbw-total-top);
+}
+
 /* Transparence au scroll — même traitement verre dépoli que le
    header, pour rester cohérent visuellement avec lui. */
-#bc-nav.bc-nav--scrolled {
+body.home-page #bc-nav.bc-nav--scrolled {
   background: rgba(255, 240, 244, 0.45);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
