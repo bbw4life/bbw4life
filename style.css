@@ -916,6 +916,14 @@ body {
       linear-gradient(270deg, rgba(212,80,108,0.05) 0%, transparent 40%);
   }
 
+  /* Sur mobile, le conteneur est bien plus étroit que haut : object-fit
+     cover recadre surtout en largeur. Recentrer légèrement vers la
+     gauche évite de couper le sujet (souvent cadré côté gauche sur les
+     photos hero) hors de la zone visible. */
+  .bbw-hero__media img {
+    object-position: 30% 20%;
+  }
+
   .bbw-hero__content {
     padding: 0 20px 24px;
     max-width: 100%;
@@ -988,6 +996,12 @@ body {
   object-position: center 25%;
 }
 
+@media (max-width: 767px) {
+  #bbwHeroVideoPlaceholder {
+    object-position: 30% 20%;
+  }
+}
+
 
 /* ================================================================
    BANDE DE RÉASSURANCE — statique, remplace les bandeaux marquee
@@ -1029,9 +1043,16 @@ body {
 }
 
 @media (max-width: 768px) {
-  .reassure-bar { padding: 12px 16px; }
-  .reassure-bar__inner { gap: 8px 18px; }
-  .reassure-item { font-size: 11px; }
+  .reassure-bar { padding: 16px; }
+  .reassure-bar__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 12px;
+  }
+  .reassure-item {
+    font-size: 11px;
+    white-space: normal;
+  }
   .reassure-sep { display: none; }
 }
 
@@ -8078,8 +8099,13 @@ body {
     flex: none !important;
     min-width: 0 !important;
     width: 100% !important;
+    padding: 16px 8px;
     border-right: none !important;
     border-bottom: 1px solid rgba(201,150,62,0.12) !important;
+  }
+  .jrgq-gstat-num {
+    font-size: clamp(1rem, 5.5vw, 1.35rem);
+    white-space: nowrap;
   }
   .jrgq-gstat:nth-child(odd) {
     border-right: 1px solid rgba(201,150,62,0.12) !important;
@@ -8134,6 +8160,17 @@ body {
 @keyframes wave-slide {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+}
+
+/* Sur mobile, le viewBox fixe (1000 unités) rendait les pointes trop
+   rapprochées car la fenêtre visible ne montre qu'une fraction
+   constante du path quel que soit le viewport. Élargir le conteneur
+   affiche moins de pointes, donc plus espacées, sans toucher au path
+   ni casser la boucle d'animation (translateX reste relatif à 100%). */
+@media (max-width: 768px) {
+  #wave-section .wave-container {
+    width: 380%;
+  }
 }
 
 

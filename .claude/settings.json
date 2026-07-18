@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --version)",
+      "Bash(node -e \"require.resolve\\('playwright'\\)\")",
+      "Bash(npx playwright *)",
+      "Bash(cp \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\c7458e1a-cc00-4dff-9e39-163ba39a393e\\\\scratchpad\\\\check.js\" ./__pw_check_tmp.js)",
+      "Bash(node __pw_check_tmp.js)",
+      "Bash(rm -f \"C:\\\\Users\\\\paulf\\\\OneDrive\\\\Desktop\\\\bbw4life\\\\__pw_check_tmp.js\")",
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Bash(node check.js)",
+      "Bash(sed -i \"s/waitUntil: 'networkidle', timeout: 20000/waitUntil: 'load', timeout: 20000/\" check.js)",
+      "Bash(sed -i \"s/header, #header, \\\\[data-component=\\\\\"header\\\\\"\\\\], .site-header/#header-container, header, .site-header/\" check.js)",
+      "Bash(sed -i \"s/footer, #footer, \\\\[data-component=\\\\\"footer\\\\\"\\\\], .site-footer/#bbw-footer, footer, .site-footer/\" check.js)",
+      "Bash(taskkill //F //IM python.exe)",
+      "Bash(curl -s -o /dev/null -w \"root:%{http_code}\\\\n\" http://127.0.0.1:8099/)",
+      "Bash(curl -sI http://127.0.0.1:8099/index.html)",
+      "Bash(npx --yes http-server . -p 8099)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8099/products.data.json)",
+      "Bash(curl -s http://127.0.0.1:8099/index.html)",
+      "Bash(curl -sI http://127.0.0.1:8099/)",
+      "Bash(curl -s http://127.0.0.1:8099/)",
+      "Bash(taskkill //F //PID 6584)",
+      "Bash(node -e \"const h=require\\('http-server'\\); const s=h.createServer\\({root:process.cwd\\(\\)}\\); s.listen\\(8100,'127.0.0.1',\\(\\)=>console.log\\('listening'\\)\\)\")",
+      "Bash(node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\staticserver.js\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8123/index.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8123/products.data.json)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8123/script.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8123/style.css)",
+      "Bash(curl -s http://127.0.0.1:8123/index.html)",
+      "Bash(node -e \"const path=require\\('path'\\); console.log\\(path.join\\('C:\\\\\\\\\\\\\\\\Users\\\\\\\\\\\\\\\\paulf\\\\\\\\\\\\\\\\OneDrive\\\\\\\\\\\\\\\\Desktop\\\\\\\\\\\\\\\\bbw4life','/index.html'\\)\\); const fs=require\\('fs'\\); console.log\\(fs.existsSync\\(path.join\\('C:\\\\\\\\\\\\\\\\Users\\\\\\\\\\\\\\\\paulf\\\\\\\\\\\\\\\\OneDrive\\\\\\\\\\\\\\\\Desktop\\\\\\\\\\\\\\\\bbw4life','/index.html'\\)\\)\\);\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8124/index.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8124/products.data.json)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8124/script.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8124/style.css)",
+      "Bash(npx --yes -p playwright node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\test-story-circles.js\")",
+      "Bash(npm root *)",
+      "Read(//c/Users/paulf/AppData/Local/npm-cache/_npx/**)"
+    ]
+  }
+}

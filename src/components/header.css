@@ -157,15 +157,13 @@ body {
   transition: background-color 0.45s ease, backdrop-filter 0.45s ease;
 }
 
-/* Transparence au scroll (desktop) — le header devient un verre
-   dépoli qui laisse transparaître la couleur de la section en
+/* Transparence au scroll (desktop + mobile) — le header devient un
+   verre dépoli qui laisse transparaître la couleur de la section en
    dessous au lieu de rester sur un fond noir plein. */
-@media (min-width: 769px) {
-  .bbw-header--scrolled {
-    background-color: rgba(21, 17, 14, 0.58);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-  }
+.bbw-header--scrolled {
+  background-color: rgba(21, 17, 14, 0.58);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
 }
 
 .bbw-header__topline {
@@ -1482,10 +1480,11 @@ body {
    BREADCRUMBS
 ═══════════════════════════════════════════════════════════════ */
 #bc-nav {
-  position: fixed;
+  /* sticky (et non fixed) : réserve sa propre hauteur dans le flux
+     normal pour que le hero ne démarre jamais sous lui, tout en
+     restant visuellement collé sous le header pendant le scroll. */
+  position: sticky;
   top: var(--bbw-total-top);
-  left: 0;
-  right: 0;
   width: 100%;
   z-index: 900;
   background: linear-gradient(110deg, #fffbf9 0%, #fff0f4 50%, #fffbf9 100%);
