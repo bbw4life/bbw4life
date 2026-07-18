@@ -3779,13 +3779,13 @@ details[open] .chevron {
  
 
 #sanaica-banner-paul {
-    position: relative; 
+    position: relative;
     height: 110px;
     overflow: hidden;
     width: 100%;
     box-sizing: border-box;
     margin-bottom: -20px;
-    margin-top: 20px;
+    margin-top: 0;
     padding-bottom: 20px;
 }
 #sanaica-banner-paul .sanaica-banner-paul-slider-container {

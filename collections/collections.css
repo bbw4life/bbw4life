@@ -41,7 +41,7 @@
   background: var(--col-dark);
   color: #fff;
   padding: 10px 10px 10px;
-  margin-top: 30px;
+  margin-top: 0;
   overflow: hidden;
   border-bottom: 1px solid rgba(201,150,62,0.25);
 }
@@ -2630,9 +2630,9 @@
 }
 
 @media (max-width: 768px) {
-  .col-social-proof-bar { 
+  .col-social-proof-bar {
     padding: 10px 10px 10px;
-    margin-top: 20px;
+    margin-top: 0;
   }
   .col-social-proof-inner { gap: 10px; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
   .col-social-proof-inner::-webkit-scrollbar { display: none; }
