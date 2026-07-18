@@ -716,7 +716,7 @@
   fetch('/src/components/breadcrumb.html')
     .then(r => r.text())
     .then(html => {
-      document.getElementById('breadcrumb-container').innerHTML = html;
+      document.getElementById('breadcrumb-container').outerHTML = html;
     })
     .catch(err => console.error('Breadcrumb load error:', err));
 

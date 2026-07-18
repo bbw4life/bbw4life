@@ -4987,6 +4987,15 @@ if (window.innerWidth <= 768) {
   const list = document.getElementById('bc-list');
   if (!nav || !list) return;
 
+  // Transparence au scroll — même traitement que le header (verre
+  // dépoli) pour rester visuellement cohérent avec lui.
+  (function bcScrollTransparency() {
+    const THRESHOLD = 60;
+    const onScroll = () => nav.classList.toggle('bc-nav--scrolled', window.scrollY > THRESHOLD);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
   const separatorMap = {
     'separator_arrow':        '">"',
     'separator_slash':        '"/"',

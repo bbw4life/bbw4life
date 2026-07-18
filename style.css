@@ -90,8 +90,10 @@ html {
   overflow-x: hidden;
 }
 
+/* overflow-x:hidden retiré de body : présent sur <html> ci-dessus, ça
+   suffit à bloquer le scroll horizontal. Le garder aussi sur <body>
+   cassait position:sticky pour ses descendants (ex: #bc-nav). */
 body {
-  overflow-x: hidden;
   margin: 0;
   padding: 0;
 }
@@ -4468,13 +4470,15 @@ body {
 }
 
 @media (max-width: 768px) {
+    html {
+        overflow-x: hidden;
+    }
     html, body {
         margin: 0;
         padding: 0;
-        overflow-x: hidden;
     }
 
-    
+
     .paul-popup-overlay {
         padding: 12px 16px;
         align-items: center;
@@ -7795,14 +7799,29 @@ body {
 .jrgq-gal-gradient {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 65%;
+  height: 80%;
   background: linear-gradient(to top,
-    rgba(20,10,3,0.88) 0%,
-    rgba(20,10,3,0.50) 50%,
+    rgba(20,10,3,0.90) 0%,
+    rgba(20,10,3,0.62) 45%,
+    rgba(20,10,3,0.22) 75%,
     transparent 100%
   );
   pointer-events: none;
   z-index: 1;
+}
+
+/* La carte "featured" a beaucoup plus de texte (titre, citation, CTA)
+   qui déborde souvent au-dessus de la zone couverte par le gradient
+   standard — overlay renforcé et étendu sur toute la carte pour
+   garantir un contraste correct quel que soit le contenu de la photo. */
+.jrgq-gal-item--featured .jrgq-gal-gradient {
+  height: 100%;
+  background: linear-gradient(to top,
+    rgba(15,8,3,0.92) 0%,
+    rgba(15,8,3,0.60) 40%,
+    rgba(15,8,3,0.22) 70%,
+    rgba(15,8,3,0.08) 100%
+  );
 }
 
 .jrgq-gal-shimmer { display: none; }
@@ -7859,6 +7878,7 @@ body {
   color: #fff;
   line-height: 1.1;
   margin-bottom: 6px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55);
 }
 .jrgq-gal-stars {
   font-size: 0.70rem;
@@ -7870,11 +7890,12 @@ body {
   font-family: var(--font-body);
   font-size: 0.78rem;
   font-style: italic;
-  color: rgba(255,255,255,0.68);
+  color: rgba(255,255,255,0.85);
   line-height: 1.5;
   margin: 0;
   display: none;
   max-width: 34ch;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.55);
 }
 .jrgq-gal-item--featured .jrgq-gal-quote { display: block; }
 .jrgq-gal-item:hover .jrgq-gal-quote      { display: block; }
