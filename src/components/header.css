@@ -14,7 +14,8 @@
   ═══════════════════════════════════════ */
   --ann-bar-h:        40px;
   --bbw-header-h:     96px;
-  --bbw-total-top:    calc(var(--ann-bar-h) + var(--bbw-header-h));
+  --bbw-bc-h:         36px;
+  --bbw-total-top:    calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
   --bbw-drawer-w:     340px;
 
   /* ═══════════════════════════════════════
@@ -1400,7 +1401,8 @@ body {
   :root {
     --ann-bar-h:     40px;
     --bbw-header-h:  64px;
-    --bbw-total-top: calc(var(--ann-bar-h) + var(--bbw-header-h));
+    --bbw-bc-h:      32px;
+    --bbw-total-top: calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
     --bbw-drawer-w:  min(100vw, 420px);
   }
 
@@ -1467,7 +1469,8 @@ body {
   :root {
     --ann-bar-h:     40px;
     --bbw-header-h:  60px;
-    --bbw-total-top: calc(var(--ann-bar-h) + var(--bbw-header-h));
+    --bbw-bc-h:      32px;
+    --bbw-total-top: calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
   }
 
   .bbw-header__inner { padding: 0 10px; gap: 4px; }
@@ -1489,12 +1492,17 @@ body {
    BREADCRUMBS
 ═══════════════════════════════════════════════════════════════ */
 #bc-nav {
-  /* sticky (et non fixed) : réserve sa propre hauteur dans le flux
-     normal pour que le contenu ne démarre jamais sous lui, tout en
-     restant visuellement collé sous le header pendant le scroll —
-     même comportement sur TOUTES les pages. */
-  position: sticky;
-  top: var(--bbw-total-top);
+  /* fixed, comme le header : comportement 100% identique et prévisible
+     sur TOUTES les pages, peu importe la structure/hauteur de leur
+     contenu (contrairement à sticky, qui dépend du conteneur parent
+     et pouvait produire des résultats différents selon la page).
+     L'espace qu'il occupe est réservé une fois pour toutes via
+     --bbw-bc-h, inclus dans --bbw-total-top (padding-top du body) —
+     donc jamais de chevauchement ni d'espace vide en trop. */
+  position: fixed;
+  top: calc(var(--ann-bar-h) + var(--bbw-header-h));
+  left: 0;
+  right: 0;
   width: 100%;
   z-index: 900;
   background: linear-gradient(110deg, #fffbf9 0%, #fff0f4 50%, #fffbf9 100%);
