@@ -4988,18 +4988,13 @@ if (window.innerWidth <= 768) {
   if (!nav || !list) return;
 
   // Transparence au scroll — même traitement que le header (verre
-  // dépoli). Réservé à la home (body.home-page) : c'est aussi là que
-  // #bc-nav est sticky en CSS (voir header.css) — sur les pages
-  // internes il reste en position normale et n'a donc rien à
-  // transformer pendant le scroll.
-  if (document.body.classList.contains('home-page')) {
-    (function bcScrollTransparency() {
-      const THRESHOLD = 60;
-      const onScroll = () => nav.classList.toggle('bc-nav--scrolled', window.scrollY > THRESHOLD);
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    })();
-  }
+  // dépoli), sur toutes les pages.
+  (function bcScrollTransparency() {
+    const THRESHOLD = 60;
+    const onScroll = () => nav.classList.toggle('bc-nav--scrolled', window.scrollY > THRESHOLD);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
 
   const separatorMap = {
     'separator_arrow':        '">"',
