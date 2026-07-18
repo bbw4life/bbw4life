@@ -24,8 +24,7 @@
   --col-shadow-lg:   0 12px 48px rgba(192,56,94,0.16);
   --col-transition:  0.28s cubic-bezier(0.4, 0, 0.2, 1);
   --col-drawer-w:    360px;
-  --font-display:    'Cormorant Garamond', Georgia, serif;
-  --font-body:       'DM Sans', system-ui, sans-serif;
+  /* --font-display / --font-body → déplacées dans /tokens.css */
 }
 
 .col-main, .col-toolbar, .col-layout,

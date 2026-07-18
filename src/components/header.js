@@ -240,11 +240,15 @@
   ────────────────────────────────────────────────────────────── */
   const header = document.getElementById('bbw-header');
   if (header) {
-    window.addEventListener('scroll', () => {
+    const SCROLLED_THRESHOLD = 60;
+    const onHeaderScroll = () => {
       header.style.boxShadow = window.scrollY > 10
         ? '0 4px 30px rgba(0,0,0,0.60),0 0 0 1px rgba(201,150,62,0.15)'
         : 'none';
-    }, { passive: true });
+      header.classList.toggle('bbw-header--scrolled', window.scrollY > SCROLLED_THRESHOLD);
+    };
+    window.addEventListener('scroll', onHeaderScroll, { passive: true });
+    onHeaderScroll();
   }
 
   /* ──────────────────────────────────────────────────────────────

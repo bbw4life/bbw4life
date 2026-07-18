@@ -4395,7 +4395,7 @@
       "banner_slide_duration_ms": 5000
     },
     "preloader": {
-      "show": "yes",
+      "show": "no",
       "style_pulse_logo":   "no",
       "style_progress_bar": "yes",
       "style_spinner_ring": "no",
@@ -4623,22 +4623,22 @@
     "marquee": "no",
     "pulse":   "no",
     "bounce":  "no",
-    "float":   "no",
+    "float":   "yes",
     "glow":    "no",
-    "spin":    "yes",
+    "spin":    "no",
     "wave":    "no",
     "shake":   "no"
   },
   "border_style": {
     "conic_noir":   "no",
-    "solid":        "no",
+    "solid":        "yes",
     "gradient_rgb": "no",
     "dashed":       "no",
-    "dotted":       "yes",
+    "dotted":       "no",
     "double":       "no"
   },
   "border_size":  2,
-  "border_color": "#c9963e",
+  "border_color": "#B8925A",
 
   "product_ids": [
     "Pdg-Francenel-product74",
@@ -5294,11 +5294,11 @@
       "duration_seconds": 15
     },
     "hero_banner": {
-      "video_url": "https://cdn.shopify.com/videos/c/o/v/1debb10519ba4aa9b6c83632cd24407d.mp4",
+      "video_url": "",
       "images": [
-        "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_1.png?v=1774377685",
-        "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_2.png?v=1774377685",
-        "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/banner_3.png?v=1774377686"
+        "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-banner_1.png?v=1784332524",
+        "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-banner_2.png?v=1784332526",
+        "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-banner_3.png?v=1784332525"
       ],
       "show_thumbnails": "yes",
       "thumbnails_position_desktop": "right",
@@ -6172,12 +6172,12 @@
     ]
   },
   "content_protection": {
-  "disable_right_click":      "yes",
-  "disable_text_selection":   "yes",
+  "disable_right_click":      "no",
+  "disable_text_selection":   "no",
   "disable_image_download":   "yes",
   "disable_video_download":   "yes",
-  "disable_copy":             "yes",
-  "disable_devtools_key": "yes"
+  "disable_copy":             "no",
+  "disable_devtools_key": "no"
 },
 "mini_product_slider": {
   "title": "Queens Also Love These",

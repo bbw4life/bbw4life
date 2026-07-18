@@ -5049,34 +5049,58 @@ a.au-offer-card {
 /* ─────────────────────────────────────────────
    TOKENS LOCAUX
 ───────────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+   TOKENS LOCAUX — fusion du bloc Contact et du bloc
+   Order Tracking (qui vivait plus bas dans ce même fichier,
+   mal étiqueté sous le commentaire "DISCLAIMER PAGE CSS", et
+   écrasait silencieusement les valeurs ci-dessous). --gold et
+   --gold-light corrigés pour matcher la valeur canonique du
+   site (voir /tokens.css) — Contact utilisait par erreur
+   #b8860b/#d4a94a, jamais réellement affichés à cause de ce
+   doublon.
+───────────────────────────────────────────── */
 :root {
   --rose:         #c0385e;
   --rose-light:   #d4506e;
   --rose-pale:    #fdeef2;
-  --rose-ultra:   #fff5f7;
+  --rose-ultra:   #fff5f8;
   --plum:         #7b3f6e;
   --plum-light:   #9b5a8e;
-  --gold:         #b8860b;
-  --gold-light:   #d4a94a;
+  --gold:         #c9963e;
+  --gold-vivid:   #FFD700;
+  --gold-light:   #e8bc6a;
+  --gold-pale:    #fdf5e0;
   --gold-mist:    #f0d890;
-  --champagne:    #f5e6c8;
-  --ivory:        #faf7f2;
+  --champagne:    #f7e8cc;
+  --ivory:        #fdf8f2;
+  --ivory-warm:   #faf3ea;
+  --pearl:        #fffdf9;
   --cream:        #f5efe4;
-  --charcoal:     #1e1218;
-  --slate:        #4a3840;
+  --charcoal:     #2c1a22;
+  --slate:        #4a3040;
   --mist:         #8a7080;
-  --border:       rgba(180, 120, 80, 0.14);
+  --border:       rgba(201, 150, 62, 0.18);
+  --border-mid:   rgba(201, 150, 62, 0.32);
+  --border-rose:  rgba(192, 56, 94, 0.16);
   --border-gold:  rgba(184, 134, 11, 0.22);
+  --shadow:       0 2px 18px rgba(60, 20, 40, 0.07);
   --shadow-soft:  0 2px 18px rgba(60, 20, 40, 0.08);
-  --shadow-mid:   0 8px 36px rgba(60, 20, 40, 0.13);
-  --shadow-lift:  0 20px 60px rgba(60, 20, 40, 0.17);
+  --shadow-mid:   0 8px 36px rgba(60, 20, 40, 0.11);
+  --shadow-lift:  0 20px 60px rgba(60, 20, 40, 0.15);
+  --shadow-gold:  0 0 30px rgba(201, 150, 62, 0.16);
+  --shadow-rose:  0 0 30px rgba(192, 56, 94, 0.12);
   --radius-sm:    10px;
   --radius-md:    18px;
   --radius-lg:    26px;
   --radius-full:  100px;
+  --r-sm:         10px;
+  --r-md:         18px;
+  --r-lg:         28px;
+  --r-full:       100px;
   --transition:   all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'DM Sans', system-ui, sans-serif;
+  --ease:         all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  --spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* --font-display / --font-body → déplacées dans /tokens.css */
   --section-gap:  15px;
   --section-pad:  15px;
 }
@@ -8793,39 +8817,13 @@ body.disc-page {
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap');
 
 
-:root {
-  --rose:        #c0385e;
-  --rose-pale:   #fdeef2;
-  --rose-ultra:  #fff5f8;
-  --plum:        #7b3f6e;
-  --gold:        #c9963e;
-  --gold-vivid:  #FFD700;
-  --gold-light:  #e8bc6a;
-  --gold-pale:   #fdf5e0;
-  --ivory:       #fdf8f2;
-  --ivory-warm:  #faf3ea;
-  --pearl:       #fffdf9;
-  --champagne:   #f7e8cc;
-  --charcoal:    #2c1a22;
-  --slate:       #4a3040;
-  --mist:        #8a7080;
-  --border:      rgba(201,150,62,0.18);
-  --border-mid:  rgba(201,150,62,0.32);
-  --border-rose: rgba(192,56,94,0.16);
-  --shadow:      0 2px 18px rgba(60,20,40,0.07);
-  --shadow-mid:  0 8px 36px rgba(60,20,40,0.11);
-  --shadow-lift: 0 20px 60px rgba(60,20,40,0.15);
-  --shadow-gold: 0 0 30px rgba(201,150,62,0.16);
-  --shadow-rose: 0 0 30px rgba(192,56,94,0.12);
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'DM Sans', system-ui, sans-serif;
-  --r-sm:   10px;
-  --r-md:   18px;
-  --r-lg:   28px;
-  --r-full: 100px;
-  --ease:   all 0.32s cubic-bezier(0.4,0,0.2,1);
-  --spring: cubic-bezier(0.34,1.56,0.64,1);
-}
+/* Bloc :root "Order Tracking" fusionné dans le bloc unique
+   de la section Contact (voir plus haut dans ce fichier,
+   ligne ~5052) — ce doublon écrasait silencieusement les
+   valeurs de Contact car déclaré plus bas dans le même fichier.
+   Toutes les variables utilisées ici (--rose, --gold, --ivory,
+   --charcoal, --border, --r-sm, --ease, etc.) restent définies
+   dans ce bloc unique. */
 
 
 @keyframes float-orb     { 0%,100%{transform:translate(0,0)} 50%{transform:translate(28px,-18px)} }

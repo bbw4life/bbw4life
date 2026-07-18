@@ -5,19 +5,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
-  
-  --bbw-black:        #0d0d0d;
-  --bbw-black-soft:   #1a1a1a;
-  --bbw-gold:         #c9963e;
-  --bbw-gold-vivid:   #FFD700;
-  --bbw-gold-light:   #e8bc6a;
-  --bbw-rose:         #c0385e;
-  --bbw-rose-light:   #d4506e;
-  --bbw-white:        #ffffff;
-  --bbw-white-soft:   rgba(255,255,255,0.85);
-  --bbw-mist:         rgba(255,255,255,0.45);
 
-  
+  /* BBW4LIFE brand colors (--bbw-*) → déplacées dans /tokens.css
+     (chargé avant ce fichier) */
+
+
   --green:            #22a06b;
   --green-pale:       #e8f8f0;
   --charcoal:         #1a1a1a;
@@ -36,8 +28,7 @@
   --radius:           20px;
   --radius-sm:        12px;
   --radius-pill:      100px;
-  --font-display:     'Cormorant Garamond', Georgia, serif;
-  --font-body:        'DM Sans', system-ui, sans-serif;
+  /* --font-display / --font-body → déplacées dans /tokens.css */
   --transition:       all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
   --spring:           all 0.44s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

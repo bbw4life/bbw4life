@@ -1,0 +1,48 @@
+/* ================================================================
+   BBW4LIFE — TOKENS.CSS — SOURCE UNIQUE DE VÉRITÉ
+   Variables de marque (--bbw-*) + polices, partagées par tout le site.
+   Ce fichier doit être chargé EN PREMIER, avant tout autre CSS,
+   sur chaque page. Ne pas redéclarer ces variables ailleurs.
+================================================================ */
+
+:root {
+
+  /* ═══════════════════════════════════════
+     BRAND COLORS — noir / or antique / burgundy
+  ═══════════════════════════════════════ */
+  --bbw-black:          #15110E;
+  --bbw-black-soft:     #1a1a1a;
+  --bbw-black-deep:     #111111;
+  --bbw-black-card:     #141414;
+
+  --bbw-gold:           #B8925A;
+  --bbw-gold-vivid:     #CBA45C;
+  --bbw-gold-light:     #e8bc6a;
+  --bbw-gold-pale:      rgba(184, 146, 90, 0.10);
+  --bbw-gold-pale-mid:  rgba(184, 146, 90, 0.16);
+  --bbw-gold-border:    rgba(184, 146, 90, 0.28);
+  --bbw-gold-border-hi: rgba(184, 146, 90, 0.50);
+  --bbw-gold-glow:      rgba(203, 164, 92, 0.18);
+  --bbw-gold-glow-hi:   rgba(203, 164, 92, 0.35);
+
+  --bbw-rose:           #6E2439;
+  --bbw-rose-light:     #9C3A52;
+
+  --bbw-white:          #ffffff;
+  --bbw-white-soft:     rgba(255, 255, 255, 0.85);
+  --bbw-white-mid:      rgba(255, 255, 255, 0.60);
+  --bbw-white-mist:     rgba(255, 255, 255, 0.40);
+  --bbw-white-ghost:    rgba(255, 255, 255, 0.06);
+  --bbw-mist:           rgba(255, 255, 255, 0.45);
+
+  /* ═══════════════════════════════════════
+     TRANSITIONS
+  ═══════════════════════════════════════ */
+  --bbw-transition:     all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ═══════════════════════════════════════
+     TYPOGRAPHIE
+  ═══════════════════════════════════════ */
+  --font-display:       'Fraunces', Georgia, serif;
+  --font-body:          'Inter', system-ui, sans-serif;
+}

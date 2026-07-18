@@ -4,30 +4,12 @@
 ═══════════════════════════════════════════════════════════════ */
 
 :root {
-  
-  --bbw-black:          #0d0d0d;
-  --bbw-black-soft:     #1a1a1a;
-  --bbw-black-deep:     #111111;
-  --bbw-black-card:     #141414;
 
-  --bbw-gold:           #c9963e;
-  --bbw-gold-vivid:     #b8860b;
-  --bbw-gold-light:     #e8bc6a;
-  --bbw-gold-pale:      rgba(201, 150, 62, 0.10);
-  --bbw-gold-pale-mid:  rgba(201, 150, 62, 0.16);
-  --bbw-gold-border:    rgba(201, 150, 62, 0.25);
-  --bbw-gold-border-hi: rgba(201, 150, 62, 0.40);
-  --bbw-gold-glow:      rgba(201, 150, 62, 0.18);
+  /* BBW4LIFE brand colors + --bbw-transition → déplacées dans /tokens.css
+     (chargé avant ce fichier). Ne garder ici que les tokens
+     propres au footer. */
 
-  --bbw-white:          #ffffff;
-  --bbw-white-soft:     rgba(255, 255, 255, 0.85);
-  --bbw-white-mid:      rgba(255, 255, 255, 0.60);
-  --bbw-white-mist:     rgba(255, 255, 255, 0.38);
-  --bbw-white-ghost:    rgba(255, 255, 255, 0.05);
 
-  --bbw-transition:     all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
-
-  
   --footer-bg:                     #fdf8f2;
   --footer-text:                   rgba(45, 26, 14, 0.60);
   --footer-link-color:             rgba(45, 26, 14, 0.80);

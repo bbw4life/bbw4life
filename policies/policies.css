@@ -8,20 +8,14 @@
    VARIABLES — système de design BBW4LIFE
 ───────────────────────────────────────────── */
 :root {
-  
-  --bbw-black:        #0d0d0d;
-  --bbw-black-soft:   #1a1a1a;
-  --bbw-gold:         #c9963e;
-  --bbw-gold-vivid:   #FFD700;
-  --bbw-gold-light:   #e8bc6a;
-  --bbw-rose:         #c9963e;       
-  --bbw-rose-light:   #e8bc6a;       
-  --bbw-white:        #ffffff;
-  --bbw-white-soft:   rgba(255,255,255,0.85);
-  --bbw-mist:         rgba(255,255,255,0.45);
 
-  
-  --rose:           #c9963e;         
+  /* BBW4LIFE brand colors (--bbw-*) → déplacées dans /tokens.css
+     (chargé avant ce fichier). L'ancienne valeur --bbw-rose de ce
+     fichier (#c9963e, = à --bbw-gold) était un bug : le token
+     canonique --bbw-rose (#c0385e) vit maintenant dans tokens.css. */
+
+
+  --rose:           #c9963e;
   --rose-light:     #e8bc6a;         
   --rose-dark:      #a07828;         
   --rose-pale:      #fdf5e0;         
@@ -68,10 +62,9 @@
   --shadow-gold:    0 0 30px rgba(201, 150, 62, 0.18);
 
   
-  --font-display:   'Cormorant Garamond', Georgia, serif;
-  --font-body:      'DM Sans', system-ui, sans-serif;
+  /* --font-display / --font-body → déplacées dans /tokens.css */
 
-  
+
   --radius-sm:      10px;
   --radius-md:      18px;
   --radius-lg:      28px;

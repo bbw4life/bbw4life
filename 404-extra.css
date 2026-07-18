@@ -71,8 +71,7 @@
   --black:        #0a0602;
   --black-mid:    #12100a;
   --black-soft:   #1c1912;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'DM Sans', sans-serif;
+  /* --font-display / --font-body → déplacées dans /tokens.css */
   --ann-h:        38px;
   --hdr-h:        64px;
 }

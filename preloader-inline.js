@@ -1,17 +1,16 @@
 (function(){
-  // Lecture SYNCHRONE du setting avant tout injection
-  try {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/products.data.json', false); // false = synchrone
-    xhr.send();
-    var data = JSON.parse(xhr.responseText);
+  // Lecture ASYNCHRONE du setting avant injection — un XHR synchrone
+  // bloquait tout le thread principal (et donc tout le rendu de la
+  // page) le temps de télécharger products.data.json en entier, même
+  // quand le preloader est désactivé.
+  fetch('/products.data.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
     var arr      = Array.isArray(data) ? data : [];
     var settings = arr.find(function(p){ return p.type === 'settings'; }) || {};
     var cfg      = settings.preloader || {};
     var show     = (cfg.show || 'yes').trim().toLowerCase();
     if (show !== 'yes') return; // ← stop total, rien n'est injecté
-  } catch(e) {
-  }
 
   // ── CSS ──────────────────────────────────────────────
   var s = document.createElement('style');
@@ -104,4 +103,6 @@
       '</div>' +
     '</div>'
   );
+    })
+    .catch(function () {});
 })();
