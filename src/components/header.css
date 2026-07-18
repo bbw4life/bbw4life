@@ -404,7 +404,10 @@ body {
 }
 
 .bbw-logo__img {
-  height: 118px;
+  /* Ne doit jamais dépasser --bbw-header-h : un logo plus grand que le
+     header déborde visuellement (et reste cliquable) par-dessus le
+     breadcrumb juste en dessous, ce qui bloque les clics dessus. */
+  height: 92px;
   width: auto;
   object-fit: contain;
   transition: var(--bbw-transition);
@@ -1410,7 +1413,7 @@ body {
 
   .bbw-header__inner { padding: 0 14px; gap: 6px; }
   .bbw-burger { width: 40px; height: 40px; min-width: 40px; border-radius: 2px; }
-  .bbw-logo__img  { height: 76px; }
+  .bbw-logo__img  { height: 60px; }
   .bbw-logo__text { font-size: 1.4rem; }
 
   .bbw-search__bar {
@@ -1476,7 +1479,7 @@ body {
   .bbw-header__inner { padding: 0 10px; gap: 4px; }
   .bbw-burger { width: 34px; height: 34px; min-width: 34px; border-radius: 2px; }
   .bbw-burger__bar { width: 16px; }
-  .bbw-logo__img { height: 60px; }
+  .bbw-logo__img { height: 56px; }
   .bbw-search { display: flex !important; flex: 0 0 auto; }
   .bbw-search__bar { height: var(--bbw-header-h); }
   .bbw-icon-btn { width: 32px; height: 32px; min-width: 32px; font-size: 14px; border-radius: 2px; }
