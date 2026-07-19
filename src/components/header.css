@@ -65,24 +65,34 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 22px;
   overflow: hidden;
 }
 
 .ann-bar__btn {
   background: none;
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
   color: var(--bbw-white-mist);
-  font-size: 18px;
+  font-size: 14px;
+  font-weight: 300;
   line-height: 1;
-  padding: 4px 8px;
-  transition: color 0.22s ease;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  transition: color 0.25s ease, border-color 0.25s ease;
   flex-shrink: 0;
   z-index: 2;
 }
 
-.ann-bar__btn:hover { color: var(--bbw-gold-vivid); }
+.ann-bar__btn:hover {
+  color: var(--bbw-gold-vivid);
+  border-color: var(--bbw-gold-border-hi);
+}
 
 .ann-bar__track {
   flex: 1;
@@ -98,9 +108,9 @@ body {
   width: 100%;
   text-align: center;
   font-family: var(--font-body);
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 500;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.19em;
   text-transform: uppercase;
   color: var(--bbw-white-mid);
   opacity: 0;
@@ -117,33 +127,48 @@ body {
 }
 
 .ann-bar__slide i {
-  margin-right: 7px;
-  font-size: 12px;
+  margin-right: 8px;
+  font-size: 11px;
   color: var(--bbw-gold);
+  opacity: 0.9;
+}
+
+.ann-bar__slide svg {
+  width: 11px !important;
+  height: 11px !important;
+  stroke-width: 1.4 !important;
+  color: var(--bbw-gold);
+  opacity: 0.85;
+  margin-right: 2px;
+  vertical-align: -1px;
 }
 
 .ann-bar__dots {
   display: flex;
-  gap: 5px;
-  margin-left: 10px;
+  align-items: center;
+  gap: 6px;
+  margin-left: 14px;
   flex-shrink: 0;
 }
 
 .ann-bar__dot {
-  width: 5px;
-  height: 5px;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
   background: var(--bbw-white-mist);
-  transition: background 0.3s ease;
+  opacity: 0.45;
+  transition: width 0.35s ease, border-radius 0.35s ease, background 0.35s ease, opacity 0.35s ease;
 }
 
 .ann-bar__dot.active {
+  width: 14px;
+  border-radius: 2px;
   background: var(--bbw-gold-vivid);
-  box-shadow: 0 0 6px var(--bbw-gold-glow);
+  opacity: 1;
 }
 
 @media (max-width: 480px) {
-  .ann-bar__slide { font-size: 10px; white-space: nowrap; }
+  .ann-bar__slide { font-size: 9.5px; letter-spacing: 0.14em; white-space: nowrap; }
   .ann-bar__dots  { display: none; }
 }
 
@@ -407,7 +432,7 @@ body {
   /* Ne doit jamais dépasser --bbw-header-h : un logo plus grand que le
      header déborde visuellement (et reste cliquable) par-dessus le
      breadcrumb juste en dessous, ce qui bloque les clics dessus. */
-  height: 78px;
+  height: 90px;
   width: auto;
   object-fit: contain;
   transition: var(--bbw-transition);
@@ -1413,7 +1438,7 @@ body {
 
   .bbw-header__inner { padding: 0 14px; gap: 6px; }
   .bbw-burger { width: 40px; height: 40px; min-width: 40px; border-radius: 2px; }
-  .bbw-logo__img  { height: 52px; }
+  .bbw-logo__img  { height: 55px; }
   .bbw-logo__text { font-size: 1.4rem; }
 
   .bbw-search__bar {
@@ -1479,7 +1504,7 @@ body {
   .bbw-header__inner { padding: 0 10px; gap: 4px; }
   .bbw-burger { width: 34px; height: 34px; min-width: 34px; border-radius: 2px; }
   .bbw-burger__bar { width: 16px; }
-  .bbw-logo__img { height: 44px; }
+  .bbw-logo__img { height: 55px; }
   .bbw-search { display: flex !important; flex: 0 0 auto; }
   .bbw-search__bar { height: var(--bbw-header-h); }
   .bbw-icon-btn { width: 32px; height: 32px; min-width: 32px; font-size: 14px; border-radius: 2px; }
