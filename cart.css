@@ -6,17 +6,24 @@
 
 
 :root {
-  --cp-gold:        #c9963e;
-  --cp-gold-light:  #e8bc6a;
-  --cp-gold-faint:  rgba(201,150,62,0.12);
-  --cp-ivory:       #faf6f0;
-  --cp-ivory-warm:  #fdf8f0;
-  --cp-dark:        #1e1a1c;
-  --cp-dark2:       #2a2a2a;
-  --cp-muted:       #a08878;
-  --cp-border:      rgba(201,150,62,0.18);
-  --cp-radius:      18px;
-  --cp-shadow:      0 8px 40px rgba(13,0,26,0.10);
+  /* Palette locale ré-ancrée sur les tokens de marque (/tokens.css),
+     chargés avant ce fichier. Les noms --cp-* restent (consommés partout
+     ici) mais pointent désormais vers la source unique de vérité --bbw-*. */
+  --cp-gold:        var(--bbw-gold);                 /* or antique #B8925A */
+  --cp-gold-light:  var(--bbw-gold-light);
+  --cp-gold-faint:  var(--bbw-gold-pale);
+  --cp-ivory:       #F6EFE5;                          /* ivoire de marque */
+  --cp-ivory-warm:  #FBF7F0;
+  --cp-surface:     var(--bbw-white);
+  --cp-dark:        var(--bbw-black);                 /* #15110E */
+  --cp-dark2:       var(--bbw-black-soft);
+  --cp-rose:        var(--bbw-rose);                  /* burgundy #6E2439 */
+  --cp-muted:       rgba(21,17,14,0.52);
+  --cp-border:      rgba(184,146,90,0.20);
+  --cp-radius:      4px;
+  --cp-radius-sm:   2px;
+  --cp-shadow:      0 4px 24px rgba(21,17,14,0.08);
+  --cp-shadow-lg:   0 16px 48px rgba(21,17,14,0.14);
 }
 
 /* ================================================================
@@ -66,7 +73,7 @@
    CART HEADER
 ================================================================ */
 .cp-header {
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a0812 55%, #0d0d0d 100%);
+  background: linear-gradient(160deg, #15110E 0%, #22141A 62%, #15110E 100%);
   padding: 18px 0 16px;
   position: relative;
   overflow: hidden;
@@ -101,7 +108,7 @@
   gap: 7px;
   color: rgba(232,188,106,0.65);
   text-decoration: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.07em;
@@ -111,7 +118,7 @@
 .cp-back-link:hover { color: #e8bc6a; }
 
 .cp-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.55rem;
   font-weight: 700;
   color: #fdfdfd;
@@ -125,7 +132,7 @@
 }
 .cp-title svg { color: #e8bc6a; flex-shrink: 0; }
 .cp-title__count {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.70rem;
   font-weight: 700;
   background: rgba(201,150,62,0.14);
@@ -146,7 +153,7 @@
   color: rgba(232,188,106,0.70);
   padding: 8px 18px;
   border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -210,7 +217,7 @@
   margin-bottom: 9px;
   text-align: center;
   letter-spacing: 0.03em;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
 }
 .cp-progress-wrap .cart-drawer__progress-message strong { color: #1e1a1c; }
 
@@ -342,8 +349,8 @@
   grid-template-columns: 1fr 110px 140px 110px;
   gap: 12px;
   padding: 13px 22px;
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a0812 55%, #0d0d0d 100%);
-  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(160deg, #15110E 0%, #22141A 62%, #15110E 100%);
+  font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.10em;
@@ -401,7 +408,7 @@
   gap: 4px;
 }
 .cp-item-meta h4 {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--cp-dark);
@@ -412,7 +419,7 @@
 .cp-item-meta h4:hover { color: var(--cp-gold); }
 .cp-item-meta p,
 .cp-item-meta .item-variant {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   color: rgba(160,136,120,0.80);
   margin: 0;
@@ -420,7 +427,7 @@
 
 
 .cp-item-price-col {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--cp-dark);
@@ -463,7 +470,7 @@
   color: #c0385e;
 }
 .cp-qty-ctrl span {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--cp-dark);
@@ -486,7 +493,7 @@
 
 
 .cp-item-line-total {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.10rem;
   font-weight: 700;
   color: var(--cp-dark);
@@ -495,7 +502,7 @@
 
 
 .free-badge {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 700;
   background: rgba(34,160,107,0.10);
@@ -534,7 +541,7 @@
 
 
 .cart-item-request-btn {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.70rem;
   font-weight: 600;
   color: #c9963e;
@@ -574,10 +581,8 @@
   top: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg,
-    transparent, #7b3f6e 10%, #c9963e 30%,
-    #f5d080 50%, #c9963e 70%, #7b3f6e 90%, transparent);
-  background-size: 400% 100%;
-  animation: cpTopBarShimmer 3s ease-in-out infinite;
+    transparent, rgba(184,146,90,0.25) 20%, var(--bbw-gold) 50%,
+    rgba(184,146,90,0.25) 80%, transparent);
 }
 .cp-upsell-header {
   display: flex;
@@ -588,14 +593,14 @@
 }
 .cp-upsell-header > div { flex: 1; }
 .cp-upsell-header h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--cp-dark);
   margin: 0 0 3px;
 }
 .cp-upsell-header p {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.76rem;
   color: var(--cp-muted);
   margin: 0;
@@ -603,7 +608,7 @@
 .cp-upsell-badge {
   background: linear-gradient(135deg, #0d0d0d, #2a2a2a);
   color: #e8bc6a;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -640,7 +645,7 @@
   flex-shrink: 0;
 }
 .cp-upsell-section .p2-upsell-info strong {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem; font-weight: 600; color: var(--cp-dark); display: block;
 }
 .cp-upsell-section .p2-upsell-info span {
@@ -650,7 +655,7 @@
   font-size: 0.72rem; color: #c0a8a8; text-decoration: line-through;
 }
 .cp-upsell-section .p2-upsell-new {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.05rem; font-weight: 700; color: #22a06b;
 }
 .cp-upsell-section .p2-upsell-check {
@@ -667,12 +672,12 @@
   flex-wrap: wrap;
 }
 .cp-upsell-total {
-  font-family: 'DM Sans', sans-serif; font-size: 0.80rem; color: var(--cp-muted);
+  font-family: var(--font-body); font-size: 0.80rem; color: var(--cp-muted);
 }
 .cp-upsell-total strong {
   color: var(--cp-dark);
   font-size: 1.05rem;
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
 }
 .cp-upsell-btn {
   display: inline-flex;
@@ -683,7 +688,7 @@
   border: 1.5px solid rgba(201,150,62,0.55);
   border-radius: 100px;
   padding: 10px 22px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -770,7 +775,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 14px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -802,7 +807,7 @@
    SHARE SECTION
 ================================================================ */
 .cp-share-section {
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a0812 55%, #0d0d0d 100%);
+  background: linear-gradient(160deg, #15110E 0%, #22141A 62%, #15110E 100%);
   border: 1px solid rgba(201,150,62,0.28);
   border-radius: var(--cp-radius);
   padding: 10px 10px;
@@ -832,7 +837,7 @@
   align-items: center;
   gap: 8px;
   color: rgba(232,188,106,0.75);
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -850,7 +855,7 @@
   gap: 6px;
   padding: 8px 16px;
   border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
@@ -910,14 +915,12 @@
   top: 0; left: 0; right: 0;
   height: 2.5px;
   background: linear-gradient(90deg,
-    transparent, #7b3f6e 10%, #c9963e 30%,
-    #f5d080 50%, #c9963e 70%, #7b3f6e 90%, transparent);
-  background-size: 400% 100%;
-  animation: cpTopBarShimmer 3s ease-in-out infinite;
+    transparent, rgba(184,146,90,0.25) 20%, var(--bbw-gold) 50%,
+    rgba(184,146,90,0.25) 80%, transparent);
   border-radius: var(--cp-radius) var(--cp-radius) 0 0;
 }
 .cp-summary-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.30rem;
   font-weight: 700;
   color: var(--cp-dark);
@@ -935,7 +938,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
   color: var(--cp-muted);
 }
@@ -954,7 +957,7 @@
   margin-bottom: 18px;
 }
 .cp-summary-total span:first-child {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -962,7 +965,7 @@
   color: var(--cp-dark);
 }
 .cp-total-amount {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.70rem;
   font-weight: 700;
   color: var(--cp-dark);
@@ -984,10 +987,10 @@
 .cp-loyalty-inner > i { font-size: 1.15rem; flex-shrink: 0; }
 .cp-loyalty-inner > div { display: flex; flex-direction: column; gap: 2px; }
 .cp-loyalty-inner strong {
-  font-family: 'DM Sans', sans-serif; font-size: 0.80rem; font-weight: 700; color: var(--cp-dark);
+  font-family: var(--font-body); font-size: 0.80rem; font-weight: 700; color: var(--cp-dark);
 }
 .cp-loyalty-inner span {
-  font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--cp-muted);
+  font-family: var(--font-body); font-size: 0.72rem; color: var(--cp-muted);
 }
 
 
@@ -1046,7 +1049,7 @@
 }
 .cp-trust-item i { font-size: 0.90rem; color: var(--cp-gold); flex-shrink: 0; }
 .cp-trust-item span {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.70rem; font-weight: 600; color: var(--cp-dark); letter-spacing: 0.03em;
 }
 
@@ -1082,10 +1085,8 @@
   top: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg,
-    transparent, #7b3f6e 10%, #c9963e 30%,
-    #f5d080 50%, #c9963e 70%, #7b3f6e 90%, transparent);
-  background-size: 400% 100%;
-  animation: cpTopBarShimmer 3s ease-in-out infinite;
+    transparent, rgba(184,146,90,0.25) 20%, var(--bbw-gold) 50%,
+    rgba(184,146,90,0.25) 80%, transparent);
 }
 .cp-empty-inner .empty-cart__icon-bg {
   width: 88px; height: 88px;
@@ -1102,13 +1103,13 @@
   width: 22px; height: 22px;
   background: linear-gradient(135deg, #c0385e, #7b3f6e);
   color: #fff;
-  font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 700;
+  font-family: var(--font-body); font-size: 0.68rem; font-weight: 700;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   border: 2px solid #fffdf9;
 }
 .cp-empty-inner h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.65rem; font-weight: 700; color: var(--cp-dark); margin: 0;
 }
 .cp-empty-inner h3 span {
@@ -1118,7 +1119,7 @@
   background-clip: text;
 }
 .cp-empty-inner p {
-  font-family: 'DM Sans', sans-serif; font-size: 0.84rem; color: var(--cp-muted); line-height: 1.65; margin: 0;
+  font-family: var(--font-body); font-size: 0.84rem; color: var(--cp-muted); line-height: 1.65; margin: 0;
 }
 .cp-empty-inner .flash-deal__cta {
   margin-top: 8px;
@@ -1128,7 +1129,7 @@
   border: 1.5px solid rgba(201,150,62,0.50);
   border-radius: 100px;
   padding: 13px 30px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.76rem; font-weight: 700;
+  font-family: var(--font-body); font-size: 0.76rem; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
   transition: all 0.30s;
 }
@@ -1157,7 +1158,7 @@
   position: fixed;
   bottom: 0px; left: 0; right: 0;
   z-index: 1000;
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a0812 55%, #0d0d0d 100%);
+  background: linear-gradient(160deg, #15110E 0%, #22141A 62%, #15110E 100%);
   border-top: 1px solid rgba(201,150,62,0.32);
   padding: 0px 16px 4px;
   box-sizing: border-box;
@@ -1196,7 +1197,7 @@
 }
 #cp-sticky-total {
   color: #fdfdfd !important;
-  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-family: var(--font-display) !important;
   font-size: 1.22rem !important;
   font-weight: 700 !important;
 }
@@ -1246,12 +1247,12 @@
   background: rgba(201,150,62,0.18); color: #e8bc6a; transform: rotate(90deg);
 }
 .cp-share-modal__box h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.38rem; font-weight: 700; color: #fdfdfd; margin: 0 0 6px;
   text-shadow: 0 0 22px rgba(201,150,62,0.32);
 }
 .cp-share-modal__box > p {
-  font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+  font-family: var(--font-body); font-size: 0.78rem;
   color: rgba(255,255,255,0.42); margin: 0 0 20px;
 }
 .cp-share-modal__link-row {
@@ -1263,7 +1264,7 @@
   border: 1px solid rgba(201,150,62,0.26);
   border-radius: 10px; padding: 10px 14px;
   color: rgba(255,255,255,0.68);
-  font-family: 'DM Sans', sans-serif; font-size: 0.76rem;
+  font-family: var(--font-body); font-size: 0.76rem;
   outline: none; min-width: 0;
 }
 .cp-share-modal__copy {
@@ -1272,7 +1273,7 @@
   border: 1px solid rgba(201,150,62,0.38);
   color: #e8bc6a;
   border-radius: 10px; padding: 10px 16px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.74rem; font-weight: 600;
+  font-family: var(--font-body); font-size: 0.74rem; font-weight: 600;
   cursor: pointer; transition: all 0.25s; white-space: nowrap;
 }
 .cp-share-modal__copy:hover {
@@ -1285,7 +1286,7 @@
   flex: 1; min-width: 80px; padding: 9px 8px;
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center; gap: 6px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600;
+  font-family: var(--font-body); font-size: 0.72rem; font-weight: 600;
   cursor: pointer; transition: all 0.25s;
   border: 1px solid rgba(255,255,255,0.10);
   background: rgba(255,255,255,0.04);
@@ -1296,7 +1297,7 @@
   color: #e8bc6a; transform: translateY(-1px);
 }
 .cp-share-modal__note {
-  font-family: 'DM Sans', sans-serif; font-size: 0.68rem;
+  font-family: var(--font-body); font-size: 0.68rem;
   color: rgba(255,255,255,0.28); text-align: center; margin: 0;
 }
 
@@ -1312,7 +1313,7 @@
   border: 1px solid rgba(201,150,62,0.48);
   padding: 10px 24px;
   border-radius: 100px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600;
+  font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
   letter-spacing: 0.06em; z-index: 99999;
   opacity: 0; transition: opacity 0.30s, transform 0.30s;
   pointer-events: none;
@@ -1342,11 +1343,11 @@
 }
 .cbp-icon { font-size: 2.8rem; margin-bottom: 14px; }
 .cbp-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.35rem; color: #fdfdfd; margin: 0 0 12px;
 }
 .cbp-msg {
-  font-family: 'DM Sans', sans-serif; font-size: 0.80rem;
+  font-family: var(--font-body); font-size: 0.80rem;
   color: rgba(255,255,255,0.60); line-height: 1.65; margin: 0 0 20px;
 }
 .cbp-actions { display: flex; justify-content: center; }
@@ -1354,7 +1355,7 @@
   background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
   color: #e8bc6a; border: 1.5px solid rgba(201,150,62,0.55);
   border-radius: 100px; padding: 12px 28px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.76rem; font-weight: 700;
+  font-family: var(--font-body); font-size: 0.76rem; font-weight: 700;
   letter-spacing: 0.06em; cursor: pointer; transition: all 0.25s;
 }
 .cbp-btn:hover {
@@ -1472,10 +1473,8 @@
   top: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg,
-    transparent, #7b3f6e 10%, #c9963e 30%,
-    #f5d080 50%, #c9963e 70%, #7b3f6e 90%, transparent);
-  background-size: 400% 100%;
-  animation: cpTopBarShimmer 3s ease-in-out infinite;
+    transparent, rgba(184,146,90,0.25) 20%, var(--bbw-gold) 50%,
+    rgba(184,146,90,0.25) 80%, transparent);
   border-radius: var(--cp-radius, 18px) var(--cp-radius, 18px) 0 0;
 }
 
@@ -1488,14 +1487,14 @@
 }
 .cp-extra-header > div { flex: 1; }
 .cp-extra-header h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--cp-dark, #1e1a1c);
   margin: 0 0 3px;
 }
 .cp-extra-header p {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.76rem;
   color: var(--cp-muted, #a08878);
   margin: 0;
@@ -1503,7 +1502,7 @@
 .cp-extra-badge {
   background: linear-gradient(135deg, #0d0d0d, #2a2a2a);
   color: #e8bc6a;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -1590,7 +1589,7 @@
   top: 8px; left: 8px;
   background: linear-gradient(135deg, #c0385e, #7b3f6e);
   color: #fff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.60rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -1607,7 +1606,7 @@
   top: 8px; right: 8px;
   background: rgba(34,160,107,0.92);
   color: #fff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.60rem;
   font-weight: 700;
   padding: 3px 8px;
@@ -1624,7 +1623,7 @@
   flex: 1;
 }
 .cp-extra-card__title {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.74rem;
   font-weight: 600;
   color: var(--cp-dark, #1e1a1c);
@@ -1644,14 +1643,14 @@
   flex-wrap: wrap;
 }
 .cp-extra-card__price {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 0.98rem;
   font-weight: 700;
   color: var(--cp-dark, #1e1a1c);
   text-decoration: none !important;
 }
 .cp-extra-card__compare {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.70rem;
   color: #c0a8a8;
   text-decoration: line-through;
@@ -1665,7 +1664,7 @@
   color: #e8bc6a;
   border: 1.5px solid rgba(201,150,62,0.45);
   border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1795,7 +1794,7 @@
   margin-bottom: 11px;
 }
 .drawer-extra-header span {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.70rem;
   font-weight: 700;
   letter-spacing: 0.09em;
@@ -1877,7 +1876,7 @@
   top: 6px; left: 6px;
   background: linear-gradient(135deg, #c0385e, #7b3f6e);
   color: #fff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1892,7 +1891,7 @@
   top: 6px; right: 6px;
   background: rgba(34,160,107,0.90);
   color: #fff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.58rem;
   font-weight: 700;
   padding: 2px 6px;
@@ -1909,7 +1908,7 @@
   flex: 1;
 }
 .drawer-extra-card__title {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
   color: #1e1a1c;
@@ -1928,14 +1927,14 @@
   flex-wrap: wrap;
 }
 .drawer-extra-card__price {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 0.95rem;
   font-weight: 700;
   color: #1e1a1c;
   text-decoration: none !important;
 }
 .drawer-extra-card__compare {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.68rem;
   color: #c0a8a8;
   text-decoration: line-through;
@@ -1949,7 +1948,7 @@
   color: #e8bc6a;
   border: 1px solid rgba(201,150,62,0.40);
   border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.05em;
