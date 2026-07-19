@@ -225,13 +225,13 @@
     (function () {
       var c = document.getElementById('acHeroParticles');
       if (!c) return;
-      var cols = ['rgba(192,56,94,0.55)', 'rgba(201,150,62,0.45)', 'rgba(123,63,110,0.45)', 'rgba(255,255,255,0.10)'];
-      for (var i = 0; i < 26; i++) {
+      var cols = ['rgba(192,56,94,0.40)', 'rgba(201,150,62,0.35)', 'rgba(123,63,110,0.35)', 'rgba(255,255,255,0.08)'];
+      for (var i = 0; i < 14; i++) {
         var p = document.createElement('div');
         p.className = 'ac-hero__particle';
-        var sz  = Math.random() * 4 + 2;
-        var dur = Math.random() * 7 + 5;
-        var del = Math.random() * 9;
+        var sz  = Math.random() * 2.5 + 1.5;
+        var dur = Math.random() * 8 + 10;
+        var del = Math.random() * 12;
         p.style.cssText =
           'width:' + sz + 'px;height:' + sz + 'px;' +
           'left:' + (Math.random() * 100) + '%;' +
