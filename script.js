@@ -5059,6 +5059,19 @@ if (window.innerWidth <= 768) {
     });
 
     nav.style.display = 'block';
+
+    // Mesure la hauteur RÉELLE du breadcrumb (fixed) et l'injecte dans
+    // --bbw-bc-h : la valeur codée en dur en CSS était une estimation
+    // légèrement trop généreuse, ce qui créait un petit espace vide
+    // constant sous le breadcrumb sur toutes les pages. Mesurer la
+    // vraie valeur élimine cet écart, quel que soit le navigateur/la
+    // largeur d'écran.
+    function syncBcHeight() {
+      const h = nav.getBoundingClientRect().height;
+      if (h > 0) document.documentElement.style.setProperty('--bbw-bc-h', h + 'px');
+    }
+    syncBcHeight();
+    window.addEventListener('resize', syncBcHeight, { passive: true });
   }
 
   function tryBuild() {
