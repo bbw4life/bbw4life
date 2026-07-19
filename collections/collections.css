@@ -4713,7 +4713,7 @@ body.bbw-originals-page .bbw-founder-banner__quote {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 45%;
+  object-position: center 62%;
   display: block;
 }
 
@@ -4792,7 +4792,7 @@ body.bbw-originals-page .bbw-founder-banner__quote {
 @media (max-width: 900px) {
   .col-hero { min-height: 40vh; }
   .col-hero__inner { padding: 0 28px 40px; }
-  .col-hero__img { object-position: center 36%; }
+  .col-hero__img { object-position: center 48%; }
 }
 
 @media (max-width: 600px) {
