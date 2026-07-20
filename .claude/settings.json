@@ -41,7 +41,28 @@
       "Bash(node --check sw-push.js)",
       "Bash(node -e ' *)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8722/account.html --max-time 5)",
-      "Bash(node test-round4.js)"
+      "Bash(node test-round4.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8933/account.html --max-time 5)",
+      "Bash(node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\verify-round4.js\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8723/index.html --max-time 5)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8723/ --max-time 5)",
+      "Bash(curl -s http://127.0.0.1:8723/ --max-time 5)",
+      "Bash(taskkill //PID 9140 //F)",
+      "Bash(nohup npx http-server -p 8724 -s)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8724/index.html --max-time 5)",
+      "Bash(curl -s http://127.0.0.1:8724/ --max-time 5)",
+      "Bash(taskkill //PID 6680 //F)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8725/index.html --max-time 5)",
+      "Bash(curl -s http://127.0.0.1:8725/index.html --max-time 5)",
+      "Bash(taskkill //PID 1552 //F)",
+      "Bash(taskkill //IM chrome.exe //F)",
+      "Bash(taskkill //IM chromium.exe //F)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\shots\")",
+      "Bash(node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\verify-round4b.js\")",
+      "Bash(node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\verify-country.js\")",
+      "Bash(node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\verify-country2.js\")",
+      "Bash(node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\verify-country3.js\")",
+      "Bash(node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\verify-country4.js\")"
     ]
   }
 }
