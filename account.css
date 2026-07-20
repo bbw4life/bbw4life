@@ -92,7 +92,7 @@
     radial-gradient(120% 60% at 50% 0%, #FDFBF6 0%, transparent 60%),
     linear-gradient(178deg, #F8F2E7 0%, #F6EFE5 55%, #F1E7D7 100%);
   min-height: 100vh;
-  padding: 64px 0 0;
+  padding: 20px 0 0;
 }
 
 .account-background {
@@ -409,7 +409,13 @@
   gap: 0;
   background: transparent;
   border-radius: 0;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 30px;
+  padding-left: 32px;
+  padding-right: 32px;
+  box-sizing: border-box;
   border: 0;
   border-top: 1px solid rgba(184, 146, 90, 0.28);
   border-bottom: 1px solid rgba(184, 146, 90, 0.28);
@@ -491,7 +497,7 @@
 
 .stat-value {
   font-family: var(--font-display) !important;
-  font-size: clamp(2.1rem, 3.2vw, 2.9rem) !important;
+  font-size: clamp(1.7rem, 2.1vw, 2.2rem) !important;
   font-weight: 500 !important;
   margin: 0 !important;
   line-height: 0.95 !important;
@@ -540,7 +546,12 @@ a.stat-wishlist-link:visited {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 14px;
+  padding-left: 32px;
+  padding-right: 32px;
   box-sizing: border-box;
 }
 
@@ -826,9 +837,15 @@ a.stat-wishlist-link:visited {
    QUICK ACTIONS — REDESIGN PREMIUM
 ══════════════════════════════════════════ */
 .quick-actions-section {
+  max-width: 1280px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   margin-top: 4px !important;
+  padding-left: 32px !important;
+  padding-right: 32px !important;
   padding-top: 0 !important;
   padding-bottom: 40px !important;
+  box-sizing: border-box !important;
 }
 
 .quick-actions-title {
@@ -1194,6 +1211,14 @@ a.stat-wishlist-link:visited {
 @media screen and (max-width: 600px) {
   .customer.account { padding: 0 18px !important; }
 
+  .membership-stats-grid,
+  .main-grid,
+  .quick-actions-section,
+  .affiliation-section {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
   .membership-stats-grid {
     grid-template-columns: repeat(2, 1fr);
     border-radius: 0;
@@ -1248,14 +1273,23 @@ a.stat-wishlist-link:visited {
   }
 
   .membership-badge {
-    padding: 14px 18px !important;
-    gap: 14px !important;
+    padding: 14px 16px !important;
+    gap: 10px !important;
+    white-space: normal !important;
+    max-width: 100%;
+    box-sizing: border-box !important;
+  }
+
+  #membership-badge #membership-level,
+  .membership-badge #membership-level {
+    font-size: 1rem !important;
   }
 
   .membership-badge .points,
   #membership-badge .points {
-    font-size: 1.5rem !important;
-    padding-left: 14px !important;
+    font-size: 1.25rem !important;
+    padding-left: 10px !important;
+    white-space: nowrap;
   }
 
   .popup {
@@ -1407,9 +1441,9 @@ a.stat-wishlist-link:visited {
 ══════════════════════════════════════════ */
 
 .affiliation-section {
-  max-width: 100%;
+  max-width: 1280px;
   margin: 0 auto 10px;
-  padding: 0 5px;
+  padding: 0 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;
