@@ -106,12 +106,12 @@ body::after {
 
 .confetti-particle:nth-child(1)  { left:5%;  background: var(--bbw-rose);       width:6px;  height:10px; animation-duration:4.2s; animation-delay:0s; }
 .confetti-particle:nth-child(2)  { left:12%; background: var(--bbw-gold-vivid);  width:8px;  height:8px;  border-radius:50%; animation-duration:3.8s; animation-delay:.4s; }
-.confetti-particle:nth-child(3)  { left:20%; background: var(--green);           width:5px;  height:12px; animation-duration:5.1s; animation-delay:.8s; }
+.confetti-particle:nth-child(3)  { left:20%; background: var(--bbw-gold-light);  width:5px;  height:12px; animation-duration:5.1s; animation-delay:.8s; }
 .confetti-particle:nth-child(4)  { left:28%; background: var(--bbw-gold);        width:9px;  height:7px;  animation-duration:4.5s; animation-delay:1.2s; }
 .confetti-particle:nth-child(5)  { left:36%; background: var(--bbw-gold-light);  width:6px;  height:6px;  border-radius:50%; animation-duration:3.6s; animation-delay:.2s; }
 .confetti-particle:nth-child(6)  { left:44%; background: var(--bbw-rose-light);  width:7px;  height:11px; animation-duration:4.8s; animation-delay:1.6s; }
 .confetti-particle:nth-child(7)  { left:52%; background: var(--bbw-gold-vivid);  width:5px;  height:9px;  animation-duration:4.0s; animation-delay:.6s; }
-.confetti-particle:nth-child(8)  { left:60%; background: var(--green);           width:8px;  height:6px;  animation-duration:5.3s; animation-delay:1.0s; }
+.confetti-particle:nth-child(8)  { left:60%; background: var(--bbw-rose-light);  width:8px;  height:6px;  animation-duration:5.3s; animation-delay:1.0s; }
 .confetti-particle:nth-child(9)  { left:68%; background: var(--bbw-rose);        width:6px;  height:8px;  border-radius:50%; animation-duration:3.9s; animation-delay:1.8s; }
 .confetti-particle:nth-child(10) { left:76%; background: var(--bbw-gold);        width:9px;  height:6px;  animation-duration:4.6s; animation-delay:.3s; }
 .confetti-particle:nth-child(11) { left:83%; background: var(--bbw-gold-light);  width:7px;  height:10px; animation-duration:4.2s; animation-delay:1.4s; }
@@ -201,9 +201,9 @@ body::after {
   font-size: 2.20rem !important;
   font-weight: 700 !important;
   background: linear-gradient(135deg,
-    var(--green) 0%,
-    #2ecc87 50%,
-    var(--green) 100%) !important;
+    var(--bbw-gold) 0%,
+    var(--bbw-gold-light) 50%,
+    var(--bbw-gold-vivid) 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
@@ -221,16 +221,16 @@ body::after {
 
 .success-icon {
   width: 88px; height: 88px;
-  background: linear-gradient(135deg, var(--green), #2ecc87);
+  background: linear-gradient(135deg, var(--bbw-gold) 0%, var(--bbw-gold-light) 55%, var(--bbw-gold-vivid) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 22px;
   box-shadow:
-    0 8px 32px rgba(34,160,107,0.35),
-    0 0 0 8px rgba(34,160,107,0.12),
-    0 0 0 16px rgba(34,160,107,0.05);
+    0 8px 32px rgba(184,146,90,0.40),
+    0 0 0 8px rgba(184,146,90,0.14),
+    0 0 0 16px rgba(184,146,90,0.06);
   animation: iconBounce 0.70s cubic-bezier(0.34,1.56,0.64,1) 0.35s both;
   position: relative;
   z-index: 1;
@@ -240,7 +240,7 @@ body::after {
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 2px solid rgba(34,160,107,0.30);
+  border: 2px solid rgba(184,146,90,0.34);
   animation: ringExpand 2s ease-out infinite;
 }
 @keyframes ringExpand {
@@ -249,7 +249,7 @@ body::after {
 }
 .success-icon i {
   font-size: 2.4rem;
-  color: #fff;
+  color: #3a1a00;
 }
 @keyframes iconBounce {
   from { opacity:0; transform:scale(0.50) rotate(-15deg); }
@@ -563,7 +563,7 @@ p.error {
   background-clip: text;
 }
 .stat-badge:nth-child(3) i {
-  background: linear-gradient(135deg, var(--green), #2ecc87);
+  background: linear-gradient(135deg, var(--bbw-gold-vivid), var(--bbw-gold-light));
   -webkit-background-clip: text;
   background-clip: text;
 }

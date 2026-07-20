@@ -14158,7 +14158,16 @@ startAutoSlide();
     const cp          = settings.content_protection || {};
 
     if ((cp.disable_right_click || 'no').toLowerCase() === 'yes') {
-      document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+      document.addEventListener('contextmenu', function(e) {
+        // Exception ciblée : sur la page checkout, laisse le clic droit
+        // natif fonctionner dans les champs de saisie (coller une
+        // adresse, un code promo, etc.) — le reste du site et le reste
+        // de la page checkout restent protégés normalement.
+        const onCheckout = location.pathname.includes('/checkout/');
+        const isFormField = e.target.closest('input, textarea, select');
+        if (onCheckout && isFormField) return;
+        e.preventDefault();
+      });
     }
 
     if ((cp.disable_text_selection || 'no').toLowerCase() === 'yes') {

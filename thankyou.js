@@ -104,7 +104,7 @@ function revealExtraSections() {
     const h1 = document.querySelector('.container > h1');
     if (h1) {
         h1.textContent = 'Order Confirmed! 🎉';
-        h1.style.background = 'linear-gradient(135deg, #22a06b, #2ecc87)';
+        h1.style.background = 'linear-gradient(135deg, var(--bbw-gold, #B8925A), var(--bbw-gold-vivid, #CBA45C))';
         h1.style.webkitBackgroundClip = 'text';
         h1.style.webkitTextFillColor = 'transparent';
         h1.style.backgroundClip = 'text';
