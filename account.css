@@ -116,7 +116,7 @@
 .customer.account {
   max-width: 1280px !important;
   margin: 0 auto;
-  padding: 0 32px !important;
+  padding: 0 15px !important;
   background: transparent;
   border-radius: 0;
   box-shadow: none;
@@ -413,8 +413,8 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-left: 15px;
+  padding-right: 15px;
   box-sizing: border-box;
   border: 0;
   border-top: 1px solid rgba(184, 146, 90, 0.28);
@@ -550,8 +550,8 @@ a.stat-wishlist-link:visited {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 14px;
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-left: 15px;
+  padding-right: 15px;
   box-sizing: border-box;
 }
 
@@ -841,8 +841,8 @@ a.stat-wishlist-link:visited {
   margin-left: auto !important;
   margin-right: auto !important;
   margin-top: 4px !important;
-  padding-left: 32px !important;
-  padding-right: 32px !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
   padding-top: 0 !important;
   padding-bottom: 40px !important;
   box-sizing: border-box !important;
@@ -1209,14 +1209,14 @@ a.stat-wishlist-link:visited {
 }
 
 @media screen and (max-width: 600px) {
-  .customer.account { padding: 0 18px !important; }
+  .customer.account { padding: 0 8px !important; }
 
   .membership-stats-grid,
   .main-grid,
   .quick-actions-section,
   .affiliation-section {
-    padding-left: 18px !important;
-    padding-right: 18px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
   }
 
   .membership-stats-grid {
@@ -1443,7 +1443,7 @@ a.stat-wishlist-link:visited {
 .affiliation-section {
   max-width: 1280px;
   margin: 0 auto 10px;
-  padding: 0 32px;
+  padding: 0 15px;
   display: flex;
   flex-direction: column;
   gap: 16px;

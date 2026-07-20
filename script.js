@@ -9954,6 +9954,8 @@ function loadProfilePhoto() {
 (function initAbandonedCartCard() {
   'use strict';
 
+  if (!/\/account\.html/i.test(location.pathname)) return; // widget account.html uniquement (son CSS n'est chargé que là)
+
   var userEmail = localStorage.getItem('userEmail') || '';
   var userToken = localStorage.getItem('userAccountToken') || '';
   if (!userEmail || !userToken) return; // client non connecté

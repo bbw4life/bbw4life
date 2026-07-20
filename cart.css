@@ -65,7 +65,7 @@
 .cart-page {
   min-height: 80vh;
   background: var(--cp-ivory);
-  padding-top: 30px;
+  padding-top: 3px;
   padding-bottom: 3px;
   animation: cpFadeIn 0.45s ease both;
 }
@@ -1145,7 +1145,7 @@
   margin-top: 40px;
   margin-bottom: 4px;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 0;
   box-shadow:
     0 6px 24px rgba(21,17,14,0.16),
     inset 0 0 0 1px rgba(184,146,90,0.18);
