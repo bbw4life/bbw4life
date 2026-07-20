@@ -680,45 +680,69 @@
 
 /* ════════════════════════════
    MARQUEE
-   → Fond noir pur, or — cohérent avec eyebrow
+   → Fond noir de marque, or antique — ton éditorial sobre
 ════════════════════════════ */
 .pp-marquee-wrap {
     overflow: hidden;
     white-space: nowrap;
-    background: #000000;
+    background: #15110E;
     border-radius: 12px;
     padding: 0;
     position: relative;
     box-shadow:
-        0 4px 18px rgba(0,0,0,0.18),
-        0 0 0 1px rgba(201,150,62,0.28);
-    border: 1px solid rgba(201,150,62,0.35);
+        0 6px 22px rgba(21,17,14,0.22),
+        inset 0 0 0 1px rgba(184,146,90,0.22);
+    border: 1px solid rgba(184,146,90,0.28);
+}
+/* Fondus latéraux discrets pour un défilement qui s'éteint aux bords */
+.pp-marquee-wrap::before,
+.pp-marquee-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 56px;
+    z-index: 3;
+    pointer-events: none;
+}
+.pp-marquee-wrap::before {
+    left: 0;
+    background: linear-gradient(90deg, #15110E, rgba(21,17,14,0));
+}
+.pp-marquee-wrap::after {
+    right: 0;
+    background: linear-gradient(-90deg, #15110E, rgba(21,17,14,0));
 }
 .pp-marquee-shine {
     position: absolute;
     top: 0; bottom: 0;
-    width: 60px;
+    width: 90px;
     background: linear-gradient(90deg,
         transparent,
-        rgba(201,150,62,0.12) 50%,
+        rgba(184,146,90,0.06) 50%,
         transparent);
-    animation: marqueeShineSweep 3s ease-in-out infinite;
+    animation: marqueeShineSweep 11s ease-in-out infinite;
     pointer-events: none; z-index: 2;
     border-radius: 12px;
 }
 .pp-marquee-track {
     display: inline-flex;
     white-space: nowrap;
-    animation: marqueeScroll 22s linear infinite;
+    animation: marqueeScroll 34s linear infinite;
+}
+.pp-marquee-wrap:hover .pp-marquee-track,
+.pp-marquee-wrap:hover .pp-marquee-shine {
+    animation-play-state: paused;
 }
 .pp-marquee-track span {
     display: inline-block;
-    color: #c9963e;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 34px;
-    padding: 0 12px;
-    letter-spacing: 0.03em;
+    color: #B8925A;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 36px;
+    padding: 0 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }
 
 

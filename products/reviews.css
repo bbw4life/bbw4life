@@ -494,11 +494,11 @@
 }
 .rv-marquee-wrap::before {
     left: 0;
-    background: linear-gradient(90deg, #fdf8f0, transparent);
+    background: linear-gradient(90deg, #F6EFE5, rgba(246,239,229,0));
 }
 .rv-marquee-wrap::after {
     right: 0;
-    background: linear-gradient(-90deg, #fdf8f0, transparent);
+    background: linear-gradient(-90deg, #F6EFE5, rgba(246,239,229,0));
 }
 .rv-marquee-row {
     display: flex;

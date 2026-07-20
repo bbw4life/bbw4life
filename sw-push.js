@@ -42,44 +42,60 @@ self.addEventListener('push', function (event) {
 });
 
 self.addEventListener('notificationclick', function (event) {
-  const notification = event.notification;
-  const action = event.action;
-  const data = notification.data || {};
-  const targetUrl = data.url || '/';
-  const hasCart = data.hasCart || false;
-
-  notification.close();
+  // Toute la logique est protégée par try/catch et le close() est
+  // rendu sans risque : si une exception synchrone survenait ici sans
+  // protection, event.waitUntil() ne serait jamais appelé et la
+  // notification se contenterait de se fermer sans jamais rediriger
+  // (exactement le bug rapporté).
+  let notification, action, data, targetUrl, hasCart;
+  try {
+    notification = event.notification;
+    action = event.action || '';
+    data = notification.data || {};
+    targetUrl = data.url || '/';
+    hasCart = data.hasCart || false;
+    notification.close();
+  } catch (err) {
+    console.error('[SW] notificationclick: erreur pendant la lecture des données', err);
+    return;
+  }
 
   if (action === 'dismiss') return;
 
   const wantsCart = (action === 'open_cart' || (action === '' && hasCart));
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (windowClients) {
-      // Cherche un onglet déjà ouvert sur le même site
-      for (const client of windowClients) {
-        if (client.url.startsWith(self.location.origin) && 'focus' in client) {
-          return client.focus().then(function (focusedClient) {
+    (async function () {
+      try {
+        const windowClients = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+
+        // Cherche un onglet déjà ouvert sur le même site
+        for (const client of windowClients) {
+          if (client.url.startsWith(self.location.origin) && 'focus' in client) {
+            const focusedClient = await client.focus();
             if (wantsCart) {
               focusedClient.postMessage({ type: 'OPEN_CART', url: targetUrl });
             } else if ('navigate' in focusedClient) {
-              focusedClient.navigate(targetUrl);
+              await focusedClient.navigate(targetUrl);
+            } else {
+              // Filet de sécurité : si navigate() n'est pas dispo,
+              // ouvre quand même une fenêtre vers la bonne page.
+              await clients.openWindow(targetUrl);
             }
-            return focusedClient;
-          });
+            return;
+          }
         }
+
+        // Aucun onglet ouvert : on en ouvre un nouveau directement sur
+        // l'URL cible (panier ou boutique) — pas besoin de postMessage
+        // ici, l'URL elle-même amène déjà la bonne page.
+        await clients.openWindow(targetUrl);
+      } catch (err) {
+        console.error('[SW] notificationclick: échec de la redirection, fallback openWindow', err);
+        // Dernier filet de sécurité : si quoi que ce soit a échoué
+        // au-dessus, on tente quand même d'ouvrir la bonne URL.
+        try { await clients.openWindow(targetUrl); } catch (e2) {}
       }
-      // Sinon on ouvre une nouvelle fenêtre
-      return clients.openWindow(targetUrl).then(function (windowClient) {
-        if (wantsCart && windowClient) {
-          setTimeout(function () {
-            windowClient.postMessage({ type: 'OPEN_CART', url: targetUrl });
-          }, 1500);
-        }
-        return windowClient;
-      });
-    }).catch(function (err) {
-      console.error('[SW] notificationclick failed:', err);
-    })
+    })()
   );
 });
