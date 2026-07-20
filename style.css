@@ -4339,7 +4339,7 @@ body {
 
 #floating-nav {
     position: fixed;
-    bottom: 490px !important;
+    bottom: 420px !important;
     right: 40px !important;
     z-index: 999;
 }

@@ -36,7 +36,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8124/style.css)",
       "Bash(npx --yes -p playwright node \"C:\\\\Users\\\\paulf\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-paulf-OneDrive-Desktop-bbw4life\\\\d1def439-0325-47b0-80a1-34db23d2bb14\\\\scratchpad\\\\test-story-circles.js\")",
       "Bash(npm root *)",
-      "Read(//c/Users/paulf/AppData/Local/npm-cache/_npx/**)"
+      "Read(//c/Users/paulf/AppData/Local/npm-cache/_npx/**)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
