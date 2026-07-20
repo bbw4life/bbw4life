@@ -747,6 +747,18 @@ select:focus {
 .shipping-option:hover::before,
 .shipping-option.selected::before { opacity: 1; }
 
+/* Le calque ::before ci-dessus est positionné (inset:0) sans z-index :
+   sans ceci, il peint par-dessus le contenu en flux normal (icône,
+   titre, sous-texte) dès qu'il devient opaque au hover/sélection,
+   rendant la carte illisible. On relève explicitement le contenu
+   au-dessus. */
+.shipping-option i,
+.shipping-option h4,
+.shipping-option p {
+  position: relative;
+  z-index: 1;
+}
+
 .shipping-option:hover {
   border-color: var(--ck-gold);
   transform: translateY(-2px);
@@ -937,6 +949,14 @@ select:focus {
 }
 
 .payment-label:hover::before { opacity: 1; }
+
+/* Même correctif que .shipping-option ci-dessus : relève le contenu
+   (radio + libellé) au-dessus du calque décoratif ::before. */
+.payment-label input,
+.payment-label span {
+  position: relative;
+  z-index: 1;
+}
 
 .payment-label:hover {
   border-color: var(--ck-gold);
