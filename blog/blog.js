@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
           return `
             <div class="popular-item">
               <div class="popular-img-wrap">
-                <img src="${item.image}" alt="${item.imageAlt}">
+                <a href="${item.url}" class="card-img-link"><img src="${item.image}" alt="${item.imageAlt}"></a>
                 <span class="popular-rank">${item.rank}</span>
               </div>
               <div class="popular-body">
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
           return `
              <div class="pick-card" id="${pick.id}">
               <div class="pick-img-wrap">
-                <img src="${pick.image}" alt="${pick.imageAlt}" loading="lazy">
+                <a href="${pick.url}" class="card-img-link"><img src="${pick.image}" alt="${pick.imageAlt}" loading="lazy"></a>
                 <span class="pick-label">Editor's Choice</span>
               </div>
               <div class="pick-body">
