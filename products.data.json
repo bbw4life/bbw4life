@@ -4410,7 +4410,7 @@
       "position_bottom_left": "no",
       "position_top_right": "no",
       "position_top_left": "no",
-      "initial_delay_ms": 5000, 
+      "initial_delay_ms": 5000,
       "display_duration_ms": 5000,
       "interval_ms": 40000,
       "subtitle_text": "Don't forget!",
