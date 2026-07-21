@@ -33,6 +33,14 @@
   <url><loc>https://bbw4life.com/page/disclaimer.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
 
   <!-- ═══════════════════════════════════════════
+       POLICIES
+  ═══════════════════════════════════════════ -->
+  <url><loc>https://bbw4life.com/policies/shipping.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://bbw4life.com/policies/refund.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://bbw4life.com/policies/privacy.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://bbw4life.com/policies/terms.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+
+  <!-- ═══════════════════════════════════════════
        BLOG
   ═══════════════════════════════════════════ -->
   <url><loc>https://bbw4life.com/blog/blog.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>

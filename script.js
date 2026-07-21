@@ -1028,23 +1028,25 @@ function showErrorPopup(message) {
 }
 
   // ====================== PRODUCT MEDIA ======================
-  function populateMainProductMedia(media) {
+  function populateMainProductMedia(media, productTitle) {
     const thumbsContainer = document.getElementById('product-thumbnails');
     const mainSlider = document.getElementById('main-image-slider');
     if (!thumbsContainer || !mainSlider) return;
+    const escapeAttr = (str) => String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const altBase = escapeAttr(productTitle ? `${productTitle} — BBW4LIFE plus size` : 'BBW4LIFE plus size product');
     thumbsContainer.innerHTML = '';
     mainSlider.querySelectorAll('.main-image').forEach(el => el.remove());
     media.forEach((src, index) => {
       const thumb = document.createElement('div');
       thumb.className = `thumbnail-item ${index === 0 ? 'active' : ''}`;
       const sharpSrc = upgradeShopifyImageUrl(src);
-      thumb.innerHTML = `<img src="${sharpSrc}" alt="Thumbnail ${index+1}" loading="lazy">`;
+      thumb.innerHTML = `<img src="${sharpSrc}" alt="${altBase} — photo ${index+1}" loading="lazy">`;
       thumb.addEventListener('click', () => changeMainImage(index));
       thumbsContainer.appendChild(thumb);
       const mainDiv = document.createElement('div');
       mainDiv.className = `main-image ${index === 0 ? 'active' : ''}`;
       mainDiv.dataset.originalSrc = sharpSrc;
-      mainDiv.innerHTML = `<img src="${sharpSrc}" alt="Main Image" loading="lazy">`;
+      mainDiv.innerHTML = `<img src="${sharpSrc}" alt="${altBase}" loading="lazy">`;
       mainSlider.insertBefore(mainDiv, mainSlider.querySelector('.slider-arrow.next'));
     });
     mainSlider.querySelector('.prev').onclick = () => changeMainImage('prev');
@@ -1082,6 +1084,7 @@ function showErrorPopup(message) {
     media.forEach((src, i) => {
       const img = document.createElement('img');
       img.src = upgradeShopifyImageUrl(src);
+      img.alt = 'BBW4LIFE plus size fashion';
       img.className = `mini-media-image ${i === 0 ? 'active' : ''}`;
       img.loading = 'lazy';
       slider.appendChild(img);
@@ -2306,6 +2309,7 @@ function showErrorPopup(message) {
         media.forEach((src, i) => {
           const img     = document.createElement('img');
           img.src       = upgradeShopifyImageUrl(src);
+          img.alt       = 'BBW4LIFE plus size fashion';
           img.className = `mini-media-image ${i === 0 ? 'active' : ''}`;
           img.loading   = i === 0 ? 'eager' : 'lazy';
           img.decoding  = 'async';
@@ -2402,7 +2406,7 @@ function showErrorPopup(message) {
         }
 
         if (prod && prod.media) {
-          populateMainProductMedia(prod.media);
+          populateMainProductMedia(prod.media, prod.title);
 
 
           // ════════════════════════════════════════════════
