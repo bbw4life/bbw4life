@@ -6,8 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Ajoute cette ligne au tout début :
   if (!document.body.classList.contains('a1-page')) return;
 
-  fetch('/blog/blog-articles.json')
-    .then(function (res) { return res.json(); })
+  window.bbwFetchBlogArticles()
     .then(function (data) {
 
       // ── Find card-1 in the cards array ───────────────────────
@@ -823,8 +822,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-2
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -1618,8 +1616,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-3 specific
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -2386,8 +2383,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-4
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -3191,8 +3187,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-5
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -3992,8 +3987,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-4
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -4801,8 +4795,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1. LOAD DATA FROM blog-articles.json — card-7
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -5615,8 +5608,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1. LOAD DATA FROM blog-articles.json — card-8
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -6479,8 +6471,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-9
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -6695,32 +6686,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
       observer.observe(hero);
     }
-
-
-    function a9InitCopyButtons() {
-  ['a9-hero-copy', 'a9-bottom-copy'].forEach(function (id) {
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      navigator.clipboard.writeText(window.location.href).then(function () {
-        var icon = btn.querySelector('i');
-        var orig = icon ? icon.className : '';
-        if (icon) icon.className = 'fi fi-rr-check';
-        setTimeout(function () {
-          if (icon) icon.className = orig;
-        }, 2000);
-      }).catch(function () {
-        var ta = document.createElement('textarea');
-        ta.value = window.location.href;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-      });
-    });
-  });
-}
 
 
     /* ════════════════════════════════════════════════════════════
@@ -7346,6 +7311,7 @@ document.addEventListener('DOMContentLoaded', function () {
     a9InitProgressBar();
     a9InitSidebarShare();
     a9InitShareButtons();
+    a9InitCopyButtons();
     a9InitHabitTracker();
     a9InitReactions();
     a9InitNewsletterForms();
@@ -7375,8 +7341,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-10
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -8164,8 +8129,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-11
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -8825,8 +8789,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-12
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -9672,8 +9635,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — editorsPicks card-13
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         var cardData = null;
@@ -10499,8 +10461,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1.  LOAD DATA FROM blog-articles.json — card-14
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         // Find card-14 in editorsPicks (it lives there in the JSON)
@@ -11318,8 +11279,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ════════════════════════════════════════════════════════════
        1. LOAD DATA FROM blog-articles.json — card-15
     ════════════════════════════════════════════════════════════ */
-    fetch('/blog/blog-articles.json')
-      .then(function (res) { return res.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
 
         // Find card-15 in editorsPicks first, fallback to cards

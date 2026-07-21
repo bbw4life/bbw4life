@@ -1,7 +1,16 @@
 (function BlogBannerSearch() {
   'use strict';
 
-  
+  // Fetch partagé de blog-articles.json (voir blog.js — meme garde ici
+  // car ce fichier est aussi charge seul sur article-featured.html)
+  window.bbwFetchBlogArticles = window.bbwFetchBlogArticles || function () {
+    if (!window.__bbwBlogArticlesPromise) {
+      window.__bbwBlogArticlesPromise = fetch('/blog/blog-articles.json')
+        .then(function (res) { return res.json(); });
+    }
+    return window.__bbwBlogArticlesPromise;
+  };
+
   function flattenArticles(data) {
     var articles = [];
 
@@ -263,8 +272,7 @@
 
   
   function load() {
-    fetch('/blog/blog-articles.json')
-      .then(function (r) { return r.json(); })
+    window.bbwFetchBlogArticles()
       .then(function (data) {
         var articles = flattenArticles(data);
         init(articles);

@@ -11,8 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!isFeaturedPage) return;
 
-  fetch('/blog/blog-articles.json')
-    .then(function (res) { return res.json(); })
+  window.bbwFetchBlogArticles()
     .then(function (data) {
 
       var f = data.featured;

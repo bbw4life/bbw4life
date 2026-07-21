@@ -3,6 +3,16 @@
    Injection depuis blog-articles.json + toutes les fonctions blog
 ================================================================ */
 
+// Fetch partagé de blog-articles.json (reutilise la meme promesse entre
+// blog.js / articles.js / blog-search.js pour eviter les requetes en double)
+window.bbwFetchBlogArticles = window.bbwFetchBlogArticles || function () {
+  if (!window.__bbwBlogArticlesPromise) {
+    window.__bbwBlogArticlesPromise = fetch('/blog/blog-articles.json')
+      .then(function (res) { return res.json(); });
+  }
+  return window.__bbwBlogArticlesPromise;
+};
+
 document.addEventListener('DOMContentLoaded', function () {
 
   // ════════════════════════════════════════
@@ -23,8 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // ════════════════════════════════════════
   //  INJECTION DEPUIS blog-articles.json
   // ════════════════════════════════════════
-  fetch('/blog/blog-articles.json')
-    .then(function (res) { return res.json(); })
+  window.bbwFetchBlogArticles()
     .then(function (data) {
 
       // ── FEATURED ──────────────────────────────────────────────
