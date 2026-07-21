@@ -23,7 +23,7 @@
     '.cf-pre-logo-ring{position:absolute;width:110px;height:110px;border-radius:50%;background:#15110E;border:1.5px solid rgba(184,146,90,.45);animation:cfPreRingRotate 6s linear infinite;}' +
     '.cf-pre-logo-ring::before{content:"";position:absolute;top:-3px;left:50%;width:6px;height:6px;background:#B8925A;border-radius:50%;transform:translateX(-50%);box-shadow:0 0 10px 3px rgba(184,146,90,.55);}' +
     '@keyframes cfPreRingRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}' +
-    '.cf-pre-logo{width:80px;height:80px;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 4px 20px rgba(110,36,57,.35));animation:cfPreLogoBreath 2.5s ease-in-out infinite;}' +
+    '.cf-pre-logo{width:90px;height:90px;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 4px 20px rgba(110,36,57,.35));animation:cfPreLogoBreath 2.5s ease-in-out infinite;}' +
     '@keyframes cfPreLogoBreath{0%,100%{transform:scale(1);filter:drop-shadow(0 4px 20px rgba(110,36,57,.35))}50%{transform:scale(1.05);filter:drop-shadow(0 6px 28px rgba(110,36,57,.55))}}' +
     '.cf-pre-brand{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;}' +
     '.cf-pre-brand-name{font-family:"Cormorant Garamond",Georgia,serif;font-size:2.4rem;font-weight:700;letter-spacing:-.02em;line-height:1;background:linear-gradient(135deg,#15110E 20%,#B8925A 65%,#6E2439 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;transform:translateY(12px);animation:cfPreFadeUp .7s cubic-bezier(.34,1.56,.64,1) .25s forwards;}' +
