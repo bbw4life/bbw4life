@@ -32,7 +32,7 @@ function isRateLimited(ip) {
   return false;
 }
 
-const PASSWORD_RESET_TOKEN_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const PASSWORD_RESET_TOKEN_TTL_MS = 10 * 60 * 1000; // 10 minutes
 const PASSWORD_RESET_SHEET = 'Password_Reset_Tokens';
 
 function sha256Hex(value) {
@@ -45,6 +45,7 @@ async function ensureResetTokensSheet(sheets, spreadsheetId) {
     const meta = await sheets.spreadsheets.get({ spreadsheetId, fields: 'sheets.properties.title' });
     const exists = (meta.data.sheets || []).some(s => s.properties.title === PASSWORD_RESET_SHEET);
     if (!exists) {
+      console.log(`[password-reset] Sheet "${PASSWORD_RESET_SHEET}" not found — creating it now...`);
       await sheets.spreadsheets.batchUpdate({
         spreadsheetId,
         resource: { requests: [{ addSheet: { properties: { title: PASSWORD_RESET_SHEET } } }] }
@@ -55,9 +56,15 @@ async function ensureResetTokensSheet(sheets, spreadsheetId) {
         valueInputOption: 'RAW',
         resource: { values: [['email', 'token_hash', 'created_at', 'expires_at', 'used_at']] }
       });
+      console.log(`[password-reset] Sheet "${PASSWORD_RESET_SHEET}" created with headers.`);
+    } else {
+      console.log(`[password-reset] Sheet "${PASSWORD_RESET_SHEET}" already exists.`);
     }
   } catch (e) {
-    console.warn('[password-reset] ensureResetTokensSheet failed:', e.message);
+    // IMPORTANT : cette erreur est avalée pour ne pas casser le flux, mais si elle se produit,
+    // TOUT le reste de request-password-reset (écriture du token, envoi de l'email) échouera
+    // silencieusement plus loin (le sheet cible n'existe pas). Elle est donc loguée en "error".
+    console.error('[password-reset] ensureResetTokensSheet FAILED (this may explain a missing reset email):', e.message);
   }
 }
 
@@ -208,24 +215,31 @@ exports.handler = async (event) => {
 
 
     // ==================== REQUEST PASSWORD RESET (Forgot Password — étape 1) ====================
-    // Génère un token à usage unique, l'envoie par email, et ne révèle JAMAIS si l'email existe.
+    // Génère un token à usage unique et l'envoie par email.
+    // NOTE SÉCURITÉ : sur demande explicite de l'utilisateur (risque d'énumération de comptes
+    // accepté en connaissance de cause), cette action révèle désormais si l'email existe via
+    // le champ `found` de la réponse.
     if (action === 'request-password-reset') {
       const ip = getClientIp(event);
       if (isRateLimited(ip)) {
         return { statusCode: 429, body: JSON.stringify({ success: false, error: 'Too many requests. Please wait a moment.' }) };
       }
 
-      // Toujours { success: true }, que l'email existe ou non — pas de fuite d'information.
       if (!email) {
-        return { statusCode: 200, body: JSON.stringify({ success: true }) };
+        return { statusCode: 200, body: JSON.stringify({ success: true, found: false }) };
       }
 
+      let found = false;
       try {
         const normalizedEmail = normalize(email).toLowerCase();
         const rowIdx = rows.findIndex(row => normalize(row[2] || "").toLowerCase() === normalizedEmail);
+        console.log(`[request-password-reset] Lookup for "${normalizedEmail}" → rowIdx=${rowIdx}`);
 
         if (rowIdx !== -1) {
+          found = true;
+          console.log('[request-password-reset] Account found. Ensuring Password_Reset_Tokens sheet exists...');
           await ensureResetTokensSheet(sheets, spreadsheetId);
+          console.log('[request-password-reset] ensureResetTokensSheet step complete.');
 
           const resetToken = crypto.randomBytes(32).toString('hex');
           const tokenHash  = sha256Hex(resetToken);
@@ -257,11 +271,13 @@ exports.handler = async (event) => {
                 resource: { valueInputOption: 'RAW', data: invalidations }
               });
             }
+            console.log(`[request-password-reset] Invalidated ${invalidations.length} previous token(s).`);
           } catch (e) {
             console.warn('[request-password-reset] Could not invalidate previous tokens:', e.message);
           }
 
           // ── Écrit le nouveau token (seul le hash est stocké) ──
+          console.log('[request-password-reset] Writing new token row to sheet...');
           await sheets.spreadsheets.values.append({
             spreadsheetId,
             range: `${PASSWORD_RESET_SHEET}!A:E`,
@@ -269,19 +285,25 @@ exports.handler = async (event) => {
             insertDataOption: 'INSERT_ROWS',
             resource: { values: [[normalizedEmail, tokenHash, nowIso, expiresIso, ""]] }
           });
+          console.log('[request-password-reset] New token row written successfully.');
 
           const userRow   = rows[rowIdx] || [];
           const firstNameForEmail = userRow[1] || '';
 
-          await notifyPasswordReset({ email: userRow[2] || email, firstName: firstNameForEmail, resetToken }).catch((e) => {
-            console.warn('[request-password-reset] notifyPasswordReset failed:', e.message);
+          console.log(`[request-password-reset] Calling notifyPasswordReset for "${userRow[2] || email}"...`);
+          const notifyResult = await notifyPasswordReset({ email: userRow[2] || email, firstName: firstNameForEmail, resetToken }).catch((e) => {
+            console.warn('[request-password-reset] notifyPasswordReset threw:', e.message);
+            return { success: false, error: e.message };
           });
+          console.log('[request-password-reset] notifyPasswordReset result:', JSON.stringify(notifyResult));
+        } else {
+          console.log('[request-password-reset] No account found for this email — no token/email sent (by design).');
         }
       } catch (e) {
-        console.warn('[request-password-reset] Unexpected error:', e.message);
+        console.error('[request-password-reset] Unexpected error (reset email was NOT sent):', e.message, e.stack);
       }
 
-      return { statusCode: 200, body: JSON.stringify({ success: true }) };
+      return { statusCode: 200, body: JSON.stringify({ success: true, found }) };
     }
 
     // ==================== RESET PASSWORD (Forgot Password — étape 2, avec token) ====================

@@ -550,6 +550,31 @@
   container.id  = 'bbw-widgets-root';
   container.innerHTML = WIDGETS_HTML;
 
+  // account.html embarque déjà sa PROPRE copie statique du popup login/signup/forgot
+  // (id="paulPopup", avec #forgotForm, #goToForgot, #forgot-new-password, etc.). Si on
+  // injecte aussi celle-ci, la page se retrouve avec des id dupliqués dans le DOM, ce qui
+  // rend getElementById()/les sélecteurs CSS par id ambigus et casse la logique de reset
+  // password de script.js (setForgotStep, pendingResetToken) sur cette page précise.
+  // → On retire donc la copie injectée quand une copie statique existe déjà (uniquement
+  //   sur account.html ; toutes les autres pages, qui n'ont pas de copie statique,
+  //   continuent de recevoir la copie injectée exactement comme avant).
+  var existingAuthPopup = document.getElementById('paulPopup');
+  if (existingAuthPopup) {
+    var injectedAuthPopup = container.querySelector('#paulPopup');
+    if (injectedAuthPopup) injectedAuthPopup.remove();
+  }
+
+  // Même problème pour le trigger #paulTrigger (bouton compte flottant) : account.html
+  // en a aussi sa propre copie statique (.paul-indicator-wrapper). Sans ce retrait, les
+  // deux copies coexistent et se superposent visuellement pour un utilisateur connecté,
+  // et getElementById('paulTrigger')/.paul-indicator-wrapper ne résolvent jamais la
+  // copie injectée (drag, toggle de visibilité, etc. ne s'y appliquent pas).
+  var existingTrigger = document.getElementById('paulTrigger');
+  if (existingTrigger) {
+    var injectedTriggerWrap = container.querySelector('.paul-indicator-wrapper');
+    if (injectedTriggerWrap) injectedTriggerWrap.remove();
+  }
+
   // Injecte juste avant </body> — synchrone, pas de fetch
   document.body.appendChild(container);
 

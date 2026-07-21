@@ -8432,6 +8432,125 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  /* ── PASSWORD RESET POPUP — CSS injecté une seule fois ──
+     Réutilise les classes .ecp-modal / .ecp-icon-wrap / .ecp-title / .ecp-text / .ecp-btn /
+     .ecp-progress / .ecp-progress-fill déjà injectées ci-dessus par injectEmailConfirmPopupCSS().
+     Seules les règles propres à l'ID de cet overlay (position/fond/opacité) doivent être redéclarées. */
+  (function injectPasswordResetPopupCSS() {
+    if (document.getElementById('prp-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'prp-styles';
+    style.textContent = `
+      #password-reset-popup {
+        position: fixed; inset: 0; z-index: 999999;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(20,10,15,0.55);
+        backdrop-filter: blur(3px);
+        opacity: 0; transition: opacity 0.3s ease;
+        padding: 20px;
+      }
+      #password-reset-popup.ecp-visible { opacity: 1; }
+      #password-reset-popup.ecp-visible .ecp-modal { transform: scale(1) translateY(0); }
+    `;
+    document.head.appendChild(style);
+  })();
+
+  /* ── PASSWORD RESET POPUP — fonction d'affichage ──
+     found === true  → email trouvé, lien envoyé.
+     found === false → aucun compte trouvé pour cet email. */
+  window.showPasswordResetPopup = function (found, email) {
+    var existing = document.getElementById('password-reset-popup');
+    if (existing) existing.remove();
+
+    function getWebmailUrl(mail) {
+      if (!mail || mail.indexOf('@') === -1) return 'https://mail.google.com';
+      var domain = mail.split('@')[1].toLowerCase();
+      var map = {
+        'gmail.com':      'https://mail.google.com',
+        'googlemail.com': 'https://mail.google.com',
+        'yahoo.com':      'https://mail.yahoo.com',
+        'yahoo.fr':       'https://mail.yahoo.com',
+        'outlook.com':    'https://outlook.live.com/mail/0/inbox',
+        'hotmail.com':    'https://outlook.live.com/mail/0/inbox',
+        'live.com':       'https://outlook.live.com/mail/0/inbox',
+        'msn.com':        'https://outlook.live.com/mail/0/inbox',
+        'icloud.com':     'https://www.icloud.com/mail',
+        'me.com':         'https://www.icloud.com/mail',
+        'aol.com':        'https://mail.aol.com'
+      };
+      return map[domain] || ('https://' + domain);
+    }
+
+    var icon, title, text, actionBtnHTML;
+    if (found) {
+      icon  = '📩';
+      title = 'Check Your Inbox';
+      text  = "We've sent you a password reset link. Click it to choose a new password — it expires in 10 minutes.";
+      actionBtnHTML =
+        '<button type="button" class="ecp-btn" id="prp-open-mail-btn">' +
+          '<i class="fi fi-rr-envelope"></i> Open My Email' +
+        '</button>';
+    } else {
+      icon  = '🔍';
+      title = 'No Account Found';
+      text  = "We couldn't find a BBW4LIFE account with this email address. Please check the spelling, or sign up to join us.";
+      actionBtnHTML =
+        '<button type="button" class="ecp-btn" id="prp-ok-btn">Got It</button>';
+    }
+
+    var overlay = document.createElement('div');
+    overlay.id = 'password-reset-popup';
+    overlay.innerHTML =
+      '<div class="ecp-modal">' +
+        '<button class="ecp-close" id="prp-close-btn" aria-label="Close">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">' +
+            '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>' +
+          '</svg>' +
+        '</button>' +
+        '<div class="ecp-icon-wrap">' + icon + '</div>' +
+        '<h3 class="ecp-title">' + title + '</h3>' +
+        '<p class="ecp-text">' + text + '</p>' +
+        actionBtnHTML +
+        '<div class="ecp-progress"><div class="ecp-progress-fill" id="prp-progress-fill"></div></div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { overlay.classList.add('ecp-visible'); });
+    });
+
+    var fill = document.getElementById('prp-progress-fill');
+    if (fill) {
+      requestAnimationFrame(function () {
+        fill.style.transition = 'width 8s linear';
+        fill.style.width = '0%';
+      });
+    }
+
+    var autoTimer = setTimeout(closePrp, 8000);
+
+    function closePrp() {
+      clearTimeout(autoTimer);
+      overlay.classList.remove('ecp-visible');
+      setTimeout(function () {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 300);
+    }
+
+    var openMailBtn = document.getElementById('prp-open-mail-btn');
+    if (openMailBtn) {
+      openMailBtn.addEventListener('click', function () {
+        window.open(getWebmailUrl(email), '_blank', 'noopener,noreferrer');
+      });
+    }
+    var okBtn = document.getElementById('prp-ok-btn');
+    if (okBtn) okBtn.addEventListener('click', closePrp);
+
+    document.getElementById('prp-close-btn').addEventListener('click', closePrp);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closePrp();
+    });
+  };
 
 
 
@@ -8694,25 +8813,24 @@ document.addEventListener('DOMContentLoaded', () => {
       paulForgotBtn.textContent = 'Sending...';
       paulForgotBtn.disabled = true;
 
+      let found = false;
       try {
-        await fetch('/.netlify/functions/save-account', {
+        const res  = await fetch('/.netlify/functions/save-account', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'request-password-reset', email: emailVal })
         });
+        const data = await res.json().catch(() => ({}));
+        found = !!data.found;
       } catch (err) {
-        // Le fetch réseau peut échouer, mais on ne révèle jamais si l'email existe ou non.
+        // Network error — the popup below will show the "not found" message,
+        // which is an acceptable fallback since we can't confirm either way.
       } finally {
         paulForgotBtn.textContent = origText;
         paulForgotBtn.disabled = false;
       }
 
-      // Toujours le même message, que l'email existe ou non — pas de fuite d'information.
-      if (sucEl) {
-        const ap2 = (window.__allProducts || []).find(p => p.type === 'settings')?.auth_popup || {};
-        sucEl.textContent = ap2.forgot_check_email || 'If an account exists for this email, a reset link has just been sent. Please check your inbox.';
-        sucEl.style.display = 'block';
-      }
+      window.showPasswordResetPopup(found, emailVal);
       const emailField = document.getElementById('forgot-email');
       if (emailField) emailField.value = '';
     });
@@ -8787,7 +8905,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isLoggedIn) {
       const hideStyle = document.createElement('style');
       hideStyle.innerHTML = `
-        body > *:not(#paulPopup) { display: none !important; }
+        body > *:not(#paulPopup):not(#password-reset-popup):not(#email-confirm-popup):not(#account-block-popup):not(#toast) { display: none !important; }
         #paulPopup { display: flex !important; visibility: visible !important; opacity: 1 !important; z-index: 999999 !important; }
       `;
       document.head.appendChild(hideStyle);
@@ -10795,7 +10913,7 @@ window.addEventListener('load', () => {
   if (isAccountPage && localStorage.getItem('isLoggedIn') !== 'true') {
     const hideStyle = document.createElement('style');
     hideStyle.innerHTML = `
-      body > *:not(#paulPopup) { display: none !important; }
+      body > *:not(#paulPopup):not(#password-reset-popup):not(#email-confirm-popup):not(#account-block-popup):not(#toast) { display: none !important; }
       #paulPopup { display: flex !important; visibility: visible !important; opacity: 1 !important; z-index: 999999 !important; }
     `;
     document.head.appendChild(hideStyle);

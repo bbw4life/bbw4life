@@ -514,10 +514,17 @@ async function runEmailQueueProcessor(sheets, sentLog, settings) {
 
 
 async function trySendDirect(email, type, composeFn) {
-  if (!email || !email.includes('@')) return false;
+  if (!email || !email.includes('@')) {
+    console.warn(`[trySendDirect] Invalid email for ${type}: "${email}"`);
+    return false;
+  }
   try {
+    console.log(`[trySendDirect] Composing ${type} for ${email}`);
     const { subject, html } = await composeFn();
-    return await deliver(email, subject, html);
+    console.log(`[trySendDirect] Composed ${type} for ${email} — calling deliver()...`);
+    const ok = await deliver(email, subject, html);
+    console.log(`[trySendDirect] deliver() for ${type}/${email} returned: ${ok}`);
+    return ok;
   } catch (e) {
     console.error(`[trySendDirect] Error ${email}/${type}:`, e.message);
     return false;
@@ -1310,7 +1317,7 @@ async function composePasswordReset(data, settings) {
     <p style="margin:0 0 18px;font-family:Arial,sans-serif;font-size:15px;
         color:${BBW.textMid};line-height:1.75;">
       We received a request to reset your BBW4LIFE password. Click the button below to choose a new one.
-      This link will expire in 30 minutes for your security.
+      This link will expire in 10 minutes for your security.
     </p>
     ${cCTA('RESET MY PASSWORD &nbsp;›', resetUrl)}
     ${cDivider()}
@@ -1323,10 +1330,10 @@ async function composePasswordReset(data, settings) {
   return {
     subject: `Reset your BBW4LIFE password, ${name}`,
     html: masterTemplate({
-      preheader:    `Reset your password — this link expires in 30 minutes.`,
+      preheader:    `Reset your password — this link expires in 10 minutes.`,
       tagline:      'CONFIDENCE. BEAUTY. EMPOWERMENT.',
       heroHeadline: `RESET YOUR <span style="color:${BBW.pink};">PASSWORD.</span>`,
-      heroSubline:  'THIS LINK EXPIRES IN 30 MINUTES.',
+      heroSubline:  'THIS LINK EXPIRES IN 10 MINUTES.',
       bodyHTML,
       settings,
     }),
@@ -2109,6 +2116,7 @@ exports.handler = async (event) => {
 
       // ── Password reset : trySendDirect (jamais de dédoublonnage, sinon un renvoi futur serait bloqué) ──
       if (trigger === T.PASSWORD_RESET) {
+        console.log(`[Handler] PASSWORD_RESET branch reached for ${email}. resetUrl present: ${!!body.resetUrl}`);
         const ok = await trySendDirect(email, T.PASSWORD_RESET, () => composePasswordReset(body, settings));
         if (ok) {
           results.sent.push({ email, type: T.PASSWORD_RESET });
