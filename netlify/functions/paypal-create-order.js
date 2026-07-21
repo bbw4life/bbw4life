@@ -1,65 +1,41 @@
 process.removeAllListeners('warning');
 const fetch = require('node-fetch');
 const { saveTempOrder } = require('./temp-orders-store');
-
-// ── Fetch settings from products.data.json ──────────────────────────
-async function getSettings() {
-  try {
-    const BASE_URL = process.env.BASE_URL || '';
-    const res = await fetch(`${BASE_URL}/products.data.json`);
-    if (!res.ok) throw new Error('Failed to fetch products.data.json');
-    const data = await res.json();
-    const settings = data.find(p => p.type === 'settings') || {};
-    return settings;
-  } catch (err) {
-    console.warn('[PAYPAL] Could not load products.data.json, using defaults:', err.message);
-    return {};
-  }
-}
-
-// ── Enforce free promo items (price = 0) from settings ───────────────
-function sanitizeCart(cart, settings) {
-  const cd = settings.cart_drawer || {};
-  const buyQty = parseInt(cd.promo_buy_quantity) || 0;
-  const getQty = parseInt(cd.promo_get_quantity) || 0;
-
-  if (!buyQty || !getQty) return cart;
-
-  const paidItems = cart.filter(i => !i.isFreePromo);
-  const paidQty = paidItems.reduce((sum, i) => sum + (parseInt(i.quantity) || 0), 0);
-
-  return cart.map(item => {
-    if (item.isFreePromo) {
-      if (paidQty >= buyQty) {
-        return { ...item, price: 0 };
-      } else {
-        return { ...item, isFreePromo: false };
-      }
-    }
-    return item;
-  });
-}
+const { getAllProductsData, computeServerTotal } = require('./_lib/pricing');
 
 exports.handler = async (event) => {
   try {
     if (!event.body) return response(400, { success: false, error: "No data" });
 
-    const { cart: rawCart, shipping, shipping_cost, tax, promoCode } = JSON.parse(event.body);
+    const { cart: rawCart, shipping, promoCode, clientTotal } = JSON.parse(event.body);
 
     if (!Array.isArray(rawCart) || rawCart.length === 0) {
       return response(400, { success: false, error: "Cart empty" });
     }
 
-    const settings = await getSettings();
-    const cart = sanitizeCart(rawCart, settings);
+    // ── Recalcul du prix EXCLUSIVEMENT côté serveur (jamais les prix/shipping/tax bruts du client) ──
+    const allProducts = await getAllProductsData();
+    const settings     = allProducts.find(p => p.type === 'settings') || {};
+    const shippingMethod = shipping?.shipping_method || 'Standard Shipping';
 
-    const shippingCost = shipping_cost !== undefined
-      ? parseFloat(shipping_cost)
-      : parseFloat(settings.shipping_cost) || 10.00;
+    const { subtotal, shippingCost, taxAmount, discountAmount, total, sanitizedCart } = computeServerTotal(
+      rawCart,
+      settings,
+      allProducts,
+      shippingMethod,
+      promoCode || null
+    );
 
-    const taxAmount = tax !== undefined
-      ? parseFloat(tax)
-      : 0;
+    if (clientTotal !== undefined) {
+      const clientTotalRounded = parseFloat(parseFloat(clientTotal).toFixed(2));
+      const diff = Math.abs(clientTotalRounded - total);
+      if (diff > 0.10) {
+        console.warn(`[PAYPAL SECURITY] Price mismatch — client: $${clientTotal} | server: $${total}`);
+        return response(400, { success: false, error: 'Price mismatch detected. Please refresh and try again.' });
+      }
+    }
+
+    const cart = sanitizedCart;
 
     const PAYPAL_BASE = process.env.PAYPAL_ENV === "live"
       ? "https://api-m.paypal.com"
@@ -77,12 +53,10 @@ exports.handler = async (event) => {
     if (!tokenRes.ok) throw new Error("Failed to get PayPal token");
     const { access_token } = await tokenRes.json();
 
-    let subtotal = 0;
     const items = cart.map(item => {
       const price = parseFloat(item.price);
       const qty = parseInt(item.quantity);
       if (price < 0 || !qty || qty <= 0) throw new Error("Invalid item");
-      subtotal += price * qty;
       return {
         name: item.isFreePromo ? `🎁 FREE: ${item.title}` : item.title,
         unit_amount: { currency_code: "USD", value: price.toFixed(2) },
@@ -92,20 +66,7 @@ exports.handler = async (event) => {
       };
     });
 
-    let discountAmount = 0;
-    if (promoCode) {
-      const promos = settings.promos || [];
-      const inputCode = promoCode.toUpperCase().trim();
-      const paidQty = cart.filter(i => !i.isFreePromo)
-                          .reduce((s, i) => s + (parseInt(i.quantity) || 0), 0);
-      const promo = promos.find(
-        p => p.code && p.code.toUpperCase() === inputCode && p.items === paidQty
-      );
-      if (promo && promo.percent > 0) {
-        discountAmount = parseFloat((subtotal * (promo.percent / 100)).toFixed(2));
-      }
-    }
-    const finalTotal = Math.max(0, subtotal + shippingCost + taxAmount - discountAmount).toFixed(2);
+    const finalTotal = Math.max(0, total).toFixed(2);
     const custom_id = cart.map(item => item.cj_variant_id || '').join('|');
 
     const fullName = `${shipping.firstName || ''} ${shipping.lastName || ''}`.trim();

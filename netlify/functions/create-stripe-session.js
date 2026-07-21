@@ -1,97 +1,44 @@
 process.removeAllListeners('warning');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const fetch  = require('node-fetch');
 const { saveTempOrder } = require('./temp-orders-store');
-
-// ── Fetch settings from products.data.json ──────────────────────────
-async function getSettings() {
-  try {
-    const BASE_URL = process.env.BASE_URL || '';
-    const res = await fetch(`${BASE_URL}/products.data.json`);
-    if (!res.ok) throw new Error('Failed to fetch products.data.json');
-    const data = await res.json();
-    const settings = data.find(p => p.type === 'settings') || {};
-    return settings;
-  } catch (err) {
-    console.warn('[STRIPE] Could not load products.data.json, using defaults:', err.message);
-    return {};
-  }
-}
-
-// ── Compute effective shipping & tax based on settings ───────────────
-function computeTotals(cart, settings, shippingMethod) {
-  const cd = settings.cart_drawer || {};
-  const SHIPPING_COST = parseFloat(settings.shipping_cost) || 10.00;
-  const TAX_RATE = parseFloat(settings.tax_rate) || 0.00;
-  const freeShippingThreshold = parseFloat(cd.free_shipping_threshold) || 0;
-
-  const subtotal = cart.reduce((sum, item) => {
-    return sum + (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 0);
-  }, 0);
-
-  const isFreeMethod = ['Standard Shipping', 'Economy Shipping'].includes(shippingMethod);
-  const isFreeByThreshold = freeShippingThreshold > 0 && subtotal >= freeShippingThreshold;
-
-  const isFree = isFreeMethod || isFreeByThreshold;
-
-  return {
-    subtotal:     subtotal,
-    shippingCost: isFree ? 0 : SHIPPING_COST,
-    taxAmount:    isFree ? 0 : subtotal * TAX_RATE,
-  };
-}
-
-// ── Enforce free promo items (price = 0) from settings ───────────────
-function sanitizeCart(cart, settings) {
-  const cd = settings.cart_drawer || {};
-  const buyQty = parseInt(cd.promo_buy_quantity) || 0;
-  const getQty = parseInt(cd.promo_get_quantity)  || 0;
-
-  if (!buyQty || !getQty) return cart;
-
-  const paidItems = cart.filter(i => !i.isFreePromo);
-  const paidQty   = paidItems.reduce((sum, i) => sum + (parseInt(i.quantity) || 0), 0);
-
-  return cart.map(item => {
-    if (item.isFreePromo) {
-      if (paidQty >= buyQty) {
-        return { ...item, price: 0 };
-      } else {
-        return { ...item, isFreePromo: false };
-      }
-    }
-    return item;
-  });
-}
+const { getAllProductsData, computeServerTotal } = require('./_lib/pricing');
 
 exports.handler = async (event) => {
   try {
     if (!event.body) throw new Error("No data received");
 
-    const { cart: rawCart, shipping, promoCode } = JSON.parse(event.body);
+    const { cart: rawCart, shipping, promoCode, clientTotal } = JSON.parse(event.body);
 
     if (!Array.isArray(rawCart) || rawCart.length === 0) throw new Error("Invalid cart data");
 
-    // ── Load settings server-side ──
-    const settings = await getSettings();
-    const cart     = sanitizeCart(rawCart, settings);
+    // ── Recalcul du prix EXCLUSIVEMENT côté serveur (jamais les prix bruts du client) ──
+    const allProducts = await getAllProductsData();
+    const settings     = allProducts.find(p => p.type === 'settings') || {};
     const shippingMethod = shipping?.shipping_method || 'Standard Shipping';
-    const { subtotal, shippingCost, taxAmount } = computeTotals(cart, settings, shippingMethod);
 
-        // ── Discount promo ──
-        let discountAmount = 0;
-        if (promoCode) {
-          const promos      = settings.promos || [];
-          const inputCode   = promoCode.toUpperCase().trim();
-          const paidQty     = cart.filter(i => !i.isFreePromo)
-                                  .reduce((s, i) => s + (parseInt(i.quantity) || 0), 0);
-          const promo = promos.find(
-            p => p.code && p.code.toUpperCase() === inputCode && p.items === paidQty
-          );
-          if (promo && promo.percent > 0) {
-            discountAmount = parseFloat((subtotal * (promo.percent / 100)).toFixed(2));
-          }
-        }
+    const { shippingCost, taxAmount, discountAmount, total, sanitizedCart } = computeServerTotal(
+      rawCart,
+      settings,
+      allProducts,
+      shippingMethod,
+      promoCode || null
+    );
+
+    // ── Garde-fou : si un total client est fourni, il doit correspondre au total serveur ──
+    if (clientTotal !== undefined) {
+      const clientTotalRounded = parseFloat(parseFloat(clientTotal).toFixed(2));
+      const diff = Math.abs(clientTotalRounded - total);
+      if (diff > 0.10) {
+        console.warn(`[STRIPE SECURITY] Price mismatch — client: $${clientTotal} | server: $${total}`);
+        return {
+          statusCode: 400,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ success: false, error: 'Price mismatch detected. Please refresh and try again.' })
+        };
+      }
+    }
+
+    const cart = sanitizedCart;
 
     // ── Build Stripe line items ──
     const lineItems = cart.map(item => {

@@ -113,6 +113,12 @@ function notifyConfirmEmail({ email, firstName, confirmToken }) {
   return notifyEmail('confirm_account', { email, firstName, confirmUrl });
 }
 
+// Réinitialisation de mot de passe (lien à usage unique, expire 30 min)
+function notifyPasswordReset({ email, firstName, resetToken }) {
+  const resetUrl = `${BASE_URL}/account.html?reset_token=${encodeURIComponent(resetToken)}&email=${encodeURIComponent(email)}`;
+  return notifyEmail('password_reset', { email, firstName, resetUrl });
+}
+
 module.exports = {
   notifyEmail,
   notifyWelcome,
@@ -129,5 +135,6 @@ module.exports = {
   notifyCartAbandoned,
   notifyStoryReceived,
   notifyReviewResponse,
-  notifyConfirmEmail
+  notifyConfirmEmail,
+  notifyPasswordReset
 };

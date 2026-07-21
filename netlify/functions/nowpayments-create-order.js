@@ -1,67 +1,11 @@
 process.removeAllListeners('warning');
 const https = require('https');
-const fetch = require('node-fetch');
 const { saveTempOrder } = require('./temp-orders-store');
+const { getAllProductsData, computeServerTotal } = require('./_lib/pricing');
 
 // ── Mode LIVE ──
 const BASE_URL_NOW = 'api.nowpayments.io';
 const API_KEY      = process.env.NOWPAYMENTS_API_KEY;
-
-// ── Fetch settings from products.data.json ──
-async function getSettings() {
-  try {
-    const BASE_URL = process.env.BASE_URL || '';
-    const res = await fetch(`${BASE_URL}/products.data.json`);
-    if (!res.ok) throw new Error('Failed to fetch products.data.json');
-    const data = await res.json();
-    return data.find(p => p.type === 'settings') || {};
-  } catch (err) {
-    console.warn('[NOWPAYMENTS] Could not load products.data.json:', err.message);
-    return {};
-  }
-}
-
-// ── Sanitize free promo items ──
-function sanitizeCart(cart, settings) {
-  const cd     = settings.cart_drawer || {};
-  const buyQty = parseInt(cd.promo_buy_quantity) || 0;
-  const getQty = parseInt(cd.promo_get_quantity)  || 0;
-  if (!buyQty || !getQty) return cart;
-
-  const paidQty = cart
-    .filter(i => !i.isFreePromo)
-    .reduce((sum, i) => sum + (parseInt(i.quantity) || 0), 0);
-
-  return cart.map(item => {
-    if (item.isFreePromo) {
-      return paidQty >= buyQty
-        ? { ...item, price: 0 }
-        : { ...item, isFreePromo: false };
-    }
-    return item;
-  });
-}
-
-// ── Compute totals ──
-function computeTotals(cart, settings, shippingMethod) {
-  const cd                = settings.cart_drawer || {};
-  const SHIPPING_COST     = parseFloat(settings.shipping_cost) || 10.00;
-  const TAX_RATE          = parseFloat(settings.tax_rate)      || 0.00;
-  const freeShipThreshold = parseFloat(cd.free_shipping_threshold) || 0;
-
-  const subtotal = cart.reduce((sum, item) =>
-    sum + (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 0), 0);
-
-  const isFreeMethod    = ['Standard Shipping', 'Economy Shipping'].includes(shippingMethod);
-  const isFreeThreshold = freeShipThreshold > 0 && subtotal >= freeShipThreshold;
-  const isFree          = isFreeMethod || isFreeThreshold;
-
-  return {
-    subtotal,
-    shippingCost: isFree ? 0 : SHIPPING_COST,
-    taxAmount:    isFree ? 0 : parseFloat((subtotal * TAX_RATE).toFixed(2)),
-  };
-}
 
 // ── HTTPS POST helper ──
 function httpsPost(hostname, path, data, headers) {
@@ -102,7 +46,7 @@ exports.handler = async (event) => {
   try {
     if (!event.body) return res(400, { success: false, error: 'No data received' });
 
-    const { cart: rawCart, shipping, shipping_cost, tax, cartToken } = JSON.parse(event.body);
+    const { cart: rawCart, shipping, promoCode, clientTotal } = JSON.parse(event.body);
 
     if (!Array.isArray(rawCart) || rawCart.length === 0) {
       return res(400, { success: false, error: 'Cart empty' });
@@ -115,23 +59,30 @@ exports.handler = async (event) => {
 
     console.log(`[NOWPAYMENTS] Mode: LIVE | Host: ${BASE_URL_NOW}`);
 
-    // ── Load settings + sanitize cart ──
-    const settings       = await getSettings();
-    const cart           = sanitizeCart(rawCart, settings);
+    // ── Recalcul du prix EXCLUSIVEMENT côté serveur (jamais les prix/shipping/tax bruts du client) ──
+    const allProducts    = await getAllProductsData();
+    const settings       = allProducts.find(p => p.type === 'settings') || {};
     const shippingMethod = shipping?.shipping_method || 'Standard Shipping';
 
-    const shippingCost = shipping_cost !== undefined
-      ? parseFloat(shipping_cost)
-      : computeTotals(cart, settings, shippingMethod).shippingCost;
+    const { total, sanitizedCart } = computeServerTotal(
+      rawCart,
+      settings,
+      allProducts,
+      shippingMethod,
+      promoCode || null
+    );
 
-    const taxAmount = tax !== undefined
-      ? parseFloat(tax)
-      : computeTotals(cart, settings, shippingMethod).taxAmount;
+    if (clientTotal !== undefined) {
+      const clientTotalRounded = parseFloat(parseFloat(clientTotal).toFixed(2));
+      const diff = Math.abs(clientTotalRounded - total);
+      if (diff > 0.10) {
+        console.warn(`[NOWPAYMENTS SECURITY] Price mismatch — client: $${clientTotal} | server: $${total}`);
+        return res(400, { success: false, error: 'Price mismatch detected. Please refresh and try again.' });
+      }
+    }
 
-    const subtotal = cart.reduce((sum, item) =>
-      sum + (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 0), 0);
-
-    const totalAmount = parseFloat((subtotal + shippingCost + taxAmount).toFixed(2));
+    const cart = sanitizedCart;
+    const totalAmount = total;
 
     const BASE_SITE  = process.env.BASE_URL || 'https://bbw4lifee.netlify.app';
     const orderId    = `BBW-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;

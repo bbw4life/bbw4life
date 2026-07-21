@@ -30,6 +30,7 @@ const T = {
   CONFIRM_ACCOUNT:    'confirm_account',
   STORY_RECEIVED:     'story_received',
   REVIEW_RESPONSE:    'review_response',
+  PASSWORD_RESET:     'password_reset',
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -1294,6 +1295,44 @@ async function composeConfirmAccount(data, settings) {
   };
 }
 
+// ── Réinitialisation de mot de passe ──
+async function composePasswordReset(data, settings) {
+  const { firstName, resetUrl } = data;
+  const name = firstName || 'Beautiful';
+
+  const bodyHTML = `
+    <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:26px;
+        font-weight:700;color:${BBW.textDark};font-style:italic;">Hey ${name}! ♡</p>
+    <p style="margin:0 0 22px;font-family:Arial,sans-serif;font-size:12px;
+        color:${BBW.pink};letter-spacing:0.08em;text-transform:uppercase;font-weight:700;">
+      Reset Your Password 🔒
+    </p>
+    <p style="margin:0 0 18px;font-family:Arial,sans-serif;font-size:15px;
+        color:${BBW.textMid};line-height:1.75;">
+      We received a request to reset your BBW4LIFE password. Click the button below to choose a new one.
+      This link will expire in 30 minutes for your security.
+    </p>
+    ${cCTA('RESET MY PASSWORD &nbsp;›', resetUrl)}
+    ${cDivider()}
+    <p style="margin:0;font-family:Arial,sans-serif;font-size:13px;
+        color:${BBW.textLight};text-align:center;line-height:1.6;">
+      If you didn't request this, you can safely ignore this email — your password will stay unchanged.
+    </p>
+    <div style="height:32px;"></div>`;
+
+  return {
+    subject: `Reset your BBW4LIFE password, ${name}`,
+    html: masterTemplate({
+      preheader:    `Reset your password — this link expires in 30 minutes.`,
+      tagline:      'CONFIDENCE. BEAUTY. EMPOWERMENT.',
+      heroHeadline: `RESET YOUR <span style="color:${BBW.pink};">PASSWORD.</span>`,
+      heroSubline:  'THIS LINK EXPIRES IN 30 MINUTES.',
+      bodyHTML,
+      settings,
+    }),
+  };
+}
+
 // ── 2. Order Confirmation ─────────────────────────────────────
 async function composeOrderConfirm(data, settings) {
   const { firstName, lastName, orderId, items = [], total, shippingAddress } = data;
@@ -2066,6 +2105,16 @@ exports.handler = async (event) => {
         await trySend(email, T.REVIEW_RESPONSE,
           () => composeReviewResponse(body, settings),
           sheets, sentLog, results);
+      }
+
+      // ── Password reset : trySendDirect (jamais de dédoublonnage, sinon un renvoi futur serait bloqué) ──
+      if (trigger === T.PASSWORD_RESET) {
+        const ok = await trySendDirect(email, T.PASSWORD_RESET, () => composePasswordReset(body, settings));
+        if (ok) {
+          results.sent.push({ email, type: T.PASSWORD_RESET });
+        } else {
+          results.errors.push({ email, type: T.PASSWORD_RESET, reason: 'send failed' });
+        }
       }
 
       return {

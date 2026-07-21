@@ -1,6 +1,7 @@
 process.removeAllListeners('warning');
 const { google } = require("googleapis");
 const { generateAccountToken } = require('./account-token');
+const { hashPassword, verifyPassword, isHashedPassword } = require('./_lib/password');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -39,13 +40,39 @@ exports.handler = async (event) => {
 
     if (!rows || rows.length === 0) throw new Error("Impossible de lire le Google Sheet");
 
-    const userRow = rows.find((row) => {
-      const sheetEmail    = (row[2] || "").toLowerCase();
-      const sheetPassword = (row[4] || "").trim().toLowerCase();
-      return sheetEmail === userEmail && sheetPassword === userPassword;
-    });
+    const rowIndex = rows.findIndex((row) => (row[2] || "").toLowerCase() === userEmail);
+    const userRow  = rowIndex !== -1 ? rows[rowIndex] : null;
 
-    if (!userRow) {
+    let passwordMatches = false;
+    if (userRow) {
+      const storedPassword = (userRow[4] || "").trim();
+
+      if (isHashedPassword(storedPassword)) {
+        // ── Compte déjà migré : vérification via scrypt ──
+        passwordMatches = verifyPassword(userPassword, storedPassword);
+      } else {
+        // ── Ancien compte en clair : comparaison directe (comportement historique) ──
+        passwordMatches = storedPassword.toLowerCase() === userPassword;
+
+        // Migration progressive et transparente : on hash immédiatement si le mot de
+        // passe en clair est correct, sans jamais casser le compte existant.
+        if (passwordMatches) {
+          try {
+            const newHash = hashPassword(userPassword);
+            await sheets.spreadsheets.values.update({
+              spreadsheetId,
+              range: `bbw4life-accounts!E${rowIndex + 1}`,
+              valueInputOption: "RAW",
+              resource: { values: [[newHash]] }
+            });
+          } catch (e) {
+            console.warn("[verify-login] Password migration to hash failed:", e.message);
+          }
+        }
+      }
+    }
+
+    if (!userRow || !passwordMatches) {
       console.log("❌ No user found with this email/password");
       return {
         statusCode: 401,

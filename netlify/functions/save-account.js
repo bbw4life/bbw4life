@@ -1,8 +1,65 @@
 // netlify/functions/save-account.js
 process.removeAllListeners('warning');
+const crypto = require('crypto');
 const { google } = require('googleapis');
 const { verifyAccountToken, generateConfirmToken, verifyConfirmToken } = require('./account-token');
-const { notifyWelcome, notifyNewsletter1, notifyConfirmEmail } = require('./notify-email');
+const { notifyWelcome, notifyNewsletter1, notifyConfirmEmail, notifyPasswordReset } = require('./notify-email');
+const { hashPassword, verifyPassword, isHashedPassword } = require('./_lib/password');
+
+// ── Rate limiting basique (par IP) pour request-password-reset — mêmes seuils que validate-checkout.js ──
+const RATE_LIMIT_MAP = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX = 5;
+
+function getClientIp(event) {
+  return (
+    event.headers?.['x-forwarded-for']?.split(',')[0]?.trim() ||
+    event.headers?.['client-ip'] ||
+    'unknown'
+  );
+}
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const entry = RATE_LIMIT_MAP.get(ip) || { count: 0, start: now };
+  if (now - entry.start > RATE_LIMIT_WINDOW_MS) {
+    RATE_LIMIT_MAP.set(ip, { count: 1, start: now });
+    return false;
+  }
+  if (entry.count >= RATE_LIMIT_MAX) return true;
+  entry.count++;
+  RATE_LIMIT_MAP.set(ip, entry);
+  return false;
+}
+
+const PASSWORD_RESET_TOKEN_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const PASSWORD_RESET_SHEET = 'Password_Reset_Tokens';
+
+function sha256Hex(value) {
+  return crypto.createHash('sha256').update(String(value)).digest('hex');
+}
+
+// ── Garantit l'existence de l'onglet Password_Reset_Tokens (créé au besoin) ──
+async function ensureResetTokensSheet(sheets, spreadsheetId) {
+  try {
+    const meta = await sheets.spreadsheets.get({ spreadsheetId, fields: 'sheets.properties.title' });
+    const exists = (meta.data.sheets || []).some(s => s.properties.title === PASSWORD_RESET_SHEET);
+    if (!exists) {
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        resource: { requests: [{ addSheet: { properties: { title: PASSWORD_RESET_SHEET } } }] }
+      });
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `${PASSWORD_RESET_SHEET}!A1:E1`,
+        valueInputOption: 'RAW',
+        resource: { values: [['email', 'token_hash', 'created_at', 'expires_at', 'used_at']] }
+      });
+    }
+  } catch (e) {
+    console.warn('[password-reset] ensureResetTokensSheet failed:', e.message);
+  }
+}
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -69,8 +126,9 @@ exports.handler = async (event) => {
         };
       }
       const passNormalized = normalize(password);
+      const passHashed = hashPassword(passNormalized);
       const memberSince = formatDate();
-      const values = [[normalize(lastName), normalize(firstName), normalize(email), normalize(phone), passNormalized, newsletter,
+      const values = [[normalize(lastName), normalize(firstName), normalize(email), normalize(phone), passHashed, newsletter,
                        0, 0, 0, "", "", "", "", "", 0, memberSince, "[]"]];
       await sheets.spreadsheets.values.append({
         spreadsheetId, range: "bbw4life-accounts!A:Z", valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", resource: { values }
@@ -149,28 +207,158 @@ exports.handler = async (event) => {
     }
 
 
-    // ==================== RESET PASSWORD (Forgot Password) ====================
+    // ==================== REQUEST PASSWORD RESET (Forgot Password — étape 1) ====================
+    // Génère un token à usage unique, l'envoie par email, et ne révèle JAMAIS si l'email existe.
+    if (action === 'request-password-reset') {
+      const ip = getClientIp(event);
+      if (isRateLimited(ip)) {
+        return { statusCode: 429, body: JSON.stringify({ success: false, error: 'Too many requests. Please wait a moment.' }) };
+      }
+
+      // Toujours { success: true }, que l'email existe ou non — pas de fuite d'information.
+      if (!email) {
+        return { statusCode: 200, body: JSON.stringify({ success: true }) };
+      }
+
+      try {
+        const normalizedEmail = normalize(email).toLowerCase();
+        const rowIdx = rows.findIndex(row => normalize(row[2] || "").toLowerCase() === normalizedEmail);
+
+        if (rowIdx !== -1) {
+          await ensureResetTokensSheet(sheets, spreadsheetId);
+
+          const resetToken = crypto.randomBytes(32).toString('hex');
+          const tokenHash  = sha256Hex(resetToken);
+          const nowIso     = new Date().toISOString();
+          const expiresIso = new Date(Date.now() + PASSWORD_RESET_TOKEN_TTL_MS).toISOString();
+
+          // ── Invalide tout token existant non utilisé pour cet email (un seul token actif à la fois) ──
+          try {
+            const tokensRes = await sheets.spreadsheets.values.get({
+              spreadsheetId,
+              range: `${PASSWORD_RESET_SHEET}!A:E`
+            });
+            const tokenRows = tokensRes.data.values || [];
+            const invalidations = [];
+            for (let i = 1; i < tokenRows.length; i++) {
+              const r = tokenRows[i] || [];
+              const rEmail  = normalize(r[0] || "").toLowerCase();
+              const usedAt  = (r[4] || '').trim();
+              if (rEmail === normalizedEmail && !usedAt) {
+                invalidations.push({
+                  range: `${PASSWORD_RESET_SHEET}!E${i + 1}`,
+                  values: [['invalidated']]
+                });
+              }
+            }
+            if (invalidations.length) {
+              await sheets.spreadsheets.values.batchUpdate({
+                spreadsheetId,
+                resource: { valueInputOption: 'RAW', data: invalidations }
+              });
+            }
+          } catch (e) {
+            console.warn('[request-password-reset] Could not invalidate previous tokens:', e.message);
+          }
+
+          // ── Écrit le nouveau token (seul le hash est stocké) ──
+          await sheets.spreadsheets.values.append({
+            spreadsheetId,
+            range: `${PASSWORD_RESET_SHEET}!A:E`,
+            valueInputOption: 'RAW',
+            insertDataOption: 'INSERT_ROWS',
+            resource: { values: [[normalizedEmail, tokenHash, nowIso, expiresIso, ""]] }
+          });
+
+          const userRow   = rows[rowIdx] || [];
+          const firstNameForEmail = userRow[1] || '';
+
+          await notifyPasswordReset({ email: userRow[2] || email, firstName: firstNameForEmail, resetToken }).catch((e) => {
+            console.warn('[request-password-reset] notifyPasswordReset failed:', e.message);
+          });
+        }
+      } catch (e) {
+        console.warn('[request-password-reset] Unexpected error:', e.message);
+      }
+
+      return { statusCode: 200, body: JSON.stringify({ success: true }) };
+    }
+
+    // ==================== RESET PASSWORD (Forgot Password — étape 2, avec token) ====================
     if (action === 'reset-password') {
-      const { newPassword } = body;
-      if (!email || !newPassword) throw new Error("Email and new password are required");
+      const { newPassword, resetToken } = body;
+      if (!email || !newPassword || !resetToken) {
+        return { statusCode: 400, body: JSON.stringify({ success: false, error: "Email, new password and reset token are required" }) };
+      }
 
       const normalizedEmail = normalize(email).toLowerCase();
-      const rowIdx = rows.findIndex(row => normalize(row[2] || "").toLowerCase() === normalizedEmail);
 
+      let tokenValid = false;
+      let tokenRowNum = -1;
+      try {
+        const tokensRes = await sheets.spreadsheets.values.get({
+          spreadsheetId,
+          range: `${PASSWORD_RESET_SHEET}!A:E`
+        });
+        const tokenRows = tokensRes.data.values || [];
+        const providedHash = sha256Hex(resetToken);
+        const now = Date.now();
+
+        for (let i = 1; i < tokenRows.length; i++) {
+          const r = tokenRows[i] || [];
+          const rEmail    = normalize(r[0] || "").toLowerCase();
+          const rTokenHash = (r[1] || '').trim();
+          const rExpiresAt = (r[3] || '').trim();
+          const rUsedAt    = (r[4] || '').trim();
+
+          if (rEmail !== normalizedEmail || rUsedAt) continue;
+
+          const expectedBuf = Buffer.from(rTokenHash, 'hex');
+          const providedBuf = Buffer.from(providedHash, 'hex');
+          const hashMatches = expectedBuf.length === providedBuf.length && crypto.timingSafeEqual(expectedBuf, providedBuf);
+          if (!hashMatches) continue;
+
+          const expiresAtMs = rExpiresAt ? new Date(rExpiresAt).getTime() : 0;
+          if (!expiresAtMs || expiresAtMs < now) continue;
+
+          tokenValid = true;
+          tokenRowNum = i + 1;
+          break;
+        }
+      } catch (e) {
+        console.warn('[reset-password] Token lookup failed:', e.message);
+      }
+
+      if (!tokenValid) {
+        return { statusCode: 400, body: JSON.stringify({ success: false, error: 'INVALID_OR_EXPIRED_TOKEN' }) };
+      }
+
+      const rowIdx = rows.findIndex(row => normalize(row[2] || "").toLowerCase() === normalizedEmail);
       if (rowIdx === -1) {
-        return {
-          statusCode: 200,
-          body: JSON.stringify({ success: false, error: 'EMAIL_NOT_FOUND' })
-        };
+        return { statusCode: 400, body: JSON.stringify({ success: false, error: 'INVALID_OR_EXPIRED_TOKEN' }) };
       }
 
       const targetRow = rowIdx + 1;
+      const newHash = hashPassword(normalize(newPassword));
+
       await sheets.spreadsheets.values.update({
         spreadsheetId,
         range: `bbw4life-accounts!E${targetRow}`,
         valueInputOption: "RAW",
-        resource: { values: [[normalize(newPassword).toLowerCase()]] }
+        resource: { values: [[newHash]] }
       });
+
+      // ── Usage unique : invalide immédiatement le token utilisé ──
+      try {
+        await sheets.spreadsheets.values.update({
+          spreadsheetId,
+          range: `${PASSWORD_RESET_SHEET}!E${tokenRowNum}`,
+          valueInputOption: 'RAW',
+          resource: { values: [[new Date().toISOString()]] }
+        });
+      } catch (e) {
+        console.warn('[reset-password] Could not mark token as used:', e.message);
+      }
 
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
@@ -179,7 +367,7 @@ exports.handler = async (event) => {
     if (action === 'update-password') {
       if (rowIndex === -1) throw new Error("Utilisateur non trouvé");
       await sheets.spreadsheets.values.update({ spreadsheetId, range: `bbw4life-accounts!E${rowNum}`, valueInputOption: "RAW",
-        resource: { values: [[normalize(newPassword)]] }
+        resource: { values: [[hashPassword(normalize(newPassword))]] }
       });
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }

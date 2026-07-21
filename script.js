@@ -8085,6 +8085,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const pathname = window.location.pathname.toLowerCase();
   const isAccountPage = /account/i.test(pathname);
 
+  // ── FORGOT PASSWORD — état du flux (token de reset reçu par email, si présent) ──
+  let pendingResetToken = null;
+  function setForgotStep(step) {
+    const newPassWrap  = document.getElementById('forgot-new-password')?.closest('.password-input-wrapper');
+    const confPassWrap = document.getElementById('forgot-confirm-password')?.closest('.password-input-wrapper');
+    const emailInput   = document.getElementById('forgot-email');
+    if (step === 'reset') {
+      if (newPassWrap)  newPassWrap.style.display  = '';
+      if (confPassWrap) confPassWrap.style.display = '';
+      if (emailInput)   emailInput.readOnly = true;
+    } else {
+      if (newPassWrap)  newPassWrap.style.display  = 'none';
+      if (confPassWrap) confPassWrap.style.display = 'none';
+      if (emailInput)   emailInput.readOnly = false;
+    }
+  }
+
   window.showToast = (msg) => {
     let toast = document.getElementById('toast');
     if (!toast) { toast = document.createElement('div'); toast.id = 'toast'; toast.className = 'toast'; document.body.appendChild(toast); }
@@ -8444,6 +8461,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ── PASSWORD RESET LINK HANDLER (lien reçu par email) ── */
+  if (isAccountPage) {
+    const resetParams = new URLSearchParams(window.location.search);
+    const resetTok  = resetParams.get('reset_token');
+    const resetMail = resetParams.get('email');
+    if (resetTok && resetMail) {
+      pendingResetToken = resetTok;
+      if (paulPopupOverlay) paulPopupOverlay.classList.add('active');
+      if (loginForm)  loginForm.style.display  = 'none';
+      if (signupForm) signupForm.style.display = 'none';
+      if (forgotForm) forgotForm.style.display = 'block';
+      setForgotStep('reset');
+      const emailField = document.getElementById('forgot-email');
+      if (emailField) emailField.value = resetMail;
+      const errEl = document.getElementById('forgot-error-msg');
+      const sucEl = document.getElementById('forgot-success-msg');
+      if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+      if (sucEl) { sucEl.textContent = ''; sucEl.style.display = 'none'; }
+    }
+  }
+
   window.openAccountPopup = (id) => {
     const popup = document.getElementById(id);
     if (popup) popup.classList.add('open');
@@ -8484,6 +8522,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.style.display  = 'none';
     signupForm.style.display = 'none';
     if (forgotForm) forgotForm.style.display = 'block';
+    pendingResetToken = null;
+    setForgotStep('request');
+    const emailField = document.getElementById('forgot-email');
+    if (emailField) emailField.value = '';
     const errEl = document.getElementById('forgot-error-msg');
     const sucEl = document.getElementById('forgot-success-msg');
     if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
@@ -8493,6 +8535,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (goToLoginFromForgot) goToLoginFromForgot.addEventListener('click', () => {
     if (forgotForm) forgotForm.style.display = 'none';
     loginForm.style.display = 'block';
+    pendingResetToken = null;
+    setForgotStep('request');
   });
 
   document.querySelectorAll('.password-toggle').forEach(toggle => {
@@ -8557,81 +8601,120 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── FORGOT PASSWORD LOGIC ──
+  // Étape 1 (pendingResetToken absent) : demande d'envoi d'un lien de reset par email.
+  // Étape 2 (pendingResetToken présent, via lien reçu par email) : finalise le nouveau mot de passe.
   if (paulForgotBtn) {
     paulForgotBtn.addEventListener('click', async () => {
       const errEl    = document.getElementById('forgot-error-msg');
       const sucEl    = document.getElementById('forgot-success-msg');
       const emailVal = (document.getElementById('forgot-email')?.value || '').trim();
-      const newPass  = (document.getElementById('forgot-new-password')?.value || '').trim();
-      const confPass = (document.getElementById('forgot-confirm-password')?.value || '').trim();
 
       // Reset messages
       if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
       if (sucEl) { sucEl.textContent = ''; sucEl.style.display = 'none'; }
 
-      // Validation
-      if (!emailVal || !newPass || !confPass) {
-        if (errEl) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; }
+      if (!emailVal) {
+        if (errEl) { errEl.textContent = 'Please fill in your email.'; errEl.style.display = 'block'; }
         return;
       }
       if (!emailVal.includes('@') || !emailVal.includes('.')) {
         if (errEl) { errEl.textContent = 'Please enter a valid email address.'; errEl.style.display = 'block'; }
         return;
       }
-      if (newPass !== confPass) {
-        if (errEl) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; }
-        return;
-      }
-      if (newPass.length < 6) {
-        if (errEl) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; }
+
+      // ══════════════ ÉTAPE 2 : finalisation avec le token reçu par email ══════════════
+      if (pendingResetToken) {
+        const newPass  = (document.getElementById('forgot-new-password')?.value || '').trim();
+        const confPass = (document.getElementById('forgot-confirm-password')?.value || '').trim();
+
+        if (!newPass || !confPass) {
+          if (errEl) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; }
+          return;
+        }
+        if (newPass !== confPass) {
+          if (errEl) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; }
+          return;
+        }
+        if (newPass.length < 6) {
+          if (errEl) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; }
+          return;
+        }
+
+        const origText = paulForgotBtn.textContent;
+        paulForgotBtn.textContent = 'Updating...';
+        paulForgotBtn.disabled = true;
+
+        try {
+          const res  = await fetch('/.netlify/functions/save-account', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'reset-password', email: emailVal, newPassword: newPass, resetToken: pendingResetToken })
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            pendingResetToken = null;
+            if (window.history?.replaceState) window.history.replaceState({}, '', '/account.html');
+
+            if (sucEl) {
+              const ap2 = (window.__allProducts || []).find(p => p.type === 'settings')?.auth_popup || {};
+              sucEl.textContent = ap2.forgot_success || 'Password updated! You can now log in.';
+              sucEl.style.display = 'block';
+            }
+            ['forgot-email','forgot-new-password','forgot-confirm-password'].forEach(id => {
+              const el = document.getElementById(id);
+              if (el) el.value = '';
+            });
+            // Retour à l'écran de LOGIN après succès
+            setTimeout(() => {
+              if (forgotForm)  forgotForm.style.display  = 'none';
+              if (loginForm)   loginForm.style.display   = 'block';
+              if (sucEl) { sucEl.textContent = ''; sucEl.style.display = 'none'; }
+              setForgotStep('request');
+            }, 2000);
+          } else {
+            if (errEl) {
+              errEl.textContent = data.error === 'INVALID_OR_EXPIRED_TOKEN'
+                ? 'This reset link is invalid or has expired. Please request a new one.'
+                : (data.error || 'An error occurred. Please try again.');
+              errEl.style.display = 'block';
+            }
+          }
+        } catch (err) {
+          if (errEl) { errEl.textContent = 'Network error. Please try again.'; errEl.style.display = 'block'; }
+        } finally {
+          paulForgotBtn.textContent = origText;
+          paulForgotBtn.disabled = false;
+        }
         return;
       }
 
+      // ══════════════ ÉTAPE 1 : demande d'un lien de reset (jamais d'accès direct au formulaire) ══════════════
       const origText = paulForgotBtn.textContent;
-      paulForgotBtn.textContent = 'Updating...';
+      paulForgotBtn.textContent = 'Sending...';
       paulForgotBtn.disabled = true;
 
       try {
-        const res  = await fetch('/.netlify/functions/save-account', {
+        await fetch('/.netlify/functions/save-account', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'reset-password', email: emailVal, newPassword: newPass })
+          body: JSON.stringify({ action: 'request-password-reset', email: emailVal })
         });
-        const data = await res.json();
-
-        if (data.success) {
-          // Success message
-          if (sucEl) {
-            const ap2 = (window.__allProducts || []).find(p => p.type === 'settings')?.auth_popup || {};
-            sucEl.textContent = ap2.forgot_success || 'Password updated! You can now log in.';
-            sucEl.style.display = 'block';
-          }
-          // Clear fields
-          ['forgot-email','forgot-new-password','forgot-confirm-password'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.value = '';
-          });
-          // Redirect to login after 2s
-          setTimeout(() => {
-            if (forgotForm)  forgotForm.style.display  = 'none';
-            if (loginForm)   loginForm.style.display   = 'block';
-            if (sucEl) { sucEl.textContent = ''; sucEl.style.display = 'none'; }
-          }, 2000);
-        } else {
-          if (errEl) {
-            const ap2 = (window.__allProducts || []).find(p => p.type === 'settings')?.auth_popup || {};
-            errEl.textContent = data.error === 'EMAIL_NOT_FOUND'
-              ? (ap2.forgot_error_not_found || 'No account found with this email address.')
-              : (data.error || 'An error occurred. Please try again.');
-            errEl.style.display = 'block';
-          }
-        }
       } catch (err) {
-        if (errEl) { errEl.textContent = 'Network error. Please try again.'; errEl.style.display = 'block'; }
+        // Le fetch réseau peut échouer, mais on ne révèle jamais si l'email existe ou non.
       } finally {
         paulForgotBtn.textContent = origText;
         paulForgotBtn.disabled = false;
       }
+
+      // Toujours le même message, que l'email existe ou non — pas de fuite d'information.
+      if (sucEl) {
+        const ap2 = (window.__allProducts || []).find(p => p.type === 'settings')?.auth_popup || {};
+        sucEl.textContent = ap2.forgot_check_email || 'If an account exists for this email, a reset link has just been sent. Please check your inbox.';
+        sucEl.style.display = 'block';
+      }
+      const emailField = document.getElementById('forgot-email');
+      if (emailField) emailField.value = '';
     });
   }
 
