@@ -388,13 +388,12 @@
 .paul-main-title {
     font-family: var(--font-display, Georgia, serif);
     color: var(--bbw-black);
-    font-size: clamp(22px, 2.2vw, 28px);
+    font-size: 20px;
     font-weight: 700;
-    letter-spacing: -0.01em;
     text-align: left;
     margin: 0;
     padding: 0;
-    line-height: 1.22;
+    line-height: 1.18;
     display: inline;
 }
 
@@ -1608,19 +1607,24 @@
 ════════════════════════════ */
 .quantity-add-wrapper {
     width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
     padding: 3px !important;
 }
+.quantity-add-wrapper::-webkit-scrollbar { display: none; }
 .quantity-add {
-    display: flex; gap: 10px; align-items: stretch;
-    flex-wrap: wrap;
-    width: 100%;
+    display: flex; gap: 8px; align-items: center;
+    flex-wrap: nowrap;
+    width: max-content; min-width: 100%;
+    overflow: visible;
 }
 
 
 .quantity-add-wrapper .quantity {
-    display: flex; align-items: center; gap: 2px;
-    border: 1.5px solid rgba(184,146,90,0.35);
-    padding: 4px; border-radius: 100px;
+    display: flex; align-items: center; gap: 5px;
+    border: 1px solid rgba(184,146,90,0.35);
+    padding: 4px; border-radius: 50px;
     background: linear-gradient(135deg,
         rgba(255,255,255,0.92) 0%,
         rgba(253,249,244,0.97) 100%
@@ -1631,60 +1635,47 @@
     flex-shrink: 0;
 }
 .quantity-add-wrapper .quantity button {
-    background: transparent;
-    color: var(--bbw-black);
+    background: #15110E;
+    color: var(--bbw-gold);
     border: none;
-    width: 32px; height: 32px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    border-radius: 50%; font-weight: 700;
-    font-size: 17px;
+    padding: 7px 13px; cursor: pointer;
+    border-radius: 50px; font-weight: 800;
+    font-size: 16px;
     transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 .quantity-add-wrapper .quantity button:hover {
     background: var(--bbw-black);
     color: var(--bbw-gold-light);
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.26);
 }
 .quantity-add-wrapper .quantity input {
-    width: 40px; text-align: center;
-    border: none; font-size: 15px; font-weight: 700;
+    width: 46px; text-align: center;
+    border: none; font-size: 16px; font-weight: 700;
     background: transparent; color: var(--bbw-black);
 }
 
 
-button.add-to-cart.cta,
-button.buy-now.cta {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    flex: 1 1 180px !important;
-    width: auto !important;
-    min-width: 0 !important;
-    font-size: 13.5px !important;
-    padding: 15px 20px !important;
-    cursor: pointer;
-    border-radius: 100px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.08em !important;
-    transition: all 0.32s cubic-bezier(0.4,0,0.2,1) !important;
-    white-space: nowrap;
-    position: relative; overflow: hidden;
-    text-transform: uppercase;
-}
-button.add-to-cart.cta .pp-cta-label,
-button.buy-now.cta .pp-cta-label { position: relative; z-index: 1; }
-button.add-to-cart.cta i,
-button.buy-now.cta i { position: relative; z-index: 1; font-size: 15px; }
-
 button.add-to-cart.cta {
-    background: var(--bbw-black) !important;
+    background: #15110E !important;
     color: var(--bbw-gold) !important;
+    font-size: 14px !important;
+    padding: 12px 22px !important;
+    cursor: pointer; flex-shrink: 0 !important;
+    width: auto !important; min-width: fit-content !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
     border: 1.5px solid rgba(184,146,90,0.55) !important;
     box-shadow:
         0 6px 22px rgba(0,0,0,0.22),
         0 1px 0 rgba(184,146,90,0.15) inset !important;
+    transition: all 0.32s cubic-bezier(0.4,0,0.2,1) !important;
+    white-space: nowrap;
+    position: relative; overflow: hidden;
+    text-transform: uppercase;
 }
 button.add-to-cart.cta::after {
     content: '';
@@ -1695,10 +1686,10 @@ button.add-to-cart.cta::after {
     animation: shimmerBar 3s ease-in-out infinite;
 }
 button.add-to-cart.cta:hover {
-    background: #201a14 !important;
+    background: var(--bbw-black) !important;
     color: var(--bbw-gold-light) !important;
     border-color: rgba(184,146,90,0.80) !important;
-    transform: translateY(-2px) !important;
+    transform: translateY(-3px) scale(1.02) !important;
     box-shadow:
         0 12px 32px rgba(0,0,0,0.28),
         0 1px 0 rgba(184,146,90,0.20) inset !important;
@@ -1714,11 +1705,22 @@ button.buy-now.cta {
     ) !important;
     background-size: 200% auto !important;
     color: var(--bbw-black) !important;
+    font-size: 14px !important;
+    padding: 12px 22px !important;
+    cursor: pointer; flex-shrink: 0 !important;
+    width: auto !important; min-width: fit-content !important;
+    border-radius: 50px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
     border: none !important;
     box-shadow:
         0 6px 22px rgba(184,146,90,0.38),
         0 1px 0 rgba(255,255,255,0.30) inset !important;
+    transition: all 0.32s cubic-bezier(0.4,0,0.2,1) !important;
     animation: ctaShimmerGold 3.5s linear infinite !important;
+    white-space: nowrap;
+    text-transform: uppercase;
+    position: relative; overflow: hidden;
 }
 button.buy-now.cta::after {
     content: '';
@@ -1730,17 +1732,15 @@ button.buy-now.cta::after {
 }
 button.buy-now.cta:hover {
     background-position: right center !important;
-    transform: translateY(-2px) !important;
+    transform: translateY(-3px) scale(1.02) !important;
     box-shadow:
         0 12px 34px rgba(184,146,90,0.50),
         0 1px 0 rgba(255,255,255,0.40) inset !important;
     color: #0e0803 !important;
 }
-@media (max-width: 480px) {
-    .quantity-add { flex-wrap: wrap; }
-    .quantity-add-wrapper .quantity { flex: 1 1 100%; justify-content: center; }
-    button.add-to-cart.cta,
-    button.buy-now.cta { flex: 1 1 auto !important; padding: 14px 16px !important; font-size: 12.5px !important; }
+@media (max-width: 768px) {
+    button.add-to-cart.cta { padding: 10px 14px !important; font-size: 12px !important; }
+    button.buy-now.cta     { padding: 10px 14px !important; font-size: 12px !important; }
 }
 
 
