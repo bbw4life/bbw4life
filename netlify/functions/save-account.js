@@ -277,22 +277,30 @@ exports.handler = async (event) => {
           }
 
           // ── Écrit le nouveau token (seul le hash est stocké) ──
+          // Isolé dans son propre try/catch : si l'écriture Sheets échoue (permissions,
+          // quota, etc.), on veut quand même tenter d'envoyer l'email plutôt que de
+          // bloquer silencieusement tout le flux (c'était le bug précédent : une
+          // exception ici empêchait `notifyPasswordReset` d'être atteint).
           console.log('[request-password-reset] Writing new token row to sheet...');
-          await sheets.spreadsheets.values.append({
-            spreadsheetId,
-            range: `${PASSWORD_RESET_SHEET}!A:E`,
-            valueInputOption: 'RAW',
-            insertDataOption: 'INSERT_ROWS',
-            resource: { values: [[normalizedEmail, tokenHash, nowIso, expiresIso, ""]] }
-          });
-          console.log('[request-password-reset] New token row written successfully.');
+          try {
+            await sheets.spreadsheets.values.append({
+              spreadsheetId,
+              range: `${PASSWORD_RESET_SHEET}!A:E`,
+              valueInputOption: 'RAW',
+              insertDataOption: 'INSERT_ROWS',
+              resource: { values: [[normalizedEmail, tokenHash, nowIso, expiresIso, ""]] }
+            });
+            console.log('[request-password-reset] New token row written successfully.');
+          } catch (e) {
+            console.error('[request-password-reset] Token write FAILED — email will still be sent, but the link may not verify:', e.message, e.stack);
+          }
 
           const userRow   = rows[rowIdx] || [];
           const firstNameForEmail = userRow[1] || '';
 
           console.log(`[request-password-reset] Calling notifyPasswordReset for "${userRow[2] || email}"...`);
           const notifyResult = await notifyPasswordReset({ email: userRow[2] || email, firstName: firstNameForEmail, resetToken }).catch((e) => {
-            console.warn('[request-password-reset] notifyPasswordReset threw:', e.message);
+            console.error('[request-password-reset] notifyPasswordReset threw:', e.message, e.stack);
             return { success: false, error: e.message };
           });
           console.log('[request-password-reset] notifyPasswordReset result:', JSON.stringify(notifyResult));

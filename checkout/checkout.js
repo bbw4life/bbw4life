@@ -233,6 +233,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             img.alt = item.title || 'Product';
             img.loading = "lazy";
             const info = document.createElement('div');
+            info.classList.add('item-info');
 
             const freeBadge = item.isFreePromo
                 ? `<span class="free-badge">🎁 Free 0.00$</span>`

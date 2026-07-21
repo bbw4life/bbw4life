@@ -114,10 +114,15 @@
     if (st && st.parentNode) st.parentNode.removeChild(st);
   }
 
-  // ── Fast-path synchrone (cache) ──────────────────────────
+  // ── Fast-path synchrone ───────────────────────────────────
+  // Le preloader DOIT toujours s'afficher avant le reste de la page, y compris
+  // à la toute première visite (aucune exception tolérée). On l'injecte donc
+  // immédiatement par défaut, sauf si un visite précédente a confirmé qu'il
+  // était désactivé (cached === 'no') — dans ce seul cas on attend la
+  // confirmation asynchrone ci-dessous pour ne pas flasher inutilement.
   var cached = null;
   try { cached = localStorage.getItem(CACHE_KEY); } catch (e) {}
-  if (cached === 'yes') injectPreloader();
+  if (cached !== 'no') injectPreloader();
 
   // ── Confirmation asynchrone (source de vérité) ───────────
   fetch('/products.data.json')

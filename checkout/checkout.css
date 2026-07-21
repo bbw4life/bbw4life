@@ -438,6 +438,11 @@ h2::before {
   box-shadow: 0 3px 12px rgba(184,146,90,0.10);
 }
 
+.cart-items .item .item-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .cart-items .item img {
   width: 76px;
   height: 76px;
