@@ -61,7 +61,7 @@ function computeServerTotal(cart, settings, allProducts, shippingMethod, promoCo
 
           return { ...item, price: parseFloat(serverBundlePrice.toFixed(2)) };
         }
-        return item;
+        return { ...item, _unknownProduct: true };
       }
 
       // ── Upsell : prix calculé CÔTÉ SERVEUR depuis les settings ──
@@ -90,7 +90,7 @@ function computeServerTotal(cart, settings, allProducts, shippingMethod, promoCo
 
           return { ...item, price: parseFloat(serverUpsellPrice.toFixed(2)) };
         }
-        return item;
+        return { ...item, _unknownProduct: true };
       }
 
     // ── Prix normal : relit depuis le catalogue ──
@@ -101,9 +101,10 @@ function computeServerTotal(cart, settings, allProducts, shippingMethod, promoCo
       return { ...item, price: isNaN(trustedPrice) ? parseFloat(item.price) : trustedPrice };
     }
 
-    // ── Produit non trouvé dans le catalogue → garde le prix client ──
-    return item;
-  });
+    // ── Produit non trouvé dans le catalogue → jamais confiance au client,
+    //    l'item est retiré du panier serveur (voir .filter ci-dessous) ──
+    return { ...item, _unknownProduct: true };
+  }).filter(item => !item._unknownProduct);
 
   const subtotal = sanitized.reduce((s, i) => {
     return s + (parseFloat(i.price) || 0) * (parseInt(i.quantity) || 0);
