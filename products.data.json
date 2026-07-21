@@ -4395,7 +4395,7 @@
       "banner_slide_duration_ms": 5000
     },
     "preloader": {
-      "show": "no",
+      "show": "yes",
       "style_pulse_logo":   "no",
       "style_progress_bar": "yes",
       "style_spinner_ring": "no",

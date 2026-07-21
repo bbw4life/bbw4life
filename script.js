@@ -452,10 +452,10 @@ document.addEventListener('DOMContentLoaded', () => {
     var container = document.getElementById('cf-pre-particles');
     if (!container) return;
     var colors = [
-      'rgba(192,56,94,0.6)',
-      'rgba(201,150,62,0.5)',
-      'rgba(212,80,110,0.5)',
-      'rgba(255,255,255,0.20)'
+      'rgba(110,36,57,0.5)',
+      'rgba(184,146,90,0.5)',
+      'rgba(156,58,82,0.45)',
+      'rgba(21,17,14,0.12)'
     ];
     for (var i = 0; i < 22; i++) {
       var p        = document.createElement('div');
