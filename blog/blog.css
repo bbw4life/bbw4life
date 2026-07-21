@@ -360,6 +360,8 @@
   box-shadow: 0 4px 18px rgba(184,146,90,0.42);
 }
 
+.search-btn-icon { display: none; font-size: 0.9rem; }
+
 
 .category-filters {
   display: flex;
@@ -2451,6 +2453,23 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+  .blog-search input {
+    padding: 12px 8px 12px 42px;
+    font-size: 0.85rem;
+  }
+
+  .search-btn {
+    padding: 10px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-btn-icon  { display: block; }
+  .search-btn-text  { display: none; }
 
   .blog-stats-container { gap: 10px; } 
   .blog-stat-divider { display: none; }

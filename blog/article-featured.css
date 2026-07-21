@@ -107,6 +107,12 @@ table,
   transition: transform 0.6s ease;
 }
 
+@media (min-width: 769px) {
+  .article-hero__bg {
+    object-position: center 22%;
+  }
+}
+
 .article-hero__overlay {
   position: absolute;
   inset: 0;
