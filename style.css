@@ -8020,24 +8020,23 @@ body {
 .bbw-wave-sep--stories path { fill: #fdfaf5; }
 .bbw-wave-sep--stories path { animation-duration: 13s; animation-direction: reverse; }
 
-/* Before/after ivoire -> Community reviews (rich gold-ivory band) */
+/* Vagues purement decoratives autour de "What Our Sisters Say" — aucun
+   changement de couleur de fond, meme teinte des 2 cotes, pas d'animation */
 .bbw-wave-sep--reviews-in {
   background: #f3e8d8;
   height: 46px;
   z-index: 2;
 }
 .bbw-wave-sep--reviews-in svg { height: 46px; }
-.bbw-wave-sep--reviews-in path { fill: #ecd7ab; }
+.bbw-wave-sep--reviews-in path { fill: #f3e8d8; animation: none !important; }
 
-/* Community reviews (rich gold-ivory band) -> Bundle deal (ivoire) */
 .bbw-wave-sep--reviews-out {
-  background: #ecd7ab;
+  background: #f3e8d8;
   height: 46px;
   z-index: 2;
 }
 .bbw-wave-sep--reviews-out svg { height: 46px; }
-.bbw-wave-sep--reviews-out path { fill: #fdfaf5; }
-.bbw-wave-sep--reviews-out path { animation-duration: 12s; animation-direction: reverse; }
+.bbw-wave-sep--reviews-out path { fill: #f3e8d8; animation: none !important; }
 
 @media (max-width: 640px) {
   .bbw-wave-sep--reassure { height: 28px; }
@@ -9282,18 +9281,11 @@ body {
   margin: 0;
 }
 
-/* ── COMMUNITY REVIEWS BAND — bande de couleur propre (or antique / ivoire
-   riche), distincte des tons ivoire voisins (before/after + bundle-deal),
-   pour donner un vrai sens aux séparateurs vague qui l'encadrent ── */
 .comm-reviews-band {
   position: relative;
   margin: 0 -10px;
   padding: 44px 10px 50px;
   overflow: hidden;
-  background: linear-gradient(160deg, #f4e6cc 0%, #ecd7ab 55%, #e3c689 100%);
-}
-.comm-reviews-band .section-label {
-  color: var(--bbw-rose);
 }
 
 /* ── COMMUNITY REVIEWS — grille éditoriale statique ── */
