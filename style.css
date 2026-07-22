@@ -9285,9 +9285,11 @@ body {
 .comm-reviews-band {
   position: relative;
   margin: 0 -10px;
-  padding: 44px 10px 50px;
+  padding: 44px 10px 0;
   overflow: hidden;
 }
+
+.comm-reviews-band .bbw-wave-sep--reviews-out { margin-top: 50px; }
 
 /* ── COMMUNITY REVIEWS — grille éditoriale statique ── */
 .comm-reviews-header { margin-bottom: 32px; }
@@ -9387,7 +9389,8 @@ body {
 }
 @media (max-width: 600px) {
   .comm-reviews-grid { grid-template-columns: 1fr; }
-  .comm-reviews-band { padding: 30px 10px 36px; }
+  .comm-reviews-band { padding: 30px 10px 0; }
+  .comm-reviews-band .bbw-wave-sep--reviews-out { margin-top: 36px; }
 }
 
 
