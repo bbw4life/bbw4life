@@ -9284,7 +9284,7 @@ body {
 
 .comm-reviews-band {
   position: relative;
-  margin: 0 -10px;
+  margin: 0 -10px -10px;
   padding: 44px 10px 0;
   overflow: hidden;
 }
