@@ -8020,23 +8020,26 @@ body {
 .bbw-wave-sep--stories path { fill: #fdfaf5; }
 .bbw-wave-sep--stories path { animation-duration: 13s; animation-direction: reverse; }
 
-/* Vagues purement decoratives autour de "What Our Sisters Say" — aucun
-   changement de couleur de fond, meme teinte des 2 cotes, pas d'animation */
-.bbw-wave-sep--reviews-in {
-  background: #f3e8d8;
-  height: 46px;
-  z-index: 2;
-}
-.bbw-wave-sep--reviews-in svg { height: 46px; }
-.bbw-wave-sep--reviews-in path { fill: #f3e8d8; animation: none !important; }
-
+/* Vagues autour de "What Our Sisters Say" — meme pattern que .bbw-finale-wave
+   (position absolute, superposees sur les bords de .comm-reviews-band),
+   aucun changement de couleur de fond, pas d'animation */
+.bbw-wave-sep--reviews-in,
 .bbw-wave-sep--reviews-out {
-  background: #f3e8d8;
-  height: 46px;
-  z-index: 2;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  line-height: 0;
+  pointer-events: none;
+  background: none;
 }
-.bbw-wave-sep--reviews-out svg { height: 46px; }
+.bbw-wave-sep--reviews-in svg,
+.bbw-wave-sep--reviews-out svg { display: block; width: 100%; height: 46px; }
+.bbw-wave-sep--reviews-in path,
 .bbw-wave-sep--reviews-out path { fill: #f3e8d8; animation: none !important; }
+
+.bbw-wave-sep--reviews-in { top: 0; height: 46px; }
+.bbw-wave-sep--reviews-out { bottom: 0; height: 46px; }
 
 @media (max-width: 640px) {
   .bbw-wave-sep--reassure { height: 28px; }
