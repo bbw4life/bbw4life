@@ -25,10 +25,6 @@
     0%   { left: -60%; }
     100% { left: 120%; }
 }
-@keyframes urgencyPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(184,146,90, 0.18); }
-    50%       { box-shadow: 0 0 0 6px rgba(184,146,90, 0); }
-}
 @keyframes stockPulse {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.55; }
@@ -37,10 +33,6 @@
     0%   { opacity: 0.35; }
     50%  { opacity: 1; }
     100% { opacity: 0.35; }
-}
-@keyframes pp-fire {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.18); }
 }
 @keyframes liveBlip {
     0%, 100% { opacity: 1; transform: scale(1); }
@@ -822,48 +814,6 @@
 
 
 /* ════════════════════════════
-   URGENCY BAR
-════════════════════════════ */
-.pp-urgency-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
-    border-radius: 12px;
-    font-size: 0.84rem;
-    font-weight: 500;
-    color: rgba(30,15,5,0.78);
-    position: relative;
-    overflow: hidden;
-    box-shadow:
-        0 4px 24px rgba(184,146,90,0.10),
-        0 1px 0 rgba(255,255,255,0.80) inset;
-    animation: urgencyPulse 3s ease-in-out infinite;
-}
-
-.pp-urgency-bar::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg, var(--bbw-gold), #b07d28);
-    border-radius: 0 2px 2px 0;
-}
-.pp-urgency-bar i {
-    color: var(--bbw-gold);
-    animation: pp-fire 2s ease-in-out infinite;
-    flex-shrink: 0;
-    font-size: 1rem;
-}
-.pp-urgency-bar strong { color: var(--bbw-black); font-weight: 800; }
-
-
-/* ════════════════════════════
    STOCK BAR
    → Style jrgq-gallery-stats-strip
 ════════════════════════════ */
@@ -936,6 +886,52 @@
     animation: shimmerLoad 1.2s linear infinite;
 }
 .pp-stock-block.error { display: none; }
+
+/* ════════════════════════════
+   REASSURANCE ROW — merges the stock bar + live-viewers strip
+   into one compact card instead of two stacked boxes.
+════════════════════════════ */
+.pp-reassurance-row {
+    display: flex;
+    align-items: stretch;
+    padding: 10px 16px;
+    background: linear-gradient(135deg,
+        rgba(255,255,255,0.90) 0%,
+        rgba(253,249,244,0.95) 100%
+    );
+    border: 1px solid rgba(184,146,90,0.28);
+    border-radius: 14px;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.pp-reassurance-row .pp-stock-block,
+.pp-reassurance-row .live-viewers p {
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+}
+.pp-reassurance-row .pp-stock-block {
+    flex: 1 1 50%;
+    padding-right: 16px;
+    border-right: 1px solid rgba(184,146,90,0.22);
+}
+.pp-reassurance-row .live-viewers { flex: 1 1 50%; }
+.pp-reassurance-row .live-viewers p { padding-left: 16px; }
+.pp-reassurance-row .live-viewers p::before { display: none; }
+
+@media (max-width: 640px) {
+    .pp-reassurance-row { flex-direction: column; gap: 12px; }
+    .pp-reassurance-row .pp-stock-block {
+        padding-right: 0;
+        border-right: none;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(184,146,90,0.22);
+    }
+    .pp-reassurance-row .live-viewers p { padding-left: 0; }
+}
 
 
 .pp-stock-label.stock--medium-low .pp-stock-qty { color: #d97706; }

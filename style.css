@@ -4383,7 +4383,7 @@ body {
     animation: fnavPulse 2.8s ease-in-out infinite;
 }
 .fnav-toggle::before {
-    content: '';
+    content: ''; 
     position: absolute;
     top: 0; left: -80%; 
     width: 50%; height: 100%;
