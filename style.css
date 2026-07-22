@@ -7971,6 +7971,67 @@ body {
 }
 
 
+/* ════════════════════════════════════════════════════════════════
+   BBW WAVE SEPARATORS — organic animated dividers used between
+   home sections that sit on contrasting backgrounds (dark <-> ivoire).
+   Same visual language as the footer's .bbw-finale-wave: an SVG path
+   drawn with cubic-bezier curves (never straight zigzag lines),
+   filled with the color of the *neighbouring* section so it reads
+   as an organic edge rather than a hard line. Purely decorative —
+   no id/class here is targeted by any JS.
+════════════════════════════════════════════════════════════════ */
+.bbw-wave-sep {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bbw-wave-sep svg { display: block; width: 100%; }
+
+/* Légère respiration continue — jamais brusque, jamais kitsch */
+@keyframes bbw-wave-breathe {
+  0%, 100% { transform: translateX(0) scaleY(1); }
+  50%      { transform: translateX(-1.4%) scaleY(1.05); }
+}
+.bbw-wave-sep path {
+  transform-origin: center bottom;
+  animation: bbw-wave-breathe 11s ease-in-out infinite;
+}
+
+/* Reassurance bar (noir) -> Trust banner (ivoire) */
+.bbw-wave-sep--reassure {
+  background: var(--bbw-black);
+  height: 46px;
+  z-index: 2;
+}
+.bbw-wave-sep--reassure svg { height: 46px; }
+.bbw-wave-sep--reassure path { fill: #fdfaf5; }
+
+/* Bundle deal (ivoire) -> Community stories (noir) */
+.bbw-wave-sep--stories {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 58px;
+  z-index: 1;
+}
+.bbw-wave-sep--stories svg { height: 58px; }
+.bbw-wave-sep--stories path { fill: #fdfaf5; }
+.bbw-wave-sep--stories path { animation-duration: 13s; animation-direction: reverse; }
+
+@media (max-width: 640px) {
+  .bbw-wave-sep--reassure { height: 28px; }
+  .bbw-wave-sep--reassure svg { height: 28px; }
+  .bbw-wave-sep--stories { height: 36px; }
+  .bbw-wave-sep--stories svg { height: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bbw-wave-sep path { animation: none !important; }
+}
+
+
 /* ════════════════════════════════════════
    TRUST BANNER — Ultra Premium
 ════════════════════════════════════════ */
