@@ -14771,7 +14771,7 @@ function injectColFbt() {
     document.querySelectorAll('.mini-media-slider').forEach(inject);
 
     /* ── 8. Cart items (drawer + page) ── */
-    document.querySelectorAll('.cart-item-img-wrap').forEach(inject);
+    document.querySelectorAll('.cart-item-img-wrap, .cp-item-img-wrap').forEach(inject);
 
     /* ── 9. Cart extra + Drawer extra ── */
     document.querySelectorAll(
@@ -14849,7 +14849,7 @@ function injectColFbt() {
     document.querySelectorAll(
       '#main-image-slider .main-image, .col-card__media, .bbwpg-card__img-wrap, ' +
       '.cs-media, .rv-card__img-wrap, .fs-img-frame, .mini-media-slider, ' +
-      '.cart-item-img-wrap, .drawer-extra-card__img-wrap, .cp-extra-card__img-wrap, ' +
+      '.cart-item-img-wrap, .cp-item-img-wrap, .drawer-extra-card__img-wrap, .cp-extra-card__img-wrap, ' +
       '.highlight-product-card'
     ).forEach(inject);
 

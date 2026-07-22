@@ -380,6 +380,7 @@
 .cp-item-img-wrap {
   position: relative;
   flex-shrink: 0;
+  overflow: hidden;
 }
 .cp-cart-item img {
   width: 96px;

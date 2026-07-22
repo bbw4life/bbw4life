@@ -1857,9 +1857,190 @@ select:focus {
   .shipping-info,
   .trust-section,
   .payment-method,
-  .shipping-method { padding: 20px 16px; }
+  .shipping-method { padding: 20px 10px; }
 
   .promo-input-group { gap: 6px; }
   #promo-input { padding: 10px 12px; font-size: 0.82rem; }
   #apply-promo { padding: 10px 14px; font-size: 0.68rem; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   FINALE — .ck-finale
+   Section de clôture éditoriale, purement décorative, insérée juste
+   avant la fin de page (aucun footer réel n'existe sur checkout.html).
+   Bande noire encadrée par deux vagues SVG (ivoire → noir → ivoire).
+════════════════════════════════════════════════════════════════ */
+.ck-finale {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--bbw-black);
+  text-align: center;
+  padding: 96px 24px 108px;
+}
+
+.ck-finale-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 12% 15%, rgba(184,146,90,0.14), transparent 62%),
+    radial-gradient(ellipse 55% 60% at 88% 90%, rgba(110,36,57,0.16), transparent 62%);
+}
+
+.ck-finale-wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  line-height: 0;
+  pointer-events: none;
+}
+.ck-finale-wave svg { display: block; width: 100%; }
+.ck-finale-wave path { fill: var(--ck-bg); }
+
+.ck-finale-wave--top { top: 0; height: 64px; }
+.ck-finale-wave--top svg { height: 64px; }
+
+.ck-finale-wave--bottom { bottom: 0; height: 46px; }
+.ck-finale-wave--bottom svg { height: 46px; }
+
+.ck-finale-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ck-finale-mark {
+  width: 44px;
+  height: auto;
+  display: block;
+  margin: 0 auto 22px;
+  fill: none;
+  stroke: url(#ck-finale-gold-grad);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.ck-finale-kicker {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ck-gold-l);
+  margin-bottom: 18px;
+}
+
+.ck-finale-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+  line-height: 1.18;
+  color: var(--bbw-white);
+  letter-spacing: 0.005em;
+  margin-bottom: 26px;
+}
+.ck-finale-title span {
+  display: inline-block;
+  margin-top: 4px;
+  font-style: italic;
+  background: linear-gradient(120deg, var(--ck-gold-l) 0%, var(--ck-gold) 55%, var(--ck-gold-v) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--ck-gold);
+}
+
+.ck-finale-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 220px;
+  margin: 0 auto 26px;
+}
+.ck-finale-divider::before,
+.ck-finale-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184,146,90,0.50));
+}
+.ck-finale-divider::after { background: linear-gradient(to left, transparent, rgba(184,146,90,0.50)); }
+.ck-finale-divider-gem {
+  width: 6px;
+  height: 6px;
+  margin: 0 12px;
+  flex-shrink: 0;
+  background: var(--ck-gold-l);
+  transform: rotate(45deg);
+  box-shadow: 0 0 10px rgba(232,188,106,0.50);
+}
+
+.ck-finale-text {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: rgba(246,239,229,0.72);
+  max-width: 480px;
+  margin: 0 auto 46px;
+}
+
+.ck-finale-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.ck-finale-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 100px;
+}
+
+.ck-finale-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ck-gold-l);
+}
+.ck-finale-stat-num i { font-style: normal; font-size: 1rem; opacity: 0.70; margin-left: 1px; }
+
+.ck-finale-stat-label {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(246,239,229,0.50);
+}
+
+.ck-finale-stat-sep {
+  width: 1px;
+  height: 34px;
+  background: rgba(184,146,90,0.28);
+}
+
+@media (max-width: 640px) {
+  .ck-finale { padding: 72px 20px 88px; }
+  .ck-finale-wave--top { height: 40px; }
+  .ck-finale-wave--top svg { height: 40px; }
+  .ck-finale-wave--bottom { height: 30px; }
+  .ck-finale-wave--bottom svg { height: 30px; }
+  .ck-finale-title { font-size: clamp(1.55rem, 7vw, 2.15rem); }
+  .ck-finale-text { font-size: 0.90rem; margin-bottom: 36px; }
+  .ck-finale-stats { gap: 14px; }
+  .ck-finale-stat { min-width: 76px; }
+  .ck-finale-stat-num { font-size: 1.35rem; }
+  .ck-finale-stat-sep { height: 26px; }
 }
