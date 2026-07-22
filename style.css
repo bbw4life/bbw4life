@@ -4377,8 +4377,6 @@ body {
     overflow: hidden;
     animation: fnavPulse 2.8s ease-in-out infinite;
 }
-
-
 .fnav-toggle::before {
     content: '';
     position: absolute;
