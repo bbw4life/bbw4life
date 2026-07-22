@@ -3278,7 +3278,6 @@ body {
 .cart-item-img-wrap {
   position: relative;
   flex-shrink: 0;
-  overflow: hidden;
 }
 
 .cart-item-img-wrap .bbw-mini-wish {
@@ -3454,8 +3453,11 @@ body {
 .cp-item-img-wrap .bbw-watermark,
 .drawer-extra-card__img-wrap .bbw-watermark,
 .cp-extra-card__img-wrap .bbw-watermark {
-  font-size: 11px;
+  font-size: 8px;
   bottom: 6%;
+  max-width: 88%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -3505,7 +3507,7 @@ body {
   .cp-item-img-wrap .bbw-watermark,
   .drawer-extra-card__img-wrap .bbw-watermark,
   .cp-extra-card__img-wrap .bbw-watermark {
-    font-size: 9px;
+    font-size: 7px;
     bottom: 9%;
   }
 }
@@ -10629,7 +10631,6 @@ body {
 .cart-item-img-wrap {
   position: relative;
   display: inline-block;
-  overflow: hidden;
 }
 
 

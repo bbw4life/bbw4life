@@ -1857,7 +1857,7 @@ select:focus {
   .shipping-info,
   .trust-section,
   .payment-method,
-  .shipping-method { padding: 20px 10px; }
+  .shipping-method { padding: 20px 10px !important; }
 
   .promo-input-group { gap: 6px; }
   #promo-input { padding: 10px 12px; font-size: 0.82rem; }

@@ -6254,6 +6254,186 @@ body { margin-bottom: 0 !important; }
 }
 
 
+/* ════════════════════════════════════════════════════════════════
+   FINALE — .bbw-finale
+   Section de cloture editoriale, purement decorative, en tete du
+   footer partage (visible sur toutes les pages qui incluent footer.html).
+   Bande noire encadree par deux vagues SVG (ivoire -> noir -> ivoire).
+════════════════════════════════════════════════════════════════ */
+.bbw-finale {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--bbw-black);
+  text-align: center;
+  padding: 96px 24px 108px;
+}
+
+.bbw-finale-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 12% 15%, var(--bbw-gold-pale-mid), transparent 62%),
+    radial-gradient(ellipse 55% 60% at 88% 90%, rgba(110,36,57,0.16), transparent 62%);
+}
+
+.bbw-finale-wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  line-height: 0;
+  pointer-events: none;
+}
+.bbw-finale-wave svg { display: block; width: 100%; }
+.bbw-finale-wave path { fill: var(--footer-bg); }
+
+.bbw-finale-wave--top { top: 0; height: 64px; }
+.bbw-finale-wave--top svg { height: 64px; }
+
+.bbw-finale-wave--bottom { bottom: 0; height: 46px; }
+.bbw-finale-wave--bottom svg { height: 46px; }
+
+.bbw-finale-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.bbw-finale-mark {
+  width: 44px;
+  height: auto;
+  display: block;
+  margin: 0 auto 22px;
+  fill: none;
+  stroke: var(--bbw-gold);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.bbw-finale-kicker {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--bbw-gold-light);
+  margin-bottom: 18px;
+}
+
+.bbw-finale-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+  line-height: 1.18;
+  color: var(--bbw-white);
+  letter-spacing: 0.005em;
+  margin-bottom: 26px;
+}
+.bbw-finale-title span {
+  display: inline-block;
+  margin-top: 4px;
+  font-style: italic;
+  background: linear-gradient(120deg, var(--bbw-gold-light) 0%, var(--bbw-gold) 55%, var(--bbw-gold-vivid) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--bbw-gold);
+}
+
+.bbw-finale-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 220px;
+  margin: 0 auto 26px;
+}
+.bbw-finale-divider::before,
+.bbw-finale-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184,146,90,0.50));
+}
+.bbw-finale-divider::after { background: linear-gradient(to left, transparent, rgba(184,146,90,0.50)); }
+.bbw-finale-divider-gem {
+  width: 6px;
+  height: 6px;
+  margin: 0 12px;
+  flex-shrink: 0;
+  background: var(--bbw-gold-light);
+  transform: rotate(45deg);
+  box-shadow: 0 0 10px rgba(232,188,106,0.50);
+}
+
+.bbw-finale-text {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: rgba(246,239,229,0.72);
+  max-width: 480px;
+  margin: 0 auto 46px;
+}
+
+.bbw-finale-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.bbw-finale-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 100px;
+}
+
+.bbw-finale-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--bbw-gold-light);
+}
+.bbw-finale-stat-num small { font-size: 1rem; opacity: 0.70; margin-left: 1px; }
+
+.bbw-finale-stat-label {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(246,239,229,0.50);
+}
+
+.bbw-finale-stat-sep {
+  width: 1px;
+  height: 34px;
+  background: rgba(184,146,90,0.28);
+}
+
+@media (max-width: 640px) {
+  .bbw-finale { padding: 72px 20px 88px; }
+  .bbw-finale-wave--top { height: 40px; }
+  .bbw-finale-wave--top svg { height: 40px; }
+  .bbw-finale-wave--bottom { height: 30px; }
+  .bbw-finale-wave--bottom svg { height: 30px; }
+  .bbw-finale-title { font-size: clamp(1.55rem, 7vw, 2.15rem); }
+  .bbw-finale-text { font-size: 0.90rem; margin-bottom: 36px; }
+  .bbw-finale-stats { gap: 14px; }
+  .bbw-finale-stat { min-width: 76px; }
+  .bbw-finale-stat-num { font-size: 1.35rem; }
+}
+
+
 
 
 
