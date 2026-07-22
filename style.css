@@ -8027,7 +8027,8 @@ body {
 .bbw-wave-sep--reviews-in,
 .bbw-wave-sep--reviews-out {
   position: relative;
-  width: 100%;
+  width: calc(100% + 20px);
+  margin: 0 -10px;
   height: 64px;
   background: var(--bbw-black);
   line-height: 0;
