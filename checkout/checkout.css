@@ -633,6 +633,24 @@ h2::before {
   font-weight: 500;
 }
 
+#free-shipping-unlocked-message {
+  display: none;
+  margin: 4px 0 0;
+  padding: 16px;
+  background: var(--bbw-black);
+  border: 1px solid rgba(184,146,90,0.32);
+  border-radius: var(--ck-radius-sm);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+  color: rgba(255,255,255,0.82);
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+#free-shipping-unlocked-message strong {
+  color: var(--ck-gold-l);
+  font-weight: 700;
+}
+
 #promo-line {
   display: none;
   color: var(--ck-rose) !important;

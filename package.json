@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "echo 'No build step required'",
-    "start": "set NODE_OPTIONS=--no-deprecation && netlify dev"
+    "start": "set NODE_OPTIONS=--no-deprecation && netlify dev",
+    "dev:local": "node local-server.js"
   },
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.3",

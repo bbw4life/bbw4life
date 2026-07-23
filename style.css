@@ -3488,6 +3488,12 @@ body {
   bottom: 30%;
 }
 
+
+.mini-media-slider .bbw-watermark {
+  font-size: clamp(11px, 3vw, 18px);
+  bottom: 8%;
+}
+
 @media (max-width: 768px) {
   .bbw-watermark {
     font-size: clamp(14px, 4.5vw, 22px);
@@ -3499,6 +3505,10 @@ body {
   .col-fbt-card .bbw-watermark {
     font-size: clamp(12px, 3.5vw, 16px);
     bottom: 40%;
+  }
+  .mini-media-slider .bbw-watermark {
+    font-size: clamp(10px, 3vw, 14px);
+    bottom: 8%;
   }
 }
 

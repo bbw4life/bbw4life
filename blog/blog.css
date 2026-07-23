@@ -26,6 +26,11 @@
   --blog-spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
   --blog-font-display: var(--font-display, 'Fraunces', Georgia, serif);
   --blog-font-body:   var(--font-body, 'Inter', system-ui, sans-serif);
+  --blog-section-space: clamp(56px, 7vw, 96px);
+}
+
+@media (max-width: 768px) {
+  :root { --blog-section-space: 40px; }
 }
 
 /* ────────────────────────────────────────
@@ -91,6 +96,99 @@
   0%   { box-shadow: 0 0 0 0 rgba(184,146,90,0.40); }
   30%  { box-shadow: 0 0 0 12px rgba(184,146,90,0.12); }
   100% { box-shadow: 0 0 0 0 rgba(184,146,90,0); }
+}
+
+/* ════════════════════════════════════════
+   SHARED PREMIUM CARD SYSTEM
+   Gold hairline corner-bracket, consistent with
+   the card language established on Our Story / About.
+════════════════════════════════════════ */
+.featured-card,
+.blog-card,
+.popular-item,
+.author-card,
+.pick-card,
+.myth-card {
+  position: relative;
+}
+
+.featured-card::after,
+.blog-card::after,
+.popular-item::after,
+.author-card::after,
+.pick-card::after,
+.myth-card::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border-top: 1.5px solid var(--blog-gold-light);
+  border-right: 1.5px solid var(--blog-gold-light);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* .blog-card's bookmark button and .pick-card's "Editor's Choice"
+   label already occupy the top-right corner — move the bracket to
+   bottom-left for these two to avoid overlapping those controls. */
+.blog-card::after,
+.pick-card::after {
+  top: auto;
+  right: auto;
+  bottom: 8px;
+  left: 8px;
+  border-top: none;
+  border-right: none;
+  border-bottom: 1.5px solid var(--blog-gold-light);
+  border-left: 1.5px solid var(--blog-gold-light);
+}
+
+/* ════════════════════════════════════════
+   INK RIBBON — signature seam divider
+   A floating decorative band laid across a plain
+   flat seam (not a full-bleed section-edge wave):
+   the two flanking sections meet at a hard edge,
+   and this ribbon overlays it purely for ornament.
+════════════════════════════════════════ */
+.ink-seam {
+  position: relative;
+  height: 0;
+}
+
+.ink-ribbon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(680px, 82%);
+  filter: drop-shadow(0 10px 20px rgba(21,17,14,0.16)) drop-shadow(0 2px 4px rgba(21,17,14,0.10));
+  pointer-events: none;
+  z-index: 3;
+}
+
+.ink-ribbon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ink-ribbon-stitch {
+  fill: none;
+}
+
+@media (max-width: 768px) {
+  .ink-ribbon {
+    width: min(420px, 88%);
+  }
+}
+
+@media (max-width: 480px) {
+  .ink-ribbon-stitch {
+    display: none;
+  }
 }
 
 /* ════════════════════════════════════════
@@ -264,6 +362,34 @@
   opacity: 0.90;
 }
 
+/* Magazine masthead — hero signature, distinct from the
+   photo-frame (Our Story) and constellation (About) heroes */
+.blog-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.blog-masthead .blog-eyebrow {
+  margin-bottom: 0;
+}
+
+.blog-masthead-line {
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blog-gold-light), transparent);
+  opacity: 0.85;
+}
+
+.blog-masthead-rule {
+  width: 64px;
+  height: 2px;
+  margin: 18px auto 22px;
+  background: linear-gradient(90deg, transparent, var(--blog-gold), transparent);
+}
+
 .blog-banner h1 {
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 900;
@@ -271,6 +397,15 @@
   line-height: 1.1;
   margin: 0 0 10px;
   text-shadow: 0 2px 24px rgba(0,0,0,0.30);
+}
+
+.blog-banner h1::first-letter {
+  font-size: 1.4em;
+  font-family: var(--blog-font-display);
+  background: linear-gradient(135deg, var(--blog-gold-light), var(--blog-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .blog-banner h1 em {
@@ -409,7 +544,7 @@
 ════════════════════════════════════════ */
 .blog-stats-bar {
   background: #15110E;
-  padding: 15px 20px;
+  padding: var(--blog-section-space) 20px;
   position: relative;
   overflow: hidden;
 }
@@ -518,7 +653,7 @@
    FEATURED ARTICLE
 ════════════════════════════════════════ */
 .featured-article-section {
-  padding: 15px 20px;
+  padding: var(--blog-section-space) 20px;
   background: linear-gradient(160deg, var(--blog-rose-ultra) 0%, #fff 50%, var(--blog-rose-ultra) 100%);
   position: relative;
   overflow: hidden;
@@ -540,6 +675,7 @@
   margin: 0 auto;
   background: #fff;
   border-radius: var(--blog-radius-lg);
+  border: 1.5px solid var(--blog-border);
   box-shadow: var(--blog-shadow-lift);
   overflow: hidden;
   display: grid;
@@ -664,8 +800,8 @@
 
 .featured-body p {
   color: var(--blog-mist);
-  font-size: 0.93rem;
-  line-height: 1.68;
+  font-size: 1rem;
+  line-height: 1.75;
   margin: 0;
   word-break: break-word;
   overflow-wrap: break-word;
@@ -904,8 +1040,8 @@
   }
 
   .featured-body p {
-    font-size: 0.88rem;
-    line-height: 1.60;
+    font-size: 0.95rem;
+    line-height: 1.70;
   }
 
   .featured-meta-row {
@@ -985,7 +1121,8 @@
   }
 
   .featured-body p {
-    font-size: 0.85rem;
+    font-size: 0.92rem;
+    line-height: 1.68;
   }
 
   .featured-body .category-badge {
@@ -1009,7 +1146,7 @@
    BLOG GRID
 ════════════════════════════════════════ */
 .blog-grid-section {
-  padding: 15px 20px;
+  padding: var(--blog-section-space) 20px;
   background: #fff;
   position: relative;
 }
@@ -1192,8 +1329,8 @@
 
 .blog-card-body p {
   color: var(--blog-mist);
-  font-size: 0.85rem;
-  line-height: 1.60;
+  font-size: 0.95rem;
+  line-height: 1.72;
   margin: 0;
   flex: 1;
 }
@@ -1315,7 +1452,7 @@
    MOST POPULAR
 ════════════════════════════════════════ */
 .most-popular-section {
-  padding: 15px 20px;
+  padding: var(--blog-section-space) 20px;
   background: linear-gradient(160deg, var(--blog-rose-ultra) 0%, #fdf8ee 50%, var(--blog-rose-ultra) 100%);
   position: relative;
   overflow: hidden;
@@ -1521,7 +1658,7 @@
    NEWSLETTER (mid-page)
 ════════════════════════════════════════ */
 .blog-newsletter-section {
-  padding: 15px 20px;
+  padding: var(--blog-section-space) 20px;
   background: #15110E;
   position: relative;
   overflow: hidden;
@@ -1727,7 +1864,7 @@
    AUTHORS
 ════════════════════════════════════════ */
 .authors-section {
-  padding: 15px 20px;
+  padding: var(--blog-section-space) 20px;
   background: #fff;
 }
 
@@ -1833,9 +1970,9 @@
 }
 
 .author-card-body p {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--blog-mist);
-  line-height: 1.60;
+  line-height: 1.72;
   margin: 0;
 }
 
@@ -1857,7 +1994,7 @@
    EDITOR'S PICKS
 ════════════════════════════════════════ */
 .editors-picks-section {
-  padding: 15px 20px;
+  padding: var(--blog-section-space) 20px;
   background: linear-gradient(160deg, var(--blog-rose-ultra) 0%, #fff 50%, var(--blog-rose-ultra) 100%);
 }
 
@@ -1961,9 +2098,9 @@
 }
 
 .pick-body p {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--blog-mist);
-  line-height: 1.60;
+  line-height: 1.72;
   margin: 0;
 }
 
@@ -1988,7 +2125,7 @@
    MYTH vs FACT
 ════════════════════════════════════════ */
 .myth-fact-section {
-  padding: 15px 20px;
+  padding: var(--blog-section-space) 20px;
   background: #fff;
 }
 
@@ -2055,9 +2192,9 @@
 }
 
 .myth-card p {
-  font-size: 0.88rem;
+  font-size: 0.97rem;
   color: var(--blog-mist);
-  line-height: 1.65;
+  line-height: 1.75;
   margin: 0;
 }
 
@@ -2065,7 +2202,7 @@
    FINAL CTA
 ════════════════════════════════════════ */
 .blog-cta-section {
-  padding: 20px 20px;
+  padding: var(--blog-section-space) 20px;
   background: #15110E;
   position: relative;
   overflow: hidden;

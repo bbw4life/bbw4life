@@ -177,6 +177,12 @@ if (promoCode && discountAmount > 0) {
   }
 }
 
+// ── Sécurité : pas de code promo cumulable avec la livraison gratuite
+//    par seuil (source unique de vérité, indépendante du client) ──
+if (freeByThreshold && discountAmount > 0) {
+  discountAmount = 0;
+}
+
   const total = parseFloat((subtotal + shipping + tax - discountAmount).toFixed(2));
 
   return {

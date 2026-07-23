@@ -52,6 +52,27 @@
       </div>
       <div class="au-hero-grid-overlay"></div>
 
+      <svg class="au-constellation" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <linearGradient id="au-const-line" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.65"/>
+            <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line class="au-const-thread" x1="90" y1="90" x2="270" y2="60"></line>
+        <line class="au-const-thread" x1="270" y1="60" x2="640" y2="120"></line>
+        <line class="au-const-thread" x1="640" y1="120" x2="800" y2="70"></line>
+        <line class="au-const-thread" x1="90" y1="90" x2="150" y2="410"></line>
+        <line class="au-const-thread" x1="800" y1="70" x2="780" y2="420"></line>
+        <circle class="au-const-node" cx="90" cy="90" r="4"></circle>
+        <circle class="au-const-node" cx="270" cy="60" r="3.2"></circle>
+        <circle class="au-const-node" cx="640" cy="120" r="3.6"></circle>
+        <circle class="au-const-node" cx="800" cy="70" r="4"></circle>
+        <circle class="au-const-node" cx="150" cy="410" r="3.2"></circle>
+        <circle class="au-const-node" cx="780" cy="420" r="3.2"></circle>
+      </svg>
+
       <div class="au-container">
         <div class="au-hero-inner">
 
@@ -93,6 +114,42 @@
     <!-- ═══════════════════════════════════════════
          MARQUEE 1
     ═══════════════════════════════════════════ -->
+    <div class="os-wave os-wave--to-ink" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au1" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au1)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au1" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au1" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au1)" stroke-width="2" filter="url(#os-wave-glow-au1)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <div class="au-marquee-strip au-marquee-strip--warm">
       <div class="au-marquee-inner">
         <span class="au-mq-item"><i class="fi fi-rr-heart"></i> Beauty Has No Sizes</span>
@@ -121,6 +178,42 @@
     <!-- ═══════════════════════════════════════════
          SECTION 2 — WHO WE ARE
     ═══════════════════════════════════════════ -->
+    <div class="os-wave os-wave--to-ivory" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au2" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au2)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au2" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au2" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au2)" stroke-width="2" filter="url(#os-wave-glow-au2)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <section class="au-who-section" id="au-who">
       <div class="au-who-orb au-who-orb--1"></div>
       <div class="au-who-orb au-who-orb--2"></div>
@@ -196,6 +289,42 @@
     <!-- ═══════════════════════════════════════════
          SECTION 3 — NOTRE MISSION (dark)
     ═══════════════════════════════════════════ -->
+    <div class="os-wave os-wave--to-ink" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au3" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au3)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au3" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au3" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au3)" stroke-width="2" filter="url(#os-wave-glow-au3)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <section class="au-mission-section" id="au-mission">
       <div class="au-mission-particles" id="auMissionParticles"></div>
       <div class="au-mission-lines">
@@ -270,7 +399,43 @@
     <!-- ═══════════════════════════════════════════
      SECTION 4 — CE QUE NOUS OFFRONS
 ═══════════════════════════════════════════ -->
-<section class="au-offers-section" id="au-offers">
+<div class="os-wave os-wave--to-ivory" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au4" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au4)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au4" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au4" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au4)" stroke-width="2" filter="url(#os-wave-glow-au4)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="au-offers-section" id="au-offers">
   <div class="au-offers-orb au-offers-orb--1"></div>
   <div class="au-offers-orb au-offers-orb--2"></div>
 
@@ -352,6 +517,42 @@
     <!-- ═══════════════════════════════════════════
          SECTION 5 — NOS VALEURS
     ═══════════════════════════════════════════ -->
+    <div class="os-wave os-wave--to-ink" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au5" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au5)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au5" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au5" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au5)" stroke-width="2" filter="url(#os-wave-glow-au5)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <section class="au-values-section" id="au-values">
       <div class="au-values-orb au-values-orb--1"></div>
       <div class="au-values-orb au-values-orb--2"></div>
@@ -373,6 +574,7 @@
 
           <div class="au-value-item" data-au-reveal="up" style="--delay:0.1s">
             <div class="au-vi-number">01</div>
+            <span class="au-vi-node" aria-hidden="true"></span>
             <div class="au-vi-icon"><i class="fi fi-rr-heart"></i></div>
             <h3 class="au-vi-title">Unconditional Love</h3>
             <p class="au-vi-text">We believe every woman deserves love — not when she reaches a certain size, but right now, exactly as she is.</p>
@@ -380,6 +582,7 @@
 
           <div class="au-value-item" data-au-reveal="up" style="--delay:0.2s">
             <div class="au-vi-number">02</div>
+            <span class="au-vi-node" aria-hidden="true"></span>
             <div class="au-vi-icon"><i class="fi fi-rr-shield-check"></i></div>
             <h3 class="au-vi-title">Radical Authenticity</h3>
             <p class="au-vi-text">No filters. No pretense. We show up real, vulnerable, and honest — because that is where true connection lives.</p>
@@ -387,6 +590,7 @@
 
           <div class="au-value-item" data-au-reveal="up" style="--delay:0.3s">
             <div class="au-vi-number">03</div>
+            <span class="au-vi-node" aria-hidden="true"></span>
             <div class="au-vi-icon"><i class="fi fi-rr-crown"></i></div>
             <h3 class="au-vi-title">Proud Empowerment</h3>
             <p class="au-vi-text">We don't just accept our bodies — we celebrate them. Pride is not arrogance. It is the natural result of self-love.</p>
@@ -394,6 +598,7 @@
 
           <div class="au-value-item" data-au-reveal="up" style="--delay:0.4s">
             <div class="au-vi-number">04</div>
+            <span class="au-vi-node" aria-hidden="true"></span>
             <div class="au-vi-icon"><i class="fi fi-rr-people"></i></div>
             <h3 class="au-vi-title">Inclusive Community</h3>
             <p class="au-vi-text">Every woman is welcome here. No judgment, no competition — only sisterhood, support, and shared strength.</p>
@@ -401,6 +606,7 @@
 
           <div class="au-value-item" data-au-reveal="up" style="--delay:0.5s">
             <div class="au-vi-number">05</div>
+            <span class="au-vi-node" aria-hidden="true"></span>
             <div class="au-vi-icon"><i class="fi fi-rr-megaphone"></i></div>
             <h3 class="au-vi-title">Courageous Voice</h3>
             <p class="au-vi-text">We speak up against unrealistic beauty standards. Loudly. Clearly. Without apology.</p>
@@ -408,6 +614,7 @@
 
           <div class="au-value-item" data-au-reveal="up" style="--delay:0.6s">
             <div class="au-vi-number">06</div>
+            <span class="au-vi-node" aria-hidden="true"></span>
             <div class="au-vi-icon"><i class="fi fi-rr-star"></i></div>
             <h3 class="au-vi-title">Lasting Impact</h3>
             <p class="au-vi-text">We are not here for a season. BBW4LIFE means exactly that — for life. A generational change in how the world sees beauty.</p>
@@ -465,6 +672,42 @@
     <!-- ═══════════════════════════════════════════
          SECTION 6 — FONDATEUR (dark)
     ═══════════════════════════════════════════ -->
+    <div class="os-wave os-wave--to-ivory" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au6" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au6)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au6" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au6" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au6)" stroke-width="2" filter="url(#os-wave-glow-au6)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <section class="au-founder-section" id="au-founder">
       <div class="au-founder-orb au-founder-orb--1"></div>
       <div class="au-founder-orb au-founder-orb--2"></div>
@@ -488,6 +731,15 @@
             </div>
             <div class="au-fv-ring au-fv-ring--1"></div>
             <div class="au-fv-ring au-fv-ring--2"></div>
+            <svg class="au-fv-hex" viewBox="0 0 200 200" aria-hidden="true">
+              <polygon class="au-fv-hex-outline" points="100,6 186,53 186,147 100,194 14,147 14,53"></polygon>
+              <circle class="au-fv-hex-node" cx="100" cy="6" r="3"></circle>
+              <circle class="au-fv-hex-node" cx="186" cy="53" r="3"></circle>
+              <circle class="au-fv-hex-node" cx="186" cy="147" r="3"></circle>
+              <circle class="au-fv-hex-node" cx="100" cy="194" r="3"></circle>
+              <circle class="au-fv-hex-node" cx="14" cy="147" r="3"></circle>
+              <circle class="au-fv-hex-node" cx="14" cy="53" r="3"></circle>
+            </svg>
           </div>
 
           <div class="au-founder-content">
@@ -598,6 +850,42 @@
     <!-- ═══════════════════════════════════════════
          MARQUEE 3
     ═══════════════════════════════════════════ -->
+    <div class="os-wave os-wave--to-gold" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au7" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au7)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au7" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au7" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au7)" stroke-width="2" filter="url(#os-wave-glow-au7)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <div class="au-marquee-strip au-marquee-strip--gold">
       <div class="au-marquee-inner">
         <span class="au-mq-item"><i class="fi fi-rr-globe"></i> <span data-stat-text data-stat-key="countries"></span>+ Countries</span>
@@ -626,6 +914,42 @@
     <!-- ═══════════════════════════════════════════
          SECTION 8 — NOTRE VISION
     ═══════════════════════════════════════════ -->
+    <div class="os-wave os-wave--to-ink" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au8" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au8)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au8" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au8" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au8)" stroke-width="2" filter="url(#os-wave-glow-au8)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <section class="au-vision-section" id="au-vision">
       <div class="au-vision-orb au-vision-orb--1"></div>
       <div class="au-vision-orb au-vision-orb--2"></div>
@@ -680,6 +1004,42 @@
     <!-- ═══════════════════════════════════════════
          SECTION 9 — CTA FINAL
     ═══════════════════════════════════════════ -->
+    <div class="os-wave os-wave--to-ivory" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-au9" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-au9)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-au9" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-au9" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-au9)" stroke-width="2" filter="url(#os-wave-glow-au9)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <section class="au-cta-section" id="au-cta">
       <div class="au-cta-orb au-cta-orb--1"></div>
       <div class="au-cta-orb au-cta-orb--2"></div>

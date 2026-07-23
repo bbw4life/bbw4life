@@ -56,8 +56,16 @@
         <div class="trust-overlay trust-overlay--dark"></div>
         <div class="trust-overlay trust-overlay--gradient"></div>
         <div class="trust-overlay trust-overlay--vignette"></div>
+        <div class="os-hero-grain" aria-hidden="true"></div>
 
         <div class="trust-topline"></div>
+
+        <div class="os-hero-frame" aria-hidden="true">
+          <span class="os-hero-corner os-hero-corner--tl"></span>
+          <span class="os-hero-corner os-hero-corner--tr"></span>
+          <span class="os-hero-corner os-hero-corner--bl"></span>
+          <span class="os-hero-corner os-hero-corner--br"></span>
+        </div>
 
         <div class="trust-banner-inner">
 
@@ -73,7 +81,11 @@
 
           <div class="trust-divider">
             <span class="trust-divider-line"></span>
-            <span class="trust-divider-diamond"></span>
+            <span class="trust-divider-mark">
+              <span class="trust-divider-mark-glow"></span>
+              <span class="trust-divider-mark-ring"></span>
+              <span class="trust-divider-diamond"></span>
+            </span>
             <span class="trust-divider-line"></span>
           </div>
 
@@ -120,6 +132,42 @@
         <span class="os-mq-sep">✦</span>
         <span class="os-mq-item"><i class="fi fi-rr-star"></i> Born From Love</span>
         <span class="os-mq-sep">✦</span>
+      </div>
+    </div>
+
+    <div class="os-wave os-wave--to-ivory" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-a" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-a)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-a" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-a" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-a)" stroke-width="2" filter="url(#os-wave-glow-a)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
       </div>
     </div>
 
@@ -187,6 +235,42 @@
         </div>
       </div>
     </section>
+
+    <div class="os-wave os-wave--to-ink" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-b" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-b)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-b" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-b" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-b)" stroke-width="2" filter="url(#os-wave-glow-b)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
 
     <!-- ═══════════════════════════════════════════
          SECTION 3 — THE TURNING POINT
@@ -258,6 +342,42 @@
         <span class="os-mq-sep">✦</span>
         <span class="os-mq-item"><i class="fas fa-crown"></i> A Pride</span>
         <span class="os-mq-sep">✦</span>
+      </div>
+    </div>
+
+    <div class="os-wave os-wave--to-ivory" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-c" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-c)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-c" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-c" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-c)" stroke-width="2" filter="url(#os-wave-glow-c)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
       </div>
     </div>
 
@@ -535,6 +655,41 @@
         </div>
     </section>
 
+    <div class="os-wave os-wave--to-ink" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-d" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-d)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-d" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-d" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-d)" stroke-width="2" filter="url(#os-wave-glow-d)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
 
   <!-- ═══════════════════════════════════════════════
    BBW4LIFE — IMAGE MARQUEE DOUBLE — Section
@@ -577,6 +732,42 @@
   
   <div class="imq-bottomline"></div>
 </section>
+
+    <div class="os-wave os-wave--to-ivory" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-e" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-e)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-e" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-e" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-e)" stroke-width="2" filter="url(#os-wave-glow-e)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
 
     <!-- ═══════════════════════════════════════════
          SECTION 4 — WHAT WE STAND FOR
@@ -773,6 +964,42 @@
       </div>
     </section>
 
+    <div class="os-wave os-wave--to-ink" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-f" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-f)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-f" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-f" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-f)" stroke-width="2" filter="url(#os-wave-glow-f)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
+      </div>
+    </div>
+
     <!-- ═══════════════════════════════════════════
          SECTION 6 — MESSAGE FROM THE FOUNDER
     ═══════════════════════════════════════════ -->
@@ -861,6 +1088,42 @@
         <span class="os-mq-sep">✦</span>
         <span class="os-mq-item"><i class="fi fi-rr-crown"></i> Join The Family</span>
         <span class="os-mq-sep">✦</span>
+      </div>
+    </div>
+
+    <div class="os-wave os-wave--to-ivory" aria-hidden="true">
+      <div class="os-wave-inner">
+        <svg class="os-wave-layer--ambient" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-amb-g" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0.20"/>
+              <stop offset="100%" class="os-wave-amb-stop" stop-opacity="0.32"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#os-wave-amb-g)" d="M0,70 C180,30 380,110 620,65 C860,25 1080,115 1300,60 C1380,45 1410,55 1440,50 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-layer--crest" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <path class="os-wave-crest-fill" d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92 L1440,160 L0,160 Z"/>
+        </svg>
+        <svg class="os-wave-hairline" viewBox="0 0 1440 160" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="os-wave-gold-g" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B8925A" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#e8bc6a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#B8925A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="os-wave-glow-g" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M0,105 C220,95 460,45 720,42 C980,55 1220,95 1440,92" fill="none" stroke="url(#os-wave-gold-g)" stroke-width="2" filter="url(#os-wave-glow-g)"/>
+        </svg>
+        <div class="os-wave-mark">
+          <span class="os-wave-mark-glow"></span>
+          <span class="os-wave-mark-ring"></span>
+          <span class="os-wave-mark-diamond"></span>
+        </div>
       </div>
     </div>
 

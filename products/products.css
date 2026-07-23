@@ -299,6 +299,42 @@
     animation: floatY 3s ease-in-out infinite;
 }
 
+/* ════════════════════════════
+   STOCK IMAGE BADGE — coin superieur droit de l'image principale.
+   Couleur/texte suivent exactement les memes paliers que la barre de
+   stock (#pp-stock-label/.pp-stock-bar-fill, voir initStockBar()) —
+   meme logique anderson/francenel, memes couleurs de reference.
+════════════════════════════ */
+.pp-stock-image-badge {
+    position: absolute;
+    top: 14px; right: 14px;
+    color: #fdfaf5;
+    padding: 5px 16px;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+    z-index: 5;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+.pp-stock-image-badge.stock--high        { background: #16a34a; }
+.pp-stock-image-badge.stock--medium      { background: var(--bbw-gold); color: #15110E; }
+.pp-stock-image-badge.stock--medium-low  { background: #d97706; }
+.pp-stock-image-badge.stock--low         { background: #dc2626; }
+.pp-stock-image-badge.stock--critical    { background: #b91c1c; }
+
+@media (max-width: 768px) {
+  .pp-stock-image-badge {
+    font-size: 0.50rem;
+    padding: 3px 10px;
+    top: 8px;
+    right: 8px;
+  }
+}
+
+
 @media (max-width: 768px) {
   .product-badge {
     font-size: 0.50rem;
@@ -3221,6 +3257,36 @@ details[open] .chevron {
 }
 
 /* ══════════════════════
+   WAVE DIVIDERS — meme style noir/ivoire que .bbw-finale-wave
+   (section "Thank you" du footer), bande noire au-dessus/en-dessous
+   de .bbw-custom-banner.
+══════════════════════ */
+.bbw-wave-sep--banner-in,
+.bbw-wave-sep--banner-out {
+  position: relative;
+  width: 100%;
+  background: var(--bbw-black);
+  line-height: 0;
+  pointer-events: none;
+}
+.bbw-wave-sep--banner-in svg,
+.bbw-wave-sep--banner-out svg { display: block; width: 100%; }
+.bbw-wave-sep--banner-in path,
+.bbw-wave-sep--banner-out path { fill: #fdfaf5; }
+
+.bbw-wave-sep--banner-in { height: 64px; margin-bottom: 3px; }
+.bbw-wave-sep--banner-in svg { height: 64px; }
+.bbw-wave-sep--banner-out { height: 46px; margin-top: 3px; }
+.bbw-wave-sep--banner-out svg { height: 46px; }
+
+@media (max-width: 768px) {
+  .bbw-wave-sep--banner-in { height: 40px; }
+  .bbw-wave-sep--banner-in svg { height: 40px; }
+  .bbw-wave-sep--banner-out { height: 30px; }
+  .bbw-wave-sep--banner-out svg { height: 30px; }
+}
+
+/* ══════════════════════
    RESPONSIVE MOBILE
 ══════════════════════ */
 @media (max-width: 768px) {
@@ -3878,6 +3944,9 @@ details[open] .chevron {
     margin-top: 0;
     padding-bottom: 20px;
 }
+@media (max-width: 768px) {
+    #sanaica-banner-paul { margin-bottom: -15px !important; }
+}
 #sanaica-banner-paul .sanaica-banner-paul-slider-container {
     position: relative;
     width: 100%;
@@ -4059,23 +4128,57 @@ details[open] .chevron {
 }
 #main-image-slider .main-image {
     overflow: hidden;
-    cursor: zoom-in;
+    cursor: crosshair;
     position: relative;
     z-index: 1;
-}
-#main-image-slider .main-image img {
-    transition: transform 0.08s linear;
-    will-change: transform;
-}
-#main-image-slider .main-image:hover img {
-    transform: scale(2.6);
 }
 #main-image-slider .slider-arrow {
     position: absolute !important;
     z-index: 9999 !important;
     pointer-events: all;
 }
- 
+
+/* ════════════════════════════
+   MAGNIFIER ZOOM (desktop, Amazon-style) — l'image principale reste fixe,
+   une loupe suit la souris et un panneau agrandi s'ouvre a droite,
+   superpose sur la colonne d'info produit (pas au-dessus, au meme niveau).
+════════════════════════════ */
+.bbw-zoom-lens {
+    position: fixed;
+    width: 170px;
+    height: 170px;
+    border: 1px solid rgba(184,146,90,0.65);
+    background: rgba(253,249,244,0.30);
+    box-shadow: 0 0 0 1px rgba(21,17,14,0.10), 0 4px 18px rgba(21,17,14,0.18);
+    pointer-events: none;
+    z-index: 400;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+}
+.bbw-zoom-lens.is-active { opacity: 1; visibility: visible; }
+
+.bbw-zoom-pane {
+    position: fixed;
+    background-repeat: no-repeat;
+    background-color: #fdfaf5;
+    border: 1px solid rgba(184,146,90,0.30);
+    border-radius: 16px;
+    box-shadow:
+        0 24px 64px rgba(21,17,14,0.28),
+        0 1px 0 rgba(255,255,255,0.70) inset;
+    z-index: 400;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+}
+.bbw-zoom-pane.is-active { opacity: 1; visibility: visible; }
+
+@media (max-width: 1099px) {
+    .bbw-zoom-lens, .bbw-zoom-pane { display: none !important; }
+}
+
 
 .media-zoom-modal {
     display: none;

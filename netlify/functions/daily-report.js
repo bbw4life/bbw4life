@@ -17,6 +17,19 @@ function getTodayDate() {
   return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear().toString().slice(-2)}`;
 }
 
+// Compare la date d'une cellule Sheets avec aujourd'hui (UTC), en se basant
+// sur les vraies valeurs annee/mois/jour plutot que sur un match de texte
+// brut — resistant a un reformatage d'affichage (FORMATTED_VALUE) de la
+// cellule cote Google Sheets (ex: "2026-07-23T..." affiche en "7/23/2026 ...").
+function isSameUTCDay(cellValue, reference) {
+  if (!cellValue) return false;
+  const d = new Date(cellValue);
+  if (isNaN(d.getTime())) return false;
+  return d.getUTCFullYear() === reference.getUTCFullYear()
+      && d.getUTCMonth()    === reference.getUTCMonth()
+      && d.getUTCDate()     === reference.getUTCDate();
+}
+
 exports.handler = async (event) => {
 
   // Sécurité — clé secrète pour éviter les appels non autorisés
@@ -60,8 +73,9 @@ exports.handler = async (event) => {
         range: 'Abandoned_Carts!A:J'
       });
       const abandonedRows = (abandonedRes.data.values || []).slice(1);
+      const nowRef = new Date();
       abandonedRows.forEach(row => {
-        if (row[7] && row[7].toString().startsWith(new Date().toISOString().slice(0, 10))) {
+        if (isSameUTCDay(row[7], nowRef)) {
           abandonedToday++;
         }
       });

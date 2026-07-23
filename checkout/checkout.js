@@ -838,6 +838,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         return cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 0), 0);
     }
 
+    // Une fois le seuil de livraison gratuite atteint, le code promo ne peut
+    // plus être combiné : on masque le champ de saisie (au lieu de juste
+    // bloquer au clic) et on efface toute réduction déjà appliquée, pour que
+    // la livraison gratuite et un code promo ne se cumulent jamais.
+    let _wasFreeByThreshold = false;
+    function updateFreeShippingPromoLock(isFreeByThreshold) {
+        const promoTitle      = document.getElementById('promo-title');
+        const suggestedPromo  = document.getElementById('suggested-promo');
+        const promoInputGroup = document.querySelector('.promo-input-group');
+        const promoMessage    = document.getElementById('promo-message');
+        const freeShipMsg     = document.getElementById('free-shipping-unlocked-message');
+
+        if (isFreeByThreshold) {
+            if (promoTitle)      promoTitle.style.display = 'none';
+            if (suggestedPromo)  suggestedPromo.style.display = 'none';
+            if (promoInputGroup) promoInputGroup.style.display = 'none';
+            if (promoMessage)    { promoMessage.textContent = ''; promoMessage.style.display = 'none'; }
+            if (freeShipMsg) {
+                freeShipMsg.style.display = 'block';
+                freeShipMsg.innerHTML = `✨ <strong>Free Shipping Unlocked!</strong> Your order already qualifies for free shipping, so promo codes can't be stacked on top of this offer — but every stitch of savings is already working in your favor, Queen.`;
+            }
+            if (appliedPromo || discountAmount > 0 || affPromoApplied) {
+                appliedPromo    = null;
+                discountAmount  = 0;
+                affPromoApplied = false;
+            }
+        } else {
+            if (promoTitle)      promoTitle.style.display = '';
+            if (promoInputGroup) promoInputGroup.style.display = '';
+            if (promoMessage)    promoMessage.style.display = '';
+            if (freeShipMsg)     freeShipMsg.style.display = 'none';
+            // #suggested-promo a sa propre logique dans updatePromoDisplay() —
+            // on la relance ici pour qu'elle reprenne la main correctement
+            // au lieu de deviner nous-mêmes son état.
+            if (_wasFreeByThreshold && typeof updatePromoDisplay === 'function') updatePromoDisplay();
+        }
+        _wasFreeByThreshold = isFreeByThreshold;
+    }
+
     function updateTotals() {
         const subtotal = getSubtotal();
         const selectedMethod = document.querySelector('.shipping-option.selected')?.dataset.method || '';
@@ -846,6 +885,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return s?.cart_drawer?.free_shipping_threshold || 0;
         })();
         const isFreeByThreshold = freeShipThresh > 0 && subtotal >= freeShipThresh;
+        updateFreeShippingPromoLock(isFreeByThreshold);
         const isFreeMethod = ['Standard Shipping', 'Economy Shipping'].includes(selectedMethod);
         const effectiveShipping = (isFreeByThreshold || isFreeMethod) ? 0 : SHIPPING_COST;
         const effectiveTax = (isFreeByThreshold || isFreeMethod) ? 0 : subtotal * TAX_RATE;
@@ -1026,6 +1066,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const settings    = productsData.find(i => i.type === 'settings');
     const cd          = settings?.cart_drawer || {};
     const affCfg      = settings?.affiliation || {};
+
+    // ── Garde : aucun code promo ne peut être combiné avec la livraison
+    //    gratuite une fois le seuil atteint (le champ est normalement déjà
+    //    masqué à ce stade — ceci protège aussi contre un état obsolète) ──
+    const freeShipThreshGuard = parseFloat(cd.free_shipping_threshold) || 0;
+    if (freeShipThreshGuard > 0 && getSubtotal() >= freeShipThreshGuard) {
+        promoMessage.textContent = "This code cannot be combined with free shipping.";
+        promoMessage.style.color = 'red';
+        return;
+    }
 
     // ── Récupère la config birthday depuis les settings ──
     const birthdayCfg      = settings?.birthday_gift || {};

@@ -1042,6 +1042,9 @@ function showErrorPopup(message) {
       const sharpSrc = upgradeShopifyImageUrl(src);
       thumb.innerHTML = `<img src="${sharpSrc}" alt="${altBase} — photo ${index+1}" loading="lazy">`;
       thumb.addEventListener('click', () => changeMainImage(index));
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        thumb.addEventListener('mouseenter', () => changeMainImage(index));
+      }
       thumbsContainer.appendChild(thumb);
       const mainDiv = document.createElement('div');
       mainDiv.className = `main-image ${index === 0 ? 'active' : ''}`;
@@ -1601,6 +1604,7 @@ function showErrorPopup(message) {
             .main-image img { transform: none !important; cursor: default !important; }
             .main-image:hover img { transform: none !important; }
             #media-zoom-modal { display: none !important; pointer-events: none !important; }
+            .bbw-zoom-lens, .bbw-zoom-pane { display: none !important; }
         `;
         document.head.appendChild(noZoomStyle);
     }
@@ -2871,16 +2875,69 @@ function showErrorPopup(message) {
             translateX = Math.max(-maxTranslateX, Math.min(maxTranslateX, translateX));
             translateY = Math.max(-maxTranslateY, Math.min(maxTranslateY, translateY));
           }
+          if (!isTouchDevice && mainSlider) {
+            // Appended to <body> (position:fixed) on purpose: .product-media
+            // computes to position:sticky at this breakpoint, which opens its
+            // own stacking context and traps any descendant z-index below
+            // .product-content — escaping to <body> guarantees the pane
+            // always renders above the page, regardless of ancestor stacking.
+            const lens = document.createElement('div');
+            lens.className = 'bbw-zoom-lens';
+            const pane = document.createElement('div');
+            pane.className = 'bbw-zoom-pane';
+            document.body.appendChild(lens);
+            document.body.appendChild(pane);
+
+            const getActiveImg = () => mainSlider.querySelector('.main-image.active img');
+
+            const showZoom = () => {
+              const img = getActiveImg();
+              if (!img || !window.matchMedia('(min-width: 1100px)').matches) return;
+              const rect = mainSlider.getBoundingClientRect();
+              const rawSrc = img.currentSrc || img.src;
+              const hiResSrc = typeof upgradeShopifyImageUrl === 'function'
+                ? upgradeShopifyImageUrl(rawSrc, 2200)
+                : rawSrc;
+              pane.style.backgroundImage = `url("${hiResSrc}")`;
+              pane.style.width = rect.width + 'px';
+              pane.style.height = rect.height + 'px';
+              pane.style.top = rect.top + 'px';
+              pane.style.left = (rect.right + 24) + 'px';
+              lens.classList.add('is-active');
+              pane.classList.add('is-active');
+            };
+            const hideZoom = () => {
+              lens.classList.remove('is-active');
+              pane.classList.remove('is-active');
+            };
+            const moveZoom = (e) => {
+              if (!lens.classList.contains('is-active')) return;
+              const rect = mainSlider.getBoundingClientRect();
+              const lensW = lens.offsetWidth, lensH = lens.offsetHeight;
+              let x = e.clientX - rect.left;
+              let y = e.clientY - rect.top;
+              x = Math.max(lensW / 2, Math.min(rect.width - lensW / 2, x));
+              y = Math.max(lensH / 2, Math.min(rect.height - lensH / 2, y));
+              lens.style.left = (rect.left + x - lensW / 2) + 'px';
+              lens.style.top = (rect.top + y - lensH / 2) + 'px';
+              pane.style.top = rect.top + 'px';
+              pane.style.left = (rect.right + 24) + 'px';
+
+              // single uniform ratio (lens is a square, lensW === lensH) so the
+              // zoomed image scales proportionally instead of stretching
+              const zoomRatio = pane.offsetHeight / lensH;
+              pane.style.backgroundSize = `${rect.width * zoomRatio}px ${rect.height * zoomRatio}px`;
+              pane.style.backgroundPosition = `-${(x - lensW / 2) * zoomRatio}px -${(y - lensH / 2) * zoomRatio}px`;
+            };
+
+            mainSlider.addEventListener('mouseenter', showZoom);
+            mainSlider.addEventListener('mousemove', moveZoom);
+            mainSlider.addEventListener('mouseleave', hideZoom);
+          }
+
           mainImages.forEach(container => {
             const img = container.querySelector('img');
             if (!img) return;
-            if (!isTouchDevice) {
-              container.addEventListener('mousemove', (e) => {
-                const rect = container.getBoundingClientRect();
-                img.style.transformOrigin = `${((e.clientX - rect.left) / rect.width) * 100}% ${((e.clientY - rect.top) / rect.height) * 100}%`;
-              });
-              container.addEventListener('mouseleave', () => { img.style.transformOrigin = 'center center'; });
-            }
             if (isTouchDevice) {
               container.style.cursor = 'pointer';
               container.addEventListener('click', (e) => {
@@ -11453,6 +11510,7 @@ function initStockBar(cjId) {
     const label = document.getElementById('pp-stock-label');
     const fill  = document.getElementById('pp-stock-bar-fill');
     const hint  = document.getElementById('pp-stock-hint');
+    const imgBadge = document.querySelector('.pp-stock-image-badge');
     if (!block || !label || !fill || !hint) return;
 
     fetch(`/.netlify/functions/get-product-stock?cj_id=${cjId}`)
@@ -11462,6 +11520,7 @@ function initStockBar(cjId) {
 
             if (!data.success || data.totalStock === null) {
                 block.classList.add('error');
+                if (imgBadge) imgBadge.style.display = 'none';
                 return;
             }
 
@@ -11523,10 +11582,31 @@ function initStockBar(cjId) {
 
             // Hint
             hint.textContent = hintText;
+
+            // Badge (coin superieur droit de l'image) — meme palier "level"
+            // que la barre de stock ci-dessus, juste un texte plus court.
+            if (imgBadge) {
+                const showBadge = (settings_stock.show_stock_image_badge || 'yes').toLowerCase().trim() === 'yes';
+                if (showBadge) {
+                    const badgeText = {
+                        high:          'High Demand',
+                        medium:        'Selling Fast',
+                        'medium-low':  'Limited Stock',
+                        low:           'Almost Gone',
+                        critical:      'Last Units'
+                    };
+                    imgBadge.className = 'pp-stock-image-badge stock--' + level;
+                    imgBadge.textContent = badgeText[level] || '';
+                    imgBadge.style.display = '';
+                } else {
+                    imgBadge.style.display = 'none';
+                }
+            }
         })
         .catch(function(err) {
             console.warn('[StockBar] Could not load stock:', err);
             block.classList.add('error');
+            if (imgBadge) imgBadge.style.display = 'none';
         });
 }
 

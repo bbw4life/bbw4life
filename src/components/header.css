@@ -118,7 +118,11 @@ body {
   transition: opacity 0.45s ease, transform 0.45s ease;
   pointer-events: none;
   white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.ann-bar__slide::-webkit-scrollbar { display: none; }
 
 .ann-bar__slide.active {
   opacity: 1;
