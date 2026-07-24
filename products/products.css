@@ -2074,6 +2074,29 @@ button.buy-now.cta:hover {
     word-wrap: break-word; overflow-wrap: break-word;
 }
 .modal-paul-guide-side-text strong { color: var(--bbw-black); }
+.modal-paul-guide-side-text.truncated {
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    padding-right: 4px;
+}
+.modal-paul-guide-side-text.truncated::before {
+    content: '';
+    position: absolute;
+    right: 0; bottom: 0;
+    width: 88px; height: 1.4em;
+    background: linear-gradient(90deg, transparent, #faf4ec 60%);
+    pointer-events: none;
+}
+.modal-paul-guide-side-text.truncated::after {
+    content: 'More...';
+    position: absolute;
+    right: 0; bottom: 0;
+    font-weight: 700;
+    color: var(--bbw-gold);
+    pointer-events: none;
+}
+.modal-paul-guide-side-text.expanded { cursor: pointer; }
 .modal-paul-guide-bold-title {
     margin: 14px 0 8px 0 !important;
     font-size: 15px; font-weight: 800;

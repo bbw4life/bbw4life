@@ -11588,15 +11588,8 @@ function initStockBar(cjId) {
             if (imgBadge) {
                 const showBadge = (settings_stock.show_stock_image_badge || 'yes').toLowerCase().trim() === 'yes';
                 if (showBadge) {
-                    const badgeText = {
-                        high:          'High Demand',
-                        medium:        'Selling Fast',
-                        'medium-low':  'Limited Stock',
-                        low:           'Almost Gone',
-                        critical:      'Last Units'
-                    };
                     imgBadge.className = 'pp-stock-image-badge stock--' + level;
-                    imgBadge.textContent = badgeText[level] || '';
+                    imgBadge.textContent = 'In stock';
                     imgBadge.style.display = '';
                 } else {
                     imgBadge.style.display = 'none';

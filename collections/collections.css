@@ -39,6 +39,79 @@
 }
 
 /* ================================================================
+   COL-WAVE — decorative seam divider ("Gilded Scallop Trim")
+   Distinct from .os-wave (page/pages.css) and .ink-ribbon
+   (blog/blog.css): a real full-width strip with its own height,
+   built from a tiled scallop+pearl SVG pattern with a single
+   center "clasp" accent and a slow one-shot sheen sweep.
+================================================================ */
+.col-wave {
+  position: relative;
+  width: 100%;
+  height: 34px;
+  overflow: hidden;
+  line-height: 0;
+  pointer-events: none;
+}
+
+.col-wave--ink  { background: var(--col-dark); }
+.col-wave--dawn { background: linear-gradient(180deg, var(--col-dark) 0%, var(--col-bg) 82%); }
+
+.col-wave__row { display: block; width: 100%; height: 100%; }
+
+.col-wave__arc    { stroke: var(--col-gold); stroke-width: 1.1; opacity: 0.75; }
+.col-wave__arc--b { stroke: var(--col-gold-light); opacity: 0.55; }
+.col-wave__pearl     { fill: var(--col-gold-light); }
+.col-wave__pearl--sm { fill: var(--col-gold); opacity: 0.8; }
+
+.col-wave::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 0%, transparent 42%, rgba(232,188,106,0.35) 50%, transparent 58%, transparent 100%);
+  background-size: 260% 100%;
+  animation: colWaveSheen 9s ease-in-out infinite;
+}
+
+@keyframes colWaveSheen {
+  0%      { background-position: 130% 0; }
+  40%,100%{ background-position: -30% 0; }
+}
+
+.col-wave__clasp {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+}
+.col-wave__clasp-ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--bbw-gold-border-hi);
+  border-radius: 50%;
+}
+.col-wave__clasp-pearl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--bbw-gold-light), var(--bbw-gold));
+  box-shadow: 0 0 6px rgba(184,146,90,0.5);
+}
+
+@media (max-width: 900px) { .col-wave { height: 26px; } }
+@media (max-width: 600px) {
+  .col-wave { height: 20px; }
+  .col-wave__clasp { width: 11px; height: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { .col-wave::after { animation: none; } }
+
+/* ================================================================
    SOCIAL PROOF BAR
 ================================================================ */
 .col-social-proof-bar {
