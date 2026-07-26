@@ -1,25 +1,6 @@
 process.removeAllListeners('warning');
 const crypto = require('crypto');
 
-const INTERNAL_TO_CJ = {
-  'Pdg-Francenel-product1':  '31246341',
-  'Pdg-Francenel-product2':  '31246339',
-  'Pdg-Francenel-product3':  '31246387',
-  'Pdg-Francenel-product4':  '31246342',
-  'Pdg-Francenel-product5':  '31246386',
-  'Pdg-Francenel-product6':  '31350659',
-  'Pdg-Francenel-product7':  '31246232',
-  'Pdg-Francenel-product8':  '31246385',
-  'Pdg-Francenel-product9':  '31246336',
-  'Pdg-Francenel-product10': '31246377',
-  'Pdg-Francenel-product11': '31246323',
-  'Pdg-Francenel-product12': '31246335',
-  'Pdg-Francenel-product13': '31246346',
-  'Pdg-Francenel-product14': '31246417',
-  'Pdg-Francenel-product15': '31246429',
-  'Pdg-Francenel-product16': '31246437',
-};
-
 exports.handler = async (event) => {
   const headers = {
     'Content-Type': 'application/json',
@@ -31,17 +12,15 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: '' };
   }
 
-  const { cj_id: rawParam } = event.queryStringParameters || {};
+  const { cj_id } = event.queryStringParameters || {};
 
-  if (!rawParam) {
+  if (!cj_id) {
     return {
       statusCode: 400,
       headers,
       body: JSON.stringify({ success: false, error: 'Missing cj_id parameter' })
     };
   }
-
-  const cj_id = INTERNAL_TO_CJ[rawParam] || rawParam;
 
   try {
     const apiKey    = process.env.EPROLO_API_KEY;
@@ -93,10 +72,9 @@ exports.handler = async (event) => {
       return {
         statusCode: 200,
         headers,
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           success:      true,
           cj_id:        cj_id,
-          internal_id:  rawParam,
           totalStock:   totalStock,
           variantCount: variants.length
         })
@@ -111,7 +89,6 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         success:    false,
         cj_id:      cj_id,
-        internal_id: rawParam,
         totalStock: null,
         error:      errMsg
       })

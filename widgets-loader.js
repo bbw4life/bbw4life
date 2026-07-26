@@ -11,7 +11,30 @@
 <div class="cart-drawer">
   <div class="drawer-header">
 
+    <div class="drawer-header__title-group">
     <h3>Your Cart</h3>
+    <div class="bbw-globe-badge" id="bbw-globe-badge-drawer" style="display:none;" aria-hidden="true">
+      <svg viewBox="0 0 48 48" class="bbw-globe-badge__svg">
+        <defs>
+          <radialGradient id="bbwGlobeGrad-drawer" cx="35%" cy="35%" r="70%">
+            <stop offset="0%" stop-color="#3a2e1f"/>
+            <stop offset="55%" stop-color="#15110E"/>
+            <stop offset="100%" stop-color="#000"/>
+          </radialGradient>
+          <path id="bbwOrbitPath-drawer" d="M 24,24 m -19,0 a 19,19 0 1,1 38,0 a 19,19 0 1,1 -38,0"/>
+        </defs>
+        <g class="bbw-globe-badge__core">
+          <circle cx="24" cy="24" r="15" fill="url(#bbwGlobeGrad-drawer)"/>
+          <circle cx="24" cy="24" r="15" fill="none" stroke="rgba(184,146,90,0.35)" stroke-width="1"/>
+          <path d="M12,18 Q18,14 24,17 T36,16" stroke="rgba(184,146,90,0.28)" fill="none" stroke-width="1"/>
+          <path d="M10,28 Q18,32 26,29 T38,30" stroke="rgba(184,146,90,0.22)" fill="none" stroke-width="1"/>
+        </g>
+        <g class="bbw-globe-badge__orbit">
+          <text class="bbw-globe-badge__text"><textPath href="#bbwOrbitPath-drawer" startOffset="0%">✦ READY TO SHIP ✦ FAST SHIPPING </textPath></text>
+        </g>
+      </svg>
+    </div>
+    </div>
     <button class="close-drawer">✕</button>
   </div>
 

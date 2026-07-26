@@ -4302,8 +4302,8 @@
     "thumbnails_mobile_vertical_left": "yes",
     "sticky_media_mobile": "yes",
     "swatch_scroll_mobile": "no",
-    "sticky_atc_mobile_threshold": 5.0,
-    "sticky_atc_desktop_threshold": 4.5,
+    "sticky_atc_mobile_threshold": 6.0,
+    "sticky_atc_desktop_threshold": 5.0,
     "theme_color": "#000000",
     "allowed_languages": ["en", "fr", "es", "ar", "zh", "ht", "hi", "pt", "ru", "de", "ja"],
     "chat_widget": {
@@ -6205,6 +6205,19 @@
     "Pdg-Francenel-product55",
     "Pdg-Francenel-product59"
    ]
+  },
+  "pdp_collection_grid": {
+    "title": "More To Love",
+    "product_ids": [
+      "Pdg-Francenel-product34",
+      "Pdg-Francenel-product26",
+      "Pdg-Francenel-product18",
+      "Pdg-Francenel-product19",
+      "Pdg-Francenel-product17",
+      "Pdg-Francenel-product56",
+      "Pdg-Francenel-product43",
+      "Pdg-Francenel-product49"
+    ]
   },
   "watermark": {
   "show": "yes",

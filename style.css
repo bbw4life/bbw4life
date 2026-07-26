@@ -1457,6 +1457,36 @@ body {
     pointer-events: none;
     z-index: 1;
 }
+.drawer-header__title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+.cart-drawer .drawer-header .bbw-globe-badge {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+}
+.cart-drawer .drawer-header .bbw-globe-badge__svg { width: 100%; height: 100%; overflow: visible; }
+.cart-drawer .drawer-header .bbw-globe-badge__core { transform-origin: 24px 24px; animation: bbwGlobeSpin 6s linear infinite; }
+.cart-drawer .drawer-header .bbw-globe-badge__orbit { transform-origin: 24px 24px; animation: bbwGlobeSpin 8s linear infinite; }
+.cart-drawer .drawer-header .bbw-globe-badge__text {
+    font-size: 5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    fill: var(--bbw-gold-light, #e8bc6a);
+    text-transform: uppercase;
+}
+@keyframes bbwGlobeSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+    .cart-drawer .drawer-header .bbw-globe-badge__core,
+    .cart-drawer .drawer-header .bbw-globe-badge__orbit { animation: none; }
+}
+@media (max-width: 480px) {
+    .cart-drawer .drawer-header .bbw-globe-badge { width: 54px; height: 54px; }
+}
 @keyframes headerLightPass {
     0%   { left: -100%; opacity: 0; }
     10%  { opacity: 1; }
@@ -3494,6 +3524,11 @@ body {
   bottom: 8%;
 }
 
+.pdp-grid-card .bbw-watermark {
+  font-size: clamp(10px, 2.5vw, 15px);
+  bottom: 8%;
+}
+
 @media (max-width: 768px) {
   .bbw-watermark {
     font-size: clamp(14px, 4.5vw, 22px);
@@ -3508,6 +3543,10 @@ body {
   }
   .mini-media-slider .bbw-watermark {
     font-size: clamp(10px, 3vw, 14px);
+    bottom: 8%;
+  }
+  .pdp-grid-card .bbw-watermark {
+    font-size: clamp(9px, 2.5vw, 12px);
     bottom: 8%;
   }
 }

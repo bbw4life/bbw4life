@@ -1,56 +1,25 @@
-// fetch-eprolo-products.js — VERSION PARALLÈLE + CATÉGORIES
+// fetch-eprolo-new-products.js — TEMPORAIRE, à supprimer une fois les 22 produits intégrés dans fetch-eprolo-products.js
 process.removeAllListeners('warning');
 const crypto = require('crypto');
 
-const CATEGORIES = [
+const NEW_CATEGORIES = [
   {
-    category: "Beauty",
+    category: "New Arrivals",
     subcategories: [
-      { name: "Nails",     ids: ["31507085","31507084","31507050"] },
-      { name: "Eyebrow",   ids: ["31507083","31507079","31507077"] },
-      { name: "Lips",      ids: ["31507080","31507082"] },
-      { name: "Makeup",    ids: ["31507075"] },
-      { name: "Haircare",  ids: ["31507069","31507068","31507066"] },
-      { name: "Skincare",  ids: ["31507047","31507042","31507040","31507037","31507030"] },
-    ]
-  },
-  {
-    category: "Main Plus Size",
-    subcategories: [
-      { name: "Pants",   ids: ["31507010","31506972","31506964","31506942"] },
-      { name: "Shoes",   ids: ["31507005","31506999","31506996","31506987","31506961","31506959","31506957"] },
-      { name: "Shirt",   ids: ["31506986","31506956","31506938"] },
-      { name: "Sweater", ids: ["31506970","31506983","31506831"] },
-    ]
-  },
-  {
-    category: "Plus Size Woman",
-    subcategories: [
-      { name: "Shoes",         ids: ["31506995","31507001","31506993","31506990","31506877","31506874","32048267","32048149","32048075"] },
-      { name: "Dresses",       ids: ["31506899","31506898","31506897","31506895","31506885","31506863","31506856","31506842","31506840","31506894","32048080","32048087","32048089","32048102","32048106","32048127"] },
-      { name: "Bathrobe",      ids: ["31506891","31506893"] },
-      { name: "Sexy",          ids: ["31506890","31506872","31506846","31506841"] },
-      { name: "Breathable",    ids: ["31506880","31506879"] },
-      { name: "Bikini",        ids: ["31506871","31506851","31506845","31506839","31506830","31506822"] },
-      { name: "Plus Size Top", ids: ["31506857","31506854","31506868","31506889"] },
-      { name: "Skirt",         ids: ["32048084"] },
-      { name: "Summer",        ids: ["32048099"] },
-    ]
-  },
-  {
-    category: "Bags",
-    subcategories: [
+      { name: "Shoes",          ids: ["32048267","32048149","32048075"] },
+      { name: "Dress",          ids: ["32048080","32048087","32048089","32048102","32048106","32048127"] },
       { name: "Bag Hand Woman", ids: ["32048189","32048193","32048246","32048245","32048241","32048231","32048228","32048209","32048207","32048204","32048202"] },
+      { name: "Skirt",          ids: ["32048084"] },
+      { name: "Summer",         ids: ["32048099"] },
     ]
   },
 ];
 
-// Flat list of all IDs with their category/subcategory info
-const ALL_PRODUCT_ENTRIES = [];
-CATEGORIES.forEach(cat => {
+const NEW_PRODUCT_ENTRIES = [];
+NEW_CATEGORIES.forEach(cat => {
   cat.subcategories.forEach(sub => {
     sub.ids.forEach(id => {
-      ALL_PRODUCT_ENTRIES.push({ id, category: cat.category, subcategory: sub.name });
+      NEW_PRODUCT_ENTRIES.push({ id, category: cat.category, subcategory: sub.name });
     });
   });
 });
@@ -63,17 +32,16 @@ exports.handler = async (event) => {
   const log = (msg) => { console.log(msg); logs.push(msg); };
 
   log(SEP);
-  log("  EPROLO — RÉCUPÉRATION DES PRODUITS");
-  log(`  Liste : ${ALL_PRODUCT_ENTRIES.length} produits`);
+  log("  EPROLO — NOUVEAUX PRODUITS");
+  log(`  Liste : ${NEW_PRODUCT_ENTRIES.length} produits`);
   log(SEP);
 
   try {
     const apiKey    = process.env.EPROLO_API_KEY;
     const apiSecret = process.env.EPROLO_API_SECRET;
 
-    // Fetch all products in parallel
     const results = await Promise.all(
-      ALL_PRODUCT_ENTRIES.map(async (entry) => {
+      NEW_PRODUCT_ENTRIES.map(async (entry) => {
         const { id: productId, category, subcategory } = entry;
         try {
           const timestamp = Date.now();
@@ -109,7 +77,7 @@ exports.handler = async (event) => {
     const allProducts = results.filter(Boolean);
 
     log(SEP);
-    log(`  TOTAL RÉCUPÉRÉS : ${allProducts.length} / ${ALL_PRODUCT_ENTRIES.length}`);
+    log(`  TOTAL RÉCUPÉRÉS : ${allProducts.length} / ${NEW_PRODUCT_ENTRIES.length}`);
     log(SEP);
 
     allProducts.forEach((product, index) => {
@@ -173,12 +141,12 @@ exports.handler = async (event) => {
         total:       allProducts.length,
         logs:        logs,
         products:    allProducts,
-        categories:  CATEGORIES.map(cat => cat.category),
+        categories:  NEW_CATEGORIES.map(cat => cat.category),
       })
     };
 
   } catch (error) {
-    console.error("[EPROLO ERROR]", error.message);
+    console.error("[EPROLO NEW ERROR]", error.message);
     return {
       statusCode: 500,
       body: JSON.stringify({ success: false, error: error.message, logs })

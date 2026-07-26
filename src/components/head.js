@@ -1117,6 +1117,12 @@ function injectGlobalHead() {
             temp.innerHTML = html;
             Array.from(temp.children).forEach(el => {
                 if (el.tagName === 'SCRIPT') {
+                    // cart-page.js est déjà codé en dur en bas du body sur cart.html et
+                    // les pages collections/*.html — éviter de le réinjecter en double ici.
+                    if (el.src && /\/cart-page\.js(\?|$)/.test(el.src) &&
+                        document.querySelector('script[src$="/cart-page.js"], script[src="cart-page.js"]')) {
+                        return;
+                    }
                     // Recrée le script pour forcer l'exécution
                     const s = document.createElement('script');
                     if (el.type) s.type = el.type;

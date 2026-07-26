@@ -1039,17 +1039,18 @@ function showErrorPopup(message) {
     media.forEach((src, index) => {
       const thumb = document.createElement('div');
       thumb.className = `thumbnail-item ${index === 0 ? 'active' : ''}`;
-      const sharpSrc = upgradeShopifyImageUrl(src);
-      thumb.innerHTML = `<img src="${sharpSrc}" alt="${altBase} — photo ${index+1}" loading="lazy">`;
+      const thumbSrc = upgradeShopifyImageUrl(src, 300);
+      thumb.innerHTML = `<img src="${thumbSrc}" alt="${altBase} — photo ${index+1}" loading="lazy">`;
       thumb.addEventListener('click', () => changeMainImage(index));
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         thumb.addEventListener('mouseenter', () => changeMainImage(index));
       }
       thumbsContainer.appendChild(thumb);
+      const mainSrc = upgradeShopifyImageUrl(src, 1800);
       const mainDiv = document.createElement('div');
       mainDiv.className = `main-image ${index === 0 ? 'active' : ''}`;
-      mainDiv.dataset.originalSrc = sharpSrc;
-      mainDiv.innerHTML = `<img src="${sharpSrc}" alt="${altBase}" loading="lazy">`;
+      mainDiv.dataset.originalSrc = mainSrc;
+      mainDiv.innerHTML = `<img src="${mainSrc}" alt="${altBase}" loading="lazy">`;
       mainSlider.insertBefore(mainDiv, mainSlider.querySelector('.slider-arrow.next'));
     });
     mainSlider.querySelector('.prev').onclick = () => changeMainImage('prev');
@@ -2307,6 +2308,102 @@ function showErrorPopup(message) {
         }
       }
 
+      // ── PDP collection grid ("More To Love") ──
+      const pdpGridEl = document.getElementById('pdp-grid-section');
+      if (pdpGridEl) {
+
+        const PDP_WISHLIST_SVG = `
+          <svg class="wishlist-icon-empty" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fffef7" stroke-width="2">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <svg class="wishlist-icon-filled" width="18" height="18" viewBox="0 0 24 24" fill="#fffef7" stroke="#fffef7" stroke-width="2">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>`;
+
+        const gridCfg = (settings.pdp_collection_grid) || {};
+        const gridIds = gridCfg.product_ids || [];
+
+        const gridTrack = pdpGridEl.querySelector('.pdp-grid');
+        let gridCardsBuilt = 0;
+
+        if (gridTrack) {
+          gridIds.forEach(pid => {
+            const prod = products.find(p => p.id === pid);
+            if (!prod) return;
+
+            const productUrl  = getProductUrl(pid);
+            const hasDiscount = prod.compare_price > prod.price;
+            const discPct     = hasDiscount ? Math.round(((prod.compare_price - prod.price) / prod.compare_price) * 100) : 0;
+            const badgeIcon   = (prod.badge && prod.badge.icon) ? `<i class="fi ${prod.badge.icon}"></i> ` : '';
+            const badgeHTML   = (prod.badge && prod.badge.text) ? `<span class="pdp-grid-card__badge">${badgeIcon}${prod.badge.text}</span>` : '';
+            const discHTML    = discPct > 0 ? `<span class="pdp-grid-card__discount">-${discPct}%</span>` : '';
+            const discTextHTML = discPct > 0 ? `<span class="pdp-grid-card__discount-text">(-${discPct}%)</span>` : '';
+            const compareHTML = hasDiscount ? `<span class="pdp-grid-card__compare">$${parseFloat(prod.compare_price).toFixed(2)}</span>` : '';
+            const imgMain     = upgradeShopifyImageUrl(prod.image, 600);
+
+            const swatchColors = (prod.colors || []).filter(c => c.active !== false && c.image);
+            const swatchesHTML = swatchColors.length ? `
+              <div class="pdp-grid-card__swatches">
+                ${swatchColors.map((c, i) => `<img class="pdp-grid-card__swatch${i === 0 ? ' active' : ''}" src="${upgradeShopifyImageUrl(c.image, 80)}" data-full="${upgradeShopifyImageUrl(c.image, 600)}" alt="${c.name}" title="${c.name}" loading="lazy">`).join('')}
+              </div>` : '';
+
+            const card = document.createElement('div');
+            card.className  = 'pdp-grid-card product-card';
+            card.dataset.id = pid;
+            card.innerHTML = `
+              ${badgeHTML}
+              <a href="${productUrl}" class="pdp-grid-card__media">
+                <img class="pdp-grid-card__img" src="${imgMain}" alt="${prod.title}" loading="lazy">
+                ${discHTML}
+                <span class="mini-wishlist-icon pdp-grid-card__wishlist" data-id="${pid}"></span>
+                <button type="button" class="pdp-grid-card__cart add-to-cart" aria-label="Add to cart"><i class="fi fi-rr-shopping-cart"></i></button>
+              </a>
+              <div class="pdp-grid-card__body">
+                <a href="${productUrl}" class="pdp-grid-card__title">${prod.title}</a>
+                <p class="pdp-grid-card__prices">
+                  <span class="pdp-grid-card__price">$${parseFloat(prod.price).toFixed(2)}</span>
+                  ${discTextHTML}
+                  ${compareHTML}
+                </p>
+                ${swatchesHTML}
+              </div>`;
+            gridTrack.appendChild(card);
+            gridCardsBuilt++;
+
+            if (swatchColors.length > 0) {
+              card.dataset.selectedColor = swatchColors[0].name;
+              /* Précharge les images des variantes pour un affichage instantané au clic */
+              swatchColors.forEach(c => { new Image().src = upgradeShopifyImageUrl(c.image, 600); });
+            }
+
+            const wishIcon = card.querySelector('.pdp-grid-card__wishlist');
+            wishIcon.innerHTML = PDP_WISHLIST_SVG;
+            wishIcon.addEventListener('click', function (e) { e.preventDefault(); toggleWishlist(e); });
+
+            const cartBtn = card.querySelector('.pdp-grid-card__cart');
+            cartBtn.addEventListener('click', function (e) { e.preventDefault(); addToCart(e); });
+
+            const mainImg = card.querySelector('.pdp-grid-card__img');
+            card.querySelectorAll('.pdp-grid-card__swatch').forEach(function (swatch) {
+              swatch.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                mainImg.src = swatch.dataset.full;
+                card.dataset.selectedColor = swatch.alt;
+                card.querySelectorAll('.pdp-grid-card__swatch').forEach(function (s) { s.classList.remove('active'); });
+                swatch.classList.add('active');
+              });
+            });
+          });
+        }
+
+        if (gridCardsBuilt > 0) {
+          updateWishlistIcons();
+        } else {
+          pdpGridEl.style.display = 'none';
+        }
+      }
+
       function populateMiniSlider(slider, media) {
         if (!slider || !media) return;
         slider.innerHTML = '';
@@ -2841,7 +2938,7 @@ function showErrorPopup(message) {
               const colorObj = prod.colors.find(c => c.name === selectedColor);
               if (colorObj && colorObj.image) {
                 const mainImg = document.querySelector('#main-image-slider .main-image.active img');
-                if (mainImg) mainImg.src = colorObj.image;
+                if (mainImg) mainImg.src = upgradeShopifyImageUrl(colorObj.image, 1800);
               }
             }
           }
@@ -2942,7 +3039,8 @@ function showErrorPopup(message) {
               container.style.cursor = 'pointer';
               container.addEventListener('click', (e) => {
                 e.stopImmediatePropagation();
-                modalImg.src = img.src;
+                const rawSrc = img.currentSrc || img.src;
+                modalImg.src = typeof upgradeShopifyImageUrl === 'function' ? upgradeShopifyImageUrl(rawSrc, 2200) : rawSrc;
                 modal.classList.add('active');
                 scale = 1; translateX = 0; translateY = 0;
                 updateTransform(false);
@@ -3431,13 +3529,28 @@ function showErrorPopup(message) {
   window.addEventListener('mouseup',   onDragEnd);
 
   /* Touch */
-  track.addEventListener('touchstart', function(e) { onDragStart(e.touches[0].clientX); }, { passive: true });
-  track.addEventListener('touchmove',  function(e) {
-    if (!isDragging) return;
+  let touchStartX = 0, touchStartY = 0, touchDirection = null;
+
+  track.addEventListener('touchstart', function (e) {
+    const t = e.touches[0];
+    touchStartX = t.clientX; touchStartY = t.clientY; touchDirection = null;
+  }, { passive: true });
+
+  track.addEventListener('touchmove', function (e) {
+    const t = e.touches[0];
+    const dx = t.clientX - touchStartX, dy = t.clientY - touchStartY;
+    if (touchDirection === null) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      touchDirection = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+      if (touchDirection === 'h') onDragStart(touchStartX);
+      else return; // intention verticale : laisser le navigateur scroller nativement
+    }
+    if (touchDirection !== 'h') return;
     e.preventDefault();
-    onDragMove(e.touches[0].clientX);
+    onDragMove(t.clientX);
   }, { passive: false });
-  track.addEventListener('touchend', onDragEnd);
+
+  track.addEventListener('touchend', function () { touchDirection = null; onDragEnd(); });
 
   /* Prevent link click after drag */
   track.addEventListener('click', function(e) {
@@ -6814,6 +6927,8 @@ document.dispatchEvent(new Event('wishlist:change'));
       if (drawerExtra) drawerExtra.style.display = 'none';
       const bbwTimeline = document.getElementById('bbw-order-timeline-drawer');
       if (bbwTimeline) bbwTimeline.style.display = 'none';
+      const bbwGlobeDrawer = document.getElementById('bbw-globe-badge-drawer');
+      if (bbwGlobeDrawer) bbwGlobeDrawer.style.display = 'none';
     } else {
       if (emptyCart)           emptyCart.style.display           = 'none';
       if (reviewsCarouselCart) reviewsCarouselCart.style.display = 'block';
@@ -6829,6 +6944,8 @@ document.dispatchEvent(new Event('wishlist:change'));
       if (drawerExtra2) drawerExtra2.style.display = '';
       const bbwTimeline = document.getElementById('bbw-order-timeline-drawer');
       if (bbwTimeline) bbwTimeline.style.display = '';
+      const bbwGlobeDrawer2 = document.getElementById('bbw-globe-badge-drawer');
+      if (bbwGlobeDrawer2) bbwGlobeDrawer2.style.display = 'flex';
 
      const BBW_FEATURED_IDS = [
         'Pdg-Francenel-product69','Pdg-Francenel-product70','Pdg-Francenel-product71',
@@ -7011,7 +7128,12 @@ document.dispatchEvent(new Event('wishlist:change'));
       }
       if (selectedColor) { const colorObj = product.colors.find(c => c.name === selectedColor); if (colorObj && colorObj.image) itemImage = upgradeShopifyImageUrl(colorObj.image); }
     } else {
-      if (product.colors && product.colors.length > 0) {
+      const gridColorName = container.dataset.selectedColor;
+      const gridColorObj  = gridColorName && product.colors ? product.colors.find(c => c.name === gridColorName) : null;
+      if (gridColorObj) {
+        selectedColor = gridColorObj.name;
+        if (gridColorObj.image) itemImage = upgradeShopifyImageUrl(gridColorObj.image);
+      } else if (product.colors && product.colors.length > 0) {
         selectedColor = product.colors[0].name;
         if (product.colors[0].image) itemImage = upgradeShopifyImageUrl(product.colors[0].image);
       }

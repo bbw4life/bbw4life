@@ -615,6 +615,9 @@
     <button class="btn btn-run" id="run-btn" onclick="fetchProducts()">
       ▶ &nbsp;Récupérer les produits
     </button>
+    <button class="btn btn-run" id="run-new-btn" onclick="fetchNewProducts()" style="background:var(--accent2);box-shadow:0 0 20px rgba(255,61,127,0.25);color:#fff;">
+      ✨ &nbsp;Nouveaux produits
+    </button>
     <button class="btn btn-copy" id="copy-btn" onclick="copyLogs()">
       ⧉ &nbsp;Copier le log brut
     </button>
@@ -840,6 +843,12 @@
     { category: "Plus Size Woman",subcategories: ["Shoes","Dresses","Bathrobe","Sexy","Breathable","Bikini","Plus Size Top"] },
   ];
 
+  const NEW_CATEGORIES = [
+    { category: "New Arrivals", subcategories: ["Shoes","Dress","Bag Hand Woman","Skirt","Summer"] },
+  ];
+
+  let activeCategoriesDef = CATEGORIES;
+
   const COLOR_MAP = {
     black:'#222', white:'#eee', red:'#e74c3c', blue:'#3498db',
     green:'#2ecc71', yellow:'#f1c40f', pink:'#e91e8c', purple:'#9b59b6',
@@ -856,6 +865,8 @@
   async function fetchProducts() {
     const runBtn  = document.getElementById('run-btn');
     const copyBtn = document.getElementById('copy-btn');
+
+    activeCategoriesDef = CATEGORIES;
 
     runBtn.disabled    = true;
     runBtn.textContent = '⏳  Chargement...';
@@ -916,6 +927,72 @@
     runBtn.textContent = '▶  Récupérer les produits';
   }
 
+  async function fetchNewProducts() {
+    const runBtn  = document.getElementById('run-new-btn');
+    const copyBtn = document.getElementById('copy-btn');
+
+    activeCategoriesDef = NEW_CATEGORIES;
+
+    runBtn.disabled    = true;
+    runBtn.textContent = '⏳  Chargement...';
+    copyBtn.style.display = 'none';
+    setStatus('running', 'Appel en cours vers Netlify (nouveaux produits)...');
+
+    document.getElementById('product-view').style.display  = 'none';
+    document.getElementById('product-view').innerHTML      = '';
+    document.getElementById('skeleton-view').style.display = 'block';
+    document.getElementById('stats-row').style.display     = 'none';
+    document.getElementById('cat-tabs').style.display      = 'none';
+    document.getElementById('subcat-row').style.display    = 'none';
+    document.getElementById('log-section').style.display   = 'none';
+    document.getElementById('log-output').innerHTML        = '';
+    rawLogs     = [];
+    allProducts = [];
+    activeCategory    = 'ALL';
+    activeSubcategory = 'ALL';
+
+    try {
+      const res  = await fetch('/.netlify/functions/fetch-eprolo-new-products');
+      const data = await res.json();
+
+      document.getElementById('skeleton-view').style.display = 'none';
+      rawLogs = data.logs || [];
+
+      if (data.success) {
+        allProducts = parseProducts(data);
+        renderCategoryTabs();
+        renderSubcatChips();
+        renderProductCards();
+        renderRawLog(rawLogs);
+
+        const variantTotal = allProducts.reduce((s, p) => s + p.variants.length, 0);
+        const errCount     = rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
+
+        document.getElementById('stat-total').textContent    = allProducts.length;
+        document.getElementById('stat-variants').textContent = variantTotal;
+        document.getElementById('stat-errors').textContent   = errCount;
+        document.getElementById('stats-row').style.display   = 'flex';
+        document.getElementById('header-subtitle').textContent =
+          `${allProducts.length} nouveaux produits · Netlify Function`;
+
+        setStatus('ok', `${allProducts.length} nouveaux produits récupérés · ${variantTotal} variants au total`);
+        copyBtn.style.display = 'inline-flex';
+        copyBtn.textContent   = '⧉  Copier le log brut';
+        copyBtn.classList.remove('copied');
+        document.getElementById('log-section').style.display = 'block';
+      } else {
+        setStatus('err', 'Aucune donnée retournée. Vérifie la fonction Netlify.');
+      }
+    } catch (err) {
+      document.getElementById('skeleton-view').style.display = 'none';
+      setStatus('err', 'Erreur : ' + err.message);
+    }
+
+    runBtn.disabled    = false;
+    runBtn.textContent = '✨  Nouveaux produits (22)';
+  }
+
+
   function parseProducts(data) {
     if (data.products && Array.isArray(data.products)) {
       return data.products.map(p => {
@@ -961,7 +1038,7 @@
     allTab.textContent = `Tous (${allProducts.length})`;
     allTab.onclick = () => { activeCategory = 'ALL'; activeSubcategory = 'ALL'; renderCategoryTabs(); renderSubcatChips(); renderProductCards(); };
     tabs.appendChild(allTab);
-    CATEGORIES.forEach(cat => {
+    activeCategoriesDef.forEach(cat => {
       const count = allProducts.filter(p => p.category === cat.category).length;
       const btn   = document.createElement('button');
       btn.className  = 'cat-tab' + (activeCategory === cat.category ? ' active' : '');
@@ -976,7 +1053,7 @@
     const row = document.getElementById('subcat-row');
     row.innerHTML = '';
     if (activeCategory === 'ALL') { row.style.display = 'none'; return; }
-    const catDef = CATEGORIES.find(c => c.category === activeCategory);
+    const catDef = activeCategoriesDef.find(c => c.category === activeCategory);
     if (!catDef) { row.style.display = 'none'; return; }
     const allChip = document.createElement('button');
     allChip.className  = 'subcat-chip' + (activeSubcategory === 'ALL' ? ' active' : '');

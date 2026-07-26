@@ -1,13 +1,14 @@
+:root {
+  --bbw-card-frost-bg: linear-gradient(135deg, rgba(255,255,255,0.90) 0%, rgba(253,249,244,0.95) 100%);
+}
+
 
 /* ════════════════════════════════════════════════════════════
    PRODUCT3 — BOHO COLOR STORY BLOCK
 ════════════════════════════════════════════════════════════ */
 .boho-color-story {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -116,11 +117,8 @@
    BBW LIFESTYLE BLOCK
 ════════════════════════════ */
 .bbw-lifestyle-block {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -205,11 +203,8 @@
    BBW OCCASION GUIDE
 ════════════════════════════ */
 .bbw-occasion-guide {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -294,11 +289,8 @@
    CHUNKY vs REGULAR SOLE
 ════════════════════════════ */
 .bbw-sole-compare {
-  background: linear-gradient(135deg,
-    rgba(255,255,255,0.90) 0%,
-    rgba(253,249,244,0.95) 100%
-  );
-  border: 1px solid rgba(184,146,90,0.28);
+  background: var(--bbw-card-frost-bg);
+  /* border: 1px solid rgba(184,146,90,0.28); */
   border-radius: 18px;
   overflow: hidden;
   box-shadow:
@@ -371,11 +363,8 @@
    SEASON GUIDE
 ════════════════════════════ */
 .bbw-season-guide {
-  background: linear-gradient(135deg,
-    rgba(255,255,255,0.90) 0%,
-    rgba(253,249,244,0.95) 100%
-  );
-  border: 1px solid rgba(184,146,90,0.28);
+  background: var(--bbw-card-frost-bg);
+  /* border: 1px solid rgba(184,146,90,0.28); */
   border-radius: 18px;
   overflow: hidden;
   box-shadow:
@@ -437,11 +426,8 @@
    BBW HEEL GUIDE
 ════════════════════════════ */
 .bbw-heel-guide {
-  background: linear-gradient(135deg,
-    rgba(255,255,255,0.90) 0%,
-    rgba(253,249,244,0.95) 100%
-  );
-  border: 1px solid rgba(184,146,90,0.28);
+  background: var(--bbw-card-frost-bg);
+  /* border: 1px solid rgba(184,146,90,0.28); */
   border-radius: 18px;
   overflow: hidden;
   box-shadow:
@@ -538,11 +524,8 @@
 
 .bbw-boot-style-guide {
     width: 100%;
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 20px;
     overflow: hidden;
     position: relative;
@@ -742,11 +725,8 @@
 ════════════════════════════════════════════════════════════ */
 
 .bbw-style-guide {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -855,11 +835,8 @@
    BBW VINTAGE COLOR STORY
 ════════════════════════════════════════════════════════════ */
 .bbw-vintage-color-story {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -962,11 +939,8 @@
    Pattern : bbw-vintage-color-story / bbw-occasion-guide
 ════════════════════════════════════════════════════════════ */
 .bbw-paisley-color-story {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -1086,11 +1060,8 @@
    Pattern : bbw-boot-style-guide (grille 3 colonnes)
 ════════════════════════════════════════════════════════════ */
 .bbw-wear3-block {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -1230,11 +1201,8 @@
    Bloc explicatif tissu mesh pour femmes curvy
 ════════════════════════════════════════════════════════════ */
 .bbw-mesh-story {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -1337,11 +1305,8 @@
    3 colonnes : Khaki / Black / White
 ════════════════════════════════════════════════════════════ */
 .bbw-color-mood {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -1445,11 +1410,8 @@
    BBW LINEN CARE GUIDE — P15 LinenBreeze Dress
 ════════════════════════════════════════════════════════════ */
 .bbw-linen-care {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -1571,11 +1533,8 @@
 }
 
 .ccm-block {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 20px;
     overflow: hidden;
     box-shadow:
@@ -1733,7 +1692,7 @@
 
 .lp-block {
     background: #15110E;
-    border: 1px solid rgba(184,146,90,0.45);
+    /* border: 1px solid rgba(184,146,90,0.45); */
     border-radius: 20px;
     overflow: hidden;
     position: relative;
@@ -1844,7 +1803,7 @@
     display: flex;
     align-items: stretch;
     background: #15110E;
-    border: 1px solid rgba(184,146,90,0.40);
+    /* border: 1px solid rgba(184,146,90,0.40); */
     border-radius: 16px;
     overflow: hidden;
     position: relative;
@@ -1939,7 +1898,7 @@
     align-items: stretch;
     gap: 0;
     background: #15110E;
-    border: 1px solid rgba(184,146,90,0.35);
+    /* border: 1px solid rgba(184,146,90,0.35); */
     border-radius: 18px;
     overflow: hidden;
     position: relative;
@@ -2015,7 +1974,7 @@
     position: relative;
     border-radius: 20px;
     overflow: hidden;
-    border: 1px solid rgba(184,146,90,0.30);
+    /* border: 1px solid rgba(184,146,90,0.30); */
     box-shadow:
         0 8px 32px rgba(0,0,0,0.20),
         0 0 0 1px rgba(184,146,90,0.08) inset;
@@ -2150,11 +2109,8 @@
    BBW BODY LOVE CARDS
 ════════════════════════════════════════════════════════════ */
 .bbw-body-love {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 20px;
     padding: 16px 14px;
     box-shadow:
@@ -2191,7 +2147,7 @@
 }
 .bbw-body-love__card {
     background: rgba(253,249,244,0.70);
-    border: 1px solid rgba(184,146,90,0.18);
+    /* border: 1px solid rgba(184,146,90,0.18); */
     border-radius: 14px;
     padding: 12px 10px;
     display: flex;
@@ -2246,7 +2202,7 @@
 
 .bbw-curve-confidence {
     background: #15110E;
-    border: 1px solid rgba(184,146,90,0.35);
+    /* border: 1px solid rgba(184,146,90,0.35); */
     border-radius: 20px;
     overflow: hidden;
     position: relative;
@@ -2355,7 +2311,7 @@
     max-width: 100%;
     box-sizing: border-box;
     background: #15110E;
-    border: 1px solid rgba(184,146,90,0.40);
+    /* border: 1px solid rgba(184,146,90,0.40); */
     border-radius: 14px;
     padding: 14px 18px;
     position: relative;
@@ -2424,11 +2380,8 @@
    (section "Quand porter" spécifique lingerie)
 ══════════════════════════════════════ */
 .bbw-night-guide {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -2525,11 +2478,8 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.35);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.35); */
     border-radius: 18px;
     overflow: hidden;
     position: relative;
@@ -2650,11 +2600,8 @@
     width: 100%;
     box-sizing: border-box;
     padding: 16px;
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 16px;
     box-shadow:
         0 4px 24px rgba(184,146,90,0.10),
@@ -2678,7 +2625,7 @@
     gap: 10px;
     padding: 10px 14px;
     background: rgba(253,249,244,0.70);
-    border: 1px solid rgba(184,146,90,0.18);
+    /* border: 1px solid rgba(184,146,90,0.18); */
     border-radius: 12px;
     transition: all 0.25s ease;
 }
@@ -2709,11 +2656,8 @@
    BBW ONE PIECE CONFIDENCE BLOCK — Product27 RuffleOne
 ════════════════════════════════════════════════════════════ */
 .bbw-onepiece-block {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -2827,11 +2771,8 @@
    BBW IRREGULAR TOP BLOCK — Product31 IrregularTop
 ════════════════════════════════════════════════════════════ */
 .bbw-irregular-top-block {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -2944,11 +2885,8 @@
    BBW DALMATIAN PATTERN STORY — Product33
 ════════════════════════════════════════════════════════════ */
 .bbw-dalmatian-story {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -3059,7 +2997,7 @@
     display: flex;
     align-items: stretch;
     background: #15110E;
-    border: 1px solid rgba(184,146,90,0.40);
+    /* border: 1px solid rgba(184,146,90,0.40); */
     border-radius: 16px;
     overflow: hidden;
     position: relative;
@@ -3155,7 +3093,7 @@
 
 .bbw-performance-strip {
     background: #15110E;
-    border: 1px solid rgba(184,146,90,0.40);
+    /* border: 1px solid rgba(184,146,90,0.40); */
     border-radius: 18px;
     overflow: hidden;
     position: relative;
@@ -3297,11 +3235,8 @@
    BBW SNEAKER FEATURES GRID — Product43
 ════════════════════════════════════════════════════════════ */
 .bbw-sneaker-features {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -3414,11 +3349,8 @@
    BBW FORMAL OCCASION GUIDE — Product45 PatentLoafers
 ════════════════════════════════════════════════════════════ */
 .bbw-formal-occasion-guide {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -3523,11 +3455,8 @@
    5 couleurs en grille horizontale — style casual homme
 ════════════════════════════════════════════════════════════ */
 .bbw-color-warmth {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -3623,11 +3552,8 @@
    BBW NAIL HOW-TO — Guide application ongles P52
 ════════════════════════════════════════════════════════════ */
 .bbw-nail-howto {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 20px;
     overflow: hidden;
     position: relative;
@@ -3770,7 +3696,7 @@
     display: flex;
     align-items: stretch;
     background: linear-gradient(135deg, #fffdf9 0%, #fdf6e9 50%, #fffdf9 100%);
-    border: 1px solid rgba(184,146,90,0.35);
+    /* border: 1px solid rgba(184,146,90,0.35); */
     border-radius: 16px;
     overflow: hidden;
     position: relative;
@@ -3851,11 +3777,8 @@
    BBW NAIL STYLE COMPARE — Product 53
 ════════════════════════════════════════════════════════════ */
 .bbw-nail-style-compare {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:
@@ -3974,11 +3897,8 @@
    Guide des teintes pour crayon sourcil
 ════════════════════════════════════════════════════════════ */
 .bbw-brow-shades {
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.90) 0%,
-        rgba(253,249,244,0.95) 100%
-    );
-    border: 1px solid rgba(184,146,90,0.28);
+    background: var(--bbw-card-frost-bg);
+    /* border: 1px solid rgba(184,146,90,0.28); */
     border-radius: 18px;
     overflow: hidden;
     box-shadow:

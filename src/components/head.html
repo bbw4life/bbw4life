@@ -11,6 +11,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.shopify.com">
+<link rel="preconnect" href="https://js.stripe.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 
@@ -99,7 +101,10 @@
 
 <script src="https://www.paypal.com/sdk/js?client-id=AbHxiQOr022CZ5tf7LtOUlpW-NZxUMfCxankCaZnFJNcN6msJ_eNT3HAptmJhcaQDNltCahOOzi4CoPX&currency=USD&intent=capture"></script>
 
-<script src="/checkout/checkout.js"></script>
+<!-- /checkout/checkout.js n'est plus réinjecté ici : ce script attend
+     un bouton de paiement (#pay-button) qui n'existe que sur checkout.html,
+     qui charge déjà sa propre copie explicitement. L'injecter partout
+     causait une TypeError sitewide (addEventListener sur null). -->
 <!-- /script.js n'est plus réinjecté ici : chaque page charge déjà
      sa propre copie directement dans son <head>/<body>. Le réinjecter
      causait un double chargement (623 Ko), une SyntaxError de

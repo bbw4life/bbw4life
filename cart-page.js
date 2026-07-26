@@ -386,6 +386,8 @@
     const cart = getCart();
     const qty  = cart.reduce(function (sum, i) { return sum + i.quantity; }, 0);
     setText('cp-item-count', qty + (qty === 1 ? ' item' : ' items'));
+    const bbwGlobePage = document.getElementById('bbw-globe-badge-page');
+    if (bbwGlobePage) bbwGlobePage.style.display = qty > 0 ? 'flex' : 'none';
   }
 
   /* ════════════════════════════════════════════════════
