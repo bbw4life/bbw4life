@@ -406,6 +406,71 @@
   to = "/products/product75.html"
   status = 200
 
+[[redirects]]
+  from = "/bbw4life/gilded-gala-gown-sequin-bodice-tiered-tulle"
+  to = "/products/product98.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/midnightvelvet-sheath-three-quarter-sleeve-bodycon"
+  to = "/products/product99.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/velvetwrap-jumpsuit-gold-belt-wide-leg"
+  to = "/products/product100.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/savannahprint-sundress-tribal-tiered-mini"
+  to = "/products/product101.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/classictrench-coat-belted-double-breasted"
+  to = "/products/product102.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/tiefront-sheath-cap-sleeve-wrap-detail"
+  to = "/products/product103.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/slouchsuede-boots-knee-high-block-heel"
+  to = "/products/product104.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/velvettailored-blazer-peak-lapel-jacket"
+  to = "/products/product105.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/colorblockmidi-stripe-detail-sheath-dress"
+  to = "/products/product106.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/houndstoothtweed-set-button-front-skirt-dress"
+  to = "/products/product107.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/rufflecascade-sheath-draped-side-detail"
+  to = "/products/product108.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/tweedshift-dress-cuffed-sleeve-classic"
+  to = "/products/product109.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/polkadotblouse-set-wide-leg-belted-trouser"
+  to = "/products/product110.html"
+  status = 200
+
 # ─────────────────────────────────────────────
 # BLOG ARTICLES — Pretty URLs
 # ─────────────────────────────────────────────

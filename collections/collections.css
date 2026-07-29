@@ -39,16 +39,16 @@
 }
 
 /* ================================================================
-   COL-WAVE — decorative seam divider ("Gilded Scallop Trim")
-   Distinct from .os-wave (page/pages.css) and .ink-ribbon
-   (blog/blog.css): a real full-width strip with its own height,
-   built from a tiled scallop+pearl SVG pattern with a single
-   center "clasp" accent and a slow one-shot sheen sweep.
+   COL-WAVE — decorative seam divider ("Gilded Sea-Crest")
+   A real smooth sea-wave silhouette (solid-fill bezier crest),
+   matching the .bbw-flourish treatment used on
+   bbw-features-products.html — replaces the old tiled scallop
+   pattern, which read as a dotted chain rather than a wave.
 ================================================================ */
 .col-wave {
   position: relative;
   width: 100%;
-  height: 34px;
+  height: 64px;
   overflow: hidden;
   line-height: 0;
   pointer-events: none;
@@ -57,20 +57,30 @@
 .col-wave--ink  { background: var(--col-dark); }
 .col-wave--dawn { background: linear-gradient(180deg, var(--col-dark) 0%, var(--col-bg) 82%); }
 
+.col-wave__svg { display: block; width: 100%; height: 100%; }
+
+/* --ink: crest flows from the light hero above into the dark bar —
+   ivory/cream fill, not gold, so it reads as a seam, not a gilded bar. */
+.col-wave--ink .col-wave__crest { fill: var(--col-bg); }
+.col-wave--ink .col-wave__crest--soft { fill: var(--col-bg); opacity: 0.30; }
+
+/* --dawn: crest flows from the dark bar into the light section below —
+   slim double gold thread on dark, deliberately distinct from --ink. */
+.col-wave--dawn .col-wave__crest { fill: none; stroke: var(--col-gold); stroke-width: 1.5; opacity: 0.9; }
+.col-wave--dawn .col-wave__crest--soft { fill: none; stroke: var(--col-gold-light); stroke-width: 1; opacity: 0.5; }
+
 /* ================================================================
    BBW-FLOURISH — "BBW Featured" page-exclusive seam divider.
    Distinct from .col-wave (tiled scallop+pearl pattern, used on
    every other collection page), .os-wave (bezier crest + diamond
    medallion) and .ink-ribbon (floating notched satin band): a
-   single asymmetric hand-drawn gold ink stroke with an off-center
-   sparkle accent, revealed once via a one-time draw-in animation
-   (never loops, unlike .col-wave's repeating sheen or .os-wave's
-   continuous drift) — used ONLY on bbw-features-products.html.
+   single smooth, solid-fill gold wave crest — a real sea-wave
+   silhouette, not a stroke — used ONLY on bbw-features-products.html.
 ================================================================ */
 .bbw-flourish {
   position: relative;
   width: 100%;
-  height: 46px;
+  height: 64px;
   overflow: hidden;
   line-height: 0;
   pointer-events: none;
@@ -78,93 +88,15 @@
 
 .bbw-flourish--dawn { background: linear-gradient(180deg, var(--col-dark) 0%, var(--col-bg) 82%); }
 .bbw-flourish--dusk { background: linear-gradient(180deg, var(--col-bg) 0%, var(--col-dark) 82%); }
+.bbw-flourish--light { background: var(--bbw-white); }
 
 .bbw-flourish__svg { display: block; width: 100%; height: 100%; }
 
-.bbw-flourish__stroke {
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-dasharray: 1500;
-  stroke-dashoffset: 1500;
-  animation: bbwFlourishDraw 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
+.bbw-flourish__wave { fill: var(--col-dark); }
+.bbw-flourish__wave--soft { fill: var(--col-dark); opacity: 0.55; }
 
-.bbw-flourish__spark {
-  fill: var(--col-gold-light);
-  opacity: 0;
-  transform-origin: center;
-  animation: bbwFlourishSpark 0.6s ease 1.9s forwards;
-}
-
-@keyframes bbwFlourishDraw {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes bbwFlourishSpark {
-  0%   { opacity: 0; transform: scale(0); }
-  60%  { opacity: 1; transform: scale(1.35); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bbw-flourish__stroke { animation: none; stroke-dashoffset: 0; }
-  .bbw-flourish__spark  { animation: none; opacity: 1; transform: scale(1); }
-}
-
-.col-wave__row { display: block; width: 100%; height: 100%; }
-
-.col-wave__arc    { stroke: var(--col-gold); stroke-width: 1.1; opacity: 0.75; }
-.col-wave__arc--b { stroke: var(--col-gold-light); opacity: 0.55; }
-.col-wave__pearl     { fill: var(--col-gold-light); }
-.col-wave__pearl--sm { fill: var(--col-gold); opacity: 0.8; }
-
-.col-wave::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg, transparent 0%, transparent 42%, rgba(232,188,106,0.35) 50%, transparent 58%, transparent 100%);
-  background-size: 260% 100%;
-  animation: colWaveSheen 9s ease-in-out infinite;
-}
-
-@keyframes colWaveSheen {
-  0%      { background-position: 130% 0; }
-  40%,100%{ background-position: -30% 0; }
-}
-
-.col-wave__clasp {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 14px;
-  height: 14px;
-}
-.col-wave__clasp-ring {
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--bbw-gold-border-hi);
-  border-radius: 50%;
-}
-.col-wave__clasp-pearl {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--bbw-gold-light), var(--bbw-gold));
-  box-shadow: 0 0 6px rgba(184,146,90,0.5);
-}
-
-@media (max-width: 900px) { .col-wave { height: 26px; } }
-@media (max-width: 600px) {
-  .col-wave { height: 20px; }
-  .col-wave__clasp { width: 11px; height: 11px; }
-}
-@media (prefers-reduced-motion: reduce) { .col-wave::after { animation: none; } }
+@media (max-width: 900px) { .col-wave { height: 44px; } }
+@media (max-width: 600px) { .col-wave { height: 34px; } }
 
 /* ================================================================
    SOCIAL PROOF BAR
@@ -2970,7 +2902,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: var(--col-dark);
+  background: linear-gradient(180deg, var(--bbw-white) 0%, var(--col-bg) 100%);
   margin-top: 0;
 }
 
@@ -2992,7 +2924,7 @@
   inset: 0;
   background:
     radial-gradient(ellipse 70% 60% at 20% 50%, var(--bbw-gold-glow) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(110,36,57,0.14) 0%, transparent 70%);
+    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(110,36,57,0.10) 0%, transparent 70%);
 }
 
 .ac-hero__particles { position: absolute; inset: 0; overflow: hidden; display: block; opacity: 0.5; }
@@ -3044,7 +2976,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--col-gold-light);
+  color: #8a6a3c;
   margin-bottom: 18px;
   opacity: 0;
   animation: acFadeUp 0.7s 0.2s ease both;
@@ -3061,7 +2993,7 @@
   font-family: var(--font-display);
   font-size: clamp(40px, 6vw, 72px);
   font-weight: 600;
-  color: var(--bbw-white);
+  color: var(--col-text);
   line-height: 1.08;
   margin: 0 0 18px;
   letter-spacing: -0.01em;
@@ -3071,13 +3003,13 @@
 
 .ac-hero__title em {
   font-style: italic;
-  color: var(--col-gold);
+  color: var(--col-accent);
 }
 
 .ac-hero__subtitle {
   font-family: var(--font-body);
   font-size: clamp(14px, 2vw, 18px);
-  color: rgba(255,255,255,0.70);
+  color: var(--col-text-2);
   margin: 0 0 28px;
   line-height: 1.6;
   opacity: 0;
@@ -3099,19 +3031,19 @@
   align-items: center;
   gap: 6px;
   padding: 7px 16px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.75);
   border: 1px solid var(--bbw-gold-border);
   border-radius: 100px;
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 500;
-  color: rgba(255,255,255,0.80);
+  color: var(--col-text);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: background 0.25s, border-color 0.25s, color 0.25s;
 }
 
-.ac-hero__badge i { color: var(--col-gold-light); font-size: 12px; }
+.ac-hero__badge i { color: #8a6a3c; font-size: 12px; }
 
 .ac-hero__badge:hover {
   background: var(--bbw-gold-pale-mid);
@@ -3475,7 +3407,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: var(--col-dark);
+  background: linear-gradient(180deg, var(--bbw-white) 0%, var(--col-bg) 100%);
 }
 
 .bbw-hero-orig__bg {
@@ -3490,7 +3422,7 @@
   inset: 0;
   background:
     radial-gradient(ellipse 70% 60% at 20% 50%, var(--bbw-gold-glow) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(110,36,57,0.16) 0%, transparent 70%);
+    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(110,36,57,0.10) 0%, transparent 70%);
 }
 
 .bbw-hero-orig__particles {
@@ -3549,7 +3481,7 @@
   font-family: var(--font-display);
   font-size: clamp(42px, 7vw, 78px);
   font-weight: 600;
-  color: var(--bbw-white);
+  color: var(--col-text);
   line-height: 1.06;
   margin: 0 0 24px;
   letter-spacing: -0.01em;
@@ -3559,13 +3491,13 @@
 
 .bbw-hero-orig__title em {
   font-style: italic;
-  color: var(--col-gold);
+  color: var(--col-accent);
 }
 
 .bbw-hero-orig__sub {
   font-family: var(--font-body);
   font-size: clamp(14px, 2vw, 17px);
-  color: rgba(255,255,255,0.72);
+  color: var(--col-text-2);
   margin: 0 0 30px;
   line-height: 1.7;
   max-width: 620px;
@@ -3575,7 +3507,7 @@
   animation: bbwFadeUp 0.7s 0.5s ease both;
 }
 
-.bbw-hero-orig__sub strong { color: var(--col-gold-light); }
+.bbw-hero-orig__sub strong { color: var(--col-accent); }
 
 .bbw-hero-orig__badges {
   display: flex;
@@ -3605,17 +3537,17 @@
   font-weight: 600;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.60);
+  color: var(--col-text-2);
   transition: color 0.25s;
 }
 
 .bbw-hero-orig__badge:first-child { border-left: none; padding-left: 0; }
 
-.bbw-hero-orig__badge i { color: var(--col-gold-light); font-size: 11px; }
+.bbw-hero-orig__badge i { color: #8a6a3c; font-size: 11px; }
 
 .bbw-hero-orig__badge:hover {
   background: none;
-  color: var(--bbw-white);
+  color: var(--col-text);
 }
 
 @keyframes bbwFadeUp {
@@ -4690,10 +4622,10 @@
 
 
 .bbw-founder-banner {
-  background: var(--col-dark);
+  background: linear-gradient(180deg, var(--bbw-white) 0%, var(--col-bg) 100%);
   border-top: 1px solid var(--bbw-gold-border);
   border-bottom: 1px solid var(--bbw-gold-border);
-  padding: 20px 10px;
+  padding: 14px 10px;
 }
 
 .bbw-founder-banner__inner {
@@ -4701,7 +4633,7 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 28px;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -4712,8 +4644,8 @@
 }
 
 .bbw-founder-banner__img {
-  width: 100px;
-  height: 100px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--col-gold);
@@ -4732,7 +4664,7 @@
   font-size: clamp(20px, 3vw, 28px);
   font-style: italic;
   font-weight: 500;
-  color: var(--bbw-white);
+  color: var(--col-accent);
   line-height: 1.45;
   margin: 0 0 12px;
   padding: 0;
@@ -4746,7 +4678,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--col-gold);
+  color: #8a6a3c;
   margin-bottom: 10px;
   font-style: normal;
 }
@@ -4754,16 +4686,16 @@
 .bbw-founder-banner__sub {
   font-family: var(--font-body);
   font-size: 14px;
-  color: rgba(255,255,255,0.55);
+  color: var(--col-text-2);
   margin: 0;
   line-height: 1.6;
 }
 
 @media (max-width: 768px) {
-  .bbw-founder-banner { padding: 32px 16px; }
-  .bbw-founder-banner__inner { flex-direction: column; text-align: center; gap: 20px; }
+  .bbw-founder-banner { padding: 20px 16px; }
+  .bbw-founder-banner__inner { flex-direction: column; text-align: center; gap: 16px; }
   .bbw-founder-banner__content { text-align: center; }
-  .bbw-founder-banner__img { width: 80px; height: 80px; }
+  .bbw-founder-banner__img { width: 64px; height: 64px; }
 }
 
 /* ---- BBW Originals page — founder moment gets the strongest brand treatment on the site ---- */

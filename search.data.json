@@ -129,6 +129,41 @@
     "icon": "fas fa-fire"
   },
   {
+    "title": "Shoes & Sandals Collection",
+    "url": "/collections/shoes-sandals.html",
+    "keywords": [
+      "shoes", "sandals", "heels", "sneakers", "boots", "loafers",
+      "women shoes", "men shoes", "footwear", "chaussures", "sandales",
+      "talons", "bottes", "mocassins", "baskets", "curvy shoes",
+      "plus size shoes", "step into your power"
+    ],
+    "type": "page",
+    "icon": "fas fa-shoe-prints"
+  },
+  {
+    "title": "New Arrivals",
+    "url": "/collections/bbw4life-new-arrivals.html",
+    "keywords": [
+      "new arrivals", "just dropped", "fresh styles", "latest products",
+      "nouveautés", "newest", "this week", "new this week", "recently added",
+      "fresh drops", "latest collection", "just in"
+    ],
+    "type": "page",
+    "icon": "fas fa-star"
+  },
+  {
+    "title": "Curvy Bags Collection",
+    "url": "/collections/curvy-bags.html",
+    "keywords": [
+      "bags", "handbags", "totes", "shoulder bags", "crossbody bags",
+      "clutch", "purses", "sac", "sacs à main", "totes", "pochette",
+      "curvy accessories", "carry your confidence", "woven bag",
+      "chain bag", "mini bag"
+    ],
+    "type": "page",
+    "icon": "fas fa-bag-shopping"
+  },
+  {
     "title": "Our Story",
     "url": "/page/our-story.html",
     "keywords": [
@@ -1141,5 +1176,250 @@
     ],
     "type": "product",
     "icon": "fas fa-tag"
-  }
+  },
+  {
+  "title": "PatchLace Flats — Leisure Patchwork Shoelace Sneakers",
+  "url": "/products/product76.html",
+  "keywords": ["patchwork flats", "leisure sneakers", "shoelace flats", "light pink flats", "patchlace", "breathable flats", "curvy shoes", "chaussures plates", "sneakers légères", "product76"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "WarmStep Boots — Padded Fur-Lined Winter Sneakers",
+  "url": "/products/product77.html",
+  "keywords": ["padded boots", "fur lined", "winter sneakers", "warmstep", "black boots", "khaki boots", "cozy winter shoes", "bottes fourrées", "bottes hiver", "product77"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "PlatformWalk Sneakers — High Quality Plus Size Vulcanized Shoes",
+  "url": "/products/product78.html",
+  "keywords": ["platform sneakers", "vulcanized shoes", "plus size sneakers", "platformwalk", "black red", "grey moon", "dusty pink", "grey purple", "baskets plateforme", "product78"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "StripeWrap Bodycon — Short Sleeve Bandage Dress",
+  "url": "/products/product79.html",
+  "keywords": ["striped bodycon", "bandage dress", "short sleeve dress", "stripewrap", "black dress", "green dress", "yellow dress", "curvy bodycon", "robe bandage", "robe rayée", "product79"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "FlareFit Dress — Spring Flared Sleeve Hip-Hugging Dress",
+  "url": "/products/product80.html",
+  "keywords": ["flared sleeve dress", "hip hugging dress", "spring dress", "flarefit", "green dress", "pink dress", "rose pink dress", "feminine dress", "robe manches évasées", "product80"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "OfficeStripe Shirt Dress — Patchwork Streetwear Midi",
+  "url": "/products/product81.html",
+  "keywords": ["shirt dress", "striped patchwork", "streetwear midi", "officestripe", "brown dress", "office dress", "casual midi", "robe chemise", "robe streetwear", "product81"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "DrawShirt Dress — Drawstring Shirt Collar Streetwear",
+  "url": "/products/product82.html",
+  "keywords": ["drawstring dress", "shirt collar dress", "streetwear dress", "drawshirt", "black dress", "blue dress", "gray dress", "purple dress", "red dress", "royal blue", "champagne dress", "robe cordon", "product82"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "AutumnVneck Maxi — High Waist Family Matching Dress",
+  "url": "/products/product83.html",
+  "keywords": ["v neck maxi", "family matching dress", "high waist maxi", "autumnvneck", "wine red", "black dress", "brown dress", "blue dress", "yellow dress", "robe maxi automne", "product83"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "BeltedBanquet Dress — Long Sleeve Printed High Waist",
+  "url": "/products/product84.html",
+  "keywords": ["banquet dress", "belted dress", "printed high waist", "beltedbanquet", "red dress", "black dress", "evening dress", "robe de soirée ceinturée", "product84"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "WovenTassel Bag — Hand-Crochet Shoulder Bag",
+  "url": "/products/product85.html",
+  "keywords": ["crochet bag", "tassel bag", "shoulder bag", "woventassel", "boho bag", "colorblock bag", "sac crocheté", "sac à pompons", "product85"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "KoreanTrend Bag — Small Hand-Held Messenger Bag",
+  "url": "/products/product86.html",
+  "keywords": ["korean bag", "messenger bag", "small handbag", "koreantrend", "white bag", "red bag", "black bag", "brown bag", "khaki bag", "sac coréen", "product86"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "BlockSquare Bag — Color-Blocked Hand-Held Mini Bag",
+  "url": "/products/product87.html",
+  "keywords": ["color block bag", "mini bag", "hand held bag", "blocksquare", "black bag", "white bag", "pink bag", "sac carré", "sac mini", "product87"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "RattanRing Tote — Hand-Knitted Beach Bag",
+  "url": "/products/product88.html",
+  "keywords": ["rattan bag", "beach tote", "knitted bag", "rattanring", "beige bag", "camel bag", "sac de plage", "sac tricoté", "product88"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "CommuterCanvas Tote — Multi-Pocket Zipper Bag",
+  "url": "/products/product89.html",
+  "keywords": ["canvas tote", "commuter bag", "multi pocket bag", "commutercanvas", "creamy white bag", "black bag", "khaki bag", "sac toile", "sac pratique", "product89"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "EmbroidTote Bag — Leather Top-Handle Crossbody",
+  "url": "/products/product90.html",
+  "keywords": ["leather tote", "crossbody bag", "top handle bag", "embroidtote", "white bag", "wine red bag", "navy bag", "black bag", "pink bag", "light blue bag", "rose red bag", "sac cuir", "product90"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "TexturedMini Bag — Simple Japanese-Style Hand Bag",
+  "url": "/products/product91.html",
+  "keywords": ["mini bag", "japanese style bag", "textured bag", "texturedmini", "green bag", "white bag", "black bag", "sac japonais", "sac minimaliste", "product91"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "RetroNiche Bag — Large Capacity Shoulder Messenger",
+  "url": "/products/product92.html",
+  "keywords": ["retro bag", "large capacity bag", "shoulder messenger", "retroniche", "brown bag", "black brown bag", "black bag", "sac rétro", "sac spacieux", "product92"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "LeopardUnderarm Bag — Retro Drawstring Crossbody",
+  "url": "/products/product93.html",
+  "keywords": ["leopard bag", "underarm bag", "crossbody bag", "leopardunderarm", "houndstooth bag", "leopard print bag", "sac léopard", "sac rétro", "product93"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "MetalChain Clutch — Trendy Evening Party Bag",
+  "url": "/products/product94.html",
+  "keywords": ["clutch bag", "chain bag", "evening party bag", "metalchain", "golden bag", "silver bag", "gun color bag", "rose gold bag", "pochette soirée", "product94"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "PatternTote Bag — Earring-Decorated Shoulder Tote",
+  "url": "/products/product95.html",
+  "keywords": ["pattern tote", "decorated bag", "shoulder tote", "patterntote", "white bag", "red bag", "blue bag", "sac motif", "sac à breloque", "product95"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "PleatedTwo-Piece — Solid Color Skirt Set",
+  "url": "/products/product96.html",
+  "keywords": ["pleated skirt set", "two piece set", "solid color set", "pleatedtwopiece", "white set", "pink set", "yellow set", "red set", "black set", "blue set", "light blue set", "ensemble jupe plissée", "product96"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "OnePiece Swim — Plus Size Solid Swimsuit",
+  "url": "/products/product97.html",
+  "keywords": ["one piece swimsuit", "plus size swimsuit", "solid swimsuit", "onepieceswim", "pink swimsuit", "black swimsuit", "red swimsuit", "maillot une pièce", "maillot grande taille", "product97"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "Gilded Gala Gown — Sequin Bodice Tiered Tulle Dress",
+  "url": "/products/product98.html",
+  "keywords": ["gala gown", "sequin dress", "tulle dress", "gilded gala", "caramel black gown", "red carpet dress", "evening gown", "robe de gala", "robe paillettes", "product98"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "MidnightVelvet Sheath — Three-Quarter Sleeve Bodycon",
+  "url": "/products/product99.html",
+  "keywords": ["velvet dress", "sheath dress", "bodycon dress", "midnightvelvet", "navy velvet", "holiday dress", "robe velours", "robe fourreau", "product99"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "VelvetWrap Jumpsuit — Gold Belt Wide-Leg",
+  "url": "/products/product100.html",
+  "keywords": ["velvet jumpsuit", "wrap jumpsuit", "wide leg jumpsuit", "velvetwrap", "navy velvet", "gold belt", "cocktail jumpsuit", "combinaison velours", "product100"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "SavannahPrint Sundress — Tribal Tiered Mini",
+  "url": "/products/product101.html",
+  "keywords": ["tribal print dress", "sundress", "tiered mini dress", "savannahprint", "multicolor dress", "beach dress", "vacation dress", "robe tribale", "robe d'été", "product101"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "ClassicTrench Coat — Belted Double-Breasted",
+  "url": "/products/product102.html",
+  "keywords": ["trench coat", "belted coat", "double breasted coat", "classictrench", "camel coat", "outerwear", "office coat", "trench manteau", "manteau ceinturé", "product102"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "TieFront Sheath — Cap Sleeve Wrap Detail",
+  "url": "/products/product103.html",
+  "keywords": ["tie front dress", "sheath dress", "cap sleeve dress", "tiefront", "lavender dress", "wrap dress", "office dress", "robe nœud", "robe fourreau", "product103"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "SlouchSuede Boots — Knee-High Block Heel",
+  "url": "/products/product104.html",
+  "keywords": ["suede boots", "knee high boots", "block heel boots", "slouchsuede", "camel suede", "pointed toe boots", "bottes suédées", "bottes hauteur genou", "product104"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "VelvetTailored Blazer — Peak Lapel Jacket",
+  "url": "/products/product105.html",
+  "keywords": ["velvet blazer", "tailored jacket", "peak lapel", "velvettailored", "black velvet", "date night jacket", "blazer velours", "veste tailleur", "product105"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "ColorblockMidi — Stripe Detail Sheath Dress",
+  "url": "/products/product106.html",
+  "keywords": ["colorblock dress", "stripe detail dress", "sheath midi", "colorblockmidi", "rose pink dress", "slimming dress", "robe colorblock", "robe midi", "product106"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "HoundstoothTweed Set — Button-Front Skirt Dress",
+  "url": "/products/product107.html",
+  "keywords": ["tweed set", "houndstooth set", "skirt suit dress", "houndstoothtweed", "wine tweed", "parisian style", "tailleur tweed", "ensemble tweed", "product107"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "RuffleCascade Sheath — Draped Side Detail",
+  "url": "/products/product108.html",
+  "keywords": ["ruffle dress", "cascade ruffle", "draped dress", "rufflecascade", "terracotta dress", "cap sleeve dress", "robe à volants", "robe drapée", "product108"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "TweedShift Dress — Cuffed Sleeve Classic",
+  "url": "/products/product109.html",
+  "keywords": ["tweed dress", "shift dress", "cuffed sleeve dress", "tweedshift", "blush tweed", "classic dress", "robe tweed", "robe droite", "product109"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "PolkaDotBlouse Set — Wide-Leg Belted Trouser",
+  "url": "/products/product110.html",
+  "keywords": ["polka dot blouse", "belted trouser set", "wide leg pants set", "polkadotblouse", "navy polka dot", "power look", "ensemble à pois", "product110"],
+  "type": "product",
+  "icon": "fas fa-tag"
+}
 ]

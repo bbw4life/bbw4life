@@ -1692,6 +1692,7 @@ body {
 .bc-item.bc-active a {
   opacity: 1;
   font-weight: 700;
+  font-size: 14.5px;
   pointer-events: none;
   background: linear-gradient(120deg, #c9963e 0%, #e8b84b 45%, #c9963e 100%);
   background-size: 200% auto;
@@ -1735,6 +1736,7 @@ main#main-content {
   main#main-content { padding-top: 0; }
   .bc-wrapper { padding: 6px 14px; }
   .bc-item { font-size: 11.5px; }
+  .bc-item.bc-active a { font-size: 12.5px; }
   .bc-item + .bc-item::before {
     width: 4px;
     height: 4px;

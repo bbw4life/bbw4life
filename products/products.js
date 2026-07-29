@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const colorContainer = document.querySelector('.color-swatches');
       if (colorContainer && product.colors && Array.isArray(product.colors)) {
         colorContainer.innerHTML = '';
+        const SWATCH_VISIBLE_LIMIT = 5;
         product.colors.forEach((col, index) => {
           const sw = document.createElement('div');
           sw.className = 'swatch';
@@ -39,8 +40,23 @@ document.addEventListener('DOMContentLoaded', () => {
           sw.dataset.image = col.image;
           sw.dataset.variantId = col.variant_id;
           if (index === 0) sw.classList.add('active');
+          if (index >= SWATCH_VISIBLE_LIMIT) sw.classList.add('swatch-extra');
           colorContainer.appendChild(sw);
         });
+
+        if (product.colors.length > SWATCH_VISIBLE_LIMIT) {
+          const toggleBtn = document.createElement('button');
+          toggleBtn.type = 'button';
+          toggleBtn.className = 'swatch-toggle';
+          toggleBtn.setAttribute('aria-label', 'Show more colors');
+          toggleBtn.textContent = '+';
+          toggleBtn.addEventListener('click', () => {
+            const expanded = colorContainer.classList.toggle('swatches-expanded');
+            toggleBtn.textContent = expanded ? '−' : '+';
+            toggleBtn.setAttribute('aria-label', expanded ? 'Show fewer colors' : 'Show more colors');
+          });
+          colorContainer.appendChild(toggleBtn);
+        }
 
         if (product.colors[0] && product.colors[0].image) {
           updateMainImageForColor(product.colors[0].image);

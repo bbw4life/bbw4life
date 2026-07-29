@@ -1,0 +1,552 @@
+[2026-07-28T13:33:39.054Z] product76-1 | prompt: Luxury fashion product photo, square format, clean white studio background. A very plus size Black woman, elegant and well-dressed, wearing a nude/blush pink loafer with a perforated scalloped edge, snake-print (python) black and white upper, adorned with a pearl and rhinestone brooch button, thick caramel sole with a transparent heel insert. Framing on the lower leg and foot to highlight the shoe, elegant outfit (chic pants or dress), optional delicate ankle jewelry. Professional studio lighting, soft shadow cast on the floor, high-end luxurious rendering, commercial premium e-commerce sharpness. | referenceImage: reference-images/product76.png | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-1.png?v=1785245618
+[2026-07-28T13:34:54.548Z] product76-2 | prompt: Luxury fashion product photo, square format, clean white studio background. A very plus size white woman, beautiful and elegantly dressed, wearing a nude/blush pink loafer with a perforated scalloped edge, snake-print (python) black and white upper, adorned with a pearl and rhinestone brooch button, thick caramel sole with a transparent heel insert. Framing on the lower leg and foot to highlight the shoe, elegant and refined outfit, sophisticated style. Professional studio lighting, soft shadow cast on the floor, high-end luxurious rendering, commercial premium e-commerce sharpness. | referenceImage: reference-images/product76.png | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-2.png?v=1785245694
+[2026-07-28T14:42:37.869Z] product76-3 | prompt: The EXACT SAME shoes as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a chic sophisticated outfit, wearing the EXACT SAME shoes shown in the reference image.
+Pose: Seated pose on an invisible stool, legs elegantly crossed at the knee, showcasing the shoes clearly, warm confident smile toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | ERREUR: OpenAI API error (400): {
+  "error": {
+    "message": "Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 4e2afbae-baf3-49f8-8bc4-f935bed2cd06. safety_violations=[sexual].",
+    "type": "image_generation_user_error",
+    "param": null,
+    "code": "moderation_blocked",
+    "moderation_details": {
+      "moderation_stage": "output",
+      "categories": [
+        "sexual"
+      ]
+    }
+  }
+}
+[2026-07-28T14:43:42.913Z] product76-4 | prompt: The EXACT SAME shoes as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a stylish tailored outfit, wearing the EXACT SAME shoes shown in the reference image.
+Pose: Full body shot captured mid-stride walking confidently toward the camera, showcasing the shoes clearly with each step, confident direct gaze.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | usage: {"input_tokens":1731,"input_tokens_details":{"image_tokens":1521,"text_tokens":210},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3789} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-4.png?v=1785249821
+[2026-07-28T14:44:48.214Z] product76-5 | prompt: The EXACT SAME shoes as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a chic casual outfit, wearing the EXACT SAME shoes shown in the reference image.
+Pose: Standing pose leaning casually against an invisible wall, one foot crossed in front of the other, showcasing the shoes clearly, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | usage: {"input_tokens":1732,"input_tokens_details":{"image_tokens":1521,"text_tokens":211},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3790} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-5.png?v=1785249888
+[2026-07-28T14:45:49.158Z] product76-6 | prompt: The EXACT SAME shoes as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a stylish outfit, wearing the EXACT SAME shoes shown in the reference image.
+Pose: Close-up shot of her leg and foot lifted slightly on tiptoe, showcasing the shoe's profile and details clearly.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow beneath the foot.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | usage: {"input_tokens":1728,"input_tokens_details":{"image_tokens":1521,"text_tokens":207},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3786} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-6.png?v=1785249949
+[2026-07-28T14:46:48.890Z] product76-7 | prompt: The EXACT SAME shoes as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a sophisticated outfit, wearing the EXACT SAME shoes shown in the reference image.
+Pose: Seated pose on an invisible bench, legs extended forward toward the camera, showcasing the shoes clearly, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | ERREUR: OpenAI API error (400): {
+  "error": {
+    "message": "Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 27adff09-dc60-45eb-9687-78959fbde94e. safety_violations=[sexual].",
+    "type": "image_generation_user_error",
+    "param": null,
+    "code": "moderation_blocked",
+    "moderation_details": {
+      "moderation_stage": "output",
+      "categories": [
+        "sexual"
+      ]
+    }
+  }
+}
+[2026-07-28T14:47:45.275Z] product76-8 | prompt: The EXACT SAME shoes as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a fashionable outfit, wearing the EXACT SAME shoes shown in the reference image.
+Pose: Standing pose with one knee slightly bent forward, weight on the back leg, showcasing the shoes clearly, confident playful smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | usage: {"input_tokens":1729,"input_tokens_details":{"image_tokens":1521,"text_tokens":208},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3787} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-8.png?v=1785250065
+[2026-07-28T14:48:56.486Z] product76-9 | prompt: The EXACT SAME shoes as shown in the reference image, both shoes together as a pair. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference. No human model or foot — the shoes float and levitate dramatically in mid-air as if weightless, in a dynamic 3D advertisement-style pose, one shoe slightly tilted above the other, as if suspended in motion.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the shoes appear to hover in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dramatic highlights on the leather and snakeskin texture, a repeated reflective shadow echoing beneath the shoes to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | usage: {"input_tokens":1744,"input_tokens_details":{"image_tokens":1521,"text_tokens":223},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3802} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-9.png?v=1785250136
+[2026-07-28T14:50:01.283Z] product76-10 | prompt: The EXACT SAME shoes as shown in the reference image, both shoes together as a pair. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference. No human model or foot — the shoes float and levitate in mid-air at a dynamic twisting angle, as if gently spinning while weightless, in a striking 3D advertisement-style composition.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the shoes appear to hover and rotate in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dynamic highlights emphasizing the texture and details, a repeated reflective shadow echoing beneath the shoes to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | usage: {"input_tokens":1738,"input_tokens_details":{"image_tokens":1521,"text_tokens":217},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3796} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-10.png?v=1785250201
+[2026-07-28T14:53:39.711Z] product76-3 | prompt: The EXACT SAME shoes as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, curvy black woman, elegant and confident, professionally dressed in a chic sophisticated outfit (tailored trousers), wearing the EXACT SAME shoes shown in the reference image.
+Pose: Standing three-quarter pose, one foot stepped slightly forward to showcase the shoe from the side, hands relaxed, warm confident smile toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | usage: {"input_tokens":1730,"input_tokens_details":{"image_tokens":1521,"text_tokens":209},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3788} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-3.png?v=1785250419
+[2026-07-28T14:55:03.283Z] product76-11 | prompt: The EXACT SAME shoes as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — shape, pearl buckle detail, snakeskin panel, brogue perforations, and sole must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, curvy white woman, elegant and confident, professionally dressed in a sophisticated tailored outfit, wearing the EXACT SAME shoes shown in the reference image.
+Pose: Standing pose, weight shifted onto one leg, the other foot placed slightly forward and to the side to clearly showcase the shoe, relaxed confident smile toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product76.png | usage: {"input_tokens":1730,"input_tokens_details":{"image_tokens":1521,"text_tokens":209},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3788} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-11.png?v=1785250503
+[2026-07-28T19:25:32.335Z] product77-1 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a cozy chic autumn outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Seated pose on invisible steps, legs angled to showcase both boots clearly, one hand resting on her knee, warm confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1732,"input_tokens_details":{"image_tokens":1521,"text_tokens":211},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3790} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-1.png?v=1785266732
+[2026-07-28T19:26:25.106Z] product77-2 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a stylish winter outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Full body shot captured mid-stride walking confidently toward the camera, showcasing the boots clearly with each step, confident direct gaze.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1731,"input_tokens_details":{"image_tokens":1521,"text_tokens":210},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3789} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-2.png?v=1785266785
+[2026-07-28T19:27:17.058Z] product77-3 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a chic casual outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Crouching low pose, one hand resting near the boots, showcasing the details clearly, playful confident gaze up toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow beneath her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | ERREUR: OpenAI API error (400): {
+  "error": {
+    "message": "Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID bd7c98d6-d8f4-4aa3-ace6-47065d9367d7. safety_violations=[sexual].",
+    "type": "image_generation_user_error",
+    "param": null,
+    "code": "moderation_blocked",
+    "moderation_details": {
+      "moderation_stage": "output",
+      "categories": [
+        "sexual"
+      ]
+    }
+  }
+}
+[2026-07-28T19:28:09.964Z] product77-4 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a stylish outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Standing pose leaning casually against an invisible wall, ankles crossed, showcasing the boots clearly, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1725,"input_tokens_details":{"image_tokens":1521,"text_tokens":204},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3783} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-4.png?v=1785266890
+[2026-07-28T19:29:12.118Z] product77-5 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a fashionable outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Close-up shot of her legs and feet, one foot lifted slightly on tiptoe, showcasing the boot's profile and details clearly.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow beneath the foot.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1731,"input_tokens_details":{"image_tokens":1521,"text_tokens":210},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3789} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-5.png?v=1785266952
+[2026-07-28T19:30:02.900Z] product77-6 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a sophisticated outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Seated pose on an invisible bench, legs extended forward toward the camera, showcasing the boots clearly, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | ERREUR: OpenAI API error (400): {
+  "error": {
+    "message": "Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 4bcd3c10-360b-4f9a-beca-d6f8e3d7f282. safety_violations=[sexual].",
+    "type": "image_generation_user_error",
+    "param": null,
+    "code": "moderation_blocked",
+    "moderation_details": {
+      "moderation_stage": "output",
+      "categories": [
+        "sexual"
+      ]
+    }
+  }
+}
+[2026-07-28T19:30:56.845Z] product77-7 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a chic outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Standing pose with one knee slightly bent forward, weight on the back leg, showcasing the boots clearly, confident playful smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1729,"input_tokens_details":{"image_tokens":1521,"text_tokens":208},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3787} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-7.png?v=1785267057
+[2026-07-28T19:31:49.771Z] product77-8 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a fashionable winter outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Full body back view captured mid-step walking away, head turned back over her shoulder with a warm smile, showcasing the boots from behind.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1733,"input_tokens_details":{"image_tokens":1521,"text_tokens":212},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3791} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-8.png?v=1785267110
+[2026-07-28T19:32:48.327Z] product77-9 | prompt: The EXACT SAME boots as shown in the reference image, both boots together as a pair. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference. No human model or foot — the boots float and levitate dramatically in mid-air as if weightless, in a dynamic 3D advertisement-style pose, one boot slightly tilted above the other, as if suspended in motion.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the boots appear to hover in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dramatic highlights on the leather and fur texture, a repeated reflective shadow echoing beneath the boots to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1743,"input_tokens_details":{"image_tokens":1521,"text_tokens":222},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3801} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-9.png?v=1785267168
+[2026-07-28T19:33:53.055Z] product77-10 | prompt: The EXACT SAME boots as shown in the reference image, both boots together as a pair. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference. No human model or foot — the boots float and levitate in mid-air at a dynamic twisting angle, as if gently spinning while weightless, in a striking 3D advertisement-style composition.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the boots appear to hover and rotate in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dynamic highlights emphasizing the texture and details, a repeated reflective shadow echoing beneath the boots to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1738,"input_tokens_details":{"image_tokens":1521,"text_tokens":217},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3796} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-10.png?v=1785267233
+[2026-07-28T19:35:20.326Z] product77-3 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, curvy Asian woman, elegant and confident, dressed in a chic casual outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Standing three-quarter pose, one foot stepped slightly forward to showcase the boot from the side, hands relaxed, playful confident smile toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1725,"input_tokens_details":{"image_tokens":1521,"text_tokens":204},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3783} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-3.png?v=1785267320
+[2026-07-28T19:36:26.609Z] product77-6 | prompt: The EXACT SAME boots as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, brown lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, curvy Asian woman, elegant and confident, dressed in a sophisticated outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Standing pose, weight shifted onto one leg, the other foot placed slightly forward and to the side to clearly showcase the boot, relaxed confident smile toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1728,"input_tokens_details":{"image_tokens":1521,"text_tokens":207},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3786} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-6.png?v=1785267387
+[2026-07-28T19:48:46.008Z] product77-black-1 | prompt: The EXACT SAME boots as shown in the reference image, in the black colorway. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, branded patch, lugged platform sole, and details must be IDENTICAL to the reference.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, bright and even, soft natural shadow beneath the boots for grounding.
+Style: High-end e-commerce product photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1668,"input_tokens_details":{"image_tokens":1521,"text_tokens":147},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3726} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-black-1.png?v=1785268126
+[2026-07-28T19:49:38.262Z] product77-black-2 | prompt: The EXACT SAME boots as shown in the reference image, in the black colorway. DO NOT redesign, reinterpret, simplify, or modify the boots in any way — lace-up design, faux-fur trim, branded patch, lugged platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a cozy chic winter outfit, wearing the EXACT SAME boots shown in the reference image.
+Pose: Full-length standing pose, one leg stepped slightly forward showcasing the boots clearly, warm confident smile toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product77.png | usage: {"input_tokens":1736,"input_tokens_details":{"image_tokens":1521,"text_tokens":215},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3794} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-black-2.png?v=1785268179
+[2026-07-28T20:09:23.882Z] product78-1 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a sporty-chic athleisure outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Full body shot captured mid-stride walking confidently toward the camera, showcasing the sneakers clearly with each step, confident direct gaze.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1729,"input_tokens_details":{"image_tokens":1521,"text_tokens":208},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3787} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-1.png?v=1785269364
+[2026-07-28T20:10:06.867Z] product78-1 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly and fashionably dressed in a sporty-chic athleisure outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Full body shot captured mid-stride walking confidently toward the camera, showcasing the sneakers clearly with each step, confident direct gaze.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1729,"input_tokens_details":{"image_tokens":1521,"text_tokens":208},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3787} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-1_9d93498e-c19f-47a4-95dc-f4b92cec5367.png?v=1785269407
+[2026-07-28T20:10:22.784Z] product78-2 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly dressed in a fitness-chic outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Full body standing pose, one leg extended forward in a light stretch, arms relaxed at her sides, energetic joyful expression.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1722,"input_tokens_details":{"image_tokens":1521,"text_tokens":201},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3780} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-2.png?v=1785269423
+[2026-07-28T20:11:00.632Z] product78-2 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly dressed in a fitness-chic outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Full body standing pose, one leg extended forward in a light stretch, arms relaxed at her sides, energetic joyful expression.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1722,"input_tokens_details":{"image_tokens":1521,"text_tokens":201},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3780} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-2_0e807849-dca9-45c6-afd6-920d2da44046.png?v=1785269461
+[2026-07-28T20:11:21.326Z] product78-3 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), elegantly dressed in a casual sporty outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Seated pose on invisible steps, legs angled to showcase both sneakers clearly, one hand resting on her knee, warm confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1722,"input_tokens_details":{"image_tokens":1521,"text_tokens":201},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3780} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-3.png?v=1785269482
+[2026-07-28T20:11:54.150Z] product78-3 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), elegantly dressed in a casual sporty outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Standing three-quarter pose, one foot stepped slightly forward to showcase the sneaker from the side, hands relaxed, warm confident smile toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1725,"input_tokens_details":{"image_tokens":1521,"text_tokens":204},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3783} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-3_994b708a-4627-433c-ad48-f3f76ffb6d37.png?v=1785269514
+[2026-07-28T20:12:12.243Z] product78-4 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly dressed in a sporty outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Close-up shot of her legs and feet, one foot lifted slightly off the ground, showcasing the sneaker's profile and details clearly.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow beneath the foot.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1722,"input_tokens_details":{"image_tokens":1521,"text_tokens":201},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3780} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-4.png?v=1785269532
+[2026-07-28T20:12:52.608Z] product78-4 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly dressed in a sporty outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Close-up shot of her legs and feet, one foot lifted slightly off the ground, showcasing the sneaker's profile and details clearly.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow beneath the foot.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1722,"input_tokens_details":{"image_tokens":1521,"text_tokens":201},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3780} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-4_cb71c798-c787-434e-a61c-f369bcffcb73.png?v=1785269573
+[2026-07-28T20:13:05.521Z] product78-5 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly dressed in a casual chic outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Standing pose leaning casually against an invisible wall, ankles crossed, showcasing the sneakers clearly, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1717,"input_tokens_details":{"image_tokens":1521,"text_tokens":196},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3775} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-5.png?v=1785269586
+[2026-07-28T20:13:42.623Z] product78-5 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly dressed in a casual chic outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Standing pose leaning casually against an invisible wall, ankles crossed, showcasing the sneakers clearly, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1717,"input_tokens_details":{"image_tokens":1521,"text_tokens":196},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3775} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-5_e72bcd25-a1a0-4533-89a0-c96595e4bedd.png?v=1785269623
+[2026-07-28T20:13:56.713Z] product78-6 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), elegantly dressed in an athleisure outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Full body shot captured mid-jump, feet slightly off the ground, arms joyfully raised to the sides, big radiant laughing expression.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, crisp freeze-motion lighting, soft shadow beneath her.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1724,"input_tokens_details":{"image_tokens":1521,"text_tokens":203},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3782} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-6.png?v=1785269637
+[2026-07-28T20:14:41.645Z] product78-6 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), elegantly dressed in an athleisure outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Full body shot captured mid-jump, feet slightly off the ground, arms joyfully raised to the sides, big radiant laughing expression.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, crisp freeze-motion lighting, soft shadow beneath her.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1724,"input_tokens_details":{"image_tokens":1521,"text_tokens":203},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3782} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-6_9c32f54e-ec02-47de-8f24-a72e95776317.png?v=1785269682
+[2026-07-28T20:14:45.612Z] product78-7 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly dressed in a stylish casual outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Seated pose on an invisible bench, legs extended forward toward the camera, showcasing the sneakers clearly, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | ERREUR: OpenAI API error (400): {
+  "error": {
+    "message": "Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID b6235383-856d-4189-bc34-10e28b4aeae0. safety_violations=[sexual].",
+    "type": "image_generation_user_error",
+    "param": null,
+    "code": "moderation_blocked",
+    "moderation_details": {
+      "moderation_stage": "output",
+      "categories": [
+        "sexual"
+      ]
+    }
+  }
+}
+[2026-07-28T20:15:32.464Z] product78-7 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), elegantly dressed in a stylish casual outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Standing pose, weight shifted onto one leg, the other foot placed slightly forward and to the side to clearly showcase the sneaker, relaxed confident smile toward the camera.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1729,"input_tokens_details":{"image_tokens":1521,"text_tokens":208},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3787} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-7.png?v=1785269733
+[2026-07-28T20:15:42.546Z] product78-8 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly dressed in a fashionable sporty outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Full body back view captured mid-step walking away, head turned back over her shoulder with a warm smile, showcasing the sneakers from behind.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1724,"input_tokens_details":{"image_tokens":1521,"text_tokens":203},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3782} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-8.png?v=1785269743
+[2026-07-28T20:16:29.101Z] product78-8 | prompt: The EXACT SAME sneakers as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), elegantly dressed in a fashionable sporty outfit, wearing the EXACT SAME sneakers shown in the reference image.
+Pose: Full body back view captured mid-step walking away, head turned back over her shoulder with a warm smile, showcasing the sneakers from behind.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end lifestyle fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1724,"input_tokens_details":{"image_tokens":1521,"text_tokens":203},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3782} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-8_f8fe80cb-8d3c-4e70-8a26-19b235ce32d0.png?v=1785269789
+[2026-07-28T20:16:48.297Z] product78-9 | prompt: The EXACT SAME sneakers as shown in the reference image, both shoes together as a pair. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference. No human model or foot — the sneakers float and levitate dramatically in mid-air as if weightless, in a dynamic 3D advertisement-style pose, one shoe slightly tilted above the other, as if suspended in motion.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the sneakers appear to hover in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dramatic highlights on the mesh and sole texture, a repeated reflective shadow echoing beneath the sneakers to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1737,"input_tokens_details":{"image_tokens":1521,"text_tokens":216},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3795} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-9.png?v=1785269808
+[2026-07-28T20:17:33.326Z] product78-9 | prompt: The EXACT SAME sneakers as shown in the reference image, both shoes together as a pair. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference. No human model or foot — the sneakers float and levitate dramatically in mid-air as if weightless, in a dynamic 3D advertisement-style pose, one shoe slightly tilted above the other, as if suspended in motion.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the sneakers appear to hover in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dramatic highlights on the mesh and sole texture, a repeated reflective shadow echoing beneath the sneakers to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1737,"input_tokens_details":{"image_tokens":1521,"text_tokens":216},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3795} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-9_a92c7d34-b1a6-43b0-b342-99487e953e66.png?v=1785269854
+[2026-07-28T20:17:48.972Z] product78-10 | prompt: The EXACT SAME sneakers as shown in the reference image, both shoes together as a pair. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference. No human model or foot — the sneakers float and levitate in mid-air at a dynamic twisting angle, as if gently spinning while weightless, in a striking 3D advertisement-style composition.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the sneakers appear to hover and rotate in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dynamic highlights emphasizing the texture and details, a repeated reflective shadow echoing beneath the sneakers to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1732,"input_tokens_details":{"image_tokens":1521,"text_tokens":211},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3790} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-10.png?v=1785269869
+[2026-07-28T20:18:37.129Z] product78-10 | prompt: The EXACT SAME sneakers as shown in the reference image, both shoes together as a pair. DO NOT redesign, reinterpret, simplify, or modify the shoes in any way — mesh texture, lace color, platform sole, and details must be IDENTICAL to the reference. No human model or foot — the sneakers float and levitate in mid-air at a dynamic twisting angle, as if gently spinning while weightless, in a striking 3D advertisement-style composition.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the sneakers appear to hover and rotate in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dynamic highlights emphasizing the texture and details, a repeated reflective shadow echoing beneath the sneakers to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product78.png | usage: {"input_tokens":1732,"input_tokens_details":{"image_tokens":1521,"text_tokens":211},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3790} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-10_715eefa1-594e-4a1d-bbea-f1fff7ffa962.png?v=1785269917
+[2026-07-28T20:39:17.417Z] product79-1 | prompt: The EXACT SAME dress as shown in the reference image, in the black and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body shot captured mid-stride walking confidently toward the camera, one hand gently touching her hair, warm radiant smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1725,"input_tokens_details":{"image_tokens":1521,"text_tokens":204},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3783} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-1.png?v=1785271158
+[2026-07-28T20:40:14.394Z] product79-2 | prompt: The EXACT SAME dress as shown in the reference image, in the yellow and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Seated pose on an invisible stool, legs elegantly crossed to one side showcasing the slit, hands resting gently on her knee, warm confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1729,"input_tokens_details":{"image_tokens":1521,"text_tokens":208},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3787} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-2.png?v=1785271215
+[2026-07-28T20:41:07.849Z] product79-3 | prompt: The EXACT SAME dress as shown in the reference image, in the green and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body standing pose, upper body gently twisted to one side, one hand resting on her waist near the tie-belt, soft confident gaze over her shoulder.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1733,"input_tokens_details":{"image_tokens":1521,"text_tokens":212},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3791} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-3.png?v=1785271268
+[2026-07-28T20:42:06.170Z] product79-4 | prompt: The EXACT SAME dress as shown in the reference image, in the yellow and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full-length standing pose, arms crossed confidently in front of her, chin slightly lifted, powerful joyful expression.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1721,"input_tokens_details":{"image_tokens":1521,"text_tokens":200},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3779} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-4.png?v=1785271326
+[2026-07-28T20:42:56.677Z] product79-5 | prompt: The EXACT SAME dress as shown in the reference image, in the green and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body back view captured mid-step walking away, head turned back over her shoulder with a warm smile, showcasing the dress silhouette from behind.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1729,"input_tokens_details":{"image_tokens":1521,"text_tokens":208},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3787} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-5.png?v=1785271377
+[2026-07-28T20:43:47.952Z] product79-6 | prompt: The EXACT SAME dress as shown in the reference image, in the black and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body standing pose, head tilted back slightly with a genuine light laugh, one hand resting near her collarbone, joyful radiant energy.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1727,"input_tokens_details":{"image_tokens":1521,"text_tokens":206},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3785} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-6.png?v=1785271428
+[2026-07-28T20:44:44.747Z] product79-7 | prompt: The EXACT SAME dress as shown in the reference image, in the green and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Close-up waist-up portrait shot, shoulders relaxed, head tilted slightly, soft warm expression, focus on the tie-belt detail.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1726,"input_tokens_details":{"image_tokens":1521,"text_tokens":205},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3784} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-7.png?v=1785271485
+[2026-07-28T20:45:39.176Z] product79-8 | prompt: The EXACT SAME dress as shown in the reference image, in the black and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Standing pose leaning casually against an invisible wall, ankles crossed, both hands resting lightly on her thighs, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1724,"input_tokens_details":{"image_tokens":1521,"text_tokens":203},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3782} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-8.png?v=1785271539
+[2026-07-28T20:46:36.060Z] product79-9 | prompt: The EXACT SAME dress as shown in the reference image, shown in the yellow and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference. No human model or mannequin — the dress floats and levitates dramatically in mid-air as if weightless, fabric rippling naturally, in a dynamic 3D advertisement-style pose, as if suspended in motion.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the dress appears to hover in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dramatic highlights on the fabric folds and print, a repeated reflective shadow echoing beneath the dress to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1740,"input_tokens_details":{"image_tokens":1521,"text_tokens":219},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3798} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-9.png?v=1785271596
+[2026-07-28T20:47:24.381Z] product79-10 | prompt: The EXACT SAME dress as shown in the reference image, shown in the black and white wave print colorway. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — wave pattern, silhouette, front tie-belt, and side slit must be IDENTICAL to the reference. No human model or mannequin — the dress floats and levitates in mid-air at a dynamic twisting angle, as if gently spinning while weightless, fabric billowing softly outward, in a striking 3D advertisement-style composition.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the dress appears to hover and rotate in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dynamic highlights emphasizing the fabric movement and print, a repeated reflective shadow echoing beneath the dress to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product79.png | usage: {"input_tokens":1745,"input_tokens_details":{"image_tokens":1521,"text_tokens":224},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3803} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-10.png?v=1785271645
+[2026-07-28T21:12:14.641Z] product80-1 | prompt: The EXACT SAME dress as shown in the reference image, in the pink colorway, hex color #E8A18E. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body shot captured mid-stride walking confidently toward the camera, one hand gently touching her hair, warm radiant smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1733,"input_tokens_details":{"image_tokens":1521,"text_tokens":212},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3791} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-1.png?v=1785273135
+[2026-07-28T21:13:04.840Z] product80-2 | prompt: The EXACT SAME dress as shown in the reference image, in the red pink colorway, hex color #E2007A. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Seated pose on an invisible stool, legs elegantly crossed, hands resting gently on her knee, warm confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1731,"input_tokens_details":{"image_tokens":1521,"text_tokens":210},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3789} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-2.png?v=1785273185
+[2026-07-28T21:14:12.375Z] product80-3 | prompt: The EXACT SAME dress as shown in the reference image, in the green colorway, hex color #0F5C3D. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body standing pose, upper body gently twisted to one side, one hand resting on her waist, soft confident gaze over her shoulder.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1737,"input_tokens_details":{"image_tokens":1521,"text_tokens":216},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3795} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-3.png?v=1785273253
+[2026-07-28T21:15:10.812Z] product80-4 | prompt: The EXACT SAME dress as shown in the reference image, in the green colorway, hex color #0F5C3D. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full-length standing pose, arms crossed confidently in front of her, chin slightly lifted, powerful joyful expression.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1730,"input_tokens_details":{"image_tokens":1521,"text_tokens":209},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3788} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-4.png?v=1785273311
+[2026-07-28T21:16:05.508Z] product80-5 | prompt: The EXACT SAME dress as shown in the reference image, in the pink colorway, hex color #E8A18E. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body back view captured mid-step walking away, head turned back over her shoulder with a warm smile, showcasing the dress silhouette from behind.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1737,"input_tokens_details":{"image_tokens":1521,"text_tokens":216},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3795} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-5.png?v=1785273366
+[2026-07-28T21:16:58.654Z] product80-6 | prompt: The EXACT SAME dress as shown in the reference image, in the red pink colorway, hex color #E2007A. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body standing pose, head tilted back slightly with a genuine light laugh, one hand resting near her collarbone, joyful radiant energy.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1735,"input_tokens_details":{"image_tokens":1521,"text_tokens":214},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3793} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-6.png?v=1785273419
+[2026-07-28T21:17:51.568Z] product80-7 | prompt: The EXACT SAME dress as shown in the reference image, in the red pink colorway, hex color #E2007A. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Close-up waist-up portrait shot, shoulders relaxed, head tilted slightly, soft warm expression, focus on the sleeve ruffle detail.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1734,"input_tokens_details":{"image_tokens":1521,"text_tokens":213},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3792} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-7.png?v=1785273472
+[2026-07-28T21:18:49.262Z] product80-8 | prompt: The EXACT SAME dress as shown in the reference image, in the green colorway, hex color #0F5C3D. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Standing pose leaning casually against an invisible wall, ankles crossed, both hands resting lightly at her sides, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1733,"input_tokens_details":{"image_tokens":1521,"text_tokens":212},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3791} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-8.png?v=1785273529
+[2026-07-28T21:19:41.062Z] product80-9 | prompt: The EXACT SAME dress as shown in the reference image, in the pink colorway, hex color #E8A18E. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — off-shoulder neckline, bishop sleeves with ruffled cuffs, bodycon silhouette must be IDENTICAL to the reference. No human model or mannequin — the dress floats and levitates dramatically in mid-air as if weightless, sleeves gently flaring, in a dynamic 3D advertisement-style pose, as if suspended in motion.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the dress appears to hover in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dramatic highlights on the fabric folds, a repeated reflective shadow echoing beneath the dress to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product80.png | usage: {"input_tokens":1745,"input_tokens_details":{"image_tokens":1521,"text_tokens":224},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3803} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-9.png?v=1785273581
+[2026-07-28T21:30:41.195Z] product81-1 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body shot captured mid-stride walking confidently toward the camera, one hand gently touching her hair, warm radiant smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | usage: {"input_tokens":1719,"input_tokens_details":{"image_tokens":1521,"text_tokens":198},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3777} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-1.png?v=1785274241
+[2026-07-28T21:31:33.880Z] product81-2 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Seated pose on an invisible stool, legs elegantly crossed, hands resting gently on her knee, warm confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | usage: {"input_tokens":1717,"input_tokens_details":{"image_tokens":1521,"text_tokens":196},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3775} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-2.png?v=1785274294
+[2026-07-28T21:32:34.566Z] product81-3 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body standing pose, upper body gently twisted to one side, one hand resting on her waist, soft confident gaze over her shoulder.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | usage: {"input_tokens":1722,"input_tokens_details":{"image_tokens":1521,"text_tokens":201},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3780} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-3.png?v=1785274355
+[2026-07-28T21:33:34.044Z] product81-4 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full-length standing pose, arms crossed confidently in front of her, chin slightly lifted, powerful confident expression.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | usage: {"input_tokens":1715,"input_tokens_details":{"image_tokens":1521,"text_tokens":194},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3773} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-4.png?v=1785274414
+[2026-07-28T21:34:33.673Z] product81-5 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body back view captured mid-step walking away, head turned back over her shoulder with a warm smile, showcasing the asymmetrical skirt from behind.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow on the floor.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | usage: {"input_tokens":1724,"input_tokens_details":{"image_tokens":1521,"text_tokens":203},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3782} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-5.png?v=1785274474
+[2026-07-28T21:35:31.781Z] product81-6 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW Asian woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Full body standing pose, head tilted back slightly with a genuine light laugh, one hand resting near her collarbone, joyful radiant energy.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | usage: {"input_tokens":1721,"input_tokens_details":{"image_tokens":1521,"text_tokens":200},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3779} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-6.png?v=1785274532
+[2026-07-28T21:36:26.228Z] product81-7 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW black woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Close-up waist-up portrait shot, shoulders relaxed, head tilted slightly, soft warm expression, focus on the collar and button placket detail.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | usage: {"input_tokens":1722,"input_tokens_details":{"image_tokens":1521,"text_tokens":201},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3780} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-7.png?v=1785274587
+[2026-07-28T21:37:20.210Z] product81-8 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference.
+Subject: A very beautiful, very plus-size, SSBBW white woman (curvy, confident, radiant, glamorous), wearing the EXACT SAME dress shown in the reference image.
+Pose: Standing pose leaning casually against an invisible wall, ankles crossed, both hands resting lightly at her sides, relaxed confident smile.
+Background: Pure clean white studio background, seamless, no props, no text, no logos.
+Lighting & Shadow: Professional studio lighting, soft and flattering, subtle soft shadow behind her.
+Style: High-end luxury fashion campaign photography, photorealistic, ultra-realistic, sharp focus, 4K.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | usage: {"input_tokens":1718,"input_tokens_details":{"image_tokens":1521,"text_tokens":197},"output_tokens":2058,"output_tokens_details":{"image_tokens":2058,"text_tokens":0},"total_tokens":3776} | url: https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-8.png?v=1785274640
+[2026-07-28T21:37:21.523Z] product81-9 | prompt: The EXACT SAME dress as shown in the reference image. DO NOT redesign, reinterpret, simplify, or modify the dress in any way — striped shirt bodice, plaid asymmetrical skirt panel, collar, and button placket must be IDENTICAL to the reference. No human model or mannequin — the dress floats and levitates dramatically in mid-air as if weightless, the skirt panel fluttering naturally, in a dynamic 3D advertisement-style pose, as if suspended in motion.
+Background: Pure clean white studio background, seamless, no props, no text, no logos, no visible floor — the dress appears to hover in empty space.
+Lighting & Shadow: Bright, crisp, professional studio lighting, dramatic highlights on the fabric folds and pattern contrast, a repeated reflective shadow echoing beneath the dress to enhance the floating advertisement effect.
+Style: High-end e-commerce and advertising product photography, dynamic levitating effect, ultra-realistic, sharp focus, premium campaign quality.
+Format: Square (1:1 ratio), centered composition, high resolution. | referenceImage: reference-images/product81.png | ERREUR: OpenAI API error (400): {
+  "error": {
+    "message": "Billing hard limit has been reached.",
+    "type": "billing_limit_user_error",
+    "param": null,
+    "code": "billing_hard_limit_reached"
+  }
+}

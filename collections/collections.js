@@ -547,7 +547,7 @@
     if (heroSubtitle) heroSubtitle.textContent = col.hero_subtitle || col.subtitle || '';
     if (heroEyebrow)  heroEyebrow.textContent  = col.hero_eyebrow  || col.name    || '';
     if (heroImage && col.image) {
-      heroImage.src = upgradeShopifyImageUrl(col.image, 1200);
+      heroImage.src = upgradeShopifyImageUrl(col.image, 2400);
       heroImage.alt = col.title || '';
     }
   }

@@ -968,6 +968,110 @@ const SEO_MAP = {
         keywords: 'plus size power suit, BBW jacquard suit, floral brocade suit plus size, curvy women blazer, plus size wrap blazer, wide leg trousers plus size, BBW4LIFE original, sizes 1XL to 5XL suit, plus size formal suit, plus size two piece suit, jewel tone suit curvy, brocade blazer plus size',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_75_1.png?v=1778800275',
         canonical: 'https://bbw4life.com/products/product75.html'
+    },
+
+    '/products/product98.html': {
+        title: 'Gilded Gala Gown — Sequin Bodice Tiered Tulle Dress | BBW4LIFE',
+        description: 'A showstopper for your biggest nights. Sequined sweetheart bodice, sheer polka-dot mesh sleeves, gold-link belt, dramatic ribbon-trimmed tulle skirt in caramel and black. Plus size gala gown sizes 1XL to 5XL. Free worldwide shipping.',
+        keywords: 'plus size gala gown, BBW4LIFE original gown, sequin dress plus size, curvy women formal gown, tulle skirt plus size, sweetheart bodice curvy, red carpet dress plus size, plus size evening gown, caramel black gown, sizes 1XL to 5XL gown, BBW4LIFE featured dress, plus size sequin gown',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_98-1.png?v=1785073004',
+        canonical: 'https://bbw4life.com/products/product98.html'
+    },
+
+    '/products/product99.html': {
+        title: 'MidnightVelvet Sheath — Three-Quarter Sleeve Bodycon | BBW4LIFE',
+        description: 'Rich navy velvet hugs every curve in this elegant sheath dress. Clean boat neckline, three-quarter sleeves, soft velvet finish — perfect for holiday parties and elevated evenings. Plus size sizes 1XL to 5XL. Free worldwide shipping.',
+        keywords: 'plus size velvet dress, BBW4LIFE original, navy velvet sheath curvy, holiday party dress plus size, boat neckline plus size, curvy women velvet dress, plus size evening sheath, sizes 1XL to 5XL dress, BBW4LIFE featured dress, plus size holiday dress, elegant curvy dress, velvet bodycon plus size',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_99-1.png?v=1785074177',
+        canonical: 'https://bbw4life.com/products/product99.html'
+    },
+
+    '/products/product100.html': {
+        title: 'VelvetWrap Jumpsuit — Gold Belt Wide-Leg | BBW4LIFE',
+        description: 'A sleeveless navy velvet jumpsuit with a flattering wrap bodice and breezy wide-leg trousers, cinched with a statement gold buckle belt. Effortless glamour from cocktail hour to midnight. Plus size sizes 1XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size jumpsuit, BBW4LIFE original, velvet jumpsuit curvy, wide leg jumpsuit plus size, wrap bodice jumpsuit, curvy women jumpsuit, plus size cocktail jumpsuit, gold belt jumpsuit, sizes 1XL to 4XL jumpsuit, BBW4LIFE featured, plus size evening jumpsuit, navy velvet plus size',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_100-1.png?v=1785075194',
+        canonical: 'https://bbw4life.com/products/product100.html'
+    },
+
+    '/products/product101.html': {
+        title: 'SavannahPrint Sundress — Tribal Tiered Mini | BBW4LIFE',
+        description: 'Bold tribal print in amber, black and turquoise brings vacation energy to this flowy spaghetti-strap sundress. Smocked waist, tiered ruffle skirt — beach days and street style alike. Plus size sizes S to 4XL. Free worldwide shipping.',
+        keywords: 'plus size sundress, BBW4LIFE original, tribal print dress curvy, plus size vacation dress, smocked waist dress plus size, curvy women sundress, plus size beach dress, tiered ruffle dress, sizes S to 4XL dress, BBW4LIFE featured dress, plus size summer dress, tribal print plus size',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_101-1.png?v=1785081780',
+        canonical: 'https://bbw4life.com/products/product101.html'
+    },
+
+    '/products/product102.html': {
+        title: 'ClassicTrench Coat — Belted Double-Breasted | BBW4LIFE',
+        description: 'A timeless camel trench coat with a double-breasted button front, structured shoulder tabs, and a cinching waist belt. Polished outerwear for every curvy silhouette. Plus size sizes 1XL to 5XL. Free worldwide shipping.',
+        keywords: 'plus size trench coat, BBW4LIFE original, camel coat curvy, double breasted coat plus size, curvy women outerwear, plus size winter coat, belted trench plus size, structured coat curvy, sizes 1XL to 5XL coat, BBW4LIFE featured, plus size classic coat, camel trench plus size',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_102-1.png?v=1785083108',
+        canonical: 'https://bbw4life.com/products/product102.html'
+    },
+
+    '/products/product103.html': {
+        title: 'TieFront Sheath — Cap Sleeve Wrap Detail | BBW4LIFE',
+        description: 'A soft lavender sheath dress with delicate cap sleeves and a chic tie-front knot at the waist. Flattering, feminine, easy from the office to evening plans. Plus size sizes 1XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size sheath dress, BBW4LIFE original, lavender dress curvy, tie front dress plus size, cap sleeve dress curvy, curvy women office dress, plus size feminine dress, sizes 1XL to 4XL dress, BBW4LIFE featured dress, plus size everyday dress, soft lavender plus size, wrap detail dress',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_103-1.png?v=1785102055',
+        canonical: 'https://bbw4life.com/products/product103.html'
+    },
+
+    '/products/product104.html': {
+        title: 'SlouchSuede Boots — Knee-High Block Heel | BBW4LIFE',
+        description: 'Slouchy suede knee-high boots in warm camel with a sleek pointed toe and a sculpted block heel. Elevated comfort that pairs beautifully with dresses, denim or leggings. Sizes 36 to 42. Free worldwide shipping.',
+        keywords: 'plus size boots, BBW4LIFE original, suede knee high boots, wide calf boots curvy, camel boots plus size, curvy women boots, block heel boots, plus size footwear, sizes 36 to 42 boots, BBW4LIFE featured, plus size winter boots, slouchy suede boots',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_104-1.png?v=1785103040',
+        canonical: 'https://bbw4life.com/products/product104.html'
+    },
+
+    '/products/product105.html': {
+        title: 'VelvetTailored Blazer — Peak Lapel Jacket | BBW4LIFE',
+        description: 'A sharply tailored black velvet blazer with peak lapels, a single flattering button close, and a chest pocket detail. Instant polish for date night, work, or a night out. Plus size sizes 1XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size blazer, BBW4LIFE original, velvet blazer curvy, peak lapel blazer plus size, curvy women blazer, plus size tailored jacket, black velvet blazer, structured blazer curvy, sizes 1XL to 4XL blazer, BBW4LIFE featured, plus size evening blazer, tailored velvet jacket',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_105-1.png?v=1785104674',
+        canonical: 'https://bbw4life.com/products/product105.html'
+    },
+
+    '/products/product106.html': {
+        title: 'ColorblockMidi — Stripe Detail Sheath Dress | BBW4LIFE',
+        description: 'A rose pink sheath dress with a sleek black stripe running from collar to hem for an instantly slimming, sophisticated line. Short sleeves, clean crew neck. Plus size sizes 1XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size sheath dress, BBW4LIFE original, colorblock dress curvy, rose pink dress plus size, stripe dress curvy women, slimming dress plus size, plus size crew neck dress, sizes 1XL to 4XL dress, BBW4LIFE featured dress, plus size everyday dress, sophisticated curvy dress, stripe detail plus size',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_106-1.png?v=1785106040',
+        canonical: 'https://bbw4life.com/products/product106.html'
+    },
+
+    '/products/product107.html': {
+        title: 'HoundstoothTweed Set — Button-Front Skirt Dress | BBW4LIFE',
+        description: 'A wine and cream houndstooth tweed two-piece with a gold-button front, matching flap pockets, and a fitted pencil skirt. Classic Parisian polish for the curvy queen. Plus size sizes 1XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size tweed set, BBW4LIFE original, houndstooth set curvy, two piece set plus size, pencil skirt set curvy women, plus size Parisian style, wine tweed plus size, gold button set curvy, sizes 1XL to 4XL set, BBW4LIFE featured, plus size tailored set, tweed skirt suit plus size',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_107-1.png?v=1785107324',
+        canonical: 'https://bbw4life.com/products/product107.html'
+    },
+
+    '/products/product108.html': {
+        title: 'RuffleCascade Sheath — Draped Side Detail | BBW4LIFE',
+        description: 'A cascading ruffle flows down the side of this warm terracotta sheath dress. Flutter cap sleeves and a softly ruched waist add romance to a refined silhouette. Plus size sizes 1XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size sheath dress, BBW4LIFE original, terracotta dress curvy, ruffle dress plus size, cap sleeve dress curvy women, plus size romantic dress, ruched waist dress plus size, sizes 1XL to 4XL dress, BBW4LIFE featured dress, plus size fall dress, draped ruffle plus size, cascading ruffle dress',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_108-1.png?v=1785108632',
+        canonical: 'https://bbw4life.com/products/product108.html'
+    },
+
+    '/products/product109.html': {
+        title: 'TweedShift Dress — Cuffed Sleeve Classic | BBW4LIFE',
+        description: 'A soft blush tweed shift dress with three-quarter cuffed sleeves and a clean crew neckline. Understated texture and a timeless shape for effortless everyday elegance. Plus size sizes 1XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size shift dress, BBW4LIFE original, blush tweed dress curvy, cuffed sleeve dress plus size, curvy women everyday dress, plus size crew neck dress, timeless dress plus size, sizes 1XL to 4XL dress, BBW4LIFE featured dress, plus size classic dress, understated curvy dress, tweed shift plus size',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_109-1.png?v=1785109730',
+        canonical: 'https://bbw4life.com/products/product109.html'
+    },
+
+    '/products/product110.html': {
+        title: 'PolkaDotBlouse Set — Wide-Leg Belted Trouser | BBW4LIFE',
+        description: 'A navy polka-dot button-down blouse paired with breezy wide-leg trousers and a tan belt. A complete power look that celebrates curves with easy, put-together confidence. Plus size sizes 1XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size blouse set, BBW4LIFE original, polka dot blouse curvy, wide leg trouser set plus size, two piece set curvy women, plus size power look, navy blouse plus size, belted trouser set, sizes 1XL to 4XL set, BBW4LIFE featured, plus size office set, polka dot set curvy',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_110-1.png?v=1785110688',
+        canonical: 'https://bbw4life.com/products/product110.html'
     }
 
 };

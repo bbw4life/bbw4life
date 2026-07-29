@@ -6,10 +6,13 @@
   "scripts": {
     "build": "echo 'No build step required'",
     "start": "set NODE_OPTIONS=--no-deprecation && netlify dev",
-    "dev:local": "node local-server.js"
+    "dev:local": "node local-server.js",
+    "generate-image": "node generate-and-upload-image.js",
+    "check-indexing": "node check-search-console.js"
   },
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.3",
+    "dotenv": "^17.4.2",
     "googleapis": "^128.0.0",
     "resend": "^4.0.0",
     "sharp": "^0.33.0",

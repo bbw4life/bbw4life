@@ -2237,6 +2237,22 @@ function showErrorPopup(message) {
           sliderTrack.addEventListener('mousemove',  miniPause);
         }
 
+        /* ── Pause sur scroll manuel de la PAGE tant que la section est visible ── */
+        let miniSectionInView = false;
+        if ('IntersectionObserver' in window) {
+          const miniVisibilityObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { miniSectionInView = entry.isIntersecting; });
+          }, { threshold: 0.15 });
+          miniVisibilityObserver.observe(miniSliderEl);
+
+          window.addEventListener('scroll', () => {
+            if (miniSectionInView) miniPause();
+          }, { passive: true });
+          window.addEventListener('touchmove', () => {
+            if (miniSectionInView) miniPause();
+          }, { passive: true });
+        }
+
         /* ── Injecter les items depuis les IDs du setting ── */
         sliderIds.forEach(pid => {
           const prod = products.find(p => p.id === pid);
@@ -2409,12 +2425,15 @@ function showErrorPopup(message) {
         slider.innerHTML = '';
         media.forEach((src, i) => {
           const img     = document.createElement('img');
-          img.src       = upgradeShopifyImageUrl(src);
-          img.alt       = 'BBW4LIFE plus size fashion';
           img.className = `mini-media-image ${i === 0 ? 'active' : ''}`;
           img.loading   = i === 0 ? 'eager' : 'lazy';
           img.decoding  = 'async';
           img.style.minHeight = i === 0 ? '1px' : '';
+          img.dataset.ready = '0';
+          img.addEventListener('load', () => { img.dataset.ready = '1'; }, { once: true });
+          img.alt       = 'BBW4LIFE plus size fashion';
+          img.src       = upgradeShopifyImageUrl(src);
+          if (img.complete && img.naturalWidth > 0) img.dataset.ready = '1';
           slider.appendChild(img);
         });
         const prev = document.createElement('div');
@@ -2447,7 +2466,10 @@ function showErrorPopup(message) {
           const activeIdx = Array.from(imgs).findIndex(i => i.classList.contains('active'));
           const nextIdx = (activeIdx + 1) % imgs.length;
           const nextImg = imgs[nextIdx];
-          if (nextImg && (!nextImg.complete || nextImg.naturalWidth === 0)) return;
+          if (!nextImg) return;
+          /* Précharge en éager dès qu'on va en avoir besoin, pour éviter un blocage si "lazy" n'a pas encore fetch. */
+          if (nextImg.loading === 'lazy') nextImg.loading = 'eager';
+          if (nextImg.dataset.ready !== '1') return;
           slideMini(slider, 'next');
       }, 6000);
         }
@@ -2705,6 +2727,19 @@ function showErrorPopup(message) {
               'Pdg-Francenel-product73': 'blushlace-gown-lace-cap-sleeve-empire-maxi',
               'Pdg-Francenel-product74': 'tealempire-gown-sleeveless-vneck-formal-maxi',
               'Pdg-Francenel-product75': 'jacquardpower-suit-multicolor-floral-brocade',
+              'Pdg-Francenel-product98': 'gilded-gala-gown-sequin-bodice-tiered-tulle',
+              'Pdg-Francenel-product99': 'midnightvelvet-sheath-three-quarter-sleeve-bodycon',
+              'Pdg-Francenel-product100': 'velvetwrap-jumpsuit-gold-belt-wide-leg',
+              'Pdg-Francenel-product101': 'savannahprint-sundress-tribal-tiered-mini',
+              'Pdg-Francenel-product102': 'classictrench-coat-belted-double-breasted',
+              'Pdg-Francenel-product103': 'tiefront-sheath-cap-sleeve-wrap-detail',
+              'Pdg-Francenel-product104': 'slouchsuede-boots-knee-high-block-heel',
+              'Pdg-Francenel-product105': 'velvettailored-blazer-peak-lapel-jacket',
+              'Pdg-Francenel-product106': 'colorblockmidi-stripe-detail-sheath-dress',
+              'Pdg-Francenel-product107': 'houndstoothtweed-set-button-front-skirt-dress',
+              'Pdg-Francenel-product108': 'rufflecascade-sheath-draped-side-detail',
+              'Pdg-Francenel-product109': 'tweedshift-dress-cuffed-sleeve-classic',
+              'Pdg-Francenel-product110': 'polkadotblouse-set-wide-leg-belted-trouser',
             };
 
               // ── Récupérer les données du produit courant
@@ -3008,7 +3043,8 @@ function showErrorPopup(message) {
               pane.classList.remove('is-active');
             };
             const moveZoom = (e) => {
-              if (!lens.classList.contains('is-active')) return;
+              if (e.target.closest('.slider-arrow')) { hideZoom(); return; }
+              if (!lens.classList.contains('is-active')) showZoom();
               const rect = mainSlider.getBoundingClientRect();
               const lensW = lens.offsetWidth, lensH = lens.offsetHeight;
               let x = e.clientX - rect.left;
@@ -4119,7 +4155,7 @@ initAnnouncementBar();
   if (!cols.length) return;
 
   // ── IDs à exclure uniquement de cette section (jrgq-gallery-mosaic) ──
-  const HIDDEN_IN_JRGQ = ['bbw4life-new-arrivals'];
+  const HIDDEN_IN_JRGQ = ['bbw4life-new-arrivals', 'curvy-bags'];
   const visibleCols = cols.filter(function(col) {
     return !HIDDEN_IN_JRGQ.includes(col.id);
   });
@@ -4263,7 +4299,20 @@ initAnnouncementBar();
       'Pdg-Francenel-product72',
       'Pdg-Francenel-product73',
       'Pdg-Francenel-product74',
-      'Pdg-Francenel-product75'
+      'Pdg-Francenel-product75',
+      'Pdg-Francenel-product98',
+      'Pdg-Francenel-product99',
+      'Pdg-Francenel-product100',
+      'Pdg-Francenel-product101',
+      'Pdg-Francenel-product102',
+      'Pdg-Francenel-product103',
+      'Pdg-Francenel-product104',
+      'Pdg-Francenel-product105',
+      'Pdg-Francenel-product106',
+      'Pdg-Francenel-product107',
+      'Pdg-Francenel-product108',
+      'Pdg-Francenel-product109',
+      'Pdg-Francenel-product110'
     ];
 
     const overlay     = document.getElementById('plan-popup-overlay');
@@ -4758,7 +4807,20 @@ initAnnouncementBar();
     'Pdg-Francenel-product72',
     'Pdg-Francenel-product73',
     'Pdg-Francenel-product74',
-    'Pdg-Francenel-product75'
+    'Pdg-Francenel-product75',
+    'Pdg-Francenel-product98',
+    'Pdg-Francenel-product99',
+    'Pdg-Francenel-product100',
+    'Pdg-Francenel-product101',
+    'Pdg-Francenel-product102',
+    'Pdg-Francenel-product103',
+    'Pdg-Francenel-product104',
+    'Pdg-Francenel-product105',
+    'Pdg-Francenel-product106',
+    'Pdg-Francenel-product107',
+    'Pdg-Francenel-product108',
+    'Pdg-Francenel-product109',
+    'Pdg-Francenel-product110'
   ];
 
   function isFeaturedProduct(id) {
@@ -5761,31 +5823,52 @@ if (rcCheckoutBtn) {
   section.style.setProperty('--sc-border-size',  borderSize + 'px');
   section.style.setProperty('--sc-border-color', borderColor);
 
-  // ── Fix alignement : injecter le nombre de cercles comme CSS var
-  const realProducts = ids
+  // ── Résout un ID collection ("collection:curvy-bags") en {title, url, image} ──
+  function resolveCollection(colId) {
+    const jrgq = (settings.jrgq_collections && settings.jrgq_collections.collections) || [];
+    let col = jrgq.find(c => c.id === colId);
+    if (!col) col = settings[colId] || null;
+    return col;
+  }
+
+  // ── Fix alignement : injecter le nombre de cercles comme CSS var ──
+  const realItems = ids
     .filter(id => !id.startsWith('--'))
-    .map(id => products.find(p => p.id === id))
+    .map(id => {
+      if (id.startsWith('collection:')) {
+        const col = resolveCollection(id.slice('collection:'.length));
+        if (!col) return null;
+        return {
+          kind:  'collection',
+          url:   col.url,
+          title: col.title || col.id,
+          image: col.image
+        };
+      }
+      const prod = products.find(p => p.id === id);
+      if (!prod) return null;
+      return { kind: 'product', url: getProductUrl(prod.id), title: prod.title, image: prod.image };
+    })
     .filter(Boolean);
 
-  if (!realProducts.length) { section.style.display = 'none'; return; }
+  if (!realItems.length) { section.style.display = 'none'; return; }
 
-  section.style.setProperty('--sc-count', realProducts.length);
+  section.style.setProperty('--sc-count', realItems.length);
 
-  function makeItem(prod) {
-    const url   = getProductUrl(prod.id);
-    const label = prod.title.split('—')[0].split('-')[0].trim();
-    const img   = upgradeShopifyImageUrl(prod.image, 300);
+  function makeItem(item) {
+    const label = item.title.split('—')[0].split('-')[0].trim();
+    const img   = upgradeShopifyImageUrl(item.image, 300);
     const a = document.createElement('a');
-    a.href      = url;
-    a.className = 'story-circle-item';
-    a.setAttribute('aria-label', prod.title);
+    a.href      = item.url;
+    a.className = 'story-circle-item' + (item.kind === 'collection' ? ' story-circle-item--collection' : '');
+    a.setAttribute('aria-label', item.title);
     a.innerHTML = `
       <div class="story-circle-ring">
         <img class="story-circle-img"
              src="${img}"
-             alt="${prod.title}"
+             alt="${item.title}"
              loading="lazy"
-             onerror="this.src='${prod.image}'">
+             onerror="this.src='${item.image}'">
       </div>
       <span class="story-circle-label">${label}</span>`;
     return a;
@@ -5794,7 +5877,7 @@ if (rcCheckoutBtn) {
   if (animType === 'marquee') {
     const screenW = window.innerWidth;
     const itemW   = 90 + 18;
-    const totalW  = realProducts.length * itemW;
+    const totalW  = realItems.length * itemW;
     const repeats = Math.ceil((screenW * 3) / totalW) + 1;
 
     const group1 = document.createElement('div');
@@ -5803,9 +5886,9 @@ if (rcCheckoutBtn) {
     group2.className = 'story-circles-marquee-inner';
 
     for (let i = 0; i < repeats; i++) {
-      realProducts.forEach(prod => {
-        group1.appendChild(makeItem(prod));
-        group2.appendChild(makeItem(prod));
+      realItems.forEach(item => {
+        group1.appendChild(makeItem(item));
+        group2.appendChild(makeItem(item));
       });
     }
 
@@ -5813,7 +5896,7 @@ if (rcCheckoutBtn) {
     track.appendChild(group2);
 
   } else {
-    realProducts.forEach(prod => track.appendChild(makeItem(prod)));
+    realItems.forEach(item => track.appendChild(makeItem(item)));
   }
 })();
 
@@ -6950,7 +7033,12 @@ document.dispatchEvent(new Event('wishlist:change'));
      const BBW_FEATURED_IDS = [
         'Pdg-Francenel-product69','Pdg-Francenel-product70','Pdg-Francenel-product71',
         'Pdg-Francenel-product72','Pdg-Francenel-product73','Pdg-Francenel-product74',
-        'Pdg-Francenel-product75'
+        'Pdg-Francenel-product75',
+        'Pdg-Francenel-product98','Pdg-Francenel-product99','Pdg-Francenel-product100',
+        'Pdg-Francenel-product101','Pdg-Francenel-product102','Pdg-Francenel-product103',
+        'Pdg-Francenel-product104','Pdg-Francenel-product105','Pdg-Francenel-product106',
+        'Pdg-Francenel-product107','Pdg-Francenel-product108','Pdg-Francenel-product109',
+        'Pdg-Francenel-product110'
       ];
 
       cart.forEach(item => {
@@ -7695,7 +7783,12 @@ document.dispatchEvent(new Event('wishlist:change'));
   const BBW_FEATURED_IDS_CK = [
     'Pdg-Francenel-product69','Pdg-Francenel-product70','Pdg-Francenel-product71',
     'Pdg-Francenel-product72','Pdg-Francenel-product73','Pdg-Francenel-product74',
-    'Pdg-Francenel-product75'
+    'Pdg-Francenel-product75',
+    'Pdg-Francenel-product98','Pdg-Francenel-product99','Pdg-Francenel-product100',
+    'Pdg-Francenel-product101','Pdg-Francenel-product102','Pdg-Francenel-product103',
+    'Pdg-Francenel-product104','Pdg-Francenel-product105','Pdg-Francenel-product106',
+    'Pdg-Francenel-product107','Pdg-Francenel-product108','Pdg-Francenel-product109',
+    'Pdg-Francenel-product110'
   ];
 
   const hasFeatured = !plansOn_ck && cart.some(i => BBW_FEATURED_IDS_CK.includes(i.id));
@@ -7871,6 +7964,19 @@ const BBW_WISHLIST_SLUG_MAP = {
   'Pdg-Francenel-product73': 'blushlace-gown-lace-cap-sleeve-empire-maxi',
   'Pdg-Francenel-product74': 'tealempire-gown-sleeveless-vneck-formal-maxi',
   'Pdg-Francenel-product75': 'jacquardpower-suit-multicolor-floral-brocade',
+  'Pdg-Francenel-product98': 'gilded-gala-gown-sequin-bodice-tiered-tulle',
+  'Pdg-Francenel-product99': 'midnightvelvet-sheath-three-quarter-sleeve-bodycon',
+  'Pdg-Francenel-product100': 'velvetwrap-jumpsuit-gold-belt-wide-leg',
+  'Pdg-Francenel-product101': 'savannahprint-sundress-tribal-tiered-mini',
+  'Pdg-Francenel-product102': 'classictrench-coat-belted-double-breasted',
+  'Pdg-Francenel-product103': 'tiefront-sheath-cap-sleeve-wrap-detail',
+  'Pdg-Francenel-product104': 'slouchsuede-boots-knee-high-block-heel',
+  'Pdg-Francenel-product105': 'velvettailored-blazer-peak-lapel-jacket',
+  'Pdg-Francenel-product106': 'colorblockmidi-stripe-detail-sheath-dress',
+  'Pdg-Francenel-product107': 'houndstoothtweed-set-button-front-skirt-dress',
+  'Pdg-Francenel-product108': 'rufflecascade-sheath-draped-side-detail',
+  'Pdg-Francenel-product109': 'tweedshift-dress-cuffed-sleeve-classic',
+  'Pdg-Francenel-product110': 'polkadotblouse-set-wide-leg-belted-trouser',
 };
 
 // ================================================================
@@ -11953,7 +12059,12 @@ document.addEventListener('DOMContentLoaded', function () {
         'Pdg-Francenel-product67','Pdg-Francenel-product68',
         'Pdg-Francenel-product69','Pdg-Francenel-product70','Pdg-Francenel-product71',
         'Pdg-Francenel-product72','Pdg-Francenel-product73','Pdg-Francenel-product74',
-        'Pdg-Francenel-product75'
+        'Pdg-Francenel-product75',
+        'Pdg-Francenel-product98','Pdg-Francenel-product99','Pdg-Francenel-product100',
+        'Pdg-Francenel-product101','Pdg-Francenel-product102','Pdg-Francenel-product103',
+        'Pdg-Francenel-product104','Pdg-Francenel-product105','Pdg-Francenel-product106',
+        'Pdg-Francenel-product107','Pdg-Francenel-product108','Pdg-Francenel-product109',
+        'Pdg-Francenel-product110'
       ];
       let out = text;
       internalIds.forEach(id => {
@@ -15052,5 +15163,56 @@ function injectColFbt() {
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW COLLAPSIBLE INFO BLOCKS
+   Generic accordion behavior for any product-page info block
+   marked up with class="bbw-collapsible" on its wrapper and
+   class="bbw-collapsible__toggle" on its existing *__header
+   element. Injects a chevron icon into the header, wraps every
+   sibling after the header into a .bbw-collapsible__body, and
+   toggles open/closed on click. Blocks start closed.
+════════════════════════════════════════════════════════════ */
+(function initCollapsibleInfoBlocks() {
+  document.querySelectorAll('.bbw-collapsible').forEach(function (block) {
+    if (block.dataset.collapsibleReady) return;
+    const toggle = block.querySelector(':scope > .bbw-collapsible__toggle');
+    if (!toggle) return;
+
+    const chevron = document.createElement('i');
+    chevron.className = 'fas fa-chevron-down bbw-collapsible__chevron';
+    toggle.appendChild(chevron);
+
+    const body = document.createElement('div');
+    body.className = 'bbw-collapsible__body';
+    let sibling = toggle.nextSibling;
+    while (sibling) {
+      const next = sibling.nextSibling;
+      body.appendChild(sibling);
+      sibling = next;
+    }
+    block.appendChild(body);
+
+    toggle.setAttribute('role', 'button');
+    toggle.setAttribute('tabindex', '0');
+    toggle.setAttribute('aria-expanded', 'false');
+
+    function toggleBlock() {
+      const isOpen = block.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    toggle.addEventListener('click', toggleBlock);
+    toggle.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleBlock();
+      }
+    });
+
+    block.dataset.collapsibleReady = '1';
+  });
+})();
 
 })();

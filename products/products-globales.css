@@ -4,6 +4,43 @@
 
 
 /* ════════════════════════════════════════════════════════════
+   BBW COLLAPSIBLE INFO BLOCKS — generic accordion behavior
+   Applied on top of any existing block__header pattern.
+   Markup contract: add class "bbw-collapsible" to the block
+   wrapper, and "bbw-collapsible__toggle" to its *__header
+   element. Everything else inside the wrapper (siblings after
+   the header) gets wrapped by JS into a .bbw-collapsible__body.
+════════════════════════════════════════════════════════════ */
+.bbw-collapsible {
+    border-radius: 8px !important;
+}
+.bbw-collapsible__toggle {
+    cursor: pointer;
+    user-select: none;
+    justify-content: space-between;
+}
+.bbw-collapsible__chevron {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.30s cubic-bezier(0.4,0,0.2,1);
+}
+.bbw-collapsible.is-open .bbw-collapsible__chevron {
+    transform: rotate(180deg);
+}
+.bbw-collapsible__body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.bbw-collapsible.is-open .bbw-collapsible__body {
+    max-height: none;
+}
+
+
+/* ════════════════════════════════════════════════════════════
    PRODUCT3 — BOHO COLOR STORY BLOCK
 ════════════════════════════════════════════════════════════ */
 .boho-color-story {
@@ -110,92 +147,6 @@
 
 
 
-
-
-
-/* ════════════════════════════
-   BBW LIFESTYLE BLOCK
-════════════════════════════ */
-.bbw-lifestyle-block {
-    background: var(--bbw-card-frost-bg);
-    /* border: 1px solid rgba(184,146,90,0.28); */
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow:
-        0 4px 24px rgba(184,146,90,0.10),
-        0 1px 0 rgba(255,255,255,0.80) inset;
-}
-.bbw-lifestyle-header {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 12px 16px;
-    background: #15110E;
-    color: var(--bbw-gold);
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-}
-.bbw-lifestyle-header i {
-    color: var(--bbw-gold);
-    font-size: 0.90rem;
-}
-.bbw-lifestyle-grid {
-    display: flex;
-    gap: 0;
-}
-.bbw-lifestyle-item {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    border-right: 1px solid rgba(184,146,90,0.12);
-    cursor: pointer;
-}
-.bbw-lifestyle-item:last-child {
-    border-right: none;
-}
-.bbw-lifestyle-item img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
-    filter: brightness(0.88);
-}
-.bbw-lifestyle-item:hover img {
-    transform: scale(1.07);
-    filter: brightness(1);
-}
-.bbw-lifestyle-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,0.72), transparent);
-    color: var(--bbw-gold-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 8px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-.bbw-lifestyle-caption i {
-    font-size: 10px;
-}
-@media (max-width: 480px) {
-    .bbw-lifestyle-item img {
-        height: 120px;
-    }
-    .bbw-lifestyle-caption {
-        font-size: 9px;
-        padding: 8px 4px 8px;
-    }
-}
 
 
 
@@ -672,6 +623,7 @@
 .bbw-boot-style-guide__card:first-child  { border-radius: 0; }
 .bbw-boot-style-guide__card:last-child   { border-radius: 0 0 0 0; }
 
+
 /* ══════════════════
    RESPONSIVE MOBILE
 ══════════════════ */
@@ -933,127 +885,6 @@
     .bvcs-info strong { font-size: 12px; }
     .bvcs-info span { font-size: 11px; }
 }
-
-/* ════════════════════════════════════════════════════════════
-   BBW PAISLEY COLOR STORY — P12
-   Pattern : bbw-vintage-color-story / bbw-occasion-guide
-════════════════════════════════════════════════════════════ */
-.bbw-paisley-color-story {
-    background: var(--bbw-card-frost-bg);
-    /* border: 1px solid rgba(184,146,90,0.28); */
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow:
-        0 4px 24px rgba(184,146,90,0.10),
-        0 1px 0 rgba(255,255,255,0.80) inset;
-    position: relative;
-}
-.bbw-paisley-color-story::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(184,146,90,0.45), transparent);
-    pointer-events: none;
-}
-
-.bbw-paisley-color-story__header {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 12px 16px;
-    background: #15110E;
-    color: var(--bbw-gold);
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-}
-.bbw-paisley-color-story__header i {
-    color: var(--bbw-gold);
-    font-size: 0.90rem;
-    flex-shrink: 0;
-}
-
-.bbw-paisley-color-story__body {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 14px 16px;
-    background: rgba(255,255,255,0.85);
-}
-
-.bbw-paisley-cs__dot-wrap {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 3px;
-}
-.bbw-paisley-cs__dot {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid rgba(184,146,90,0.25);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    flex-shrink: 0;
-    transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-.bbw-paisley-color-story__body:hover .bbw-paisley-cs__dot {
-    transform: scale(1.12);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.22);
-}
-
-.bbw-paisley-cs__content {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
-    min-width: 0;
-}
-.bbw-paisley-cs__mood {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--bbw-black);
-    margin: 0;
-    letter-spacing: 0.02em;
-}
-.bbw-paisley-cs__mood strong {
-    color: var(--bbw-gold);
-}
-.bbw-paisley-cs__text {
-    font-size: 12px;
-    color: rgba(30,15,5,0.62);
-    line-height: 1.65;
-    margin: 0;
-}
-.bbw-paisley-cs__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 2px;
-}
-.bbw-paisley-cs__tags span {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--bbw-gold);
-    background: rgba(184,146,90,0.10);
-    border: 1px solid rgba(184,146,90,0.22);
-    border-radius: 50px;
-    padding: 3px 10px;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-}
-
-@media (max-width: 480px) {
-    .bbw-paisley-color-story { border-radius: 16px; }
-    .bbw-paisley-color-story__header { font-size: 0.68rem; padding: 10px 14px; }
-    .bbw-paisley-color-story__body { padding: 12px 14px; gap: 12px; }
-    .bbw-paisley-cs__dot { width: 24px; height: 24px; }
-    .bbw-paisley-cs__mood { font-size: 12px; }
-    .bbw-paisley-cs__text { font-size: 11px; }
-    .bbw-paisley-cs__tags span { font-size: 10px; padding: 2px 8px; }
-}
-
 
 /* ════════════════════════════════════════════════════════════
    BBW WEAR IT 3 WAYS — P12
@@ -1519,168 +1350,6 @@
 
 
 
-/* ════════════════════════════════════════════════════════════
-   PRODUCT 17 — LOUNGEROBE : COZY COLOR MOOD BLOCK
-   À ajouter dans products-globales.css
-════════════════════════════════════════════════════════════ */
-@keyframes ccm-swatch-float {
-    0%, 100% { transform: scale(1) translateY(0); }
-    50%       { transform: scale(1.06) translateY(-3px); }
-}
-@keyframes ccm-shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position: 200% center; }
-}
-
-.ccm-block {
-    background: var(--bbw-card-frost-bg);
-    /* border: 1px solid rgba(184,146,90,0.28); */
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow:
-        0 4px 24px rgba(184,146,90,0.10),
-        0 1px 0 rgba(255,255,255,0.80) inset;
-    position: relative;
-}
-.ccm-block::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(184,146,90,0.60) 30%,
-        rgba(232,188,106,0.90) 50%,
-        rgba(184,146,90,0.60) 70%,
-        transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: ccm-shimmer 3.2s linear infinite;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.ccm-block__header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 18px;
-    background: #15110E;
-    color: var(--bbw-gold);
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    position: relative;
-    z-index: 1;
-}
-.ccm-block__header i {
-    color: var(--bbw-gold-light);
-    font-size: 0.95rem;
-    flex-shrink: 0;
-}
-
-.ccm-block__grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: rgba(184,146,90,0.06);
-    position: relative;
-    z-index: 1;
-}
-
-.ccm-card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 18px;
-    background: rgba(255,255,255,0.85);
-    transition: background 0.22s ease, transform 0.22s ease;
-    position: relative;
-    cursor: default;
-    overflow: hidden;
-}
-.ccm-card:last-child { border-bottom: none; }
-.ccm-card:hover {
-    background: rgba(253,249,244,0.98);
-    transform: translateX(4px);
-}
-
-
-.ccm-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    border-radius: 0 3px 3px 0;
-    background: var(--ccm-accent, var(--bbw-gold));
-    opacity: 0;
-    transition: opacity 0.22s;
-}
-.ccm-card:hover::before { opacity: 1; }
-
-.ccm-swatch {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 2.5px solid rgba(184,146,90,0.25);
-    box-shadow: 0 3px 12px rgba(0,0,0,0.14);
-    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), box-shadow 0.28s ease;
-    animation: ccm-swatch-float 4s ease-in-out infinite;
-}
-.ccm-card:nth-child(2) .ccm-swatch { animation-delay: 0.5s; }
-.ccm-card:nth-child(3) .ccm-swatch { animation-delay: 1s; }
-.ccm-card:nth-child(4) .ccm-swatch { animation-delay: 1.5s; }
-.ccm-card:nth-child(5) .ccm-swatch { animation-delay: 2s; }
-.ccm-card:hover .ccm-swatch {
-    transform: scale(1.14) rotate(-5deg);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.20);
-}
-
-.ccm-info {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    flex: 1;
-    min-width: 0;
-}
-.ccm-info__name {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--bbw-black);
-    letter-spacing: 0.03em;
-}
-.ccm-info__mood {
-    font-size: 12px;
-    color: rgba(30,15,5,0.55);
-    line-height: 1.45;
-    font-style: italic;
-}
-.ccm-info__tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    background: rgba(184,146,90,0.10);
-    color: var(--bbw-gold);
-    border: 1px solid rgba(184,146,90,0.20);
-    border-radius: 20px;
-    padding: 2px 9px;
-    margin-top: 2px;
-    width: fit-content;
-}
-
-@media (max-width: 480px) {
-    .ccm-block__header { font-size: 0.68rem; padding: 10px 14px; }
-    .ccm-card { padding: 11px 14px; gap: 12px; }
-    .ccm-swatch { width: 38px; height: 38px; }
-    .ccm-info__name { font-size: 12px; }
-    .ccm-info__mood { font-size: 11px; }
-}
-
-
 /* ════════════════════════════
    LOUNGE PROMISE BLOCK
    (bloc unique LoungeRobe P17)
@@ -1782,6 +1451,158 @@
     .lp-block__inner { padding: 18px 16px; }
     .lp-block__quote { font-size: 17px; }
     .lp-block__item { font-size: 12px; }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   LP-BLOCK — VARIANT: EDITORIAL
+   The standard storytelling card across every BBW4LIFE Feature
+   page. Ivory magazine-style card, thin gold rule, serif italic
+   quote, two-column grid of highlights with small outline icons
+   instead of solid checkmarks. Replaces the dark default panel.
+════════════════════════════════════════════════════════════ */
+.lp-block--editorial {
+    background: var(--bbw-card-frost-bg, #fdf9f4);
+    border: 1px solid rgba(184,146,90,0.22);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(184,146,90,0.08);
+    animation: none;
+}
+.lp-block--editorial::before { display: none; }
+
+.lp-block--editorial::after {
+    content: '';
+    display: block;
+    width: 46px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--bbw-gold), var(--bbw-gold-light));
+    margin: 4px 0 20px;
+}
+
+.lp-block--editorial .lp-block__inner {
+    padding: 30px 28px;
+}
+
+.lp-block--editorial .lp-block__eyebrow {
+    color: var(--bbw-gold);
+    font-size: 10.5px;
+}
+
+.lp-block--editorial .lp-block__quote {
+    font-family: var(--font-display, Georgia, serif);
+    color: var(--bbw-black);
+    font-weight: 500;
+    font-size: clamp(19px, 3.2vw, 24px);
+    margin-bottom: 24px;
+}
+.lp-block--editorial .lp-block__quote span { color: var(--bbw-rose, #6E2439); font-weight: 600; }
+
+.lp-block--editorial .lp-block__items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+}
+
+.lp-block--editorial .lp-block__item {
+    color: rgba(21,17,14,0.72);
+    align-items: flex-start;
+    gap: 11px;
+}
+.lp-block--editorial .lp-block__item strong { color: var(--bbw-black); }
+
+.lp-block--editorial .lp-block__item i {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--bbw-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bbw-gold);
+    background: transparent;
+    font-size: 9px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    filter: none;
+}
+
+@media (max-width: 680px) {
+    .lp-block--editorial .lp-block__items { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .lp-block--editorial .lp-block__inner { padding: 22px 18px; }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW-BOOT-STYLE-GUIDE — VARIANT: ROWS
+   The standard "how to wear it" block across every Feature page.
+   Four stacked rows, each led by a large faint numeral instead of
+   a colored icon circle, separated by a hairline rule. Editorial
+   list feel that pairs with lp-block--editorial above it.
+════════════════════════════════════════════════════════════ */
+.bbw-boot-style-guide--rows {
+    background: var(--bbw-card-frost-bg, #fdf9f4);
+    border: 1px solid rgba(184,146,90,0.22);
+    box-shadow: 0 4px 24px rgba(184,146,90,0.08);
+}
+.bbw-boot-style-guide--rows::before { display: none; }
+
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__header {
+    background: transparent;
+    color: var(--bbw-black);
+    border-bottom: 1px solid rgba(184,146,90,0.18);
+}
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__header i { color: var(--bbw-gold); }
+
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__grid {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    background: transparent;
+    counter-reset: bbw-row;
+}
+
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__card {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 18px;
+    background: transparent;
+    padding: 18px 22px;
+    animation: none;
+    counter-increment: bbw-row;
+}
+
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__card::before {
+    content: counter(bbw-row, decimal-leading-zero);
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 26px;
+    font-weight: 600;
+    color: rgba(184,146,90,0.30);
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__card-icon { display: none; }
+
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__card:not(:last-child) {
+    border-bottom: 1px solid rgba(184,146,90,0.14);
+}
+
+.bbw-boot-style-guide--rows .bbw-boot-style-guide__card:hover {
+    background: rgba(184,146,90,0.04);
+    transform: none;
+}
+
+@media (max-width: 480px) {
+    .bbw-boot-style-guide--rows .bbw-boot-style-guide__card { padding: 14px 16px; gap: 12px; }
+    .bbw-boot-style-guide--rows .bbw-boot-style-guide__card::before { font-size: 21px; }
 }
 
 
@@ -2982,104 +2803,6 @@
 
 
 /* ════════════════════════════════════════════════════════════
-   Strip horizontal spécifique homme plus size
-════════════════════════════════════════════════════════════ */
-@keyframes men-cs-shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position: 200% center; }
-}
-@keyframes men-cs-icon-pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50%       { transform: scale(1.18); opacity: 0.75; }
-}
-
-.bbw-men-confidence-strip {
-    display: flex;
-    align-items: stretch;
-    background: #15110E;
-    /* border: 1px solid rgba(184,146,90,0.40); */
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    box-shadow:
-        0 4px 18px rgba(0,0,0,0.20),
-        0 0 0 1px rgba(184,146,90,0.10) inset;
-}
-.bbw-men-confidence-strip::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(184,146,90,0.70) 30%,
-        rgba(232,188,106,1.00) 50%,
-        rgba(184,146,90,0.70) 70%,
-        transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: men-cs-shimmer 3s linear infinite;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.bbw-men-cs-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    padding: 16px 10px;
-    border-right: 1px solid rgba(184,146,90,0.18);
-    position: relative;
-    transition: background 0.25s ease;
-    text-align: center;
-    cursor: default;
-}
-.bbw-men-cs-item:last-child {
-    border-right: none;
-}
-.bbw-men-cs-item:hover {
-    background: rgba(184,146,90,0.06);
-}
-
-.bbw-men-cs-item i {
-    font-size: 22px;
-    color: var(--bbw-gold);
-    flex-shrink: 0;
-    animation: men-cs-icon-pulse 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 6px rgba(184,146,90,0.40));
-}
-.bbw-men-cs-item:nth-child(2) i { animation-delay: 0.8s; }
-.bbw-men-cs-item:nth-child(3) i { animation-delay: 1.6s; }
-.bbw-men-cs-item:nth-child(4) i { animation-delay: 2.4s; }
-
-.bbw-men-cs-item strong {
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--bbw-gold);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    line-height: 1.2;
-}
-
-.bbw-men-cs-item span {
-    font-size: 11px;
-    color: rgba(253,249,244,0.55);
-    line-height: 1.45;
-    font-weight: 400;
-    max-width: 90px;
-}
-
-@media (max-width: 480px) {
-    .bbw-men-cs-item { padding: 12px 6px; gap: 5px; }
-    .bbw-men-cs-item i { font-size: 18px; }
-    .bbw-men-cs-item strong { font-size: 10px; }
-    .bbw-men-cs-item span { font-size: 10px; max-width: 70px; }
-}
-
-
-/* ════════════════════════════════════════════════════════════
    BBW PERFORMANCE STRIP — Product40 AirMesh Runners
 ════════════════════════════════════════════════════════════ */
 @keyframes perf-shimmer {
@@ -3446,104 +3169,6 @@
     .bbw-fog-item__info strong { font-size: 12px; }
     .bbw-fog-item__info span { font-size: 11px; }
     .bbw-fog-item__badge { font-size: 9px; }
-}
-
-
-
-/* ════════════════════════════════════════════════════════════
-   BBW COLOR WARMTH STRIP — Product51 RoundNeck Sweatshirt
-   5 couleurs en grille horizontale — style casual homme
-════════════════════════════════════════════════════════════ */
-.bbw-color-warmth {
-    background: var(--bbw-card-frost-bg);
-    /* border: 1px solid rgba(184,146,90,0.28); */
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow:
-        0 4px 24px rgba(184,146,90,0.10),
-        0 1px 0 rgba(255,255,255,0.80) inset;
-    position: relative;
-}
-.bbw-color-warmth::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(184,146,90,0.45), transparent);
-    pointer-events: none;
-}
-.bbw-color-warmth__header {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 12px 16px;
-    background: #15110E;
-    color: var(--bbw-gold);
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-}
-.bbw-color-warmth__header i {
-    color: var(--bbw-gold-light);
-    font-size: 0.90rem;
-    flex-shrink: 0;
-}
-.bbw-color-warmth__grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1px;
-    background: rgba(184,146,90,0.08);
-}
-.bbw-cw-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 7px;
-    padding: 14px 8px;
-    background: rgba(255,255,255,0.85);
-    transition: background 0.22s ease, transform 0.22s ease;
-    cursor: default;
-    text-align: center;
-}
-.bbw-cw-card:hover {
-    background: rgba(253,249,244,0.97);
-    transform: translateY(-2px);
-}
-.bbw-cw-dot {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 2px solid rgba(184,146,90,0.22);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.14);
-    transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-.bbw-cw-card:hover .bbw-cw-dot {
-    transform: scale(1.14);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.20);
-}
-.bbw-cw-name {
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--bbw-black);
-    letter-spacing: 0.02em;
-    line-height: 1.2;
-}
-.bbw-cw-mood {
-    font-size: 10px;
-    color: rgba(30,15,5,0.50);
-    line-height: 1.4;
-    font-style: italic;
-}
-@media (max-width: 480px) {
-    .bbw-color-warmth__grid {
-        grid-template-columns: repeat(5, 1fr);
-    }
-    .bbw-color-warmth__header { font-size: 0.68rem; padding: 10px 14px; }
-    .bbw-cw-card { padding: 10px 4px; gap: 5px; }
-    .bbw-cw-dot { width: 26px; height: 26px; }
-    .bbw-cw-name { font-size: 9.5px; }
-    .bbw-cw-mood { font-size: 9px; }
 }
 
 
