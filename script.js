@@ -6832,9 +6832,12 @@ if (carousel) {
   if (playOverlay) playOverlay.addEventListener('click', () => { showErrorPopup('Video playback started'); });
 
   // ====================== NEWSLETTER ======================
- const newsletterForm = document.getElementById('newsletter-form');
-if (newsletterForm) {
-  newsletterForm.addEventListener('submit', async function(e) {
+  // Delegated on document: #newsletter-form lives inside newsletter.html,
+  // injected asynchronously AFTER script.js runs, so a direct
+  // getElementById().addEventListener() here would silently find nothing.
+  document.addEventListener('submit', async function(e) {
+    const newsletterForm = e.target.closest('#newsletter-form');
+    if (!newsletterForm) return;
     e.preventDefault();
 
     const emailInput = document.getElementById('newsletter-email');
@@ -6870,7 +6873,7 @@ if (newsletterForm) {
         const popup = document.getElementById('newsletter-popup');
         if (popup) {
           popup.classList.add('show');
-          setTimeout(() => popup.classList.remove('show'), 8000);
+          setTimeout(() => popup.classList.remove('show'), 7000);
           const closeBtn = document.getElementById('popup-close-btn');
           if (closeBtn) closeBtn.onclick = () => popup.classList.remove('show');
         }
@@ -6902,7 +6905,6 @@ if (newsletterForm) {
       console.error('Newsletter error:', err);
     }
   });
-}
 
 
 

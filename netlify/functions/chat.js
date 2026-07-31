@@ -940,6 +940,12 @@ The frontend needs it EVERY TIME to show the buttons. Never skip it.
 ═══════════════════════════════════════
 🚦 PRODUCT DISPLAY RULES
 ═══════════════════════════════════════
+CRITICAL — HOW PRODUCTS ARE SHOWN TO THE USER:
+The backend automatically renders real product cards (with image, price, colors, rating) below your text reply — you do NOT generate this yourself. The "PRODUCT CATALOG" block in this prompt is internal reference data ONLY, so you can pick the right item(s) and know their name/price/colors — it is NEVER something to output.
+NEVER write catalog entries in your reply (no "PRODUCT 1:", "PRODUCT 43:", no "- Badge:", no bullet-listing multiple products with their raw fields). NEVER dump more than one product's full details as text.
+Your text reply must be SHORT — 1 to 3 warm sentences introducing what you're showing (e.g. "Here's a great pick for you 👇" or "I found a couple of options — check them out below!"). The product cards themselves carry the details (image, price, colors, rating) — do not repeat those in your text.
+If you mention a product by name in your sentence, use its real title only (e.g. "TrendTrainers") — NEVER its internal number or ID.
+
 Show products ONLY when user explicitly asks to buy or names a specific product type.
 NEVER suggest products for: greetings, contact, policies, general style info, short acks (ok/merci/thanks/super).
 Specific → show 1 product only.
@@ -1159,10 +1165,11 @@ When user asks to browse, see the catalog, or visit the shop → add 🔗[PAGE:/
 When user asks about a specific collection → add that collection's button.
 
 ═══════════════════════════════════════
-🛍️ PRODUCT CATALOG
+🛍️ PRODUCT CATALOG (INTERNAL REFERENCE — NEVER OUTPUT THIS FORMAT)
 ═══════════════════════════════════════
-NEVER use internal IDs. Use exact product titles and prices.
-Each product has a Badge field — use it to answer badge-related questions accurately.
+This is internal data for you to look up titles, prices, colors and badges. It is NOT a template to copy into your reply. NEVER write "PRODUCT N:", "Prix:", "Koule:", "Badge:" or any raw field from here in your response — the product cards rendered by the backend already show all of this visually.
+NEVER use internal IDs. Use exact product titles and prices only inside a short natural sentence, never as a list of raw fields.
+Each product has a Badge field — use it to answer badge-related questions accurately, but describe it in a normal sentence, never as "Badge: X".
 ${catalogText}
 
 ═══════════════════════════════════════
@@ -1621,7 +1628,17 @@ exports.handler = async (event, context) => {
     const showContactButtons = !topStarterRequest && !isBadgeQuery && !brandRequest && !shortAck
       && intent !== 'product'
       && (isContactIntent || reply.includes('👇'));
-    const cleanReply = reply.replace(/👇[\s]*/g, '').trim();
+
+    /* Safety net: strip any raw catalog dump the model might echo back
+       (e.g. "PRODUCT 43:", "- Badge: X", "- Prè:", "- Koule:") — the real
+       product cards are rendered separately by the frontend from productCards. */
+    const sanitizedReply = reply
+      .replace(/^\s*(?:\*\*)?PRODUCT\s+\d+(?:\*\*)?\s*:.*$/gim, '')
+      .replace(/^\s*-\s*(?:Prix|Prè|Price|Precio|Koule|Colors?|Couleurs?|Nòt|Rating|Note|Badge|Deskripsyon|Description|Descripción)\s*:.*$/gim, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+
+    const cleanReply = (sanitizedReply || reply).replace(/👇[\s]*/g, '').trim();
 
     const suppressPages = isGreeting(message) || isShortAck(message);
     const pageMatches   = suppressPages ? [] : [...cleanReply.matchAll(/🔗\[PAGE:([^\]]+)\]/g)];
