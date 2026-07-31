@@ -3684,3 +3684,1257 @@
     .bbw-brow-shade-card__tag { font-size: 10px; }
     .bbw-brow-shade-card__best { font-size: 10px; }
 }
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW CONVERT BLOCK — collapsible conversion-focused reasons list
+   Markup contract: add "bbw-collapsible" to the wrapper and
+   "bbw-collapsible__toggle" to the header (see initCollapsibleInfoBlocks
+   in script.js) so the block starts closed like the rest of the page.
+════════════════════════════════════════════════════════════ */
+.bbw-convert-block {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-convert-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 16px;
+    background: #15110E;
+    color: var(--bbw-gold);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+}
+.bbw-convert-header i {
+    color: var(--bbw-gold);
+    font-size: 0.90rem;
+    flex-shrink: 0;
+}
+.bbw-convert-list {
+    padding: 4px 0;
+}
+.bbw-convert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(184,146,90,0.08);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+.bbw-convert-item:last-child {
+    border-bottom: none;
+}
+.bbw-convert-item:hover {
+    background: rgba(253,249,244,0.80);
+    transform: translateX(3px);
+}
+.bbw-convert-icon {
+    color: var(--bbw-gold);
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    width: 18px;
+    text-align: center;
+}
+.bbw-convert-item__body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+.bbw-convert-item__body strong {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--bbw-black);
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+}
+.bbw-convert-item__body span {
+    font-size: 12px;
+    color: rgba(30,15,5,0.60);
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .bbw-convert-header { font-size: 0.68rem; padding: 10px 14px; }
+    .bbw-convert-item { padding: 10px 14px; gap: 10px; }
+    .bbw-convert-item__body strong { font-size: 12px; }
+    .bbw-convert-item__body span { font-size: 11px; }
+}
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW CURVE STORY — editorial spotlight block (ivory magazine card)
+   Distinct from .bbw-convert-block on purpose: no dark header bar,
+   no icon list. A serif italic quote up top, then a 2-col grid of
+   short proof-points below a thin gold rule. Markup contract: wrap
+   in "bbw-collapsible" + toggle carries "bbw-collapsible__toggle"
+   so it starts closed like the rest of the page.
+   NOTE: intentionally named apart from the pre-existing
+   .bbw-body-love card-grid block (used on product20/29/30) to avoid
+   a class-name collision — same product-page family, different
+   component, different markup contract.
+════════════════════════════════════════════════════════════ */
+.bbw-curve-story {
+    background: var(--bbw-card-frost-bg);
+    border: 1px solid rgba(184,146,90,0.22);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(184,146,90,0.08);
+}
+.bbw-curve-story__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 22px 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+}
+.bbw-curve-story__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-curve-story__rule {
+    width: 46px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--bbw-gold), var(--bbw-gold-light, var(--bbw-gold)));
+    margin: 12px 22px 18px;
+}
+.bbw-curve-story__quote {
+    font-family: var(--font-display, Georgia, serif);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--bbw-black);
+    font-size: clamp(18px, 3.2vw, 22px);
+    line-height: 1.42;
+    margin: 0 22px 20px;
+}
+.bbw-curve-story__quote span {
+    color: var(--bbw-rose, #6E2439);
+    font-style: normal;
+}
+.bbw-curve-story__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 22px;
+    padding: 0 22px 22px;
+}
+.bbw-curve-story__point {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.bbw-curve-story__point-num {
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: rgba(184,146,90,0.45);
+    line-height: 1;
+}
+.bbw-curve-story__point strong {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--bbw-black);
+    line-height: 1.3;
+}
+.bbw-curve-story__point span {
+    font-size: 12px;
+    color: rgba(30,15,5,0.60);
+    line-height: 1.5;
+}
+
+@media (max-width: 680px) {
+    .bbw-curve-story__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .bbw-curve-story__toggle { padding: 14px 18px 0; font-size: 10px; }
+    .bbw-curve-story__rule { margin: 10px 18px 15px; }
+    .bbw-curve-story__quote { margin: 0 18px 16px; font-size: 17px; }
+    .bbw-curve-story__grid { padding: 0 18px 18px; gap: 14px; }
+}
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW CINCH SPOTLIGHT — single-feature quote block
+   Distinct from .bbw-convert-block (icon list) and .bbw-body-love
+   (editorial 2-col grid): one feature, one line. Dark card, gold
+   eyebrow toggle, a single serif italic statement. Markup contract:
+   wrap in "bbw-collapsible" + toggle carries "bbw-collapsible__toggle"
+   so it starts closed.
+════════════════════════════════════════════════════════════ */
+.bbw-cinch-spotlight {
+    background: #15110E;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.20);
+}
+.bbw-cinch-spotlight__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 20px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+}
+.bbw-cinch-spotlight__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-cinch-spotlight__line {
+    text-align: center;
+    padding: 18px 24px 24px;
+    font-family: var(--font-display, Georgia, serif);
+    font-style: italic;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: clamp(15px, 2.8vw, 18px);
+    line-height: 1.5;
+}
+.bbw-cinch-spotlight__line span {
+    color: var(--bbw-gold);
+    font-style: normal;
+}
+
+@media (max-width: 480px) {
+    .bbw-cinch-spotlight__toggle { padding: 12px 16px; font-size: 0.68rem; }
+    .bbw-cinch-spotlight__line { padding: 15px 18px 20px; font-size: 14px; }
+}
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW CRAFT MARK — handmade provenance block
+   Distinct from .bbw-convert-block, .bbw-curve-story and
+   .bbw-cinch-spotlight: a stitched-border card with a numbered
+   "maker's note" list (like a small hang-tag), not a grid or a
+   quote. Built for handmade/artisanal products where natural
+   variation is the selling point. Markup contract: wrap in
+   "bbw-collapsible" + toggle carries "bbw-collapsible__toggle"
+   so it starts closed.
+════════════════════════════════════════════════════════════ */
+.bbw-craft-mark {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(184,146,90,0.10);
+    position: relative;
+}
+.bbw-craft-mark__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 18px 24px 4px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+}
+.bbw-craft-mark__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+.bbw-craft-mark__note {
+    font-size: 12.5px;
+    font-style: italic;
+    color: rgba(30,15,5,0.60);
+    line-height: 1.55;
+    padding: 6px 24px 16px;
+}
+.bbw-craft-mark__list {
+    padding: 4px 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.bbw-craft-mark__row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+.bbw-craft-mark__row-num {
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--bbw-gold);
+    flex-shrink: 0;
+    width: 16px;
+}
+.bbw-craft-mark__row-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.bbw-craft-mark__row-body strong {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--bbw-black);
+    line-height: 1.3;
+}
+.bbw-craft-mark__row-body span {
+    font-size: 12px;
+    color: rgba(30,15,5,0.58);
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .bbw-craft-mark__toggle { padding: 15px 18px 4px; font-size: 10px; }
+    .bbw-craft-mark__note { padding: 6px 18px 14px; font-size: 12px; }
+    .bbw-craft-mark__list { padding: 4px 18px 18px; gap: 10px; }
+}
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW EASY WIN — low-price, low-risk pitch block
+   Distinct from .bbw-convert-block, .bbw-curve-story,
+   .bbw-cinch-spotlight and .bbw-craft-mark: a horizontal strip of
+   3 compact stat-style tiles (not a list, not a grid of prose,
+   not a quote) built around "cheap to try, easy to gift". Markup
+   contract: wrap in "bbw-collapsible" + toggle carries
+   "bbw-collapsible__toggle" so it starts closed.
+════════════════════════════════════════════════════════════ */
+.bbw-easy-win {
+    background: linear-gradient(135deg, rgba(184,146,90,0.10), rgba(184,146,90,0.02));
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(184,146,90,0.10);
+}
+.bbw-easy-win__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+}
+.bbw-easy-win__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-easy-win__strip {
+    display: flex;
+    padding: 10px 12px 6px;
+}
+.bbw-easy-win__tile {
+    flex: 1;
+    text-align: center;
+    padding: 10px 8px;
+    border-right: 1px solid rgba(184,146,90,0.20);
+}
+.bbw-easy-win__tile:last-child {
+    border-right: none;
+}
+.bbw-easy-win__tile-num {
+    display: block;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--bbw-black);
+    line-height: 1.1;
+}
+.bbw-easy-win__tile-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: rgba(30,15,5,0.55);
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    margin-top: 4px;
+}
+.bbw-easy-win__line {
+    padding: 6px 20px 18px;
+    text-align: center;
+    font-size: 13px;
+    color: rgba(30,15,5,0.70);
+    line-height: 1.55;
+}
+.bbw-easy-win__line strong {
+    color: var(--bbw-black);
+}
+
+@media (max-width: 480px) {
+    .bbw-easy-win__toggle { padding: 14px 16px 2px; font-size: 0.68rem; }
+    .bbw-easy-win__strip { padding: 8px 6px 4px; }
+    .bbw-easy-win__tile { padding: 8px 4px; }
+    .bbw-easy-win__tile-num { font-size: 18px; }
+    .bbw-easy-win__tile-label { font-size: 9.5px; }
+    .bbw-easy-win__line { padding: 6px 16px 15px; font-size: 12px; }
+}
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW DUAL CARRY — two-mode versatility block
+   Distinct from the five blocks above: two side-by-side "mode"
+   panels (Hand-Held / Shoulder) separated by a vertical divider,
+   each with its own short pitch line. Built for products with a
+   genuine dual-use feature, not a list, not a quote, not stats.
+   Markup contract: wrap in "bbw-collapsible" + toggle carries
+   "bbw-collapsible__toggle" so it starts closed.
+════════════════════════════════════════════════════════════ */
+.bbw-dual-carry {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(184,146,90,0.10);
+}
+.bbw-dual-carry__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 4px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+}
+.bbw-dual-carry__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-dual-carry__modes {
+    display: flex;
+    padding: 12px 20px 18px;
+    gap: 0;
+}
+.bbw-dual-carry__mode {
+    flex: 1;
+    padding: 0 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.bbw-dual-carry__mode:first-child {
+    padding-left: 0;
+    border-right: 1px solid rgba(184,146,90,0.22);
+}
+.bbw-dual-carry__mode:last-child {
+    padding-right: 0;
+}
+.bbw-dual-carry__mode-icon {
+    color: var(--bbw-gold);
+    font-size: 17px;
+}
+.bbw-dual-carry__mode-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--bbw-black);
+    letter-spacing: 0.02em;
+}
+.bbw-dual-carry__mode-desc {
+    font-size: 12px;
+    color: rgba(30,15,5,0.60);
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .bbw-dual-carry__toggle { padding: 14px 16px 4px; font-size: 0.68rem; }
+    .bbw-dual-carry__modes { padding: 10px 16px 16px; }
+    .bbw-dual-carry__mode { padding: 0 10px; }
+    .bbw-dual-carry__mode-name { font-size: 12px; }
+    .bbw-dual-carry__mode-desc { font-size: 11px; }
+}
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW NATURAL FEEL — texture & breathability sensory block
+   Distinct from the six blocks above: a soft-edged card with a
+   single large sensory word as a watermark-style backdrop behind
+   three short tactile notes. Built for natural-material products
+   where texture/comfort is the pitch, not fit, price, or artisan
+   story. Markup contract: wrap in "bbw-collapsible" + toggle
+   carries "bbw-collapsible__toggle" so it starts closed.
+════════════════════════════════════════════════════════════ */
+.bbw-natural-feel {
+    background: linear-gradient(180deg, rgba(245,245,220,0.35), rgba(184,146,90,0.06));
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+}
+.bbw-natural-feel__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+    position: relative;
+    z-index: 1;
+}
+.bbw-natural-feel__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-natural-feel__watermark {
+    position: absolute;
+    right: 6px;
+    top: 4px;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 68px;
+    font-weight: 700;
+    color: rgba(184,146,90,0.08);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+.bbw-natural-feel__notes {
+    padding: 10px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+}
+.bbw-natural-feel__note {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.bbw-natural-feel__note-tag {
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+    background: rgba(184,146,90,0.12);
+    border-radius: 50px;
+    padding: 3px 10px;
+    white-space: nowrap;
+}
+.bbw-natural-feel__note-text {
+    font-size: 12.5px;
+    color: rgba(30,15,5,0.68);
+    line-height: 1.55;
+}
+.bbw-natural-feel__note-text strong {
+    color: var(--bbw-black);
+}
+
+@media (max-width: 480px) {
+    .bbw-natural-feel__toggle { padding: 14px 16px 2px; font-size: 0.68rem; }
+    .bbw-natural-feel__watermark { font-size: 46px; top: 2px; right: 4px; }
+    .bbw-natural-feel__notes { padding: 8px 16px 16px; gap: 10px; }
+    .bbw-natural-feel__note { flex-direction: column; gap: 4px; align-items: flex-start; }
+    .bbw-natural-feel__note-text { font-size: 11.5px; }
+}
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW DAILY DRIVER — durability/reliability checklist block
+   Distinct from the seven blocks above: a solid card with a
+   vertical checklist where each row pairs a bold outcome word
+   with a short proof line — built for products sold on rugged,
+   dependable everyday use rather than fit, texture, price, or
+   craft. Markup contract: wrap in "bbw-collapsible" + toggle
+   carries "bbw-collapsible__toggle" so it starts closed.
+════════════════════════════════════════════════════════════ */
+.bbw-daily-driver {
+    background: #15110E;
+    border-radius: 16px;
+    overflow: hidden;
+}
+.bbw-daily-driver__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+}
+.bbw-daily-driver__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-daily-driver__list {
+    padding: 12px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+.bbw-daily-driver__row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+.bbw-daily-driver__row-check {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(184,146,90,0.16);
+    color: var(--bbw-gold);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+.bbw-daily-driver__row-text {
+    font-size: 13px;
+    color: rgba(253,249,244,0.80);
+    line-height: 1.55;
+}
+.bbw-daily-driver__row-text strong {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.bbw-fit-check {
+    background: #15110E;
+    border-radius: 16px;
+    overflow: hidden;
+}
+.bbw-fit-check__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-gold);
+}
+.bbw-fit-check__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-fit-check__list {
+    padding: 14px 20px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+.bbw-fit-check__row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+.bbw-fit-check__box {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: rgba(184,146,90,0.16);
+    color: var(--bbw-gold);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    border: 1px solid rgba(184,146,90,0.35);
+}
+.bbw-fit-check__text {
+    font-size: 13px;
+    color: rgba(253,249,244,0.80);
+    line-height: 1.55;
+}
+.bbw-fit-check__text strong {
+    color: #ffffff;
+    font-weight: 800;
+}
+.bbw-fit-check__result {
+    margin: 14px 20px 20px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: rgba(184,146,90,0.10);
+    border: 1px solid rgba(184,146,90,0.25);
+    font-size: 13px;
+    color: rgba(253,249,244,0.90);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.bbw-fit-check__result i {
+    color: var(--bbw-gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.bbw-fit-check__result strong {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.bbw-fits-inside {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-fits-inside__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 16px;
+    background: rgba(253,249,244,0.95);
+    color: var(--bbw-black);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    transition: background 0.2s ease;
+}
+.bbw-fits-inside__toggle:hover {
+    background: #ffffff;
+}
+.bbw-fits-inside__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.90rem;
+}
+.bbw-fits-inside__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(184,146,90,0.08);
+    padding: 2px;
+}
+.bbw-fits-inside__item {
+    background: var(--bbw-card-frost-bg);
+    padding: 14px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    text-align: center;
+}
+.bbw-fits-inside__item i {
+    color: var(--bbw-gold);
+    font-size: 1.15rem;
+}
+.bbw-fits-inside__item span {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bbw-black);
+    line-height: 1.3;
+}
+.bbw-fits-inside__note {
+    padding: 12px 16px 16px;
+    font-size: 12.5px;
+    color: rgba(30,15,5,0.62);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+.bbw-fits-inside__note i {
+    color: var(--bbw-gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.bbw-belongs {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-belongs__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-black);
+}
+.bbw-belongs__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-belongs__list {
+    padding: 12px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.bbw-belongs__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+.bbw-belongs__icon {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(184,146,90,0.12);
+    color: var(--bbw-gold);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bbw-belongs__text {
+    font-size: 13px;
+    color: rgba(30,15,5,0.68);
+    line-height: 1.55;
+    padding-top: 3px;
+}
+.bbw-belongs__text strong {
+    color: var(--bbw-black);
+    font-weight: 800;
+}
+
+.bbw-bold-meter {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-bold-meter__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-black);
+}
+.bbw-bold-meter__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-bold-meter__track {
+    margin: 16px 20px 6px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(184,146,90,0.14);
+    overflow: hidden;
+}
+.bbw-bold-meter__fill {
+    height: 100%;
+    width: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(184,146,90,0.35) 0%, var(--bbw-gold) 100%);
+}
+.bbw-bold-meter__labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: rgba(30,15,5,0.50);
+    text-transform: uppercase;
+}
+.bbw-bold-meter__picks {
+    padding: 14px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.bbw-bold-meter__pick {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(30,15,5,0.68);
+    line-height: 1.5;
+}
+.bbw-bold-meter__pick strong {
+    color: var(--bbw-black);
+    font-weight: 800;
+}
+.bbw-bold-meter__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.85), 0 1px 4px rgba(0,0,0,0.20);
+}
+
+.bbw-night-match {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-night-match__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 4px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-black);
+}
+.bbw-night-match__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-night-match__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 14px 20px 20px;
+}
+.bbw-night-match__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 14px 8px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(184,146,90,0.16);
+    text-align: center;
+}
+.bbw-night-match__swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.85), 0 1px 4px rgba(0,0,0,0.18);
+    margin-bottom: 4px;
+}
+.bbw-night-match__card strong {
+    font-size: 12.5px;
+    color: var(--bbw-black);
+    font-weight: 800;
+}
+.bbw-night-match__card span:last-child {
+    font-size: 11px;
+    color: rgba(30,15,5,0.60);
+    line-height: 1.35;
+}
+
+.bbw-signature-detail {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-signature-detail__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-black);
+}
+.bbw-signature-detail__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-signature-detail__body {
+    padding: 16px 20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.bbw-signature-detail__charm {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(184,146,90,0.12);
+    color: var(--bbw-gold);
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(184,146,90,0.18);
+}
+.bbw-signature-detail__text {
+    font-size: 13px;
+    color: rgba(30,15,5,0.68);
+    line-height: 1.6;
+    margin: 0;
+}
+.bbw-signature-detail__text strong {
+    color: var(--bbw-black);
+    font-weight: 800;
+}
+
+.bbw-wear-ways {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-wear-ways__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-black);
+}
+.bbw-wear-ways__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-wear-ways__list {
+    padding: 12px 20px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+.bbw-wear-ways__row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+.bbw-wear-ways__num {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(184,146,90,0.16);
+    color: var(--bbw-gold);
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+.bbw-wear-ways__text {
+    font-size: 13px;
+    color: rgba(30,15,5,0.68);
+    line-height: 1.55;
+}
+.bbw-wear-ways__text strong {
+    color: var(--bbw-black);
+    font-weight: 800;
+}
+.bbw-wear-ways__note {
+    padding: 12px 20px 20px;
+    font-size: 12.5px;
+    color: rgba(30,15,5,0.60);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+.bbw-wear-ways__note i {
+    color: var(--bbw-gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.bbw-confidence-build {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-confidence-build__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px 2px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--bbw-black);
+}
+.bbw-confidence-build__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bbw-confidence-build__list {
+    padding: 12px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.bbw-confidence-build__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+.bbw-confidence-build__icon {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(184,146,90,0.12);
+    color: var(--bbw-gold);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bbw-confidence-build__text {
+    font-size: 13px;
+    color: rgba(30,15,5,0.68);
+    line-height: 1.55;
+    padding-top: 3px;
+}
+.bbw-confidence-build__text strong {
+    color: var(--bbw-black);
+    font-weight: 800;
+}
+
+
+
+/* ════════════════════════════════════════════════════════════
+   BBW STYLE FUSION — merges color-story + occasion + style-guide
+   into one collapsible block. Top row: color swatch cards (reuses
+   .bcs-card). Below: up to 3 combined tip rows (occasion + style
+   merged per row). Markup contract: wrap in "bbw-collapsible" +
+   toggle carries "bbw-collapsible__toggle" so it starts closed.
+════════════════════════════════════════════════════════════ */
+.bbw-style-fusion {
+    background: var(--bbw-card-frost-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+}
+.bbw-style-fusion__toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 16px;
+    background: #15110E;
+    color: var(--bbw-gold);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+}
+.bbw-style-fusion__toggle i {
+    color: var(--bbw-gold);
+    font-size: 0.90rem;
+    flex-shrink: 0;
+}
+.bbw-style-fusion__colors {
+    display: flex;
+    gap: 1px;
+    background: rgba(184,146,90,0.06);
+}
+.bsf-color {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.85);
+}
+.bsf-color__dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid rgba(184,146,90,0.25);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+.bsf-color__name {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--bbw-black);
+    line-height: 1.2;
+}
+.bbw-style-fusion__tips {
+    padding: 4px 0;
+}
+.bsf-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 16px;
+    border-top: 1px solid rgba(184,146,90,0.08);
+}
+.bsf-tip i {
+    color: var(--bbw-gold);
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.bsf-tip__body strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--bbw-black);
+    margin-bottom: 2px;
+}
+.bsf-tip__body span {
+    font-size: 12px;
+    color: rgba(30,15,5,0.62);
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .bbw-style-fusion__toggle { font-size: 0.68rem; padding: 10px 14px; }
+    .bbw-style-fusion__colors { flex-direction: column; gap: 0; }
+    .bsf-color { border-bottom: 1px solid rgba(184,146,90,0.08); }
+    .bsf-tip { padding: 10px 14px; gap: 8px; }
+    .bsf-tip__body strong { font-size: 12px; }
+    .bsf-tip__body span { font-size: 11px; }
+}
+
+@media (max-width: 480px) {
+    .bbw-daily-driver__toggle { padding: 14px 16px 2px; font-size: 0.68rem; }
+    .bbw-daily-driver__list { padding: 10px 16px 16px; gap: 11px; }
+    .bbw-daily-driver__row-text { font-size: 12px; }
+}

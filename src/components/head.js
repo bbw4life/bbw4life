@@ -970,6 +970,182 @@ const SEO_MAP = {
         canonical: 'https://bbw4life.com/products/product75.html'
     },
 
+    '/products/product76.html': {
+        title: 'PatchLace Flats — Leisure Patchwork Shoelace Sneakers | BBW4LIFE',
+        description: 'Effortless leisure flats with a soft patchwork upper and classic laces. Light, breathable and easy to pair with any curvy outfit. Light Pink, sizes 35 to 43. Free worldwide shipping.',
+        keywords: 'plus size sneakers, patchwork shoelace sneakers, leisure flats plus size, curvy women sneakers, BBW4LIFE original sneakers, comfortable plus size shoes, casual sneakers curvy, plus size walking shoes',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product76-1.png?v=1785113428',
+        canonical: 'https://bbw4life.com/products/product76.html'
+    },
+
+    '/products/product77.html': {
+        title: 'WarmStep Boots — Padded Fur-Lined Winter Sneakers | BBW4LIFE',
+        description: 'Padded winter boots designed to keep you warm without sacrificing style. Plush lining, sneaker-style sole — cozy from the first step. Black & Khaki, sizes 35 to 40. Free worldwide shipping.',
+        keywords: 'plus size winter boots, fur-lined sneakers plus size, padded winter shoes curvy, BBW4LIFE original boots, warm plus size boots, cold weather sneakers plus size, curvy women winter shoes',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product77-1.png?v=1785113428',
+        canonical: 'https://bbw4life.com/products/product77.html'
+    },
+
+    '/products/product78.html': {
+        title: 'PlatformWalk Sneakers — High Quality Plus Size Vulcanized Shoes | BBW4LIFE',
+        description: 'Vulcanized platform sneakers built for all-day walking comfort. Four fresh colorways, sizes 35 to 42 — durable style that keeps up with you. Free worldwide shipping.',
+        keywords: 'plus size platform sneakers, vulcanized shoes plus size, high quality curvy sneakers, BBW4LIFE original sneakers, plus size walking sneakers, comfortable platform shoes curvy',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product78-1.png?v=1785113428',
+        canonical: 'https://bbw4life.com/products/product78.html'
+    },
+
+    '/products/product79.html': {
+        title: 'StripeWrap Bodycon — Short Sleeve Bandage Dress | BBW4LIFE',
+        description: 'A striped bodycon dress with a snug bandage fit that celebrates every curve. Short sleeves, bold print — confidence built in. Black, Green & Yellow, sizes XL to 5XL. Free worldwide shipping.',
+        keywords: 'plus size bandage dress, bodycon dress plus size, striped wrap dress curvy, BBW4LIFE original dress, short sleeve bodycon plus size, curvy women bandage dress',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product79-1.png?v=1785114531',
+        canonical: 'https://bbw4life.com/products/product79.html'
+    },
+
+    '/products/product80.html': {
+        title: 'FlareFit Dress — Spring Flared Sleeve Hip-Hugging Dress | BBW4LIFE',
+        description: 'A hip-hugging silhouette softened by breezy flared sleeves. Light, feminine and made to flatter your natural shape. Green, Pink & Red Pink, sizes S to XXXL. Free worldwide shipping.',
+        keywords: 'plus size flared sleeve dress, hip-hugging dress plus size, spring dress curvy, BBW4LIFE original dress, plus size fitted dress, curvy women spring dress',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product80-1.png?v=1785190237',
+        canonical: 'https://bbw4life.com/products/product80.html'
+    },
+
+    '/products/product81.html': {
+        title: 'OfficeStripe Shirt Dress — Patchwork Streetwear Midi | BBW4LIFE',
+        description: 'A streetwear-inspired striped shirt dress with patchwork detail. Office-ready by day, effortlessly stylish after hours. White-Black, sizes L to 5XL. Free worldwide shipping.',
+        keywords: 'plus size shirt dress, streetwear midi dress plus size, striped patchwork dress curvy, BBW4LIFE original dress, office plus size dress, curvy women streetwear',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product81-1.png?v=1785191023',
+        canonical: 'https://bbw4life.com/products/product81.html'
+    },
+
+    '/products/product82.html': {
+        title: 'DrawShirt Dress — Drawstring Shirt Collar Streetwear | BBW4LIFE',
+        description: 'A drop-shoulder shirt dress with a drawstring waist and classic collar. Nine bold colors — everyday streetwear, elevated. Sizes L to XXXL. Free worldwide shipping.',
+        keywords: 'plus size drawstring dress, shirt collar dress plus size, streetwear dress curvy, BBW4LIFE original dress, plus size casual dress, curvy women shirt dress',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product82-1.png?v=1785196106',
+        canonical: 'https://bbw4life.com/products/product82.html'
+    },
+
+    '/products/product83.html': {
+        title: 'AutumnVneck Maxi — High Waist Family Matching Dress | BBW4LIFE',
+        description: 'A high-waist V-neck maxi dress perfect for autumn parties and family photos. Five rich colors, an elegant everyday silhouette. Sizes XL to 5XL. Free worldwide shipping.',
+        keywords: 'plus size maxi dress, family matching dress plus size, v-neck maxi curvy, BBW4LIFE original dress, high waist plus size dress, curvy women autumn dress',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-1.png?v=1785202911',
+        canonical: 'https://bbw4life.com/products/product83.html'
+    },
+
+    '/products/product84.html': {
+        title: 'BeltedBanquet Dress — Long Sleeve Printed High Waist | BBW4LIFE',
+        description: 'A printed high-waist banquet dress with a cinching belt. Long sleeves, elegant flow — built for your next big evening. Red or Black, sizes S to XXXL. Free worldwide shipping.',
+        keywords: 'plus size banquet dress, printed dress plus size, belted high waist dress curvy, BBW4LIFE original dress, long sleeve plus size dress, curvy women printed dress',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-1.png?v=1785203662',
+        canonical: 'https://bbw4life.com/products/product84.html'
+    },
+
+    '/products/product85.html': {
+        title: 'WovenTassel Bag — Hand-Crochet Shoulder Bag | BBW4LIFE',
+        description: 'A hand-crocheted shoulder bag with playful tassel detail. Thirteen shades to choose from — boho charm for every outfit. Free worldwide shipping.',
+        keywords: 'plus size fashion bag, hand-crochet shoulder bag, woven tassel bag, BBW4LIFE original bag, boho crochet bag curvy, curvy women shoulder bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-1.png?v=1785206937',
+        canonical: 'https://bbw4life.com/products/product85.html'
+    },
+
+    '/products/product86.html': {
+        title: 'KoreanTrend Bag — Small Hand-Held Messenger Bag | BBW4LIFE',
+        description: 'A small Korean-style shoulder bag with a clean, trendy silhouette. Five easy colors — the perfect grab-and-go accessory. Free worldwide shipping.',
+        keywords: 'plus size fashion bag, small messenger bag, Korean trend bag, BBW4LIFE original bag, hand-held mini bag curvy, curvy women messenger bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-1.png?v=1785208338',
+        canonical: 'https://bbw4life.com/products/product86.html'
+    },
+
+    '/products/product87.html': {
+        title: 'BlockSquare Bag — Color-Blocked Hand-Held Mini Bag | BBW4LIFE',
+        description: 'A compact color-blocked square bag, versatile enough for hand-held or shoulder carry. Simple lines, everyday elegance. Free worldwide shipping.',
+        keywords: 'plus size fashion bag, color-blocked mini bag, hand-held square bag, BBW4LIFE original bag, curvy women mini bag, trendy plus size bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product87-1.png?v=1785241218',
+        canonical: 'https://bbw4life.com/products/product87.html'
+    },
+
+    '/products/product88.html': {
+        title: 'RattanRing Tote — Hand-Knitted Beach Bag | BBW4LIFE',
+        description: 'A hand-knitted cotton rope tote with a rattan ring handle. Airy, natural texture — made for beach days and market runs. Free worldwide shipping.',
+        keywords: 'plus size beach bag, hand-knitted tote bag, rattan ring tote, BBW4LIFE original bag, summer beach bag curvy, curvy women tote bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product88-1.png?v=1785238766',
+        canonical: 'https://bbw4life.com/products/product88.html'
+    },
+
+    '/products/product89.html': {
+        title: 'CommuterCanvas Tote — Multi-Pocket Zipper Bag | BBW4LIFE',
+        description: 'A roomy canvas commuter tote with multiple pockets and a secure zipper. Practical, sturdy, and made for busy days. Free worldwide shipping.',
+        keywords: 'plus size tote bag, canvas commuter bag, multi-pocket zipper tote, BBW4LIFE original bag, practical tote curvy, curvy women canvas bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product89-1.png?v=1785238095',
+        canonical: 'https://bbw4life.com/products/product89.html'
+    },
+
+    '/products/product90.html': {
+        title: 'EmbroidTote Bag — Leather Top-Handle Crossbody | BBW4LIFE',
+        description: 'A leather-look tote with embroidered top-handle detail and crossbody strap. Seven colors — simple style that goes anywhere. Free worldwide shipping.',
+        keywords: 'plus size fashion bag, leather-look tote bag, embroidered top-handle bag, BBW4LIFE original bag, crossbody tote curvy, curvy women leather bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-1.png?v=1785237006',
+        canonical: 'https://bbw4life.com/products/product90.html'
+    },
+
+    '/products/product91.html': {
+        title: 'TexturedMini Bag — Simple Japanese-Style Hand Bag | BBW4LIFE',
+        description: 'A textured mini messenger bag with a clean, minimalist silhouette. Fresh and versatile — a small bag with big style. Free worldwide shipping.',
+        keywords: 'plus size mini bag, Japanese-style hand bag, textured mini messenger bag, BBW4LIFE original bag, minimalist bag curvy, curvy women mini bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product91-1.png?v=1785235608',
+        canonical: 'https://bbw4life.com/products/product91.html'
+    },
+
+    '/products/product92.html': {
+        title: 'RetroNiche Bag — Large Capacity Shoulder Messenger | BBW4LIFE',
+        description: 'A retro-designed shoulder bag with generous capacity and a niche, ins-worthy feel. Understated luxury for everyday carry. Free worldwide shipping.',
+        keywords: 'plus size shoulder bag, retro messenger bag, large capacity tote, BBW4LIFE original bag, niche shoulder bag curvy, curvy women retro bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product92-1.png?v=1785213674',
+        canonical: 'https://bbw4life.com/products/product92.html'
+    },
+
+    '/products/product93.html': {
+        title: 'LeopardUnderarm Bag — Retro Drawstring Crossbody | BBW4LIFE',
+        description: 'An underarm crossbody bag with a bold print and drawstring closure. Retro attitude in a compact, easy-carry shape. Free worldwide shipping.',
+        keywords: 'plus size crossbody bag, leopard print bag, retro underarm bag, BBW4LIFE original bag, drawstring bag curvy, curvy women leopard bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product93-1.png?v=1785212850',
+        canonical: 'https://bbw4life.com/products/product93.html'
+    },
+
+    '/products/product94.html': {
+        title: 'MetalChain Clutch — Trendy Evening Party Bag | BBW4LIFE',
+        description: 'A metallic chain-strap evening bag built for parties and date nights. Four finishes — the finishing touch on a glam look. Free worldwide shipping.',
+        keywords: 'plus size evening bag, metal chain clutch, party bag plus size, BBW4LIFE original bag, glam clutch curvy, curvy women evening bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product94-1.png?v=1785211454',
+        canonical: 'https://bbw4life.com/products/product94.html'
+    },
+
+    '/products/product95.html': {
+        title: 'PatternTote Bag — Earring-Decorated Shoulder Tote | BBW4LIFE',
+        description: 'A patterned tote finished with a decorative earring charm. Playful, feminine, and roomy enough for everyday essentials. Free worldwide shipping.',
+        keywords: 'plus size tote bag, earring-decorated bag, patterned shoulder tote, BBW4LIFE original bag, feminine tote curvy, curvy women pattern bag',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product95-1.png?v=1785210406',
+        canonical: 'https://bbw4life.com/products/product95.html'
+    },
+
+    '/products/product96.html': {
+        title: 'PleatedTwo-Piece — Solid Color Skirt Set | BBW4LIFE',
+        description: 'A solid-color pleated skirt two-piece set in seven fresh shades. Coordinated, comfortable, and endlessly wearable. Sizes S to 5XL. Free worldwide shipping.',
+        keywords: 'plus size two piece set, pleated skirt set plus size, solid color skirt set curvy, BBW4LIFE original set, coordinated set plus size, curvy women skirt set',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-1.png?v=1785189040',
+        canonical: 'https://bbw4life.com/products/product96.html'
+    },
+
+    '/products/product97.html': {
+        title: 'OnePiece Swim — Plus Size Solid Swimsuit | BBW4LIFE',
+        description: 'A classic plus-size one-piece swimsuit in three bold colors. Full coverage, full confidence — pool and beach ready. Sizes 0XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size swimsuit, one piece swimsuit plus size, solid color swimwear curvy, BBW4LIFE original swimwear, full coverage swimsuit plus size, curvy women swimsuit',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-1.png?v=1785192602',
+        canonical: 'https://bbw4life.com/products/product97.html'
+    },
+
     '/products/product98.html': {
         title: 'Gilded Gala Gown — Sequin Bodice Tiered Tulle Dress | BBW4LIFE',
         description: 'A showstopper for your biggest nights. Sequined sweetheart bodice, sheer polka-dot mesh sleeves, gold-link belt, dramatic ribbon-trimmed tulle skirt in caramel and black. Plus size gala gown sizes 1XL to 5XL. Free worldwide shipping.',
