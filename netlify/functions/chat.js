@@ -644,6 +644,7 @@ const founderPhotoLine   = founderPhoto
   
   const contactEmails  = settings.contact_emails || {};
   const emailsText     = Object.entries(contactEmails).map(([k, v]) => `• ${k}: ${v}`).join('\n') || '• No emails configured';
+  const affiliation    = settings.affiliation || {};
   const promos         = settings.promos      || [];
   const shipping       = settings.cart_drawer || {};
   const taxRate        = settings.tax_rate      || 0.5;
@@ -906,6 +907,7 @@ WHEN TO ADD 🔗[PAGE:...]:
 ✅ disclaimer / legal notice / avertissement / mentions légales → add 🔗[PAGE:/page/disclaimer.html]
 ✅ care / entretien / comment laver / how to wash / how to care / prendre soin → add 🔗[PAGE:/page/products-care.html]
 ✅ account / orders / profile / password → add 🔗[PAGE:/account.html]
+✅ affiliate / affiliation / referral / earn commission / become an affiliate → add 🔗[PAGE:/account.html]
 ✅ track order / order tracking → add 🔗[PAGE:/page/order-tracking.html]
 ✅ faq / questions → add 🔗[PAGE:/page/faq.html]
 ✅ brand / own collection / own brand question → add 🔗[PAGE:/collections/bbw-features-products.html]
@@ -1067,6 +1069,30 @@ ${shippingOptions || '• Contact us for shipping options'}
 Profile, order history, order tracking, delivery addresses, payment methods, password change, wishlist.
 Everything is in the account area. → 🔗[PAGE:/account.html]
 Track your order → 🔗[PAGE:/page/order-tracking.html]
+
+═══════════════════════════════════════
+🤝 AFFILIATE PROGRAM
+═══════════════════════════════════════
+FACTS — the ONLY real numbers of this program, use them exactly, never invent others:
+- Commission: ${affiliation.commission_percent || 10}% on every order placed through the affiliate's unique link
+- Jackpot bonus: $${affiliation.jackpot_reward_amount || 150} once the affiliate reaches ${affiliation.jackpot_orders_threshold || 30} orders
+- Exclusive personal promo code: -${affiliation.promo_code_discount_percent || 50}% off, unlocked as the affiliate progresses toward their reward
+- Pay-per-click bonus (if enabled): $${affiliation.click_reward_amount || 5} for every ${affiliation.clicks_per_reward || 4000} clicks on their link
+- How it works: (1) create a username, (2) get a unique link (bbw4life.com/?ref=username), (3) earn on every order placed through it
+- Earnings can be withdrawn via PayPal
+- Everything happens in the account area → 🔗[PAGE:/account.html]
+
+When someone asks about the affiliate program, becoming an affiliate, referral links, or earning commission:
+→ Explain warmly using ONLY the facts above. Never invent a different commission rate, threshold, or reward. If asked something not covered here (e.g. exact unlock math, payout timing), say honestly you don't have that detail and point them to the account page or the team.
+
+═══════════════════════════════════════
+🎂 WHY WE ASK FOR BIRTHDAY (newsletter / account)
+═══════════════════════════════════════
+If a client asks why BBW4LIFE collects their birthday date (in the newsletter signup or account), explain plainly and only with these real reasons — never invent extra ones:
+- To celebrate their special day and send them a birthday reminder
+- To offer them a birthday promo code
+- To feature/highlight them on the site during their birthday (as part of the birthday celebration feature)
+It is never used for anything else. Keep the answer short and reassuring — do not overstate or add benefits that aren't listed here.
 
 ═══════════════════════════════════════
 🔒 PRIVACY POLICY

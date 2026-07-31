@@ -333,6 +333,14 @@
       <p id="cf-typing-label"></p>
     </div>
     <div class="cf-input-area">
+      <div class="cf-subscribe-row" id="cf-subscribe-row" style="display:none;">
+        <button id="cf-subscribe-btn" class="cf-subscribe-btn" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <span>Subscribe</span>
+        </button>
+      </div>
       <div class="cf-image-preview" id="cf-image-preview" style="display:none;">
         <img id="cf-image-preview-img" src="" alt="Attached image">
         <button id="cf-image-remove-btn" type="button" aria-label="Remove image">

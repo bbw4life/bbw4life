@@ -1358,7 +1358,10 @@ function showErrorPopup(message) {
   document.querySelectorAll('[data-stat-text]').forEach(el => {
     const key = el.dataset.statKey;
     if (key && s[key] !== undefined) {
-      el.textContent = s[key];
+      const val = s[key];
+      el.textContent = (typeof val === 'number' && val >= 1000)
+        ? (val / 1000).toFixed(val % 1000 === 0 ? 0 : 1).replace(/\.0$/, '') + 'K'
+        : val;
     }
   });
 
@@ -6857,6 +6860,12 @@ if (newsletterForm) {
       const data = await res.json();
 
       if (data.success) {
+        // Unified thank-you text — same source as #newsletter-popup / #bbwNlSuccess
+        const npSettings = (window.__allProducts || []).find(p => p.type === 'settings') || {};
+        const np = npSettings.newsletter_popup || {};
+        const nlSuccessTextEl = document.getElementById('nl-success-text');
+        if (nlSuccessTextEl && np.message) nlSuccessTextEl.textContent = np.message;
+
         // Popup thank you
         const popup = document.getElementById('newsletter-popup');
         if (popup) {
@@ -6896,60 +6905,6 @@ if (newsletterForm) {
 }
 
 
-
-// ══ NEWSLETTER — handler global avec délégation ══
-document.addEventListener('submit', async function(e) {
-  const form = e.target;
-  if (form.id !== 'newsletter-form') return;
-  e.preventDefault();
-
-  const emailInput = form.querySelector('#newsletter-email');
-  const email = emailInput ? emailInput.value.trim() : '';
-  if (!email || !email.includes('@')) return;
-
-  const btn = form.querySelector('.nl-btn, button[type="submit"]');
-  const originalHTML = btn ? btn.innerHTML : '';
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fi fi-rr-spinner"></i><span>Sending...</span>';
-  }
-
-  try {
-    const res = await fetch('/.netlify/functions/save-account', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'newsletter-subscribe', email: email })
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      // Cache le form, affiche succès inline
-      const formWrap = document.getElementById('nl-form-wrap');
-      const successMsg = document.getElementById('nl-success-msg');
-      if (formWrap) formWrap.style.display = 'none';
-      if (successMsg) successMsg.style.display = 'flex';
-
-      // Popup thank you
-      const popup = document.getElementById('newsletter-popup');
-      if (popup) {
-        popup.classList.add('show');
-        setTimeout(() => popup.classList.remove('show'), 8000);
-        const closeBtn = document.getElementById('popup-close-btn');
-        if (closeBtn) closeBtn.onclick = () => popup.classList.remove('show');
-      }
-
-      emailInput.value = '';
-
-    } else {
-      if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
-      alert('Error: ' + (data.error || 'Unknown'));
-    }
-
-  } catch (err) {
-    if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
-    console.error('Newsletter error:', err);
-  }
-});
 
   // ====================== PROGRESS CURVE ======================
   const ctxCurve = document.getElementById('progress-curve');
@@ -12033,6 +11988,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const imagePreviewImg= document.getElementById('cf-image-preview-img');
     const imageRemoveBtn = document.getElementById('cf-image-remove-btn');
 
+    const subscribeRow = document.getElementById('cf-subscribe-row');
+    const subscribeBtn = document.getElementById('cf-subscribe-btn');
+
     if (!widget || !toggle || !window_ || !messages || !input || !sendBtn) return;
 
     /* ── State ── */
@@ -12790,6 +12748,40 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
+    /* ── Subscribe button (uses existing newsletter popup system) ── */
+    function updateSubscribeVisibility() {
+      if (!subscribeRow) return;
+      const isLoggedIn  = localStorage.getItem('isLoggedIn') === 'true';
+      const isSubscribed = localStorage.getItem('bbwnl_subscribed') === 'yes';
+      subscribeRow.style.display = (isLoggedIn || isSubscribed) ? 'none' : 'flex';
+    }
+    updateSubscribeVisibility();
+    document.addEventListener('bbwnl:subscribed', updateSubscribeVisibility);
+
+    if (subscribeBtn) {
+      subscribeBtn.addEventListener('click', () => {
+        if (typeof window.openNewsletterPopup !== 'function') return;
+        window.openNewsletterPopup();
+
+        const overlay = document.getElementById('bbwNlOverlay');
+        if (!overlay) return;
+
+        let autoCloseTimer = null;
+        const observer = new MutationObserver(() => {
+          const successEl = document.getElementById('bbwNlSuccess');
+          if (successEl && successEl.style.display === 'block' && !autoCloseTimer) {
+            observer.disconnect();
+            autoCloseTimer = setTimeout(() => {
+              if (overlay.classList.contains('bbwnl-active') && typeof window.closeNewsletterPopup === 'function') {
+                window.closeNewsletterPopup();
+              }
+            }, 7000);
+          }
+        });
+        observer.observe(overlay, { attributes: true, childList: true, subtree: true });
+      });
+    }
+
     /* ── Keyboard & outside click ── */
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && isOpen) closeChat();
@@ -12842,14 +12834,50 @@ document.addEventListener('DOMContentLoaded', function () {
     el.setAttribute('aria-modal', 'true');
     el.setAttribute('aria-label', 'Cookie preferences');
     el.innerHTML = `
+      <div id="cf-cookie-bar">
+
+        <div class="cfck-bar-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10"/>
+            <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="8.5" cy="11.5" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="11.5" cy="15.5" r="1.5" fill="currentColor" stroke="none"/>
+            <path d="M17 2a5 5 0 0 0 5 5"/>
+          </svg>
+        </div>
+
+        <p class="cfck-bar-text">
+          We use cookies to improve your experience and — with your permission — personalize content. Read our
+          <a href="/policies/privacy.html" class="cfck-link">Privacy Policy</a>.
+        </p>
+
+        <div class="cfck-bar-actions">
+          <button class="cfck-btn cfck-btn--ghost" id="cfck-reject">Reject all</button>
+          <button class="cfck-btn cfck-btn--outline" id="cfck-customize">Customize</button>
+          <button class="cfck-btn cfck-btn--primary" id="cfck-accept">Accept all</button>
+        </div>
+
+        <button class="cfck-close-x" id="cfck-close-x" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+
+        <div class="cfck-confirm" id="cfck-confirm" aria-live="polite">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span id="cfck-confirm-text">Preferences saved!</span>
+        </div>
+      </div>
+
       <div id="cf-cookie-overlay"></div>
       <div id="cf-cookie-modal">
 
-        
         <div class="cfck-header">
           <div class="cfck-header-left">
             <div class="cfck-icon-wrap">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10"/>
                 <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/>
                 <circle cx="8.5" cy="11.5" r="1.5" fill="currentColor" stroke="none"/>
@@ -12858,25 +12886,18 @@ document.addEventListener('DOMContentLoaded', function () {
               </svg>
             </div>
             <div>
-              <h2 class="cfck-title">We use cookies 🍪</h2>
-              <p class="cfck-subtitle">Customize your privacy preferences</p>
+              <h2 class="cfck-title">Cookie preferences</h2>
+              <p class="cfck-subtitle">Choose what you're comfortable sharing</p>
             </div>
           </div>
-          <button class="cfck-close-x" id="cfck-close-x" aria-label="Close">
+          <button class="cfck-modal-close-x" id="cfck-modal-close-x" aria-label="Close">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
         </div>
 
-        
         <div class="cfck-body">
-          <p class="cfck-desc">
-            BBW4LIFE uses cookies to improve your experience, analyze traffic, and — with your permission — personalize content. Your data is never sold. Read our
-            <a href="/policies/privacy.html" class="cfck-link">Privacy Policy</a> for full details.
-          </p>
-
-          
           <div class="cfck-panels" id="cfck-panels">
 
             <div class="cfck-panel cfck-panel--required">
@@ -12934,19 +12955,10 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
         </div>
 
-        
         <div class="cfck-footer">
-          <button class="cfck-btn cfck-btn--ghost" id="cfck-reject">Reject all</button>
+          <button class="cfck-btn cfck-btn--ghost" id="cfck-reject-modal">Reject all</button>
           <button class="cfck-btn cfck-btn--outline" id="cfck-save">Save preferences</button>
-          <button class="cfck-btn cfck-btn--primary" id="cfck-accept">Accept all</button>
-        </div>
-
-        
-        <div class="cfck-confirm" id="cfck-confirm" aria-live="polite">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-          <span id="cfck-confirm-text">Preferences saved!</span>
+          <button class="cfck-btn cfck-btn--primary" id="cfck-accept-modal">Accept all</button>
         </div>
 
       </div>
@@ -12964,6 +12976,8 @@ document.addEventListener('DOMContentLoaded', function () {
       setTimeout(() => {
         closePopup();
       }, 1400);
+    } else {
+      closePopup();
     }
   }
 
@@ -12976,6 +12990,18 @@ document.addEventListener('DOMContentLoaded', function () {
         if (popup.parentNode) popup.parentNode.removeChild(popup);
       }, 400);
     }
+  }
+
+  /* ── Open the detailed preferences modal ── */
+  function openModal() {
+    const popup = document.getElementById('cf-cookie-popup');
+    if (popup) popup.classList.add('cfck-modal-open');
+  }
+
+  /* ── Close the detailed preferences modal (back to the bar) ── */
+  function closeModal() {
+    const popup = document.getElementById('cf-cookie-popup');
+    if (popup) popup.classList.remove('cfck-modal-open');
   }
 
   /* ── Init ── */
@@ -12992,20 +13018,36 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    /* Close X */
+    /* Bar: close X → reject and dismiss */
     document.getElementById('cfck-close-x').addEventListener('click', () => {
       saveConsent({ analytics: false, marketing: false });
       showConfirmAndClose('Preferences saved!');
     });
 
-    /* Overlay click → reject */
-    document.getElementById('cf-cookie-overlay').addEventListener('click', () => {
+    /* Bar: reject all */
+    document.getElementById('cfck-reject').addEventListener('click', () => {
       saveConsent({ analytics: false, marketing: false });
-      closePopup();
+      showConfirmAndClose('All optional cookies rejected.');
     });
 
-    /* Reject all */
-    document.getElementById('cfck-reject').addEventListener('click', () => {
+    /* Bar: customize → open detailed modal */
+    document.getElementById('cfck-customize').addEventListener('click', openModal);
+
+    /* Bar: accept all */
+    document.getElementById('cfck-accept').addEventListener('click', () => {
+      saveConsent({ analytics: true, marketing: true });
+      if (typeof bbwSubscribeGeneral === 'function') bbwSubscribeGeneral();
+      showConfirmAndClose('All cookies accepted. Thank you! 🎉');
+    });
+
+    /* Modal: close X → back to bar (no consent saved yet) */
+    document.getElementById('cfck-modal-close-x').addEventListener('click', closeModal);
+
+    /* Modal overlay click → back to bar */
+    document.getElementById('cf-cookie-overlay').addEventListener('click', closeModal);
+
+    /* Modal: reject all */
+    document.getElementById('cfck-reject-modal').addEventListener('click', () => {
       const analyticsEl = document.getElementById('cfck-analytics');
       const marketingEl = document.getElementById('cfck-marketing');
       if (analyticsEl) analyticsEl.checked = false;
@@ -13014,7 +13056,7 @@ document.addEventListener('DOMContentLoaded', function () {
       showConfirmAndClose('All optional cookies rejected.');
     });
 
-    /* Save preferences */
+    /* Modal: save preferences */
     document.getElementById('cfck-save').addEventListener('click', () => {
       const analytics = document.getElementById('cfck-analytics')?.checked ?? true;
       const marketing = document.getElementById('cfck-marketing')?.checked ?? false;
@@ -13023,8 +13065,8 @@ document.addEventListener('DOMContentLoaded', function () {
       showConfirmAndClose('Your preferences have been saved!');
     });
 
-    /* Accept all */
-    document.getElementById('cfck-accept').addEventListener('click', () => {
+    /* Modal: accept all */
+    document.getElementById('cfck-accept-modal').addEventListener('click', () => {
       const analyticsEl = document.getElementById('cfck-analytics');
       const marketingEl = document.getElementById('cfck-marketing');
       if (analyticsEl) analyticsEl.checked = true;
@@ -13034,9 +13076,13 @@ document.addEventListener('DOMContentLoaded', function () {
       showConfirmAndClose('All cookies accepted. Thank you! 🎉');
     });
 
-    /* Escape key */
+    /* Escape key: close modal if open, else reject and dismiss */
     document.addEventListener('keydown', function onEsc(e) {
-      if (e.key === 'Escape') {
+      if (e.key !== 'Escape') return;
+      const popupEl = document.getElementById('cf-cookie-popup');
+      if (popupEl && popupEl.classList.contains('cfck-modal-open')) {
+        closeModal();
+      } else {
         saveConsent({ analytics: false, marketing: false });
         closePopup();
         document.removeEventListener('keydown', onEsc);

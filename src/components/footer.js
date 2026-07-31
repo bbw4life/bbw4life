@@ -2236,10 +2236,30 @@ document.addEventListener('click', function (e) {
   }
 
   /* ──────────────────────────────────────────────────────────
+     SUCCESS MESSAGE TEXT — unified with settings.newsletter_popup
+     (same source used by #newsletter-popup on the home newsletter
+     section), so the thank-you message is identical everywhere.
+  ────────────────────────────────────────────────────────── */
+  function applySuccessTexts() {
+    var allProducts = window.__allProducts || [];
+    var settings = allProducts.find(function (p) { return p.type === 'settings'; }) || {};
+    var np = settings.newsletter_popup || {};
+
+    var titleEl = document.getElementById('bbwNlSuccessTitle');
+    var msgEl   = document.getElementById('bbwNlSuccessMsg');
+    var closeEl = document.getElementById('bbwNlSuccessCloseText');
+
+    if (titleEl && np.title)     titleEl.textContent = np.title;
+    if (msgEl   && np.message)   msgEl.textContent   = np.message;
+    if (closeEl && np.close_btn) closeEl.textContent = np.close_btn;
+  }
+
+  /* ──────────────────────────────────────────────────────────
      OPEN / CLOSE
   ────────────────────────────────────────────────────────── */
   function openPopup() {
     resetForm();
+    applySuccessTexts();
     overlay.classList.add('bbwnl-active');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -2354,7 +2374,10 @@ document.addEventListener('click', function (e) {
         if (successEl) successEl.style.display = 'block';
         fireConfetti();
 
-        
+        try { localStorage.setItem('bbwnl_subscribed', 'yes'); } catch (e) {}
+        document.dispatchEvent(new CustomEvent('bbwnl:subscribed'));
+
+
         setTimeout(closePopup, 5000);
 
       } catch (err) {
