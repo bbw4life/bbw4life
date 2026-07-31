@@ -7461,7 +7461,7 @@
       "show_thumbnails": "yes",
       "thumbnails_position_desktop": "right",
       "thumbnails_position_mobile": "top",
-      "show_individual_buttons": "no",
+      "show_individual_buttons": "no", 
       "button_1": { "text": "Discover",   "url": "/collections/nouveautes.html" },
       "button_2": { "text": "Promotions", "url": "/collections/soldes.html" },
       "button_3": { "text": "Our brands", "url": "/collections/marques.html" },
