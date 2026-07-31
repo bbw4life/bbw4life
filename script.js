@@ -1228,6 +1228,66 @@ function showErrorPopup(message) {
 
 
       // ══════════════════════════════════════════
+      //  BBW FEATURED — vitrine home (designs originaux BBW4LIFE)
+      // ══════════════════════════════════════════
+      (function renderBbwFeaturedHome() {
+        const section = document.getElementById('bbw-nb-section');
+        const grid    = document.getElementById('bbw-nb-grid');
+        if (!section || !grid) return;
+
+        const settings = products.find(p => p.type === 'settings') || {};
+        const cfg = settings.bbw_featured_home || {};
+        const ids = cfg.product_ids || [];
+        if (!ids.length) { section.style.display = 'none'; return; }
+
+        const photoImg = document.getElementById('bbw-nb-photo-img');
+        if (photoImg && cfg.photo) photoImg.src = cfg.photo;
+
+        const taglineEl = document.getElementById('bbw-nb-tagline');
+        if (taglineEl && cfg.tagline) taglineEl.textContent = cfg.tagline;
+
+        const prods = ids
+          .map(id => products.find(p => p.id === id))
+          .filter(Boolean);
+        if (!prods.length) { section.style.display = 'none'; return; }
+
+        prods.forEach(prod => {
+          const productUrl = getProductUrl(prod.id);
+          const imgMain     = upgradeShopifyImageUrl(prod.image, 600);
+          const price       = parseFloat(prod.price || 0).toFixed(2);
+          const rating      = parseFloat(prod.rating || 0);
+          const reviews     = prod.reviews_count || 0;
+          const fullStars   = Math.round(rating);
+
+          let starsHTML = '';
+          for (let i = 0; i < 5; i++) {
+            starsHTML += `<i class="fas fa-star${i < fullStars ? '' : ' bbw-nb-card__star--empty'}"></i>`;
+          }
+
+          const badgeText = (prod.badge && prod.badge.text) ? prod.badge.text : 'New';
+
+          const card = document.createElement('div');
+          card.className = 'bbw-nb-card';
+          card.innerHTML = `
+            <a href="${productUrl}" class="bbw-nb-card__media">
+              <span class="bbw-nb-card__badge">${badgeText}</span>
+              <img src="${imgMain}" alt="${prod.title}" loading="lazy">
+            </a>
+            <div class="bbw-nb-card__body">
+              <a href="${productUrl}" class="bbw-nb-card__title">${prod.title}</a>
+              <div class="bbw-nb-card__price">$${price}</div>
+              <div class="bbw-nb-card__rating">
+                <span class="bbw-nb-card__stars">${starsHTML}</span>
+                <span class="bbw-nb-card__count">(${reviews})</span>
+              </div>
+              <a href="${productUrl}" class="bbw-nb-card__btn">View Product</a>
+            </div>`;
+          grid.appendChild(card);
+        });
+      })();
+
+
+      // ══════════════════════════════════════════
       //  WIDGET VISIBILITY PER PAGE
       // ══════════════════════════════════════════
       (function applyWidgetVisibility() {
@@ -1385,6 +1445,14 @@ function showErrorPopup(message) {
         : 75;
       document.querySelectorAll('.hdr-free-shipping-threshold').forEach(el => {
         el.textContent = threshold;
+      });
+    })();
+
+      // ── Inject loyalty_points_per_order into header spans ──
+    (function injectLoyaltyPointsHeader() {
+      const points = settings.loyalty_points_per_order || 10;
+      document.querySelectorAll('.hdr-loyalty-points').forEach(el => {
+        el.textContent = points;
       });
     })();
 
@@ -7225,6 +7293,39 @@ document.dispatchEvent(new Event('wishlist:change'));
   saveCart(); updateCartQuantityInSheet(); updateSubtotal(); updateBadges(); renderCart();
 }
 
+  // ── "Fly to cart" — l'image du produit s'envole du bouton vers l'icône panier ──
+  function flyToCart(startEl, imageUrl, quantity) {
+    const liveCartIcon = document.querySelector('.cart-icon');
+    if (!startEl || !imageUrl || !liveCartIcon) return;
+    const startRect = startEl.getBoundingClientRect();
+    const endRect = liveCartIcon.getBoundingClientRect();
+    if (startRect.width === 0 || endRect.width === 0) return;
+
+    const flyer = document.createElement('div');
+    flyer.className = 'fly-to-cart';
+    flyer.innerHTML = `<img src="${imageUrl}" alt="">${quantity > 1 ? `<span class="fly-to-cart__qty">${quantity}</span>` : ''}`;
+
+    const startX = startRect.left + startRect.width / 2;
+    const startY = startRect.top + startRect.height / 2;
+    const endX = endRect.left + endRect.width / 2;
+    const endY = endRect.top + endRect.height / 2;
+
+    flyer.style.left = `${startX}px`;
+    flyer.style.top = `${startY}px`;
+    flyer.style.setProperty('--fly-dx', `${endX - startX}px`);
+    flyer.style.setProperty('--fly-dy', `${endY - startY}px`);
+
+    document.body.appendChild(flyer);
+
+    requestAnimationFrame(() => { flyer.classList.add('fly-to-cart--go'); });
+
+    flyer.addEventListener('animationend', () => {
+      flyer.remove();
+      liveCartIcon.classList.add('added');
+      setTimeout(() => liveCartIcon.classList.remove('added'), 500);
+    }, { once: true });
+  }
+
   function updateSubtotal() {
     const el = cartDrawer ? cartDrawer.querySelector('.cart-drawer__footer .subtotal') : document.querySelector('.subtotal');
     if (el) el.textContent = `Subtotal: $${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}`;
@@ -7290,9 +7391,16 @@ document.dispatchEvent(new Event('wishlist:change'));
     }
     saveCart();
     updateBadges();
-    if (cartIcon) { cartIcon.classList.add('added'); setTimeout(() => cartIcon.classList.remove('added'), 500); }
     renderCart();
-    openCartDrawer();
+    const flyBtn = e.target.closest('.add-to-cart');
+    if (flyBtn && itemImage) {
+      flyToCart(flyBtn, itemImage, quantity);
+      setTimeout(openCartDrawer, 650);
+    } else {
+      const liveIcon = document.querySelector('.cart-icon');
+      if (liveIcon) { liveIcon.classList.add('added'); setTimeout(() => liveIcon.classList.remove('added'), 500); }
+      openCartDrawer();
+    }
   }
 
   function renderWishlist() {
@@ -11919,12 +12027,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const iconClose = toggle ? toggle.querySelector('.cf-icon-close') : null;
     const notifDot  = toggle ? toggle.querySelector('.cf-notif-dot')  : null;
 
+    const imageBtn       = document.getElementById('cf-image-btn');
+    const imageInput     = document.getElementById('cf-image-input');
+    const imagePreview   = document.getElementById('cf-image-preview');
+    const imagePreviewImg= document.getElementById('cf-image-preview-img');
+    const imageRemoveBtn = document.getElementById('cf-image-remove-btn');
+
     if (!widget || !toggle || !window_ || !messages || !input || !sendBtn) return;
 
     /* ── State ── */
     let isOpen    = false;
     let isLoading = false;
     let notifShown = false;
+    let pendingImageBase64 = null;
 
     /* Persistance sessionStorage */
     let conversationHistory = [];
@@ -12244,9 +12359,16 @@ document.addEventListener('DOMContentLoaded', function () {
        ADD MESSAGE
        pageButtons: array of { url, label, icon }
     ══════════════════════════════════════ */
-    function addMessage(text, role, products, contactInfo, pageButtons, founderPhoto) {
+    function addMessage(text, role, products, contactInfo, pageButtons, founderPhoto, attachedImage) {
       const msgEl  = document.createElement('div');
       msgEl.className = `cf-message cf-message--${role}`;
+
+      if (role === 'user' && attachedImage) {
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'cf-msg-image-wrap';
+        imgWrap.innerHTML = `<img src="${attachedImage}" alt="Attached image" class="cf-msg-image">`;
+        msgEl.appendChild(imgWrap);
+      }
 
       const bubble = document.createElement('div');
       bubble.className = 'cf-msg-bubble';
@@ -12454,17 +12576,85 @@ document.addEventListener('DOMContentLoaded', function () {
     function showTyping() { if (typing) { typing.style.display = 'flex'; scrollToBottom(); } }
     function hideTyping()  { if (typing) typing.style.display = 'none'; }
 
+    /* ── Human escalation inline form ── */
+    function addEscalationForm() {
+      const msgEl = document.createElement('div');
+      msgEl.className = 'cf-message cf-message--ai';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'cf-msg-bubble';
+      bubble.innerHTML = 'Laisse-moi te connecter à notre équipe — donne-moi juste quelques minutes. Peux-tu me laisser tes coordonnées ? 🙏';
+      msgEl.appendChild(bubble);
+
+      const form = document.createElement('form');
+      form.className = 'cf-escalation-form';
+      form.innerHTML = `
+        <input type="text"  name="firstName" placeholder="First name *" required>
+        <input type="text"  name="lastName"  placeholder="Last name">
+        <input type="email" name="email"     placeholder="Email *" required>
+        <input type="tel"   name="phone"     placeholder="WhatsApp (optional)">
+        <button type="submit" class="cf-escalation-submit">Send to the team</button>
+      `;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = form.querySelector('.cf-escalation-submit');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+
+        const payload = {
+          action:    'human_escalation',
+          firstName: form.firstName.value.trim(),
+          lastName:  form.lastName.value.trim(),
+          email:     form.email.value.trim(),
+          phone:     form.phone.value.trim()
+        };
+
+        try {
+          const res = await fetch('/.netlify/functions/chat', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+          try { sessionStorage.setItem('cf_escalated', 'true'); } catch(e) {}
+          form.remove();
+          addMessage("Merci ! 🙏 J'ai prévenu notre équipe, ils te contactent très bientôt.", 'ai', [], null, []);
+        } catch (err) {
+          console.error('Escalation error:', err);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send to the team';
+          addMessage("Désolée, un petit souci technique. Réessaie dans un instant ! 🙏", 'ai', [], null, []);
+        }
+      });
+
+      msgEl.appendChild(form);
+
+      const time = document.createElement('span');
+      time.className  = 'cf-msg-time';
+      time.textContent = getTime();
+      msgEl.appendChild(time);
+
+      messages.appendChild(msgEl);
+      scrollToBottom();
+      try { sessionStorage.setItem('cf_messages_html', messages.innerHTML); } catch(e) {}
+    }
+
     /* ── Send message ── */
     async function sendMessage(userText) {
-      if (!userText || !userText.trim() || isLoading) return;
-      const text = userText.trim();
+      const hasImage = !!pendingImageBase64;
+      if ((!userText || !userText.trim()) && !hasImage) return;
+      if (isLoading) return;
+      const text = (userText || '').trim() || (hasImage ? 'What do you think of this?' : '');
 
       const userLang = detectUILanguage(text);
 
       const chipsEl = document.getElementById('cf-quick-chips');
       if (chipsEl) chipsEl.style.display = 'none';
 
-      addMessage(text, 'user', [], null, []);
+      const imageToSend = pendingImageBase64;
+      addMessage(text, 'user', [], null, [], null, imageToSend);
       conversationHistory.push({ role: 'user', content: text });
       try { sessionStorage.setItem('cf_history', JSON.stringify(conversationHistory.slice(-20))); } catch(e) {}
 
@@ -12472,6 +12662,7 @@ document.addEventListener('DOMContentLoaded', function () {
       input.style.height = 'auto';
       sendBtn.disabled = true;
       isLoading        = true;
+      clearPendingImage();
 
       showTyping();
 
@@ -12487,7 +12678,8 @@ document.addEventListener('DOMContentLoaded', function () {
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({
             message: text,
-            history: conversationHistory.slice(-8)
+            history: conversationHistory.slice(-8),
+            image:   imageToSend || null
           })
         });
 
@@ -12504,7 +12696,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const contactInfo = data.contactInfo || null;
         const pageButtons = data.pageButtons || [];
 
+        let escalate = false;
+        if (showContact) {
+          let count = parseInt(sessionStorage.getItem('cf_contact_count') || '0', 10) + 1;
+          try { sessionStorage.setItem('cf_contact_count', String(count)); } catch(e) {}
+          escalate = count >= 2 && sessionStorage.getItem('cf_escalated') !== 'true';
+        }
+
         addMessage(aiReply, 'ai', products, showContact ? contactInfo : null, pageButtons, data.founderPhoto || null);
+        if (escalate) addEscalationForm();
         conversationHistory.push({ role: 'assistant', content: aiReply });
         try { sessionStorage.setItem('cf_history', JSON.stringify(conversationHistory.slice(-20))); } catch(e) {}
 
@@ -12518,17 +12718,53 @@ document.addEventListener('DOMContentLoaded', function () {
         addMessage(errorMessages[userLang] || errorMessages['en'], 'ai', [], null, []);
       } finally {
         isLoading        = false;
-        sendBtn.disabled = input.value.trim().length === 0;
+        sendBtn.disabled = input.value.trim().length === 0 && !pendingImageBase64;
       }
     }
 
     window.__cfSendMessage = sendMessage;
 
+    /* ── Image attachment ── */
+    function clearPendingImage() {
+      pendingImageBase64 = null;
+      if (imageInput) imageInput.value = '';
+      if (imagePreview) imagePreview.style.display = 'none';
+      if (imagePreviewImg) imagePreviewImg.src = '';
+      sendBtn.disabled = input.value.trim().length === 0;
+    }
+
+    if (imageBtn && imageInput) {
+      imageBtn.addEventListener('click', () => imageInput.click());
+
+      imageInput.addEventListener('change', () => {
+        const file = imageInput.files && imageInput.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) return;
+        if (file.size > 5 * 1024 * 1024) {
+          alert('Image too large (max 5MB).');
+          imageInput.value = '';
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          pendingImageBase64 = reader.result;
+          if (imagePreviewImg) imagePreviewImg.src = reader.result;
+          if (imagePreview) imagePreview.style.display = 'flex';
+          sendBtn.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    if (imageRemoveBtn) {
+      imageRemoveBtn.addEventListener('click', clearPendingImage);
+    }
+
     /* ── Input handlers ── */
     input.addEventListener('input', function () {
       this.style.height = 'auto';
       this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-      sendBtn.disabled  = this.value.trim().length === 0;
+      sendBtn.disabled  = this.value.trim().length === 0 && !pendingImageBase64;
     });
 
     input.addEventListener('keydown', function (e) {
@@ -13379,9 +13615,11 @@ document.addEventListener('DOMContentLoaded', function () {
         /* Mode images */
         images.forEach(function (src, i) {
           var img = document.createElement('img');
-          img.src     = src;
+          img.src     = (typeof upgradeShopifyImageUrl === 'function') ? upgradeShopifyImageUrl(src, 1600) : src;
           img.alt     = (slides[i] && slides[i].title) ? slides[i].title : 'BBW4LIFE banner ' + (i + 1);
           img.loading = i === 0 ? 'eager' : 'lazy';
+          img.decoding = 'async';
+          if (i === 0) img.fetchPriority = 'high';
           if (i === 0) img.classList.add('bbw-hero--active');
           mediaEl.appendChild(img);
         });
@@ -13400,9 +13638,10 @@ document.addEventListener('DOMContentLoaded', function () {
         thumb.dataset.index = i;
 
         var img = document.createElement('img');
-        img.src     = src;
+        img.src     = (typeof upgradeShopifyImageUrl === 'function') ? upgradeShopifyImageUrl(src, 200) : src;
         img.alt     = 'Thumbnail ' + (i + 1);
         img.loading = 'lazy';
+        img.decoding = 'async';
         thumb.appendChild(img);
 
         thumb.addEventListener('click', function () {
@@ -13969,7 +14208,7 @@ document.addEventListener('DOMContentLoaded', function () {
     return Array.isArray(wl) && wl.includes(handle);
   }
 
-  function addToCart(prod, variantOverride) {
+  function addToCartFromWidget(prod, variantOverride) {
     const variant = variantOverride || (prod.variants && prod.variants[0]) || null;
     const color  = variant ? variant.color  || null : null;
     const size   = variant ? variant.size   || null : null;
@@ -14238,7 +14477,7 @@ document.addEventListener('DOMContentLoaded', function () {
     atcBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       atcBtn.classList.add('cs-adding');
-      addToCart(prod, selectedVariant);
+      addToCartFromWidget(prod, selectedVariant);
       setTimeout(() => {
         atcBtn.classList.remove('cs-adding');
         atcBtn.classList.add('cs-added');

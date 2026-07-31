@@ -2,6 +2,7 @@ process.removeAllListeners('warning');
 const fetch = require('node-fetch');
 const path  = require('path');
 const fs    = require('fs');
+const { notifyTelegram } = require('./notify-telegram');
 
 
 async function loadProductsData() {
@@ -812,6 +813,25 @@ Use emojis naturally — not on every sentence, only when it feels right.
 KEEP RESPONSES SHORT — max 4-5 lines. No walls of text.
 Answer EXACTLY what the user asks. Do not expand beyond the question. Do not add unsolicited suggestions or unrelated products.
 
+You are TWO things at once: a genuine stylist with real fashion/beauty judgment, and a warm brand ambassador who naturally makes people excited to shop — never pushy, never scripted.
+
+STYLIST INSTINCTS — use these naturally when relevant, don't recite them like a manual:
+- Think in terms of silhouette and body confidence: what balances proportions, what skims vs. clings, what creates the line the client wants. Speak plainly about this, the way a friend who's great with clothes would — never clinical or textbook.
+- Know how to build a full look, not just sell one item: suggest what pairs well (a bold shoe with a simple dress, a neutral bag with a printed set) only when it fits the conversation naturally.
+- Understand color and occasion: what reads "day", what reads "night", what works for a first date vs. a work event vs. a beach day — and say so with real opinion, not generic hedging.
+- Beauty advice follows the same logic: skin type, finish, occasion — give an actual recommendation, don't just list options.
+- When a client describes their body, their vibe, or an event they're dressing for, actually use that detail to shape your answer instead of giving a generic reply.
+- You're allowed to have taste. If something is a great pick, say so with real enthusiasm — not hype for hype's sake.
+
+BRAND AMBASSADOR INSTINCTS:
+- Build genuine excitement, not pressure. The goal is to make the client feel good about BBW4LIFE and good about themselves — sales follow from that, not the other way around.
+- Remember the thread of the conversation — refer back to what the client already told you instead of starting fresh every message.
+- When you're not sure what someone wants, ask ONE natural clarifying question instead of guessing or dumping options.
+- Never sound like a script or a returning FAQ answer — vary your phrasing message to message, the way a real person naturally does.
+
+WHAT YOU DO NOT KNOW AND MUST NEVER DISCUSS:
+You have zero knowledge of and must NEVER discuss BBW4LIFE's technical backend: how the website is built, Netlify Functions, any database or spreadsheet system, API keys, payment processing internals, security/validation mechanisms, or any engineering detail. You are a stylist and brand ambassador — not an engineer. If someone asks a technical/backend question, redirect warmly to what you can actually help with (style, products, orders, policies) or point them to the contact team for anything technical.
+
 GREETINGS — when someone says hi, yow, hello, salut, hola, wesh, cc, bonjou, bonswa:
 Reply warmly and naturally. Ask how you can help. No buttons, no lists. Just a human hello.
 NEVER show contact or page buttons for simple greetings or small talk.
@@ -1196,6 +1216,107 @@ function getErrorMessage(lang) {
 }
 
 /* ══════════════════════════════════════════════════════
+   CLAUDE (ANTHROPIC) — PRIMARY PROVIDER
+   Falls back to Groq automatically on ANY failure (see callClaude
+   caller). No persisted "Claude is down" state on purpose: every
+   request retries Claude first, so service resumes immediately
+   once credit/quota is restored — no manual intervention needed.
+══════════════════════════════════════════════════════ */
+const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
+
+function isClaudeCreditError(status, bodyText) {
+  if (status === 402) return true;
+  const t = (bodyText || '').toLowerCase();
+  return status === 429 && (
+    t.includes('credit') || t.includes('quota') || t.includes('billing') || t.includes('insufficient')
+  );
+}
+
+async function callClaude(systemPrompt, history, userMessage, imageBase64) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return { ok: false, creditError: false, reply: null };
+  }
+
+  const userContent = [];
+  if (imageBase64) {
+    const matches = imageBase64.match(/^data:(image\/\w+);base64,(.+)$/);
+    if (matches) {
+      userContent.push({
+        type: 'image',
+        source: { type: 'base64', media_type: matches[1], data: matches[2] }
+      });
+    }
+  }
+  userContent.push({ type: 'text', text: userMessage });
+
+  const claudeMessages = [
+    ...history.slice(-8).map(h => ({ role: h.role === 'assistant' ? 'assistant' : 'user', content: h.content })),
+    { role: 'user', content: userContent }
+  ];
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: CLAUDE_MODEL,
+        max_tokens: 500,
+        temperature: 0.70,
+        system: systemPrompt,
+        messages: claudeMessages
+      })
+    });
+
+    if (!res.ok) {
+      const bodyText = await res.text().catch(() => '');
+      console.error(`[Chat] Claude HTTP ${res.status}: ${bodyText.slice(0, 300)}`);
+      return { ok: false, creditError: isClaudeCreditError(res.status, bodyText), reply: null };
+    }
+
+    const data  = await res.json();
+    const reply = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('') || null;
+    if (!reply) return { ok: false, creditError: false, reply: null };
+
+    return { ok: true, creditError: false, reply };
+  } catch (fetchErr) {
+    console.error('[Chat] Claude fetch error:', fetchErr.message);
+    return { ok: false, creditError: false, reply: null };
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   HUMAN ESCALATION — client insisted on reaching a human.
+   Frontend collects name/email/whatsapp via an inline form,
+   we notify the existing Telegram bot (same mechanism used
+   for orders/reservations elsewhere in netlify/functions).
+══════════════════════════════════════════════════════ */
+async function handleHumanEscalation(body, headers) {
+  const firstName = (body.firstName || '').trim();
+  const lastName  = (body.lastName  || '').trim();
+  const email     = (body.email     || '').trim();
+  const phone     = (body.phone     || '').trim();
+
+  if (!firstName || !email) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'firstName and email are required' }) };
+  }
+
+  const fullName = [firstName, lastName].filter(Boolean).join(' ');
+  const message =
+    `${fullName} — un client persiste pour te parler, PDG Francenel.\n` +
+    `Il est en ligne maintenant, tu peux lui écrire.\n` +
+    `Email : ${email}\n` +
+    `Téléphone/WhatsApp : ${phone || 'non fourni'}`;
+
+  await notifyTelegram(message);
+
+  return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+}
+
+/* ══════════════════════════════════════════════════════
    MODEL ROTATION STATE
 ══════════════════════════════════════════════════════ */
 const MODELS = [
@@ -1227,7 +1348,12 @@ exports.handler = async (event, context) => {
   if (event.httpMethod !== 'POST')   return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
 
   try {
-    const { message, history = [] } = JSON.parse(event.body);
+    const { message, history = [], image = null, action = null } = JSON.parse(event.body);
+
+    if (action === 'human_escalation') {
+      return await handleHumanEscalation(JSON.parse(event.body), headers);
+    }
+
     if (!message || message.trim().length === 0) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Message is required' }) };
     }
@@ -1397,54 +1523,69 @@ exports.handler = async (event, context) => {
     ];
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
-    let groqResponse = null, usedModel = null, modelSuccess = false;
+    const userTurnContent = `${message}\n\n[${langInstruction}]${noRawUrlInstruction}${shortAckInstruction}${(intent === 'product' && !topStarterRequest && !isBadgeQuery && !brandRequest && !shortAck) ? vagueInstruction : ''}${topStarterInstruction}${badgeInstruction}${brandInstruction}${contactInstruction}${genderInstruction}`;
 
-    for (let attempt = 0; attempt < MODELS.length; attempt++) {
-      const idx   = (currentModelIndex + attempt) % MODELS.length;
-      const model = MODELS[idx];
-      let modelOk = false;
+    let groqResponse = null, usedModel = null, modelSuccess = false, reply = null;
 
-      for (let retry = 1; retry <= 2; retry++) {
-        try {
-          groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${process.env.GROQ_API_KEY}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ model, messages: groqMessages, max_tokens: 400, temperature: 0.70, stream: false })
-          });
-
-          if (groqResponse.status === 429) {
-            console.log(`[Chat] 429 on "${model}" (retry ${retry}/2)`);
-            if (retry < 2) { await sleep(1500); continue; }
-            currentModelIndex = (idx + 1) % MODELS.length;
-            break;
-          }
-          if (!groqResponse.ok) { console.error(`[Chat] HTTP ${groqResponse.status} on "${model}"`); break; }
-
-          usedModel = model; modelOk = true; modelSuccess = true; currentModelIndex = idx;
-          break;
-        } catch (fetchErr) {
-          console.error(`[Chat] Fetch error on "${model}" (retry ${retry}/2):`, fetchErr.message);
-          if (retry < 2) { await sleep(1000); continue; }
-          break;
-        }
-      }
-      if (modelOk) break;
+    /* ── 1. TRY CLAUDE FIRST (primary provider) ── */
+    const claudeResult = await callClaude(systemPrompt, history, userTurnContent, image);
+    if (claudeResult.ok) {
+      reply        = claudeResult.reply;
+      usedModel    = CLAUDE_MODEL;
+      modelSuccess = true;
+    } else {
+      console.log(`[Chat] Claude unavailable (creditError: ${claudeResult.creditError}) — falling back to Groq`);
     }
 
+    /* ── 2. FALLBACK TO GROQ (unchanged existing logic) — runs on ANY Claude failure ── */
     if (!modelSuccess) {
-      return {
-        statusCode: 200, headers,
-        body: JSON.stringify({
-          reply: getFallbackMessage(userLang), products: [], intent: 'general',
-          isVague: false, showContact: false, contactInfo: null, pageButtons: []
-        })
-      };
+      for (let attempt = 0; attempt < MODELS.length; attempt++) {
+        const idx   = (currentModelIndex + attempt) % MODELS.length;
+        const model = MODELS[idx];
+        let modelOk = false;
+
+        for (let retry = 1; retry <= 2; retry++) {
+          try {
+            groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+              method: 'POST',
+              headers: { 'Authorization': `Bearer ${process.env.GROQ_API_KEY}`, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ model, messages: groqMessages, max_tokens: 400, temperature: 0.70, stream: false })
+            });
+
+            if (groqResponse.status === 429) {
+              console.log(`[Chat] 429 on "${model}" (retry ${retry}/2)`);
+              if (retry < 2) { await sleep(1500); continue; }
+              currentModelIndex = (idx + 1) % MODELS.length;
+              break;
+            }
+            if (!groqResponse.ok) { console.error(`[Chat] HTTP ${groqResponse.status} on "${model}"`); break; }
+
+            usedModel = model; modelOk = true; modelSuccess = true; currentModelIndex = idx;
+            break;
+          } catch (fetchErr) {
+            console.error(`[Chat] Fetch error on "${model}" (retry ${retry}/2):`, fetchErr.message);
+            if (retry < 2) { await sleep(1000); continue; }
+            break;
+          }
+        }
+        if (modelOk) break;
+      }
+
+      if (!modelSuccess) {
+        return {
+          statusCode: 200, headers,
+          body: JSON.stringify({
+            reply: getFallbackMessage(userLang), products: [], intent: 'general',
+            isVague: false, showContact: false, contactInfo: null, pageButtons: []
+          })
+        };
+      }
+
+      const data = await groqResponse.json();
+      reply = data.choices?.[0]?.message?.content || getErrorMessage(userLang);
     }
 
     console.log(`[Chat] Model: ${usedModel} | Lang: ${userLang} | Badge: ${matchedBadge || 'none'} | TopStarter: ${topStarterRequest} | Brand: ${brandRequest} | ShortAck: ${shortAck} | Gender: ${genderFilter2 || 'none'}`);
-
-    const data  = await groqResponse.json();
-    const reply = data.choices?.[0]?.message?.content || getErrorMessage(userLang);
     const founderPhotoUrl = settings.founder?.photo || '';
 
     // Détecter si c'est une question sur le fondateur

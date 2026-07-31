@@ -1606,12 +1606,12 @@
     "compare_price": 39.26,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_27.png?v=1778005534",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_27.1.png?v=1778005513",
-    "sizes": ["0XL","1XL","2XL","3XL","4XL"],
+    "sizes": ["XL","1XL","2XL","3XL","4XL"],
     "colors": [
       { "name": "Blue", "hex": "#1861b5", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_27_Blue.png?v=1778374328", "active": true }
     ],
     "variants": [
-      {"vid":"713475527","color":"Blue","size":"0XL","price":27.12,"active":true},
+      {"vid":"713475527","color":"Blue","size":"XL","price":27.12,"active":true},
       {"vid":"713475528","color":"Blue","size":"1XL","price":27.12,"active":true},
       {"vid":"713475529","color":"Blue","size":"2XL","price":27.12,"active":true},
       {"vid":"713475530","color":"Blue","size":"3XL","price":27.12,"active":true},
@@ -1711,7 +1711,7 @@
       {"vid":"713475342","color":"Green","size":"2XL","price":22.27,"active":true},
       {"vid":"713475343","color":"Green","size":"3XL","price":22.27,"active":true},
       {"vid":"713475344","color":"Green","size":"4XL","price":22.27,"active":true},
-      {"vid":"713475345","color":"Brown","size":"0XL","price":22.27,"active":true},
+      {"vid":"713475345","color":"Brown","size":"XL","price":22.27,"active":true},
       {"vid":"713475346","color":"Brown","size":"1XL","price":22.27,"active":true},
       {"vid":"713475347","color":"Brown","size":"2XL","price":22.27,"active":true},
       {"vid":"713475348","color":"Brown","size":"3XL","price":22.27,"active":true},
@@ -4777,9 +4777,9 @@
     "colors": [
       { "name": "Wine Red", "hex": "#722F37", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-wine-red.png?v=1785202910", "active": true },
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-black.png?v=1785202911", "active": true },
-      { "name": "Brown", "hex": "#795548", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-brown.png?v=1785202911", "active": true },
+      { "name": "Brown", "hex": "#8B5A2B", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-brown.png?v=1785202911", "active": true },
       { "name": "Blue", "hex": "#1B2F6B", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-blue.png?v=1785202911", "active": true },
-      { "name": "Yellow", "hex": "#FFC107", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-yellow.png?v=1785202910", "active": true }
+      { "name": "Yellow", "hex": "#D9A441", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-yellow.png?v=1785202910", "active": true }
     ],
     "variants": [
       {"vid":"721080735","color":"Wine Red","size":"XL","price":39.72,"active":true},
@@ -4850,8 +4850,8 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-hover.png?v=1785203663",
     "sizes": ["S","M","L","XL","XXL","XXXL"],
     "colors": [
-      { "name": "Red", "hex": "#F44336", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-red.jpg?v=1785203658", "active": true },
-      { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-black.jpg?v=1785203658", "active": true }
+      { "name": "Red", "hex": "#C0392B", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-red.jpg?v=1785203658", "active": true },
+      { "name": "Black", "hex": "#4A4A52", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-black.jpg?v=1785203658", "active": true }
     ],
     "variants": [
       {"vid":"721080889","color":"Red","size":"S","price":38.97,"active":true},
@@ -4914,14 +4914,14 @@
       { "name": "Lake Green", "hex": "#3FA796", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-lake_green.png?v=1785206936", "active": true },
       { "name": "Light Purple", "hex": "#C3AED6", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-light_purple.png?v=1785206935", "active": true },
       { "name": "Military Green", "hex": "#4B5320", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-military_green.png?v=1785206934", "active": true },
-      { "name": "Blue", "hex": "#1B6FC4", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-blue.png?v=1785206936", "active": true },
+      { "name": "Blue", "hex": "#1B4F8C", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-blue.png?v=1785206936", "active": true },
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-black.png?v=1785206932", "active": true },
       { "name": "Milk White", "hex": "#FDF6EC", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-milk_white.png?v=1785206933", "active": true },
-      { "name": "Green", "hex": "#4CAF50", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-green.png?v=1785206936", "active": true },
+      { "name": "Green", "hex": "#2E9E4F", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-green.png?v=1785206936", "active": true },
       { "name": "Dark Green", "hex": "#2D4A32", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-dark_green.png?v=1785206936", "active": true },
       { "name": "Mint Green", "hex": "#98D8C8", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-mint_green.png?v=1785206937", "active": true },
       { "name": "Blue Grey", "hex": "#7C93A3", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-blue_gray.png?v=1785206937", "active": true },
-      { "name": "Pink Red", "hex": "#C4455A", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-pink_red.png?v=1785206937", "active": true },
+      { "name": "Pink Red", "hex": "#E6007E", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-pink_red.png?v=1785206937", "active": true },
       { "name": "Wine Red", "hex": "#722F37", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-wine_red.png?v=1785206934", "active": true }
     ],
     "variants": [
@@ -4981,11 +4981,11 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-hover.png?v=1785208340",
     "sizes": [],
     "colors": [
-      { "name": "White", "hex": "#FFFFFF", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-white.png?v=1785208339", "active": true },
+      { "name": "White", "hex": "#F5F1EA", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-white.png?v=1785208339", "active": true },
       { "name": "Red", "hex": "#F44336", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-red.png?v=1785208340", "active": true },
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-black.png?v=1785208340", "active": true },
       { "name": "Brown", "hex": "#795548", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-brown.png?v=1785208340", "active": true },
-      { "name": "Dark Khaki", "hex": "#8B7355", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-dark_khaki.png?v=1785208340", "active": true }
+      { "name": "Dark Khaki", "hex": "#8A7D6B", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-dark_khaki.png?v=1785208340", "active": true }
     ],
     "variants": [
       {"vid":"721081437","color":"White","size":"","price":9.03,"active":true},
@@ -5038,7 +5038,7 @@
     "colors": [
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product87-black.jpg?v=1785240980", "active": true },
       { "name": "White", "hex": "#FFFFFF", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product87-white.jpg?v=1785240980", "active": true },
-      { "name": "Pink", "hex": "#FF69B4", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product87-pink.jpg?v=1785240980", "active": true }
+      { "name": "Pink", "hex": "#E8A0B8", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product87-pink.jpg?v=1785240980", "active": true }
     ],
     "variants": [
       {"vid":"721081764","color":"Black","size":"","price":25.11,"active":true},
@@ -5088,7 +5088,7 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product88-hover.png?v=1785238762",
     "sizes": [],
     "colors": [
-      { "name": "Beige", "hex": "#F5F5DC", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product88-beige.png?v=1785238766", "active": true },
+      { "name": "Beige", "hex": "#F0EBDD", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product88-beige.png?v=1785238766", "active": true },
       { "name": "Camel", "hex": "#C19A6B", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product88-camel.png?v=1785238766", "active": true }
     ],
     "variants": [
@@ -5137,9 +5137,9 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product89-hover.png?v=1785238095",
     "sizes": [],
     "colors": [
-      { "name": "Creamy White", "hex": "#FFFDD0", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product89-creamy_white.jpg?v=1785238094", "active": true },
+      { "name": "Creamy White", "hex": "#F3EEDD", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product89-creamy_white.jpg?v=1785238094", "active": true },
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product89-black.jpg?v=1785238093", "active": true },
-      { "name": "Khaki", "hex": "#BDB76B", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product89-khaki.jpg?v=1785238094", "active": true }
+      { "name": "Khaki", "hex": "#C4AD8C", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product89-khaki.jpg?v=1785238094", "active": true }
     ],
     "variants": [
       {"vid":"721081744","color":"Creamy White","size":"","price":13.32,"active":true},
@@ -5188,13 +5188,13 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-hover.png?v=1785237007",
     "sizes": [],
     "colors": [
-      { "name": "White", "hex": "#FFFFFF", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-white.jpg?v=1785237003", "active": true },
-      { "name": "Wine Red", "hex": "#722F37", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-wine_red.png?v=1785237007", "active": true },
+      { "name": "White", "hex": "#F0E9DD", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-white.jpg?v=1785237003", "active": true },
+      { "name": "Wine Red", "hex": "#B02E3C", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-wine_red.png?v=1785237007", "active": true },
       { "name": "Navy Blue", "hex": "#000080", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-navy_blue.jpg?v=1785237003", "active": true },
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-black.jpg?v=1785237003", "active": true },
-      { "name": "Pink", "hex": "#FF69B4", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-pink.png?v=1785237007", "active": true },
+      { "name": "Pink", "hex": "#F0A8C0", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-pink.png?v=1785237007", "active": true },
       { "name": "Light Blue", "hex": "#ADD8E6", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-light_blue.jpg?v=1785237003", "active": true },
-      { "name": "Pink Red", "hex": "#C4455A", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-pink_red.jpg?v=1785237003", "active": true }
+      { "name": "Pink Red", "hex": "#C6398F", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-pink_red.jpg?v=1785237003", "active": true }
     ],
     "variants": [
       {"vid":"721081593","color":"White","size":"","price":19.23,"active":true},
@@ -5248,7 +5248,7 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product91-hover.png?v=1785235608",
     "sizes": [],
     "colors": [
-      { "name": "Green", "hex": "#4CAF50", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product91-green.png?v=1785235607", "active": true },
+      { "name": "Green", "hex": "#9CBFA0", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product91-green.png?v=1785235607", "active": true },
       { "name": "White", "hex": "#FFFFFF", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product91-white.png?v=1785235607", "active": true },
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product91-black.png?v=1785235608", "active": true }
     ],
@@ -5349,7 +5349,7 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product93-hover.png?v=1785212850",
     "sizes": [],
     "colors": [
-      { "name": "Houndstooth", "hex": "#3C3C3C", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product93-Houndstooth.jpg?v=1785212846", "active": true },
+      { "name": "Houndstooth", "hex": "#4A3B2E", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product93-Houndstooth.jpg?v=1785212846", "active": true },
       { "name": "Leopard", "hex": "#C68642", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product93-leopard.jpg?v=1785212846", "active": true }
     ],
     "variants": [
@@ -5397,7 +5397,7 @@
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product94-hover.png?v=1785211454",
     "sizes": [],
     "colors": [
-      { "name": "Golden", "hex": "#FFD700", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product94-golden.jpg?v=1785211450", "active": true },
+      { "name": "Golden", "hex": "#D4AF37", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product94-golden.jpg?v=1785211450", "active": true },
       { "name": "Silver", "hex": "#C0C0C0", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product94-silver.jpg?v=1785211450", "active": true },
       { "name": "Gun Color", "hex": "#4B4B4B", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product94-gun_color.jpg?v=1785211450", "active": true },
       { "name": "Pink Gold", "hex": "#B76E79", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product94-pink_gold.jpg?v=1785211450", "active": true }
@@ -5503,12 +5503,12 @@
     "sizes": ["S","M","L","XL","2XL","3XL","4XL","5XL"],
     "colors": [
       { "name": "White", "hex": "#FFFFFF", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-white.png?v=1785189041", "active": true },
-      { "name": "Pink", "hex": "#FF69B4", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product96-pink.png?v=1785189043", "active": true },
-      { "name": "Yellow", "hex": "#FFC107", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-yellow.png?v=1785189043", "active": true },
+      { "name": "Pink", "hex": "#F2A0BC", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product96-pink.png?v=1785189043", "active": true },
+      { "name": "Yellow", "hex": "#F4D03F", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-yellow.png?v=1785189043", "active": true },
       { "name": "Red", "hex": "#F44336", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-red.png?v=1785189043", "active": true },
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-black.png?v=1785189042", "active": true },
       { "name": "Blue", "hex": "#1B6FC4", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-blue.png?v=1785189043", "active": true },
-      { "name": "Light Blue", "hex": "#ADD8E6", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-light_blue.png?v=1785189043", "active": true }
+      { "name": "Light Blue", "hex": "#5FB8D9", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-light_blue.png?v=1785189043", "active": true }
     ],
     "variants": [
       {"vid":"721080472","color":"White","size":"S","price":24.93,"active":true},
@@ -5607,24 +5607,24 @@
     "compare_price": 53.75,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-1.png?v=1785192602",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-hover.png?v=1785192601",
-    "sizes": ["0XL","1XL","2XL","3XL","4XL"],
+    "sizes": ["XL","1XL","2XL","3XL","4XL"],
     "colors": [
       { "name": "Pink", "hex": "#FF69B4", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-pink.png?v=1785192602", "active": true },
       { "name": "Black", "hex": "#000000", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-black.png?v=1785192602", "active": true },
       { "name": "Red", "hex": "#F44336", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-red.png?v=1785192601", "active": true }
     ],
     "variants": [
-      {"vid":"721080631","color":"Pink","size":"0XL","price":28.29,"active":true},
+      {"vid":"721080631","color":"Pink","size":"XL","price":28.29,"active":true},
       {"vid":"721080632","color":"Pink","size":"1XL","price":28.29,"active":true},
       {"vid":"721080633","color":"Pink","size":"2XL","price":28.29,"active":true},
       {"vid":"721080634","color":"Pink","size":"3XL","price":28.29,"active":true},
       {"vid":"721080635","color":"Pink","size":"4XL","price":28.29,"active":true},
-      {"vid":"721080636","color":"Black","size":"0XL","price":28.29,"active":true},
+      {"vid":"721080636","color":"Black","size":"XL","price":28.29,"active":true},
       {"vid":"721080637","color":"Black","size":"1XL","price":28.29,"active":true},
       {"vid":"721080638","color":"Black","size":"2XL","price":28.29,"active":true},
       {"vid":"721080639","color":"Black","size":"3XL","price":28.29,"active":true},
       {"vid":"721080640","color":"Black","size":"4XL","price":28.29,"active":true},
-      {"vid":"721080641","color":"Red","size":"0XL","price":28.29,"active":true},
+      {"vid":"721080641","color":"Red","size":"XL","price":28.29,"active":true},
       {"vid":"721080642","color":"Red","size":"1XL","price":28.29,"active":true},
       {"vid":"721080643","color":"Red","size":"2XL","price":28.29,"active":true},
       {"vid":"721080644","color":"Red","size":"3XL","price":28.29,"active":true},
@@ -6330,7 +6330,7 @@
       "countdown_minutes": 10,
       "countdown_text": "⚡ Offer expires in:",
       "countdown_suffix": "min",
-      "free_shipping_threshold": 200,
+      "free_shipping_threshold": 100,
       "show_free_shipping_bar": "Yes",
       "progress_message": "Add ${remaining} more for FREE shipping!",
       "progress_success_message": "🎉You've unlocked FREE shipping!",
@@ -6572,7 +6572,7 @@
       "newsletter":  "newsletter@bbw4life.com"
     },
     "featured_spotlight": {
-      "product_id": "Pdg-Francenel-product19"
+      "product_id": "Pdg-Francenel-product84"
     },
   "story_circles": {
   "animations": {
@@ -6598,7 +6598,6 @@
 
   "product_ids": [
     "Pdg-Francenel-product101",
-    "Pdg-Francenel-product84",
     "Pdg-Francenel-product106",
     "Pdg-Francenel-product77",
     "Pdg-Francenel-product97",
@@ -6645,9 +6644,9 @@
       "savings_label": "You Save:",
       "cta_label": "Yes — I Want This Bundle →",
       "products": [
-        {"id": "Pdg-Francenel-product17", "subtitle": "Every step becomes a statement. Heads will turn."},
-        {"id": "Pdg-Francenel-product22", "subtitle": "From XL to 5XL — a silhouette that celebrates every curve."},
-        {"id": "Pdg-Francenel-product23", "subtitle": "Bold print. Fierce energy. Unforgettable presence."}
+        {"id": "Pdg-Francenel-product78", "subtitle": "All-day comfort, built to keep up with every step."},
+        {"id": "Pdg-Francenel-product87", "subtitle": "The finishing touch — compact, versatile, effortless."},
+        {"id": "Pdg-Francenel-product82", "subtitle": "Streetwear elevated. Nine colors, endless confidence."}
       ]
     },
     "widget_visibility": {
@@ -8494,6 +8493,19 @@
       "Pdg-Francenel-product93",
       "Pdg-Francenel-product49",
       "Pdg-Francenel-product94"
+    ]
+  },
+  "bbw_featured_home": {
+    "eyebrow": "New Brand",
+    "title_black": "BBW",
+    "title_gold": "Featured",
+    "tagline": "The New Icons Of Curvy Fashion",
+    "photo": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/BBW_Original_Coming_Soon.png?v=1777936945",
+    "product_ids": [
+      "Pdg-Francenel-product106",
+      "Pdg-Francenel-product110",
+      "Pdg-Francenel-product107",
+      "Pdg-Francenel-product102"
     ]
   },
   "watermark": {

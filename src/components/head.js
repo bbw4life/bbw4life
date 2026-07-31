@@ -524,7 +524,7 @@ const SEO_MAP = {
 
     '/products/product20.html': {
         title: 'SolidSexy Bikini — High Waist Hot Swimsuit | BBW4LIFE',
-        description: 'Bold, beautiful and made for your curves. Solid-color high-waist bikini that turns heads at the pool. Plus size swimwear designed for queens who love their body. Sizes 0XL to 4XL. Free worldwide shipping.',
+        description: 'Bold, beautiful and made for your curves. Solid-color high-waist bikini that turns heads at the pool. Plus size swimwear designed for queens who love their body. Sizes XL to 4XL. Free worldwide shipping.',
         keywords: 'plus size bikini, BBW bikini, curvy women swimwear, high waist bikini plus size, solid color bikini, plus size swimsuit, BBW4LIFE swimwear, curvy bikini, plus size pool outfit, high waist swimsuit curvy, BBW swimwear, solid sexy bikini',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_20_1.jpg?v=1778292621',
         canonical: 'https://bbw4life.com/products/product20.html'
@@ -532,8 +532,8 @@ const SEO_MAP = {
 
     '/products/product21.html': {
         title: 'CurveBikini — Solid Color High Waist Swimwear | BBW4LIFE',
-        description: 'Celebrate your curves in this solid-color high-waist bikini. Flattering coverage, vibrant energy, and all-day beach confidence. Plus size swimwear made for queens. Sizes 0XL to 4XL. Free worldwide shipping.',
-        keywords: 'plus size bikini, BBW swimwear, curvy women bikini, high waist bikini plus size, solid color swimsuit, BBW4LIFE bikini, plus size swimwear, curvy bikini black, high waist swimwear curvy, BBW bikini, plus size beach wear, 0XL 4XL bikini',
+        description: 'Celebrate your curves in this solid-color high-waist bikini. Flattering coverage, vibrant energy, and all-day beach confidence. Plus size swimwear made for queens. Sizes XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size bikini, BBW swimwear, curvy women bikini, high waist bikini plus size, solid color swimsuit, BBW4LIFE bikini, plus size swimwear, curvy bikini black, high waist swimwear curvy, BBW bikini, plus size beach wear, XL 4XL bikini',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_21_1.png?v=1778334193',
         canonical: 'https://bbw4life.com/products/product21.html'
     },
@@ -572,7 +572,7 @@ const SEO_MAP = {
 
     '/products/product26.html': {
         title: 'TubeBikini — Plus Size Tube Top Swimsuit | BBW4LIFE',
-        description: 'Show your curves with confidence in our TubeBikini. Plus size tube top swimsuit in Blue, Green & Gray — sizes 0XL to 4XL. Flattering coverage, maximum confidence. Free worldwide shipping.',
+        description: 'Show your curves with confidence in our TubeBikini. Plus size tube top swimsuit in Blue, Green & Gray — sizes XL to 4XL. Flattering coverage, maximum confidence. Free worldwide shipping.',
         keywords: 'plus size tube top bikini, BBW swimsuit, curvy women swimwear, plus size swimsuit, tube top bikini curvy, BBW bikini, plus size bikini 4XL, curvy swimwear, BBW4LIFE swimsuit, tube swimsuit plus size, beach curvy women, plus size beach wear',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_26_1.png?v=1778372582',
         canonical: 'https://bbw4life.com/products/product26.html'
@@ -580,24 +580,24 @@ const SEO_MAP = {
 
     '/products/product27.html': {
         title: 'RuffleOne Bikini — V-Neck Ruffled One Piece Swimsuit | BBW4LIFE',
-        description: 'Feminine ruffles on a V-neck one-piece swimsuit made for curvy queens. Flattering, bold and beach-ready — because one piece can be just as stunning as two. Sizes 0XL to 4XL. Free worldwide shipping.',
-        keywords: 'plus size one piece swimsuit, BBW one piece, curvy women swimwear, ruffled swimsuit plus size, V-neck one piece bikini, plus size swimwear 0XL 4XL, BBW4LIFE swimsuit, one piece bikini curvy, ruffle swimwear BBW, plus size beach swimsuit, flattering one piece curvy, BBW swimwear queen',
+        description: 'Feminine ruffles on a V-neck one-piece swimsuit made for curvy queens. Flattering, bold and beach-ready — because one piece can be just as stunning as two. Sizes XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size one piece swimsuit, BBW one piece, curvy women swimwear, ruffled swimsuit plus size, V-neck one piece bikini, plus size swimwear XL 4XL, BBW4LIFE swimsuit, one piece bikini curvy, ruffle swimwear BBW, plus size beach swimsuit, flattering one piece curvy, BBW swimwear queen',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_27_1.png?v=1778374331',
         canonical: 'https://bbw4life.com/products/product27.html'
     },
 
     '/products/product28.html': {
         title: 'BandageBikini — Solid Color Bandage Swimsuit | BBW4LIFE',
-        description: 'Sleek, secure and sculptural — this chic bandage-style bikini in solid deep green is designed to make you feel amazing at any size. Plus size swimwear for queens. Sizes 0XL to 4XL. Free worldwide shipping.',
-        keywords: 'plus size bandage bikini, BBW bikini, curvy women swimwear, solid color bandage swimsuit, plus size swimsuit green, BBW4LIFE bikini, size 0XL to 4XL swimwear, bandage bikini curvy, plus size beach wear, curvy queen swimsuit, BBW bandage swimsuit, plus size swimwear',
+        description: 'Sleek, secure and sculptural — this chic bandage-style bikini in solid deep green is designed to make you feel amazing at any size. Plus size swimwear for queens. Sizes XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size bandage bikini, BBW bikini, curvy women swimwear, solid color bandage swimsuit, plus size swimsuit green, BBW4LIFE bikini, size XL to 4XL swimwear, bandage bikini curvy, plus size beach wear, curvy queen swimsuit, BBW bandage swimsuit, plus size swimwear',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_28_1.png?v=1778375900',
         canonical: 'https://bbw4life.com/products/product28.html'
     },
 
     '/products/product29.html': {
         title: 'ContrastOne Piece — Contrasting Color One-Piece Swimwear | BBW4LIFE',
-        description: 'Eye-catching contrasting colors make this one-piece a true showstopper. Bold, modern, and uniquely flattering for plus size queens. Available in Green & Brown, sizes 0XL to 4XL. Free worldwide shipping.',
-        keywords: 'plus size one piece swimsuit, BBW swimwear, curvy women swimsuit, contrasting color swimsuit, plus size swimwear, BBW4LIFE bikini, one piece plus size, BBW one piece, curvy swimsuit, plus size beach wear, contrast swimsuit curvy, size 0XL to 4XL swimsuit',
+        description: 'Eye-catching contrasting colors make this one-piece a true showstopper. Bold, modern, and uniquely flattering for plus size queens. Available in Green & Brown, sizes XL to 4XL. Free worldwide shipping.',
+        keywords: 'plus size one piece swimsuit, BBW swimwear, curvy women swimsuit, contrasting color swimsuit, plus size swimwear, BBW4LIFE bikini, one piece plus size, BBW one piece, curvy swimsuit, plus size beach wear, contrast swimsuit curvy, size XL to 4XL swimsuit',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_29_1.png?v=1778378000',
         canonical: 'https://bbw4life.com/products/product29.html'
     },
@@ -1140,7 +1140,7 @@ const SEO_MAP = {
 
     '/products/product97.html': {
         title: 'OnePiece Swim — Plus Size Solid Swimsuit | BBW4LIFE',
-        description: 'A classic plus-size one-piece swimsuit in three bold colors. Full coverage, full confidence — pool and beach ready. Sizes 0XL to 4XL. Free worldwide shipping.',
+        description: 'A classic plus-size one-piece swimsuit in three bold colors. Full coverage, full confidence — pool and beach ready. Sizes XL to 4XL. Free worldwide shipping.',
         keywords: 'plus size swimsuit, one piece swimsuit plus size, solid color swimwear curvy, BBW4LIFE original swimwear, full coverage swimsuit plus size, curvy women swimsuit',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-1.png?v=1785192602',
         canonical: 'https://bbw4life.com/products/product97.html'

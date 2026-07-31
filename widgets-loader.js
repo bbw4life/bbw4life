@@ -333,7 +333,19 @@
       <p id="cf-typing-label"></p>
     </div>
     <div class="cf-input-area">
+      <div class="cf-image-preview" id="cf-image-preview" style="display:none;">
+        <img id="cf-image-preview-img" src="" alt="Attached image">
+        <button id="cf-image-remove-btn" type="button" aria-label="Remove image">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
       <div class="cf-input-wrapper">
+        <input type="file" id="cf-image-input" accept="image/*" hidden>
+        <button id="cf-image-btn" class="cf-image-btn" type="button" aria-label="Attach an image">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+          </svg>
+        </button>
         <textarea id="cf-input" rows="1" maxlength="500" aria-label="Chat message"></textarea>
         <button id="cf-send-btn" class="cf-send-btn" aria-label="Send message" disabled>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
