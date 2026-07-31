@@ -13660,6 +13660,11 @@ document.addEventListener('DOMContentLoaded', function () {
           placeholderEl.parentNode.removeChild(placeholderEl);
         }
 
+        var imagesPlaceholderEl = document.getElementById('bbwHeroImagesPlaceholder');
+        if (imagesPlaceholderEl && imagesPlaceholderEl.parentNode) {
+          imagesPlaceholderEl.parentNode.removeChild(imagesPlaceholderEl);
+        }
+
         /* Mode images */
         images.forEach(function (src, i) {
           var img = document.createElement('img');
