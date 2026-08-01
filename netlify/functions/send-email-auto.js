@@ -2115,6 +2115,7 @@ exports.handler = async (event) => {
       }
 
       // ── Password reset : trySendDirect (jamais de dédoublonnage, sinon un renvoi futur serait bloqué) ──
+      console.log(`[Handler] DEBUG pre-check: trigger=${JSON.stringify(trigger)} T.PASSWORD_RESET=${JSON.stringify(T.PASSWORD_RESET)} strictEqual=${trigger === T.PASSWORD_RESET}`);
       if (trigger === T.PASSWORD_RESET) {
         console.log(`[Handler] PASSWORD_RESET branch reached for ${email}. resetUrl present: ${!!body.resetUrl}`);
         const ok = await trySendDirect(email, T.PASSWORD_RESET, () => composePasswordReset(body, settings));
