@@ -1,6 +1,10 @@
 /* ════════════════════════════════════════════════════════════
    PREMIUM PRODUCT PAGE
 ════════════════════════════════════════════════════════════ */
+:root {
+    --product-media-h-mobile: 350px;
+}
+
 @keyframes shimmerBar {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(400%); }
@@ -102,6 +106,7 @@
         position: sticky !important;
         top: 160px !important;
         align-self: flex-start !important;
+        
     }
     .product-layout {
         max-width: 1400px;
@@ -2687,8 +2692,16 @@ details[open] .chevron {
     }
     .thumbnail-item { flex: 0 0 auto; }
     .thumbnail-item img { width: 80px !important; height: 80px !important; }
-    .main-image-slider { width: 100%; min-height: 380px; border-radius: 16px; }
-    .main-image img { height: 380px !important; object-fit: cover !important; }
+    .main-image-slider { width: 100%; border-radius: 16px; }
+    .main-image-slider,
+    .main-image img,
+    .product-media.sticky-media-mobile .main-image img,
+    .product-media.sticky-media-mobile .thumbnails {
+        height: var(--product-media-h-mobile) !important;
+        min-height: var(--product-media-h-mobile) !important;
+        max-height: var(--product-media-h-mobile) !important;
+        object-fit: cover !important;
+    }
     .product-content {
         width: 100% !important; max-width: 100% !important;
         margin: 0 !important; padding: 18px 8px 8px !important;
@@ -2906,12 +2919,8 @@ details[open] .chevron {
     border-bottom: 1px solid #ffe1a9 !important;
     border-radius: 10px !important;
   }
-  .product-media.sticky-media-mobile .main-image img {
-    height: 330px !important;
-  }
-  .product-media.sticky-media-mobile .thumbnails {
-    max-height: 330px !important;
-  }
+  /* Hauteur gérée par la règle groupée dans le bloc MOBILE LAYOUT
+     (utilise var(--product-media-h-mobile)). */
 
   .product-layout,
   .product-section,
