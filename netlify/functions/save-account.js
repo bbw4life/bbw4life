@@ -6,10 +6,15 @@ const { verifyAccountToken, generateConfirmToken, verifyConfirmToken } = require
 const { notifyWelcome, notifyNewsletter1, notifyConfirmEmail, notifyPasswordReset } = require('./notify-email');
 const { hashPassword, verifyPassword, isHashedPassword } = require('./_lib/password');
 
-// ── Rate limiting basique (par IP) pour request-password-reset — mêmes seuils que validate-checkout.js ──
+// ── Rate limiting pour request-password-reset — par email (fallback IP si
+// email absent) plutôt que par IP seule : derrière un même NAT/proxy (ou
+// quand x-forwarded-for est absent, cas fréquent en test local), toutes
+// les requêtes retombaient sur la même clé 'unknown' et se bloquaient
+// mutuellement après 5 tentatives en 60s, empêchant même un premier essai
+// légitime d'atteindre notifyPasswordReset. ──
 const RATE_LIMIT_MAP = new Map();
-const RATE_LIMIT_WINDOW_MS = 60 * 1000;
-const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+const RATE_LIMIT_MAX = 3;
 
 function getClientIp(event) {
   return (
@@ -19,16 +24,16 @@ function getClientIp(event) {
   );
 }
 
-function isRateLimited(ip) {
+function isRateLimited(key) {
   const now = Date.now();
-  const entry = RATE_LIMIT_MAP.get(ip) || { count: 0, start: now };
+  const entry = RATE_LIMIT_MAP.get(key) || { count: 0, start: now };
   if (now - entry.start > RATE_LIMIT_WINDOW_MS) {
-    RATE_LIMIT_MAP.set(ip, { count: 1, start: now });
+    RATE_LIMIT_MAP.set(key, { count: 1, start: now });
     return false;
   }
   if (entry.count >= RATE_LIMIT_MAX) return true;
   entry.count++;
-  RATE_LIMIT_MAP.set(ip, entry);
+  RATE_LIMIT_MAP.set(key, entry);
   return false;
 }
 
@@ -220,8 +225,8 @@ exports.handler = async (event) => {
     // accepté en connaissance de cause), cette action révèle désormais si l'email existe via
     // le champ `found` de la réponse.
     if (action === 'request-password-reset') {
-      const ip = getClientIp(event);
-      if (isRateLimited(ip)) {
+      const rateLimitKey = normalize(email) || getClientIp(event);
+      if (isRateLimited(rateLimitKey)) {
         return { statusCode: 429, body: JSON.stringify({ success: false, error: 'Too many requests. Please wait a moment.' }) };
       }
 

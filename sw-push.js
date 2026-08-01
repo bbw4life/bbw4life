@@ -64,37 +64,41 @@ self.addEventListener('notificationclick', function (event) {
 
   const wantsCart = (action === 'open_cart' || (action === '' && hasCart));
 
+  // IMPORTANT : le "user activation" transitoire accordé par le clic sur la
+  // notification n'autorise qu'UN SEUL appel consommateur (focus() OU
+  // openWindow()) — enchaîner matchAll() → focus() → postMessage()/navigate()
+  // peut faire expirer cette activation avant le bon appel et provoquer
+  // "Not allowed to focus a window." silencieusement avalé par le catch,
+  // ce qui correspondait exactement au bug rapporté (clic = notification
+  // fermée, aucune action). On tente donc focus() en tout premier, sans
+  // rien attendre avant, et on retombe sur openWindow() en tout dernier
+  // recours si ça échoue.
   event.waitUntil(
     (async function () {
       try {
         const windowClients = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+        const existingClient = windowClients.find(function (client) {
+          return client.url.startsWith(self.location.origin) && 'focus' in client;
+        });
 
-        // Cherche un onglet déjà ouvert sur le même site
-        for (const client of windowClients) {
-          if (client.url.startsWith(self.location.origin) && 'focus' in client) {
-            const focusedClient = await client.focus();
+        if (existingClient) {
+          try {
+            const focusedClient = await existingClient.focus();
             if (wantsCart) {
               focusedClient.postMessage({ type: 'OPEN_CART', url: targetUrl });
             } else if ('navigate' in focusedClient) {
               await focusedClient.navigate(targetUrl);
-            } else {
-              // Filet de sécurité : si navigate() n'est pas dispo,
-              // ouvre quand même une fenêtre vers la bonne page.
-              await clients.openWindow(targetUrl);
             }
             return;
+          } catch (focusErr) {
+            console.warn('[SW] notificationclick: focus() a échoué, fallback openWindow', focusErr);
+            // On continue vers openWindow ci-dessous plutôt que d'abandonner.
           }
         }
 
-        // Aucun onglet ouvert : on en ouvre un nouveau directement sur
-        // l'URL cible (panier ou boutique) — pas besoin de postMessage
-        // ici, l'URL elle-même amène déjà la bonne page.
         await clients.openWindow(targetUrl);
       } catch (err) {
-        console.error('[SW] notificationclick: échec de la redirection, fallback openWindow', err);
-        // Dernier filet de sécurité : si quoi que ce soit a échoué
-        // au-dessus, on tente quand même d'ouvrir la bonne URL.
-        try { await clients.openWindow(targetUrl); } catch (e2) {}
+        console.error('[SW] notificationclick: échec de la redirection', err);
       }
     })()
   );

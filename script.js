@@ -549,6 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   url = url.replace(/[?&]width=\d+/g, '').replace(/\?&/, '?').replace(/\?$/, '');
   url = url.replace(/[?&]quality=\d+/g, '').replace(/\?&/, '?').replace(/\?$/, '');
+  url = url.replace(/[?&]format=\w+/g, '').replace(/\?&/, '?').replace(/\?$/, '');
 
   url = url.replace(
     /_(pico|icon|thumb|small|compact|medium|large|grande|original|master|1024x1024|2048x2048|\d+x\d+|\d+x|x\d+)(\.(?:jpg|jpeg|png|webp|gif|avif))(\?|$)/gi,
@@ -557,7 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const w = size || 1000;
   const sep = url.includes('?') ? '&' : '?';
-  return url + sep + `width=${w}&quality=100`;
+  return url + sep + `width=${w}&quality=85&format=webp`;
 }
 
 
@@ -1058,6 +1059,11 @@ function showErrorPopup(message) {
     const altBase = escapeAttr(productTitle ? `${productTitle} — BBW4LIFE plus size` : 'BBW4LIFE plus size product');
     thumbsContainer.innerHTML = '';
     mainSlider.querySelectorAll('.main-image').forEach(el => el.remove());
+    // Mobile n'a pas besoin d'une image aussi large que desktop — l'écran
+    // physique le plus large (devicePixelRatio compris) ne dépasse jamais
+    // ~1300px de large réel, donc demander 1800px partout gonfle
+    // inutilement le poids téléchargé sur réseau lent.
+    const mainImageSize = window.innerWidth <= 768 ? 900 : 1800;
     media.forEach((src, index) => {
       const thumb = document.createElement('div');
       thumb.className = `thumbnail-item ${index === 0 ? 'active' : ''}`;
@@ -1068,11 +1074,12 @@ function showErrorPopup(message) {
         thumb.addEventListener('mouseenter', () => changeMainImage(index));
       }
       thumbsContainer.appendChild(thumb);
-      const mainSrc = upgradeShopifyImageUrl(src, 1800);
+      const mainSrc = upgradeShopifyImageUrl(src, mainImageSize);
       const mainDiv = document.createElement('div');
       mainDiv.className = `main-image ${index === 0 ? 'active' : ''}`;
       mainDiv.dataset.originalSrc = mainSrc;
-      mainDiv.innerHTML = `<img src="${mainSrc}" alt="${altBase}" loading="lazy">`;
+      const loadAttr = index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+      mainDiv.innerHTML = `<img src="${mainSrc}" alt="${altBase}" ${loadAttr}>`;
       mainSlider.insertBefore(mainDiv, mainSlider.querySelector('.slider-arrow.next'));
     });
     mainSlider.querySelector('.prev').onclick = () => changeMainImage('prev');
@@ -3014,6 +3021,15 @@ function showErrorPopup(message) {
           const colorContainer = document.querySelector('.color-swatches');
           if (colorContainer && prod.colors && prod.colors.length) {
             colorContainer.innerHTML = '';
+            // Précharge l'image de chaque couleur en arrière-plan dès l'affichage
+            // de la fiche produit, pour que le clic sur un swatch réutilise une
+            // image déjà en cache navigateur au lieu d'attendre un téléchargement.
+            const colorPreloadSize = window.innerWidth <= 768 ? 900 : 1800;
+            prod.colors.forEach((color) => {
+              if (color.image) {
+                new Image().src = upgradeShopifyImageUrl(color.image, colorPreloadSize);
+              }
+            });
             prod.colors.forEach((color) => {
               const swatch = document.createElement('div');
               swatch.className = 'swatch';
@@ -3088,7 +3104,10 @@ function showErrorPopup(message) {
               const colorObj = prod.colors.find(c => c.name === selectedColor);
               if (colorObj && colorObj.image) {
                 const mainImg = document.querySelector('#main-image-slider .main-image.active img');
-                if (mainImg) mainImg.src = upgradeShopifyImageUrl(colorObj.image, 1800);
+                // Même taille que le préchargement ci-dessus pour que le
+                // navigateur réutilise l'image déjà en cache.
+                const colorImgSize = window.innerWidth <= 768 ? 900 : 1800;
+                if (mainImg) mainImg.src = upgradeShopifyImageUrl(colorObj.image, colorImgSize);
               }
             }
           }
@@ -3191,7 +3210,10 @@ function showErrorPopup(message) {
               container.addEventListener('click', (e) => {
                 e.stopImmediatePropagation();
                 const rawSrc = img.currentSrc || img.src;
-                modalImg.src = typeof upgradeShopifyImageUrl === 'function' ? upgradeShopifyImageUrl(rawSrc, 2200) : rawSrc;
+                // 1400px suffit pour un zoom max 2.5x sur un écran mobile
+                // (~400px CSS de large) — 2200px était un second téléchargement
+                // lourd et redondant avec l'image déjà affichée (900px).
+                modalImg.src = typeof upgradeShopifyImageUrl === 'function' ? upgradeShopifyImageUrl(rawSrc, 1400) : rawSrc;
                 modal.classList.add('active');
                 scale = 1; translateX = 0; translateY = 0;
                 updateTransform(false);
@@ -9230,20 +9252,33 @@ document.addEventListener('DOMContentLoaded', () => {
       paulForgotBtn.disabled = true;
 
       let found = false;
+      let rateLimited = false;
       try {
         const res  = await fetch('/.netlify/functions/save-account', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'request-password-reset', email: emailVal })
         });
-        const data = await res.json().catch(() => ({}));
-        found = !!data.found;
+        if (res.status === 429) {
+          rateLimited = true;
+        } else {
+          const data = await res.json().catch(() => ({}));
+          found = !!data.found;
+        }
       } catch (err) {
         // Network error — the popup below will show the "not found" message,
         // which is an acceptable fallback since we can't confirm either way.
       } finally {
         paulForgotBtn.textContent = origText;
         paulForgotBtn.disabled = false;
+      }
+
+      if (rateLimited) {
+        if (errEl) {
+          errEl.textContent = 'Too many attempts — please wait a few minutes and try again.';
+          errEl.style.display = 'block';
+        }
+        return;
       }
 
       window.showPasswordResetPopup(found, emailVal);

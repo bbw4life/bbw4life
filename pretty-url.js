@@ -135,6 +135,10 @@
   var path = window.location.pathname;
   var pretty = SLUGS[path];
   if (pretty && path !== pretty) {
-    window.history.replaceState({}, document.title, pretty);
+    // Préserve la query string (ex: ?openCart=true venant d'une notification
+    // push) et le hash — sinon ils sont perdus avant que le reste du site
+    // (ex: checkOpenCartFromPush dans script.js) ne puisse les lire.
+    var newUrl = pretty + window.location.search + window.location.hash;
+    window.history.replaceState({}, document.title, newUrl);
   }
 })();
