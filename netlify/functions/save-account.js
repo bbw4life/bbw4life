@@ -13,8 +13,8 @@ const { hashPassword, verifyPassword, isHashedPassword } = require('./_lib/passw
 // mutuellement après 5 tentatives en 60s, empêchant même un premier essai
 // légitime d'atteindre notifyPasswordReset. ──
 const RATE_LIMIT_MAP = new Map();
-const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
-const RATE_LIMIT_MAX = 3;
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 5;
 
 function getClientIp(event) {
   return (

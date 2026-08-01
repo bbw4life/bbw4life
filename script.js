@@ -9288,7 +9288,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // LOGIN
-  const loginBtn = document.querySelector('.paul-btn-login');
+  const loginBtn = document.getElementById('paul-login-btn');
   if (loginBtn) {
     loginBtn.addEventListener('click', async () => {
       const email         = loginForm.querySelector('input[type="email"]').value.trim();
