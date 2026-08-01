@@ -13660,22 +13660,59 @@ document.addEventListener('DOMContentLoaded', function () {
           placeholderEl.parentNode.removeChild(placeholderEl);
         }
 
+        // Le placeholder image reste visible tant que LES 3 vraies images
+        // de la rotation n'ont pas fini de charger — sinon, dès que le
+        // carrousel avance sur un slide pas encore chargé (loading="lazy"
+        // le retardait), on retombe sur un flash noir.
         var imagesPlaceholderEl = document.getElementById('bbwHeroImagesPlaceholder');
-        if (imagesPlaceholderEl && imagesPlaceholderEl.parentNode) {
-          imagesPlaceholderEl.parentNode.removeChild(imagesPlaceholderEl);
-        }
+        var heroImgEls = [];
+        var loadedCount = 0;
 
         /* Mode images */
         images.forEach(function (src, i) {
           var img = document.createElement('img');
-          img.src     = (typeof upgradeShopifyImageUrl === 'function') ? upgradeShopifyImageUrl(src, 1600) : src;
-          img.alt     = (slides[i] && slides[i].title) ? slides[i].title : 'BBW4LIFE banner ' + (i + 1);
-          img.loading = i === 0 ? 'eager' : 'lazy';
+          img.src      = (typeof upgradeShopifyImageUrl === 'function') ? upgradeShopifyImageUrl(src, 1600) : src;
+          img.alt      = (slides[i] && slides[i].title) ? slides[i].title : 'BBW4LIFE banner ' + (i + 1);
+          img.loading  = 'eager';
           img.decoding = 'async';
           if (i === 0) img.fetchPriority = 'high';
-          if (i === 0) img.classList.add('bbw-hero--active');
+          heroImgEls.push(img);
+          /* pas de bbw-hero--active tout de suite pour le slide 0 —
+             on l'ajoute seulement une fois toutes les images chargées */
           mediaEl.appendChild(img);
         });
+
+        function bbwHeroRevealImages() {
+          if (heroImgEls[0]) heroImgEls[0].classList.add('bbw-hero--active');
+          if (imagesPlaceholderEl) {
+            imagesPlaceholderEl.style.transition = 'opacity 0.5s ease';
+            imagesPlaceholderEl.style.opacity = '0';
+            setTimeout(function () {
+              if (imagesPlaceholderEl && imagesPlaceholderEl.parentNode) {
+                imagesPlaceholderEl.parentNode.removeChild(imagesPlaceholderEl);
+              }
+            }, 500);
+          }
+        }
+
+        function bbwHeroOnOneImageSettled() {
+          loadedCount++;
+          if (loadedCount >= heroImgEls.length) bbwHeroRevealImages();
+        }
+
+        if (heroImgEls.length) {
+          heroImgEls.forEach(function (img) {
+            if (img.complete && img.naturalWidth > 0) {
+              bbwHeroOnOneImageSettled();
+            } else {
+              img.addEventListener('load',  bbwHeroOnOneImageSettled, { once: true });
+              img.addEventListener('error', bbwHeroOnOneImageSettled, { once: true });
+            }
+          });
+        } else if (imagesPlaceholderEl && imagesPlaceholderEl.parentNode) {
+          /* aucune image configurée → pas de raison de garder le placeholder */
+          imagesPlaceholderEl.parentNode.removeChild(imagesPlaceholderEl);
+        }
       }
 
     /* ════════════════════════════════════════════════════════
@@ -13972,7 +14009,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       /* ── Images + Thumbs + Dots — seulement en mode image ── */
       if (!videoUrl) {
-        var imgs = mediaEl.querySelectorAll('img');
+        var imgs = mediaEl.querySelectorAll('img:not(#bbwHeroImagesPlaceholder)');
         imgs.forEach(function (img, i) {
           img.classList.toggle('bbw-hero--active', i === idx);
         });
