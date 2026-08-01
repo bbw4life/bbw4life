@@ -222,11 +222,11 @@
       <div id="forgotForm" class="auth-form" style="display:none;">
         <h3 id="paul-forgot-title"></h3>
         <input type="email" id="forgot-email" name="email" autocomplete="email" placeholder="" required>
-        <div class="password-input-wrapper" style="position:relative !important;">
+        <div class="password-input-wrapper" style="position:relative !important; display:none;">
           <input type="password" id="forgot-new-password" name="new-password" autocomplete="new-password" placeholder="" required>
           <span class="password-toggle" data-target="forgot-new-password"><i class="fi fi-sr-eye"></i></span>
         </div>
-        <div class="password-input-wrapper" style="position:relative !important;">
+        <div class="password-input-wrapper" style="position:relative !important; display:none;">
           <input type="password" id="forgot-confirm-password" name="confirm-password" autocomplete="new-password" placeholder="" required>
           <span class="password-toggle" data-target="forgot-confirm-password"><i class="fi fi-sr-eye"></i></span>
         </div>
