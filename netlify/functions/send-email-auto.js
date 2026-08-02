@@ -2036,7 +2036,8 @@ exports.handler = async (event) => {
       }
 
       if (trigger === T.ORDER_CONFIRM) {
-        await trySend(email, T.ORDER_CONFIRM,
+        const dedupeType = `${T.ORDER_CONFIRM}_${body.orderId || Date.now()}`;
+        await trySend(email, dedupeType,
           () => composeOrderConfirm(body, settings),
           sheets, sentLog, results);
       }

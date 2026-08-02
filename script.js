@@ -9361,7 +9361,11 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       document.head.appendChild(hideStyle);
       setTimeout(() => {
-        openPaulPopup();
+        // Ne pas écraser l'écran reset-password déjà affiché par le handler
+        // de lien email (pendingResetToken) — sinon loginForm et forgotForm
+        // restent visibles en même temps, superposés.
+        if (!pendingResetToken) openPaulPopup();
+        if (paulPopupOverlay) paulPopupOverlay.classList.add('active');
         const closeBtnPopup = document.querySelector('.paul-close');
         if (closeBtnPopup) {
           closeBtnPopup.style.pointerEvents = 'none';
