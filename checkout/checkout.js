@@ -888,16 +888,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateFreeShippingPromoLock(isFreeByThreshold);
         const isFreeMethod = ['Standard Shipping', 'Economy Shipping'].includes(selectedMethod);
         const effectiveShipping = (isFreeByThreshold || isFreeMethod) ? 0 : SHIPPING_COST;
-        const effectiveTax = (isFreeByThreshold || isFreeMethod) ? 0 : subtotal * TAX_RATE;
+        const effectiveTax = (isFreeByThreshold || isFreeMethod) ? 0 : parseFloat((subtotal * TAX_RATE).toFixed(2));
         let affPromoDiscountAmount = 0;
         if (affPromoApplied && affPromoDiscount > 0) {
-            affPromoDiscountAmount = subtotal * (affPromoDiscount / 100);
+            affPromoDiscountAmount = parseFloat((subtotal * (affPromoDiscount / 100)).toFixed(2));
             const discountLine = document.getElementById('promo-line');
             const discountEl   = document.getElementById('discount-amount');
             if (discountLine) discountLine.style.display = 'block';
             if (discountEl)   discountEl.textContent = `-$${(discountAmount + affPromoDiscountAmount).toFixed(2)} (-${affPromoDiscount}%)`;
         }
-        const finalTotal = subtotal + effectiveTax + effectiveShipping - discountAmount - affPromoDiscountAmount;
+        const finalTotal = parseFloat((subtotal + effectiveTax + effectiveShipping - discountAmount - affPromoDiscountAmount).toFixed(2));
         document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
         document.getElementById('taxes').textContent = `$${effectiveTax.toFixed(2)}`;
         const taxLabel = document.getElementById('tax-rate-label');
@@ -1202,7 +1202,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ? cart.filter(i => !i.isFreePromo).reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.quantity) || 0), 0)
                     : getSubtotal();
 
-                discountAmount = baseForDiscount * (birthdayDiscount / 100);
+                discountAmount = parseFloat((baseForDiscount * (birthdayDiscount / 100)).toFixed(2));
 
                 promoMessage.innerHTML = `
                     <span style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(34,160,107,0.08);border:1px solid rgba(34,160,107,0.25);border-radius:10px">
@@ -1260,7 +1260,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             appliedPromo   = { code: input, percent: discountPct, isAffiliate: true };
-            discountAmount = subtotal * (discountPct / 100);
+            discountAmount = parseFloat((subtotal * (discountPct / 100)).toFixed(2));
             promoMessage.textContent = `Affiliate code applied: ${discountPct}% off!`;
             promoMessage.style.color = 'green';
             sessionStorage.setItem('pendingAffPromo', userEmail);
@@ -1280,7 +1280,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const promo = promos.find(p => p.code.toUpperCase() === input);
     if (promo && promo.items === totalQuantity) {
         appliedPromo   = promo;
-        discountAmount = getSubtotal() * (promo.percent / 100);
+        discountAmount = parseFloat((getSubtotal() * (promo.percent / 100)).toFixed(2));
         promoMessage.textContent = `Promo applied: ${promo.percent}% off!`;
         promoMessage.style.color = 'green';
         updateTotals();
