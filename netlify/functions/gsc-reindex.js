@@ -4,8 +4,7 @@
 // sont pas indexées (ou dont Google n'a pas encore vu la dernière version).
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
-const fs = require('fs');
-const path = require('path');
+const fetch = require('node-fetch');
 
 const SITE_URL = process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL;
 
@@ -19,9 +18,11 @@ function getAuth(scopes) {
   });
 }
 
-function getUrlsFromSitemap() {
-  const sitemapPath = path.join(__dirname, '../../sitemap.xml');
-  const xml = fs.readFileSync(sitemapPath, 'utf8');
+async function getUrlsFromSitemap() {
+  const BASE_URL = process.env.BASE_URL || 'https://bbw4life.com';
+  const res = await fetch(`${BASE_URL}/sitemap.xml`);
+  if (!res.ok) throw new Error(`Failed to fetch sitemap.xml (HTTP ${res.status})`);
+  const xml = await res.text();
   const matches = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)];
   return matches.map(m => m[1].trim());
 }
@@ -32,7 +33,7 @@ exports.handler = async (event) => {
   try {
     if (!SITE_URL) throw new Error('Missing GOOGLE_SEARCH_CONSOLE_SITE_URL env var');
 
-    const urls = getUrlsFromSitemap();
+    const urls = await getUrlsFromSitemap();
 
     const inspectAuth = getAuth(['https://www.googleapis.com/auth/webmasters.readonly']);
     const searchconsole = google.searchconsole({ version: 'v1', auth: inspectAuth });
