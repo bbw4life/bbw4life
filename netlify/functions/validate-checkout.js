@@ -87,7 +87,7 @@ exports.handler = async (event) => {
       const allProducts = await getAllProductsData();
       const settings    = allProducts.find(p => p.type === 'settings') || {};
 
-      const { subtotal, shippingCost, taxAmount, discountAmount, total, sanitizedCart } = computeServerTotal(
+      const { subtotal, shippingCost, taxAmount, discountAmount, total, sanitizedCart } = await computeServerTotal(
         cart,
         settings,
         allProducts,
@@ -130,7 +130,7 @@ exports.handler = async (event) => {
       const allProducts = await getAllProductsData();
       const settings    = allProducts.find(p => p.type === 'settings') || {};
 
-      const { total, sanitizedCart } = computeServerTotal(cart, settings, allProducts, shippingMethod || 'Standard Shipping', promoCode || null);
+      const { total, sanitizedCart } = await computeServerTotal(cart, settings, allProducts, shippingMethod || 'Standard Shipping', promoCode || null);
 
       let valid = false;
       try {

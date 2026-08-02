@@ -64,7 +64,7 @@ exports.handler = async (event) => {
     const settings       = allProducts.find(p => p.type === 'settings') || {};
     const shippingMethod = shipping?.shipping_method || 'Standard Shipping';
 
-    const { total, sanitizedCart } = computeServerTotal(
+    const { total, sanitizedCart } = await computeServerTotal(
       rawCart,
       settings,
       allProducts,
