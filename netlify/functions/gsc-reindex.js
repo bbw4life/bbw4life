@@ -29,11 +29,18 @@ async function getUrlsFromSitemap() {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+// ── Traite un lot d'URLs par appel (évite le timeout des fonctions synchrones) ──
+const BATCH_SIZE = 8;
+
 exports.handler = async (event) => {
   try {
     if (!SITE_URL) throw new Error('Missing GOOGLE_SEARCH_CONSOLE_SITE_URL env var');
 
-    const urls = await getUrlsFromSitemap();
+    const qs     = event.queryStringParameters || {};
+    const offset = parseInt(qs.offset) || 0;
+
+    const allUrls = await getUrlsFromSitemap();
+    const urls    = allUrls.slice(offset, offset + BATCH_SIZE);
 
     const inspectAuth = getAuth(['https://www.googleapis.com/auth/webmasters.readonly']);
     const searchconsole = google.searchconsole({ version: 'v1', auth: inspectAuth });
@@ -59,10 +66,10 @@ exports.handler = async (event) => {
       } catch (e) {
         errors.push({ url, error: e.message });
       }
-      await sleep(300); // respecte le quota de l'API Inspection
+      await sleep(150);
     }
 
-    // ── Soumet une demande de réindexation pour chaque URL non indexée ──
+    // ── Soumet une demande de réindexation pour chaque URL non indexée du lot ──
     const resubmitted = [];
     const resubmitErrors = [];
     for (const item of notIndexed) {
@@ -74,15 +81,22 @@ exports.handler = async (event) => {
       } catch (e) {
         resubmitErrors.push({ url: item.url, error: e.message });
       }
-      await sleep(300);
+      await sleep(150);
     }
+
+    const nextOffset = offset + BATCH_SIZE;
+    const done = nextOffset >= allUrls.length;
 
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         success: true,
-        totalUrls: urls.length,
+        totalUrls: allUrls.length,
+        batchOffset: offset,
+        batchSize: urls.length,
+        done,
+        nextUrl: done ? null : `/.netlify/functions/gsc-reindex?offset=${nextOffset}`,
         indexedCount: indexed.length,
         notIndexedCount: notIndexed.length,
         notIndexed,
