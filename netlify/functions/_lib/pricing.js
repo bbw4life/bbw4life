@@ -10,7 +10,11 @@ const { google } = require('googleapis');
 async function getAllProductsData() {
   try {
     const BASE_URL = process.env.BASE_URL || '';
-    const res = await fetch(`${BASE_URL}/products.data.json`);
+    // Cache-buster : garantit un prix toujours à jour, jamais une version
+    // périmée servie par le cache CDN après une modification récente.
+    const res = await fetch(`${BASE_URL}/products.data.json?_=${Date.now()}`, {
+      headers: { 'Cache-Control': 'no-cache' }
+    });
     if (!res.ok) throw new Error('Failed to fetch products.data.json');
     const data = await res.json();
     return Array.isArray(data) ? data : [];
