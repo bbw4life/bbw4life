@@ -6372,65 +6372,327 @@ body { margin-bottom: 0 !important; }
   box-shadow: 0 0 10px rgba(232,188,106,0.50);
 }
 
-.bbw-finale-text {
-  font-family: var(--font-body);
-  font-size: 0.98rem;
-  line-height: 1.75;
-  color: rgba(246,239,229,0.72);
-  max-width: 480px;
-  margin: 0 auto 46px;
+/* ══════════════════════════════════════════════════════════════
+   PROMO BANNER — Affiliate + Free Shipping (remplace l'ancien
+   bloc "Thank you for trusting" + stats dans .bbw-finale)
+════════════════════════════════════════════════════════════════ */
+
+.bbw-promo-inner { max-width: 720px; }
+
+.bbw-promo-title { margin-bottom: 40px; }
+
+/* ── Fond plein-largeur : les 3 images se relaient derrière tout le
+     contenu de la section, semi-transparentes sous un voile noir. ── */
+.bbw-promo-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
-.bbw-finale-stats {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 22px;
+.bbw-promo-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  opacity: 0;
+  animation: bbwPromoBgSlideshow 18s ease-in-out infinite;
+}
+.bbw-promo-bg-img--1 { animation-delay: 0s; }
+.bbw-promo-bg-img--2 { animation-delay: 6s; }
+.bbw-promo-bg-img--3 { animation-delay: 12s; }
+
+@keyframes bbwPromoBgSlideshow {
+  0%, 2%    { opacity: 0; }
+  6%, 27%   { opacity: 0.32; }
+  33%, 100% { opacity: 0; }
 }
 
-.bbw-finale-stat {
+.bbw-promo-bg-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(21,17,14,0.70) 0%, rgba(21,17,14,0.54) 45%, rgba(21,17,14,0.76) 100%);
+}
+
+/* ── Bulle photo flottante (cercle qui balance) — une image visible à
+     la fois, fondu enchaîné cyclique, léger flottement vertical ── */
+.bbw-promo-float {
+  position: absolute;
+  top: 50%;
+  right: 6%;
+  transform: translateY(-50%);
+  width: 210px;
+  height: 210px;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 18px 46px rgba(0,0,0,0.45), 0 0 0 4px rgba(184,146,90,0.35), 0 0 0 1px rgba(184,146,90,0.55);
+  animation: bbwPromoFloatBob 5.5s ease-in-out infinite;
+}
+
+.bbw-promo-float-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  animation: bbwPromoFloatSlideshow 12s ease-in-out infinite;
+}
+.bbw-promo-float-img--1 { animation-delay: 0s; }
+.bbw-promo-float-img--2 { animation-delay: 4s; }
+.bbw-promo-float-img--3 { animation-delay: 8s; }
+
+@keyframes bbwPromoFloatSlideshow {
+  0%, 3%    { opacity: 0; }
+  8%, 28%   { opacity: 1; }
+  33%, 100% { opacity: 0; }
+}
+
+@keyframes bbwPromoFloatBob {
+  0%, 100% { transform: translateY(-50%); }
+  50%      { transform: translateY(calc(-50% - 12px)); }
+}
+
+/* ── Cercles décoratifs animés — côté gauche du banner, purement
+     graphiques (pas d'image), pour donner de la vibration à la
+     composition sans surcharger le message. ── */
+.bbw-promo-rings {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bbw-promo-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(184,146,90,0.40);
+}
+
+.bbw-promo-ring--1 {
+  top: 8%;
+  left: 4%;
+  width: 130px;
+  height: 130px;
+  animation: bbwPromoRingPulse 6s ease-in-out infinite;
+}
+.bbw-promo-ring--2 {
+  top: 58%;
+  left: 10%;
+  width: 70px;
+  height: 70px;
+  border-color: rgba(232,188,106,0.45);
+  animation: bbwPromoRingDrift 8s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+.bbw-promo-ring--3 {
+  top: 22%;
+  left: 16%;
+  width: 34px;
+  height: 34px;
+  background: rgba(184,146,90,0.14);
+  border-color: rgba(184,146,90,0.55);
+  animation: bbwPromoRingPulse 4.5s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+.bbw-promo-ring--4 {
+  top: 72%;
+  left: 2%;
+  width: 190px;
+  height: 190px;
+  border-color: rgba(184,146,90,0.24);
+  animation: bbwPromoRingDrift 10s ease-in-out infinite;
+  animation-delay: 2.4s;
+}
+
+@keyframes bbwPromoRingPulse {
+  0%, 100% { transform: scale(1);    opacity: 0.55; }
+  50%      { transform: scale(1.12); opacity: 1; }
+}
+
+@keyframes bbwPromoRingDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(8px, -14px) scale(1.05); }
+}
+
+/* ── Badge jackpot — flotte à côté de la bulle photo ── */
+.bbw-promo-jackpot-badge {
+  position: absolute;
+  top: calc(50% - 130px);
+  right: calc(6% + 150px);
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  min-width: 100px;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--bbw-black) 0%, #1c1712 100%);
+  border: 2px solid rgba(184,146,90,0.55);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.50), 0 0 24px rgba(184,146,90,0.18);
+  pointer-events: none;
+  animation: bbwPromoFloatBob 4.6s ease-in-out infinite;
+  animation-delay: 0.8s;
 }
-
-.bbw-finale-stat-num {
-  font-family: var(--font-display);
-  font-size: 1.7rem;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--bbw-gold-light);
-}
-.bbw-finale-stat-num small { font-size: 1rem; opacity: 0.70; margin-left: 1px; }
-
-.bbw-finale-stat-label {
+.bbw-promo-jackpot-label {
   font-family: var(--font-body);
-  font-size: 0.66rem;
-  letter-spacing: 0.09em;
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(246,239,229,0.50);
+  color: rgba(246,239,229,0.60);
+  margin-bottom: 2px;
+}
+.bbw-promo-jackpot-amount {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--bbw-gold-vivid);
+  line-height: 1;
 }
 
-.bbw-finale-stat-sep {
-  width: 1px;
-  height: 34px;
-  background: rgba(184,146,90,0.28);
+/* ── Texte en slides, synchronisé avec le fond (même timing/durée) ── */
+.bbw-promo-slides {
+  position: relative;
+  z-index: 2;
+  min-height: 210px;
 }
+
+.bbw-promo-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  animation: bbwPromoTextSlideshow 18s ease-in-out infinite;
+}
+.bbw-promo-slide--1 { animation-delay: 0s; }
+.bbw-promo-slide--2 { animation-delay: 6s; }
+.bbw-promo-slide--3 { animation-delay: 12s; }
+
+/* pointer-events activé seulement pendant la fenêtre où le slide est
+   réellement visible — sinon un slide caché (opacity:0) reste cliquable
+   et peut intercepter les clics destinés au slide affiché par-dessus. */
+@keyframes bbwPromoTextSlideshow {
+  0%, 2%    { opacity: 0; transform: translateY(8px);  pointer-events: none; }
+  6%, 27%   { opacity: 1; transform: translateY(0);    pointer-events: auto; }
+  33%, 100% { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+}
+
+.bbw-promo-slide-kicker {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bbw-gold-light);
+  margin-bottom: 12px;
+}
+
+.bbw-promo-slide-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.28;
+  color: var(--bbw-white);
+  margin: 0 0 16px;
+}
+
+.bbw-promo-slide-text {
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: rgba(246,239,229,0.76);
+  max-width: 480px;
+  margin: 0 auto 24px;
+}
+
+.bbw-promo-accent {
+  color: var(--bbw-gold-vivid);
+  font-weight: 700;
+}
+
+.bbw-promo-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bbw-black) !important;
+  background: linear-gradient(120deg, var(--bbw-gold-light) 0%, var(--bbw-gold) 60%, var(--bbw-gold-vivid) 100%) !important;
+  padding: 11px 20px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.bbw-promo-cta:hover,
+.bbw-promo-cta:focus,
+.bbw-promo-cta:active,
+.bbw-promo-cta:visited {
+  border: none !important;
+  outline: none !important;
+  color: var(--bbw-black) !important;
+}
+.bbw-promo-cta:hover {
+  transform: translateX(2px);
+  box-shadow: 0 6px 20px rgba(184,146,90,0.40) !important;
+}
+.bbw-promo-cta span { transition: transform 0.25s ease; }
+.bbw-promo-cta:hover span { transform: translateX(3px); }
 
 @media (max-width: 640px) {
-  .bbw-finale { padding: 72px 20px 88px; }
+  .bbw-finale { padding: 188px 20px 88px; }
   .bbw-finale-wave--top { height: 40px; }
   .bbw-finale-wave--top svg { height: 40px; }
   .bbw-finale-wave--bottom { height: 30px; }
   .bbw-finale-wave--bottom svg { height: 30px; }
   .bbw-finale-title { font-size: clamp(1.55rem, 7vw, 2.15rem); }
-  .bbw-finale-text { font-size: 0.90rem; margin-bottom: 36px; }
-  .bbw-finale-stats { gap: 14px; }
-  .bbw-finale-stat { min-width: 76px; }
-  .bbw-finale-stat-num { font-size: 1.35rem; }
+  .bbw-promo-title { margin-bottom: 32px; }
+
+  .bbw-promo-float {
+    top: 96px;
+    right: 50%;
+    transform: translate(50%, 0);
+    width: 148px;
+    height: 148px;
+    animation: bbwPromoFloatBobMobile 5.5s ease-in-out infinite;
+  }
+  @keyframes bbwPromoFloatBobMobile {
+    0%, 100% { transform: translate(50%, 0); }
+    50%      { transform: translate(50%, -10px); }
+  }
+
+  .bbw-promo-jackpot-badge {
+    top: 0;
+    right: calc(50% - 118px);
+    width: 68px;
+    height: 68px;
+    animation-name: bbwPromoFloatBobMobile;
+  }
+  .bbw-promo-jackpot-label { font-size: 0.48rem; }
+  .bbw-promo-jackpot-amount { font-size: 0.92rem; }
+
+  .bbw-promo-slides { min-height: 260px; }
+  .bbw-promo-slide-title { font-size: 1.22rem; }
+  .bbw-promo-slide-text { font-size: 0.88rem; }
+
+  .bbw-promo-ring--1 { width: 80px; height: 80px; top: 4%; left: -6%; }
+  .bbw-promo-ring--2 { width: 44px; height: 44px; top: 46%; left: 2%; }
+  .bbw-promo-ring--3 { display: none; }
+  .bbw-promo-ring--4 { width: 120px; height: 120px; top: 80%; left: -8%; }
 }
 
 

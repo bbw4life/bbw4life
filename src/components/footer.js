@@ -2580,10 +2580,58 @@ document.addEventListener('click', function (e) {
     bbwmInit();
   }
 
-  
+
   window.openMissionPopup  = bbwmOpen;
   window.closeMissionPopup = bbwmClose;
 
+})();
+
+
+/* ══════════════════════════════════════════════════════════════
+   PROMO BANNER — Affiliate + Free Shipping — valeurs dynamiques
+   (.bbw-promo-grid, .bbw-promo-jackpot-badge dans .bbw-finale)
+════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  function waitForProductsPromo(cb) {
+    if (window.__allProducts && window.__allProducts.length) { cb(); return; }
+    var tries = 0;
+    var poll = setInterval(function () {
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(poll); cb();
+      } else if (++tries > 100) {
+        clearInterval(poll);
+      }
+    }, 100);
+  }
+
+  function injectPromoBannerValues() {
+    var all = window.__allProducts || [];
+    var settings = all.find(function (p) { return p.type === 'settings'; }) || {};
+    var aff = settings.affiliation || {};
+    var cartDrawer = settings.cart_drawer || {};
+
+    var commission = aff.commission_percent != null ? aff.commission_percent : 10;
+    var jackpot    = aff.jackpot_reward_amount != null ? aff.jackpot_reward_amount : 150;
+    var threshold  = aff.jackpot_orders_threshold != null ? aff.jackpot_orders_threshold : 30;
+    var freeShip   = cartDrawer.free_shipping_threshold != null ? cartDrawer.free_shipping_threshold : 350;
+
+    document.querySelectorAll('[data-aff-commission]').forEach(function (el) { el.textContent = commission; });
+    document.querySelectorAll('[data-aff-jackpot]').forEach(function (el) { el.textContent = jackpot; });
+    document.querySelectorAll('[data-aff-jackpot-badge]').forEach(function (el) { el.textContent = jackpot; });
+    document.querySelectorAll('[data-aff-threshold]').forEach(function (el) { el.textContent = threshold; });
+    document.querySelectorAll('[data-shipping-threshold]').forEach(function (el) { el.textContent = freeShip; });
+  }
+
+  waitForProductsPromo(injectPromoBannerValues);
+
+  // Le footer est injecté après coup sur certaines pages (fetch de
+  // footer.html) — si les produits étaient déjà chargés avant que ce
+  // fichier ne s'exécute, on retente une fois après l'événement dédié.
+  document.addEventListener('footer:loaded', function () {
+    waitForProductsPromo(injectPromoBannerValues);
+  });
 })();
 
 

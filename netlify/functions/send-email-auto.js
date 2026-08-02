@@ -2115,14 +2115,21 @@ exports.handler = async (event) => {
       }
 
       // ── Password reset : trySendDirect (jamais de dédoublonnage, sinon un renvoi futur serait bloqué) ──
-      if (trigger === T.PASSWORD_RESET) {
-        console.log(`[Handler] PASSWORD_RESET branch reached for ${email}. resetUrl present: ${!!body.resetUrl}`);
-        const ok = await trySendDirect(email, T.PASSWORD_RESET, () => composePasswordReset(body, settings));
-        if (ok) {
-          results.sent.push({ email, type: T.PASSWORD_RESET });
-        } else {
-          results.errors.push({ email, type: T.PASSWORD_RESET, reason: 'send failed' });
+      try {
+        console.log(`[Handler] DEBUG before PASSWORD_RESET check — trigger=${JSON.stringify(trigger)}`);
+        if (trigger === T.PASSWORD_RESET) {
+          console.log(`[Handler] PASSWORD_RESET branch reached for ${email}. resetUrl present: ${!!body.resetUrl}`);
+          const ok = await trySendDirect(email, T.PASSWORD_RESET, () => composePasswordReset(body, settings));
+          console.log(`[Handler] PASSWORD_RESET trySendDirect returned: ${ok}`);
+          if (ok) {
+            results.sent.push({ email, type: T.PASSWORD_RESET });
+          } else {
+            results.errors.push({ email, type: T.PASSWORD_RESET, reason: 'send failed' });
+          }
         }
+      } catch (prErr) {
+        console.error(`[Handler] DEBUG PASSWORD_RESET block threw:`, prErr.message, prErr.stack);
+        results.errors.push({ email, type: T.PASSWORD_RESET, reason: prErr.message });
       }
 
       return {
