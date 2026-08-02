@@ -100,6 +100,8 @@ exports.handler = async (event) => {
         const diff = Math.abs(clientTotalRounded - total);
         if (diff > 0.10) {
           console.warn(`[CHECKOUT SECURITY] Price mismatch — client: $${clientTotal} | server: $${total} | IP: ${ip}`);
+          console.warn(`[CHECKOUT SECURITY DEBUG] promoCode="${promoCode}" shippingMethod="${shippingMethod}" subtotal=${subtotal} shippingCost=${shippingCost} taxAmount=${taxAmount} discountAmount=${discountAmount}`);
+          console.warn(`[CHECKOUT SECURITY DEBUG] cart=${JSON.stringify(cart)}`);
           return res(400, {
             success: false,
             error: 'Price mismatch detected. Please refresh and try again.',
