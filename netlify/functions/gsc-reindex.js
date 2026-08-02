@@ -30,7 +30,7 @@ async function getUrlsFromSitemap() {
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 // ── Traite un lot d'URLs par appel (évite le timeout des fonctions synchrones) ──
-const BATCH_SIZE = 8;
+const BATCH_SIZE = 3;
 
 exports.handler = async (event) => {
   try {
@@ -66,7 +66,7 @@ exports.handler = async (event) => {
       } catch (e) {
         errors.push({ url, error: e.message });
       }
-      await sleep(150);
+      await sleep(80);
     }
 
     // ── Soumet une demande de réindexation pour chaque URL non indexée du lot ──
@@ -81,7 +81,7 @@ exports.handler = async (event) => {
       } catch (e) {
         resubmitErrors.push({ url: item.url, error: e.message });
       }
-      await sleep(150);
+      await sleep(80);
     }
 
     const nextOffset = offset + BATCH_SIZE;
