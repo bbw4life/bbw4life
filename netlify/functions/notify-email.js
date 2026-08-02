@@ -16,12 +16,18 @@ async function notifyEmail(trigger, payload = {}) {
   }
 
   try {
+    console.log(`[notify-email] DEBUG calling ENDPOINT="${ENDPOINT}" (BASE_URL env raw="${process.env.BASE_URL}") for trigger="${trigger}"`);
     const res  = await fetch(ENDPOINT, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ trigger, ...payload })
     });
-    const data = await res.json().catch(() => ({}));
+    const rawText = await res.text();
+    console.log(`[notify-email] DEBUG raw response status=${res.status} body=${rawText.slice(0, 500)}`);
+    let data = {};
+    try { data = JSON.parse(rawText); } catch (parseErr) {
+      console.error(`[notify-email] DEBUG response is not valid JSON:`, parseErr.message);
+    }
 
     if (!res.ok || data.success === false) {
       console.warn(`[notify-email] ✗ "${trigger}" failed for ${payload.email}:`, JSON.stringify(data));
@@ -32,7 +38,7 @@ async function notifyEmail(trigger, payload = {}) {
     return { success: true, raw: data };
 
   } catch (e) {
-    console.error(`[notify-email] ✗ "${trigger}" network error for ${payload.email}:`, e.message);
+    console.error(`[notify-email] ✗ "${trigger}" network error for ${payload.email}:`, e.message, e.stack);
     return { success: false, error: e.message };
   }
 }
