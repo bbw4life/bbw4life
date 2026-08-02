@@ -1,0 +1,102 @@
+// netlify/functions/gsc-reindex.js
+// Vérifie le statut d'indexation de chaque URL du sitemap via Search Console,
+// puis soumet une demande de réindexation (Indexing API) pour celles qui ne
+// sont pas indexées (ou dont Google n'a pas encore vu la dernière version).
+process.removeAllListeners('warning');
+const { google } = require('googleapis');
+const fs = require('fs');
+const path = require('path');
+
+const SITE_URL = process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL;
+
+function getAuth(scopes) {
+  return new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key:  process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
+    },
+    scopes
+  });
+}
+
+function getUrlsFromSitemap() {
+  const sitemapPath = path.join(__dirname, '../../sitemap.xml');
+  const xml = fs.readFileSync(sitemapPath, 'utf8');
+  const matches = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)];
+  return matches.map(m => m[1].trim());
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+exports.handler = async (event) => {
+  try {
+    if (!SITE_URL) throw new Error('Missing GOOGLE_SEARCH_CONSOLE_SITE_URL env var');
+
+    const urls = getUrlsFromSitemap();
+
+    const inspectAuth = getAuth(['https://www.googleapis.com/auth/webmasters.readonly']);
+    const searchconsole = google.searchconsole({ version: 'v1', auth: inspectAuth });
+
+    const indexAuth = getAuth(['https://www.googleapis.com/auth/indexing']);
+    const indexingClient = await indexAuth.getClient();
+
+    const notIndexed = [];
+    const indexed = [];
+    const errors = [];
+
+    for (const url of urls) {
+      try {
+        const res = await searchconsole.urlInspection.index.inspect({
+          requestBody: { inspectionUrl: url, siteUrl: SITE_URL }
+        });
+        const verdict = res.data.inspectionResult?.indexStatusResult?.verdict || 'UNKNOWN';
+        if (verdict === 'PASS') {
+          indexed.push(url);
+        } else {
+          notIndexed.push({ url, verdict });
+        }
+      } catch (e) {
+        errors.push({ url, error: e.message });
+      }
+      await sleep(300); // respecte le quota de l'API Inspection
+    }
+
+    // ── Soumet une demande de réindexation pour chaque URL non indexée ──
+    const resubmitted = [];
+    const resubmitErrors = [];
+    for (const item of notIndexed) {
+      try {
+        await google.indexing({ version: 'v3', auth: indexingClient }).urlNotifications.publish({
+          requestBody: { url: item.url, type: 'URL_UPDATED' }
+        });
+        resubmitted.push(item.url);
+      } catch (e) {
+        resubmitErrors.push({ url: item.url, error: e.message });
+      }
+      await sleep(300);
+    }
+
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        success: true,
+        totalUrls: urls.length,
+        indexedCount: indexed.length,
+        notIndexedCount: notIndexed.length,
+        notIndexed,
+        resubmitted,
+        resubmitErrors,
+        inspectionErrors: errors
+      }, null, 2)
+    };
+
+  } catch (err) {
+    console.error('[gsc-reindex]', err.message);
+    return {
+      statusCode: 500,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ success: false, error: err.message })
+    };
+  }
+};

@@ -28,6 +28,9 @@
   schedule = "*/5 * * * *"
   background = true
 
+[functions."gsc-reindex"]
+  background = true
+
 # ─────────────────────────────────────────────
 # PRODUCT PAGES — Pretty URLs
 # ─────────────────────────────────────────────
