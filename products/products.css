@@ -215,6 +215,7 @@
 .main-image-slider {
     flex: 1;
     position: relative;
+    height: 490px;
     min-height: 490px;
     border-radius: 20px;
     overflow: hidden;
@@ -240,14 +241,83 @@
     background-size: 200% 100%;
     animation: goldSweep 1.6s linear infinite;
 }
-.main-image.active { display: block; }
-.main-image { display: none; }
+/* ── Pile de cartes en profondeur ──────────────────────────────
+   .active reste la source de vérité pour le JS existant (zoom loupe,
+   modal, etc. lisent tous .main-image.active img) ; data-depth pilote
+   uniquement le rendu visuel de l'empilement, en plus de .active.
+   Les cartes non-actives se réduisent en petites vignettes empilées
+   dans le coin bas-gauche, par-dessus l'image active (cf. référence). */
+.main-image {
+    display: block;
+    position: absolute;
+    top: auto;
+    left: 0;
+    bottom: 0;
+    transition: bottom 0.45s cubic-bezier(0.4,0,0.2,1),
+                transform 0.45s cubic-bezier(0.4,0,0.2,1),
+                opacity 0.45s cubic-bezier(0.4,0,0.2,1),
+                width 0.45s cubic-bezier(0.4,0,0.2,1),
+                height 0.45s cubic-bezier(0.4,0,0.2,1);
+    pointer-events: none;
+}
+.main-image.active,
+.main-image[data-depth="0"] {
+    z-index: 3;
+    opacity: 1;
+    width: 78%;
+    height: 100%;
+    bottom: 0;
+    left: 22%;
+    transform: translate3d(0,0,0);
+    pointer-events: auto;
+}
+.main-image[data-depth="1"] {
+    z-index: 2;
+    opacity: 1;
+    width: 30%;
+    height: 42%;
+    bottom: 0;
+    left: 0;
+    transform: translate3d(0, 0, 0);
+}
+.main-image[data-depth="2"] {
+    z-index: 1;
+    opacity: 1;
+    width: 30%;
+    height: 42%;
+    bottom: 0;
+    left: 0;
+    transform: translate3d(calc(30% + 10px), 0, 0);
+}
+.main-image[data-depth="hidden"] {
+    z-index: 0;
+    opacity: 0;
+    width: 30%;
+    height: 42%;
+    bottom: 0;
+    left: 0;
+    transform: translate3d(calc(30% + 10px), 0, 0);
+}
 .main-image img {
     width: 100%;
-    height: 490px !important;
+    height: 100%;
     object-fit: contain;
     transition: transform 0.08s linear;
     will-change: transform;
+    background: rgba(255,255,255,0.95);
+}
+
+/* ── Micro-glissement de la page entière à chaque changement d'image :
+   un léger mouvement d'ensemble (galerie + colonne infos produit) qui
+   revient à sa place, pour accompagner la transition sans la rendre
+   brutale/statique. ── */
+@keyframes mediaShiftPulse {
+    0%   { transform: translateX(0); }
+    35%  { transform: translateX(var(--media-shift-x, -4px)); }
+    100% { transform: translateX(0); }
+}
+.product-layout.media-shift {
+    animation: mediaShiftPulse 0.32s cubic-bezier(0.4,0,0.2,1);
 }
 
 
@@ -2694,12 +2764,13 @@ details[open] .chevron {
     .thumbnail-item img { width: 80px !important; height: 80px !important; }
     .main-image-slider { width: 100%; border-radius: 16px; }
     .main-image-slider,
-    .main-image img,
-    .product-media.sticky-media-mobile .main-image img,
     .product-media.sticky-media-mobile .thumbnails {
         height: var(--product-media-h-mobile) !important;
         min-height: var(--product-media-h-mobile) !important;
         max-height: var(--product-media-h-mobile) !important;
+    }
+    .main-image img,
+    .product-media.sticky-media-mobile .main-image img {
         object-fit: cover !important;
     }
     .product-content {
@@ -4040,12 +4111,13 @@ details[open] .chevron {
     display: block;
 }
 #sanaica-banner-paul .sanaica-banner-paul-placeholder {
+    position: absolute;
+    top: 0; left: 0;
     width: 100%; height: 100%;
-    background: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #999;
+    object-fit: cover;
+    display: block;
+    z-index: 5;
+    transition: opacity 0.5s ease;
 }
 #sanaica-banner-paul .sanaica-banner-paul-title {
     position: absolute;
@@ -4197,8 +4269,6 @@ details[open] .chevron {
 #main-image-slider .main-image {
     overflow: hidden;
     cursor: crosshair;
-    position: relative;
-    z-index: 1;
 }
 #main-image-slider .slider-arrow {
     position: absolute !important;

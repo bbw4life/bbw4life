@@ -8441,12 +8441,12 @@
     ]
   },
   "content_protection": {
-  "disable_right_click":      "yes",
-  "disable_text_selection":   "yes",
+  "disable_right_click":      "no",
+  "disable_text_selection":   "no",
   "disable_image_download":   "yes",
   "disable_video_download":   "yes",
-  "disable_copy":             "yes",
-  "disable_devtools_key": "yes"
+  "disable_copy":             "no",
+  "disable_devtools_key": "no"
 },
 "mini_product_slider": {
   "title": "Queens Also Love These",
@@ -8511,6 +8511,11 @@
   "watermark": {
   "show": "yes",
   "text": "bbw4life.com"
+},
+  "card_preload_logo": {
+  "show": "yes",
+  "logo_url": "/public/vrlogo%20bbw4life.png",
+  "bg_color": "rgba(184,146,90,0.07)"
 },
  "birthday_gift": {
   "show": "yes",

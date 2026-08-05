@@ -937,8 +937,8 @@ document.addEventListener('DOMContentLoaded', () => {
       -webkit-transform: translateZ(0);
       will-change: auto;
       max-width: 100%;
-      height: auto;
     }
+    .main-image img { height: 100% !important; }
   `;
   document.head.appendChild(style);
 })();
@@ -1078,15 +1078,21 @@ function showErrorPopup(message) {
       const mainDiv = document.createElement('div');
       mainDiv.className = `main-image ${index === 0 ? 'active' : ''}`;
       mainDiv.dataset.originalSrc = mainSrc;
+      const depth = index === 0 ? '0' : (index <= 2 ? String(index) : 'hidden');
+      mainDiv.dataset.depth = depth;
       const loadAttr = index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
       mainDiv.innerHTML = `<img src="${mainSrc}" alt="${altBase}" ${loadAttr}>`;
       mainSlider.insertBefore(mainDiv, mainSlider.querySelector('.slider-arrow.next'));
     });
+    currentMainIndex = 0;
     mainSlider.querySelector('.prev').onclick = () => changeMainImage('prev');
     mainSlider.querySelector('.next').onclick = () => changeMainImage('next');
   }
 
   let currentMainIndex = 0;
+  // Nombre de cartes visibles empilées derrière l'image active (cf. pile de
+  // cartes en profondeur en bas-gauche) ; au-delà, data-depth="hidden".
+  const STACK_VISIBLE_DEPTH = 2;
   function changeMainImage(dir) {
     const images = document.querySelectorAll('#main-image-slider .main-image');
     const thumbs = document.querySelectorAll('#product-thumbnails .thumbnail-item');
@@ -1098,6 +1104,10 @@ function showErrorPopup(message) {
     else currentMainIndex = dir;
     images[currentMainIndex].classList.add('active');
     thumbs[currentMainIndex].classList.add('active');
+    images.forEach((img, i) => {
+      const depth = (i - currentMainIndex + images.length) % images.length;
+      img.dataset.depth = depth === 0 ? '0' : (depth <= STACK_VISIBLE_DEPTH ? String(depth) : 'hidden');
+    });
     const thumbsContainer = document.getElementById('product-thumbnails');
     const activeThumb = thumbs[currentMainIndex];
     const isHorizontal = thumbsContainer.scrollWidth > thumbsContainer.clientWidth;
@@ -1109,6 +1119,15 @@ function showErrorPopup(message) {
     const activeContainer = images[currentMainIndex];
     const activeImg = activeContainer.querySelector('img');
     if (activeImg && activeContainer.dataset.originalSrc) activeImg.src = activeContainer.dataset.originalSrc;
+
+    // Micro-glissement de la page produit entière pour accompagner la transition.
+    const productLayout = document.querySelector('.product-layout');
+    if (productLayout) {
+      productLayout.style.setProperty('--media-shift-x', dir === 'prev' ? '4px' : '-4px');
+      productLayout.classList.remove('media-shift');
+      void productLayout.offsetWidth;
+      productLayout.classList.add('media-shift');
+    }
   }
 
   function populateMiniSlider(slider, media) {
@@ -1541,10 +1560,40 @@ function showErrorPopup(message) {
           if (videoWrapper) videoWrapper.style.display = 'block';
         }
 
-        banner.querySelectorAll('.sanaica-banner-paul-image').forEach((img, i) => {
+        // ── Placeholder shimmer : reste visible tant que les images du
+        //    carrousel n'ont pas fini de charger, pour éviter un flash de
+        //    fond vide (même principe que le hero banner de la home) ──
+        const placeholderEl = banner.querySelector('#sanaicaBannerPlaceholder');
+        const bannerImgEls  = Array.from(banner.querySelectorAll('.sanaica-banner-paul-image'));
+        let loadedCount = 0;
+
+        function hideSanaicaPlaceholder() {
+          if (!placeholderEl) return;
+          placeholderEl.style.opacity = '0';
+          setTimeout(() => {
+            if (placeholderEl.parentNode) placeholderEl.parentNode.removeChild(placeholderEl);
+          }, 500);
+        }
+
+        function onOneImageSettled() {
+          loadedCount++;
+          if (loadedCount >= bannerImgEls.length) hideSanaicaPlaceholder();
+        }
+
+        bannerImgEls.forEach((img, i) => {
           const slide = sb.slides && sb.slides[i];
-          if (slide) { img.src = slide.image; img.alt = slide.alt; }
+          if (!slide) { onOneImageSettled(); return; }
+          img.alt = slide.alt;
+          if (img.complete && img.naturalWidth > 0 && img.src === slide.image) {
+            onOneImageSettled();
+          } else {
+            img.addEventListener('load',  onOneImageSettled, { once: true });
+            img.addEventListener('error', onOneImageSettled, { once: true });
+            img.src = slide.image;
+          }
         });
+
+        if (!bannerImgEls.length) hideSanaicaPlaceholder();
       })();
 
       // ══ INJECT AUTH POPUP TEXTS FROM SETTINGS ══
@@ -15485,8 +15534,11 @@ function injectColFbt() {
       if (wrap) inject(wrap);
     }
 
-    /* ── 1. Page produit — chaque .main-image ── */
-    document.querySelectorAll('#main-image-slider .main-image').forEach(inject);
+    /* ── 1. Page produit — sur le slider entier, pas sur chaque .main-image :
+       la pile de cartes affiche plusieurs images simultanément et l'image
+       active change dynamiquement (next/prev), donc un watermark unique
+       fixé au conteneur évite les doublons et reste toujours visible. ── */
+    inject(document.getElementById('main-image-slider'));
 
     /* ── 2. Collection grid cards ── */
     document.querySelectorAll('.col-card__media').forEach(inject);
@@ -15586,8 +15638,13 @@ function injectColFbt() {
       if (wrap) inject(wrap);
     }
 
+    /* #main-image-slider lui-même (pas chaque .main-image) : la pile de
+       cartes affiche plusieurs images simultanément, un seul watermark
+       fixé au conteneur évite les doublons — cf. injection initiale plus haut. */
+    inject(document.getElementById('main-image-slider'));
+
     document.querySelectorAll(
-      '#main-image-slider .main-image, .col-card__media, .bbwpg-card__img-wrap, ' +
+      '.col-card__media, .bbwpg-card__img-wrap, ' +
       '.cs-media, .rv-card__img-wrap, .fs-img-frame, .mini-media-slider, ' +
       '.cart-item-img-wrap, .cp-item-img-wrap, .drawer-extra-card__img-wrap, .cp-extra-card__img-wrap, ' +
       '.highlight-product-card'
@@ -15597,6 +15654,116 @@ function injectColFbt() {
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+
+/* ================================================================
+   BBW4LIFE — CARD PRELOAD LOGO
+   Affiche le logo BBW4LIFE (sur fond légèrement teinté) dans toutes les
+   cards produit tant que leur image réelle n'est pas encore chargée,
+   pour éviter un flash de fond vide pendant le chargement — sur home,
+   cart drawer, cart page, collections, story circles. Réutilise les
+   mêmes conteneurs que le watermark (cf. initImageWatermark ci-dessus).
+================================================================ */
+(function initCardPreloadLogo() {
+  'use strict';
+
+  /* Conteneurs dédiés à l'image (occupent toute la zone image) : le logo
+     peut couvrir tout le wrap en position:absolute sans recouvrir de texte. */
+  const CARD_SELECTORS =
+    '.col-card__media, .bbwpg-card__img-wrap, ' +
+    '.cs-media, .rv-card__img-wrap, .fs-img-frame, .mini-media-slider, ' +
+    '.cart-item-img-wrap, .cp-item-img-wrap, .drawer-extra-card__img-wrap, .cp-extra-card__img-wrap, ' +
+    '.highlight-product-card, .product-card, ' +
+    '.bbw-nb-photo, .bbw-nb-card__media, .jrgq-gal-img-wrap, .imq-card';
+  const IMG_WRAP_SELECTORS = '.col-rv-card__img, .col-fbt-card__img';
+  /* Conteneurs mixtes (image + texte côte à côte, ex: flex) : on entoure
+     seulement l'<img> d'un wrapper dédié, pour ne pas recouvrir le texte. */
+  const IMG_ONLY_SELECTORS = '.bd-product-item img, .bbw-footer__newin-link img';
+
+  function getSettings() {
+    const allProducts = window.__allProducts || [];
+    return (allProducts.find(function(p) { return p.type === 'settings'; }) || {}).card_preload_logo || {};
+  }
+
+  function attachToWrap(wrap, circular) {
+    if (!wrap || wrap.dataset.bbwPreloadDone) return;
+    const img = wrap.querySelector('img');
+    if (!img) return;
+    wrap.dataset.bbwPreloadDone = '1';
+
+    const pos = getComputedStyle(wrap).position;
+    if (pos === 'static') wrap.style.position = 'relative';
+
+    const cfg = getSettings();
+    const logoEl = document.createElement('img');
+    logoEl.className = 'bbw-card-preload-logo' + (circular ? ' bbw-card-preload-logo--circular' : '');
+    logoEl.src = cfg.logo_url || '/public/vrlogo%20bbw4life.png';
+    logoEl.alt = '';
+    logoEl.setAttribute('aria-hidden', 'true');
+    if (cfg.bg_color) logoEl.style.setProperty('--bbw-preload-bg', cfg.bg_color);
+    wrap.appendChild(logoEl);
+
+    function reveal() {
+      logoEl.classList.add('is-loaded');
+      setTimeout(function() { if (logoEl.parentNode) logoEl.parentNode.removeChild(logoEl); }, 400);
+    }
+    if (img.complete && img.naturalWidth > 0) {
+      reveal();
+    } else {
+      img.addEventListener('load', reveal, { once: true });
+      img.addEventListener('error', reveal, { once: true });
+    }
+  }
+
+  /* Enveloppe l'<img> d'un <span> dédié (même taille, inline-block) pour
+     pouvoir y superposer le logo sans recouvrir le reste de la card. */
+  function attachToImgOnly(img) {
+    if (!img || img.dataset.bbwPreloadDone) return;
+    if (img.parentElement && img.parentElement.classList.contains('bbw-preload-img-wrap')) return;
+    img.dataset.bbwPreloadDone = '1';
+
+    const wrap = document.createElement('span');
+    wrap.className = 'bbw-preload-img-wrap';
+    img.parentNode.insertBefore(wrap, img);
+    wrap.appendChild(img);
+
+    attachToWrap(wrap, false);
+  }
+
+  function scan() {
+    const cfg = getSettings();
+    if ((cfg.show || 'no').toLowerCase().trim() !== 'yes') return;
+
+    document.querySelectorAll(CARD_SELECTORS).forEach(function(wrap) { attachToWrap(wrap, false); });
+    document.querySelectorAll(IMG_WRAP_SELECTORS).forEach(function(img) { attachToWrap(img.parentElement, false); });
+    document.querySelectorAll(IMG_ONLY_SELECTORS).forEach(attachToImgOnly);
+    /* Story circles : avatars ronds, logo en version circulaire. */
+    document.querySelectorAll('.story-circle-ring').forEach(function(wrap) { attachToWrap(wrap, true); });
+  }
+
+  if (window.__allProducts && window.__allProducts.length) {
+    scan();
+  } else {
+    let tries = 0;
+    const wait = setInterval(function() {
+      tries++;
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(wait);
+        scan();
+      } else if (tries > 80) {
+        clearInterval(wait);
+      }
+    }, 100);
+  }
+
+  const observer = new MutationObserver(function(mutations) {
+    const relevant = mutations.some(function(m) { return m.addedNodes.length > 0; });
+    if (!relevant) return;
+    scan();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
 
 
 /* ════════════════════════════════════════════════════════════
@@ -15647,6 +15814,4 @@ function injectColFbt() {
 
     block.dataset.collapsibleReady = '1';
   });
-})();
-
 })();

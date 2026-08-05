@@ -255,39 +255,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ====================== TON CODE ORIGINAL (100% conservé) ======================
-  const thumbnails = document.querySelectorAll('.thumbnail-item');
-  const mainImages = document.querySelectorAll('.main-image');
+  // ── Swipe mobile : délègue aux vraies flèches (gérées par changeMainImage()
+  //    dans script.js via populateMainProductMedia()) — ne pas dupliquer la
+  //    logique de navigation/vignettes ici, source de désync avec le DOM
+  //    injecté dynamiquement (thumbnails/main-image n'existent pas encore
+  //    au chargement de ce script).
   const prevArrow = document.querySelector('.slider-arrow.prev');
   const nextArrow = document.querySelector('.slider-arrow.next');
-  let currentIndex = 0;
-
-  function updateMainImage(index) {
-    mainImages.forEach((img, i) => img.classList.toggle('active', i === index));
-    thumbnails.forEach((thumb, i) => thumb.classList.toggle('active', i === index));
-    currentIndex = index;
-    thumbnails[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-
-  thumbnails.forEach((thumb, i) => {
-    thumb.addEventListener('click', () => updateMainImage(i));
-  });
-
-  if (prevArrow) {
-    prevArrow.addEventListener('click', () => {
-      let newIndex = currentIndex - 1;
-      if (newIndex < 0) newIndex = mainImages.length - 1;
-      updateMainImage(newIndex);
-    });
-  }
-
-  if (nextArrow) {
-    nextArrow.addEventListener('click', () => {
-      let newIndex = currentIndex + 1;
-      if (newIndex >= mainImages.length) newIndex = 0;
-      updateMainImage(newIndex);
-    });
-  }
 
   let startX = 0;
   const slider = document.querySelector('.main-image-slider');
