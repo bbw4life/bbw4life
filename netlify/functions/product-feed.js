@@ -41,6 +41,21 @@ function resolveCategory(prod) {
   return hit ? hit.category : DEFAULT_CATEGORY;
 }
 
+// ── Genre — la collection "Men Plus Size" couvre product35 à product51
+//    (cf. collections/men-plus-size.html), pas tous explicitement "Men's"
+//    dans leur titre ; complété par un pattern texte en secours pour tout
+//    futur produit homme ajouté hors de cette plage. ──
+const MEN_ID_RANGE = { min: 35, max: 51 };
+const MEN_KEYWORD = /\bmen'?s?\b/i;
+
+function resolveGender(prod) {
+  const match = String(prod.id || '').match(/product(\d+)$/);
+  const idx = match ? parseInt(match[1], 10) : null;
+  if (idx !== null && idx >= MEN_ID_RANGE.min && idx <= MEN_ID_RANGE.max) return 'male';
+  if (MEN_KEYWORD.test(prod.title || '') || MEN_KEYWORD.test(prod.description || '')) return 'male';
+  return 'female';
+}
+
 function colorAvailability(prod, colorName) {
   if (!Array.isArray(prod.variants) || !prod.variants.length) return 'in stock';
   const colorVariants = prod.variants.filter(v => v.color === colorName);
@@ -60,6 +75,7 @@ function colorPrice(prod, colorName) {
 function buildItemsForProduct(prod, baseUrl) {
   const link = `${baseUrl}${prod.url}`;
   const category = resolveCategory(prod);
+  const gender = resolveGender(prod);
   const activeColors = Array.isArray(prod.colors) ? prod.colors.filter(c => c.active !== false) : [];
 
   // Pas de couleurs déclarées : un seul item pour le produit entier.
@@ -77,6 +93,7 @@ function buildItemsForProduct(prod, baseUrl) {
         ? (prod.variants.some(v => v.active) ? 'in stock' : 'out of stock')
         : 'in stock',
       category,
+      gender,
       itemGroupId: null,
       color: null,
       sizes: prod.sizes
@@ -96,6 +113,7 @@ function buildItemsForProduct(prod, baseUrl) {
       comparePrice: (price === prod.price) ? prod.compare_price : null,
       availability: colorAvailability(prod, color.name),
       category,
+      gender,
       itemGroupId: prod.id,
       color: color.name,
       sizes: prod.sizes
@@ -129,6 +147,8 @@ ${hasSale ? `    <g:sale_price>${parseFloat(f.price).toFixed(2)} ${currency}</g:
     <g:condition>new</g:condition>
     <g:google_product_category>${xmlEscape(f.category)}</g:google_product_category>
     <g:product_type>${xmlEscape(f.category)}</g:product_type>
+    <g:gender>${f.gender}</g:gender>
+    <g:age_group>adult</g:age_group>
 ${f.itemGroupId ? `    <g:item_group_id>${xmlEscape(f.itemGroupId)}</g:item_group_id>\n` : ''}${f.color ? `    <g:color>${xmlEscape(f.color)}</g:color>\n` : ''}${f.sizes && f.sizes.length ? `    <g:size>${xmlEscape(f.sizes[0])}</g:size>\n` : ''}  </item>`;
 }
 
