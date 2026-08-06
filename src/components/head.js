@@ -192,6 +192,15 @@ const SEO_MAP = {
         canonical: 'https://bbw4life.com/cart.html'
     },
 
+    '/search-results.html': {
+        title: 'Search Results | BBW4LIFE',
+        description: 'Search the complete BBW4LIFE catalog — plus size dresses, shoes, beauty and accessories for every curvy woman.',
+        keywords: 'BBW4LIFE search, search plus size fashion, find products BBW4LIFE, curvy fashion search',
+        og_image: 'https://bbw4life.com/public/og-home.jpg',
+        canonical: 'https://bbw4life.com/search-results.html',
+        robots: 'noindex, follow'
+    },
+
     // ─────────────────────────────────────────────────────
     // POLICIES
     // ─────────────────────────────────────────────────────
@@ -1480,7 +1489,7 @@ function injectGlobalHead() {
 
     setMeta('meta[name="description"]',   'content', seo.description);
     setMeta('meta[name="keywords"]',      'content', seo.keywords);
-    setMeta('meta[name="robots"]',        'content', 'index, follow');
+    setMeta('meta[name="robots"]',        'content', seo.robots || 'index, follow');
 
     setMeta('meta[property="og:title"]',       'content', seo.title);
     setMeta('meta[property="og:description"]', 'content', seo.description);

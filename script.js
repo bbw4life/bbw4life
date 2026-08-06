@@ -2569,6 +2569,98 @@ function showErrorPopup(message) {
         }
       }
 
+      // ══════════════════════════════════════════
+      //  SEARCH RESULTS PAGE — /search-results.html
+      //  Réutilise le même pattern de card que pdp-grid (ci-dessus) pour
+      //  bénéficier directement de addToCart()/toggleWishlist() sans
+      //  dupliquer/exposer ces fonctions sur window.
+      // ══════════════════════════════════════════
+      (function initSearchResultsBridge() {
+        const grid = document.getElementById('srGrid');
+        if (!grid) return; // pas sur la page search-results
+
+        const PDP_WISHLIST_SVG = `
+          <svg class="wishlist-icon-empty" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fffef7" stroke-width="2">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <svg class="wishlist-icon-filled" width="18" height="18" viewBox="0 0 24 24" fill="#fffef7" stroke="#fffef7" stroke-width="2">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>`;
+
+        // ── Construction de card, exposée pour search-filters.js ──
+        // (garde addToCart()/toggleWishlist() dans leur scope d'origine,
+        // sans les exposer directement sur window.)
+        function buildResultCard(prod) {
+          const productUrl  = getProductUrl(prod.id);
+          const hasDiscount = prod.compare_price > prod.price;
+          const discPct     = hasDiscount ? Math.round(((prod.compare_price - prod.price) / prod.compare_price) * 100) : 0;
+          const badgeIcon   = (prod.badge && prod.badge.icon) ? `<i class="fi ${prod.badge.icon}"></i> ` : '';
+          const badgeHTML   = (prod.badge && prod.badge.text) ? `<span class="sr-card__badge">${badgeIcon}${prod.badge.text}</span>` : '';
+          const discHTML    = discPct > 0 ? `<span class="sr-card__discount">-${discPct}%</span>` : '';
+          const compareHTML = hasDiscount ? `<span class="sr-card__compare">$${parseFloat(prod.compare_price).toFixed(2)}</span>` : '';
+          const imgMain     = upgradeShopifyImageUrl(prod.image, 600);
+
+          const card = document.createElement('div');
+          card.className  = 'sr-card product-card';
+          card.dataset.id = prod.id;
+          card.innerHTML = `
+            ${badgeHTML}
+            <a href="${productUrl}" class="sr-card__media">
+              <img class="sr-card__img" src="${imgMain}" alt="${prod.title}" loading="lazy">
+              ${discHTML}
+              <span class="mini-wishlist-icon sr-card__wishlist" data-id="${prod.id}"></span>
+              <button type="button" class="sr-card__cart add-to-cart" aria-label="Add to cart"><i class="fi fi-rr-shopping-cart"></i></button>
+            </a>
+            <div class="sr-card__body">
+              <a href="${productUrl}" class="sr-card__title">${prod.title}</a>
+              <p class="sr-card__prices">
+                <span class="sr-card__price">$${parseFloat(prod.price).toFixed(2)}</span>
+                ${compareHTML}
+              </p>
+            </div>`;
+
+          const wishIcon = card.querySelector('.sr-card__wishlist');
+          wishIcon.innerHTML = PDP_WISHLIST_SVG;
+          wishIcon.addEventListener('click', function (e) { e.preventDefault(); toggleWishlist(e); });
+
+          const cartBtn = card.querySelector('.sr-card__cart');
+          cartBtn.addEventListener('click', function (e) { e.preventDefault(); addToCart(e); });
+
+          return card;
+        }
+
+        function resolveProductFromResult(item) {
+          const match = (item.url || '').match(/product(\d+)\.html/);
+          if (!match) return null;
+          const productId = 'Pdg-Francenel-product' + match[1];
+          return products.find(p => p.id === productId) || null;
+        }
+
+        // ── Résout une query en liste de vrais objets produit (avec prix,
+        //    colors, sizes, variants...) triés par pertinence de recherche.
+        //    search-filters.js applique ensuite ses propres filtres/tri
+        //    par-dessus cette liste. ──
+        function resolveSearchResults(query) {
+          if (!query) return [];
+          const results = (window.bbwSearch && typeof window.bbwSearch.searchAlways === 'function')
+            ? window.bbwSearch.searchAlways(query)
+            : [];
+          const productResults = results
+            .filter(r => r.type === 'product')
+            .map(resolveProductFromResult)
+            .filter(Boolean);
+          // Si vraiment aucun produit ne matche le type "product" de l'index
+          // (cas extrême), retombe sur le catalogue complet plutôt que rien —
+          // la page ne doit jamais afficher "aucun résultat".
+          if (productResults.length) return productResults;
+          return products.filter(p => !p.type);
+        }
+
+        window.__srBuildCard         = buildResultCard;
+        window.__srResolveResults    = resolveSearchResults;
+        window.__srUpdateWishlistIcons = updateWishlistIcons;
+      })();
+
       function populateMiniSlider(slider, media) {
         if (!slider || !media) return;
         slider.innerHTML = '';
@@ -2608,20 +2700,6 @@ function showErrorPopup(message) {
 
         slider.appendChild(prev);
         slider.appendChild(next);
-        if (media.length > 1) {
-          setInterval(() => {
-          if (typeof miniImageSlidersPaused !== 'undefined' && miniImageSlidersPaused) return;
-          const imgs = slider.querySelectorAll('.mini-media-image');
-          const activeIdx = Array.from(imgs).findIndex(i => i.classList.contains('active'));
-          const nextIdx = (activeIdx + 1) % imgs.length;
-          const nextImg = imgs[nextIdx];
-          if (!nextImg) return;
-          /* Précharge en éager dès qu'on va en avoir besoin, pour éviter un blocage si "lazy" n'a pas encore fetch. */
-          if (nextImg.loading === 'lazy') nextImg.loading = 'eager';
-          if (nextImg.dataset.ready !== '1') return;
-          slideMini(slider, 'next');
-      }, 6000);
-        }
       }
 
       // ====================== PAGE PRODUIT ======================
@@ -14919,27 +14997,27 @@ startAutoSlide();
   /* IDs des 20 produits : 10 gauche, 10 droite
      Modifiez librement l'ordre */
   var LEFT_IDS = [
-    'Pdg-Francenel-product1',
-    'Pdg-Francenel-product7',
+    'Pdg-Francenel-product84',
+    'Pdg-Francenel-product78',
     'Pdg-Francenel-product12',
-    'Pdg-Francenel-product4',
-    'Pdg-Francenel-product9',
-    'Pdg-Francenel-product17',
+    'Pdg-Francenel-product96',
+    'Pdg-Francenel-product80',
+    'Pdg-Francenel-product91',
     'Pdg-Francenel-product22',
-    'Pdg-Francenel-product35',
+    'Pdg-Francenel-product83',
     'Pdg-Francenel-product39',
     'Pdg-Francenel-product56'
   ];
 
   var RIGHT_IDS = [
-    'Pdg-Francenel-product2',
+    'Pdg-Francenel-product109',
     'Pdg-Francenel-product8',
     'Pdg-Francenel-product13',
-    'Pdg-Francenel-product5',
-    'Pdg-Francenel-product11',
+    'Pdg-Francenel-product98',
+    'Pdg-Francenel-product107',
     'Pdg-Francenel-product20',
-    'Pdg-Francenel-product27',
-    'Pdg-Francenel-product46',
+    'Pdg-Francenel-product85',
+    'Pdg-Francenel-product101',
     'Pdg-Francenel-product64',
     'Pdg-Francenel-product58'
   ];

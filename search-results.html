@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/preloader-inline.js"></script>
+  <title>Search Results | BBW4LIFE</title>
+  <meta name="description" content="Search the complete BBW4LIFE catalog — plus size fashion, beauty, and more.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://bbw4life.com/search-results.html">
+  <link rel="icon" href="/public/bbw4life favicon.png">
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/src/components/header.css">
+  <link rel="stylesheet" href="/collections/collections.css">
+  <link rel="stylesheet" href="/search-results.css">
+  <script src="/pretty-url.js"></script>
+  <script src="/src/components/head.js" defer></script>
+  <link rel="stylesheet" href="/src/components/footer.css">
+</head>
+<body>
+
+  <div id="reading-progress-bar" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════
+       HEADER INJECTÉ
+  ═══════════════════════════════════════ -->
+  <div id="header-container"></div>
+
+  <main>
+    <div id="breadcrumb-container"></div>
+
+    <!-- ═══════════════════════════════════════
+         SEARCH RESULTS — HERO / SEARCH BAR
+    ═══════════════════════════════════════ -->
+    <section class="sr-hero" data-scroll-reveal>
+      <div class="sr-hero__orb sr-hero__orb--1" aria-hidden="true"></div>
+      <div class="sr-hero__orb sr-hero__orb--2" aria-hidden="true"></div>
+
+      <div class="sr-hero__inner">
+        <span class="sr-eyebrow">
+          <span class="sr-eyebrow-dot"></span>
+          Search
+          <span class="sr-eyebrow-dot"></span>
+        </span>
+        <h1 class="sr-title">Find Your <em>Next Favorite</em></h1>
+
+        <form class="sr-search-bar" id="srSearchForm" role="search" autocomplete="off">
+          <i class="fi fi-rr-search sr-search-bar__icon" aria-hidden="true"></i>
+          <input
+            type="text"
+            id="srSearchInput"
+            class="sr-search-bar__input"
+            placeholder="Search products, collections…"
+            aria-label="Search products"
+            autocomplete="off">
+          <button type="button" id="srMicBtn" class="sr-search-bar__mic" aria-label="Search by voice" title="Search by voice" style="display:none;">
+            <i class="fi fi-rr-microphone"></i>
+          </button>
+          <button type="submit" class="sr-search-bar__submit" aria-label="Search">
+            <i class="fi fi-rr-search"></i>
+          </button>
+        </form>
+
+        <p class="sr-mic-status" id="srMicStatus" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         RESULTS
+    ═══════════════════════════════════════ -->
+    <section class="sr-results-section">
+      <div class="sr-results-inner">
+
+        <p class="sr-results-summary" id="srResultsSummary"></p>
+
+        <!-- ── Toolbar : Filters + Sort + View toggle (pas d'onglets catégorie,
+             une recherche libre n'a pas de "collection" à segmenter) ── -->
+        <div class="col-toolbar" id="srToolbar" style="display:none;">
+          <div class="col-toolbar__left">
+            <button class="col-filter-btn" id="srFilterToggle">
+              <i class="fas fa-sliders-h"></i>
+              <span>Filters</span>
+              <span class="col-filter-count" id="srFilterCount" style="display:none">0</span>
+            </button>
+          </div>
+          <div class="col-toolbar__right">
+            <span class="col-result-label">
+              <span id="srVisibleCount">0</span> products
+            </span>
+            <div class="col-sort" id="srSortWrap">
+              <button class="col-sort-btn" id="srSortBtn">
+                <i class="fas fa-sort"></i>
+                <span id="srSortLabel">Sort by</span>
+                <i class="fas fa-chevron-down col-sort-arrow"></i>
+              </button>
+              <div class="col-sort-menu" id="srSortMenu">
+                <button class="col-sort-item active" data-sort="default">Best Match</button>
+                <button class="col-sort-item" data-sort="price-asc">Price: Low &rarr; High</button>
+                <button class="col-sort-item" data-sort="price-desc">Price: High &rarr; Low</button>
+                <button class="col-sort-item" data-sort="discount">Biggest Discount</button>
+                <button class="col-sort-item" data-sort="rating">Top Rated</button>
+                <button class="col-sort-item" data-sort="reviews">Most Reviewed</button>
+                <button class="col-sort-item" data-sort="name-asc">Name: A &rarr; Z</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-active-filters" id="srActiveFilters" style="display:none">
+          <div class="col-active-filters__inner" id="srActivePills"></div>
+          <button class="col-clear-all" id="srClearAll">Clear all</button>
+        </div>
+
+        <!-- ── Drawer de filtres (identique au système de la page collections) ── -->
+        <aside class="col-drawer" id="srDrawer">
+          <div class="col-drawer__overlay" id="srDrawerOverlay"></div>
+          <div class="col-drawer__panel">
+            <div class="col-drawer__head">
+              <h2><i class="fas fa-sliders-h"></i> Filters</h2>
+              <button class="col-drawer__close" id="srDrawerClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="col-drawer__body">
+
+              <div class="col-filter-block" id="sr-fb-availability">
+                <div class="col-filter-block__head">
+                  <h3>Availability</h3>
+                  <button class="col-filter-collapse"><i class="fas fa-chevron-down"></i></button>
+                </div>
+                <div class="col-filter-block__body">
+                  <label class="col-check">
+                    <input type="checkbox" name="sr-availability" value="in-stock">
+                    <span class="col-check__box"></span>
+                    <span class="col-check__label">In Stock <em id="sr-cnt-instock">0</em></span>
+                  </label>
+                  <label class="col-check">
+                    <input type="checkbox" name="sr-availability" value="out-stock">
+                    <span class="col-check__box"></span>
+                    <span class="col-check__label">Out of Stock <em id="sr-cnt-outstock">0</em></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-filter-block" id="sr-fb-price">
+                <div class="col-filter-block__head">
+                  <h3>Price Range</h3>
+                  <button class="col-filter-collapse"><i class="fas fa-chevron-down"></i></button>
+                </div>
+                <div class="col-filter-block__body">
+                  <div class="col-price-display">
+                    <span class="col-price-disp-val" id="srPriceDispMin">$0</span>
+                    <span class="col-price-disp-sep">—</span>
+                    <span class="col-price-disp-val" id="srPriceDispMax">$150</span>
+                  </div>
+                  <div class="col-range-wrap">
+                    <div class="col-range-track">
+                      <div class="col-range-fill" id="srRangeFill"></div>
+                    </div>
+                    <input type="range" class="col-range col-range--min" id="srRangeMin" min="0" max="150" value="0" step="1">
+                    <input type="range" class="col-range col-range--max" id="srRangeMax" min="0" max="150" value="150" step="1">
+                  </div>
+                  <div class="col-price-inputs">
+                    <div class="col-price-inp-wrap">
+                      <span>$</span>
+                      <input type="number" id="srPriceInpMin" value="0" min="0">
+                    </div>
+                    <div class="col-price-inp-wrap">
+                      <span>$</span>
+                      <input type="number" id="srPriceInpMax" value="150" min="0">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-filter-block" id="sr-fb-discount">
+                <div class="col-filter-block__head">
+                  <h3>Discount</h3>
+                  <button class="col-filter-collapse"><i class="fas fa-chevron-down"></i></button>
+                </div>
+                <div class="col-filter-block__body" id="srDiscountFilters"></div>
+              </div>
+
+              <div class="col-filter-block" id="sr-fb-colors">
+                <div class="col-filter-block__head">
+                  <h3>Color</h3>
+                  <button class="col-filter-collapse"><i class="fas fa-chevron-down"></i></button>
+                </div>
+                <div class="col-filter-block__body">
+                  <div class="col-color-list" id="srColorSwatches"></div>
+                </div>
+              </div>
+
+              <div class="col-filter-block" id="sr-fb-sizes">
+                <div class="col-filter-block__head">
+                  <h3>Size</h3>
+                  <button class="col-filter-collapse"><i class="fas fa-chevron-down"></i></button>
+                </div>
+                <div class="col-filter-block__body">
+                  <div class="col-size-grid" id="srSizeGrid"></div>
+                </div>
+              </div>
+
+              <div class="col-filter-block" id="sr-fb-rating">
+                <div class="col-filter-block__head">
+                  <h3>Minimum Rating</h3>
+                  <button class="col-filter-collapse"><i class="fas fa-chevron-down"></i></button>
+                </div>
+                <div class="col-filter-block__body">
+                  <div class="col-rating-opts" id="srRatingOpts">
+                    <button class="col-rating-opt active" data-rating="0">All</button>
+                    <button class="col-rating-opt" data-rating="3">3<i class="fas fa-star"></i> &amp; up</button>
+                    <button class="col-rating-opt" data-rating="4">4<i class="fas fa-star"></i> &amp; up</button>
+                    <button class="col-rating-opt" data-rating="4.5">4.5<i class="fas fa-star"></i> &amp; up</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-drawer__foot">
+              <button class="col-drawer__clear" id="srDrawerClear">Reset all</button>
+              <button class="col-drawer__apply" id="srDrawerApply">
+                Show <span id="srDrawerCount">0</span> products
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <div class="sr-grid" id="srGrid"></div>
+
+        <div class="col-pagination" id="srPagination"></div>
+
+        <div class="sr-empty" id="srEmpty" style="display:none;">
+          <div class="sr-empty__icon" aria-hidden="true"><i class="fi fi-rr-search"></i></div>
+          <h2 class="sr-empty__title">No results found</h2>
+          <p class="sr-empty__text" id="srEmptyText"></p>
+          <a href="/collections/bbw4life-all-product.html" class="sr-empty__cta">
+            Browse All Collections <i class="fi fi-rr-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="sr-prompt" id="srPrompt" style="display:none;">
+          <div class="sr-empty__icon" aria-hidden="true"><i class="fi fi-rr-search"></i></div>
+          <h2 class="sr-empty__title">What are you looking for?</h2>
+          <p class="sr-empty__text">Type a product name, collection, or style above to get started.</p>
+          <a href="/collections/bbw4life-all-product.html" class="sr-empty__cta">
+            Browse All Collections <i class="fi fi-rr-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         NEWSLETTER SECTION
+    ═══════════════════════════════════════ -->
+    <div id="newsletter-container"></div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER INJECTÉ
+  ═══════════════════════════════════════ -->
+  <div id="footer-container"></div>
+
+  <!-- ═══════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════ -->
+  <script src="/widgets-loader.js"></script>
+  <script src="/pdg-francenel.js"></script>
+  <script src="/script.js"></script>
+  <script src="/search-filters.js"></script>
+  <script src="/search-results.js"></script>
+
+   <script>
+  fetch('/src/components/header.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('header-container').innerHTML = html;
+      const s = document.createElement('script');
+      s.src = '/src/components/header.js';
+      document.body.appendChild(s);
+    })
+    .catch(err => console.error('Header load error:', err));
+
+  fetch('/src/components/breadcrumb.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('breadcrumb-container').outerHTML = html;
+    })
+    .catch(err => console.error('Breadcrumb load error:', err));
+
+  fetch('/src/components/footer.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('footer-container').innerHTML = html;
+      document.dispatchEvent(new Event('footer:loaded'));
+      const s = document.createElement('script');
+      s.src = '/src/components/footer.js';
+      document.body.appendChild(s);
+    })
+    .catch(err => console.error('Footer load error:', err));
+
+  fetch('/src/components/newsletter.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('newsletter-container').innerHTML = html;
+    })
+    .catch(err => console.error('Newsletter load error:', err));
+</script>
+
+</body>
+</html>

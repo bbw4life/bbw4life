@@ -4485,7 +4485,7 @@ body {
         grid-template-columns: repeat(2, 1fr);
         gap: 14px;
     }
-    .product-card img { height: 170px; }
+    .product-grid .product-card img { height: 170px; }
     .testimonials-mini { flex-direction: column; align-items: center; }
     .statistics-mini   { flex-direction: column; align-items: center; }
     .comparison-table  { font-size: 0.9rem; }

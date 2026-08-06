@@ -7,6 +7,18 @@ const {
   isOrderAlreadyProcessed,
   markOrderAsProcessed
 } = require('./temp-orders-store');
+const { getAllProductsData } = require('./_lib/pricing');
+
+// PayPal ne renvoie aucun identifiant produit interne dans ses items — on le
+// retrouve après coup via le variant id (sku), pour que l'historique de
+// commande (Order History) puisse reconstruire le lien vers la fiche produit.
+function findProductIdByVariant(allProducts, variantId) {
+  if (!variantId) return '';
+  const prod = (allProducts || []).find(p =>
+    !p.type && Array.isArray(p.variants) && p.variants.some(v => String(v.vid) === String(variantId))
+  );
+  return prod ? prod.id : '';
+}
 
 exports.handler = async (event) => {
   console.log("=== VERIFY PAYMENT STARTED ===");
@@ -47,6 +59,7 @@ exports.handler = async (event) => {
       if (!tempOrder) throw new Error("Stripe order data not found in temp store");
 
       cart = (tempOrder.cart || []).map(item => ({
+        id:            item.id || item.cj_product_id || '',
         title:         item.title,
         price:         parseFloat(item.price) || 0,
         quantity:      parseInt(item.quantity) || 1,
@@ -87,13 +100,22 @@ exports.handler = async (event) => {
       const storedVariants = purchaseUnit.custom_id ? purchaseUnit.custom_id.split('|') : [];
       const itemsArray = purchaseUnit.items || [];
 
+      let allProductsForLookup = [];
+      try {
+        allProductsForLookup = await getAllProductsData();
+      } catch (e) {
+        console.warn('[PAYPAL] getAllProductsData failed (product_id lookup skipped):', e.message);
+      }
+
       cart = itemsArray.map((item, i) => {
         const descParts = (item.description || '').split('|');
+        const variantForLookup = item.sku || storedVariants[i] || null;
         return {
+          id: findProductIdByVariant(allProductsForLookup, variantForLookup),
           title: item.name,
           price: parseFloat(item.unit_amount.value),
           quantity: parseInt(item.quantity),
-          variantsid: item.sku || storedVariants[i] || null,
+          variantsid: variantForLookup,
           image: descParts[1] || item.description || '',
           color: descParts[0] && descParts[0] !== 'N/A' ? descParts[0] : ''
         };
@@ -168,6 +190,7 @@ exports.handler = async (event) => {
     const totalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     const orderItems = cart.map(item => ({
+      product_id:    item.id             || item.cj_product_id || '',
       title:         item.title,
       variant_color: item.color         || '',
       color:         item.color         || '',

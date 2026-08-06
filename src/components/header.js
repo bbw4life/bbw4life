@@ -139,12 +139,56 @@
   const searchSubmitMobile = searchBar ? searchBar.querySelector('.bbw-search__submit') : null;
   if (searchSubmitMobile) {
     searchSubmitMobile.addEventListener('click', () => {
-      if (window.bbwSearch && searchInput) {
-        const results = window.bbwSearch.search(searchInput.value.trim());
-        if (results.length) window.location.href = results[0].url;
-      }
+      const q = searchInput ? searchInput.value.trim() : '';
+      if (q) window.location.href = '/search-results.html?q=' + encodeURIComponent(q);
     });
   }
+
+  /* ──────────────────────────────────────────────────────────────
+     VOICE SEARCH — barres de recherche du header (mobile + desktop)
+     Web Speech API ; bouton reste caché (display:none en HTML) si le
+     navigateur ne le supporte pas (ex: Firefox).
+  ────────────────────────────────────────────────────────────── */
+  function initHeaderVoiceSearch(micBtn, input) {
+    if (!micBtn || !input) return;
+    const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognitionCtor) return;
+
+    micBtn.style.display = '';
+
+    const recognition = new SpeechRecognitionCtor();
+    recognition.lang           = 'en-US';
+    recognition.continuous     = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    let listening = false;
+    function setListening(on) {
+      listening = on;
+      micBtn.classList.toggle('is-listening', on);
+    }
+
+    micBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (listening) { recognition.stop(); return; }
+      try { recognition.start(); setListening(true); }
+      catch (err) { console.warn('[VoiceSearch] start failed:', err.message); }
+    });
+
+    recognition.addEventListener('result', event => {
+      input.value = event.results[0][0].transcript;
+    });
+
+    recognition.addEventListener('end', () => {
+      setListening(false);
+      const q = input.value.trim();
+      if (q) window.location.href = '/search-results.html?q=' + encodeURIComponent(q);
+    });
+
+    recognition.addEventListener('error', () => { setListening(false); });
+  }
+
+  initHeaderVoiceSearch(document.getElementById('bbwSearchMic'), searchInput);
 
   /* ──────────────────────────────────────────────────────────────
      4. SEARCH DESKTOP ALWAYS-VISIBLE
@@ -162,10 +206,71 @@
         if (searchEl) searchEl.setAttribute('data-always-visible', alwaysVisible ? 'yes' : 'no');
 
         const desktopSearch = document.getElementById('bbwSearchDesktop');
-        if (!desktopSearch) return;
-        desktopSearch.style.display = (alwaysVisible && window.innerWidth > 768) ? 'flex' : 'none';
+        if (desktopSearch) desktopSearch.style.display = (alwaysVisible && window.innerWidth > 768) ? 'flex' : 'none';
+
+        // ── Placeholder animé (type → pause → delete → mot suivant) ──
+        const realProducts = data.filter(p => !p.type).map(p => p.title).filter(Boolean);
+        const sampleTitles = realProducts
+          .slice() // ne mute pas le tableau d'origine
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 5);
+        const words = ['Search products…', 'Search collections…', ...sampleTitles];
+        initAnimatedPlaceholder(document.getElementById('bbwSearchInput'), words);
+        initAnimatedPlaceholder(document.getElementById('bbwSearchDesktopInput'), words);
       })
       .catch(() => {});
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     ANIMATED PLACEHOLDER — effet machine à écrire (type/pause/delete)
+     qui cycle entre plusieurs mots, comme sur les grandes plateformes.
+     S'arrête tant que l'input a le focus ou contient du texte tapé par
+     l'utilisateur, pour ne jamais interférer avec une vraie saisie.
+  ────────────────────────────────────────────────────────────── */
+  function initAnimatedPlaceholder(input, words) {
+    if (!input || !words || !words.length) return;
+    if (input.dataset.bbwPlaceholderAnim) return; // évite les timers dupliqués (ex: resize -> applySearchSetting() rappelée)
+    input.dataset.bbwPlaceholderAnim = '1';
+
+    const TYPE_SPEED   = 45;   // ms par caractère à l'écriture
+    const DELETE_SPEED = 25;   // ms par caractère à l'effacement
+    const HOLD_MS       = 1500; // pause une fois le mot complet affiché
+    const GAP_MS         = 300;  // pause entre l'effacement et le mot suivant
+
+    let wordIdx = 0;
+    let timer   = null;
+    let paused  = false;
+
+    function step(charIdx, deleting) {
+      if (paused) return;
+      const word = words[wordIdx];
+
+      if (!deleting) {
+        input.placeholder = word.slice(0, charIdx);
+        if (charIdx < word.length) {
+          timer = setTimeout(() => step(charIdx + 1, false), TYPE_SPEED);
+        } else {
+          timer = setTimeout(() => step(word.length, true), HOLD_MS);
+        }
+      } else {
+        input.placeholder = word.slice(0, charIdx);
+        if (charIdx > 0) {
+          timer = setTimeout(() => step(charIdx - 1, true), DELETE_SPEED);
+        } else {
+          wordIdx = (wordIdx + 1) % words.length;
+          timer = setTimeout(() => step(0, false), GAP_MS);
+        }
+      }
+    }
+
+    input.addEventListener('focus', () => { paused = true; clearTimeout(timer); });
+    input.addEventListener('blur',  () => {
+      if (input.value.trim()) return; // l'utilisateur a tapé quelque chose, on n'y touche plus
+      paused = false;
+      step(0, false);
+    });
+
+    step(0, false);
   }
 
   window.addEventListener('resize', applySearchSetting, { passive: true });
@@ -174,12 +279,12 @@
   const desktopInput  = document.getElementById('bbwSearchDesktopInput');
   if (desktopSubmit) {
     desktopSubmit.addEventListener('click', () => {
-      if (window.bbwSearch && desktopInput) {
-        const results = window.bbwSearch.search(desktopInput.value.trim());
-        if (results.length) window.location.href = results[0].url;
-      }
+      const q = desktopInput ? desktopInput.value.trim() : '';
+      if (q) window.location.href = '/search-results.html?q=' + encodeURIComponent(q);
     });
   }
+
+  initHeaderVoiceSearch(document.getElementById('bbwSearchDesktopMic'), desktopInput);
 
   /* ──────────────────────────────────────────────────────────────
      5. ACCOUNT TRIGGER
