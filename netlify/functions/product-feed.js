@@ -22,18 +22,28 @@ function xmlEscape(str) {
 //    dans le titre/description, faute d'un champ catégorie dédié dans le
 //    catalogue. Fallback générique si rien ne matche. ──
 const CATEGORY_RULES = [
-  { pattern: /\b(heels?|sandals?|sneakers?|boots?|flats?|pumps?|shoes?)\b/i, category: 'Apparel & Accessories > Shoes' },
+  // Beauté/cosmétiques d'abord — ces produits n'ont pas de taille vestimentaire,
+  // les classer par erreur comme "Clothing" fait exiger g:size à tort par Google.
+  { pattern: /\b(nails?|manicure)\b/i, category: 'Health & Beauty > Personal Care > Cosmetics > Nail Care' },
+  { pattern: /\b(mascara|lip gloss|lip balm|eyebrow|brow)\b/i, category: 'Health & Beauty > Personal Care > Cosmetics > Makeup' },
+  { pattern: /\b(hair mask|hair care|hair growth|conditioner)\b/i, category: 'Health & Beauty > Personal Care > Hair Care' },
+  { pattern: /\b(serum|essence|facial|cream|lotion|exfoliating|makeup remover|cooling tool)\b/i, category: 'Health & Beauty > Personal Care > Skin Care' },
+  { pattern: /\b(heels?|sandals?|sneakers?|boots?|flats?|pumps?|shoes?|loafers?|runners?|trainers?)\b/i, category: 'Apparel & Accessories > Shoes' },
   { pattern: /\b(dress|gown|maxi)\b/i, category: 'Apparel & Accessories > Clothing > Dresses' },
   { pattern: /\b(bikini|swimsuit|swimwear)\b/i, category: 'Apparel & Accessories > Clothing > Swimwear' },
-  { pattern: /\b(bag|purse|handbag|clutch)\b/i, category: 'Apparel & Accessories > Handbags, Wallets & Cases' },
+  { pattern: /\b(bag|purse|handbag|clutch|tote)\b/i, category: 'Apparel & Accessories > Handbags, Wallets & Cases' },
   { pattern: /\b(bra|lingerie|panties|thong|bodysuit)\b/i, category: 'Apparel & Accessories > Clothing > Underwear & Socks > Lingerie' },
   { pattern: /\b(earrings?|necklace|bracelet|ring|jewelry)\b/i, category: 'Apparel & Accessories > Jewelry' },
   { pattern: /\b(pants?|trousers?|leggings?|jeans?)\b/i, category: 'Apparel & Accessories > Clothing > Pants' },
-  { pattern: /\b(top|blouse|shirt|tee|tank)\b/i, category: 'Apparel & Accessories > Clothing > Tops' },
+  { pattern: /\b(top|blouse|shirt|tee|tank|polo)\b/i, category: 'Apparel & Accessories > Clothing > Tops' },
   { pattern: /\b(skirt)\b/i, category: 'Apparel & Accessories > Clothing > Skirts' },
-  { pattern: /\b(coat|jacket|cardigan|sweater)\b/i, category: 'Apparel & Accessories > Clothing > Outerwear' }
+  { pattern: /\b(coat|jacket|cardigan|sweater|robe|bathrobe)\b/i, category: 'Apparel & Accessories > Clothing > Outerwear' }
 ];
 const DEFAULT_CATEGORY = 'Apparel & Accessories > Clothing';
+
+function isBeautyCategory(category) {
+  return category.startsWith('Health & Beauty');
+}
 
 function resolveCategory(prod) {
   const haystack = `${prod.title || ''} ${prod.description || ''}`;
@@ -76,6 +86,7 @@ function buildItemsForProduct(prod, baseUrl) {
   const link = `${baseUrl}${prod.url}`;
   const category = resolveCategory(prod);
   const gender = resolveGender(prod);
+  const sizes = isBeautyCategory(category) ? null : prod.sizes;
   const activeColors = Array.isArray(prod.colors) ? prod.colors.filter(c => c.active !== false) : [];
 
   // Pas de couleurs déclarées : un seul item pour le produit entier.
@@ -96,7 +107,7 @@ function buildItemsForProduct(prod, baseUrl) {
       gender,
       itemGroupId: null,
       color: null,
-      sizes: prod.sizes
+      sizes
     })];
   }
 
@@ -116,7 +127,7 @@ function buildItemsForProduct(prod, baseUrl) {
       gender,
       itemGroupId: prod.id,
       color: color.name,
-      sizes: prod.sizes
+      sizes
     });
   });
 }
