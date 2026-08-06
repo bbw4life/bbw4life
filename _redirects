@@ -138,6 +138,11 @@
 /bbw4life/cart    /cart.html   200
 
 # ─────────────────────────────────────────────
+# PRODUCT FEED — Google Merchant / Meta / Pinterest / TikTok Shop
+# ─────────────────────────────────────────────
+/product-feed.xml    /.netlify/functions/product-feed   200!
+
+# ─────────────────────────────────────────────
 # CATCH-ALL — must stay LAST (order matters)
 # ─────────────────────────────────────────────
 /*    /404.html   404
