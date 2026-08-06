@@ -30,6 +30,15 @@
 
 
 # ─────────────────────────────────────────────
+# PRODUCT FEED — Google Merchant / Meta / Pinterest / TikTok Shop
+# ─────────────────────────────────────────────
+[[redirects]]
+  from = "/product-feed.xml"
+  to = "/.netlify/functions/product-feed"
+  status = 200
+
+
+# ─────────────────────────────────────────────
 # PRODUCT PAGES — Pretty URLs
 # ─────────────────────────────────────────────
 [[redirects]]

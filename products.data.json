@@ -6653,7 +6653,11 @@
         "pages": [
           "/bbw4life/journal",
           "/products/product",
-          "ALL_PRODUCT_PAGES"
+          "ALL_PRODUCT_PAGES",
+          "/policies/",
+          "/page/",
+          "/index.html",
+          "HOME_PAGE"
         ],
         "cf_chat_toggle": "yes",
         "paul_trigger": "no",

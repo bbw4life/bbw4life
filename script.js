@@ -1325,10 +1325,12 @@ function showErrorPopup(message) {
         const pages = wv.pages || [];
 
         const isProductPage = !!document.querySelector('.product-section');
+        const isHomePage    = currentPath === '/' || currentPath === '/index.html' || currentPath === '';
 
         // Only apply on listed pages
         const matches = pages.some(p => {
           if (p === 'ALL_PRODUCT_PAGES') return isProductPage;
+          if (p === 'HOME_PAGE') return isHomePage;
           return currentPath.endsWith(p) || currentPath === p || currentPath.includes(p);
         });
 

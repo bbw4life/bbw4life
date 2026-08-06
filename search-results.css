@@ -213,7 +213,8 @@
   gap: 22px;
 }
 @media (max-width: 768px) {
-  .sr-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .sr-results-section { padding: 24px 12px 24px; }
+  .sr-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
 
 /* ── Card (dérivée de .pdp-grid-card pour cohérence visuelle) ── */
