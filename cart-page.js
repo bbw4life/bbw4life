@@ -286,6 +286,15 @@
       var _activeCountry = localStorage.getItem('bbw_country');
       if (_activeCountry) window.convertPricesForCountry(_activeCountry);
     }
+
+    // Ré-injecte l'icône wishlist (.bbw-mini-wish) sur les items fraîchement
+    // rendus — container.innerHTML='' plus haut a détruit toute icône
+    // précédemment injectée. On n'émet PAS cart:update ici : cet événement
+    // est déjà écouté par listenCartUpdates() → renderPageCart(), ré-émettre
+    // depuis renderPageCart() elle-même créerait une boucle infinie.
+    if (typeof window.injectCartPageWishlistIcons === 'function') {
+      window.injectCartPageWishlistIcons();
+    }
   }
 
   
@@ -349,12 +358,23 @@
       return sum + parseFloat(i.price) * i.quantity;
     }, 0);
     const totalQty = cart.reduce(function (sum, i) { return sum + i.quantity; }, 0);
-    const savings  = cart.reduce(function (sum, i) {
-      if (i.compare_price && parseFloat(i.compare_price) > parseFloat(i.price)) {
-        return sum + (parseFloat(i.compare_price) - parseFloat(i.price)) * i.quantity;
-      }
-      return sum;
-    }, 0);
+
+    // Taxe : lue depuis settings.tax_rate (source unique de verite, meme
+    // champ que _lib/pricing.js cote serveur) au lieu d'un $0.00 fixe.
+    const taxRate = parseFloat(settings.tax_rate) || 0;
+    const tax = parseFloat((subtotal * taxRate).toFixed(2));
+
+    // "You Save" : palier de reduction par quantite le plus haut deja
+    // atteint dans settings.promos[] (meme table que le systeme de code
+    // promo officiel) — jamais base sur compare_price, qui peut etre un
+    // prix catalogue provisoire sans rapport avec une vraie promo.
+    const promos = Array.isArray(settings.promos) ? settings.promos : [];
+    const bestPromo = promos
+      .filter(function (p) { return p && p.items > 0 && p.percent > 0 && totalQty >= p.items; })
+      .sort(function (a, b) { return b.items - a.items; })[0];
+    const savingsPct = bestPromo ? bestPromo.percent : 0;
+    const savings = parseFloat((subtotal * (savingsPct / 100)).toFixed(2));
+
     const POINTS_PER_ORDER = parseInt(settings.loyalty_points_per_order) || 10;
     const points = cart.length > 0 ? POINTS_PER_ORDER : 0;
     const shippingFree = subtotal >= threshold;
@@ -366,8 +386,8 @@
     }
 
     setText('cp-subtotal-val', '$' + subtotal.toFixed(2));
-    setText('cp-tax-val',      '$0.00');
-    setText('cp-total-val',    '$' + subtotal.toFixed(2));
+    setText('cp-tax-val',      '$' + tax.toFixed(2));
+    setText('cp-total-val',    '$' + (subtotal + tax - savings).toFixed(2));
     setText('cp-qty-label',    totalQty + (totalQty === 1 ? ' item' : ' items'));
     setText('cp-loyalty-points', points.toLocaleString());
 
@@ -375,11 +395,11 @@
     const savingsVal  = document.getElementById('cp-savings-val');
     if (savingsLine) {
       savingsLine.style.display = savings > 0 ? '' : 'none';
-      if (savingsVal && savings > 0) savingsVal.textContent = '-$' + savings.toFixed(2);
+      if (savingsVal && savings > 0) savingsVal.textContent = '-$' + savings.toFixed(2) + ' (' + savingsPct + '% off)';
     }
 
     setText('cp-sticky-qty',   totalQty + (totalQty === 1 ? ' item' : ' items'));
-    setText('cp-sticky-total', '$' + subtotal.toFixed(2));
+    setText('cp-sticky-total', '$' + (subtotal + tax - savings).toFixed(2));
   }
 
   function updateHeader() {
