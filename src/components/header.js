@@ -110,6 +110,18 @@
   const searchClose  = document.getElementById('bbwSearchClose');
   const searchInput  = document.getElementById('bbwSearchInput');
   const searchEl     = document.getElementById('bbwSearch');
+  const headerEl     = document.getElementById('bbw-header');
+
+  // `backdrop-filter` sur .bbw-header--scrolled crée un nouveau containing
+  // block pour tout descendant en position:fixed (dont .bbw-search__bar en
+  // mobile) — si le header est scrollé quand on ouvre la recherche, la barre
+  // se positionne alors relativement au header au lieu du viewport et
+  // "tombe" sous le header au lieu de le recouvrir. On neutralise donc le
+  // blur du header tant que la recherche mobile est ouverte.
+  function setSearchOpen(open) {
+    if (searchBar) searchBar.classList.toggle('is-open', open);
+    if (headerEl)  headerEl.classList.toggle('bbw-header--search-open', open);
+  }
 
   if (searchToggle) {
     searchToggle.addEventListener('click', e => {
@@ -119,21 +131,22 @@
         if (di) di.focus();
         return;
       }
-      const isOpen = searchBar && searchBar.classList.toggle('is-open');
+      const isOpen = searchBar && !searchBar.classList.contains('is-open');
+      setSearchOpen(isOpen);
       if (isOpen && searchInput) setTimeout(() => searchInput.focus(), 100);
     });
   }
 
   if (searchClose) {
     searchClose.addEventListener('click', () => {
-      if (searchBar)   searchBar.classList.remove('is-open');
+      setSearchOpen(false);
       if (searchInput) searchInput.value = '';
     });
   }
 
   document.addEventListener('click', e => {
     if (!searchEl || !searchBar) return;
-    if (!searchEl.contains(e.target)) searchBar.classList.remove('is-open');
+    if (!searchEl.contains(e.target)) setSearchOpen(false);
   });
 
   const searchSubmitMobile = searchBar ? searchBar.querySelector('.bbw-search__submit') : null;

@@ -11670,16 +11670,21 @@ i[class*="fa"] {
 /* ══════════════════════════════════════
    Masquer le flash bleu de tap-highlight mobile
    (site-wide, tous elements cliquables — pas
-   seulement les liens <a>)
+   seulement les liens <a>). !important car ce
+   fichier charge en premier ; sans lui, une regle
+   plus specifique chargee apres (products.css,
+   header.css, collections.css, footer.css) peut
+   reintroduire le flash sur un composant precis.
 ══════════════════════════════════════ */
-a, button, input, textarea, select, label,
-[onclick], [role="button"] {
-  -webkit-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
+a, a *, button, button *, input, textarea, select, label,
+[onclick], [onclick] *, [role="button"], [role="button"] * {
+  -webkit-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
 }
 
 a, button, [onclick], [role="button"] {
-  outline: none;
+  outline: none !important;
 }
 
 a:focus,
@@ -11691,9 +11696,14 @@ button:active,
 [onclick]:active,
 [role="button"]:focus,
 [role="button"]:active {
-  outline: none;
-  background-color: transparent;
-  -webkit-tap-highlight-color: transparent;
+  outline: none !important;
+  background-color: transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+a::selection, a *::selection,
+button::selection, button *::selection {
+  background: transparent !important;
 }
 
 
