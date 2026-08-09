@@ -2717,8 +2717,10 @@ window.BbwNlSpinWheel = (function () {
     }
 
     if (type === 'shipping') {
+      var threshold = cd.free_shipping_threshold;
       return {
-        message: '🎉 Congratulations! You\'re now eligible for FREE SHIPPING on your next order!',
+        message: '🎉 Congratulations! You\'re now eligible for FREE SHIPPING on your next order! ' +
+                  'Simply spend over $' + threshold + ' and shipping is on us.',
         code: null,
         showCode: false
       };
