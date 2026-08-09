@@ -34,6 +34,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
   
   <div class="sanaica-banner-paul" id="sanaica-banner-paul">
@@ -630,7 +638,101 @@
     </div>
   </section>
 
-  <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
+  <section id="pdp-mini-reviews" class="pdp-mini-reviews" data-scroll-reveal>
+  <div class="pmr-inner">
+    <div class="pmr-header">
+      <h2 class="pmr-title">Loved By Curvy Queens</h2>
+      <div class="pmr-header-right">
+        <div class="pmr-stars" id="pmrStars">★★★★★</div>
+        <span class="pmr-count" id="pmrCount">0 reviews</span>
+        <button type="button" class="pmr-write-btn" id="pmrWriteReview">
+          <i class="fi fi-rr-pencil"></i> Write a Review
+        </button>
+      </div>
+    </div>
+
+    <div class="pmr-slider">
+      <div class="pmr-track" id="pmrTrack">
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">D</div>
+            <div class="pmr-card-id">
+              <h4>Dieubeni T.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">3XL Military Green. Loose drape, clean cuffed ankle, real authority. My barber asked where I got them the same day. BBW4LIFE builds for kings.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">J</div>
+            <div class="pmr-card-id">
+              <h4>Junior M.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">4XL Black. Three people asked where I got them before I sat down. Cuffed ankle draws the eye straight to the shoe. Never going back to regular pants.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-05</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">K</div>
+            <div class="pmr-card-id">
+              <h4>Kwame O.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">3XL Military Green, Accra. Work outdoors — breathes all day, no waist pressure, constant compliments. BBW4LIFE ships to Ghana and builds for men who move.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-18</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">D</div>
+            <div class="pmr-card-id">
+              <h4>Dieubeni T.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">3XL Military Green. Loose drape, clean cuffed ankle, real authority. My barber asked where I got them the same day. BBW4LIFE builds for kings.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">J</div>
+            <div class="pmr-card-id">
+              <h4>Junior M.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">4XL Black. Three people asked where I got them before I sat down. Cuffed ankle draws the eye straight to the shoe. Never going back to regular pants.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-05</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">K</div>
+            <div class="pmr-card-id">
+              <h4>Kwame O.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">3XL Military Green, Accra. Work outdoors — breathes all day, no waist pressure, constant compliments. BBW4LIFE ships to Ghana and builds for men who move.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-18</span>
+        </div>
+      </div>
+    </div>
+    <div class="pmr-dots" id="pmrDots"></div>
+    <a href="#reviews-section" class="pmr-readall" id="pmrReadAll">Read all reviews <i class="fi fi-rr-angle-small-down"></i></a>
+  </div>
+</section>
+
+<section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
     <div class="pdp-grid"></div>
   </section>
 
@@ -864,13 +966,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

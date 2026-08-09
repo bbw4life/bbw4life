@@ -35,6 +35,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
   
   <div class="sanaica-banner-paul" id="sanaica-banner-paul">
@@ -636,6 +644,100 @@
   </div>
 </section>
 
+<section id="pdp-mini-reviews" class="pdp-mini-reviews" data-scroll-reveal>
+  <div class="pmr-inner">
+    <div class="pmr-header">
+      <h2 class="pmr-title">Loved By Curvy Queens</h2>
+      <div class="pmr-header-right">
+        <div class="pmr-stars" id="pmrStars">★★★★★</div>
+        <span class="pmr-count" id="pmrCount">0 reviews</span>
+        <button type="button" class="pmr-write-btn" id="pmrWriteReview">
+          <i class="fi fi-rr-pencil"></i> Write a Review
+        </button>
+      </div>
+    </div>
+
+    <div class="pmr-slider">
+      <div class="pmr-track" id="pmrTrack">
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">A</div>
+            <div class="pmr-card-id">
+              <h4>Amara N.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 2XL. The mock neck gives me a regal, untouchable energy. The print is bold without being loud. Four compliments within the first ten minutes. BBW4LIFE, you just became my forever brand.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-18</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">F</div>
+            <div class="pmr-card-id">
+              <h4>Fatou B.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 3XL. When I put it on and looked in the mirror — I stood differently. The mock neck created a beautiful elongated line. The print celebrated my shape instead of hiding it. Happy tears. BBW4LIFE gave me back something I'd lost.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-11</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">C</div>
+            <div class="pmr-card-id">
+              <h4>Chioma E.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 1XL. The NightChic makes you stand out in the most elegant way possible. Comfortable and confident all evening. Now I need this in every color BBW4LIFE ever makes.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-05</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">A</div>
+            <div class="pmr-card-id">
+              <h4>Amara N.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 2XL. The mock neck gives me a regal, untouchable energy. The print is bold without being loud. Four compliments within the first ten minutes. BBW4LIFE, you just became my forever brand.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-18</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">F</div>
+            <div class="pmr-card-id">
+              <h4>Fatou B.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 3XL. When I put it on and looked in the mirror — I stood differently. The mock neck created a beautiful elongated line. The print celebrated my shape instead of hiding it. Happy tears. BBW4LIFE gave me back something I'd lost.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-11</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">C</div>
+            <div class="pmr-card-id">
+              <h4>Chioma E.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 1XL. The NightChic makes you stand out in the most elegant way possible. Comfortable and confident all evening. Now I need this in every color BBW4LIFE ever makes.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-05</span>
+        </div>
+      </div>
+    </div>
+    <div class="pmr-dots" id="pmrDots"></div>
+    <a href="#reviews-section" class="pmr-readall" id="pmrReadAll">Read all reviews <i class="fi fi-rr-angle-small-down"></i></a>
+  </div>
+</section>
+
 <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
   <div class="pdp-grid"></div>
 </section>
@@ -914,13 +1016,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

@@ -35,6 +35,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
   
   <div class="sanaica-banner-paul" id="sanaica-banner-paul">
@@ -617,6 +625,100 @@
   </div>
 </section>
 
+<section id="pdp-mini-reviews" class="pdp-mini-reviews" data-scroll-reveal>
+  <div class="pmr-inner">
+    <div class="pmr-header">
+      <h2 class="pmr-title">Loved By Curvy Queens</h2>
+      <div class="pmr-header-right">
+        <div class="pmr-stars" id="pmrStars">★★★★★</div>
+        <span class="pmr-count" id="pmrCount">0 reviews</span>
+        <button type="button" class="pmr-write-btn" id="pmrWriteReview">
+          <i class="fi fi-rr-pencil"></i> Write a Review
+        </button>
+      </div>
+    </div>
+
+    <div class="pmr-slider">
+      <div class="pmr-track" id="pmrTrack">
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">N</div>
+            <div class="pmr-card-id">
+              <h4>Nkechi A.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Twenty years in one-pieces designed to disappear. I ordered the CurveBikini, size 3XL. The day I walked to the beach, my husband cried. I didn't feel brave — I just felt like myself, finally.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-18</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">D</div>
+            <div class="pmr-card-id">
+              <h4>Diane O.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">847 followers. One photo, caption: "I stopped hiding." 12,000 likes in 48 hours. Women filling my inbox saying "you gave me courage." I just wanted to reclaim my beach.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-15</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">S</div>
+            <div class="pmr-card-id">
+              <h4>Simone R.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 4XL. Dominican Republic resort, day three — the photographer asked to photograph me for their promotional materials. He said: "You have the presence we want to show." I was wearing the CurveBikini in black.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-06</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">N</div>
+            <div class="pmr-card-id">
+              <h4>Nkechi A.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Twenty years in one-pieces designed to disappear. I ordered the CurveBikini, size 3XL. The day I walked to the beach, my husband cried. I didn't feel brave — I just felt like myself, finally.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-18</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">D</div>
+            <div class="pmr-card-id">
+              <h4>Diane O.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">847 followers. One photo, caption: "I stopped hiding." 12,000 likes in 48 hours. Women filling my inbox saying "you gave me courage." I just wanted to reclaim my beach.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-15</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">S</div>
+            <div class="pmr-card-id">
+              <h4>Simone R.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 4XL. Dominican Republic resort, day three — the photographer asked to photograph me for their promotional materials. He said: "You have the presence we want to show." I was wearing the CurveBikini in black.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-06</span>
+        </div>
+      </div>
+    </div>
+    <div class="pmr-dots" id="pmrDots"></div>
+    <a href="#reviews-section" class="pmr-readall" id="pmrReadAll">Read all reviews <i class="fi fi-rr-angle-small-down"></i></a>
+  </div>
+</section>
+
 <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
   <div class="pdp-grid"></div>
 </section>
@@ -850,13 +952,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

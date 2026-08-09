@@ -34,6 +34,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
   
   <div class="sanaica-banner-paul" id="sanaica-banner-paul">
@@ -630,6 +638,100 @@
   </div>
 </section>
 
+<section id="pdp-mini-reviews" class="pdp-mini-reviews" data-scroll-reveal>
+  <div class="pmr-inner">
+    <div class="pmr-header">
+      <h2 class="pmr-title">Loved By Curvy Queens</h2>
+      <div class="pmr-header-right">
+        <div class="pmr-stars" id="pmrStars">★★★★★</div>
+        <span class="pmr-count" id="pmrCount">0 reviews</span>
+        <button type="button" class="pmr-write-btn" id="pmrWriteReview">
+          <i class="fi fi-rr-pencil"></i> Write a Review
+        </button>
+      </div>
+    </div>
+
+    <div class="pmr-slider">
+      <div class="pmr-track" id="pmrTrack">
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">A</div>
+            <div class="pmr-card-id">
+              <h4>Amara S.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 3XL. I avoided lingerie for 8 years. I put the LaceNight on alone in my bathroom, looked in the mirror — and wept. Not from sadness. From something I'd forgotten: I am beautiful. BBW4LIFE sent me back to myself.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">N</div>
+            <div class="pmr-card-id">
+              <h4>Nkechi B.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 4XL. Anniversary surprise. He saw me, stopped, and said those words. I hadn't felt truly seen like that in years. BBW4LIFE restores confidence. They restore love.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-14</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">F</div>
+            <div class="pmr-card-id">
+              <h4>Fatou D.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 2XL. I was nervous about lace on sensitive skin. The LaceNight is genuinely soft and smooth — I wore it all evening without any discomfort. Wine red even richer in person. BBW4LIFE knows how to make fabric feel as beautiful as it looks.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-07</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">A</div>
+            <div class="pmr-card-id">
+              <h4>Amara S.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 3XL. I avoided lingerie for 8 years. I put the LaceNight on alone in my bathroom, looked in the mirror — and wept. Not from sadness. From something I'd forgotten: I am beautiful. BBW4LIFE sent me back to myself.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">N</div>
+            <div class="pmr-card-id">
+              <h4>Nkechi B.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 4XL. Anniversary surprise. He saw me, stopped, and said those words. I hadn't felt truly seen like that in years. BBW4LIFE restores confidence. They restore love.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-14</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">F</div>
+            <div class="pmr-card-id">
+              <h4>Fatou D.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 2XL. I was nervous about lace on sensitive skin. The LaceNight is genuinely soft and smooth — I wore it all evening without any discomfort. Wine red even richer in person. BBW4LIFE knows how to make fabric feel as beautiful as it looks.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-07</span>
+        </div>
+      </div>
+    </div>
+    <div class="pmr-dots" id="pmrDots"></div>
+    <a href="#reviews-section" class="pmr-readall" id="pmrReadAll">Read all reviews <i class="fi fi-rr-angle-small-down"></i></a>
+  </div>
+</section>
+
 <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
   <div class="pdp-grid"></div>
 </section>
@@ -861,13 +963,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

@@ -6207,7 +6207,7 @@
   "active": true,
   "currency": "USD",
   "last_updated": "2026-07-25",
-  "cycle_days_start": 12,
+  "cycle_days_start": 13,
   "cycle_days_end": 6,
   "start_date": "2026-08-06",
   "end_date": "2026-08-12",
@@ -6257,8 +6257,8 @@
     "thumbnails_mobile_vertical_left": "yes",
     "sticky_media_mobile": "yes",
     "swatch_scroll_mobile": "no",
-    "sticky_atc_mobile_threshold": 6.0,
-    "sticky_atc_desktop_threshold": 5.0,
+    "sticky_atc_mobile_threshold": 11.7,
+    "sticky_atc_desktop_threshold": 7.3,
     "theme_color": "#000000",
     "allowed_languages": ["en", "fr", "es", "ar", "zh", "ht", "hi", "pt", "ru", "de", "ja"],
     "chat_widget": {
@@ -6353,9 +6353,9 @@
     "preloader": {
       "show": "yes",
       "style_pulse_logo":   "no",
-      "style_progress_bar": "yes",
+      "style_progress_bar": "no",
       "style_spinner_ring": "no",
-      "style_dots_wave":    "no",
+      "style_dots_wave":    "yes",
       "style_morph_text":   "no"
     },
     "remember_cart_popup": {
@@ -6462,6 +6462,18 @@
     "title": "Welcome to the BBW4LIFE Family! 👑",
     "message": "You'll receive exclusive offers, new arrivals, and love notes made for queens like you.",
     "close_btn": "Close"
+  },
+  "newsletter_spin_wheel": {
+    "show": "yes",
+    "one_spin_per_email": "yes",
+    "segments": [
+      { "id": "seg1", "label": "50% OFF",       "type": "percent",  "value": 50, "promo_code_ref": "BIGBEAUTY50", "weight": 5  },
+      { "id": "seg2", "label": "FREE SHIPPING", "type": "shipping", "value": 0,  "promo_code_ref": null,          "weight": 20 },
+      { "id": "seg3", "label": "20% OFF",       "type": "percent",  "value": 20, "promo_code_ref": "BBWQUEEN",    "weight": 30 },
+      { "id": "seg4", "label": "25% OFF",       "type": "percent",  "value": 25, "promo_code_ref": "FLAUNTIT",    "weight": 20 },
+      { "id": "seg5", "label": "BUY MORE, GET FREE", "type": "bxgx", "value": 0, "promo_code_ref": null,          "weight": 15 },
+      { "id": "seg6", "label": "10% OFF",       "type": "percent",  "value": 10, "promo_code_ref": "LUXECURVE",   "weight": 10 }
+    ]
   },
     "announcement_bar": {
       "items": [

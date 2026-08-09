@@ -34,6 +34,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
   
   
@@ -624,7 +632,101 @@
     </div>
   </section>
 
-  <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
+  <section id="pdp-mini-reviews" class="pdp-mini-reviews" data-scroll-reveal>
+  <div class="pmr-inner">
+    <div class="pmr-header">
+      <h2 class="pmr-title">Loved By Curvy Queens</h2>
+      <div class="pmr-header-right">
+        <div class="pmr-stars" id="pmrStars">★★★★★</div>
+        <span class="pmr-count" id="pmrCount">0 reviews</span>
+        <button type="button" class="pmr-write-btn" id="pmrWriteReview">
+          <i class="fi fi-rr-pencil"></i> Write a Review
+        </button>
+      </div>
+    </div>
+
+    <div class="pmr-slider">
+      <div class="pmr-track" id="pmrTrack">
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">A</div>
+            <div class="pmr-card-id">
+              <h4>Aminata D.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">The stencils fill the shape so naturally my brows look real. Light Brown is perfect for my skin tone. Morning routine: 25 min → 8 min.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-19</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">F</div>
+            <div class="pmr-card-id">
+              <h4>Fatou S.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Pochoirs précis, crème imperméable toute la journée sous la chaleur. Recommandé à toutes mes amies. BBW4LIFE livre au Sénégal!</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-11</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">N</div>
+            <div class="pmr-card-id">
+              <h4>Ngozi A.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Mariage en extérieur, chaleur nigériane. 10 heures — zéro retouche, brows parfaits en photo. Formule waterproof imbattable.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-03</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">A</div>
+            <div class="pmr-card-id">
+              <h4>Aminata D.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">The stencils fill the shape so naturally my brows look real. Light Brown is perfect for my skin tone. Morning routine: 25 min → 8 min.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-19</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">F</div>
+            <div class="pmr-card-id">
+              <h4>Fatou S.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Pochoirs précis, crème imperméable toute la journée sous la chaleur. Recommandé à toutes mes amies. BBW4LIFE livre au Sénégal!</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-11</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">N</div>
+            <div class="pmr-card-id">
+              <h4>Ngozi A.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Mariage en extérieur, chaleur nigériane. 10 heures — zéro retouche, brows parfaits en photo. Formule waterproof imbattable.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-03</span>
+        </div>
+      </div>
+    </div>
+    <div class="pmr-dots" id="pmrDots"></div>
+    <a href="#reviews-section" class="pmr-readall" id="pmrReadAll">Read all reviews <i class="fi fi-rr-angle-small-down"></i></a>
+  </div>
+</section>
+
+<section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
     <div class="pdp-grid"></div>
   </section>
 
@@ -854,13 +956,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

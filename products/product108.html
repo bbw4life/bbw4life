@@ -34,6 +34,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
 
   <div class="sanaica-banner-paul" id="sanaica-banner-paul">
@@ -410,8 +418,7 @@
       <div class="product-slider"></div>
     </div>
   </section>
-
-  <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
+<section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
     <div class="pdp-grid"></div>
   </section>
 
@@ -593,13 +600,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

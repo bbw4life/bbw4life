@@ -34,6 +34,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
   
   <div class="sanaica-banner-paul" id="sanaica-banner-paul">
@@ -637,6 +645,100 @@
   </div>
 </section>
 
+<section id="pdp-mini-reviews" class="pdp-mini-reviews" data-scroll-reveal>
+  <div class="pmr-inner">
+    <div class="pmr-header">
+      <h2 class="pmr-title">Loved By Curvy Queens</h2>
+      <div class="pmr-header-right">
+        <div class="pmr-stars" id="pmrStars">★★★★★</div>
+        <span class="pmr-count" id="pmrCount">0 reviews</span>
+        <button type="button" class="pmr-write-btn" id="pmrWriteReview">
+          <i class="fi fi-rr-pencil"></i> Write a Review
+        </button>
+      </div>
+    </div>
+
+    <div class="pmr-slider">
+      <div class="pmr-track" id="pmrTrack">
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">A</div>
+            <div class="pmr-card-id">
+              <h4>Adaeze M.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 2XL. I was a guest — not supposed to stand out. But the SlitLux doesn't allow you to blend in. The cutout and slit create a presence that walks in before you do. Four people stopped me during the reception. BBW4LIFE, you built an elegant, black weapon.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">N</div>
+            <div class="pmr-card-id">
+              <h4>Nkechi T.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 3XL. I ordered the SlitLux specifically to be seen. When I put it on I stood in front of my mirror for ten full minutes. The cutout frames my torso like the dress was celebrating me — not tolerating me. BBW4LIFE changed something in me. I am not exaggerating.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-14</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">C</div>
+            <div class="pmr-card-id">
+              <h4>Chioma B.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 1XL. The SlitLux photographs impossibly well — the slit catches the light when you walk, the cutout creates an unforgettable silhouette. BBW4LIFE brought me to a place I had never been: noticed, admired, celebrated. ❤️</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-07</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">A</div>
+            <div class="pmr-card-id">
+              <h4>Adaeze M.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 2XL. I was a guest — not supposed to stand out. But the SlitLux doesn't allow you to blend in. The cutout and slit create a presence that walks in before you do. Four people stopped me during the reception. BBW4LIFE, you built an elegant, black weapon.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">N</div>
+            <div class="pmr-card-id">
+              <h4>Nkechi T.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 3XL. I ordered the SlitLux specifically to be seen. When I put it on I stood in front of my mirror for ten full minutes. The cutout frames my torso like the dress was celebrating me — not tolerating me. BBW4LIFE changed something in me. I am not exaggerating.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-14</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">C</div>
+            <div class="pmr-card-id">
+              <h4>Chioma B.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 1XL. The SlitLux photographs impossibly well — the slit catches the light when you walk, the cutout creates an unforgettable silhouette. BBW4LIFE brought me to a place I had never been: noticed, admired, celebrated. ❤️</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-07</span>
+        </div>
+      </div>
+    </div>
+    <div class="pmr-dots" id="pmrDots"></div>
+    <a href="#reviews-section" class="pmr-readall" id="pmrReadAll">Read all reviews <i class="fi fi-rr-angle-small-down"></i></a>
+  </div>
+</section>
+
 <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
   <div class="pdp-grid"></div>
 </section>
@@ -915,13 +1017,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

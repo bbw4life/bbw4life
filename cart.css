@@ -1638,6 +1638,14 @@
   border-radius: var(--cp-radius-sm);
   z-index: 2;
 }
+@media (max-width: 768px) {
+  .cp-extra-card__badge {
+    top: 5px; left: 5px;
+    font-size: 0.46rem;
+    letter-spacing: 0.06em;
+    padding: 2px 6px;
+  }
+}
 
 
 .cp-extra-card__discount {
@@ -1941,6 +1949,14 @@
   padding: 2px 7px;
   border-radius: var(--cp-radius-sm);
   z-index: 2;
+}
+@media (max-width: 768px) {
+  .drawer-extra-card__badge {
+    top: 4px; left: 4px;
+    font-size: 0.44rem;
+    letter-spacing: 0.05em;
+    padding: 1.5px 5px;
+  }
 }
 
 .drawer-extra-card__discount {

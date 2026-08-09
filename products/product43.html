@@ -34,6 +34,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
   
   <div class="sanaica-banner-paul" id="sanaica-banner-paul">
@@ -676,7 +684,101 @@
     </div>
   </section>
 
-  <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
+  <section id="pdp-mini-reviews" class="pdp-mini-reviews" data-scroll-reveal>
+  <div class="pmr-inner">
+    <div class="pmr-header">
+      <h2 class="pmr-title">Loved By Curvy Queens</h2>
+      <div class="pmr-header-right">
+        <div class="pmr-stars" id="pmrStars">★★★★★</div>
+        <span class="pmr-count" id="pmrCount">0 reviews</span>
+        <button type="button" class="pmr-write-btn" id="pmrWriteReview">
+          <i class="fi fi-rr-pencil"></i> Write a Review
+        </button>
+      </div>
+    </div>
+
+    <div class="pmr-slider">
+      <div class="pmr-track" id="pmrTrack">
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">M</div>
+            <div class="pmr-card-id">
+              <h4>Marcus O.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 46 Black from Houston. Searched for a lightweight sneaker in my size for over a year. These are clean, breathable, and actually fashionable. The mesh keeps my feet cool after 10+ hours — BBW4LIFE gets what men plus size deserve.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">J</div>
+            <div class="pmr-card-id">
+              <h4>Jerome T.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 43 Black from Atlanta. Clean, minimal, lightweight — pairs with everything. No pressure points, no heavy landing. My coworkers started asking what brand I wore. BBW4LIFE is the answer.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-04</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">K</div>
+            <div class="pmr-card-id">
+              <h4>Kofi B.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 45 Blue from Accra. The Blue HollowSneakers are genuinely stylish — modern, sporty, breathable. BBW4LIFE ships to Ghana and builds for men our size. That matters.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-26</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">M</div>
+            <div class="pmr-card-id">
+              <h4>Marcus O.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 46 Black from Houston. Searched for a lightweight sneaker in my size for over a year. These are clean, breathable, and actually fashionable. The mesh keeps my feet cool after 10+ hours — BBW4LIFE gets what men plus size deserve.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">J</div>
+            <div class="pmr-card-id">
+              <h4>Jerome T.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 43 Black from Atlanta. Clean, minimal, lightweight — pairs with everything. No pressure points, no heavy landing. My coworkers started asking what brand I wore. BBW4LIFE is the answer.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-04</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">K</div>
+            <div class="pmr-card-id">
+              <h4>Kofi B.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 45 Blue from Accra. The Blue HollowSneakers are genuinely stylish — modern, sporty, breathable. BBW4LIFE ships to Ghana and builds for men our size. That matters.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-26</span>
+        </div>
+      </div>
+    </div>
+    <div class="pmr-dots" id="pmrDots"></div>
+    <a href="#reviews-section" class="pmr-readall" id="pmrReadAll">Read all reviews <i class="fi fi-rr-angle-small-down"></i></a>
+  </div>
+</section>
+
+<section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
     <div class="pdp-grid"></div>
   </section>
 
@@ -903,13 +1005,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

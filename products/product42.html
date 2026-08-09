@@ -34,6 +34,14 @@
 
 <main>
   <div id="breadcrumb-container"></div>
+  <script>
+    fetch('/src/components/breadcrumb.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('breadcrumb-container').outerHTML = html;
+      })
+      .catch(err => console.error('Breadcrumb load error:', err));
+  </script>
 
   
   <div class="sanaica-banner-paul" id="sanaica-banner-paul">
@@ -630,7 +638,101 @@
     </div>
   </section>
 
-  <section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
+  <section id="pdp-mini-reviews" class="pdp-mini-reviews" data-scroll-reveal>
+  <div class="pmr-inner">
+    <div class="pmr-header">
+      <h2 class="pmr-title">Loved By Curvy Queens</h2>
+      <div class="pmr-header-right">
+        <div class="pmr-stars" id="pmrStars">★★★★★</div>
+        <span class="pmr-count" id="pmrCount">0 reviews</span>
+        <button type="button" class="pmr-write-btn" id="pmrWriteReview">
+          <i class="fi fi-rr-pencil"></i> Write a Review
+        </button>
+      </div>
+    </div>
+
+    <div class="pmr-slider">
+      <div class="pmr-track" id="pmrTrack">
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">D</div>
+            <div class="pmr-card-id">
+              <h4>Didier F.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Finding size 47 formal shoes is nearly impossible. Ordered Black from Côte d'Ivoire — arrived in 14 days. Perfect fit, polished look. Wore them 9 hours from church to reception without discomfort. BBW4LIFE takes big African men seriously.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">J</div>
+            <div class="pmr-card-id">
+              <h4>Jean-Baptiste K.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Taille 48, Sénégal. Livraison en 17 jours. Élégantes, bien finies. Portées 7 heures en cérémonie officielle sans inconfort. Le bout rond donne de l'espace à mon pied large. Merci BBW4LIFE.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-04</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">E</div>
+            <div class="pmr-card-id">
+              <h4>Emmanuel T.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 46, Lagos. Polished, formal, exactly as shown. Round toe fits properly — unlike narrow shoes I usually force on. Comfortable from noon to evening. Multiple family members asked where I bought them.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-17</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">D</div>
+            <div class="pmr-card-id">
+              <h4>Didier F.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Finding size 47 formal shoes is nearly impossible. Ordered Black from Côte d'Ivoire — arrived in 14 days. Perfect fit, polished look. Wore them 9 hours from church to reception without discomfort. BBW4LIFE takes big African men seriously.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-20</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">J</div>
+            <div class="pmr-card-id">
+              <h4>Jean-Baptiste K.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Taille 48, Sénégal. Livraison en 17 jours. Élégantes, bien finies. Portées 7 heures en cérémonie officielle sans inconfort. Le bout rond donne de l'espace à mon pied large. Merci BBW4LIFE.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-May-04</span>
+        </div>
+        <div class="pmr-card">
+          <div class="pmr-card-top">
+            <div class="pmr-avatar">E</div>
+            <div class="pmr-card-id">
+              <h4>Emmanuel T.</h4>
+              <div class="pmr-card-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="pmr-card-text">Size 46, Lagos. Polished, formal, exactly as shown. Round toe fits properly — unlike narrow shoes I usually force on. Comfortable from noon to evening. Multiple family members asked where I bought them.</p>
+          <button type="button" class="pmr-card-readmore">Read more</button>
+          <span class="pmr-card-date">2026-Apr-17</span>
+        </div>
+      </div>
+    </div>
+    <div class="pmr-dots" id="pmrDots"></div>
+    <a href="#reviews-section" class="pmr-readall" id="pmrReadAll">Read all reviews <i class="fi fi-rr-angle-small-down"></i></a>
+  </div>
+</section>
+
+<section id="pdp-grid-section" class="pdp-grid-section" data-scroll-reveal>
     <div class="pdp-grid"></div>
   </section>
 
@@ -854,13 +956,6 @@
       document.body.appendChild(s);
     })
     .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/breadcrumb.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('breadcrumb-container').outerHTML = html;
-    })
-    .catch(err => console.error('Breadcrumb load error:', err));
 
   fetch('/src/components/footer.html')
     .then(r => r.text())

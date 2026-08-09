@@ -1274,17 +1274,59 @@
 
       </form>
 
-      
+
       <div class="bbwnl-success" id="bbwNlSuccess" style="display:none">
         <div class="bbwnl-success-confetti" id="bbwNlConfetti"></div>
-        <div class="bbwnl-success-ring">
-          <i class="fas fa-check bbwnl-success-check"></i>
+
+
+        <div id="bbwNlThankYou">
+          <div class="bbwnl-success-ring">
+            <i class="fas fa-check bbwnl-success-check"></i>
+          </div>
+          <h3 class="bbwnl-success-title" id="bbwNlSuccessTitle">Welcome to the family! 🎉</h3>
+          <p class="bbwnl-success-msg" id="bbwNlSuccessMsg">Check your inbox — a little something is on its way to you.</p>
+          <button class="bbwnl-success-close" id="bbwNlSuccessClose">
+            <i class="fas fa-times-circle"></i> <span id="bbwNlSuccessCloseText">Close</span>
+          </button>
         </div>
-        <h3 class="bbwnl-success-title" id="bbwNlSuccessTitle">Welcome to the family! 🎉</h3>
-        <p class="bbwnl-success-msg" id="bbwNlSuccessMsg">Check your inbox — a little something is on its way to you.</p>
-        <button class="bbwnl-success-close" id="bbwNlSuccessClose">
-          <i class="fas fa-times-circle"></i> <span id="bbwNlSuccessCloseText">Close</span>
-        </button>
+
+
+        <div id="bbwNlSpinStep" style="display:none">
+          <h3 class="bbwnl-success-title">One Spin. Your Reward Awaits.</h3>
+          <p class="bbwnl-success-msg" id="bbwNlSpinIntro">Ready to spin?</p>
+
+          <div class="nl-spin-wheel-wrap">
+            <div class="nl-spin-wheel-pointer" aria-hidden="true"></div>
+            <div class="nl-spin-wheel" id="nlSpinWheel">
+              <svg class="nl-spin-wheel-svg" id="nlSpinWheelSvg" viewBox="0 0 300 300" aria-hidden="true"></svg>
+              <button type="button" class="nl-spin-wheel-center" id="nlSpinBtn">
+                <span>SPIN</span>
+              </button>
+            </div>
+          </div>
+
+          <p class="nl-spin-note" id="nlSpinOneChance">You get one spin — good luck!</p>
+        </div>
+
+
+        <div id="bbwNlResultStep" style="display:none">
+          <div class="bbwnl-success-ring" id="nlResultRing">
+            <i class="fas fa-gift bbwnl-success-check"></i>
+          </div>
+          <h3 class="bbwnl-success-title" id="nlResultTitle">Congratulations!</h3>
+          <p class="bbwnl-success-msg" id="nlResultMsg"></p>
+
+          <div class="nl-spin-code-wrap" id="nlSpinCodeWrap" style="display:none">
+            <span class="nl-spin-code-val" id="nlSpinCodeVal"></span>
+            <button type="button" class="nl-spin-code-copy" id="nlSpinCodeCopy">
+              <i class="fi fi-rr-copy"></i> <span id="nlSpinCodeCopyText">Copy Code</span>
+            </button>
+          </div>
+
+          <button class="bbwnl-success-close" id="nlResultCloseBtn">
+            <i class="fas fa-times-circle"></i> <span>Close</span>
+          </button>
+        </div>
       </div>
 
       

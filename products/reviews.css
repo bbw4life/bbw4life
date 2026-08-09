@@ -1124,3 +1124,235 @@
 .slider-shimmer-bar {
     display: none !important;
 }
+
+
+/* ════════════════════════════════════════════════════════════
+   PDP MINI REVIEWS SLIDER — au-dessus de "More To Love"
+   Fond ivoire premium (pas blanc pur), 3 cartes desktop / 1 mobile,
+   autoplay 5s, dots, note+count réels, bouton Write a Review
+   branché sur le modal existant.
+════════════════════════════════════════════════════════════ */
+.pdp-mini-reviews {
+    background: linear-gradient(160deg, #fdfaf5 0%, #faf6ee 50%, #f8f2e6 100%);
+    border-top: 1px solid var(--bbw-gold-border, rgba(184,146,90,0.28));
+    border-bottom: 1px solid var(--bbw-gold-border, rgba(184,146,90,0.28));
+    padding: 26px 24px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pmr-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.pmr-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.pmr-title {
+    font-family: var(--font-display, Georgia, serif);
+    font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+    font-weight: 700;
+    color: var(--bbw-black, #15110E);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.pmr-header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.pmr-stars {
+    color: #15110E;
+    font-size: 14px;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.pmr-count {
+    font-family: var(--font-body, sans-serif);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: rgba(21,17,14,0.55);
+    white-space: nowrap;
+}
+
+.pmr-write-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--bbw-black, #15110E);
+    color: var(--bbw-gold, #B8925A);
+    border: 1px solid var(--bbw-gold-border-hi, rgba(184,146,90,0.5));
+    font-family: var(--font-body, sans-serif);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 9px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+.pmr-write-btn:hover {
+    background: var(--bbw-gold, #B8925A);
+    color: var(--bbw-black, #15110E);
+}
+.pmr-write-btn i { font-size: 12px; }
+
+.pmr-slider {
+    overflow: hidden;
+    width: 100%;
+}
+
+.pmr-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
+}
+
+.pmr-card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    background: #fffdf9;
+    border: 1px solid var(--bbw-gold-border, rgba(184,146,90,0.24));
+    border-radius: 6px;
+    padding: 16px 18px;
+    box-shadow: 0 3px 16px rgba(21,17,14,0.05);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pmr-card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pmr-avatar {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bbw-gold, #B8925A), var(--bbw-gold-light, #e8bc6a));
+    color: var(--bbw-black, #15110E);
+    font-family: var(--font-display, Georgia, serif);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pmr-card-id h4 {
+    margin: 0 0 2px;
+    font-family: var(--font-body, sans-serif);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--bbw-black, #15110E);
+    line-height: 1.2;
+}
+
+.pmr-card-stars {
+    color: #15110E;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    line-height: 1;
+}
+
+.pmr-card-text {
+    font-family: var(--font-body, sans-serif);
+    font-size: 13px;
+    color: rgba(21,17,14,0.68);
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.pmr-card-text.pmr-expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+
+.pmr-card-readmore {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: -4px 0 0;
+    font-family: var(--font-body, sans-serif);
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--bbw-gold, #B8925A);
+    cursor: pointer;
+    letter-spacing: 0.01em;
+}
+.pmr-card-readmore:hover { color: var(--bbw-black, #15110E); }
+
+.pmr-card-date {
+    align-self: flex-end;
+    font-family: var(--font-body, sans-serif);
+    font-size: 10.5px;
+    color: rgba(21,17,14,0.38);
+}
+
+.pmr-dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 16px;
+}
+.pmr-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(21,17,14,0.15);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.28s ease;
+}
+.pmr-dot.active {
+    width: 22px;
+    border-radius: 3px;
+    background: var(--bbw-gold, #B8925A);
+}
+
+.pmr-readall {
+    display: block;
+    text-align: center;
+    margin-top: 14px;
+    font-family: var(--font-body, sans-serif);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bbw-gold, #B8925A);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+}
+.pmr-readall:hover { color: var(--bbw-black, #15110E); }
+.pmr-readall i { font-size: 11px; margin-left: 2px; }
+
+@media (max-width: 768px) {
+    .pdp-mini-reviews { padding: 20px 14px; }
+    .pmr-header { flex-direction: column; align-items: flex-start; }
+    .pmr-header-right { width: 100%; justify-content: space-between; }
+    .pmr-card { flex: 0 0 100%; }
+    .pmr-write-btn { font-size: 11px; padding: 8px 13px; }
+    .pmr-title { font-size: 1.1rem; }
+}

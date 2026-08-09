@@ -1661,6 +1661,30 @@ body {
     letter-spacing: 0.02em;
 }
 
+/* Bandeau informatif — la reduction par quantite (settings.promos[]) sera
+   appliquee au checkout, jamais soustraite du total affiche ici, pour ne
+   jamais montrer un chiffre different de celui reellement facture. */
+.cart-checkout-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bbw-gold-pale, rgba(184,146,90,0.12));
+    border: 1px solid var(--bbw-gold-border, rgba(184,146,90,0.28));
+    border-radius: 4px;
+    padding: 9px 12px;
+    margin: 0 0 12px;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #7a5a28;
+    letter-spacing: 0.01em;
+}
+.cart-checkout-note i {
+    color: var(--bbw-gold, #B8925A);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
 
 .checkout {
     display: block;
@@ -3379,25 +3403,31 @@ body {
 .bbw-mini-wish.bbw-mw-active .bbw-mw-filled { display: block; }
 
 
-.cart-item-img-wrap {
+.cart-item-img-wrap,
+.cp-item-img-wrap {
   position: relative;
   flex-shrink: 0;
 }
 
-.cart-item-img-wrap .bbw-mini-wish {
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 26px;
-  height: 26px;
+.cart-item-img-wrap .bbw-mini-wish,
+.cp-item-img-wrap .bbw-mini-wish {
+  bottom: 4px;
+  right: 4px;
+  left: auto;
+  transform: none;
+  width: 24px;
+  height: 24px;
 }
-.cart-item-img-wrap .bbw-mini-wish:hover {
-  transform: translateX(-50%) scale(1.14);
+.cart-item-img-wrap .bbw-mini-wish:hover,
+.cp-item-img-wrap .bbw-mini-wish:hover {
+  transform: scale(1.14);
 }
-.cart-item-img-wrap .bbw-mini-wish.bbw-mw-active {
-  transform: translateX(-50%) scale(1.0);
+.cart-item-img-wrap .bbw-mini-wish.bbw-mw-active,
+.cp-item-img-wrap .bbw-mini-wish.bbw-mw-active {
+  transform: scale(1.0);
 }
-.cart-item-img-wrap .bbw-mini-wish svg {
+.cart-item-img-wrap .bbw-mini-wish svg,
+.cp-item-img-wrap .bbw-mini-wish svg {
   width: 12px;
   height: 12px;
 }
@@ -3696,6 +3726,23 @@ body {
 .bbw-footer__newin-link .bbw-preload-img-wrap img {
   width: 100% !important;
   height: 100% !important;
+}
+
+/* Spotlight — mini gallery thumbnails (.fs-thumb), même principe : le
+   wrapper reprend le flex/height du thumb pour ne pas casser la rangée. */
+.fs-mini-gallery .bbw-preload-img-wrap {
+  flex: 1;
+  height: 80px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.fs-mini-gallery .bbw-preload-img-wrap img {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+}
+@media (max-width: 768px) {
+  .fs-mini-gallery .bbw-preload-img-wrap { height: 62px; }
 }
 
 
@@ -8370,6 +8417,33 @@ body {
   background: linear-gradient(160deg, #F8F1E6 0%, #F1E3CC 100%);
 }
 
+/* Logo preload écrit en dur dans le HTML (pas injecté en JS) : visible dès
+   le tout premier rendu, avant même l'exécution de script.js, pour ne
+   jamais laisser voir le rectangle vide/déformé le temps que la vraie
+   photo charge. Superposé en absolute par-dessus #bbw-nb-photo-img
+   (restée en position:relative, inchangée). */
+.bbw-nb-photo-preload-logo {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  padding: 18%;
+  box-sizing: border-box;
+  border-radius: 22px;
+  background: linear-gradient(160deg, #F8F1E6 0%, #F1E3CC 100%);
+  box-shadow: none !important;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: opacity 0.35s ease;
+}
+.bbw-nb-photo-preload-logo.is-loaded {
+  opacity: 0 !important;
+}
+
 /* ── Texte incrusté sur la photo, ancré à droite ── */
 .bbw-nb-text {
   position: absolute;
@@ -11409,8 +11483,6 @@ body {
   transform: translateX(0);
 }
 
-
-
 .cart-item-img-wrap {
   position: relative;
   display: inline-block;
@@ -11676,14 +11748,28 @@ i[class*="fa"] {
    header.css, collections.css, footer.css) peut
    reintroduire le flash sur un composant precis.
 ══════════════════════════════════════ */
-a, a *, button, button *, input, textarea, select, label,
-[onclick], [onclick] *, [role="button"], [role="button"] * {
+/* Approche la plus radicale (recommandee pour eliminer TOTALEMENT le
+   flash) : appliquer sur html/* directement au lieu d'enumerer chaque
+   type d'element cliquable — un <summary>, <details>, <label>, div avec
+   cursor:pointer en JS, etc. sont tous nativement/potentiellement
+   focusables et peuvent recevoir ce flash sur mobile, meme sans figurer
+   dans une liste de selecteurs explicite. */
+html {
   -webkit-tap-highlight-color: transparent !important;
   tap-highlight-color: transparent !important;
+}
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent !important;
+}
+
+a, a *, button, button *, input, textarea, select, label, label *,
+summary, summary *, details,
+[onclick], [onclick] *, [role="button"], [role="button"] *, [tabindex] {
   -webkit-touch-callout: none !important;
 }
 
-a, button, [onclick], [role="button"] {
+a, button, summary, [onclick], [role="button"], [tabindex] {
   outline: none !important;
 }
 
@@ -11692,6 +11778,8 @@ a:focus-visible,
 a:active,
 button:focus,
 button:active,
+summary:focus,
+summary:active,
 [onclick]:focus,
 [onclick]:active,
 [role="button"]:focus,

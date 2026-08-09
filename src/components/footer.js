@@ -2285,6 +2285,17 @@ document.addEventListener('click', function (e) {
       showBtnText();
     }
     if (inputEmail)  inputEmail.classList.remove('bbwnl-input--invalid');
+
+    var thankYouEl  = document.getElementById('bbwNlThankYou');
+    var spinStepEl  = document.getElementById('bbwNlSpinStep');
+    var resultStepEl = document.getElementById('bbwNlResultStep');
+    var wheelEl      = document.getElementById('nlSpinWheel');
+    var spinBtn       = document.getElementById('nlSpinBtn');
+    if (thankYouEl)   thankYouEl.style.display   = 'block';
+    if (spinStepEl)   spinStepEl.style.display   = 'none';
+    if (resultStepEl) resultStepEl.style.display = 'none';
+    if (wheelEl) { wheelEl.style.transition = 'none'; wheelEl.style.transform = 'rotate(0deg)'; }
+    if (spinBtn)  spinBtn.disabled = false;
   }
 
   /* ──────────────────────────────────────────────────────────
@@ -2369,16 +2380,20 @@ document.addEventListener('click', function (e) {
           throw new Error(data.error || 'Subscription failed. Please try again.');
         }
 
-        
+
         if (form)      form.style.display      = 'none';
         if (successEl) successEl.style.display = 'block';
-        fireConfetti();
 
         try { localStorage.setItem('bbwnl_subscribed', 'yes'); } catch (e) {}
         document.dispatchEvent(new CustomEvent('bbwnl:subscribed'));
 
 
-        setTimeout(closePopup, 5000);
+        if (window.BbwNlSpinWheel && window.BbwNlSpinWheel.isEnabled()) {
+          window.BbwNlSpinWheel.start(email, firstName);
+        } else {
+          fireConfetti();
+          setTimeout(closePopup, 5000);
+        }
 
       } catch (err) {
         showError(err.message || 'Something went wrong. Please try again.');
@@ -2394,7 +2409,10 @@ document.addEventListener('click', function (e) {
   if (closeBtn) closeBtn.addEventListener('click', closePopup);
   if (successClose) successClose.addEventListener('click', closePopup);
 
-  
+  var resultCloseBtn = document.getElementById('nlResultCloseBtn');
+  if (resultCloseBtn) resultCloseBtn.addEventListener('click', closePopup);
+
+
   overlay.addEventListener('click', function (e) {
     var modal = overlay.querySelector('.bbwnl-modal');
     if (modal && !modal.contains(e.target)) closePopup();
@@ -2461,6 +2479,322 @@ document.addEventListener('click', function (e) {
   window.openNewsletterPopup  = openPopup;
   window.closeNewsletterPopup = closePopup;
 
+})();
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — NEWSLETTER SPIN-TO-WIN WHEEL
+   Extends the newsletter popup's success step with a reward wheel.
+   EVERYTHING here is read live from settings.newsletter_spin_wheel,
+   settings.promos and settings.cart_drawer at the moment it's needed —
+   no segment, code, percent, quantity or threshold is ever hardcoded.
+═══════════════════════════════════════════════════════════════ */
+window.BbwNlSpinWheel = (function () {
+  'use strict';
+
+  var WHEEL_COLORS = ['#15110E', '#F6EFE5', '#B8925A', '#F6EFE5', '#15110E', '#F6EFE5'];
+
+  function getSettings() {
+    var allProducts = window.__allProducts || [];
+    return allProducts.find(function (p) { return p.type === 'settings'; }) || {};
+  }
+
+  function getWheelConfig() {
+    var settings = getSettings();
+    return settings.newsletter_spin_wheel || {};
+  }
+
+  function isEnabled() {
+    var cfg = getWheelConfig();
+    return (cfg.show || 'no').toString().toLowerCase().trim() === 'yes'
+      && Array.isArray(cfg.segments) && cfg.segments.length > 0;
+  }
+
+  function isOnePerEmail() {
+    var cfg = getWheelConfig();
+    return (cfg.one_spin_per_email || 'no').toString().toLowerCase().trim() === 'yes';
+  }
+
+  function spinStorageKey(email) {
+    return 'bbw_spin_used_' + (email || 'anon').toLowerCase().trim();
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     Look up the real promo (code + percent) referenced by a segment,
+     always live from settings.promos — never a value typed into JS.
+  ────────────────────────────────────────────────────────────── */
+  function resolvePromo(promoCodeRef) {
+    if (!promoCodeRef) return null;
+    var settings = getSettings();
+    var promos = Array.isArray(settings.promos) ? settings.promos : [];
+    return promos.find(function (p) {
+      return (p.code || '').toString().toLowerCase() === promoCodeRef.toString().toLowerCase();
+    }) || null;
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     Weighted random pick among segments (higher weight = more likely).
+  ────────────────────────────────────────────────────────────── */
+  function pickWeightedSegment(segments) {
+    var total = segments.reduce(function (sum, s) { return sum + (parseFloat(s.weight) || 0); }, 0);
+    if (total <= 0) return segments[Math.floor(Math.random() * segments.length)];
+    var r = Math.random() * total;
+    var acc = 0;
+    for (var i = 0; i < segments.length; i++) {
+      acc += (parseFloat(segments[i].weight) || 0);
+      if (r <= acc) return segments[i];
+    }
+    return segments[segments.length - 1];
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     Build the wheel SVG dynamically from N segments — no fixed
+     segment count anywhere, it adapts to whatever settings provide.
+  ────────────────────────────────────────────────────────────── */
+  function polarPoint(cx, cy, r, angleDeg) {
+    var rad = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  }
+
+  function buildWheelSvg(segments) {
+    var svg = document.getElementById('nlSpinWheelSvg');
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    var cx = 150, cy = 150, r = 148;
+    var n = segments.length;
+    var sliceAngle = 360 / n;
+    var ns = 'http://www.w3.org/2000/svg';
+
+    segments.forEach(function (seg, i) {
+      var startAngle = i * sliceAngle;
+      var endAngle   = startAngle + sliceAngle;
+      var p1 = polarPoint(cx, cy, r, startAngle);
+      var p2 = polarPoint(cx, cy, r, endAngle);
+      var largeArc = sliceAngle > 180 ? 1 : 0;
+
+      var path = document.createElementNS(ns, 'path');
+      path.setAttribute('d',
+        'M' + cx + ',' + cy +
+        ' L' + p1.x.toFixed(2) + ',' + p1.y.toFixed(2) +
+        ' A' + r + ',' + r + ' 0 ' + largeArc + ',1 ' + p2.x.toFixed(2) + ',' + p2.y.toFixed(2) +
+        ' Z');
+      path.setAttribute('fill', WHEEL_COLORS[i % WHEEL_COLORS.length]);
+      path.setAttribute('stroke', '#B8925A');
+      path.setAttribute('stroke-width', '1');
+      svg.appendChild(path);
+
+      var midAngle = startAngle + sliceAngle / 2;
+      var labelPos = polarPoint(cx, cy, r * 0.62, midAngle);
+      var isDarkSlice = WHEEL_COLORS[i % WHEEL_COLORS.length] === '#15110E';
+
+      var text = document.createElementNS(ns, 'text');
+      text.setAttribute('x', labelPos.x.toFixed(2));
+      text.setAttribute('y', labelPos.y.toFixed(2));
+      text.setAttribute('fill', isDarkSlice ? '#F6EFE5' : '#15110E');
+      text.setAttribute('font-size', '13');
+      text.setAttribute('font-weight', '700');
+      text.setAttribute('font-family', 'Inter, system-ui, sans-serif');
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'middle');
+      text.setAttribute('transform', 'rotate(' + midAngle + ' ' + labelPos.x.toFixed(2) + ' ' + labelPos.y.toFixed(2) + ')');
+      text.textContent = seg.label || '';
+      svg.appendChild(text);
+    });
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     Build the result copy for a winning segment — every number/code
+     comes from settings at the moment this runs.
+  ────────────────────────────────────────────────────────────── */
+  function buildResultContent(seg) {
+    var settings = getSettings();
+    var cd = settings.cart_drawer || {};
+    var type = (seg.type || '').toLowerCase();
+
+    if (type === 'percent' || type === 'amount') {
+      var promo = resolvePromo(seg.promo_code_ref);
+      var value = promo ? promo.percent : seg.value;
+      var unit  = type === 'percent' ? '%' : '$';
+      var code  = promo ? promo.code : (seg.promo_code_ref || '');
+      return {
+        message: '🎉 Congratulations! You just earned ' + value + unit + ' OFF your next order.',
+        code: code,
+        showCode: !!code
+      };
+    }
+
+    if (type === 'shipping') {
+      return {
+        message: '🎉 Congratulations! You\'re now eligible for FREE SHIPPING on your next order!',
+        code: null,
+        showCode: false
+      };
+    }
+
+    if (type === 'bxgx') {
+      var buyQty = cd.promo_buy_quantity;
+      var getQty = cd.promo_get_quantity;
+      return {
+        message: '🎉 Congratulations! Buy ' + buyQty + ' get ' + getQty + ' FREE — this will apply automatically once you reach that quantity in your cart!',
+        code: null,
+        showCode: false
+      };
+    }
+
+    return { message: '🎉 Congratulations on your spin!', code: null, showCode: false };
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     Confetti burst (reuses the same visual language as fireConfetti
+     in the newsletter success step / the birthday gift widget).
+  ────────────────────────────────────────────────────────────── */
+  function fireResultConfetti() {
+    var wrap = document.getElementById('bbwNlConfetti');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    var colors = ['#c9963e', '#c0385e', '#e8bc6a', '#7b3f6e', '#FFD700', '#fff', '#d4506e'];
+    for (var i = 0; i < 42; i++) {
+      var piece = document.createElement('div');
+      piece.className = 'bbwnl-confetti-piece';
+      var sz  = Math.random() * 9 + 5;
+      var dur = Math.random() * 1.4 + 0.9;
+      var del = Math.random() * 0.6;
+      piece.style.cssText =
+        'left:' + (Math.random() * 100) + '%;' +
+        'width:' + sz + 'px;' +
+        'height:' + sz + 'px;' +
+        'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+        'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
+        'animation-duration:' + dur + 's;' +
+        'animation-delay:' + del + 's;';
+      wrap.appendChild(piece);
+    }
+    setTimeout(function () { if (wrap) wrap.innerHTML = ''; }, 2200);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     Show the result step with the winning segment's content.
+  ────────────────────────────────────────────────────────────── */
+  function showResult(seg) {
+    var spinStepEl   = document.getElementById('bbwNlSpinStep');
+    var resultStepEl = document.getElementById('bbwNlResultStep');
+    var titleEl      = document.getElementById('nlResultTitle');
+    var msgEl        = document.getElementById('nlResultMsg');
+    var codeWrapEl   = document.getElementById('nlSpinCodeWrap');
+    var codeValEl    = document.getElementById('nlSpinCodeVal');
+    var copyBtn      = document.getElementById('nlSpinCodeCopy');
+    var copyTextEl   = document.getElementById('nlSpinCodeCopyText');
+
+    var content = buildResultContent(seg);
+
+    if (titleEl) titleEl.textContent = 'Congratulations!';
+    if (msgEl)   msgEl.textContent   = content.message;
+
+    if (codeWrapEl) codeWrapEl.style.display = content.showCode ? 'flex' : 'none';
+    if (content.showCode && codeValEl) codeValEl.textContent = content.code;
+
+    if (copyBtn && content.showCode) {
+      copyBtn.onclick = function () {
+        navigator.clipboard.writeText(content.code).then(function () {
+          if (copyTextEl) copyTextEl.textContent = 'Copied!';
+          setTimeout(function () { if (copyTextEl) copyTextEl.textContent = 'Copy Code'; }, 2000);
+        });
+      };
+    }
+
+    if (seg.type === 'bxgx') {
+      var cart = window.cart;
+      if (Array.isArray(cart) && cart.length > 0 && typeof applyPromoFreeItems === 'function') {
+        applyPromoFreeItems();
+        if (typeof window.renderCart === 'function') window.renderCart();
+      }
+    }
+
+    if (spinStepEl)   spinStepEl.style.display   = 'none';
+    if (resultStepEl) resultStepEl.style.display = 'block';
+    fireResultConfetti();
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     Already-spun state (one_spin_per_email): skip straight to the
+     plain thank-you, since the wheel result itself isn't persisted.
+  ────────────────────────────────────────────────────────────── */
+  function hasAlreadySpun(email) {
+    if (!isOnePerEmail()) return false;
+    try { return localStorage.getItem(spinStorageKey(email)) === 'yes'; } catch (e) { return false; }
+  }
+
+  function markSpun(email) {
+    if (!isOnePerEmail()) return;
+    try { localStorage.setItem(spinStorageKey(email), 'yes'); } catch (e) {}
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     Entry point — called by the footer.js submit handler on
+     subscribe success, instead of the plain thank-you.
+  ────────────────────────────────────────────────────────────── */
+  function start(email, firstName) {
+    var cfg = getWheelConfig();
+    var segments = Array.isArray(cfg.segments) ? cfg.segments : [];
+
+    var thankYouEl   = document.getElementById('bbwNlThankYou');
+    var spinStepEl    = document.getElementById('bbwNlSpinStep');
+    var resultStepEl  = document.getElementById('bbwNlResultStep');
+    var introEl       = document.getElementById('bbwNlSpinIntro');
+    var spinBtn        = document.getElementById('nlSpinBtn');
+    var wheelEl        = document.getElementById('nlSpinWheel');
+
+    if (!segments.length || hasAlreadySpun(email)) {
+      if (thankYouEl)  thankYouEl.style.display  = 'block';
+      if (spinStepEl)  spinStepEl.style.display  = 'none';
+      if (resultStepEl) resultStepEl.style.display = 'none';
+      fireResultConfetti();
+      setTimeout(function () { if (typeof window.closeNewsletterPopup === 'function') window.closeNewsletterPopup(); }, 5000);
+      return;
+    }
+
+    if (thankYouEl)   thankYouEl.style.display   = 'none';
+    if (resultStepEl) resultStepEl.style.display = 'none';
+    if (spinStepEl)    spinStepEl.style.display    = 'block';
+    if (introEl)        introEl.textContent = firstName ? ('Ready to spin, ' + firstName + '?') : 'Ready to spin?';
+
+    buildWheelSvg(segments);
+
+    if (spinBtn) {
+      spinBtn.disabled = false;
+      spinBtn.onclick = function () {
+        if (spinBtn.disabled) return;
+        spinBtn.disabled = true;
+
+        var winner = pickWeightedSegment(segments);
+        var winnerIndex = segments.indexOf(winner);
+        var sliceAngle = 360 / segments.length;
+        var targetSliceCenter = winnerIndex * sliceAngle + sliceAngle / 2;
+        // Land the pointer (fixed at top, 0deg) on the winning slice: rotate
+        // so that slice's center ends up at 0deg, plus several full spins.
+        var fullSpins = 6;
+        var finalRotation = (fullSpins * 360) + (360 - targetSliceCenter);
+
+        if (wheelEl) {
+          wheelEl.style.transition = 'transform 4.6s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+          wheelEl.style.transform  = 'rotate(' + finalRotation + 'deg)';
+        }
+
+        setTimeout(function () {
+          markSpun(email);
+          showResult(winner);
+        }, 4700);
+      };
+    }
+  }
+
+  return {
+    isEnabled: isEnabled,
+    start: start
+  };
 })();
 
 

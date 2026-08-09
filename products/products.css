@@ -2,7 +2,7 @@
    PREMIUM PRODUCT PAGE
 ════════════════════════════════════════════════════════════ */
 :root {
-    --product-media-h-mobile: 350px;
+    --product-media-h-mobile: 370px;
 }
 
 @keyframes shimmerBar {
@@ -174,6 +174,27 @@
 }
 .thumbnails::-webkit-scrollbar { display: none; }
 
+/* Cartes fantômes (skeleton) tant que les vraies thumbnails ne sont pas
+   encore injectées en JS — même principe que .main-image-slider::before,
+   pour que le bloc garde sa taille/forme dès le premier rendu. */
+.thumbnails:not(:has(.thumbnail-item))::before {
+    content: '';
+    display: block;
+    width: 84px;
+    height: 84px;
+    border-radius: 12px;
+    background: linear-gradient(100deg,
+        rgba(184,146,90,0.06) 30%,
+        rgba(184,146,90,0.14) 50%,
+        rgba(184,146,90,0.06) 70%
+    );
+    background-size: 200% 100%;
+    animation: goldSweep 1.6s linear infinite;
+    box-shadow:
+        0 88px 0 0 rgba(184,146,90,0.10),
+        0 176px 0 0 rgba(184,146,90,0.07);
+}
+
 .thumbnail-item {
     cursor: pointer;
     border-radius: 12px;
@@ -305,6 +326,17 @@
     transition: transform 0.08s linear;
     will-change: transform;
     background: rgba(255,255,255,0.95);
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+/* Le downscale d'une image ~900px vers les ~30% de largeur des cartes
+   empilees peut flouter le rendu sur mobile (compositing du navigateur) —
+   sans re-telecharger une image plus lourde, on desactive juste le layer
+   GPU separe (will-change) sur ces etats reduits pour forcer un rendu net. */
+.main-image[data-depth="1"] img,
+.main-image[data-depth="2"] img,
+.main-image[data-depth="hidden"] img {
+    will-change: auto;
 }
 
 /* ── Micro-glissement de la page entière à chaque changement d'image :
@@ -1492,7 +1524,7 @@
     background: #15110E;
     color: var(--bbw-gold);
     border: 1.5px solid rgba(184,146,90,0.50);
-    border-radius: 50px;
+    border-radius: 0;
     font-size: 0.80rem; font-weight: 700;
     letter-spacing: 0.04em;
     cursor: pointer;
@@ -1767,7 +1799,7 @@
 .quantity-add-wrapper .quantity {
     display: flex; align-items: center; gap: 5px;
     border: 1px solid rgba(184,146,90,0.35);
-    padding: 4px; border-radius: 50px;
+    padding: 4px; border-radius: 0;
     background: linear-gradient(135deg,
         rgba(255,255,255,0.92) 0%,
         rgba(253,249,244,0.97) 100%
@@ -1782,7 +1814,7 @@
     color: var(--bbw-gold);
     border: none;
     padding: 7px 13px; cursor: pointer;
-    border-radius: 50px; font-weight: 800;
+    border-radius: 0; font-weight: 800;
     font-size: 16px;
     transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
     flex-shrink: 0;
@@ -1808,7 +1840,7 @@ button.add-to-cart.cta {
     padding: 12px 22px !important;
     cursor: pointer; flex-shrink: 0 !important;
     width: auto !important; min-width: fit-content !important;
-    border-radius: 50px !important;
+    border-radius: 0 !important;
     font-weight: 700 !important;
     letter-spacing: 0.06em !important;
     border: 1.5px solid rgba(184,146,90,0.55) !important;
@@ -1852,7 +1884,7 @@ button.buy-now.cta {
     padding: 12px 22px !important;
     cursor: pointer; flex-shrink: 0 !important;
     width: auto !important; min-width: fit-content !important;
-    border-radius: 50px !important;
+    border-radius: 0 !important;
     font-weight: 800 !important;
     letter-spacing: 0.06em !important;
     border: none !important;
@@ -1955,7 +1987,7 @@ button.buy-now.cta:hover {
     margin-bottom: 12px;
     background: #15110E;
     /* border: 1px solid rgba(184,146,90,0.50); */
-    border-radius: 14px !important;
+    border-radius: 0 !important;
     box-sizing: border-box !important;
     position: relative;
     overflow: hidden;
@@ -1985,7 +2017,7 @@ button.buy-now.cta:hover {
     background: linear-gradient(90deg, transparent, rgba(184,146,90,0.08), transparent);
     animation: shimmerBar 2.8s ease-in-out infinite;
     pointer-events: none;
-    border-radius: 14px;
+    border-radius: 0;
 }
 .size-chart-paul-guide-border-1:hover {
     background: var(--bbw-black);
@@ -2883,6 +2915,13 @@ details[open] .chevron {
     width: 90px !important;
     height: 90px !important;
 }
+.product-media.thumbs-desktop-horizontal-below .thumbnails:not(:has(.thumbnail-item))::before {
+    width: 90px;
+    height: 90px;
+    box-shadow:
+        98px 0 0 0 rgba(184,146,90,0.10),
+        196px 0 0 0 rgba(184,146,90,0.07);
+}
 
 /* ════════════════════════════════════════════════
    THUMBNAILS LAYOUT — MOBILE
@@ -2938,8 +2977,15 @@ details[open] .chevron {
         width: 80px !important;
         height: 80px !important;
     }
+    .product-media.thumbs-mobile-horizontal .thumbnails:not(:has(.thumbnail-item))::before {
+        width: 80px;
+        height: 80px;
+        box-shadow:
+            94px 0 0 0 rgba(184,146,90,0.10),
+            188px 0 0 0 rgba(184,146,90,0.07);
+    }
 
-    
+
     .product-media.thumbs-mobile-vertical-left {
         flex-direction: row !important;
         align-items: flex-start;
@@ -4696,7 +4742,7 @@ details[open] .chevron {
     .satc-select { min-width: 0; width: 100%; }
     .sticky-atc__btn { width: 100%; justify-content: center; height: 46px; font-size: 15px; }
 
-    .satc-color-wrap {
+    .satc-color-field--overflow .satc-color-wrap {
         overflow: hidden;
         max-width: 150px;
     }
@@ -4730,7 +4776,7 @@ details[open] .chevron {
     .satc-swatch { width: 20px; height: 20px; }
     .sticky-atc__img { width: 40px; height: 40px; }
 
-    .satc-swatches {
+    .satc-swatches.overflow-active {
         max-width: calc(3 * 20px + 2 * 5px);
     }
 }

@@ -1267,7 +1267,18 @@ function showErrorPopup(message) {
         if (!ids.length) { section.style.display = 'none'; return; }
 
         const photoImg = document.getElementById('bbw-nb-photo-img');
-        if (photoImg && cfg.photo) photoImg.src = cfg.photo;
+        const photoPreloadLogo = document.getElementById('bbwNbPhotoPreloadLogo');
+        if (photoImg && cfg.photo) {
+          if (photoPreloadLogo) {
+            const revealPhoto = () => photoPreloadLogo.classList.add('is-loaded');
+            if (photoImg.complete && photoImg.naturalWidth > 0) revealPhoto();
+            else {
+              photoImg.addEventListener('load', revealPhoto, { once: true });
+              photoImg.addEventListener('error', revealPhoto, { once: true });
+            }
+          }
+          photoImg.src = cfg.photo;
+        }
 
         const taglineEl = document.getElementById('bbw-nb-tagline');
         if (taglineEl && cfg.tagline) taglineEl.textContent = cfg.tagline;
@@ -5479,7 +5490,8 @@ if (window.innerWidth <= 768) {
 // ═══════════════════════════════════════
 //  BREADCRUMBS
 // ═══════════════════════════════════════
-(function initBreadcrumbs() {
+(function initBreadcrumbs(retriesLeft) {
+  retriesLeft = typeof retriesLeft === 'number' ? retriesLeft : 40;
   const settings = (products.find(p => p.type === 'settings') || {});
   const bc = settings.breadcrumbs || {};
 
@@ -5487,7 +5499,12 @@ if (window.innerWidth <= 768) {
 
   const nav  = document.getElementById('bc-nav');
   const list = document.getElementById('bc-list');
-  if (!nav || !list) return;
+  // #bc-nav est injecté async (fetch de breadcrumb.html) — s'il n'est pas
+  // encore là, on réessaie plutôt que d'abandonner silencieusement.
+  if (!nav || !list) {
+    if (retriesLeft > 0) setTimeout(() => initBreadcrumbs(retriesLeft - 1), 50);
+    return;
+  }
 
   // Transparence au scroll — même traitement que le header (verre
   // dépoli), sur toutes les pages.
@@ -6247,6 +6264,7 @@ if (rcCheckoutBtn) {
             satcColorName.textContent = product.colors[0].name;
             if (product.colors.length > 3) {
                 satcSwatches.classList.add('overflow-active');
+                if (satcColorField) satcColorField.classList.add('satc-color-field--overflow');
             }
         } else {
             satcColorField.style.display = 'none';
@@ -7436,7 +7454,40 @@ document.dispatchEvent(new Event('wishlist:change'));
 
   function updateSubtotal() {
     const el = cartDrawer ? cartDrawer.querySelector('.cart-drawer__footer .subtotal') : document.querySelector('.subtotal');
-    if (el) el.textContent = `Subtotal: $${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}`;
+    if (!el) return;
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    el.textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+
+    // Bandeau purement informatif (tax + reduction appliquees au checkout,
+    // jamais soustraites/ajoutees ici pour eviter d'afficher un total
+    // different de celui reellement facture — cf. cart-page.js pour le
+    // meme principe sur cart.html).
+    updateDrawerCheckoutNote(subtotal);
+  }
+
+  function updateDrawerCheckoutNote(subtotal) {
+    const footer = cartDrawer ? cartDrawer.querySelector('.cart-drawer__footer') : null;
+    if (!footer) return;
+
+    const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const settings = (products.find(p => p.type === 'settings')) || {};
+    const promos = Array.isArray(settings.promos) ? settings.promos : [];
+    const bestPromo = promos
+      .filter(p => p && p.items > 0 && p.percent > 0 && totalQty >= p.items)
+      .sort((a, b) => b.items - a.items)[0];
+
+    let note = footer.querySelector('.cart-checkout-note');
+    if (!bestPromo) {
+      if (note) note.remove();
+      return;
+    }
+    if (!note) {
+      note = document.createElement('div');
+      note.className = 'cart-checkout-note';
+      footer.insertBefore(note, footer.querySelector('.subtotal'));
+    }
+    note.innerHTML = `<i class="fi fi-rr-badge-percent"></i> ${bestPromo.percent}% discount will be applied at checkout`;
   }
 
   function addToCart(e) {
@@ -15369,18 +15420,18 @@ startAutoSlide();
   }
 
   /* ────────────────────────────────────────────────────────
-     1b. CART PAGE — .cp-cart-item .cp-item-img-wrap
-     L'icone s'affiche en dessous de l'image
+     1b. CART PAGE — .cart-item .cart-item-img-wrap
   ────────────────────────────────────────────────────────── */
   function injectCartPageItems() {
-    document.querySelectorAll('.cp-cart-item').forEach(function(item) {
-      var wrap = item.querySelector('.cp-item-img-wrap');
+    document.querySelectorAll('.cart-item, .cp-cart-item').forEach(function(item) {
+      var wrap = item.querySelector('.cart-item-img-wrap, .cp-item-img-wrap');
       if (!wrap || wrap.querySelector('.bbw-mini-wish')) return;
       var productId = item.dataset.id;
       if (!productId) return;
       wrap.appendChild(makeBtn(productId));
     });
   }
+  window.injectCartPageWishlistIcons = injectCartPageItems;
 
   /* ────────────────────────────────────────────────────────
      2. DRAWER EXTRA SECTION — coin inférieur gauche de l'image
@@ -15755,11 +15806,12 @@ function injectColFbt() {
     '.cs-media, .rv-card__img-wrap, .fs-img-frame, .mini-media-slider, ' +
     '.cart-item-img-wrap, .cp-item-img-wrap, .drawer-extra-card__img-wrap, .cp-extra-card__img-wrap, ' +
     '.highlight-product-card, .product-card, ' +
-    '.bbw-nb-photo, .bbw-nb-card__media, .jrgq-gal-img-wrap, .imq-card';
+    '.bbw-nb-card__media, .jrgq-gal-img-wrap, .imq-card, ' +
+    '.col-hero__media';
   const IMG_WRAP_SELECTORS = '.col-rv-card__img, .col-fbt-card__img';
   /* Conteneurs mixtes (image + texte côte à côte, ex: flex) : on entoure
      seulement l'<img> d'un wrapper dédié, pour ne pas recouvrir le texte. */
-  const IMG_ONLY_SELECTORS = '.bd-product-item img, .bbw-footer__newin-link img';
+  const IMG_ONLY_SELECTORS = '.bd-product-item img, .bbw-footer__newin-link img, .fs-thumb';
 
   function getSettings() {
     const allProducts = window.__allProducts || [];

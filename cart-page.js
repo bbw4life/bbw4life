@@ -385,9 +385,13 @@
       shippingEl.className   = shippingFree ? 'cp-free-tag' : '';
     }
 
+    // Le Total affiche reste egal au Subtotal ici : tax et savings sont
+    // purement informatifs, le vrai calcul (et l'application reelle de la
+    // reduction) se fait au checkout — jamais deux totaux differents
+    // affiches a des endroits differents avant ce moment-la.
     setText('cp-subtotal-val', '$' + subtotal.toFixed(2));
     setText('cp-tax-val',      '$' + tax.toFixed(2));
-    setText('cp-total-val',    '$' + (subtotal + tax - savings).toFixed(2));
+    setText('cp-total-val',    '$' + subtotal.toFixed(2));
     setText('cp-qty-label',    totalQty + (totalQty === 1 ? ' item' : ' items'));
     setText('cp-loyalty-points', points.toLocaleString());
 
@@ -398,8 +402,19 @@
       if (savingsVal && savings > 0) savingsVal.textContent = '-$' + savings.toFixed(2) + ' (' + savingsPct + '% off)';
     }
 
+    const checkoutNote     = document.getElementById('cp-checkout-note');
+    const checkoutNoteText = document.getElementById('cp-checkout-note-text');
+    if (checkoutNote) {
+      if (bestPromo) {
+        checkoutNote.style.display = 'flex';
+        if (checkoutNoteText) checkoutNoteText.textContent = bestPromo.percent + '% discount will be applied at checkout';
+      } else {
+        checkoutNote.style.display = 'none';
+      }
+    }
+
     setText('cp-sticky-qty',   totalQty + (totalQty === 1 ? ' item' : ' items'));
-    setText('cp-sticky-total', '$' + (subtotal + tax - savings).toFixed(2));
+    setText('cp-sticky-total', '$' + subtotal.toFixed(2));
   }
 
   function updateHeader() {

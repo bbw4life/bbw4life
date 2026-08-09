@@ -71,6 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // On initialise l'urgency bar avec les données réelles du produit depuis products.data.json
       // puis on charge les reviews dynamiques depuis le serveur pour compléter le total
       initDynamicUrgencyBar(product, currentProductId);
+
+      // ====================== MINI REVIEWS SLIDER (au-dessus de "More To Love") ======================
+      initPdpMiniReviews(product, currentProductId);
     })
     .catch(err => console.error('Erreur chargement /products.data.json', err));
     // Déplace le modal dans le body pour que position:fixed fonctionne
@@ -623,6 +626,18 @@ function updateReviewCountsAfterSubmission(newRating) {
     const uniqueReviewsEl = document.querySelector('.unique-reviews');
     if (uniqueReviewsEl) uniqueReviewsEl.textContent = newTotal + ' reviews';
 
+    // ── Sync de la mini-section reviews (pdp-mini-reviews) ──
+    const pmrCountEl = document.getElementById('pmrCount');
+    if (pmrCountEl) pmrCountEl.textContent = newTotal + (newTotal === 1 ? ' review' : ' reviews');
+    const pmrStarsEl = document.getElementById('pmrStars');
+    if (pmrStarsEl) {
+        let sum = 0;
+        for (let i = 1; i <= 5; i++) sum += i * (counts[i] || 0);
+        const avg = newTotal > 0 ? sum / newTotal : 0;
+        const full = Math.round(avg);
+        pmrStarsEl.textContent = '★★★★★'.slice(0, full) + '☆☆☆☆☆'.slice(0, 5 - full);
+    }
+
     for (let i = 1; i <= 5; i++) {
         const barEl   = document.getElementById('bar-' + i);
         const countEl = document.getElementById('count-' + i);
@@ -961,5 +976,178 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mise à jour toutes les 15 secondes
     setInterval(updateUrgencyBar, 15000);
 })();
+
+
+// ====================== PDP MINI REVIEWS SLIDER ======================
+// Section compacte au-dessus de "More To Love". Les cartes d'avis sont
+// écrites en dur dans le HTML de chaque page produit (propres à CE produit,
+// reprises telles quelles depuis #reviews-section) — ce script pilote
+// uniquement : la note/nombre d'avis (dynamique, lu depuis products.data.json
+// + reviews serveur réels), le bouton Write a Review (modal existant),
+// le lien Read all reviews, et le slider (dots, autoplay, swipe) sur les
+// cartes déjà présentes dans le DOM.
+async function initPdpMiniReviews(product, productId) {
+  const section = document.getElementById('pdp-mini-reviews');
+  if (!section) return;
+
+  const starsEl = document.getElementById('pmrStars');
+  const countEl = document.getElementById('pmrCount');
+  const track    = document.getElementById('pmrTrack');
+  const dotsWrap = document.getElementById('pmrDots');
+  const writeBtn = document.getElementById('pmrWriteReview');
+  const readAll  = document.getElementById('pmrReadAll');
+  if (!track || !track.querySelector('.pmr-card')) return;
+
+  // ── Note + nombre d'avis : base JSON immédiate, affinée avec les vrais
+  //    avis serveur juste après (mêmes données que loadRealReviewCounts,
+  //    calculées indépendamment ici pour ne pas dépendre de son timing). ──
+  const baseRating = parseFloat(product.rating) || 4.8;
+  const baseCount  = parseInt(product.reviews_count) || 0;
+
+  function renderStars(rating) {
+    const full = Math.round(rating);
+    return '★★★★★'.slice(0, full) + '☆☆☆☆☆'.slice(0, 5 - full);
+  }
+
+  if (starsEl) starsEl.textContent = renderStars(baseRating);
+  if (countEl) countEl.textContent = baseCount + (baseCount === 1 ? ' review' : ' reviews');
+
+  // ── Bouton Write a Review — réutilise le modal déjà existant sur la page ──
+  if (writeBtn) {
+    writeBtn.addEventListener('click', () => {
+      const overlay = document.getElementById('review-modal-overlay');
+      if (overlay) {
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  }
+
+  // ── Read all reviews — scroll fluide vers la section complète ──
+  if (readAll) {
+    readAll.addEventListener('click', (e) => {
+      const target = document.getElementById('reviews-section');
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  // ── Read more / Read less — le texte de chaque carte est tronqué à 3
+  //    lignes en CSS ; on ne montre le bouton que si le texte dépasse
+  //    réellement 3 lignes (scrollHeight > clientHeight), pour ne jamais
+  //    afficher un "Read more" inutile sur un avis déjà court. ──
+  track.querySelectorAll('.pmr-card').forEach(card => {
+    const textEl = card.querySelector('.pmr-card-text');
+    const btn    = card.querySelector('.pmr-card-readmore');
+    if (!textEl || !btn) return;
+    btn.style.display = 'none';
+    requestAnimationFrame(() => {
+      if (textEl.scrollHeight > textEl.clientHeight + 1) {
+        btn.style.display = '';
+        btn.addEventListener('click', () => {
+          const expanded = textEl.classList.toggle('pmr-expanded');
+          btn.textContent = expanded ? 'Read less' : 'Read more';
+        });
+      }
+    });
+  });
+
+  // ── Affine la note/le total avec les vrais avis serveur (n'affecte que
+  //    le texte étoiles/count, jamais le contenu des cartes déjà en HTML). ──
+  try {
+    const res = await fetch('/.netlify/functions/save-reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'get-reviews', productId: productId })
+    });
+    const data = await res.json();
+    if (data.success && Array.isArray(data.reviews) && data.reviews.length > 0) {
+      const avgFromServer = data.reviews.reduce((s, r) => s + (parseInt(r.rating) || 0), 0) / data.reviews.length;
+      const mergedTotal  = baseCount + data.reviews.length;
+      const mergedRating = ((baseRating * baseCount) + (avgFromServer * data.reviews.length)) / (mergedTotal || 1);
+      if (starsEl) starsEl.textContent = renderStars(mergedRating);
+      if (countEl) countEl.textContent = mergedTotal + (mergedTotal === 1 ? ' review' : ' reviews');
+    }
+  } catch (e) {
+    console.warn('[PDP Mini Reviews] fetch count/rating failed (garde la base JSON):', e.message);
+  }
+
+  // ── Slider sur les cartes déjà présentes en HTML (6 = 3 avis x 2 pour
+  //    boucler visuellement). Desktop (>768px) : 3 cartes visibles, 2 dots,
+  //    décalage d'un "groupe de 3" (mouvement cyclique, mêmes 3 avis).
+  //    Mobile (≤768px) : 1 carte visible, 3 dots, décalage d'UNE carte. ──
+  const cardCount = track.querySelectorAll('.pmr-card').length;
+  const realCount = Math.floor(cardCount / 2) || 1; // 3, normalement
+
+  function getPerPage() { return window.innerWidth <= 768 ? 1 : 3; }
+
+  let perPage     = getPerPage();
+  let currentPage = 0;
+  let autoTimer   = null;
+
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    const dotCount = window.innerWidth <= 768 ? realCount : 2;
+    for (let i = 0; i < dotCount; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'pmr-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to review ' + (i + 1));
+      dot.addEventListener('click', () => { goTo(i); resetAutoplay(); });
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function goTo(page) {
+    const dotCount = dotsWrap.children.length || 1;
+    currentPage = ((page % dotCount) + dotCount) % dotCount;
+
+    const card  = track.querySelector('.pmr-card');
+    const gap   = parseInt(getComputedStyle(track).gap) || 20;
+    const cardW = card ? card.offsetWidth : 0;
+    const step  = window.innerWidth <= 768 ? 1 : perPage;
+    const offset = currentPage * step * (cardW + gap);
+
+    track.style.transform = 'translateX(-' + offset + 'px)';
+
+    Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle('active', i === currentPage));
+  }
+
+  function nextSlide() { goTo(currentPage + 1); }
+
+  function resetAutoplay() {
+    if (autoTimer) clearInterval(autoTimer);
+    autoTimer = setInterval(nextSlide, 5000);
+  }
+
+  buildDots();
+  goTo(0);
+  resetAutoplay();
+
+  section.addEventListener('mouseenter', () => { if (autoTimer) clearInterval(autoTimer); });
+  section.addEventListener('mouseleave', resetAutoplay);
+
+  let touchStartX = 0;
+  track.parentElement.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.parentElement.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) { diff > 0 ? nextSlide() : goTo(currentPage - 1); resetAutoplay(); }
+  }, { passive: true });
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const newPerPage = getPerPage();
+      if (newPerPage !== perPage) {
+        perPage = newPerPage;
+        buildDots();
+        currentPage = 0;
+      }
+      goTo(currentPage);
+    }, 150);
+  });
+}
 
 
