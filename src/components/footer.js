@@ -2510,10 +2510,57 @@ window.BbwNlSpinWheel = (function () {
     return settings.newsletter_spin_wheel || {};
   }
 
+  /* ────────────────────────────────────────────────────────────
+     Segments are NEVER configured separately — they're built live
+     from the site's real promo/cart data every time the wheel opens:
+       - one "X% OFF" segment per entry in settings.promos (the actual
+         codes used everywhere else on the site).
+       - one "FREE SHIPPING" segment if cart_drawer.free_shipping_threshold
+         is set.
+       - one "BUY X GET Y" segment if cart_drawer has buy/get quantities.
+     Weight is inversely proportional to the percent (bigger discount =
+     rarer win), computed on the fly — no weight field anywhere.
+  ────────────────────────────────────────────────────────────── */
+  function buildSegmentsFromSettings() {
+    var settings = getSettings();
+    var promos = Array.isArray(settings.promos) ? settings.promos : [];
+    var cd = settings.cart_drawer || {};
+    var segments = [];
+
+    promos.forEach(function (promo) {
+      var pct = parseFloat(promo.percent);
+      if (!promo.code || !pct) return;
+      segments.push({
+        type: 'percent',
+        value: pct,
+        promo_code_ref: promo.code,
+        // Inversely proportional to the discount: a 10% code is far more
+        // likely to be drawn than a 50% one.
+        weight: Math.max(1, 100 - pct)
+      });
+    });
+
+    if (cd.free_shipping_threshold) {
+      var avgPct = segments.length
+        ? segments.reduce(function (s, seg) { return s + seg.value; }, 0) / segments.length
+        : 25;
+      segments.push({ type: 'shipping', value: 0, promo_code_ref: null, weight: Math.max(1, 100 - avgPct) });
+    }
+
+    if (cd.promo_buy_quantity && cd.promo_get_quantity) {
+      var avgPct2 = segments.length
+        ? segments.reduce(function (s, seg) { return s + (seg.value || 0); }, 0) / segments.length
+        : 25;
+      segments.push({ type: 'bxgx', value: 0, promo_code_ref: null, weight: Math.max(1, 100 - avgPct2) });
+    }
+
+    return segments;
+  }
+
   function isEnabled() {
     var cfg = getWheelConfig();
-    return (cfg.show || 'no').toString().toLowerCase().trim() === 'yes'
-      && Array.isArray(cfg.segments) && cfg.segments.length > 0;
+    if ((cfg.show || 'no').toString().toLowerCase().trim() !== 'yes') return false;
+    return buildSegmentsFromSettings().length > 0;
   }
 
   function isOnePerEmail() {
@@ -2566,14 +2613,15 @@ window.BbwNlSpinWheel = (function () {
      rebuilt live from settings.cart_drawer (buy/get quantities can change
      anytime without editing the wheel's label text). */
   function getSegmentLabel(seg) {
-    if ((seg.type || '').toLowerCase() === 'bxgx') {
+    var type = (seg.type || '').toLowerCase();
+    if (type === 'bxgx') {
       var settings = getSettings();
       var cd = settings.cart_drawer || {};
-      var buyQty = cd.promo_buy_quantity;
-      var getQty = cd.promo_get_quantity;
-      return 'BUY ' + buyQty + ' GET ' + getQty;
+      return 'BUY ' + cd.promo_buy_quantity + ' GET ' + cd.promo_get_quantity;
     }
-    return seg.label || '';
+    if (type === 'shipping') return 'FREE SHIPPING';
+    if (type === 'percent')  return seg.value + '% OFF';
+    return '';
   }
 
   function buildWheelSvg(segments) {
@@ -2779,8 +2827,7 @@ window.BbwNlSpinWheel = (function () {
      subscribe success, instead of the plain thank-you.
   ────────────────────────────────────────────────────────────── */
   function start(email, firstName) {
-    var cfg = getWheelConfig();
-    var segments = Array.isArray(cfg.segments) ? cfg.segments : [];
+    var segments = buildSegmentsFromSettings();
 
     var thankYouEl   = document.getElementById('bbwNlThankYou');
     var spinStepEl    = document.getElementById('bbwNlSpinStep');
