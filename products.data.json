@@ -6257,7 +6257,7 @@
     "thumbnails_mobile_vertical_left": "yes",
     "sticky_media_mobile": "yes",
     "swatch_scroll_mobile": "no",
-    "sticky_atc_mobile_threshold": 11.7,
+    "sticky_atc_mobile_threshold": 10.0,
     "sticky_atc_desktop_threshold": 7.3,
     "theme_color": "#000000",
     "allowed_languages": ["en", "fr", "es", "ar", "zh", "ht", "hi", "pt", "ru", "de", "ja"],
@@ -8546,15 +8546,18 @@
   "copy_label": "Copy Code",
   "copied_label": "Copied!",
   "default_customers": [
-    { "firstName": "Sophia",    "lastName": "Laurent" },
-    { "firstName": "Isabella",  "lastName": "Martin" },
-    { "firstName": "Amara",     "lastName": "Johnson" },
-    { "firstName": "Chloe",     "lastName": "Williams" },
-    { "firstName": "Destiny",   "lastName": "Brown" },
-    { "firstName": "Jasmine",   "lastName": "Davis" },
-    { "firstName": "Monique",   "lastName": "Wilson" },
-    { "firstName": "Keisha",    "lastName": "Thomas" },
-    { "firstName": "Valentina", "lastName": "Garcia" }
+    { "firstName": "Tanya",     "lastName": "Moore" },
+    { "firstName": "Rashida",   "lastName": "Vaughn" },
+    { "firstName": "Aaliyah",   "lastName": "Coleman" },
+    { "firstName": "Brianna",   "lastName": "Foster" },
+    { "firstName": "Nadia",     "lastName": "Reyes" },
+    { "firstName": "Simone",    "lastName": "Bennett" },
+    { "firstName": "Yolanda",   "lastName": "Price" },
+    { "firstName": "Camille",   "lastName": "Russell" },
+    { "firstName": "Talia",     "lastName": "Morgan" },
+    { "firstName": "Priscilla", "lastName": "Hayes" },
+    { "firstName": "Renata",    "lastName": "Sanders" },
+    { "firstName": "Marisol",   "lastName": "Ortega" }
   ]
   }
  }
