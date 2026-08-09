@@ -2494,7 +2494,7 @@ document.addEventListener('click', function (e) {
 window.BbwNlSpinWheel = (function () {
   'use strict';
 
-  var WHEEL_COLORS = ['#15110E', '#F6EFE5', '#B8925A', '#F6EFE5', '#15110E', '#F6EFE5'];
+  var WHEEL_COLORS = ['#15110E', '#F6EFE5', '#B8925A'];
 
   function getSettings() {
     var allProducts = window.__allProducts || [];
@@ -2629,7 +2629,7 @@ window.BbwNlSpinWheel = (function () {
 
       var text = document.createElementNS(ns, 'text');
       text.setAttribute('fill', isDarkSlice ? '#F6EFE5' : '#15110E');
-      text.setAttribute('font-size', '12');
+      text.setAttribute('font-size', segments.length > 6 ? '10' : '12');
       text.setAttribute('font-weight', '700');
       text.setAttribute('font-family', 'Inter, system-ui, sans-serif');
 
