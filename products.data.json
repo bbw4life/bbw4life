@@ -7459,7 +7459,7 @@
     "newsletter_auto_popup": {
       "show": "yes",
       "delay_seconds": 20,
-      "duration_seconds": 150
+      "duration_seconds": 180
     },
     "hero_banner": {
       "video_url": "", 

@@ -5558,7 +5558,7 @@ if (window.innerWidth <= 768) {
 
     list.innerHTML = `
       <li class="bc-item">
-        <a href="/index.html">
+        <a href="/">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
             <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
