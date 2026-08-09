@@ -2273,6 +2273,8 @@ document.addEventListener('click', function (e) {
   }
 
   function resetForm() {
+    var introHeaderEl = document.getElementById('bbwNlIntroHeader');
+    if (introHeaderEl) introHeaderEl.style.display = 'block';
     if (form)        form.style.display    = 'flex';
     if (successEl)   successEl.style.display = 'none';
     if (errorEl)     { errorEl.textContent = ''; errorEl.classList.remove('bbwnl-error--visible'); }
@@ -2381,6 +2383,8 @@ document.addEventListener('click', function (e) {
         }
 
 
+        var introHeaderElOnSubmit = document.getElementById('bbwNlIntroHeader');
+        if (introHeaderElOnSubmit) introHeaderElOnSubmit.style.display = 'none';
         if (form)      form.style.display      = 'none';
         if (successEl) successEl.style.display = 'block';
 
@@ -2629,7 +2633,7 @@ window.BbwNlSpinWheel = (function () {
 
       var text = document.createElementNS(ns, 'text');
       text.setAttribute('fill', isDarkSlice ? '#F6EFE5' : '#15110E');
-      text.setAttribute('font-size', segments.length > 6 ? '10' : '12');
+      text.setAttribute('font-size', segments.length > 6 ? '13' : '15');
       text.setAttribute('font-weight', '700');
       text.setAttribute('font-family', 'Inter, system-ui, sans-serif');
 

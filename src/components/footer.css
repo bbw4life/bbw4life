@@ -5710,41 +5710,35 @@ body { margin-bottom: 0 !important; }
    NEWSLETTER SPIN-TO-WIN WHEEL
    Reuses the .bbwnl-* palette (black / ivory / gold) — no new colors.
 ══════════════════════════════════════════════════════════════ */
-/* Subtle decorative wheel silhouette behind the popup's FIRST screen
-   header (badge / crown / title / subtitle) — pure CSS (conic-gradient
-   spokes), very low opacity so it never competes with the text. Confined
-   to the header area only: it stops before .bbwnl-benefits / the form
-   inputs, never overlapping them. */
-.nl-spin-bg-wheel {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 320px;
-  height: 320px;
-  max-height: 300px;
-  border-radius: 50%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.06;
-  overflow: hidden;
-  background:
-    repeating-conic-gradient(
-      var(--bbw-black) 0deg 8deg,
-      transparent 8deg 30deg
-    );
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 90%);
-          mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 90%);
+/* Wrapper for the popup's FIRST-screen header (badge / crown / title /
+   subtitle / benefits) — a real background photo sits behind it (very
+   low opacity, faded out toward the bottom via mask), and the whole
+   wrapper is hidden as soon as the spin/result step takes over, so it
+   never lingers above the wheel. */
+#bbwNlIntroHeader {
+  position: relative;
 }
 
-.bbwnl-body > .bbwnl-badge,
-.bbwnl-body > .bbwnl-crown-wrap,
-.bbwnl-body > .bbwnl-title,
-.bbwnl-body > .bbwnl-subtitle,
-.bbwnl-body > .bbwnl-benefits,
-.bbwnl-body > .bbwnl-form,
-.bbwnl-body > .bbwnl-success,
-.bbwnl-body > .bbwnl-note {
+.nl-spin-bg-wheel {
+  position: absolute;
+  inset: -20px -36px auto -36px;
+  height: 300px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  overflow: hidden;
+  background-image: url('https://cdn.shopify.com/s/files/1/0746/5346/6724/files/spin_1.jpg?v=1786303107');
+  background-size: cover;
+  background-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 92%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 92%);
+}
+
+#bbwNlIntroHeader > .bbwnl-badge,
+#bbwNlIntroHeader > .bbwnl-crown-wrap,
+#bbwNlIntroHeader > .bbwnl-title,
+#bbwNlIntroHeader > .bbwnl-subtitle,
+#bbwNlIntroHeader > .bbwnl-benefits {
   position: relative;
   z-index: 1;
 }
