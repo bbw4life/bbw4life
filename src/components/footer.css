@@ -5710,6 +5710,39 @@ body { margin-bottom: 0 !important; }
    NEWSLETTER SPIN-TO-WIN WHEEL
    Reuses the .bbwnl-* palette (black / ivory / gold) — no new colors.
 ══════════════════════════════════════════════════════════════ */
+#bbwNlSpinStep {
+  position: relative;
+}
+
+/* Subtle decorative wheel silhouette behind the "One Spin" heading —
+   pure CSS (conic-gradient spokes), very low opacity so it never
+   competes with the title or the real wheel below it. */
+.nl-spin-bg-wheel {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background:
+    repeating-conic-gradient(
+      var(--bbw-black) 0deg 8deg,
+      transparent 8deg 30deg
+    );
+}
+
+#bbwNlSpinStep .bbwnl-success-title,
+#bbwNlSpinStep .bbwnl-success-msg,
+#bbwNlSpinStep .nl-spin-wheel-wrap,
+#bbwNlSpinStep .nl-spin-note {
+  position: relative;
+  z-index: 1;
+}
+
 .nl-spin-note {
   font-family: var(--font-body);
   font-size: 12px;

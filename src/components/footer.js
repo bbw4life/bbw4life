@@ -2558,6 +2558,20 @@ window.BbwNlSpinWheel = (function () {
     return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
   }
 
+  /* Segment label: read as-is from settings, except "bxgx" which is always
+     rebuilt live from settings.cart_drawer (buy/get quantities can change
+     anytime without editing the wheel's label text). */
+  function getSegmentLabel(seg) {
+    if ((seg.type || '').toLowerCase() === 'bxgx') {
+      var settings = getSettings();
+      var cd = settings.cart_drawer || {};
+      var buyQty = cd.promo_buy_quantity;
+      var getQty = cd.promo_get_quantity;
+      return 'BUY ' + buyQty + ' GET ' + getQty;
+    }
+    return seg.label || '';
+  }
+
   function buildWheelSvg(segments) {
     var svg = document.getElementById('nlSpinWheelSvg');
     if (!svg) return;
@@ -2587,20 +2601,44 @@ window.BbwNlSpinWheel = (function () {
       svg.appendChild(path);
 
       var midAngle = startAngle + sliceAngle / 2;
-      var labelPos = polarPoint(cx, cy, r * 0.62, midAngle);
       var isDarkSlice = WHEEL_COLORS[i % WHEEL_COLORS.length] === '#15110E';
+      var label = getSegmentLabel(seg);
+
+      /* Radial (vertical) text — runs from near the center out toward the
+         rim along the slice's bisector, instead of following the arc. This
+         leaves room to add more segments later without the label wrapping
+         or overlapping neighbouring slices. */
+      var textStartR = r * 0.30;
+      var textEndR   = r * 0.90;
+      var startPos = polarPoint(cx, cy, textStartR, midAngle);
+      var textPathId = 'nlSpinTextPath' + i;
+
+      var defs = svg.querySelector('defs') || (function () {
+        var d = document.createElementNS(ns, 'defs');
+        svg.insertBefore(d, svg.firstChild);
+        return d;
+      })();
+
+      var endPos = polarPoint(cx, cy, textEndR, midAngle);
+      var pathDef = document.createElementNS(ns, 'path');
+      pathDef.setAttribute('id', textPathId);
+      pathDef.setAttribute('d', 'M' + startPos.x.toFixed(2) + ',' + startPos.y.toFixed(2) +
+        ' L' + endPos.x.toFixed(2) + ',' + endPos.y.toFixed(2));
+      pathDef.setAttribute('fill', 'none');
+      defs.appendChild(pathDef);
 
       var text = document.createElementNS(ns, 'text');
-      text.setAttribute('x', labelPos.x.toFixed(2));
-      text.setAttribute('y', labelPos.y.toFixed(2));
       text.setAttribute('fill', isDarkSlice ? '#F6EFE5' : '#15110E');
-      text.setAttribute('font-size', '13');
+      text.setAttribute('font-size', '12');
       text.setAttribute('font-weight', '700');
       text.setAttribute('font-family', 'Inter, system-ui, sans-serif');
-      text.setAttribute('text-anchor', 'middle');
-      text.setAttribute('dominant-baseline', 'middle');
-      text.setAttribute('transform', 'rotate(' + midAngle + ' ' + labelPos.x.toFixed(2) + ' ' + labelPos.y.toFixed(2) + ')');
-      text.textContent = seg.label || '';
+
+      var textPath = document.createElementNS(ns, 'textPath');
+      textPath.setAttribute('href', '#' + textPathId);
+      textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#' + textPathId);
+      textPath.setAttribute('startOffset', '0');
+      textPath.textContent = label;
+      text.appendChild(textPath);
       svg.appendChild(text);
     });
   }

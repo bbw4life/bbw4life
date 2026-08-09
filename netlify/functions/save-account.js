@@ -518,12 +518,17 @@ exports.handler = async (event) => {
           });
         } 
       } else {
+        // Même structure que le signup classique (colonnes A à Q) — birthday
+        // n'est PAS inclus ici : le tableau était avant rempli avec des
+        // colonnes vides en trop, décalant birthday vers AC (savedCart) au
+        // lieu de AB. On l'écrit séparément ci-dessous, comme pour une
+        // ligne existante juste au-dessus.
         const rowData = [
           normalize(lastName) || "",
           normalize(firstName) || "",
           normalizedEmail, "", "", "Yes",
           0, 0, 0, "", "", "", "", "", 0,
-          formatDate(), "[]", "", "", "", "", "", "", "", "", "", "", "", birthday || ""
+          formatDate(), "[]"
         ];
 
         await sheets.spreadsheets.values.append({
@@ -533,6 +538,16 @@ exports.handler = async (event) => {
           insertDataOption: "INSERT_ROWS",
           resource: { values: [rowData] }
         });
+
+        if (birthday) {
+          const newRowNum = rows.length + 1;
+          await sheets.spreadsheets.values.update({
+            spreadsheetId,
+            range: `bbw4life-accounts!AB${newRowNum}`,
+            valueInputOption: "RAW",
+            resource: { values: [[birthday]] }
+          });
+        }
       }
 
       // ── Email Newsletter #1 ──
