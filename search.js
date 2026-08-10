@@ -258,7 +258,7 @@
       link.setAttribute('role', 'option');
       link.dataset.idx = idx;
 
-      // Icon
+      // Icon — kept as before for every result type.
       const icon = document.createElement('span');
       icon.className = 'curva-search-icon';
       if (item.icon && (item.icon.startsWith('fas ') || item.icon.startsWith('far ') || item.icon.startsWith('fab '))) {
@@ -268,6 +268,20 @@
         icon.appendChild(i);
       } else {
         icon.textContent = item.icon || '📄';
+      }
+
+      // Thumbnail — real product image (from products.data.json), shown
+      // next to the icon for product results only.
+      let thumb = null;
+      if (item.type === 'product' && item.image) {
+        thumb = document.createElement('span');
+        thumb.className = 'curva-search-thumb';
+        const img = document.createElement('img');
+        img.className = 'curva-search-thumb-img';
+        img.src = item.image;
+        img.alt = '';
+        img.loading = 'lazy';
+        thumb.appendChild(img);
       }
 
       // Text block
@@ -295,6 +309,7 @@
       badge.textContent = TYPE_LABELS[item.type] || item.type;
 
       link.appendChild(icon);
+      if (thumb) link.appendChild(thumb);
       link.appendChild(text);
       link.appendChild(badge);
 

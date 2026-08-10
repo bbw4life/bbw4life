@@ -217,7 +217,8 @@
     transform: scale(1.03);
     box-shadow: 0 6px 18px rgba(184,146,90,0.22);
 }
-.thumbnail-item img {
+.thumbnail-item img,
+.thumbnail-item video {
     width: 84px !important;
     height: 84px !important;
     object-fit: contain;
@@ -227,7 +228,8 @@
     display: block;
     background: rgba(255,255,255,0.90);
 }
-.thumbnail-item.active img {
+.thumbnail-item.active img,
+.thumbnail-item.active video {
     border: 2px solid var(--bbw-gold);
     box-shadow: 0 0 0 3px rgba(184,146,90,0.16);
 }
@@ -319,7 +321,8 @@
     left: 0;
     transform: translate3d(calc(30% + 10px), 0, 0);
 }
-.main-image img {
+.main-image img,
+.main-image video {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -335,7 +338,10 @@
    GPU separe (will-change) sur ces etats reduits pour forcer un rendu net. */
 .main-image[data-depth="1"] img,
 .main-image[data-depth="2"] img,
-.main-image[data-depth="hidden"] img {
+.main-image[data-depth="hidden"] img,
+.main-image[data-depth="1"] video,
+.main-image[data-depth="2"] video,
+.main-image[data-depth="hidden"] video {
     will-change: auto;
 }
 
@@ -774,6 +780,85 @@
 
 
 /* ════════════════════════════
+   VALUE PROPS — description courte + 3 mini-badges (test A/B, product1
+   uniquement pour l'instant — à dupliquer sur les autres pages si le
+   résultat convertit bien).
+════════════════════════════ */
+.pp-value-props {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 4px;
+}
+.pp-value-props__desc {
+    font-family: var(--font-body, sans-serif);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(21,17,14,0.72);
+    margin: 0;
+}
+.pp-value-props__desc strong {
+    color: var(--bbw-black);
+    font-weight: 700;
+}
+.pp-value-props__grid {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    background: linear-gradient(135deg,
+        rgba(255,255,255,0.90) 0%,
+        rgba(253,249,244,0.95) 100%
+    );
+    border-radius: 14px;
+    box-shadow:
+        0 4px 24px rgba(184,146,90,0.10),
+        0 1px 0 rgba(255,255,255,0.80) inset;
+    overflow: hidden;
+}
+.pp-value-props__item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 10px;
+    border-right: 1px solid rgba(184,146,90,0.18);
+    min-width: 0;
+}
+.pp-value-props__item:last-child { border-right: none; }
+.pp-value-props__item i {
+    color: var(--bbw-gold);
+    font-size: 1.05rem;
+    flex-shrink: 0;
+}
+.pp-value-props__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+.pp-value-props__text strong {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--bbw-black);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.pp-value-props__text span {
+    font-size: 10px;
+    color: rgba(21,17,14,0.55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+@media (max-width: 640px) {
+    .pp-value-props__grid { flex-direction: column; }
+    .pp-value-props__item { border-right: none; border-bottom: 1px solid rgba(184,146,90,0.18); }
+    .pp-value-props__item:last-child { border-bottom: none; }
+}
+
+
+/* ════════════════════════════
    TRUST STRIP
    → Style jrgq-gallery-stats-strip
 ════════════════════════════ */
@@ -818,6 +903,21 @@
     flex-shrink: 0;
     font-weight: 300;
 }
+
+/* Variante agrandie — utilisée quand le bloc est déplacé en bas de page
+   (après le FAQ), où il a plus d'espace et peut se permettre d'être plus
+   visible. */
+.pp-trust-strip--lg {
+    padding: 14px 20px;
+    gap: 9px;
+    border-radius: 16px;
+}
+.pp-trust-strip--lg .pp-trust-item {
+    font-size: 0.92rem;
+    gap: 7px;
+}
+.pp-trust-strip--lg .pp-trust-item i { font-size: 1rem; }
+.pp-trust-strip--lg .pp-trust-sep { font-size: 1.2rem; }
 
 
 /* ════════════════════════════
@@ -903,7 +1003,7 @@
 .current-price {
     color: var(--bbw-black);
     font-weight: 700;
-    font-size: 2.3rem;
+    font-size: 1.8rem;
     letter-spacing: -0.01em;
     font-family: var(--font-display, Georgia, serif);
 }
@@ -1799,7 +1899,7 @@
 .quantity-add-wrapper .quantity {
     display: flex; align-items: center; gap: 5px;
     border: 1px solid rgba(184,146,90,0.35);
-    padding: 4px; border-radius: 0;
+    padding: 4px; border-radius: 10px;
     background: linear-gradient(135deg,
         rgba(255,255,255,0.92) 0%,
         rgba(253,249,244,0.97) 100%
@@ -1814,7 +1914,7 @@
     color: var(--bbw-gold);
     border: none;
     padding: 7px 13px; cursor: pointer;
-    border-radius: 0; font-weight: 800;
+    border-radius: 6px; font-weight: 800;
     font-size: 16px;
     transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
     flex-shrink: 0;
@@ -1840,7 +1940,7 @@ button.add-to-cart.cta {
     padding: 12px 22px !important;
     cursor: pointer; flex-shrink: 0 !important;
     width: auto !important; min-width: fit-content !important;
-    border-radius: 0 !important;
+    border-radius: 10px !important;
     font-weight: 700 !important;
     letter-spacing: 0.06em !important;
     border: 1.5px solid rgba(184,146,90,0.55) !important;
@@ -1884,7 +1984,7 @@ button.buy-now.cta {
     padding: 12px 22px !important;
     cursor: pointer; flex-shrink: 0 !important;
     width: auto !important; min-width: fit-content !important;
-    border-radius: 0 !important;
+    border-radius: 10px !important;
     font-weight: 800 !important;
     letter-spacing: 0.06em !important;
     border: none !important;
@@ -2839,6 +2939,48 @@ details[open] .chevron {
 .wishlist-icon-product.added svg {
     fill: var(--bbw-gold);
     stroke: var(--bbw-gold);
+}
+
+/* ════════════════════════════
+   SIZE / PRODUCT GUIDE — inline link, next to the wishlist icon
+   (compact trigger only; the modal it opens is untouched).
+════════════════════════════ */
+.pp-size-guide-inline {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 12px;
+    vertical-align: middle;
+}
+.pp-size-guide-inline .size-chart-paul-guide-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+.pp-size-guide-inline .size-chart-paul-guide-text {
+    font-family: var(--font-body, sans-serif);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: rgba(21,17,14,0.68);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    letter-spacing: 0.01em;
+}
+.pp-size-guide-inline .size-chart-paul-guide-icon {
+    width: 15px;
+    height: 15px;
+    color: var(--bbw-gold) !important;
+    margin-left: 0;
+    flex-shrink: 0;
+    display: inline-flex;
+    filter: none;
+}
+.pp-size-guide-inline .size-chart-paul-guide-toggle:hover .size-chart-paul-guide-text {
+    color: var(--bbw-gold);
+}
+.pp-size-guide-inline .size-chart-paul-guide-toggle:hover .size-chart-paul-guide-icon {
+    animation: iconSpin 0.8s ease-in-out forwards;
 }
 
 

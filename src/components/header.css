@@ -1653,7 +1653,7 @@ body {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 900;
+  z-index: 1000;
   background: linear-gradient(110deg, #fffbf9 0%, #fff0f4 50%, #fffbf9 100%);
   background-size: 200% 100%;
   animation: bc-fadein 0.4s ease both, bcBgShift 6s ease infinite;

@@ -2341,8 +2341,8 @@ body {
 .cart-drawer__paul-banner .paul-banner-image { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cart-drawer__paul-banner .paul-banner-title {
     position: absolute;
-    bottom: 22px; left: 50%;
-    transform: translateX(-50%) translateY(8px);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) translateY(8px);
     color: #fff;
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 1.05rem; font-weight: 700;
@@ -2361,7 +2361,7 @@ body {
 }
 .cart-drawer__paul-banner .paul-banner-slide.active .paul-banner-title {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, -50%) translateY(0);
 }
 .cart-drawer__paul-banner .paul-banner-indicators {
     position: absolute;
@@ -2475,7 +2475,6 @@ body {
 }
 
 #cp-paul-banner .paul-banner-title {
-    bottom: 18px;
     font-size: 1.15rem;
     padding: 8px 20px;
 }
@@ -6002,15 +6001,6 @@ body {
 #cf-cookie-popup.cfck-visible #cf-cookie-bar { transform: translateY(0); }
 #cf-cookie-popup.cfck-modal-open #cf-cookie-bar { transform: translateY(100%); }
 
-#cf-cookie-bar::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #c9963e 0%, #a87430 25%, #c9963e 50%, #e8c070 70%, #a87430 85%, #c9963e 100%);
-  background-size: 300% 100%;
-  animation: cfck-shimmer 4s linear infinite;
-}
 @keyframes cfck-shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
@@ -7250,6 +7240,13 @@ body {
   animation: searchFadeIn .18s ease;
 }
 
+/* Search results page only: the dropdown must stay BELOW the fixed header
+   (z-index:1000) when scrolling, unlike everywhere else on the site where
+   it needs to float above all page content. Header itself is untouched. */
+body.sr-page .curva-search-dropdown {
+  z-index: 999;
+}
+
 @keyframes searchFadeIn {
   from { opacity: 0; transform: translateY(-6px) scale(.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -7274,10 +7271,9 @@ body {
 
 
 .curva-search-item {
-  display: grid;
-  grid-template-columns: 36px 1fr auto;
+  display: flex;
   align-items: center;
-  gap: 0;
+  gap: 8px;
   padding: 12px 14px 12px 12px;
   cursor: pointer;
   border-bottom: 1px solid rgba(201, 160, 62, 0.12);
@@ -7310,8 +7306,28 @@ body {
   color: #c9a03e !important;
 }
 
+/* Real product thumbnail (from products.data.json) shown next to the
+   type icon, to the left of the title — products only. */
+.curva-search-thumb {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(201, 160, 62, 0.25);
+  background: #fff;
+}
+.curva-search-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 
 .curva-search-text {
+  flex: 1;
   min-width: 0;
   overflow-x: hidden;
   padding-right: 10px;

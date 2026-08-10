@@ -1051,6 +1051,13 @@ function showErrorPopup(message) {
 }
 
   // ====================== PRODUCT MEDIA ======================
+  // Détecte si une URL de média pointe vers une vidéo (extension) plutôt
+  // qu'une image — permet d'ajouter un lien vidéo dans le tableau `media`
+  // d'un produit exactement comme un lien image, sans champ séparé.
+  function isVideoMediaSrc(src) {
+    return /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(String(src || ''));
+  }
+
   function populateMainProductMedia(media, productTitle) {
     const thumbsContainer = document.getElementById('product-thumbnails');
     const mainSlider = document.getElementById('main-image-slider');
@@ -1065,23 +1072,39 @@ function showErrorPopup(message) {
     // inutilement le poids téléchargé sur réseau lent.
     const mainImageSize = window.innerWidth <= 768 ? 900 : 1800;
     media.forEach((src, index) => {
+      const isVideo = isVideoMediaSrc(src);
+
       const thumb = document.createElement('div');
       thumb.className = `thumbnail-item ${index === 0 ? 'active' : ''}`;
-      const thumbSrc = upgradeShopifyImageUrl(src, 300);
-      thumb.innerHTML = `<img src="${thumbSrc}" alt="${altBase} — photo ${index+1}" loading="lazy">`;
+      if (isVideo) {
+        // Thumbnail vidéo : muette, autoplay, boucle — aperçu silencieux.
+        thumb.innerHTML = `<video src="${src}" muted autoplay loop playsinline preload="metadata"></video>`;
+      } else {
+        const thumbSrc = upgradeShopifyImageUrl(src, 300);
+        thumb.innerHTML = `<img src="${thumbSrc}" alt="${altBase} — photo ${index+1}" loading="lazy">`;
+      }
       thumb.addEventListener('click', () => changeMainImage(index));
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         thumb.addEventListener('mouseenter', () => changeMainImage(index));
       }
       thumbsContainer.appendChild(thumb);
-      const mainSrc = upgradeShopifyImageUrl(src, mainImageSize);
+
       const mainDiv = document.createElement('div');
       mainDiv.className = `main-image ${index === 0 ? 'active' : ''}`;
-      mainDiv.dataset.originalSrc = mainSrc;
       const depth = index === 0 ? '0' : (index <= 2 ? String(index) : 'hidden');
       mainDiv.dataset.depth = depth;
-      const loadAttr = index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
-      mainDiv.innerHTML = `<img src="${mainSrc}" alt="${altBase}" ${loadAttr}>`;
+      if (isVideo) {
+        mainDiv.dataset.originalSrc = src;
+        mainDiv.dataset.isVideo = '1';
+        // Muette par défaut (comme la thumbnail) ; se met en lecture active
+        // (avec le reste des comportements de l'image active) via changeMainImage.
+        mainDiv.innerHTML = `<video src="${src}" muted loop playsinline preload="metadata" ${index === 0 ? 'autoplay' : ''}></video>`;
+      } else {
+        const mainSrc = upgradeShopifyImageUrl(src, mainImageSize);
+        mainDiv.dataset.originalSrc = mainSrc;
+        const loadAttr = index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+        mainDiv.innerHTML = `<img src="${mainSrc}" alt="${altBase}" ${loadAttr}>`;
+      }
       mainSlider.insertBefore(mainDiv, mainSlider.querySelector('.slider-arrow.next'));
     });
     currentMainIndex = 0;
@@ -1119,6 +1142,17 @@ function showErrorPopup(message) {
     const activeContainer = images[currentMainIndex];
     const activeImg = activeContainer.querySelector('img');
     if (activeImg && activeContainer.dataset.originalSrc) activeImg.src = activeContainer.dataset.originalSrc;
+
+    // Vidéos : joue seulement la vidéo active, met en pause les autres.
+    images.forEach((container) => {
+      const vid = container.querySelector('video');
+      if (!vid) return;
+      if (container === activeContainer) {
+        vid.play().catch(() => {});
+      } else {
+        vid.pause();
+      }
+    });
 
     // Micro-glissement de la page produit entière pour accompagner la transition.
     const productLayout = document.querySelector('.product-layout');
@@ -5681,29 +5715,35 @@ if (window.innerWidth <= 768) {
   const interval     = parseInt(rc.interval_ms)         || 30000;
 
   // ── Persistance via sessionStorage
-  const SS_FIRST_LOAD = 'rc_first_load_at';   // timestamp du tout premier chargement
+  const SS_LAST_ADD   = 'rc_last_add_at';     // timestamp du dernier ajout/changement panier
   const SS_LAST_SHOWN = 'rc_last_shown_at';   // timestamp du dernier affichage
 
   const now = Date.now();
 
-  // Premier chargement de la session — on enregistre le timestamp
-  if (!sessionStorage.getItem(SS_FIRST_LOAD)) {
-    sessionStorage.setItem(SS_FIRST_LOAD, now.toString());
+  // Aucun ajout enregistré pour cette session : on démarre le compteur du
+  // délai initial dès le chargement, pour couvrir le cas d'un panier déjà
+  // rempli avant ce chargement (ex: retour sur le site plus tard).
+  if (!sessionStorage.getItem(SS_LAST_ADD)) {
+    sessionStorage.setItem(SS_LAST_ADD, now.toString());
   }
 
-  const firstLoadAt  = parseInt(sessionStorage.getItem(SS_FIRST_LOAD));
-  const lastShownAt  = () => parseInt(sessionStorage.getItem(SS_LAST_SHOWN) || '0');
-  const setLastShown = () => sessionStorage.setItem(SS_LAST_SHOWN, Date.now().toString());
+  const lastAddAt     = () => parseInt(sessionStorage.getItem(SS_LAST_ADD));
+  const setLastAddNow = () => sessionStorage.setItem(SS_LAST_ADD, Date.now().toString());
+  const lastShownAt   = () => parseInt(sessionStorage.getItem(SS_LAST_SHOWN) || '0');
+  const setLastShown  = () => sessionStorage.setItem(SS_LAST_SHOWN, Date.now().toString());
 
-  // initial_delay est-il écoulé depuis le TOUT PREMIER chargement ?
-  const initialDelayDone = () => (Date.now() - firstLoadAt) >= initialDelay;
+  // initial_delay est-il écoulé depuis le DERNIER AJOUT/CHANGEMENT panier ?
+  // (redémarre à chaque interaction panier, jamais d'affichage immédiat
+  // après avoir ajouté un produit).
+  const initialDelayDone = () => (Date.now() - lastAddAt()) >= initialDelay;
 
   // interval est-il écoulé depuis le dernier affichage ?
   const intervalDone = () => (Date.now() - lastShownAt()) >= interval;
 
-  let hideTimer  = null;
-  let cycleTimer = null;
-  let visible    = false;
+  let hideTimer    = null;
+  let cycleTimer   = null;
+  let initialTimer = null;
+  let visible      = false;
 
   function getCartQty() {
     return cart.reduce((sum, i) => sum + i.quantity, 0);
@@ -5751,8 +5791,8 @@ if (window.innerWidth <= 768) {
   }
 
   // ── Planifie le premier affichage en tenant compte du temps déjà écoulé
-  const elapsedSinceFirstLoad = Date.now() - firstLoadAt;
-  const remainingInitialDelay = Math.max(0, initialDelay - elapsedSinceFirstLoad);
+  const elapsedSinceLastAdd   = Date.now() - lastAddAt();
+  const remainingInitialDelay = Math.max(0, initialDelay - elapsedSinceLastAdd);
 
   setTimeout(() => {
     // Premier affichage : seulement si interval aussi respecté
@@ -5773,13 +5813,21 @@ if (window.innerWidth <= 768) {
     hidePopup();
   });
 
-  // ── Appelé par saveCart() — respecte tous les délais
+  // ── Appelé par saveCart() à chaque changement de panier — redémarre le
+  //    délai initial (jamais d'affichage immédiat après un ajout) puis
+  //    replanifie un affichage après ce nouveau délai.
   window.__rcRefresh = function() {
-    if (!initialDelayDone()) return;
     const qty = getCartQty();
     updateTitle();
     if (qty === 0) { hidePopup(); return; }
-    if (!visible && intervalDone()) showPopup();
+
+    setLastAddNow();
+    if (initialTimer) clearTimeout(initialTimer);
+    initialTimer = setTimeout(() => {
+      if (!visible && getCartQty() > 0 && initialDelayDone() && intervalDone()) {
+        showPopup();
+      }
+    }, initialDelay);
   };
 
 })();
