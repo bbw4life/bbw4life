@@ -1641,13 +1641,6 @@ body {
    BREADCRUMBS
 ═══════════════════════════════════════════════════════════════ */
 #bc-nav {
-  /* fixed, comme le header : comportement 100% identique et prévisible
-     sur TOUTES les pages, peu importe la structure/hauteur de leur
-     contenu (contrairement à sticky, qui dépend du conteneur parent
-     et pouvait produire des résultats différents selon la page).
-     L'espace qu'il occupe est réservé une fois pour toutes via
-     --bbw-bc-h, inclus dans --bbw-total-top (padding-top du body) —
-     donc jamais de chevauchement ni d'espace vide en trop. */
   position: fixed;
   top: calc(var(--ann-bar-h) + var(--bbw-header-h));
   left: 0;
