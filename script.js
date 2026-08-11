@@ -1058,6 +1058,29 @@ function showErrorPopup(message) {
     return /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(String(src || ''));
   }
 
+  // Placeholder logo affiché par-dessus une vidéo média tant qu'elle n'a
+  // pas fini de charger — système autonome, séparé de initCardPreloadLogo
+  // (celui des cards produits) pour ne jamais interférer avec lui.
+  const VIDEO_PLACEHOLDER_LOGO_HTML =
+    '<img class="bbw-video-placeholder-logo" src="/public/vrlogo%20bbw4life.png" alt="" aria-hidden="true">';
+
+  function revealVideoWhenReady(container) {
+    const vid = container.querySelector('video');
+    const placeholder = container.querySelector('.bbw-video-placeholder-logo');
+    if (!vid || !placeholder) return;
+    function reveal() {
+      placeholder.classList.add('is-loaded');
+      container.classList.remove('bbw-video-loading');
+      setTimeout(() => { if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder); }, 400);
+    }
+    if (vid.readyState >= 2) {
+      reveal();
+    } else {
+      vid.addEventListener('loadeddata', reveal, { once: true });
+      vid.addEventListener('error', reveal, { once: true });
+    }
+  }
+
   function populateMainProductMedia(media, productTitle) {
     const thumbsContainer = document.getElementById('product-thumbnails');
     const mainSlider = document.getElementById('main-image-slider');
@@ -1077,8 +1100,12 @@ function showErrorPopup(message) {
       const thumb = document.createElement('div');
       thumb.className = `thumbnail-item ${index === 0 ? 'active' : ''}`;
       if (isVideo) {
-        // Thumbnail vidéo : muette, autoplay, boucle — aperçu silencieux.
-        thumb.innerHTML = `<video src="${src}" muted autoplay loop playsinline preload="metadata"></video>`;
+        // Thumbnail vidéo : muette, boucle — aperçu silencieux. Ne charge
+        // (preload/autoplay) que si elle est déjà le média actif au premier
+        // rendu ; sinon reste en preload="none" tant qu'on ne clique pas
+        // dessus, pour ne pas télécharger des vidéos jamais consultées.
+        const isActive = index === 0;
+        thumb.innerHTML = `<video src="${src}" muted loop playsinline preload="${isActive ? 'metadata' : 'none'}" ${isActive ? 'autoplay' : ''}></video>${VIDEO_PLACEHOLDER_LOGO_HTML}`;
       } else {
         const thumbSrc = upgradeShopifyImageUrl(src, 300);
         thumb.innerHTML = `<img src="${thumbSrc}" alt="${altBase} — photo ${index+1}" loading="lazy">`;
@@ -1098,7 +1125,14 @@ function showErrorPopup(message) {
         mainDiv.dataset.isVideo = '1';
         // Muette par défaut (comme la thumbnail) ; se met en lecture active
         // (avec le reste des comportements de l'image active) via changeMainImage.
-        mainDiv.innerHTML = `<video src="${src}" muted loop playsinline preload="metadata" ${index === 0 ? 'autoplay' : ''}></video>`;
+        // preload="none" tant que ce n'est pas le média actif au premier
+        // rendu, pour ne pas télécharger des vidéos jamais consultées.
+        const isActive = index === 0;
+        // bbw-video-loading désactive will-change sur le <video> tant qu'il
+        // charge : will-change crée son propre layer de composition GPU qui
+        // peut passer au-dessus du placeholder logo malgré son z-index.
+        mainDiv.classList.add('bbw-video-loading');
+        mainDiv.innerHTML = `<video src="${src}" muted loop playsinline preload="${isActive ? 'metadata' : 'none'}" ${isActive ? 'autoplay' : ''}></video>${VIDEO_PLACEHOLDER_LOGO_HTML}`;
       } else {
         const mainSrc = upgradeShopifyImageUrl(src, mainImageSize);
         mainDiv.dataset.originalSrc = mainSrc;
@@ -1106,8 +1140,13 @@ function showErrorPopup(message) {
         mainDiv.innerHTML = `<img src="${mainSrc}" alt="${altBase}" ${loadAttr}>`;
       }
       mainSlider.insertBefore(mainDiv, mainSlider.querySelector('.slider-arrow.next'));
+      if (isVideo) {
+        revealVideoWhenReady(thumb);
+        revealVideoWhenReady(mainDiv);
+      }
     });
     currentMainIndex = 0;
+    mainSlider.classList.toggle('main-image-slider--video-active', isVideoMediaSrc(media[0]));
     mainSlider.querySelector('.prev').onclick = () => changeMainImage('prev');
     mainSlider.querySelector('.next').onclick = () => changeMainImage('next');
   }
@@ -1144,15 +1183,32 @@ function showErrorPopup(message) {
     if (activeImg && activeContainer.dataset.originalSrc) activeImg.src = activeContainer.dataset.originalSrc;
 
     // Vidéos : joue seulement la vidéo active, met en pause les autres.
+    // .play() déclenche lui-même le chargement si preload="none" n'a
+    // encore rien téléchargé (comportement natif HTML5). Le son s'active
+    // automatiquement sur la vidéo active — changeMainImage n'est appelée
+    // que suite à une interaction utilisateur (clic/hover), donc le
+    // navigateur autorise ici l'audio sans le bloquer comme un autoplay.
     images.forEach((container) => {
       const vid = container.querySelector('video');
       if (!vid) return;
       if (container === activeContainer) {
+        vid.muted = false;
         vid.play().catch(() => {});
       } else {
         vid.pause();
+        vid.muted = true;
       }
     });
+    const activeThumbVid = activeThumb.querySelector('video');
+    if (activeThumbVid) activeThumbVid.play().catch(() => {});
+
+    // Quand le média actif est une vidéo, elle doit occuper tout l'espace
+    // de la carte — pas de pile de cartes empilées par-dessus (celle-ci
+    // n'a de sens que pour comparer des photos entre elles).
+    const mainSlider = document.getElementById('main-image-slider');
+    if (mainSlider) {
+      mainSlider.classList.toggle('main-image-slider--video-active', activeContainer.dataset.isVideo === '1');
+    }
 
     // Micro-glissement de la page produit entière pour accompagner la transition.
     const productLayout = document.querySelector('.product-layout');

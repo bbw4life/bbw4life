@@ -209,12 +209,27 @@
   /* ──────────────────────────────────────────────────────────────
      4. SEARCH DESKTOP ALWAYS-VISIBLE
   ────────────────────────────────────────────────────────────── */
+  // Cache localStorage : évite que la barre de recherche desktop reste
+  // invisible (style="display:none" figé dans le HTML statique) pendant
+  // tout le temps du fetch réseau ci-dessous — on applique immédiatement
+  // la dernière valeur connue, confirmée/corrigée juste après par le fetch.
+  var SEARCH_VISIBLE_CACHE_KEY = 'bbw_header_search_always_visible';
+  (function applyCachedSearchVisibility() {
+    var cached = null;
+    try { cached = localStorage.getItem(SEARCH_VISIBLE_CACHE_KEY); } catch (e) {}
+    if (cached !== 'yes') return;
+    var desktopSearch = document.getElementById('bbwSearchDesktop');
+    if (desktopSearch && window.innerWidth > 768) desktopSearch.style.display = 'flex';
+  })();
+
   function applySearchSetting() {
     fetch('/products.data.json')
       .then(r => r.json())
       .then(data => {
         const settings      = data.find(p => p.type === 'settings') || {};
         const alwaysVisible = (settings.header_search_always_visible || 'no').toLowerCase() === 'yes';
+
+        try { localStorage.setItem(SEARCH_VISIBLE_CACHE_KEY, alwaysVisible ? 'yes' : 'no'); } catch (e) {}
 
         if (searchEl) searchEl.setAttribute('data-always-visible', alwaysVisible ? 'yes' : 'no');
 
