@@ -6253,11 +6253,11 @@
     "product_title_badge": "yes",
     "thumbnails_desktop_vertical_left": "yes",
     "thumbnails_desktop_horizontal_below": "no",
-    "thumbnails_mobile_horizontal": "no",
-    "thumbnails_mobile_vertical_left": "yes",
-    "sticky_media_mobile": "yes",
-    "swatch_scroll_mobile": "no",
-    "sticky_atc_mobile_threshold": 8.0,
+    "thumbnails_mobile_horizontal": "yes",
+    "thumbnails_mobile_vertical_left": "no",
+    "sticky_media_mobile": "no",
+    "swatch_scroll_mobile": "yes",
+    "sticky_atc_mobile_threshold": 9.5,
     "sticky_atc_desktop_threshold": 7.3,
     "theme_color": "#000000",
     "allowed_languages": ["en", "fr", "es", "ar", "zh", "ht", "hi", "pt", "ru", "de", "ja"],
@@ -7227,169 +7227,169 @@
       "product77": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product76" },
-          { "product_id": "Pdg-Francenel-product78" },
-          { "product_id": "Pdg-Francenel-product83" }
+          { "product_id": "Pdg-Francenel-product83" },
+          { "product_id": "Pdg-Francenel-product89" },
+          { "product_id": "Pdg-Francenel-product61" }
         ]
       },
       "product78": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product76" },
-          { "product_id": "Pdg-Francenel-product77" },
-          { "product_id": "Pdg-Francenel-product81" }
+          { "product_id": "Pdg-Francenel-product81" },
+          { "product_id": "Pdg-Francenel-product87" },
+          { "product_id": "Pdg-Francenel-product59" }
         ]
       },
       "product79": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product76" },
-          { "product_id": "Pdg-Francenel-product94" },
-          { "product_id": "Pdg-Francenel-product80" }
+          { "product_id": "Pdg-Francenel-product1" },
+          { "product_id": "Pdg-Francenel-product90" },
+          { "product_id": "Pdg-Francenel-product58" }
         ]
       },
       "product80": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product79" },
-          { "product_id": "Pdg-Francenel-product85" },
-          { "product_id": "Pdg-Francenel-product76" }
+          { "product_id": "Pdg-Francenel-product6" },
+          { "product_id": "Pdg-Francenel-product86" },
+          { "product_id": "Pdg-Francenel-product66" }
         ]
       },
       "product81": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product78" },
+          { "product_id": "Pdg-Francenel-product1" },
           { "product_id": "Pdg-Francenel-product92" },
-          { "product_id": "Pdg-Francenel-product82" }
+          { "product_id": "Pdg-Francenel-product57" }
         ]
       },
       "product82": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product81" },
-          { "product_id": "Pdg-Francenel-product76" },
-          { "product_id": "Pdg-Francenel-product89" }
+          { "product_id": "Pdg-Francenel-product4" },
+          { "product_id": "Pdg-Francenel-product89" },
+          { "product_id": "Pdg-Francenel-product10" }
         ]
       },
       "product83": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product84" },
           { "product_id": "Pdg-Francenel-product77" },
-          { "product_id": "Pdg-Francenel-product90" }
+          { "product_id": "Pdg-Francenel-product88" },
+          { "product_id": "Pdg-Francenel-product61" }
         ]
       },
       "product84": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product83" },
+          { "product_id": "Pdg-Francenel-product4" },
           { "product_id": "Pdg-Francenel-product94" },
-          { "product_id": "Pdg-Francenel-product78" }
+          { "product_id": "Pdg-Francenel-product59" }
         ]
       },
       "product85": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product88" },
-          { "product_id": "Pdg-Francenel-product80" },
-          { "product_id": "Pdg-Francenel-product91" }
+          { "product_id": "Pdg-Francenel-product3" },
+          { "product_id": "Pdg-Francenel-product16" },
+          { "product_id": "Pdg-Francenel-product60" }
         ]
       },
       "product86": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product87" },
-          { "product_id": "Pdg-Francenel-product91" },
-          { "product_id": "Pdg-Francenel-product95" }
+          { "product_id": "Pdg-Francenel-product8" },
+          { "product_id": "Pdg-Francenel-product12" },
+          { "product_id": "Pdg-Francenel-product55" }
         ]
       },
       "product87": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product86" },
-          { "product_id": "Pdg-Francenel-product95" },
-          { "product_id": "Pdg-Francenel-product94" }
+          { "product_id": "Pdg-Francenel-product14" },
+          { "product_id": "Pdg-Francenel-product4" },
+          { "product_id": "Pdg-Francenel-product58" }
         ]
       },
       "product88": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product85" },
-          { "product_id": "Pdg-Francenel-product79" },
-          { "product_id": "Pdg-Francenel-product97" }
+          { "product_id": "Pdg-Francenel-product3" },
+          { "product_id": "Pdg-Francenel-product31" },
+          { "product_id": "Pdg-Francenel-product62" }
         ]
       },
       "product89": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product90" },
-          { "product_id": "Pdg-Francenel-product92" },
-          { "product_id": "Pdg-Francenel-product82" }
+          { "product_id": "Pdg-Francenel-product9" },
+          { "product_id": "Pdg-Francenel-product2" },
+          { "product_id": "Pdg-Francenel-product63" }
         ]
       },
       "product90": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product89" },
-          { "product_id": "Pdg-Francenel-product92" },
-          { "product_id": "Pdg-Francenel-product83" }
+          { "product_id": "Pdg-Francenel-product11" },
+          { "product_id": "Pdg-Francenel-product1" },
+          { "product_id": "Pdg-Francenel-product66" }
         ]
       },
       "product91": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product86" },
-          { "product_id": "Pdg-Francenel-product95" },
-          { "product_id": "Pdg-Francenel-product85" }
+          { "product_id": "Pdg-Francenel-product14" },
+          { "product_id": "Pdg-Francenel-product34" },
+          { "product_id": "Pdg-Francenel-product53" }
         ]
       },
       "product92": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product90" },
-          { "product_id": "Pdg-Francenel-product81" },
-          { "product_id": "Pdg-Francenel-product89" }
+          { "product_id": "Pdg-Francenel-product82" },
+          { "product_id": "Pdg-Francenel-product6" },
+          { "product_id": "Pdg-Francenel-product57" }
         ]
       },
       "product93": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product94" },
-          { "product_id": "Pdg-Francenel-product87" },
-          { "product_id": "Pdg-Francenel-product79" }
+          { "product_id": "Pdg-Francenel-product22" },
+          { "product_id": "Pdg-Francenel-product6" },
+          { "product_id": "Pdg-Francenel-product59" }
         ]
       },
       "product94": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product93" },
           { "product_id": "Pdg-Francenel-product84" },
-          { "product_id": "Pdg-Francenel-product87" }
+          { "product_id": "Pdg-Francenel-product1" },
+          { "product_id": "Pdg-Francenel-product58" }
         ]
       },
       "product95": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product86" },
-          { "product_id": "Pdg-Francenel-product91" },
-          { "product_id": "Pdg-Francenel-product80" }
+          { "product_id": "Pdg-Francenel-product16" },
+          { "product_id": "Pdg-Francenel-product2" },
+          { "product_id": "Pdg-Francenel-product55" }
         ]
       },
       "product96": {
         "discount_percent": 15,
         "items": [
-          { "product_id": "Pdg-Francenel-product95" },
-          { "product_id": "Pdg-Francenel-product76" },
-          { "product_id": "Pdg-Francenel-product84" }
+          { "product_id": "Pdg-Francenel-product2" },
+          { "product_id": "Pdg-Francenel-product87" },
+          { "product_id": "Pdg-Francenel-product52" }
         ]
       },
       "product97": {
         "discount_percent": 15,
         "items": [
+          { "product_id": "Pdg-Francenel-product3" },
           { "product_id": "Pdg-Francenel-product88" },
-          { "product_id": "Pdg-Francenel-product94" },
-          { "product_id": "Pdg-Francenel-product78" }
+          { "product_id": "Pdg-Francenel-product58" }
         ]
       }
     },

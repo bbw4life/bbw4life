@@ -19,6 +19,10 @@
     user-select: none;
     justify-content: space-between;
 }
+.bbw-collapsible__toggle span {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
 .bbw-collapsible__chevron {
     margin-left: auto;
     display: inline-flex;

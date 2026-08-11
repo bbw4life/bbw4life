@@ -2085,7 +2085,7 @@ body {
     letter-spacing: 0.16em;
     text-transform: uppercase;
     text-decoration: none;
-    transition: all 0.35s ease;
+    transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
     position: relative;
     overflow: hidden;
     z-index: 2;
@@ -4885,7 +4885,7 @@ body {
 }
 
 #cf-chat-toggle:hover {
-  width: 210px;
+  width: auto;
   border-radius: 4px;
   padding: 0 20px 0 6px;
   transform: translateY(-3px);
@@ -4931,7 +4931,7 @@ body {
 }
 
 #cf-chat-toggle:hover .cf-toggle-label {
-  max-width: 180px;
+  max-width: 400px;
   opacity: 1;
   margin-left: 8px;
 }
@@ -4965,10 +4965,10 @@ body {
 
 .cf-chat-window {
   position: absolute;
-  bottom: 54px;
+  bottom: 30px;
   left: 0;
   width: 390px;
-  max-height: min(520px, calc(100vh - 120px));
+  max-height: min(520px, calc(100vh - 90px));
   background: #f7f2ea;
   border-radius: 6px;
   box-shadow: 0 24px 72px rgba(21,17,14,0.20), 0 8px 24px rgba(184,146,90,0.10);
@@ -4997,6 +4997,22 @@ body {
 
 #cf-chat-widget.cf-top.cf-right .cf-chat-window {
   transform-origin: top right;
+}
+
+/* Widget ancré à droite : le bouton grandit vers la GAUCHE au survol/tap
+   (jamais vers la droite, hors écran). L'icône reste du côté ancré
+   (droite) et le texte s'étend vers la gauche — ordre visuel inversé via
+   row-reverse, padding en miroir, sans toucher à l'ordre du DOM.
+   #cf-chat-toggle est un FRÈRE de #cf-chat-widget dans le DOM (pas un
+   enfant) — la classe .cf-right est donc posée directement sur le
+   bouton lui-même par le JS, d'où le sélecteur direct ci-dessous. */
+#cf-chat-toggle.cf-right:hover {
+  flex-direction: row-reverse;
+  padding: 0 6px 0 20px;
+}
+#cf-chat-toggle.cf-right:hover .cf-toggle-label {
+  margin-left: 0;
+  margin-right: 8px;
 }
 
 .cf-chat-window.cf-open {
@@ -5920,12 +5936,25 @@ body {
 
 
 @media (max-width: 480px) {
-  #cf-chat-widget { bottom: 25px; left: 4px; }
+  #cf-chat-widget { bottom: 25px; left: auto; right: 4px; }
+  #cf-chat-toggle { left: auto; right: 4px; }
 
+  /* La fenêtre de chat ne suit plus la position du bouton (qui peut être
+     déplacé n'importe où par le client) — elle est ancrée à l'écran et
+     toujours centrée horizontalement, peu importe où l'icône se trouve. */
   .cf-chat-window {
+    position: fixed;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: 84px;
+    transform: translateX(-50%) scale(0.85) translateY(20px);
+    transform-origin: bottom center !important;
     width: calc(100vw - 24px);
     max-height: min(72vh, calc(100vh - 120px));
-    bottom: 54px;
+  }
+  .cf-chat-window.cf-open {
+    transform: translateX(-50%) scale(1) translateY(0);
   }
 
   #cf-chat-toggle {
@@ -5936,9 +5965,19 @@ body {
   }
 
   #cf-chat-toggle:hover {
-    width: 155px;
+    width: auto;
+    max-width: calc(100vw - 16px);
     border-radius: 26px;
     padding: 0 16px 0 5px;
+  }
+
+  #cf-chat-toggle.cf-right:hover {
+    flex-direction: row-reverse;
+    padding: 0 5px 0 16px;
+  }
+  #cf-chat-toggle.cf-right:hover .cf-toggle-label {
+    margin-left: 0;
+    margin-right: 8px;
   }
 
   .cf-pc-img-wrap { height: 190px; }
@@ -7244,7 +7283,7 @@ body {
    (z-index:1000) when scrolling, unlike everywhere else on the site where
    it needs to float above all page content. Header itself is untouched. */
 body.sr-page .curva-search-dropdown {
-  z-index: 999;
+  z-index: 998;
 }
 
 @keyframes searchFadeIn {

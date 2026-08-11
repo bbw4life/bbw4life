@@ -1826,7 +1826,7 @@
     position: absolute;
     top: -42px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(calc(-50% + var(--tooltip-shift, 0px)));
     background: #15110E;
     color: var(--bbw-gold);
     font-size: 13px;
@@ -2904,8 +2904,12 @@ details[open] .chevron {
     .thumbnail-item { flex: 0 0 auto; }
     .thumbnail-item img { width: 80px !important; height: 80px !important; }
     .main-image-slider { width: 100%; border-radius: 16px; }
-    .main-image-slider,
-    .product-media.sticky-media-mobile .thumbnails {
+    .main-image-slider {
+        height: var(--product-media-h-mobile) !important;
+        min-height: var(--product-media-h-mobile) !important;
+        max-height: var(--product-media-h-mobile) !important;
+    }
+    .product-media.sticky-media-mobile:not(.thumbs-mobile-horizontal) .thumbnails {
         height: var(--product-media-h-mobile) !important;
         min-height: var(--product-media-h-mobile) !important;
         max-height: var(--product-media-h-mobile) !important;

@@ -288,7 +288,7 @@
 </div>
 
 
-<button id="cf-chat-toggle" aria-label="Open Curva Support Chat">
+<button id="cf-chat-toggle" aria-label="Open Bbw4life Support Chat">
   <div class="cf-toggle-inner">
     <span class="cf-toggle-icon cf-icon-open">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -304,7 +304,7 @@
       </svg>
     </span>
   </div>
-  <span class="cf-toggle-label">Curva Support</span>
+  <span class="cf-toggle-label">Bbw4life Support</span>
   <span class="cf-notif-dot"></span>
 </button>
 
@@ -312,7 +312,7 @@
   <div id="cf-chat-window" class="cf-chat-window" aria-hidden="true">
     <div class="cf-chat-header">
       <div class="cf-header-avatar">
-        <img id="cf-agent-logo" src="" alt="Curva Support">
+        <img id="cf-agent-logo" src="" alt="Bbw4life Support">
         <div class="cf-avatar-fallback">C</div>
         <span class="cf-online-dot"></span>
       </div>

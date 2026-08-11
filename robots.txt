@@ -3,6 +3,7 @@
 
 User-agent: *
 Allow: /
+Allow: /public/*favicon*
 Disallow: /checkout/
 Disallow: /account.html
 Disallow: /src/

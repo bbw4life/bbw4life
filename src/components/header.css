@@ -537,7 +537,7 @@ body {
   border-radius: 3px;
   padding: 0 5px 0 16px;
   height: 44px;
-  width: clamp(200px, 22vw, 400px);
+  width: clamp(200px, 30vw, 560px);
   min-width: 0;
   gap: 8px;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
@@ -1301,6 +1301,11 @@ body {
   .bbw-drawer__select-block         { display: none !important; }
   .bbw-drawer__select-dropdown      { display: none !important; }
   .bbw-drawer__divider--mobile-only { display: none !important; }
+
+  /* Décale légèrement le logo vers la gauche pour donner plus de largeur
+     à la colonne droite (barre de recherche + icônes) — réduit l'espace
+     vide à gauche du logo, sans le coller au bord. */
+  .bbw-header__inner { grid-template-columns: 0.6fr auto 1fr; }
 }
 
 .bbw-drawer__legal {
@@ -1646,7 +1651,7 @@ body {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 999;
   background: linear-gradient(110deg, #fffbf9 0%, #fff0f4 50%, #fffbf9 100%);
   background-size: 200% 100%;
   animation: bc-fadein 0.4s ease both, bcBgShift 6s ease infinite;
@@ -4336,11 +4341,27 @@ a.plan-close-thanks-btn {
 .bbwl-overlay:not(.bbwl-active),
 .bwflash-overlay:not(.bwflash-active),
 .wishlist-modal:not(.active),
-.cart-drawer:not(.active),
 #bbwBdayOverlay:not(.bbw-bday--open),
 .paul-popup-overlay:not(.active),
 #cf-chat-window:not(.cf-open) {
   visibility: hidden !important;
+}
+
+/* .cart-drawer a sa propre transition "right 0.50s" (style.css) pour
+   glisser hors écran à la fermeture — visibility:hidden ne peut pas être
+   animée nativement, donc on retarde son application (via
+   transition-delay) jusqu'à la fin du glissement. Sans ce délai,
+   visibility:hidden s'appliquait instantanément et coupait net le
+   contenu du drawer (dont le bouton "Shop Now" du panier vide) avant
+   la fin de l'animation, donnant l'impression d'un élément "en retard"
+   qui restait visible hors du drawer déjà refermé. */
+.cart-drawer:not(.active) {
+  visibility: hidden !important;
+  transition: visibility 0s linear 0.50s, right 0.50s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.cart-drawer.active {
+  visibility: visible !important;
+  transition: visibility 0s linear 0s, right 0.50s cubic-bezier(0.4,0,0.2,1) !important;
 }
 
 

@@ -3214,6 +3214,24 @@ function showErrorPopup(message) {
                 swatch.classList.add('active');
                 updateProductPrice();
               });
+              // Le tooltip (::after, "content: attr(data-color)") est centré
+              // sur le swatch par défaut — au survol, on mesure sa position
+              // réelle et on décale via --tooltip-shift pour qu'il ne
+              // déborde jamais de l'écran (surtout les 1ers swatches, près
+              // du bord gauche, sur mobile).
+              function repositionTooltip() {
+                const rect = swatch.getBoundingClientRect();
+                const tooltipHalfWidth = 70; // estimation large, sécurise même les noms longs
+                const margin = 8;
+                let shift = 0;
+                const leftEdge  = rect.left + rect.width / 2 - tooltipHalfWidth;
+                const rightEdge = rect.left + rect.width / 2 + tooltipHalfWidth;
+                if (leftEdge < margin) shift = margin - leftEdge;
+                else if (rightEdge > window.innerWidth - margin) shift = (window.innerWidth - margin) - rightEdge;
+                swatch.style.setProperty('--tooltip-shift', shift + 'px');
+              }
+              swatch.addEventListener('mouseenter', repositionTooltip);
+              swatch.addEventListener('touchstart', repositionTooltip, { passive: true });
               colorContainer.appendChild(swatch);
             });
             colorContainer.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
@@ -12262,6 +12280,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!widget || !toggle || !window_ || !messages || !input || !sendBtn) return;
 
+    /* ── Position par défaut mobile : à droite (au lieu de gauche), sans
+       toucher au système de drag existant. La classe .cf-right doit être
+       posée dès le départ pour que .cf-chat-window s'ouvre vers la gauche
+       et reste bien dans l'écran, cf. #cf-chat-widget.cf-right en CSS.
+       #cf-chat-toggle est un FRÈRE de #cf-chat-widget dans le DOM (pas un
+       enfant) — la classe doit donc aussi être posée sur le bouton
+       lui-même pour que les règles CSS #cf-chat-widget.cf-right
+       #cf-chat-toggle... puissent s'appliquer. Un drag utilisateur écrase
+       ensuite naturellement cette classe via updateWindowPos(), donc le
+       déplacement libre reste inchangé. ── */
+    if (window.innerWidth <= 480) {
+      widget.classList.add('cf-right');
+      toggle.classList.add('cf-right');
+    }
+
     /* ── State ── */
     let isOpen    = false;
     let isLoading = false;
@@ -12334,7 +12367,11 @@ document.addEventListener('DOMContentLoaded', function () {
         origLeft   = rect.left;
         origBottom = window.innerHeight - rect.bottom;
         widget.classList.add('cf-dragging');
-        applyPosition(origLeft, origBottom);
+        // Ne fige PAS la position ici : un simple tap (ouvrir/fermer le
+        // chat, jamais déplacé) ne doit jamais convertir la position CSS
+        // par défaut (ex: right:4px en mobile) en left:Xpx inline — ça
+        // cassait l'alignement à droite dès le premier tap. La position
+        // n'est appliquée que si un vrai mouvement est détecté, dans moveDrag().
       }
 
       function moveDrag(clientX, clientY) {
@@ -12385,7 +12422,9 @@ document.addEventListener('DOMContentLoaded', function () {
     })();
 
     function updateWindowPos(left, bottom) {
-      widget.classList.toggle('cf-right', left   > window.innerWidth  / 2);
+      const isRight = left > window.innerWidth / 2;
+      widget.classList.toggle('cf-right', isRight);
+      toggle.classList.toggle('cf-right', isRight);
       widget.classList.toggle('cf-top',   bottom > window.innerHeight / 2);
     }
 
@@ -15859,7 +15898,7 @@ function injectColFbt() {
   const IMG_WRAP_SELECTORS = '.col-rv-card__img, .col-fbt-card__img';
   /* Conteneurs mixtes (image + texte côte à côte, ex: flex) : on entoure
      seulement l'<img> d'un wrapper dédié, pour ne pas recouvrir le texte. */
-  const IMG_ONLY_SELECTORS = '.bd-product-item img, .bbw-footer__newin-link img, .fs-thumb';
+  const IMG_ONLY_SELECTORS = '.bd-product-item img, .fs-thumb';
 
   function getSettings() {
     const allProducts = window.__allProducts || [];

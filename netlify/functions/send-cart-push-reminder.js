@@ -27,7 +27,7 @@ const SPREADSHEET_ID = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 const TAB   = 'Push_Subscriptions';
 const RANGE = `${TAB}!A:I`;
 const BASE_URL = process.env.BASE_URL || 'https://bbw4life.com';
-const LOGO_URL = `${BASE_URL}/public/bbw4life%20favicon.png`;
+const LOGO_URL = `${BASE_URL}/public/bbw4life-favicon.png`;
 const CART_URL = `${BASE_URL}/?openCart=true`;
 
 async function getSettings() {
