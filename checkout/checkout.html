@@ -282,18 +282,46 @@
     <section class="payment-method">
         <h2>Payment Method</h2>
         <div class="payment-options">
-            <label class="payment-label">
+
+            <label class="payment-card" data-method="stripe">
                 <input type="radio" name="payment" value="stripe" checked>
-                <span>Pay with Credit Card (Stripe)</span>
+                <div class="payment-card__head">
+                    <span class="payment-card__title">Pay with Credit Card</span>
+                    <span class="payment-card__badge"><i class="fas fa-lock"></i> Secured by Stripe</span>
+                </div>
+                <p class="payment-card__desc">Visa, Mastercard, Amex &amp; more — encrypted, PCI-compliant checkout.</p>
+                <div class="payment-card__icons">
+                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Visa.png?v=1771670819" alt="Visa">
+                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/mastercard.png?v=1771670819" alt="Mastercard">
+                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Apple_Pay_3ff29ddb-d1e6-4391-97c1-e6ce3c11e29d.png?v=1771724676" alt="Apple Pay">
+                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/pay_google.png?v=1771724676" alt="Google Pay">
+                </div>
             </label>
-            <label class="payment-label">
-                <input type="radio" name="payment" value="paypal">
-                <span>Pay with PayPal</span>
+
+            <div class="payment-card payment-card--paypal" data-method="paypal">
+                <input type="radio" name="payment" value="paypal" tabindex="-1" aria-hidden="true">
+                <div class="payment-card__head">
+                    <span class="payment-card__title">Pay with PayPal</span>
+                    <span class="payment-card__badge"><i class="fas fa-lock"></i> Buyer Protection</span>
+                </div>
+                <p class="payment-card__desc">Checkout instantly with your PayPal account — no card details needed here.</p>
+                <div id="paypal-button-container"></div>
+            </div>
+
+            <label class="payment-card payment-card--crypto" data-method="nowpayments">
+                <input type="radio" name="payment" value="nowpayments">
+                <div class="payment-card__head">
+                    <span class="payment-card__title">Pay with Crypto</span>
+                    <span class="payment-card__badge"><i class="fas fa-lock"></i> Powered by NOWPayments</span>
+                </div>
+                <p class="payment-card__desc">Bitcoin, Ethereum, USDT and 300+ coins accepted worldwide.</p>
+                <div class="payment-card__icons">
+                    <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/btc.png?v=1783466134" alt="Bitcoin">
+                    <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/eth.png?v=1783466134" alt="Ethereum">
+                    <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/usdt.png?v=1783466260" alt="Tether USDT">
+                </div>
             </label>
-            <label class="payment-label">
-            <input type="radio" name="payment" value="nowpayments">
-            <span>Pay with Crypto (Bitcoin, ETH, USDT...)</span>
-        </label>
+
         </div>
         <button type="button" id="pay-button" class="cta">
             Pay Now

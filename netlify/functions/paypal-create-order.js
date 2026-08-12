@@ -7,16 +7,23 @@ exports.handler = async (event) => {
   try {
     if (!event.body) return response(400, { success: false, error: "No data" });
 
-    const { cart: rawCart, shipping, promoCode, clientTotal } = JSON.parse(event.body);
+    const { cart: rawCart, shipping: rawShipping, promoCode, clientTotal } = JSON.parse(event.body);
 
     if (!Array.isArray(rawCart) || rawCart.length === 0) {
       return response(400, { success: false, error: "Cart empty" });
     }
 
+    // ── Achat direct depuis la page produit (bouton "Buy with PayPal") :
+    // aucune adresse n'est encore connue à ce stade — PayPal la fournira
+    // lui-même après connexion (GET_FROM_FILE plus bas), et verify-payment.js
+    // la récupère déjà depuis la réponse PayPal une fois le paiement capturé. ──
+    const shipping = rawShipping || {};
+    const hasProvidedAddress = !!(shipping.address && shipping.city && shipping.countryCode);
+
     // ── Recalcul du prix EXCLUSIVEMENT côté serveur (jamais les prix/shipping/tax bruts du client) ──
     const allProducts = await getAllProductsData();
     const settings     = allProducts.find(p => p.type === 'settings') || {};
-    const shippingMethod = shipping?.shipping_method || 'Standard Shipping';
+    const shippingMethod = shipping.shipping_method || 'Standard Shipping';
 
     const { subtotal, shippingCost, taxAmount, discountAmount, total, sanitizedCart } = await computeServerTotal(
       rawCart,
@@ -70,38 +77,48 @@ exports.handler = async (event) => {
     const custom_id = cart.map(item => item.cj_variant_id || '').join('|');
 
     const fullName = `${shipping.firstName || ''} ${shipping.lastName || ''}`.trim();
+    const purchaseUnit = {
+      reference_id: `${fullName}|${shipping.phone || ''}|${shipping.email || ''}|${shipping.countryCode || 'US'}|${shipping.shipping_method || 'Standard Shipping'}|${shipping.affRef || ''}|${shipping.fulfillment_method || 'eprolo'}`,
+      amount: {
+        currency_code: "USD",
+        value: finalTotal,
+        breakdown: {
+          item_total: { currency_code: "USD", value: subtotal.toFixed(2) },
+          shipping:   { currency_code: "USD", value: shippingCost.toFixed(2) },
+          tax_total:  { currency_code: "USD", value: taxAmount.toFixed(2) },
+          discount:   { currency_code: "USD", value: discountAmount.toFixed(2) }
+        }
+      },
+      items: items,
+      custom_id: custom_id
+    };
+
+    // Adresse déjà connue (flux checkout classique) : on la fournit à PayPal
+    // telle quelle. Sinon (achat direct depuis la page produit) : on laisse
+    // PayPal la demander/fournir lui-même après connexion du client
+    // (GET_FROM_FILE) — verify-payment.js la récupère déjà dans ce cas
+    // depuis la réponse PayPal une fois le paiement capturé.
+    if (hasProvidedAddress) {
+      purchaseUnit.shipping = {
+        name: { full_name: fullName },
+        address: {
+          address_line_1: shipping.address || '',
+          address_line_2: '',
+          admin_area_2: shipping.city || "",
+          admin_area_1: shipping.state || "",
+          postal_code: shipping.postalCode || "",
+          country_code: shipping.countryCode || "US"
+        }
+      };
+    }
+
     const orderBody = {
       intent: "CAPTURE",
-      purchase_units: [{
-        reference_id: `${fullName}|${shipping.phone || ''}|${shipping.email || ''}|${shipping.countryCode || 'US'}|${shipping.shipping_method || 'Standard Shipping'}|${shipping.affRef || ''}|${shipping.fulfillment_method || 'eprolo'}`,
-        amount: {
-          currency_code: "USD",
-          value: finalTotal,
-          breakdown: {
-            item_total: { currency_code: "USD", value: subtotal.toFixed(2) },
-            shipping:   { currency_code: "USD", value: shippingCost.toFixed(2) },
-            tax_total:  { currency_code: "USD", value: taxAmount.toFixed(2) },
-            discount:   { currency_code: "USD", value: discountAmount.toFixed(2) }
-          }
-        },
-        items: items,
-        shipping: {
-          name: { full_name: fullName },
-          address: {
-            address_line_1: shipping.address || '',
-            address_line_2: '',
-            admin_area_2: shipping.city || "",
-            admin_area_1: shipping.state || "",
-            postal_code: shipping.postalCode || "",
-            country_code: shipping.countryCode || "US"
-          }
-        },
-        custom_id: custom_id
-      }],
+      purchase_units: [purchaseUnit],
       application_context: {
         return_url: `${process.env.BASE_URL}/thankyou.html`,
         cancel_url: `${process.env.BASE_URL}/checkout.html`,
-        shipping_preference: "SET_PROVIDED_ADDRESS" 
+        shipping_preference: hasProvidedAddress ? "SET_PROVIDED_ADDRESS" : "GET_FROM_FILE"
       }
     };
 

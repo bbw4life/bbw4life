@@ -263,8 +263,7 @@
 
 <div class="product-options" data-scroll-reveal>
           <label for="size-select">Select Your Option:</label>
-          <div class="size-wrapper">
-            <select id="size-select"></select>
+                      <select id="size-select"></select>
             <span class="wishlist-icon-product" title="Add to Wishlist">
               <svg class="wishlist-icon-empty" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -273,7 +272,7 @@
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
             </span>
-          </div>
+          
           <label for="color-select">Select Color:</label>
           <div class="color-swatches"></div>
         </div>
@@ -303,14 +302,34 @@
 
 <div class="quantity-add-wrapper" data-scroll-reveal>
           <div class="quantity-add">
-            <div class="quantity">
-              <button class="qty-minus">-</button>
-              <input type="number" value="1" min="1">
-              <button class="qty-plus">+</button>
+            <div class="quantity-add__row">
+              <div class="quantity">
+                <button class="qty-minus">-</button>
+                <input type="number" value="1" min="1">
+                <button class="qty-plus">+</button>
+              </div>
+              <button class="add-to-cart cta button-3d"><i class="fi fi-rr-shopping-cart"></i></button>
             </div>
-            <button class="add-to-cart cta button-3d"><i class="fi fi-rr-shopping-cart"></i></button>
-            <button class="buy-now cta button-3d"><i class="fi fi-rr-bolt"></i></button>
+            <div class="quantity-add__row">
+              <button class="buy-now cta button-3d"><i class="fi fi-rr-bolt"></i></button>
+              <button class="buy-paypal cta button-3d" aria-label="Buy with PayPal">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M7.5 20.5H4.9a.6.6 0 0 1-.59-.69L6.9 3.4a.86.86 0 0 1 .85-.72h6.36c2.98 0 5.05 1.6 4.85 4.4-.26 3.6-2.7 5.6-6 5.6H10.7a.86.86 0 0 0-.85.72l-.87 5.5a.86.86 0 0 1-.85.72z" fill="#003087"/>
+                  <path d="M9.9 20.5H7.3a.6.6 0 0 1-.59-.69l.66-4.2h2.6c3.3 0 5.74-2 6-5.6.02-.24.03-.47.02-.7 1.36.75 2.05 2.16 1.85 4.1-.35 3.4-2.65 5.3-5.86 5.3H10.75a.86.86 0 0 0-.85.72v.4z" fill="#009cde"/>
+                </svg>
+                <span>Buy with PayPal</span>
+              </button>
+            </div>
           </div>
+        </div>
+
+        <div class="pp-trust-payment-icons">
+            <i class="pp-trust-payment-icon fa-brands fa-cc-visa" title="Visa"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-cc-mastercard" title="Mastercard"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-cc-amex" title="American Express"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-cc-paypal" title="PayPal"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-apple-pay" title="Apple Pay"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-btc" title="Bitcoin"></i>
         </div>
 
 

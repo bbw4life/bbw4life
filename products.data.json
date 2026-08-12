@@ -6249,7 +6249,7 @@
     "stripe_public_key": "pk_live_51PMDwoF9QAVBUyaU9ffneo6gWLCCPP94en6PPapDPawI9mnKqWBnJUjTbjUzjw3B8Et2ZWLBQHfCxm2djyCkzvXw00sP60H2NX",
     "inventory_display_mode": "anderson",
     "show_stock_image_badge": "yes",
-    "show_nowpayments": "no",
+    "show_nowpayments": "yes",
     "product_title_badge": "yes",
     "thumbnails_desktop_vertical_left": "yes",
     "thumbnails_desktop_horizontal_below": "no",
@@ -6351,7 +6351,7 @@
       "banner_slide_duration_ms": 5000
     },
     "preloader": {
-      "show": "yes",
+      "show": "no",
       "style_pulse_logo":   "no",
       "style_progress_bar": "no",
       "style_spinner_ring": "no",

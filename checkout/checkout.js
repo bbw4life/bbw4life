@@ -160,8 +160,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (showCrypto) return;
 
             const cryptoRadio = document.querySelector('input[name="payment"][value="nowpayments"]');
-            const cryptoLabel = cryptoRadio ? cryptoRadio.closest('.payment-label') : null;
-            if (cryptoLabel) cryptoLabel.style.display = 'none';
+            const cryptoCard  = cryptoRadio ? cryptoRadio.closest('.payment-card') : null;
+            if (cryptoCard) cryptoCard.style.display = 'none';
           })();
           
         }
@@ -371,31 +371,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ====================== PAYMENT ======================
-    payButton.addEventListener('click', async () => {
-    if (!validateForm()) return;
-    if (!cart.length) {
-        showErrorPopup('Your cart is empty. Please add some products before checking out.');
-        return;
-    }
+    // Étapes 1-2 (validation serveur + token anti-fraude) partagées entre le
+    // bouton "Pay Now" (Stripe/Crypto) et le vrai bouton SDK PayPal, qui
+    // déclenche le paiement directement au clic sans passer par Pay Now.
+    // Lève une erreur (avec message déjà affiché via showErrorPopup) si la
+    // validation échoue — l'appelant n'a qu'à laisser l'exception remonter.
+    async function runCheckoutValidation() {
+        if (!validateForm()) throw new Error('__silent__');
+        if (!cart.length) {
+            showErrorPopup('Your cart is empty. Please add some products before checking out.');
+            throw new Error('__silent__');
+        }
 
-    payButton.disabled = true;
-    payButton.textContent = "Processing...";
+        const pendingAffEmail = sessionStorage.getItem('pendingAffPromo');
+        if (pendingAffEmail && appliedPromo && appliedPromo.isAffiliate) {
+            try {
+                await fetch('/.netlify/functions/save-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'aff-mark-promo-used', email: pendingAffEmail })
+                });
+            } catch(e) { console.warn('Could not mark promo as used:', e.message); }
+            sessionStorage.removeItem('pendingAffPromo');
+        }
 
-    const pendingAffEmail = sessionStorage.getItem('pendingAffPromo');
-    if (pendingAffEmail && appliedPromo && appliedPromo.isAffiliate) {
-        try {
-            await fetch('/.netlify/functions/save-account', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'aff-mark-promo-used', email: pendingAffEmail })
-            });
-        } catch(e) { console.warn('Could not mark promo as used:', e.message); }
-        sessionStorage.removeItem('pendingAffPromo');
-    }
-
-    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-
-    try {
         const shippingData = await getShippingData();
         shippingData.affRef = window.getAffRef ? window.getAffRef() : (localStorage.getItem('aff_ref') || '');
 
@@ -420,9 +419,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const validationData = await validationRes.json();
         if (!validationRes.ok || !validationData.success) {
             showErrorPopup(validationData.errors?.join('\n') || validationData.error || 'Validation failed. Please try again.');
-            payButton.disabled = false;
-            payButton.textContent = "Pay Now";
-            return;
+            throw new Error('__silent__');
         }
 
         const { cartToken, sanitizedCart, shippingCost, taxAmount } = validationData;
@@ -443,10 +440,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         const verifyData = await verifyRes.json();
         if (!verifyRes.ok || !verifyData.success) {
             showErrorPopup(verifyData.error || 'Cart integrity check failed. Please refresh and try again.');
-            payButton.disabled = false;
-            payButton.textContent = "Pay Now";
-            return;
+            throw new Error('__silent__');
         }
+
+        return { shippingData, cartToken, sanitizedCart, shippingCost, taxAmount };
+    }
+
+    payButton.addEventListener('click', async () => {
+    if (!validateForm()) return;
+    if (!cart.length) {
+        showErrorPopup('Your cart is empty. Please add some products before checking out.');
+        return;
+    }
+
+    payButton.disabled = true;
+    payButton.textContent = "Processing...";
+
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+    try {
+        const { shippingData, cartToken, sanitizedCart, shippingCost, taxAmount } = await runCheckoutValidation();
 
         // ── ÉTAPE 3 : Paiement avec totaux serveur ──
         if (paymentMethod === 'stripe') {
@@ -510,11 +523,65 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error("Payment error:", error.message);
-        showErrorPopup('Payment failed. Please try again.');
+        if (error.message !== '__silent__') showErrorPopup('Payment failed. Please try again.');
         payButton.disabled = false;
         payButton.textContent = "Pay Now";
     }
 });
+
+    // ====================== PAYPAL SDK BUTTON ======================
+    // Vrai bouton PayPal (carte dédiée) : au clic, suit le paiement
+    // directement — pas besoin d'attendre/cliquer "Pay Now". Réutilise
+    // exactement la même validation serveur (runCheckoutValidation) que le
+    // flux Stripe/Crypto, donc la même sécurité anti-fraude sur le prix.
+    const paypalButtonContainer = document.getElementById('paypal-button-container');
+    if (paypalButtonContainer && window.paypal && typeof window.paypal.Buttons === 'function') {
+        window.paypal.Buttons({
+            style: { layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal', height: 45 },
+            createOrder: async () => {
+                // Coche le radio PayPal caché (change trigger) : réactive la
+                // logique existante (retrait promo affilié incompatible avec
+                // PayPal, surbrillance de la carte via :has(input:checked)).
+                const paypalRadio = document.querySelector('input[name="payment"][value="paypal"]');
+                if (paypalRadio && !paypalRadio.checked) {
+                    paypalRadio.checked = true;
+                    paypalRadio.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+
+                const { shippingData, cartToken, sanitizedCart, shippingCost, taxAmount } = await runCheckoutValidation();
+                const response = await fetch('/.netlify/functions/paypal-create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        cart: sanitizedCart,
+                        shipping: shippingData,
+                        shipping_cost: shippingCost.toFixed(2),
+                        tax: taxAmount.toFixed(2),
+                        cartToken,
+                        promoCode: appliedPromo ? appliedPromo.code : null
+                    })
+                });
+                const data = await response.json();
+                if (!response.ok || !data.orderID) throw new Error(data.error || 'PayPal order failed');
+                localStorage.setItem('pendingOrder', 'paypal');
+                return data.orderID;
+            },
+            onApprove: async (data) => {
+                // approve renvoie déjà l'orderID capturable — on redirige vers
+                // thankyou.html exactement comme le flux redirect classique,
+                // verify-payment.js s'occupe de la capture + sauvegarde Sheet.
+                window.location.href = `/thankyou.html?token=${data.orderID}`;
+            },
+            onError: (err) => {
+                console.error('PayPal button error:', err);
+                if (err && err.message === '__silent__') return; // déjà affiché par runCheckoutValidation
+                showErrorPopup('PayPal payment could not be started. Please try again.');
+            },
+            onCancel: () => {
+                // Le client a fermé la popup PayPal volontairement — rien à afficher.
+            }
+        }).render('#paypal-button-container');
+    }
 
     // ====================== MODALS ======================
     const refundLink = document.getElementById('refund-policy-link');

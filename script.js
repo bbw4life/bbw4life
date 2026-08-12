@@ -7615,10 +7615,10 @@ document.dispatchEvent(new Event('wishlist:change'));
   function addToCart(e) {
     e.stopPropagation();
     const container = e.target.closest('.product-card') || e.target.closest('.product-section');
-    if (!container) return;
+    if (!container) return false;
     const id = container.dataset.id || container.dataset.productId;
     const product = products.find(p => p.id === id);
-    if (!product) return;
+    if (!product) return false;
     function getVariantPrice(product, color, size) {
       if (!color || !size) return product.price;
       const variant = product.variants.find(v => v.color === color && v.size === size);
@@ -7638,7 +7638,7 @@ document.dispatchEvent(new Event('wishlist:change'));
       selectedSize  = sizeSelect && sizeSelect.value !== "" ? sizeSelect.value : null;
       selectedColor = activeSwatch ? activeSwatch.dataset.color : null;
       if ((product.colors && product.colors.length > 0 && !selectedColor) || (product.sizes && product.sizes.length > 0 && !selectedSize)) {
-        showErrorPopup("Please select a color first."); return;
+        showErrorPopup("Please select a color first."); return false;
       }
       if (selectedColor) { const colorObj = product.colors.find(c => c.name === selectedColor); if (colorObj && colorObj.image) itemImage = upgradeShopifyImageUrl(colorObj.image); }
     } else {
@@ -7682,6 +7682,7 @@ document.dispatchEvent(new Event('wishlist:change'));
       if (liveIcon) { liveIcon.classList.add('added'); setTimeout(() => liveIcon.classList.remove('added'), 500); }
       openCartDrawer();
     }
+    return true;
   }
 
   function renderWishlist() {
@@ -8235,6 +8236,54 @@ document.dispatchEvent(new Event('wishlist:change'));
   window.location.href = '/checkout/checkout.html';
 }
 
+// ── Buy with PayPal (page produit) ──────────────────────────────
+// 1) Panier vide avant le clic + couleur/taille valides (déjà vérifiées par
+//    addToCart, qui bloque avec un popup sinon) : paiement PayPal direct
+//    pour ce seul produit, sans passer par le formulaire checkout — le prix
+//    est recalculé et sécurisé côté serveur (paypal-create-order.js), et
+//    l'adresse de livraison est fournie par PayPal lui-même après connexion
+//    du client (verify-payment.js la récupère déjà de cette façon).
+// 2) Panier déjà rempli avant le clic (d'autres produits présents) : on
+//    ajoute ce produit et on redirige vers le checkout classique, comme le
+//    bouton Shop Now — un paiement PayPal direct ne concernerait alors
+//    qu'un seul article et laisserait le reste du panier de côté.
+  async function buyWithPaypal(e) {
+    const wasCartEmptyBefore = cart.length === 0;
+    const btn = e.target.closest('.buy-paypal');
+
+    const added = addToCart(e); // valide couleur/taille (popup d'erreur sinon) puis ajoute au panier
+    if (!added) return; // couleur/taille manquante : popup déjà affiché, on s'arrête ici
+
+    if (!wasCartEmptyBefore) {
+      checkout();
+      return;
+    }
+
+    if (btn) { btn.disabled = true; btn.classList.add('is-loading'); }
+    try {
+      // Pas de clientTotal envoyé ici : le sous-total produit seul ne
+      // reflète pas shipping/tax (calculés côté serveur), l'envoyer
+      // causerait un faux "Price mismatch". Le total réel est de toute
+      // façon toujours recalculé et sécurisé par paypal-create-order.js.
+      const res = await fetch('/.netlify/functions/paypal-create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cart,
+          shippingMethod: 'Standard Shipping'
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.orderID) throw new Error(data.error || 'PayPal order failed');
+      const paypalDomain = data.paypalDomain || 'https://www.sandbox.paypal.com';
+      localStorage.setItem('pendingOrder', 'paypal');
+      window.location.href = `${paypalDomain}/checkoutnow?token=${data.orderID}`;
+    } catch (err) {
+      showErrorPopup('PayPal payment could not be started. Please try again.');
+      if (btn) { btn.disabled = false; btn.classList.remove('is-loading'); }
+    }
+  }
+
 function showCheckoutBlockPopup() {
   let popup = document.getElementById('checkout-block-popup');
   if (popup) { popup.style.display = 'flex'; return; }
@@ -8297,7 +8346,8 @@ function showCheckoutBlockPopup() {
   updateBadges();
   updateWishlistIcons();
   document.querySelectorAll('.add-to-cart').forEach(btn => btn.addEventListener('click', addToCart));
-  document.querySelectorAll('.buy-now').forEach(btn => { btn.addEventListener('click', (e) => { addToCart(e); checkout(); }); });
+  document.querySelectorAll('.buy-now').forEach(btn => { btn.addEventListener('click', (e) => { if (addToCart(e)) checkout(); }); });
+  document.querySelectorAll('.buy-paypal').forEach(btn => { btn.addEventListener('click', buyWithPaypal); });
   document.querySelectorAll('.wishlist-toggle, .wishlist-icon-product, .mini-wishlist-icon').forEach(icon => { icon.addEventListener('click', toggleWishlist); });
 
 const cartWrapper = document.querySelector('.icon-wrapper:has(.cart-icon)');

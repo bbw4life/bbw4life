@@ -291,14 +291,34 @@
 
 <div class="quantity-add-wrapper" data-scroll-reveal>
           <div class="quantity-add">
-            <div class="quantity">
-              <button class="qty-minus">-</button>
-              <input type="number" value="1" min="1">
-              <button class="qty-plus">+</button>
+            <div class="quantity-add__row">
+              <div class="quantity">
+                <button class="qty-minus">-</button>
+                <input type="number" value="1" min="1">
+                <button class="qty-plus">+</button>
+              </div>
+              <button class="add-to-cart cta button-3d"><i class="fi fi-rr-shopping-cart"></i></button>
             </div>
-            <button class="add-to-cart cta button-3d"><i class="fi fi-rr-shopping-cart"></i></button>
-            <button class="buy-now cta button-3d"><i class="fi fi-rr-bolt"></i></button>
+            <div class="quantity-add__row">
+              <button class="buy-now cta button-3d"><i class="fi fi-rr-bolt"></i></button>
+              <button class="buy-paypal cta button-3d" aria-label="Buy with PayPal">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M7.5 20.5H4.9a.6.6 0 0 1-.59-.69L6.9 3.4a.86.86 0 0 1 .85-.72h6.36c2.98 0 5.05 1.6 4.85 4.4-.26 3.6-2.7 5.6-6 5.6H10.7a.86.86 0 0 0-.85.72l-.87 5.5a.86.86 0 0 1-.85.72z" fill="#003087"/>
+                  <path d="M9.9 20.5H7.3a.6.6 0 0 1-.59-.69l.66-4.2h2.6c3.3 0 5.74-2 6-5.6.02-.24.03-.47.02-.7 1.36.75 2.05 2.16 1.85 4.1-.35 3.4-2.65 5.3-5.86 5.3H10.75a.86.86 0 0 0-.85.72v.4z" fill="#009cde"/>
+                </svg>
+                <span>Buy with PayPal</span>
+              </button>
+            </div>
           </div>
+        </div>
+
+        <div class="pp-trust-payment-icons">
+            <i class="pp-trust-payment-icon fa-brands fa-cc-visa" title="Visa"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-cc-mastercard" title="Mastercard"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-cc-amex" title="American Express"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-cc-paypal" title="PayPal"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-apple-pay" title="Apple Pay"></i>
+            <i class="pp-trust-payment-icon fa-brands fa-btc" title="Bitcoin"></i>
         </div>
 
 
