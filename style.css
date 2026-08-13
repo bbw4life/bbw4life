@@ -9262,6 +9262,11 @@ body.sr-page .curva-search-dropdown {
   scroll-behavior: smooth;
 }
 .bss-stories-track::-webkit-scrollbar { display: none; }
+@media (min-width: 769px) {
+  .bss-stories-track {
+    justify-content: center;
+  }
+}
 
 .bss-story {
   display: flex;

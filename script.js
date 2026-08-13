@@ -11485,6 +11485,55 @@ function loadProfilePhoto() {
     }
   }
 
+  // ── Popup "username déjà pris" avec suggestions cliquables ──
+  function showUsernameTakenPopup(suggestions) {
+    let overlay = document.getElementById('aff-username-taken-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'aff-username-taken-overlay';
+      overlay.className = 'aff-ut-overlay';
+      overlay.innerHTML =
+        '<div class="aff-ut-modal">' +
+          '<button type="button" class="aff-ut-close" id="aff-ut-close" aria-label="Close">' +
+            '<i class="fi fi-rr-cross"></i>' +
+          '</button>' +
+          '<span class="aff-ut-icon"><i class="fi fi-rr-user-remove"></i></span>' +
+          '<h3 class="aff-ut-title">Username Already Taken</h3>' +
+          '<p class="aff-ut-msg">We\'re sorry, this username is already chosen by someone else. Please choose another one!</p>' +
+          '<div class="aff-ut-suggestions" id="aff-ut-suggestions"></div>' +
+        '</div>';
+      document.body.appendChild(overlay);
+
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) overlay.classList.remove('aff-ut-active');
+      });
+      document.getElementById('aff-ut-close').addEventListener('click', function() {
+        overlay.classList.remove('aff-ut-active');
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.classList.contains('aff-ut-active')) {
+          overlay.classList.remove('aff-ut-active');
+        }
+      });
+    }
+
+    const suggWrap = document.getElementById('aff-ut-suggestions');
+    suggWrap.innerHTML = (suggestions || []).map(function(s) {
+      return '<button type="button" class="aff-ut-suggestion-btn" data-username="' + escHtml(s) + '">' +
+        '<i class="fi fi-rr-add"></i> ' + escHtml(s) +
+      '</button>';
+    }).join('');
+
+    suggWrap.querySelectorAll('.aff-ut-suggestion-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (usernameInput) usernameInput.value = btn.dataset.username;
+        overlay.classList.remove('aff-ut-active');
+      });
+    });
+
+    overlay.classList.add('aff-ut-active');
+  }
+
   // ── Créer un affilié ──
   if (createBtn) {
     createBtn.addEventListener('click', async function() {
@@ -11508,11 +11557,17 @@ function loadProfilePhoto() {
         affiliatesFromSheet.push(newAff);
 
         try {
-          await fetch('/.netlify/functions/save-account', {
+          const res = await fetch('/.netlify/functions/save-account', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'aff-create', email: userEmail, allAffiliates: affiliatesFromSheet, token: localStorage.getItem('userAccountToken') })
           });
+          const data = await res.json();
+          if (data && data.success === false && data.error === 'USERNAME_TAKEN') {
+            affiliatesFromSheet.pop(); // annule l'ajout local optimiste
+            showUsernameTakenPopup(data.suggestions);
+            return;
+          }
         } catch(e) { console.warn('[Affiliation] save failed:', e.message); }
       }
 

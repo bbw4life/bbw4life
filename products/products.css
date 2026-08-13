@@ -1371,6 +1371,11 @@
     color: var(--bbw-black);
     letter-spacing: 0.005em;
 }
+.bundle-name i {
+    color: var(--bbw-gold);
+    font-size: 0.85em;
+    margin-left: 4px;
+}
 .bundle-description {
     font-size: 10.5px; font-weight: 700;
     border-radius: 20px !important;

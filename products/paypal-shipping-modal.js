@@ -573,7 +573,11 @@
         postalCode: document.getElementById('ppsm-postal-code').value.trim(),
         address: document.getElementById('ppsm-address').value.trim(),
         shipping_method: (shippingMethodEl && shippingMethodEl.dataset.method) || 'Standard Shipping',
-        fulfillment_method: fulfillment_method
+        fulfillment_method: fulfillment_method,
+        // Même logique que checkout.js — sans ça, aucune commande passée via
+        // ce popup ne crédite jamais l'affilié qui a référé le client
+        // (verify-payment.js lit affRef depuis reference_id.split('|')[5]).
+        affRef: (typeof window.getAffRef === 'function' ? window.getAffRef() : null) || localStorage.getItem('aff_ref') || ''
       };
     }
 

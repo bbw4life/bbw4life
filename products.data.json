@@ -6257,7 +6257,7 @@
     "thumbnails_mobile_vertical_left": "no",
     "sticky_media_mobile": "no",
     "swatch_scroll_mobile": "yes",
-    "sticky_atc_mobile_threshold": 9.5,
+    "sticky_atc_mobile_threshold": 11.0,
     "sticky_atc_desktop_threshold": 7.3,
     "theme_color": "#000000",
     "allowed_languages": ["en", "fr", "es", "ar", "zh", "ht", "hi", "pt", "ru", "de", "ja"],
@@ -7451,9 +7451,9 @@
       ]
     },
     "mobile_links_behavior": {
-      "hide_completely": "yes",
+      "hide_completely": "no",
       "show_all_centered": "no",
-      "two_columns_mobile": "no"
+      "two_columns_mobile": "yes"
     },
 
     "newsletter_auto_popup": {
@@ -8451,11 +8451,11 @@
     ]
   },
   "content_protection": {
-  "disable_right_click":      "yes",
-  "disable_text_selection":   "yes",
+  "disable_right_click":      "no",
+  "disable_text_selection":   "no",
   "disable_image_download":   "yes",
   "disable_video_download":   "yes",
-  "disable_copy":             "yes",
+  "disable_copy":             "no",
   "disable_devtools_key": "yes"
 },
 "mini_product_slider": {

@@ -572,8 +572,38 @@ exports.handler = async (event) => {
 
   // Vérifier si username déjà présent (colonne S)
   const existingUsername = (rows[rowIndex][18] || '').toLowerCase().trim();
-  if (existingUsername && existingUsername === newAff.username.toLowerCase().trim()) {
+  const requestedUsername = (newAff.username || '').toLowerCase().trim();
+  if (existingUsername && existingUsername === requestedUsername) {
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
+  }
+
+  // ── Unicité GLOBALE : ce username ne doit appartenir à aucun AUTRE
+  // compte (colonne S, sur toutes les lignes sauf la sienne). Sans ce
+  // contrôle, deux affiliés avec le même username partagent silencieusement
+  // les clics/commissions du premier créé — le second n'est jamais crédité. ──
+  const takenByOther = rows.some((r, i) =>
+    i !== rowIndex && (r[18] || '').toLowerCase().trim() === requestedUsername
+  );
+  if (takenByOther) {
+    const takenSet = new Set(
+      rows.map(r => (r[18] || '').toLowerCase().trim()).filter(Boolean)
+    );
+    const base = requestedUsername.replace(/[^a-z0-9_-]/g, '') || 'user';
+    const suggestions = [];
+    let n = 2;
+    while (suggestions.length < 2 && n < 1000) {
+      const candidate = `${base}${n}`;
+      if (!takenSet.has(candidate)) suggestions.push(candidate);
+      n++;
+    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        success: false,
+        error: 'USERNAME_TAKEN',
+        suggestions
+      })
+    };
   }
 
   // S=Username, T=Clicks, U=Earnings, V=Orders, W=OrderValue, X=WithdrawStatus, Y=CreatedAt

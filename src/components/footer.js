@@ -42,7 +42,7 @@
       { text: 'Support 7/24',   url: 'page/contact.html' },
       { text: 'order-tracking',  url: '/page/order-tracking.html' },
       { text: 'Prodducts care',  url: '/page/products-care.html' },
-      { text: 'Affiliation/Earn %',      url: '/account.html' },
+      { text: 'Affiliation/Earn %',      url: '#' },
       { text: 'Privacy policy',  url: '/policies/privacy.html' },
       { text: 'Shipping Info',   url: '/policies/shipping.html' },
       { text: 'Terms shop',      url: '/policies/terms.html' }
@@ -2134,9 +2134,120 @@ document.addEventListener('click', function (e) {
     bbwcInit();
   }
 
-  
+
   window.openCommitmentPopup  = bbwcOpen;
   window.closeCommitmentPopup = bbwcClose;
+
+})();
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BBW4LIFE — AFFILIATE PROGRAM POPUP
+═══════════════════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  var BBWAF_OVERLAY_ID = 'bbwAffOverlay';
+  var BBWAF_CLOSE_ID   = 'bbwafCloseBtn';
+
+  function bbwafFillSettings() {
+    var overlay = document.getElementById(BBWAF_OVERLAY_ID);
+    if (!overlay) return;
+
+    var all      = window.__allProducts || [];
+    var settings = all.find(function (p) { return p.type === 'settings'; }) || {};
+    var cfg      = settings.affiliation || {};
+
+    var commissionPct   = parseFloat(cfg.commission_percent)          || 0;
+    var jackpotAmt      = parseFloat(cfg.jackpot_reward_amount)       || 0;
+    var jackpotOrders   = parseInt(cfg.jackpot_orders_threshold)      || 0;
+    var payPerClick     = (cfg.pay_per_click || 'no').toLowerCase().trim() === 'yes';
+    var clicksPerReward = parseInt(cfg.clicks_per_reward)             || 0;
+    var clickRewardAmt  = parseFloat(cfg.click_reward_amount)         || 0;
+
+    function setText(sel, value) {
+      overlay.querySelectorAll(sel).forEach(function (el) { el.textContent = value; });
+    }
+
+    setText('[data-aff-commission]', commissionPct);
+    setText('[data-aff-jackpot]', jackpotAmt);
+    setText('[data-aff-threshold]', jackpotOrders);
+    setText('[data-aff-click-amt]', clickRewardAmt);
+    setText('[data-aff-clicks-per-reward]', clicksPerReward);
+
+    var clickLine = document.getElementById('bbwafEarnClick');
+    if (clickLine) clickLine.style.display = payPerClick ? 'flex' : 'none';
+  }
+
+  function bbwafOpen() {
+    var overlay = document.getElementById(BBWAF_OVERLAY_ID);
+    if (!overlay) return;
+    bbwafFillSettings();
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('bbwaf-active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function bbwafClose() {
+    var overlay = document.getElementById(BBWAF_OVERLAY_ID);
+    if (!overlay) return;
+    overlay.classList.remove('bbwaf-active');
+    overlay.setAttribute('aria-hidden', 'true');
+
+    var otherOpen = document.querySelector(
+      '#bbw-quiz-overlay.bbq-active, #bbwStyleOverlay.bbws-active, #bbwLookOverlay.bbwl-active, #bdOverlay.bd-active, #bbwCommitmentOverlay.bbwc-active, #bbwMissionOverlay.bbwm-active'
+    );
+    if (!otherOpen) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Le lien "Affiliation/Earn %" est généré dynamiquement (buildLinks() dans
+  // applyCol2, bien après le chargement du footer) — délégation d'événements
+  // globale plutôt qu'un bind direct, pour capter le clic quel que soit le
+  // moment où le lien apparaît dans le DOM.
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    if (!el) return;
+
+    var anchor = el.closest ? el.closest('a, button, li') : el;
+    if (!anchor) return;
+
+    var txt = (anchor.textContent || '').trim().toLowerCase();
+    if (txt === 'affiliation/earn %') {
+      e.preventDefault();
+      bbwafOpen();
+    }
+  });
+
+  function bbwafInit() {
+    var overlay  = document.getElementById(BBWAF_OVERLAY_ID);
+    var closeBtn = document.getElementById(BBWAF_CLOSE_ID);
+    if (!overlay) return;
+
+    if (closeBtn) closeBtn.addEventListener('click', bbwafClose);
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) bbwafClose();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('bbwaf-active')) {
+        bbwafClose();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bbwafInit);
+  } else {
+    bbwafInit();
+  }
+
+  window.openAffiliatePopup  = bbwafOpen;
+  window.closeAffiliatePopup = bbwafClose;
 
 })();
 
