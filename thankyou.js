@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const verifiedId = sessionId || orderID;
     if (sessionStorage.getItem("paymentVerified") === verifiedId) {
         console.log("✅ Already verified in this session — skipping server call");
+        localStorage.removeItem('cart');
         spinner.style.display = "none";
         showSuccess();
         return;
@@ -69,6 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         sessionStorage.setItem("paymentVerified", verifiedId);
+        localStorage.removeItem('cart');
 
         showSuccess();
         console.log("🎉 VERIFICATION COMPLETED — Welcome to the BBW4LIFE family!");
