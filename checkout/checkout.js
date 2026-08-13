@@ -529,60 +529,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-    // ====================== PAYPAL SDK BUTTON ======================
-    // Vrai bouton PayPal (carte dédiée) : au clic, suit le paiement
-    // directement — pas besoin d'attendre/cliquer "Pay Now". Réutilise
-    // exactement la même validation serveur (runCheckoutValidation) que le
-    // flux Stripe/Crypto, donc la même sécurité anti-fraude sur le prix.
-    const paypalButtonContainer = document.getElementById('paypal-button-container');
-    if (paypalButtonContainer && window.paypal && typeof window.paypal.Buttons === 'function') {
-        window.paypal.Buttons({
-            style: { layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal', height: 45 },
-            createOrder: async () => {
-                // Coche le radio PayPal caché (change trigger) : réactive la
-                // logique existante (retrait promo affilié incompatible avec
-                // PayPal, surbrillance de la carte via :has(input:checked)).
-                const paypalRadio = document.querySelector('input[name="payment"][value="paypal"]');
-                if (paypalRadio && !paypalRadio.checked) {
-                    paypalRadio.checked = true;
-                    paypalRadio.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-
-                const { shippingData, cartToken, sanitizedCart, shippingCost, taxAmount } = await runCheckoutValidation();
-                const response = await fetch('/.netlify/functions/paypal-create-order', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        cart: sanitizedCart,
-                        shipping: shippingData,
-                        shipping_cost: shippingCost.toFixed(2),
-                        tax: taxAmount.toFixed(2),
-                        cartToken,
-                        promoCode: appliedPromo ? appliedPromo.code : null
-                    })
-                });
-                const data = await response.json();
-                if (!response.ok || !data.orderID) throw new Error(data.error || 'PayPal order failed');
-                localStorage.setItem('pendingOrder', 'paypal');
-                return data.orderID;
-            },
-            onApprove: async (data) => {
-                // approve renvoie déjà l'orderID capturable — on redirige vers
-                // thankyou.html exactement comme le flux redirect classique,
-                // verify-payment.js s'occupe de la capture + sauvegarde Sheet.
-                window.location.href = `/thankyou.html?token=${data.orderID}`;
-            },
-            onError: (err) => {
-                console.error('PayPal button error:', err);
-                if (err && err.message === '__silent__') return; // déjà affiché par runCheckoutValidation
-                showErrorPopup('PayPal payment could not be started. Please try again.');
-            },
-            onCancel: () => {
-                // Le client a fermé la popup PayPal volontairement — rien à afficher.
-            }
-        }).render('#paypal-button-container');
-    }
-
     // ====================== MODALS ======================
     const refundLink = document.getElementById('refund-policy-link');
     const shippingLink = document.getElementById('shipping-policy-link');

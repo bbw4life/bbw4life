@@ -1077,13 +1077,22 @@ select:focus {
   border: 1px solid rgba(184,146,90,0.20);
 }
 
-.payment-card--paypal {
-  min-height: 0;
+.ppsm-amex-icon {
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: #007bc1;
+  background: rgba(255,255,255,0.96);
+  border-radius: 3px;
+  padding: 3px 7px;
+  border: 1px solid rgba(184,146,90,0.20);
+  box-sizing: border-box;
 }
 
-#paypal-button-container {
-  margin-top: 2px;
-  min-height: 45px;
+.payment-card--paypal {
+  min-height: 0;
 }
 
 

@@ -298,15 +298,20 @@
                 </div>
             </label>
 
-            <div class="payment-card payment-card--paypal" data-method="paypal">
-                <input type="radio" name="payment" value="paypal" tabindex="-1" aria-hidden="true">
+            <label class="payment-card payment-card--paypal" data-method="paypal">
+                <input type="radio" name="payment" value="paypal">
                 <div class="payment-card__head">
                     <span class="payment-card__title">Pay with PayPal</span>
                     <span class="payment-card__badge"><i class="fas fa-lock"></i> Buyer Protection</span>
                 </div>
                 <p class="payment-card__desc">Checkout instantly with your PayPal account — no card details needed here.</p>
-                <div id="paypal-button-container"></div>
-            </div>
+                <div class="payment-card__icons">
+                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/paypal_logo.png?v=1773850289" alt="PayPal">
+                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Visa.png?v=1771670819" alt="Visa">
+                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/mastercard.png?v=1771670819" alt="Mastercard">
+                    <i class="ppsm-amex-icon fa-brands fa-cc-amex" title="American Express"></i>
+                </div>
+            </label>
 
             <label class="payment-card payment-card--crypto" data-method="nowpayments">
                 <input type="radio" name="payment" value="nowpayments">

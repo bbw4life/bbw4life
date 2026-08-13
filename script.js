@@ -8238,18 +8238,16 @@ document.dispatchEvent(new Event('wishlist:change'));
 
 // ── Buy with PayPal (page produit) ──────────────────────────────
 // 1) Panier vide avant le clic + couleur/taille valides (déjà vérifiées par
-//    addToCart, qui bloque avec un popup sinon) : paiement PayPal direct
-//    pour ce seul produit, sans passer par le formulaire checkout — le prix
-//    est recalculé et sécurisé côté serveur (paypal-create-order.js), et
-//    l'adresse de livraison est fournie par PayPal lui-même après connexion
-//    du client (verify-payment.js la récupère déjà de cette façon).
+//    addToCart, qui bloque avec un popup sinon) : ouvre le popup de
+//    livraison (paypal-shipping-modal.js — même formulaire que checkout.js,
+//    adresse fournie par le CLIENT, pas par PayPal, pour arriver complète
+//    chez Eprolo/CJ) puis crée la commande PayPal une fois validé.
 // 2) Panier déjà rempli avant le clic (d'autres produits présents) : on
 //    ajoute ce produit et on redirige vers le checkout classique, comme le
 //    bouton Shop Now — un paiement PayPal direct ne concernerait alors
 //    qu'un seul article et laisserait le reste du panier de côté.
-  async function buyWithPaypal(e) {
+  function buyWithPaypal(e) {
     const wasCartEmptyBefore = cart.length === 0;
-    const btn = e.target.closest('.buy-paypal');
 
     const added = addToCart(e); // valide couleur/taille (popup d'erreur sinon) puis ajoute au panier
     if (!added) return; // couleur/taille manquante : popup déjà affiché, on s'arrête ici
@@ -8259,28 +8257,10 @@ document.dispatchEvent(new Event('wishlist:change'));
       return;
     }
 
-    if (btn) { btn.disabled = true; btn.classList.add('is-loading'); }
-    try {
-      // Pas de clientTotal envoyé ici : le sous-total produit seul ne
-      // reflète pas shipping/tax (calculés côté serveur), l'envoyer
-      // causerait un faux "Price mismatch". Le total réel est de toute
-      // façon toujours recalculé et sécurisé par paypal-create-order.js.
-      const res = await fetch('/.netlify/functions/paypal-create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          cart,
-          shippingMethod: 'Standard Shipping'
-        })
-      });
-      const data = await res.json();
-      if (!res.ok || !data.orderID) throw new Error(data.error || 'PayPal order failed');
-      const paypalDomain = data.paypalDomain || 'https://www.sandbox.paypal.com';
-      localStorage.setItem('pendingOrder', 'paypal');
-      window.location.href = `${paypalDomain}/checkoutnow?token=${data.orderID}`;
-    } catch (err) {
-      showErrorPopup('PayPal payment could not be started. Please try again.');
-      if (btn) { btn.disabled = false; btn.classList.remove('is-loading'); }
+    if (typeof window.openPaypalShippingModal === 'function') {
+      window.openPaypalShippingModal();
+    } else {
+      showErrorPopup('PayPal checkout is not ready yet. Please try again in a moment.');
     }
   }
 
