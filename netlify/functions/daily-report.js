@@ -12,9 +12,20 @@ function getAuth() {
   });
 }
 
-function getTodayDate() {
+// Le rapport résume la journée d'HIER (envoyé le matin pour la veille
+// complète), pas le jour courant — sans ça, un cron qui déclenche le
+// rapport après minuit ne trouve jamais les commandes/activité de la
+// veille car il compare à la date du jour d'exécution.
+function getYesterdayDate() {
   const d = new Date();
+  d.setDate(d.getDate() - 1);
   return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear().toString().slice(-2)}`;
+}
+
+function getYesterdayISO() {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return d.toISOString().slice(0, 10);
 }
 
 exports.handler = async (event) => {
@@ -28,7 +39,8 @@ exports.handler = async (event) => {
   try {
     const auth   = getAuth();
     const sheets = google.sheets({ version: 'v4', auth });
-    const today  = getTodayDate();
+    const today     = getYesterdayDate();
+    const todayISO  = getYesterdayISO();
 
     // ── 1. Commandes du jour ──
     let ordersToday = 0;
@@ -41,7 +53,7 @@ exports.handler = async (event) => {
       });
       const orderRows = (ordersRes.data.values || []).slice(1);
       orderRows.forEach(row => {
-        if (row[16] && row[16].toString().startsWith(new Date().toISOString().slice(0, 10))) {
+        if (row[16] && row[16].toString().startsWith(todayISO)) {
           ordersToday++;
           const orderId = row[2]; // colonne C = payment_id
           if (orderId && !countedOrderIds.has(orderId)) {
@@ -61,7 +73,7 @@ exports.handler = async (event) => {
       });
       const abandonedRows = (abandonedRes.data.values || []).slice(1);
       abandonedRows.forEach(row => {
-        if (row[7] && row[7].toString().startsWith(new Date().toISOString().slice(0, 10))) {
+        if (row[7] && row[7].toString().startsWith(todayISO)) {
           abandonedToday++;
         }
       });

@@ -1636,6 +1636,69 @@ function showErrorPopup(message) {
 
 })();
 
+(function initBxgxBannerWidget() {
+    const widget = document.getElementById('bbwBxgxWidget');
+    if (!widget) return;
+
+    /* Pages BBW Features (First Edition / Request) exclues — même liste que
+       les autres exclusions produit de cette page. */
+    const BBW_FEATURED_IDS_BXGX = [
+        'Pdg-Francenel-product69','Pdg-Francenel-product70','Pdg-Francenel-product71',
+        'Pdg-Francenel-product72','Pdg-Francenel-product73','Pdg-Francenel-product74',
+        'Pdg-Francenel-product75',
+        'Pdg-Francenel-product98','Pdg-Francenel-product99','Pdg-Francenel-product100',
+        'Pdg-Francenel-product101','Pdg-Francenel-product102','Pdg-Francenel-product103',
+        'Pdg-Francenel-product104','Pdg-Francenel-product105','Pdg-Francenel-product106',
+        'Pdg-Francenel-product107','Pdg-Francenel-product108','Pdg-Francenel-product109',
+        'Pdg-Francenel-product110'
+    ];
+    const productSection = document.querySelector('.product-section');
+    const pid = productSection ? productSection.dataset.productId : null;
+    if (pid && BBW_FEATURED_IDS_BXGX.includes(pid)) return;
+
+    const cd     = settings.cart_drawer || {};
+    const showIt = (cd.show_banner_bxgx_widget || 'Yes').toLowerCase().trim() === 'yes';
+    const buyQty = parseInt(cd.promo_buy_quantity) || 0;
+    const getQty = parseInt(cd.promo_get_quantity) || 1;
+    if (!showIt || !buyQty) return;
+
+    const fillEl    = document.getElementById('bbwBxgxFill');
+    const tooltipEl = document.getElementById('bbwBxgxTooltip');
+    const pctEl     = document.getElementById('bbwBxgxPct');
+    const countEl   = document.getElementById('bbwBxgxCount');
+    const msgEl     = document.getElementById('bbwBxgxMsg');
+
+    function render() {
+        let cartNow = [];
+        try { cartNow = JSON.parse(localStorage.getItem('cart')) || []; } catch (e) {}
+        const paidQty = cartNow.filter(i => !i.isFreePromo).reduce((sum, i) => sum + (i.quantity || 0), 0);
+
+        const clamped = Math.min(paidQty, buyQty);
+        const pct = buyQty > 0 ? Math.round((clamped / buyQty) * 100) : 0;
+
+        if (fillEl) fillEl.style.width = pct + '%';
+        if (tooltipEl) tooltipEl.textContent = pct + '%';
+        if (pctEl) pctEl.textContent = pct + '%';
+        if (countEl) countEl.textContent = `${clamped}/${buyQty}`;
+        widget.classList.toggle('is-active', paidQty > 0);
+
+        if (msgEl) {
+            const giftLabel = getQty > 1 ? `${getQty} free gifts` : 'free gift';
+            if (paidQty >= buyQty) {
+                msgEl.textContent = `You've unlocked your ${giftLabel} from BBW4LIFE!`;
+            } else {
+                const remaining = buyQty - paidQty;
+                msgEl.textContent = `Get ${getQty} FREE — only ${remaining} more to go!`;
+            }
+        }
+
+        widget.style.display = 'flex';
+    }
+
+    render();
+    document.addEventListener('cart:update', render);
+})();
+
       // ══ THEME COLOR META ══
       const themeColor = settings.theme_color || '#c0385e';
       const themeMeta = document.createElement('meta');

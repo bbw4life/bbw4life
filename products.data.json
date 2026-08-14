@@ -6337,6 +6337,7 @@
       "promo_buy_quantity": 9,
       "promo_get_quantity": 3,
       "show_promo_message": "Yes",
+      "show_banner_bxgx_widget": "no",
       "promo_free_product_ids": ["Pdg-Francenel-product17", "Pdg-Francenel-product60", "Pdg-Francenel-product3"],
       "promo_initial_message": "Buy paul {buy} items, get {get} FREE!",
       "promo_progress_message": "Add {remaining} more, get {get} FREE!",

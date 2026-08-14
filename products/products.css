@@ -4571,6 +4571,150 @@ details[open] .chevron {
 }
 
 
+/* ════════════════════════════════════════════════════════════
+   BUY X GET X WIDGET — superposé SUR la bannière produit
+   (jamais au-dessus, ne modifie jamais sa hauteur). Desktop :
+   ancré à droite. Mobile : ancré à gauche. Connecté au panier
+   réel (script.js), toutes les valeurs viennent de
+   settings.cart_drawer (promo_buy_quantity/promo_get_quantity).
+════════════════════════════════════════════════════════════ */
+.bbw-bxgx-widget {
+    position: absolute;
+    top: 6px;
+    right: 24px;
+    z-index: 6;
+    width: 260px;
+    height: 88px;
+    box-sizing: border-box;
+    padding: 6px 14px 8px;
+    border-radius: 12px;
+    background: linear-gradient(155deg, rgba(15,12,10,0.55), rgba(21,17,14,0.42));
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(184,146,90,0.30);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+.bbw-bxgx-widget__title {
+    margin: 0 0 5px;
+    font-family: var(--font-display, 'Cormorant Garamond', Georgia, serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.1;
+    color: var(--bbw-gold-light, #e8bc6a);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.bbw-bxgx-widget__bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.bbw-bxgx-widget__bar-track {
+    position: relative;
+    flex: 1;
+    height: 7px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.14);
+    overflow: visible;
+}
+.bbw-bxgx-widget__bar-fill {
+    position: relative;
+    height: 100%;
+    width: 0%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--bbw-gold, #c9963e), var(--bbw-gold-light, #e8bc6a));
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.bbw-bxgx-widget__bar-tooltip {
+    position: absolute;
+    top: -22px;
+    right: -4px;
+    transform: translateX(50%);
+    background: var(--bbw-gold, #c9963e);
+    color: #15110E;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    padding: 2px 6px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.bbw-bxgx-widget__bar-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 6px;
+    border: 4px solid transparent;
+    border-top-color: var(--bbw-gold, #c9963e);
+}
+.bbw-bxgx-widget.is-active .bbw-bxgx-widget__bar-tooltip {
+    opacity: 1;
+}
+.bbw-bxgx-widget__pct {
+    flex-shrink: 0;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--bbw-gold-light, #e8bc6a);
+    min-width: 30px;
+    text-align: right;
+}
+.bbw-bxgx-widget__foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 6px;
+}
+.bbw-bxgx-widget__count {
+    flex-shrink: 0;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+}
+.bbw-bxgx-widget__msg {
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 9.5px;
+    line-height: 1.3;
+    color: rgba(255,255,255,0.72);
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .bbw-bxgx-widget {
+        top: 4px;
+        right: auto;
+        left: 10px;
+        width: 185px;
+        height: 72px;
+        padding: 5px 10px 7px;
+        border-radius: 9px;
+    }
+    .bbw-bxgx-widget__title {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+    .bbw-bxgx-widget__bar-track { height: 5px; }
+    .bbw-bxgx-widget__bar-tooltip {
+        top: -19px;
+        font-size: 8px;
+        padding: 1.5px 5px;
+    }
+    .bbw-bxgx-widget__pct { font-size: 9px; min-width: 24px; }
+    .bbw-bxgx-widget__foot { margin-top: 4px; }
+    .bbw-bxgx-widget__count { font-size: 9px; }
+    .bbw-bxgx-widget__msg { font-size: 7.5px; }
+}
+
+
 .scrolling-text-group-section {
     width: 100%;
     overflow: hidden;
