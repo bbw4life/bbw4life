@@ -1713,6 +1713,13 @@ a.stat-wishlist-link:visited {
   background: #fafafa;
 }
 
+.aff-input-fields {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
 .aff-input-prefix {
   padding: 0 12px;
   font-family: 'DM Mono', 'Fira Code', monospace;
@@ -2555,10 +2562,22 @@ a.stat-wishlist-link:visited {
 
   
   .aff-input-row {
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     border-radius: 4px;
+    overflow: visible;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background: transparent;
+    gap: 8px;
+  }
+
+  .aff-input-fields {
+    border: 1.5px solid rgba(184,146,90,0.28);
+    border-radius: 4px;
     overflow: hidden;
+    background: #fafafa;
     width: 100%;
     box-sizing: border-box;
   }
@@ -2567,8 +2586,6 @@ a.stat-wishlist-link:visited {
     font-size: 0.62rem;
     padding: 0 8px;
     height: 44px;
-    border-right: 1px solid rgba(184,146,90,0.18);
-    border-bottom: none;
     width: auto;
     flex-shrink: 0;
     white-space: nowrap;
@@ -2584,13 +2601,15 @@ a.stat-wishlist-link:visited {
   }
 
   .aff-create-btn {
+    order: -1;
     height: 44px;
     padding: 0 12px;
-    font-size: 0.75rem;
-    width: auto;
+    font-size: 0.80rem;
+    width: 100%;
     flex-shrink: 0;
-    border-radius: 0;
-    gap: 4px;
+    border-radius: 4px;
+    justify-content: center;
+    gap: 6px;
   }
 
   

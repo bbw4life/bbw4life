@@ -11497,7 +11497,7 @@ function loadProfilePhoto() {
           '<button type="button" class="aff-ut-close" id="aff-ut-close" aria-label="Close">' +
             '<i class="fi fi-rr-cross"></i>' +
           '</button>' +
-          '<span class="aff-ut-icon"><i class="fi fi-rr-user-remove"></i></span>' +
+          '<span class="aff-ut-icon"><i class="fi fi-rr-triangle-warning"></i></span>' +
           '<h3 class="aff-ut-title">Username Already Taken</h3>' +
           '<p class="aff-ut-msg">We\'re sorry, this username is already chosen by someone else. Please choose another one!</p>' +
           '<div class="aff-ut-suggestions" id="aff-ut-suggestions"></div>' +
