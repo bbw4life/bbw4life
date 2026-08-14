@@ -30,31 +30,34 @@
 
 
 # ─────────────────────────────────────────────
-# CACHE — force la revalidation à chaque visite pour que les mises à jour
-# déployées apparaissent immédiatement après un refresh, sans avoir à vider
-# le cache manuellement. no-cache n'empêche pas la mise en cache : il force
-# juste le navigateur à revalider (ETag/Last-Modified) avant de réutiliser
-# la copie locale, donc un déploiement récent est toujours servi.
+# CACHE — no-store interdit TOUTE mise en cache (navigateur + intermédiaires),
+# pas seulement une revalidation optionnelle : chaque requête retélécharge le
+# fichier depuis Netlify, garantissant que la dernière version déployée
+# s'affiche automatiquement après un simple refresh, sans purge manuelle.
 # ─────────────────────────────────────────────
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "no-cache, must-revalidate"
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
+    Pragma = "no-cache"
 
 [[headers]]
   for = "/*.js"
   [headers.values]
-    Cache-Control = "no-cache, must-revalidate"
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
+    Pragma = "no-cache"
 
 [[headers]]
   for = "/*.css"
   [headers.values]
-    Cache-Control = "no-cache, must-revalidate"
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
+    Pragma = "no-cache"
 
 [[headers]]
   for = "/products.data.json"
   [headers.values]
-    Cache-Control = "no-cache, must-revalidate"
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
+    Pragma = "no-cache"
 
 
 # ─────────────────────────────────────────────

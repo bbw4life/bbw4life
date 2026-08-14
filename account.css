@@ -2601,7 +2601,7 @@ a.stat-wishlist-link:visited {
   }
 
   .aff-create-btn {
-    order: -1;
+    order: 1;
     height: 44px;
     padding: 0 12px;
     font-size: 0.80rem;
