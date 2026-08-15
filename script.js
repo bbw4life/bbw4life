@@ -1393,13 +1393,13 @@ function showErrorPopup(message) {
         if (photoImg && cfg.photo) {
           if (photoPreloadLogo) {
             const revealPhoto = () => photoPreloadLogo.classList.add('is-loaded');
-            if (photoImg.complete && photoImg.naturalWidth > 0) revealPhoto();
-            else {
-              photoImg.addEventListener('load', revealPhoto, { once: true });
-              photoImg.addEventListener('error', revealPhoto, { once: true });
-            }
+            photoImg.addEventListener('load', revealPhoto, { once: true });
+            photoImg.addEventListener('error', revealPhoto, { once: true });
           }
           photoImg.src = cfg.photo;
+          if (photoPreloadLogo && photoImg.complete && photoImg.naturalWidth > 0) {
+            photoPreloadLogo.classList.add('is-loaded');
+          }
         }
 
         const taglineEl = document.getElementById('bbw-nb-tagline');
