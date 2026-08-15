@@ -6548,7 +6548,6 @@ if (rcCheckoutBtn) {
         });
     } else {
         satcSizeField.style.display = 'none';
-        bar.classList.add('sticky-atc--no-size');
     }
 
         // ── Quantité ──
