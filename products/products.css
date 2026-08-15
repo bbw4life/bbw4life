@@ -5295,10 +5295,10 @@ details[open] .chevron {
     #satc-color-field, #satc-size-field { order: 2; }
     .satc-select { min-width: 0; width: 100%; }
 
-    .satc-field--qty { flex: 1 1 auto; order: 3; }
+    .satc-field--qty { flex: 0 0 auto; min-width: 0; order: 3; }
 
     .sticky-atc__actions { display: contents; }
-    #satc-buy-btn { order: 4; flex: 1 1 auto; width: auto; }
+    #satc-buy-btn { order: 4; flex: 1 1 0; min-width: 0; width: auto; }
     #satc-add-btn { order: 5; flex-basis: 100%; }
 
     .sticky-atc__btn { width: 100%; justify-content: center; height: 46px; font-size: 15px; }
