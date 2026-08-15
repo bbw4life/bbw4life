@@ -5261,6 +5261,12 @@ details[open] .chevron {
     flex-shrink: 0;
 }
 
+/* Casseur de ligne mobile (cf. @media max-width:768px) : sans effet sur
+   desktop où le sticky bar reste une seule ligne horizontale. */
+#sticky-atc-linebreak {
+    display: none;
+}
+
 .sticky-atc__btn--buy {
     background: linear-gradient(135deg, var(--bbw-gold) 0%, #a67c3d 100%);
     color: #15110E;
@@ -5292,8 +5298,22 @@ details[open] .chevron {
 
     .sticky-atc__selectors { display: contents !important; }
     .satc-field { flex: 1 !important; min-width: 130px !important; }
-    #satc-color-field, #satc-size-field { order: 2 !important; flex: 0 1 auto !important; max-width: 100% !important; }
+    #satc-color-field, #satc-size-field { order: 2 !important; flex: 0 1 auto !important; min-width: 0 !important; max-width: 100% !important; }
     .satc-select { min-width: 0 !important; width: 100% !important; }
+
+    /* Casseur de ligne : force Qty + Buy Now à toujours démarrer sur une
+       nouvelle ligne, même quand Color(+Size) est étroit (ex: une seule
+       couleur) et laisserait sinon de la place pour tout tenir ensemble
+       sur la même ligne, écrasant Buy Now. */
+    #sticky-atc-linebreak {
+        display: block !important;
+        flex-basis: 100% !important;
+        width: 0 !important;
+        height: 0 !important;
+        order: 2 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
 
     .satc-field--qty { flex: 0 0 auto !important; min-width: 0 !important; order: 3 !important; }
 
