@@ -5292,8 +5292,8 @@ details[open] .chevron {
 }
 
 @media (max-width: 768px) {
-    .sticky-atc { padding: 10px 14px 14px !important; }
-    .sticky-atc__inner { flex-flow: row wrap !important; align-items: stretch !important; gap: 10px !important; }
+    .sticky-atc { padding: 10px 0 14px !important; }
+    .sticky-atc__inner { flex-flow: row wrap !important; align-items: stretch !important; gap: 10px !important; padding: 0 14px !important; }
     .sticky-atc__product { justify-content: flex-start !important; flex-basis: 100% !important; order: 1 !important; }
     .sticky-atc__product::after { display: none !important; }
     .sticky-atc__title { max-width: 200px !important; }
