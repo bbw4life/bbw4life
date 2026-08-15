@@ -5283,7 +5283,7 @@ details[open] .chevron {
     .sticky-atc__btn { padding: 0 18px; font-size: 13px; }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .sticky-atc { padding: 10px 14px 14px !important; }
     .sticky-atc__inner { flex-flow: row wrap !important; align-items: stretch !important; gap: 10px !important; }
     .sticky-atc__product { justify-content: flex-start !important; flex-basis: 100% !important; order: 1 !important; }
@@ -5302,6 +5302,16 @@ details[open] .chevron {
     #satc-add-btn { order: 5 !important; flex-basis: 100% !important; }
 
     .sticky-atc__btn { width: 100% !important; justify-content: center !important; height: 46px !important; font-size: 15px !important; }
+
+    /* ── Pas de size : Qty seul sur sa ligne, Add to Cart + Buy Now 50/50 ── */
+    .sticky-atc--no-size .satc-field--qty { flex-basis: 100% !important; }
+    .sticky-atc--no-size #satc-buy-btn,
+    .sticky-atc--no-size #satc-add-btn {
+        order: 5 !important;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        width: auto !important;
+    }
 
     .satc-color-field--overflow .satc-color-wrap {
         overflow: hidden;
