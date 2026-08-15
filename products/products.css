@@ -5301,6 +5301,18 @@ details[open] .chevron {
     #satc-color-field, #satc-size-field { order: 2 !important; flex: 0 1 auto !important; min-width: 0 !important; max-width: 100% !important; }
     .satc-select { min-width: 0 !important; width: 100% !important; }
 
+    /* BBW Features (plans_available:no) : le sticky bar devient un simple
+       bouton Request, sans color/size/qty ni Buy Now — display:contents
+       ci-dessus écraserait sinon le display:none inline posé par le JS. */
+    .bbw-featured-request-mode .sticky-atc__selectors,
+    .bbw-featured-request-mode #satc-color-field,
+    .bbw-featured-request-mode #satc-size-field,
+    .bbw-featured-request-mode .satc-field--qty,
+    .bbw-featured-request-mode #sticky-atc-linebreak,
+    .bbw-featured-request-mode #satc-buy-btn {
+        display: none !important;
+    }
+
     /* Casseur de ligne : force Qty + Buy Now à toujours démarrer sur une
        nouvelle ligne, même quand Color(+Size) est étroit (ex: une seule
        couleur) et laisserait sinon de la place pour tout tenir ensemble
