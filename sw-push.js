@@ -47,13 +47,17 @@ self.addEventListener('notificationclick', function (event) {
   // protection, event.waitUntil() ne serait jamais appelé et la
   // notification se contenterait de se fermer sans jamais rediriger
   // (exactement le bug rapporté).
-  let notification, action, data, targetUrl, hasCart;
+  let notification, action, data, targetUrl, hasCart, wantsCart;
   try {
     notification = event.notification;
     action = event.action || '';
     data = notification.data || {};
-    targetUrl = data.url || '/';
     hasCart = data.hasCart || false;
+    wantsCart = (action === 'open_cart' || (action === '' && hasCart));
+    // Filet de sécurité : si data.url manque ou est corrompu, retomber sur
+    // la vraie page panier pour "View Cart" / la home pour "Shop Now" —
+    // plutôt que sur une valeur générique qui pourrait ne mener nulle part.
+    targetUrl = data.url || (wantsCart ? '/cart.html' : '/');
     notification.close();
   } catch (err) {
     console.error('[SW] notificationclick: erreur pendant la lecture des données', err);
@@ -61,8 +65,6 @@ self.addEventListener('notificationclick', function (event) {
   }
 
   if (action === 'dismiss') return;
-
-  const wantsCart = (action === 'open_cart' || (action === '' && hasCart));
 
   // IMPORTANT : le "user activation" transitoire accordé par le clic sur la
   // notification n'autorise qu'UN SEUL appel consommateur (focus() OU
@@ -83,6 +85,13 @@ self.addEventListener('notificationclick', function (event) {
 
         if (existingClient) {
           try {
+            // Un seul appel consommateur de l'activation utilisateur
+            // transitoire du clic (focus() OU navigate(), jamais les deux
+            // en séquence — le second échoue silencieusement sinon, ce qui
+            // correspondait exactement au bug "Shop Now ne fait rien").
+            // On utilise donc uniquement focus() + postMessage : c'est la
+            // page elle-même (script.js) qui décide d'ouvrir le panier ou
+            // de naviguer, sans jamais appeler client.navigate() ici.
             const focusedClient = await existingClient.focus();
             if (wantsCart) {
               // postMessage seul ne garantit pas que le panier s'ouvre si la
@@ -90,16 +99,10 @@ self.addEventListener('notificationclick', function (event) {
               // query string ?openCart=true en secours : checkOpenCartFromPush()
               // (script.js) la lit indépendamment au chargement/focus de la page.
               focusedClient.postMessage({ type: 'OPEN_CART', url: targetUrl });
-              return;
+            } else {
+              focusedClient.postMessage({ type: 'NAVIGATE_TO', url: targetUrl });
             }
-            // Bug corrigé : navigate() n'est pas supporté par tous les
-            // navigateurs (ex: Firefox, anciens Safari). Sans ce fallback,
-            // un clic sur "Shop Now" avec un onglet déjà ouvert ne faisait
-            // RIEN du tout — la notif se fermait sans jamais rediriger.
-            if ('navigate' in focusedClient) {
-              await focusedClient.navigate(targetUrl);
-              return;
-            }
+            return;
           } catch (focusErr) {
             console.warn('[SW] notificationclick: focus() a échoué, fallback openWindow', focusErr);
             // On continue vers openWindow ci-dessous plutôt que d'abandonner.

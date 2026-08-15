@@ -43,8 +43,31 @@ if ('serviceWorker' in navigator) {
           window.openCartDrawer();
         } else if (tries > 30) {
           clearInterval(tryOpen);
+          // Filet de sécurité : si le drawer JS n'a jamais fini de charger,
+          // rediriger vers la vraie page panier plutôt que de laisser le
+          // clic "View Cart" sans aucun effet visible pour l'utilisateur.
+          window.location.href = '/cart.html';
         }
       }, 200);
+    }
+    // "Shop Now" avec un onglet déjà ouvert : la page se charge de naviguer
+    // elle-même via location.href plutôt que le service worker via
+    // client.navigate() — cet appel échoue silencieusement dans la plupart
+    // des navigateurs quand il suit un focus() dans le même handler
+    // (l'activation utilisateur transitoire du clic sur la notif n'autorise
+    // qu'un seul appel consommateur : focus() OU navigate(), pas les deux).
+    if (event.data && event.data.type === 'NAVIGATE_TO') {
+      // Filet de sécurité : URL absente/invalide → page d'accueil plutôt
+      // que de ne rien faire.
+      const fallback = '/';
+      let url = event.data.url || fallback;
+      const current = window.location.pathname + window.location.search;
+      let target;
+      try { target = new URL(url, window.location.origin); }
+      catch (e) { target = new URL(fallback, window.location.origin); url = fallback; }
+      if (current !== target.pathname + target.search) {
+        window.location.href = url;
+      }
     }
   });
 }
