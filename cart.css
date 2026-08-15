@@ -93,7 +93,7 @@
     transparent);
 }
 .cp-header__inner {
-  max-width: 1340px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 28px;
   display: flex;
@@ -337,7 +337,7 @@
    LAYOUT GRID
 ================================================================ */
 .cp-layout {
-  max-width: 1340px;
+  max-width: 100%;
   margin: 28px auto 0;
   padding: 0 28px;
   display: grid;
@@ -1080,7 +1080,7 @@
    EMPTY CART STATE
 ================================================================ */
 .cp-empty {
-  max-width: 1340px;
+  max-width: 100%;
   margin: 10px auto !important;
   padding: 0 28px;
   display: none;

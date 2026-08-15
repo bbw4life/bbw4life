@@ -83,17 +83,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         setTimeout(() => { if (popup.classList.contains('show')) popup.classList.remove('show'); }, 10000);
     }
 
-    function showSuccessPopup(message) {
-        const popup = document.getElementById('success-popup');
-        const text  = document.getElementById('success-message');
-        const close = document.getElementById('success-close');
-        if (!popup || !text || !close) return;
-        text.textContent = message;
-        popup.classList.add('show');
-        close.onclick = () => popup.classList.remove('show');
-        setTimeout(() => popup.classList.remove('show'), 4000);
-    }
-
     fetch('/products.data.json')
       .then(response => response.json())
       .then(data => {
@@ -1067,9 +1056,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     // ====================== END UPSELL DISCOUNT ======================
 
-    document.getElementById('copy-suggested')?.addEventListener('click', () => {
+    document.getElementById('copy-suggested')?.addEventListener('click', function() {
         const code = document.getElementById('suggested-code').textContent;
-        navigator.clipboard.writeText(code).then(() => showSuccessPopup('Promo code copied successfully!'));
+        const btn  = this;
+        navigator.clipboard.writeText(code).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = orig; }, 2000);
+        });
     });
 
     document.getElementById('apply-promo')?.addEventListener('click', async () => {

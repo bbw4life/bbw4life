@@ -67,22 +67,6 @@
       <span class="sanaica-banner-paul-indicator" data-slide="1"></span>
       <span class="sanaica-banner-paul-indicator" data-slide="2"></span>
     </div>
-
-    <div class="bbw-bxgx-widget" id="bbwBxgxWidget" style="display:none;">
-      <p class="bbw-bxgx-widget__title">Unlock Your Free Gift</p>
-      <div class="bbw-bxgx-widget__bar-row">
-        <div class="bbw-bxgx-widget__bar-track">
-          <div class="bbw-bxgx-widget__bar-fill" id="bbwBxgxFill" style="width:0%;">
-            <span class="bbw-bxgx-widget__bar-tooltip" id="bbwBxgxTooltip">0%</span>
-          </div>
-        </div>
-        <span class="bbw-bxgx-widget__pct" id="bbwBxgxPct">0%</span>
-      </div>
-      <div class="bbw-bxgx-widget__foot">
-        <span class="bbw-bxgx-widget__count" id="bbwBxgxCount">0/0</span>
-        <span class="bbw-bxgx-widget__msg" id="bbwBxgxMsg"></span>
-      </div>
-    </div>
   </div>
 
   
@@ -279,6 +263,23 @@
             </div>
           </div>
         </div>
+        <div class="bbw-bxgx-widget" id="bbwBxgxWidget" style="display:none;">
+          <p class="bbw-bxgx-widget__title" id="bbwBxgxTitle">Unlock Your Free Gift</p>
+          <p class="bbw-bxgx-widget__subtitle" id="bbwBxgxSubtitle">Mix &amp; match any products site-wide to qualify.</p>
+          <div class="bbw-bxgx-widget__bar-row">
+            <div class="bbw-bxgx-widget__bar-track">
+              <div class="bbw-bxgx-widget__bar-fill" id="bbwBxgxFill" style="width:0%;">
+                <span class="bbw-bxgx-widget__bar-tooltip" id="bbwBxgxTooltip">0%</span>
+              </div>
+            </div>
+            <span class="bbw-bxgx-widget__pct" id="bbwBxgxPct">0%</span>
+          </div>
+          <div class="bbw-bxgx-widget__foot">
+            <span class="bbw-bxgx-widget__count" id="bbwBxgxCount">0/0</span>
+            <span class="bbw-bxgx-widget__msg" id="bbwBxgxMsg"></span>
+          </div>
+        </div>
+
 
 
 <div class="product-options" data-scroll-reveal>
@@ -372,12 +373,15 @@
         </div>
 
 
-<div class="p2-upsell-block" data-scroll-reveal>
-          <div class="p2-upsell-header">
+<div class="p2-upsell-block p2-upsell-collapsible" data-scroll-reveal>
+          <div class="p2-upsell-header p2-upsell-toggle" role="button" tabindex="0" aria-expanded="false">
             <i class="fas fa-sparkles"></i>
             <span>Complete Your Floral Queen Look</span>
             <span class="p2-upsell-save-badge" id="p2-upsell-badge">Save 25%</span>
+          
+            <i class="fas fa-chevron-down p2-upsell-chevron"></i>
           </div>
+          <div class="p2-upsell-body">
           <p class="p2-upsell-sub">Queens who complete their look feel 2× more confident — and they show it in every step.</p>
           <div class="p2-upsell-items" id="p2-upsell-items"></div>
           <div class="p2-upsell-footer">
@@ -388,6 +392,8 @@
             <button class="p2-upsell-add-btn" id="p2-upsell-add-btn" disabled>
               <i class="fas fa-plus-circle"></i> Add Selected to Cart
             </button>
+          </div>
+        
           </div>
         </div>
 
@@ -1113,7 +1119,7 @@
                 <label class="satc-label">Size</label>
                 <select id="satc-size" class="satc-select"></select>
             </div>
-            <div class="satc-field">
+            <div class="satc-field satc-field--qty">
                 <label class="satc-label">Qty</label>
                 <div class="satc-qty">
                     <button class="satc-qty-btn" id="satc-minus">−</button>
@@ -1122,10 +1128,16 @@
                 </div>
             </div>
         </div>
+        <div class="sticky-atc__actions">
         <button class="sticky-atc__btn" id="satc-add-btn">
             <i class="fi fi-rr-shopping-cart"></i>
             <span>Add to Cart</span>
         </button>
+        <button class="sticky-atc__btn sticky-atc__btn--buy" id="satc-buy-btn">
+            <i class="fi fi-rr-bolt"></i>
+            <span>Buy Now</span>
+        </button>
+        </div>
     </div>
 </div>
 

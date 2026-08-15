@@ -240,21 +240,29 @@ body::before {
   }
 
   .logo {
-    flex: 0 0 auto;
-    max-width: 140px;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    gap: 6px;
   }
-  .logo h1 { font-size: 0.90rem; }
+  .logo h1 {
+    font-size: 0.80rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
 
-  
+
   .logo img {
-    height: 50px;
+    height: 42px;
     width: auto;
     flex-shrink: 0;
     object-fit: contain;
   }
 
   .ck-payment-icons {
-    flex: 1 1 0;
+    flex: 0 1 auto;
     min-width: 0;
     justify-content: flex-start;
     gap: 4px;
@@ -559,8 +567,8 @@ h2::before {
 
 #copy-suggested {
   padding: 8px 20px;
-  background: var(--ck-gold);
-  color: var(--bbw-black);
+  background: var(--ck-gold, #B8925A);
+  color: var(--bbw-black, #15110E);
   border: none;
   border-radius: var(--ck-radius-sm);
   cursor: pointer;
@@ -569,10 +577,13 @@ h2::before {
   font-weight: 700;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  transition: var(--ck-trans);
+  transition: background 0.30s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.30s cubic-bezier(0.4, 0, 0.2, 1);
 }
-#copy-suggested:hover {
-  background: var(--ck-gold-l);
+#copy-suggested:hover,
+#copy-suggested:focus,
+#copy-suggested:active {
+  background-color: var(--ck-gold-l, #e8bc6a) !important;
+  color: var(--bbw-black, #15110E);
   box-shadow: 0 4px 12px rgba(184,146,90,0.35);
 }
 

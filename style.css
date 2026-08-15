@@ -7790,7 +7790,7 @@ body.sr-page .curva-search-dropdown {
   z-index: 100;
 }
 .bar-separator-line {
-  max-width: 1500px;
+  max-width: 100%;
   margin: 0 auto;
   display: block;
 }
@@ -7880,7 +7880,7 @@ body.sr-page .curva-search-dropdown {
   grid-template-columns: 1fr 1fr 1.5fr 1.5fr 1fr;
   grid-template-rows: minmax(300px, 360px) minmax(280px, 340px);
   gap: 14px;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -11923,11 +11923,13 @@ button::selection, button *::selection {
 @media (max-width: 768px) {
   .bbw-bday-gift-btn.bbw-bday--mobile-right {
     left: auto;
-    right: 18px;
+    right: 10px;
+    bottom: 70px;
   }
   .bbw-bday-gift-btn.bbw-bday--mobile-left {
-    left: 18px;
+    left: 10px;
     right: auto;
+    bottom: 70px;
   }
 }
 

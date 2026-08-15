@@ -5769,6 +5769,31 @@ body { margin-bottom: 0 !important; }
   position: relative;
 }
 
+/* input[type="date"] vide n'affiche aucun texte "dd/mm/yyyy" sur mobile
+   (contrairement au desktop, qui le montre nativement) — l'attribut
+   placeholder est ignoré par les navigateurs sur ce type de champ, et les
+   pseudo-éléments ne fonctionnent pas directement sur un <input>. Overlay
+   ::before posé sur le WRAPPER (vrai élément, pas remplacé), positionné
+   par-dessus le champ, mobile uniquement, masqué dès qu'une vraie date est
+   choisie via :has() sur l'attribut value de l'input. */
+@media (max-width: 768px) {
+  .bbwnl-input-wrap:has(.bbwnl-input--date)::before {
+    content: 'dd/mm/yyyy';
+    position: absolute;
+    left: 38px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: rgba(21, 17, 14, 0.35);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .bbwnl-input-wrap:has(.bbwnl-input--date[value]:not([value=""]))::before {
+    content: none;
+  }
+}
+
 .bbwnl-input-icon {
   position: absolute;
   left: 14px;

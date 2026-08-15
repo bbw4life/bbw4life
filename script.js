@@ -1149,6 +1149,37 @@ function showErrorPopup(message) {
     mainSlider.classList.toggle('main-image-slider--video-active', isVideoMediaSrc(media[0]));
     mainSlider.querySelector('.prev').onclick = () => changeMainImage('prev');
     mainSlider.querySelector('.next').onclick = () => changeMainImage('next');
+    initMediaCounter(mainSlider, media.length);
+  }
+
+  // ════════════════════════════════════════════════
+  //   MEDIA COUNTER — "01 / 06" au-dessus du bouton share
+  // ════════════════════════════════════════════════
+  function initMediaCounter(mainSlider, total) {
+    const settings = (window.__allProducts || []).find(p => p.type === 'settings') || {};
+    const cd = settings.cart_drawer || {};
+    const showIt = (cd.show_media_counter || 'yes').toLowerCase().trim() === 'yes';
+
+    let counter = mainSlider.querySelector('.pp-media-counter');
+    if (!showIt || total <= 1) {
+      if (counter) counter.remove();
+      return;
+    }
+    if (!counter) {
+      counter = document.createElement('div');
+      counter.className = 'pp-media-counter';
+      counter.innerHTML = `<span class="pp-media-counter__current">01</span> / <span class="pp-media-counter__total">${String(total).padStart(2, '0')}</span>`;
+      mainSlider.appendChild(counter);
+    } else {
+      const totalEl = counter.querySelector('.pp-media-counter__total');
+      if (totalEl) totalEl.textContent = String(total).padStart(2, '0');
+    }
+    updateMediaCounter(1);
+  }
+
+  function updateMediaCounter(indexOneBased) {
+    const currentEl = document.querySelector('#main-image-slider .pp-media-counter__current');
+    if (currentEl) currentEl.textContent = String(indexOneBased).padStart(2, '0');
   }
 
   let currentMainIndex = 0;
@@ -1166,6 +1197,7 @@ function showErrorPopup(message) {
     else currentMainIndex = dir;
     images[currentMainIndex].classList.add('active');
     thumbs[currentMainIndex].classList.add('active');
+    updateMediaCounter(currentMainIndex + 1);
     images.forEach((img, i) => {
       const depth = (i - currentMainIndex + images.length) % images.length;
       img.dataset.depth = depth === 0 ? '0' : (depth <= STACK_VISIBLE_DEPTH ? String(depth) : 'hidden');
@@ -1662,11 +1694,17 @@ function showErrorPopup(message) {
     const getQty = parseInt(cd.promo_get_quantity) || 1;
     if (!showIt || !buyQty) return;
 
+    const titleEl   = document.getElementById('bbwBxgxTitle');
     const fillEl    = document.getElementById('bbwBxgxFill');
     const tooltipEl = document.getElementById('bbwBxgxTooltip');
     const pctEl     = document.getElementById('bbwBxgxPct');
     const countEl   = document.getElementById('bbwBxgxCount');
     const msgEl     = document.getElementById('bbwBxgxMsg');
+
+    if (titleEl) {
+        const giftWord = getQty > 1 ? 'FREE Gifts' : 'FREE Gift';
+        titleEl.textContent = `Buy ${buyQty}, Get ${getQty} ${giftWord}!`;
+    }
 
     function render() {
         let cartNow = [];
@@ -1692,7 +1730,7 @@ function showErrorPopup(message) {
             }
         }
 
-        widget.style.display = 'flex';
+        widget.style.display = 'block';
     }
 
     render();
@@ -3513,6 +3551,19 @@ function showErrorPopup(message) {
             mainSlider.addEventListener('mouseleave', hideZoom);
           }
 
+          function openZoomForImg(img) {
+            const rawSrc = img.currentSrc || img.src;
+            // 1400px suffit pour un zoom max 2.5x sur un écran mobile
+            // (~400px CSS de large) — 2200px était un second téléchargement
+            // lourd et redondant avec l'image déjà affichée (900px).
+            modalImg.src = typeof upgradeShopifyImageUrl === 'function' ? upgradeShopifyImageUrl(rawSrc, 1400) : rawSrc;
+            modal.classList.add('active');
+            scale = 1; translateX = 0; translateY = 0;
+            updateTransform(false);
+            if (modalImg.complete) calculateBounds();
+            else modalImg.onload = calculateBounds;
+          }
+
           mainImages.forEach(container => {
             const img = container.querySelector('img');
             if (!img) return;
@@ -3520,19 +3571,29 @@ function showErrorPopup(message) {
               container.style.cursor = 'pointer';
               container.addEventListener('click', (e) => {
                 e.stopImmediatePropagation();
-                const rawSrc = img.currentSrc || img.src;
-                // 1400px suffit pour un zoom max 2.5x sur un écran mobile
-                // (~400px CSS de large) — 2200px était un second téléchargement
-                // lourd et redondant avec l'image déjà affichée (900px).
-                modalImg.src = typeof upgradeShopifyImageUrl === 'function' ? upgradeShopifyImageUrl(rawSrc, 1400) : rawSrc;
-                modal.classList.add('active');
-                scale = 1; translateX = 0; translateY = 0;
-                updateTransform(false);
-                if (modalImg.complete) calculateBounds();
-                else modalImg.onload = calculateBounds;
+                openZoomForImg(img);
               });
             }
           });
+
+          // ── Bouton loupe mobile (sous le badge) — même système de zoom ──
+          if (isTouchDevice && mainSlider) {
+            const settingsZoomBtn = (window.__allProducts || []).find(p => p.type === 'settings') || {};
+            const cdZoomBtn = settingsZoomBtn.cart_drawer || {};
+            const showZoomBtn = (cdZoomBtn.show_mobile_zoom_icon || 'yes').toLowerCase().trim() === 'yes';
+            if (showZoomBtn && !mainSlider.querySelector('.pp-mobile-zoom-btn')) {
+              const zoomBtn = document.createElement('button');
+              zoomBtn.className = 'pp-mobile-zoom-btn';
+              zoomBtn.setAttribute('aria-label', 'Zoom image');
+              zoomBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
+              zoomBtn.addEventListener('click', (e) => {
+                e.stopImmediatePropagation();
+                const activeImg = mainSlider.querySelector('.main-image.active img');
+                if (activeImg) openZoomForImg(activeImg);
+              });
+              mainSlider.appendChild(zoomBtn);
+            }
+          }
           if (closeBtn && modal) {
             const closeModal = () => {
               modal.classList.remove('active');
@@ -5332,6 +5393,10 @@ initAnnouncementBar();
             /* Masquer les selectors taille/couleur/qty dans le sticky — inutiles pour une request */
             const satcSelectors = satcBar.querySelector('.sticky-atc__selectors');
             if (satcSelectors) satcSelectors.style.display = 'none';
+
+            /* Masquer le bouton Buy Now — pas de vente directe en mode request */
+            const satcBuyBtn = document.getElementById('satc-buy-btn');
+            if (satcBuyBtn) satcBuyBtn.style.display = 'none';
           }
 
           /* ── 3. Masquer le bloc plan-request-section (bouton en bas de page) et afficher le nôtre ── */
@@ -6394,6 +6459,7 @@ if (rcCheckoutBtn) {
         const satcPlus    = document.getElementById('satc-plus');
         const satcQtyVal  = document.getElementById('satc-qty-val');
         const satcAddBtn  = document.getElementById('satc-add-btn');
+        const satcBuyBtn  = document.getElementById('satc-buy-btn');
 
         if (!bar || !satcImg) return;
 
@@ -6404,6 +6470,13 @@ if (rcCheckoutBtn) {
 
         const hasColors = product.colors && product.colors.length > 0;
         const hasSizes  = product.sizes  && product.sizes.length  > 0;
+
+        // ── Libellé Buy Now (identique au bouton buy-now principal) ──
+        if (satcBuyBtn) {
+            const buyNowLabel = (settings.button_labels || {}).buy_now || 'Buy Now';
+            const satcBuyBtnSpan = satcBuyBtn.querySelector('span');
+            if (satcBuyBtnSpan) satcBuyBtnSpan.textContent = buyNowLabel;
+        }
 
         // ── Remplir le titre ──
         satcTitle.textContent = product.title;
@@ -6488,18 +6561,17 @@ if (rcCheckoutBtn) {
 
       
 
-        // ── Add to Cart ──
-        satcAddBtn.addEventListener('click', () => {
-              if (document.querySelector('.product-section.bbw-featured-request-mode')) return;
-              // Vérifications
-              if (hasColors && !satcSelectedColor) {
-                  showErrorPopup('Please select a color.');
-                  return;
-              }
-              if (hasSizes && !satcSelectedSize) {
-                  showErrorPopup('Please select a size.');
-                  return;
-              }
+        // ── Ajoute l'item courant du sticky bar au panier ──
+        // Retourne false si la validation échoue (couleur/taille manquante).
+        function addSatcItemToCart() {
+            if (hasColors && !satcSelectedColor) {
+                showErrorPopup('Please select a color.');
+                return false;
+            }
+            if (hasSizes && !satcSelectedSize) {
+                showErrorPopup('Please select a size.');
+                return false;
+            }
 
             // Image du variant
             let itemImage = upgradeShopifyImageUrl(product.image);
@@ -6549,6 +6621,14 @@ if (rcCheckoutBtn) {
             updateCartQuantityInSheet();
             updateBadges();
             renderCart();
+            return true;
+        }
+
+        // ── Add to Cart ──
+        satcAddBtn.addEventListener('click', () => {
+            if (document.querySelector('.product-section.bbw-featured-request-mode')) return;
+            if (!addSatcItemToCart()) return;
+
             openCartDrawer();
 
             // Feedback visuel
@@ -6559,6 +6639,15 @@ if (rcCheckoutBtn) {
                 satcAddBtn.querySelector('span').textContent = 'Add to Cart';
             }, 2000);
         });
+
+        // ── Buy Now ──
+        if (satcBuyBtn) {
+            satcBuyBtn.addEventListener('click', () => {
+                if (document.querySelector('.product-section.bbw-featured-request-mode')) return;
+                if (!addSatcItemToCart()) return;
+                checkout();
+            });
+        }
 
         // ── Trigger : afficher la barre quand on approche du footer ──
         const footer = document.querySelector('footer.footer, footer.bbw-footer, .bbw-footer');
@@ -16236,5 +16325,36 @@ function injectColFbt() {
     });
 
     block.dataset.collapsibleReady = '1';
+  });
+})();
+
+
+/* ════════════════════════════════════════════════════════════
+   P2 UPSELL COLLAPSIBLE — dédié au bloc "Complete Your Queen Look"
+   uniquement, indépendant du système générique .bbw-collapsible.
+   Le HTML porte déjà .p2-upsell-body (pas de réorganisation DOM à
+   faire ici) : ce script gère seulement le toggle ouvert/fermé.
+   Fermé par défaut, le client l'ouvre lui-même.
+════════════════════════════════════════════════════════════ */
+(function initP2UpsellCollapsible() {
+  document.querySelectorAll('.p2-upsell-collapsible').forEach(function (block) {
+    if (block.dataset.p2UpsellReady) return;
+    const toggle = block.querySelector(':scope > .p2-upsell-toggle');
+    if (!toggle) return;
+
+    function toggleBlock() {
+      const isOpen = block.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    toggle.addEventListener('click', toggleBlock);
+    toggle.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleBlock();
+      }
+    });
+
+    block.dataset.p2UpsellReady = '1';
   });
 })();
