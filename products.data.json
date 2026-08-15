@@ -8454,11 +8454,11 @@
     ]
   },
   "content_protection": {
-  "disable_right_click":      "yes",
-  "disable_text_selection":   "yes",
+  "disable_right_click":      "no",
+  "disable_text_selection":   "no",
   "disable_image_download":   "yes",
   "disable_video_download":   "yes",
-  "disable_copy":             "yes",
+  "disable_copy":             "no",
   "disable_devtools_key": "yes"
 },
 "mini_product_slider": {

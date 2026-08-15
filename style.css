@@ -1025,12 +1025,14 @@ body {
 .reassure-bar {
   background: var(--bbw-black);
   border-bottom: 1px solid var(--bbw-gold-border);
-  padding: 20px 24px;
+  padding: 20px 0;
 }
 
 .reassure-bar__inner {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1059,8 +1061,9 @@ body {
 }
 
 @media (max-width: 768px) {
-  .reassure-bar { padding: 16px; }
+  .reassure-bar { padding: 16px 0; }
   .reassure-bar__inner {
+    padding: 0 16px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px 12px;
@@ -7443,7 +7446,7 @@ body.sr-page .curva-search-dropdown {
    SECTION BASE — fond chaud ambré ultra premium
 ══════════════════════════════════════════════════════════════ */
 .featured-spotlight-section {
-  padding: 64px 10px;
+  padding: 64px 0;
   background: #fff;
   position: relative;
   overflow: hidden;
@@ -7474,6 +7477,8 @@ body.sr-page .curva-search-dropdown {
 .fs-inner {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 10px;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: 55% 45%;
   gap: 50px;
@@ -7775,7 +7780,8 @@ body.sr-page .curva-search-dropdown {
 }
 
 @media (max-width: 480px) {
-  .featured-spotlight-section { padding: 10px 10px !important; }
+  .featured-spotlight-section { padding: 10px 0 !important; }
+  .fs-inner { padding: 0 10px !important; }
   .fs-main-img { height: 280px; }
   .fs-thumb    { height: 62px; }
   .fs-features { grid-template-columns: 1fr; }
@@ -8438,13 +8444,15 @@ body.sr-page .curva-search-dropdown {
 ════════════════════════════════════════ */
 .bbw-nb-section {
   background: #ffffff;
-  padding: 20px 24px 15px;
+  padding: 20px 0 15px;
   overflow: hidden;
 }
 
 .bbw-nb-inner {
   max-width: 1240px;
   margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .bbw-nb-top {
@@ -8826,7 +8834,8 @@ body.sr-page .curva-search-dropdown {
 
 /* ── Mobile ── */
 @media (max-width: 640px) {
-  .bbw-nb-section { padding: 40px 8px 36px; }
+  .bbw-nb-section { padding: 40px 0 36px; }
+  .bbw-nb-inner { padding: 0 8px; }
   .bbw-nb-title { font-size: 2rem; }
   .bbw-nb-photo { aspect-ratio: 3 / 4; }
   .bbw-nb-photo img { object-position: 5% center; }
@@ -10227,7 +10236,12 @@ body.sr-page .curva-search-dropdown {
   background: linear-gradient(160deg, #fdf8f2 0%, #f8f0e6 40%, #f3e8d8 100%);
   position: relative;
   overflow: hidden;
-  padding: 20px 10px 10px !important;
+  padding: 20px 0 10px !important;
+}
+
+.before-after-section > .container {
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .before-after-section::before {
@@ -10677,7 +10691,7 @@ body.sr-page .curva-search-dropdown {
 
 
 .bundle-deal-section {
-  padding: 64px 10px !important;
+  padding: 64px 0 !important;
   background: #fdfaf5 !important;
   position: relative !important;
   overflow: hidden !important;
@@ -10685,6 +10699,8 @@ body.sr-page .curva-search-dropdown {
 
 
 .bundle-deal-section .container {
+    padding: 0 10px !important;
+    box-sizing: border-box !important;
     position: relative !important;
     z-index: 2 !important;
 }

@@ -62,11 +62,18 @@ body {
   background: var(--bbw-black);
   border-bottom: 1px solid var(--bbw-gold-border);
   box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ann-bar__inner {
+  height: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 22px;
-  overflow: hidden;
 }
 
 .ann-bar__btn {

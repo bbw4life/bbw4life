@@ -5025,7 +5025,7 @@ details[open] .chevron {
     box-shadow: 0 -6px 32px rgba(184,146,90, 0.10);
     transform: translateY(110%);
     transition: transform 0.42s cubic-bezier(.22, 1, .36, 1);
-    padding: 10px 20px;
+    padding: 10px 0;
 }
 
 .sticky-atc.visible {
@@ -5035,6 +5035,8 @@ details[open] .chevron {
 .sticky-atc__inner {
     max-width: 1500px;
     margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -5303,13 +5305,15 @@ details[open] .chevron {
 
     /* BBW Features (plans_available:no) : le sticky bar devient un simple
        bouton Request, sans color/size/qty ni Buy Now — display:contents
-       ci-dessus écraserait sinon le display:none inline posé par le JS. */
-    .bbw-featured-request-mode .sticky-atc__selectors,
-    .bbw-featured-request-mode #satc-color-field,
-    .bbw-featured-request-mode #satc-size-field,
-    .bbw-featured-request-mode .satc-field--qty,
-    .bbw-featured-request-mode #sticky-atc-linebreak,
-    .bbw-featured-request-mode #satc-buy-btn {
+       ci-dessus écraserait sinon le display:none inline posé par le JS.
+       La classe est posée directement sur #sticky-atc en JS (et non sur un
+       ancêtre) car #sticky-atc est hors de .product-section dans le DOM. */
+    #sticky-atc.bbw-featured-request-mode .sticky-atc__selectors,
+    #sticky-atc.bbw-featured-request-mode #satc-color-field,
+    #sticky-atc.bbw-featured-request-mode #satc-size-field,
+    #sticky-atc.bbw-featured-request-mode .satc-field--qty,
+    #sticky-atc.bbw-featured-request-mode #sticky-atc-linebreak,
+    #sticky-atc.bbw-featured-request-mode #satc-buy-btn {
         display: none !important;
     }
 

@@ -8,8 +8,36 @@
   // products.data.json avant d'afficher quoi que ce soit, pour ne
   // jamais l'afficher à tort et ne jamais bloquer le thread principal
   // avec un XHR synchrone.
-  var CACHE_KEY = 'bbw_preloader_show';
-  var injected  = false;
+  var CACHE_KEY   = 'bbw_preloader_show';
+  var VISITED_KEY = 'bbw_preloader_visited_pages';
+  var injected    = false;
+  var pagePath    = window.location.pathname;
+
+  // ── Page déjà visitée cette session-navigateur ? ──────────
+  // Le preloader n'a de sens qu'au tout premier chargement d'une page
+  // (rien n'est encore en cache navigateur) — sur les visites suivantes
+  // de cette même page, tout charge quasi instantanément et le réafficher
+  // à chaque fois n'est que répétitif pour l'utilisateur.
+  function getVisitedPages() {
+    try {
+      var raw = localStorage.getItem(VISITED_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+  }
+  function markPageVisited(path) {
+    try {
+      var arr = getVisitedPages();
+      if (arr.indexOf(path) === -1) {
+        arr.push(path);
+        // Borne la taille pour éviter une croissance illimitée sur un site
+        // à beaucoup de pages produit — garde les 200 plus récentes.
+        if (arr.length > 200) arr = arr.slice(arr.length - 200);
+        localStorage.setItem(VISITED_KEY, JSON.stringify(arr));
+      }
+    } catch (e) {}
+  }
+  var alreadyVisited = getVisitedPages().indexOf(pagePath) !== -1;
 
   var CSS_TEXT =
     '#cf-preloader{position:fixed;inset:0;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;background:linear-gradient(160deg,#F8F1E6 0%,#F6EFE5 50%,#F1E3CC 100%);opacity:1;visibility:visible;pointer-events:all;overflow:hidden;transition:opacity .55s cubic-bezier(.4,0,.2,1),visibility .55s cubic-bezier(.4,0,.2,1);}' +
@@ -115,14 +143,16 @@
   }
 
   // ── Fast-path synchrone ───────────────────────────────────
-  // Le preloader DOIT toujours s'afficher avant le reste de la page, y compris
-  // à la toute première visite (aucune exception tolérée). On l'injecte donc
-  // immédiatement par défaut, sauf si un visite précédente a confirmé qu'il
-  // était désactivé (cached === 'no') — dans ce seul cas on attend la
-  // confirmation asynchrone ci-dessous pour ne pas flasher inutilement.
+  // Le preloader s'affiche au tout premier chargement d'une page (aucune
+  // exception tolérée là) — mais pas lors des visites suivantes de cette
+  // même page, où tout charge déjà quasi instantanément et le réafficher
+  // ne serait que répétitif. On l'injecte donc immédiatement sauf si :
+  //  - une visite précédente a confirmé qu'il était désactivé (cached==='no')
+  //  - ou cette page précise a déjà été visitée (alreadyVisited)
   var cached = null;
   try { cached = localStorage.getItem(CACHE_KEY); } catch (e) {}
-  if (cached !== 'no') injectPreloader();
+  if (cached !== 'no' && !alreadyVisited) injectPreloader();
+  markPageVisited(pagePath);
 
   // ── Confirmation asynchrone (source de vérité) ───────────
   fetch('/products.data.json')
@@ -135,7 +165,7 @@
 
       try { localStorage.setItem(CACHE_KEY, show === 'yes' ? 'yes' : 'no'); } catch (e) {}
 
-      if (show !== 'yes') {
+      if (show !== 'yes' || alreadyVisited) {
         removePreloader();
         return;
       }

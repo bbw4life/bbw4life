@@ -5399,6 +5399,12 @@ initAnnouncementBar();
           /* ── 2. Transformer le Sticky ATC en bouton REQUEST ── */
           const satcBar = document.getElementById('sticky-atc');
           if (satcBar) {
+            /* #sticky-atc est hors de .product-section dans le DOM (juste
+               avant </body>) — la classe posée plus haut sur productSection
+               ne peut donc pas être ciblée par un sélecteur CSS descendant
+               depuis le sticky bar. On la pose aussi ici directement. */
+            satcBar.classList.add('bbw-featured-request-mode');
+
             /* Remplacer le bouton ATC du sticky */
             const satcAddBtn = document.getElementById('satc-add-btn');
             if (satcAddBtn && !satcAddBtn.dataset.requestified) {
