@@ -1214,7 +1214,7 @@ select:focus {
   position: relative;
   border-radius: var(--ck-radius);
   overflow: hidden;
-  min-height: 320px;
+  min-height: 200px;
   background: linear-gradient(160deg, #1c1512, var(--bbw-black));
   border: 1px solid rgba(184,146,90,0.22);
   box-shadow: var(--ck-shadow-m);
@@ -1266,7 +1266,7 @@ select:focus {
 .ck-photo-card__signature { font-size: 0.74rem; color: rgba(255,255,255,0.45); letter-spacing: 0.03em; }
 
 /* Fallback si l'image ne charge pas : garde un joli fond dégradé */
-.ck-photo-card--noimg { min-height: 260px; }
+.ck-photo-card--noimg { min-height: 200px; }
 .ck-photo-card--noimg::after { background: none; }
 
 
@@ -1628,7 +1628,7 @@ select:focus {
   .trust-section,
   .payment-method,
   .shipping-method {
-    padding: 18px 2px !important;
+    padding: 18px 8px !important;
     border-left: none !important;
     border-right: none !important;
     border-radius: 0 !important;
