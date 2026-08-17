@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/preloader-inline.js"></script>
     <title>Secure Checkout - BBW4LIFE</title>
-    
+
     <meta name="description" content="Secure checkout for BBW4LIFE products">
     <meta name="author" content="BBW4LIFE">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#000000">
-    
+
     <meta http-equiv="Content-Security-Policy"
         content="default-src 'self' https:;
          script-src 'self' https://js.stripe.com https://www.paypal.com;
@@ -18,15 +18,15 @@
          img-src 'self' https: data:;
          connect-src 'self' https://restcountries.com https://countriesnow.space https:;
          frame-src https://js.stripe.com https://hooks.stripe.com https://www.paypal.com;">
-    
+
     <link rel="icon" href="/public/bbw4life-favicon.png" type="image/x-icon">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <link rel="stylesheet" href="/tokens.css">
@@ -39,185 +39,149 @@
 
 <header class="checkout-header">
     <div class="header-content">
-        
+
         <div class="logo">
             <a href="/index.html"><img src="/public/vrlogo bbw4life.png" alt="BBW4LIFE Logo"></a>
-            <h1>Secure Checkout</h1>
         </div>
-        
-        <div class="ck-payment-icons">
-            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Visa.png?v=1771670819" alt="Visa">
-            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/mastercard.png?v=1771670819" alt="Mastercard">
-            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/stripe.webp?v=1771670819" alt="Stripe">
-            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/paypal_logo.png?v=1773850289" alt="PayPal">
-            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Apple_Pay_3ff29ddb-d1e6-4391-97c1-e6ce3c11e29d.png?v=1771724676" alt="Apple pay">
-            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/pay_google.png?v=1771724676" alt="Google pay">
-            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/btc.png?v=1783466134" alt="Bitcoin">
-            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/eth.png?v=1783466134" alt="Ethereum">
-            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/usdt.png?v=1783466260" alt="Tether Usdt">
+
+        <div class="ck-header-security">
+            <div class="ck-header-security__main"><i class="fas fa-lock"></i> 100% Secure Checkout</div>
+            <div class="ck-header-security__badges">
+                <span><i class="fas fa-shield-halved"></i> SSL Secured</span>
+                <span><i class="fas fa-user-shield"></i> Privacy Protected</span>
+                <span><i class="fas fa-circle-check"></i> Satisfaction Guaranteed</span>
+            </div>
         </div>
+
     </div>
 </header>
 
-
-<section id="ck-wave-section">
-    <svg width="0" height="0">
-        <defs>
-            <linearGradient id="ck-wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" />
-                <stop offset="100%" />
-            </linearGradient>
-        </defs>
-    </svg>
-    <div class="ck-wave-container">
-        <svg class="ck-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            <path d="M0,50 L200,30 L400,70 L600,30 L800,70 L1000,50 L1000,100 L0,100 Z" />
-        </svg>
-    </div>
-</section>
-
-
-<div class="ck-marquee-trust-bar">
-    <div class="ck-marquee-glow-left"></div>
-    <div class="ck-marquee-glow-right"></div>
-    <div class="ck-marquee-track">
-        <div class="ck-marquee-inner">
-
-            
-            <span class="ck-marquee-item"><i class="fas fa-lock"></i>100% Secure &amp; Encrypted Payments</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item ck-marquee-item--warn"><i class="fas fa-map-marker-alt"></i>Double-check your address — errors may delay or lose your order</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item"><i class="fas fa-shipping-fast"></i>Fast Delivery — transit time varies by distance</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item ck-marquee-item--gold"><i class="fas fa-shield-alt"></i>Stripe &amp; PayPal — fully protected transactions</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item ck-marquee-item--warn"><i class="fas fa-exclamation-triangle"></i>Wrong address = returned to depot &amp; extra delays</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item"><i class="fas fa-globe"></i>Worldwide Shipping Available</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item ck-marquee-item--gold"><i class="fas fa-star"></i>BBW4LIFE — Premium Quality Guaranteed</span>
-            <span class="ck-marquee-sep">✦</span>
-
-            
-            <span class="ck-marquee-item"><i class="fas fa-lock"></i>100% Secure &amp; Encrypted Payments</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item ck-marquee-item--warn"><i class="fas fa-map-marker-alt"></i>Double-check your address — errors may delay or lose your order</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item"><i class="fas fa-shipping-fast"></i>Fast Delivery — transit time varies by distance</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item ck-marquee-item--gold"><i class="fas fa-shield-alt"></i>Stripe &amp; PayPal — fully protected transactions</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item ck-marquee-item--warn"><i class="fas fa-exclamation-triangle"></i>Wrong address = returned to depot &amp; extra delays</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item"><i class="fas fa-globe"></i>Worldwide Shipping Available</span>
-            <span class="ck-marquee-sep">✦</span>
-            <span class="ck-marquee-item ck-marquee-item--gold"><i class="fas fa-star"></i>BBW4LIFE — Premium Quality Guaranteed</span>
-            <span class="ck-marquee-sep">✦</span>
-
-        </div>
-    </div>
-</div>
-
 <main class="checkout-main">
 
-    
-    <section class="order-summary">
-        <h2>Order Summary</h2>
-        <button class="order-summary-toggle" id="order-summary-toggle" type="button" aria-expanded="false">
-            <span class="order-summary-toggle-left">Order Summary</span>
-            <span class="order-summary-toggle-right">
-                <span class="order-summary-total-preview" id="toggle-total-preview">$0.00</span>
-                <i class="fas fa-chevron-down order-summary-chevron"></i>
-            </span>
-        </button>
-        <div class="order-summary-body">
-            <div class="cart-items"></div>
-            <div class="summary-totals">
-                <div class="promo-wrapper">
-                    <h3 id="promo-title">Promo Code</h3>
-                    <div id="suggested-promo">
-                        <p><span>Recommended code for your cart (<span id="item-count-display">0</span> items):</span></p>
-                        <strong id="suggested-code"></strong>
-                        <button id="copy-suggested">Copy</button>
-                    </div>
-                    <div class="promo-input-group">
-                        <input type="text" id="promo-input" placeholder="Enter promo code">
-                        <button id="apply-promo">Apply</button>
-                    </div>
-                    <p id="promo-message"></p>
-                    <div id="free-shipping-unlocked-message" style="display:none;"></div>
-                </div>
-                <p>Subtotal: <span id="subtotal">$0.00</span></p>
-                <p>
-                    <span>Taxes (<span id="tax-rate-label">0</span>%)</span>
-                    <span id="taxes">$0.00</span>
-                </p>
-                <p>Shipping: <span id="shipping">$0.00</span></p>
-                <p class="total">Total: <span id="total">$0.00</span></p>
-                <p id="promo-line">
-                    Discount: <span id="discount-amount">-$0.00</span>
-                </p>
-            </div>
+    <!-- ═══ Stepper décoratif ═══ -->
+    <div class="ck-stepper-bar">
+        <div class="ck-step ck-step--active">
+            <span class="ck-step__circle">1</span>
+            <span class="ck-step__label">Information</span>
         </div>
-    </section>
+        <div class="ck-step__line"></div>
+        <div class="ck-step">
+            <span class="ck-step__circle">2</span>
+            <span class="ck-step__label">Shipping</span>
+        </div>
+        <div class="ck-step__line"></div>
+        <div class="ck-step">
+            <span class="ck-step__circle">3</span>
+            <span class="ck-step__label">Payment</span>
+        </div>
+        <div class="ck-step__line"></div>
+        <div class="ck-step">
+            <span class="ck-step__circle">4</span>
+            <span class="ck-step__label">Review</span>
+        </div>
+    </div>
 
-    
-    <section class="shipping-info">
-        <h2>Shipping Information</h2>
-        <form id="shipping-form" autocomplete="on">
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" required>
-            <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" required>
-            <label for="email">Email Address</label>
-            <input type="email" id="email" required>
-            
-            <label for="phone">Phone Number</label>
-            <div class="phone-input-group">
-                <input type="text" id="phone-code" readonly>
-                <input type="tel" id="phone" required>
-            </div>
-            
-            <label for="country">Country</label>
-            <div class="custom-select-wrapper" id="country-wrapper">
-                <div class="custom-select-trigger" id="country-trigger" tabindex="0">
-                    <span id="country-display">Select your country</span>
-                    <i class="fas fa-chevron-down custom-select-arrow"></i>
-                </div>
-                <div class="custom-select-dropdown" id="country-dropdown">
-                    <input type="text" class="custom-select-search" id="country-search" placeholder="Search country..." autocomplete="off">
-                    <ul class="custom-select-list" id="country-list"></ul>
-                </div>
-                <input type="hidden" id="country" required>
-            </div>
-            
-            <label for="city">City</label>
-            <div class="custom-select-wrapper" id="city-wrapper">
-                <div class="custom-select-trigger" id="city-trigger" tabindex="0">
-                    <span id="city-display">Select your city</span>
-                    <i class="fas fa-chevron-down custom-select-arrow"></i>
-                </div>
-                <div class="custom-select-dropdown" id="city-dropdown">
-                    <input type="text" class="custom-select-search" id="city-search" placeholder="Search city..." autocomplete="off">
-                    <ul class="custom-select-list" id="city-list"></ul>
-                </div>
-                <input type="hidden" id="city" required>
-            </div>
-            
-            <label for="state">State / Department</label>
-            <input type="text" id="state" required>
-            
-            <label for="postal-code">Postal Code</label>
-            <input type="text" id="postal-code" required>
-            
-            <label for="address">Full Address</label>
-            <textarea id="address" required></textarea>
-        </form>
-    </section>
+    <div class="checkout-grid">
 
-    
-    <section class="shipping-method">
+        <!-- ═══════════════════ COLONNE GAUCHE ═══════════════════ -->
+        <div class="checkout-col-left">
+
+            <div class="ck-checkout-heading">
+                <h1>Checkout</h1>
+                <p><i class="fas fa-heart"></i> Almost there! Please fill in your details to complete your order.</p>
+            </div>
+
+            <section class="shipping-info">
+                <form id="shipping-form" autocomplete="on">
+
+                    <div class="ck-form-section-title">
+                        <span class="ck-icon-badge"><i class="fas fa-user"></i></span>
+                        <h3>Contact Information</h3>
+                    </div>
+
+                    <div class="ck-field ck-field--full">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <label class="ck-checkbox-row ck-field--full">
+                        <input type="checkbox" checked>
+                        <span>Email me with news and offers</span>
+                    </label>
+
+                    <div class="ck-form-section-title ck-form-section-title--spaced">
+                        <span class="ck-icon-badge"><i class="fas fa-location-dot"></i></span>
+                        <h3>Shipping Information</h3>
+                    </div>
+
+                    <div class="ck-field">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" required>
+                    </div>
+                    <div class="ck-field">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" required>
+                    </div>
+
+                    <div class="ck-field ck-field--full">
+                        <label for="address">Full Address</label>
+                        <textarea id="address" required></textarea>
+                    </div>
+
+                    <div class="ck-field ck-field--full">
+                        <label for="country">Country</label>
+                        <div class="custom-select-wrapper" id="country-wrapper">
+                            <div class="custom-select-trigger" id="country-trigger" tabindex="0">
+                                <span id="country-display">Select your country</span>
+                                <i class="fas fa-chevron-down custom-select-arrow"></i>
+                            </div>
+                            <div class="custom-select-dropdown" id="country-dropdown">
+                                <input type="text" class="custom-select-search" id="country-search" placeholder="Search country..." autocomplete="off">
+                                <ul class="custom-select-list" id="country-list"></ul>
+                            </div>
+                            <input type="hidden" id="country" required>
+                        </div>
+                    </div>
+
+                    <div class="ck-field">
+                        <label for="city">City</label>
+                        <div class="custom-select-wrapper" id="city-wrapper">
+                            <div class="custom-select-trigger" id="city-trigger" tabindex="0">
+                                <span id="city-display">Select your city</span>
+                                <i class="fas fa-chevron-down custom-select-arrow"></i>
+                            </div>
+                            <div class="custom-select-dropdown" id="city-dropdown">
+                                <input type="text" class="custom-select-search" id="city-search" placeholder="Search city..." autocomplete="off">
+                                <ul class="custom-select-list" id="city-list"></ul>
+                            </div>
+                            <input type="hidden" id="city" required>
+                        </div>
+                    </div>
+                    <div class="ck-field">
+                        <label for="state">State / Department</label>
+                        <input type="text" id="state" required>
+                    </div>
+
+                    <div class="ck-field">
+                        <label for="postal-code">Postal Code</label>
+                        <input type="text" id="postal-code" required>
+                    </div>
+                    <div class="ck-field">
+                        <label for="phone">Phone Number</label>
+                        <div class="phone-input-group">
+                            <input type="text" id="phone-code" readonly>
+                            <input type="tel" id="phone" required>
+                        </div>
+                    </div>
+
+                    <label class="ck-checkbox-row ck-field--full">
+                        <input type="checkbox">
+                        <span>Save this information for next time</span>
+                    </label>
+
+                </form>
+            </section>
+
+            <section class="shipping-method">
         <h2>Shipping Method</h2>
         <div class="shipping-options-grid">
 
@@ -252,86 +216,185 @@
         </div>
     </section>
 
-    
-    <section class="trust-section">
-        <div class="trust-bg"></div>
-        <h2>Why Shop With Us?</h2>
-        <div class="trust-items">
-            <div class="trust-item">
-                <i class="fas fa-shipping-fast"></i>
-                <p>Fast Delivery (5–12 Days)</p>
-            </div>
-            <div class="trust-item">
-                <i class="fas fa-undo-alt"></i>
-                <p>30-Day Return Guarantee</p>
-            </div>
-            <div class="trust-item">
-                <i class="fas fa-check-circle"></i>
-                <p>Premium Quality Guarantee</p>
-            </div>
-            <div class="trust-item">
-                <a href="https://wa.me/18292677434?text=Hi%20BBW4LIFE%20team!%20%F0%9F%92%95%20I%20just%20placed%20an%20order%20and%20I%27m%20so%20excited!%20Could%20you%20please%20confirm%20my%20order%20and%20give%20me%20the%20estimated%20delivery%20time%3F%20Beauty%20Has%20No%20Sizes%20%F0%9F%91%91" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-whatsapp"></i>
-                    <p>Direct WhatsApp Support</p>
-                </a>
-            </div>
+            <section class="payment-method">
+                <div class="ck-card-title">
+                    <span class="ck-icon-badge"><i class="fas fa-credit-card"></i></span>
+                    Payment Method
+                </div>
+                <div class="payment-options">
+
+                    <label class="payment-card" data-method="stripe">
+                        <input type="radio" name="payment" value="stripe" checked>
+                        <div class="payment-card__head">
+                            <span class="payment-card__title">Pay with Credit Card</span>
+                            <span class="payment-card__badge"><i class="fas fa-lock"></i> Secured by Stripe</span>
+                        </div>
+                        <p class="payment-card__desc">Visa, Mastercard, Amex &amp; more — encrypted, PCI-compliant checkout.</p>
+                        <div class="payment-card__icons">
+                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Visa.png?v=1771670819" alt="Visa">
+                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/mastercard.png?v=1771670819" alt="Mastercard">
+                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Apple_Pay_3ff29ddb-d1e6-4391-97c1-e6ce3c11e29d.png?v=1771724676" alt="Apple Pay">
+                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/pay_google.png?v=1771724676" alt="Google Pay">
+                        </div>
+                    </label>
+
+                    <label class="payment-card payment-card--paypal" data-method="paypal">
+                        <input type="radio" name="payment" value="paypal">
+                        <div class="payment-card__head">
+                            <span class="payment-card__title">Pay with PayPal</span>
+                            <span class="payment-card__badge"><i class="fas fa-lock"></i> Buyer Protection</span>
+                        </div>
+                        <p class="payment-card__desc">Checkout instantly with your PayPal account — no card details needed here.</p>
+                        <div class="payment-card__icons">
+                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/paypal_logo.png?v=1773850289" alt="PayPal">
+                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Visa.png?v=1771670819" alt="Visa">
+                            <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/mastercard.png?v=1771670819" alt="Mastercard">
+                            <i class="ppsm-amex-icon fa-brands fa-cc-amex" title="American Express"></i>
+                        </div>
+                    </label>
+
+                    <label class="payment-card payment-card--crypto" data-method="nowpayments">
+                        <input type="radio" name="payment" value="nowpayments">
+                        <div class="payment-card__head">
+                            <span class="payment-card__title">Pay with Crypto</span>
+                            <span class="payment-card__badge"><i class="fas fa-lock"></i> Powered by NOWPayments</span>
+                        </div>
+                        <p class="payment-card__desc">Bitcoin, Ethereum, USDT and 300+ coins accepted worldwide.</p>
+                        <div class="payment-card__icons">
+                            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/btc.png?v=1783466134" alt="Bitcoin">
+                            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/eth.png?v=1783466134" alt="Ethereum">
+                            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/usdt.png?v=1783466260" alt="Tether USDT">
+                        </div>
+                    </label>
+
+                </div>
+                <button type="button" id="pay-button" class="cta">
+                    Pay Now
+                </button>
+            </section>
+
+            <section class="trust-section">
+                <div class="trust-bg"></div>
+                <div class="ck-card-title ck-card-title--light">
+                    <span class="ck-icon-badge ck-icon-badge--gold"><i class="fas fa-shield-heart"></i></span>
+                    Why Shop With Us?
+                </div>
+                <div class="trust-items">
+                    <div class="trust-item">
+                        <i class="fas fa-shipping-fast"></i>
+                        <div class="ck-trust-text">
+                            <strong>Fast Delivery</strong>
+                            <span>5–12 business days</span>
+                        </div>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-undo-alt"></i>
+                        <div class="ck-trust-text">
+                            <strong>Easy Returns</strong>
+                            <span>30-day return guarantee</span>
+                        </div>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="ck-trust-text">
+                            <strong>Premium Quality</strong>
+                            <span>Guaranteed on every order</span>
+                        </div>
+                    </div>
+                    <div class="trust-item">
+                        <a href="https://wa.me/18292677434?text=Hi%20BBW4LIFE%20team!%20%F0%9F%92%95%20I%20just%20placed%20an%20order%20and%20I%27m%20so%20excited!%20Could%20you%20please%20confirm%20my%20order%20and%20give%20me%20the%20estimated%20delivery%20time%3F%20Beauty%20Has%20No%20Sizes%20%F0%9F%91%91" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i>
+                            <div class="ck-trust-text">
+                                <strong>24/7 Support</strong>
+                                <span>Direct WhatsApp help</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
         </div>
-    </section>
+        <!-- ═══════════════════ FIN COLONNE GAUCHE ═══════════════════ -->
 
-    
-    <section class="payment-method">
-        <h2>Payment Method</h2>
-        <div class="payment-options">
 
-            <label class="payment-card" data-method="stripe">
-                <input type="radio" name="payment" value="stripe" checked>
-                <div class="payment-card__head">
-                    <span class="payment-card__title">Pay with Credit Card</span>
-                    <span class="payment-card__badge"><i class="fas fa-lock"></i> Secured by Stripe</span>
-                </div>
-                <p class="payment-card__desc">Visa, Mastercard, Amex &amp; more — encrypted, PCI-compliant checkout.</p>
-                <div class="payment-card__icons">
-                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Visa.png?v=1771670819" alt="Visa">
-                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/mastercard.png?v=1771670819" alt="Mastercard">
-                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Apple_Pay_3ff29ddb-d1e6-4391-97c1-e6ce3c11e29d.png?v=1771724676" alt="Apple Pay">
-                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/pay_google.png?v=1771724676" alt="Google Pay">
-                </div>
-            </label>
+        <!-- ═══════════════════ COLONNE DROITE (sidebar) ═══════════════════ -->
+        <div class="checkout-col-right">
 
-            <label class="payment-card payment-card--paypal" data-method="paypal">
-                <input type="radio" name="payment" value="paypal">
-                <div class="payment-card__head">
-                    <span class="payment-card__title">Pay with PayPal</span>
-                    <span class="payment-card__badge"><i class="fas fa-lock"></i> Buyer Protection</span>
+            <section class="order-summary">
+                <h2><i class="fas fa-bag-shopping"></i> Your Order</h2>
+                <button class="order-summary-toggle" id="order-summary-toggle" type="button" aria-expanded="false">
+                    <span class="order-summary-toggle-left"><i class="fas fa-bag-shopping"></i> Your Order</span>
+                    <span class="order-summary-toggle-right">
+                        <span class="order-summary-total-preview" id="toggle-total-preview">$0.00</span>
+                        <i class="fas fa-chevron-down order-summary-chevron"></i>
+                    </span>
+                </button>
+                <div class="order-summary-body">
+                    <div class="cart-items"></div>
+                    <div class="summary-totals">
+                        <div class="promo-wrapper">
+                            <h3 id="promo-title">Promo Code</h3>
+                            <div id="suggested-promo">
+                                <p><span>Recommended code for your cart (<span id="item-count-display">0</span> items):</span></p>
+                                <strong id="suggested-code"></strong>
+                                <button id="copy-suggested">Copy</button>
+                            </div>
+                            <div class="promo-input-group">
+                                <input type="text" id="promo-input" placeholder="Enter promo code">
+                                <button id="apply-promo">Apply</button>
+                            </div>
+                            <p id="promo-message"></p>
+                            <div id="free-shipping-unlocked-message" style="display:none;"></div>
+                        </div>
+                        <p>Subtotal: <span id="subtotal">$0.00</span></p>
+                        <p>Shipping: <span id="shipping">$0.00</span></p>
+                        <p>
+                            <span>Taxes (<span id="tax-rate-label">0</span>%)</span>
+                            <span id="taxes">$0.00</span>
+                        </p>
+                        <p class="total">Total: <span id="total">$0.00</span></p>
+                        <p id="promo-line">
+                            Discount: <span id="discount-amount">-$0.00</span>
+                        </p>
+                    </div>
                 </div>
-                <p class="payment-card__desc">Checkout instantly with your PayPal account — no card details needed here.</p>
-                <div class="payment-card__icons">
-                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/paypal_logo.png?v=1773850289" alt="PayPal">
-                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/Visa.png?v=1771670819" alt="Visa">
-                    <img src="https://cdn.shopify.com/s/files/1/0643/8263/2041/files/mastercard.png?v=1771670819" alt="Mastercard">
-                    <i class="ppsm-amex-icon fa-brands fa-cc-amex" title="American Express"></i>
-                </div>
-            </label>
+            </section>
 
-            <label class="payment-card payment-card--crypto" data-method="nowpayments">
-                <input type="radio" name="payment" value="nowpayments">
-                <div class="payment-card__head">
-                    <span class="payment-card__title">Pay with Crypto</span>
-                    <span class="payment-card__badge"><i class="fas fa-lock"></i> Powered by NOWPayments</span>
+            <!-- ═══ Shop With Confidence ═══ -->
+            <div class="ck-confidence-box">
+                <span class="ck-confidence-box__icon"><i class="fas fa-shield-heart"></i></span>
+                <div>
+                    <h3>Shop With Confidence</h3>
+                    <p>We use the highest standards to protect your information.</p>
                 </div>
-                <p class="payment-card__desc">Bitcoin, Ethereum, USDT and 300+ coins accepted worldwide.</p>
-                <div class="payment-card__icons">
-                    <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/btc.png?v=1783466134" alt="Bitcoin">
-                    <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/eth.png?v=1783466134" alt="Ethereum">
-                    <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/usdt.png?v=1783466260" alt="Tether USDT">
+            </div>
+
+            <!-- ═══ Our Promise to You ═══ -->
+            <div class="ck-promise-card">
+                <h3><i class="fas fa-heart"></i> Our Promise to You</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> Premium Quality Guaranteed</li>
+                    <li><i class="fas fa-check"></i> 30-Day Easy Returns</li>
+                    <li><i class="fas fa-check"></i> Secure &amp; Encrypted Checkout</li>
+                    <li><i class="fas fa-check"></i> Dedicated Customer Support</li>
+                </ul>
+            </div>
+
+            <!-- ═══ You're Amazing ═══ -->
+            <div class="ck-photo-card">
+                <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/thanku_bner.png?v=1786935777" alt="BBW4LIFE" onerror="this.style.display='none'; this.closest('.ck-photo-card').classList.add('ck-photo-card--noimg');">
+                <div class="ck-photo-card__overlay">
+                    <h3>You're Amazing!</h3>
+                    <p>Thank you for choosing <strong>BBW4LIFE</strong>. We're preparing something wonderful just for you.</p>
+                    <span class="ck-photo-card__quote">Love yourself, always.</span>
+                    <span class="ck-photo-card__signature">— The BBW4LIFE Team</span>
                 </div>
-            </label>
+            </div>
 
         </div>
-        <button type="button" id="pay-button" class="cta">
-            Pay Now
-        </button>
-    </section>
+        <!-- ═══════════════════ FIN COLONNE DROITE ═══════════════════ -->
+
+    </div>
 
 </main>
 
@@ -462,7 +525,7 @@
                 <p class="switch-link"><span id="paul-signup-switch"></span> <span id="goToLogin" style="cursor:pointer;"></span></p>
                 <p class="paul-policy-link"><a href="/policies/privacy.html" target="_blank"><i class="fi fi-rr-shield-check"></i> Privacy Policy</a></p>
             </div>
-            
+
             <div id="forgotForm" class="auth-form" style="display:none;">
                 <h3 id="paul-forgot-title"></h3>
                 <input type="email" id="forgot-email" placeholder="" required>

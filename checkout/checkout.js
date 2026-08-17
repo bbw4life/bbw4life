@@ -1322,4 +1322,56 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+
+    // ====================== STEPPER ANIMATION ======================
+    (function initStepper() {
+        const steps = document.querySelectorAll('.ck-step');
+        if (!steps.length) return;
+
+        function setActiveStep(stepNumber) {
+            steps.forEach((step, index) => {
+                const num = index + 1;
+                step.classList.remove('ck-step--active', 'ck-step--done');
+                if (num < stepNumber) {
+                    step.classList.add('ck-step--done');
+                } else if (num === stepNumber) {
+                    step.classList.add('ck-step--active');
+                }
+            });
+        }
+
+        // ── Étape 1 → 2 : dès que tous les champs shipping requis sont remplis ──
+        const requiredIds = ['first-name', 'last-name', 'email', 'address', 'postal-code', 'phone'];
+        function checkShippingComplete() {
+            const countryHidden = document.getElementById('country');
+            const allFilled = requiredIds.every(id => {
+                const el = document.getElementById(id);
+                return el && el.value.trim();
+            }) && countryHidden && countryHidden.value.trim();
+
+            setActiveStep(allFilled ? 2 : 1);
+        }
+
+        requiredIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', checkShippingComplete);
+        });
+
+        // Le select pays/ville custom écrit sa valeur au clic sur un item de liste
+        document.getElementById('country-list')?.addEventListener('click', () => setTimeout(checkShippingComplete, 50));
+        document.getElementById('city-list')?.addEventListener('click', () => setTimeout(checkShippingComplete, 50));
+
+        // ── Étape 2 → 3 : dès qu'une méthode de paiement est choisie ──
+        document.querySelectorAll('input[name="payment"]').forEach(radio => {
+            radio.addEventListener('change', () => setActiveStep(3));
+        });
+
+        // ── Étape 3 → 4 : au clic sur "Pay Now" ──
+        const payBtn = document.getElementById('pay-button');
+        if (payBtn) {
+            payBtn.addEventListener('click', () => setActiveStep(4));
+        }
+    })();
+    // ====================== END STEPPER ANIMATION ======================
+
 });

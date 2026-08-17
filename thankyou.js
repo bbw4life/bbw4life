@@ -86,14 +86,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ── Reveal all extra sections with staggered animation ──
 function revealExtraSections() {
     const ids = [
+        'ty-order-details-section',
+        'ty-order-summary-section',
         'next-steps-section',
-        'order-stats-section',
         'gratitude-section',
         'share-section',
         'bbw-request-section',
         'bbw-banner-section',
         'bbw-request-personalized-section',
         'support-bar-section',
+        'ty-footer-section',
         'success-icon'
     ];
     ids.forEach((id, i) => {
@@ -111,7 +113,151 @@ function revealExtraSections() {
         h1.style.webkitTextFillColor = 'transparent';
         h1.style.backgroundClip = 'text';
     }
+
+    // Order number / date — dérivés de l'identifiant de paiement déjà
+    // présent dans l'URL (session_id Stripe ou token PayPal), sans
+    // dépendre d'un champ que le backend ne renvoie pas aujourd'hui.
+    const urlParams = new URLSearchParams(window.location.search);
+    const rawId = urlParams.get('session_id') || urlParams.get('token') || '';
+    const orderNumberEl = document.getElementById('ty-order-number');
+    if (orderNumberEl) {
+        orderNumberEl.textContent = rawId ? '#' + rawId.slice(-10).toUpperCase() : '—';
+    }
+    const orderDateEl = document.getElementById('ty-order-date');
+    if (orderDateEl) {
+        orderDateEl.textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    loadOrderSummary();
 }
+
+// ── Order Summary : récupère la dernière commande depuis le Sheet
+//    (bbw4life-accounts, colonne "history", écrite par verify-payment →
+//    save-account/record-order) — pas le panier local (déjà vidé à ce
+//    stade) et pas de recalcul approximatif : le "total" vient du vrai
+//    montant facturé par Stripe/PayPal (inclut le choix de livraison
+//    réel fait au checkout, gratuite ou payante).
+function loadOrderSummary() {
+    const section = document.getElementById('ty-order-summary-section');
+    if (!section) return;
+
+    const userEmail = localStorage.getItem('userEmail');
+    const userToken = localStorage.getItem('userAccountToken');
+    if (!userEmail || !userToken) { section.style.display = 'none'; return; }
+
+    fetch('/.netlify/functions/save-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get-stats', email: userEmail, token: userToken })
+    })
+        .then(r => r.json())
+        .then(data => {
+            const history = Array.isArray(data.history) ? data.history : [];
+            const lastOrder = history[history.length - 1];
+            if (!lastOrder || !Array.isArray(lastOrder.items) || lastOrder.items.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            const itemsEl = document.getElementById('ty-order-summary-items');
+            if (itemsEl) {
+                itemsEl.innerHTML = lastOrder.items.map(item => {
+                    const variantParts = [item.color, item.size].filter(Boolean).join(' / ');
+                    return `
+                        <div class="ty-order-summary__item">
+                            <img src="${item.image || ''}" alt="${item.title || ''}" loading="lazy">
+                            <div class="ty-order-summary__item-info">
+                                <strong>${item.title || ''}</strong>
+                                ${variantParts ? `<span>${variantParts}</span>` : ''}
+                                <span>Qty: ${item.quantity || 1}</span>
+                            </div>
+                            <div class="ty-order-summary__item-price">$${parseFloat(item.lineTotal || (item.price * item.quantity) || 0).toFixed(2)}</div>
+                        </div>`;
+                }).join('');
+            }
+
+            const subtotal = lastOrder.items.reduce((sum, item) => sum + parseFloat(item.lineTotal || (item.price * item.quantity) || 0), 0);
+            const total = parseFloat(lastOrder.total) || subtotal;
+            const shippingAndTax = total - subtotal;
+
+            const subtotalEl = document.getElementById('ty-summary-subtotal');
+            if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+
+            const shippingRow = document.getElementById('ty-summary-shipping-row');
+            const shippingEl  = document.getElementById('ty-summary-shipping');
+            if (shippingRow && shippingEl) {
+                if (shippingAndTax > 0.01) {
+                    shippingEl.textContent = `$${shippingAndTax.toFixed(2)}`;
+                    shippingRow.style.display = '';
+                } else if (shippingAndTax <= 0.01 && shippingAndTax >= -0.01) {
+                    shippingEl.textContent = 'Free';
+                    shippingRow.style.display = '';
+                }
+            }
+
+            const totalEl = document.getElementById('ty-summary-total');
+            if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+        })
+        .catch(() => { section.style.display = 'none'; });
+}
+
+// ── Bandeau promo (photo bienvenue) + liens sociaux du footer : lus
+//    depuis settings.promos[0] / settings.social_links — même système
+//    que src/components/footer.js (window.__allProducts, déjà chargé
+//    par script.js — pas de fetch séparé qui pourrait arriver trop
+//    tard ou échouer silencieusement, laissant les liens sur "#").
+function applyPromoAndSocialLinks() {
+    const all = window.__allProducts || [];
+    const settings = all.find(p => p.type === 'settings') || {};
+
+    const pctEl  = document.getElementById('ty-promo-pct');
+    const codeEl = document.getElementById('ty-promo-code');
+    const promo = (settings.promos || [])[0];
+    if (promo) {
+        if (pctEl)  pctEl.textContent  = `${promo.percent}% OFF`;
+        if (codeEl) codeEl.textContent = promo.code;
+    }
+
+    const socialLinks = settings.social_links || {};
+    const socialMap = {
+        'ty-social-instagram': socialLinks.instagram,
+        'ty-social-facebook':  socialLinks.facebook,
+        'ty-social-tiktok':    socialLinks.tiktok,
+        'ty-social-pinterest': socialLinks.pinterest,
+        'ty-social-youtube':   socialLinks.youtube,
+        'ty-social-whatsapp':  socialLinks.whatsapp
+    };
+    Object.entries(socialMap).forEach(([id, url]) => {
+        const el = document.getElementById(id);
+        if (el && url) el.href = url;
+    });
+}
+
+function waitForProductsThenApply() {
+    if (window.__allProducts && window.__allProducts.length) {
+        applyPromoAndSocialLinks();
+        return;
+    }
+    let tries = 0;
+    const iv = setInterval(() => {
+        tries++;
+        if (window.__allProducts && window.__allProducts.length) {
+            clearInterval(iv);
+            applyPromoAndSocialLinks();
+        } else if (tries > 50) {
+            clearInterval(iv);
+            // Dernier recours : fetch direct si script.js n'a jamais abouti.
+            fetch('/products.data.json')
+                .then(r => r.json())
+                .then(data => {
+                    window.__allProducts = window.__allProducts || data;
+                    applyPromoAndSocialLinks();
+                })
+                .catch(() => {});
+        }
+    }, 100);
+}
+document.addEventListener('DOMContentLoaded', waitForProductsThenApply);
 
 // ── Show success state ──
 function showSuccess() {
@@ -200,5 +346,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.innerHTML = '<i class="fab fa-instagram"></i> Instagram';
             }, 800);
         }
+    });
+
+    // ── Footer newsletter : même action/contrat que le popup newsletter
+    //    principal (footer.js → action:'newsletter-subscribe') — écrit
+    //    dans le même Sheet bbw4life-accounts. Seul l'email est requis
+    //    côté fonction, donc ce mini-formulaire (email + bouton) suffit.
+    const nlForm  = document.getElementById('ty-footer-newsletter-form');
+    const nlEmail = document.getElementById('ty-footer-newsletter-email');
+    const nlBtn   = document.getElementById('ty-footer-newsletter-btn');
+    const nlMsg   = document.getElementById('ty-footer-newsletter-msg');
+
+    nlForm?.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = (nlEmail.value || '').trim();
+        if (!email) return;
+
+        nlBtn.disabled = true;
+        nlMsg.textContent = '';
+        nlMsg.className = 'ty-footer__newsletter-msg';
+
+        fetch('/.netlify/functions/save-account', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'newsletter-subscribe', email })
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data && data.success !== false) {
+                    nlMsg.textContent = 'Thank you for subscribing!';
+                    nlMsg.classList.add('is-success');
+                    nlForm.reset();
+                } else {
+                    nlMsg.textContent = (data && data.error) || 'Something went wrong. Please try again.';
+                    nlMsg.classList.add('is-error');
+                }
+            })
+            .catch(() => {
+                nlMsg.textContent = 'Something went wrong. Please try again.';
+                nlMsg.classList.add('is-error');
+            })
+            .finally(() => { nlBtn.disabled = false; });
     });
 });

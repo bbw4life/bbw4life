@@ -20,6 +20,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <link rel="stylesheet" href="/tokens.css">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/checkout/checkout.css">
@@ -46,86 +48,107 @@
     <div class="confetti-particle"></div>
 </div>
 
-<header class="checkout-header">
-    <div class="header-content">
-        <div class="logo">
-            <a href="/index.html"><img src="/public/vrlogo bbw4life.png" alt="BBW4LIFE Logo"></a>
-            <h1>Order Confirmation</h1>
+<header class="ty-hero">
+    <div class="ty-hero__topbar">
+        <a href="/index.html" class="ty-hero__brand">
+            <img src="/public/vrlogo bbw4life.png" alt="BBW4LIFE Logo">
+            <span>BBW<em>4</em>LIFE</span>
+        </a>
+        <span class="ty-hero__tagline">Confidence. Beauty. You.</span>
+    </div>
+
+    <div class="ty-hero__body">
+        <div class="ty-hero__text">
+            <span class="ty-hero__script">Thank You</span>
+
+            <div class="container">
+                <div class="success-icon" id="success-icon" style="display:none;">
+                    <i class="fas fa-check"></i>
+                </div>
+
+                <h1>Confirming Your Order...</h1>
+
+                <div id="spinner" class="spinner"></div>
+
+                <div id="message" style="display:none;"></div>
+
+                <div id="buttons" style="display:none;">
+                    <a href="/collections/bbw4life-all-product.html" class="button">
+                        <i class="fas fa-shopping-bag"></i>
+                        Continue Shopping
+                    </a>
+                    <a href="/account.html" class="button">
+                        <i class="fas fa-user"></i>
+                        View Orders
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="ty-hero__photo">
+            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/thankyou.png?v=1786846214" alt="BBW4LIFE" loading="eager">
         </div>
     </div>
 </header>
 
 
-<section id="ck-wave-section">
-    <svg width="0" height="0">
-        <defs>
-            <linearGradient id="ck-wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" />
-                <stop offset="100%" />
-            </linearGradient>
-        </defs>
-    </svg>
-    <div class="ck-wave-container">
-        <svg class="ck-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            <path d="M0,50 L100,50 L150,30 L200,70 L250,50 L300,30 L350,70 L400,50 L450,30 L500,70 L550,50 L600,30 L650,70 L700,50 L750,30 L800,70 L850,50 L900,30 L950,70 L1000,50 L1000,100 L0,100 Z" />
-        </svg>
+<div class="ty-page">
+
+<section class="ty-order-details" id="ty-order-details-section" style="display:none;">
+    <div class="ty-order-details__title">Order Details</div>
+    <div class="ty-order-details__grid">
+        <div class="ty-order-details__item">
+            <div class="ty-order-details__icon"><i class="fas fa-bag-shopping"></i></div>
+            <span class="ty-order-details__label">Order Number</span>
+            <strong class="ty-order-details__value" id="ty-order-number">—</strong>
+        </div>
+        <div class="ty-order-details__item">
+            <div class="ty-order-details__icon"><i class="fas fa-calendar"></i></div>
+            <span class="ty-order-details__label">Order Date</span>
+            <strong class="ty-order-details__value" id="ty-order-date">—</strong>
+        </div>
+        <div class="ty-order-details__item">
+            <div class="ty-order-details__icon"><i class="fas fa-clock"></i></div>
+            <span class="ty-order-details__label">Processing Time</span>
+            <strong class="ty-order-details__value">1–2 Business Days</strong>
+        </div>
+        <div class="ty-order-details__item">
+            <div class="ty-order-details__icon"><i class="fas fa-truck"></i></div>
+            <span class="ty-order-details__label">Shipping</span>
+            <strong class="ty-order-details__value">Tracking email on the way</strong>
+        </div>
     </div>
 </section>
-
-
-<div class="container">
-    
-    <div class="success-icon" id="success-icon" style="display:none;">
-        <i class="fas fa-check"></i>
-    </div>
-
-    <h1>Confirming Your Order...</h1>
-
-    <div id="spinner" class="spinner"></div>
-
-    <div id="message" style="display:none;"></div>
-
-    <div id="buttons" style="display:none;">
-        <a href="/collections/bbw4life-all-product.html" class="button">
-            <i class="fas fa-shopping-bag"></i>
-            Continue Shopping
-        </a>
-        <a href="/account.html" class="button">
-            <i class="fas fa-user"></i>
-            View Orders
-        </a>
-    </div>
-</div>
 
 
 <section class="next-steps" id="next-steps-section" style="display:none;">
     <h2>What Happens Next?</h2>
     <div class="steps-list">
         <div class="step-item">
-            <div class="step-num">1</div>
+            <div class="step-num"><i class="fas fa-envelope"></i></div>
             <div class="step-text">
-                <h4><i class="fas fa-envelope step-icon"></i> Confirmation Email</h4>
+                <h4>Confirmation Email</h4>
                 <p>You'll receive an order confirmation email within the next few minutes with all your details.</p>
             </div>
         </div>
         <div class="step-item">
-            <div class="step-num">2</div>
+            <div class="step-num"><i class="fas fa-box-open"></i></div>
             <div class="step-text">
-                <h4><i class="fas fa-box-open step-icon"></i> Order Processing</h4>
+                <h4>Order Processing</h4>
                 <p>Our team carefully prepares your order within 24–48 hours, with love and attention to every detail — because you deserve nothing less.</p>
             </div>
         </div>
         <div class="step-item">
-            <div class="step-num">3</div>
+            <div class="step-num"><i class="fas fa-truck"></i></div>
             <div class="step-text">
-                <h4><i class="fas fa-truck step-icon"></i> Shipping & Tracking</h4>
+                <h4>Shipping &amp; Tracking</h4>
                 <p>Once shipped, you'll receive a tracking number so you can follow your package every step of the way.</p>
             </div>
         </div>
         <div class="step-item">
-            <div class="step-num">4</div>
+            <div class="step-num"><i class="fas fa-star"></i></div>
             <div class="step-text">
-                <h4><i class="fas fa-star step-icon"></i> Enjoy & Shine!</h4>
+                <h4>Enjoy &amp; Shine!</h4>
                 <p>Your journey with BBW4LIFE continues — we can't wait to hear how you feel wearing your new pieces. Own every room you enter.</p>
             </div>
         </div>
@@ -133,34 +156,64 @@
 </section>
 
 
-<div class="order-stats" id="order-stats-section" style="display:none;">
-    <div class="stat-badge">
-        <i class="fas fa-shield-alt"></i>
-        <span>100%</span>
-        <p>Secure</p>
+
+<section class="ty-order-summary" id="ty-order-summary-section" style="display:none;">
+    <div class="ty-order-summary__title">Order Summary</div>
+    <div class="ty-order-summary__items" id="ty-order-summary-items"></div>
+    <div class="ty-order-summary__totals">
+        <div class="ty-order-summary__row">
+            <span>Subtotal</span>
+            <strong id="ty-summary-subtotal">—</strong>
+        </div>
+        <div class="ty-order-summary__row" id="ty-summary-shipping-row" style="display:none;">
+            <span>Shipping</span>
+            <strong id="ty-summary-shipping">—</strong>
+        </div>
+        <div class="ty-order-summary__row ty-order-summary__row--total">
+            <span>Total</span>
+            <strong id="ty-summary-total">—</strong>
+        </div>
     </div>
-    <div class="stat-badge">
-        <i class="fas fa-truck"></i>
-        <span>Free</span>
-        <p>Shipping</p>
-    </div>
-    <div class="stat-badge">
-        <i class="fas fa-undo-alt"></i>
-        <span>30 Days</span>
-        <p>Returns</p>
-    </div>
-    <div class="stat-badge">
-        <i class="fas fa-heart"></i>
-        <span><span data-stat-text data-stat-key="members"></span>+</span>
-        <p>Queens in our family</p>
-    </div>
-</div>
+    <a href="/account.html" class="ty-order-summary__link">
+        View Order Details <i class="fas fa-arrow-right"></i>
+    </a>
+</section>
 
 
 <section class="gratitude-section" id="gratitude-section" style="display:none;">
     <span class="gratitude-emoji"><i class="fas fa-heart-pulse"></i></span>
     <h3>From the bottom of our hearts,<br><em>thank you for choosing yourself.</em></h3>
-    <p>Every order placed at BBW4LIFE is a bold, beautiful act of self-love. You've joined a community of thousands of extraordinary women who chose to celebrate their bodies, their curves, and their unique beauty — exactly as they are. We are honored to be part of your journey. You are seen. You are loved. You are enough.</p>
+
+    <div class="ty-whatsnext">
+        <div class="ty-whatsnext__title">
+            <span>What's Next?</span>
+        </div>
+        <div class="ty-whatsnext__steps">
+            <div class="ty-whatsnext__step">
+                <div class="ty-whatsnext__icon"><i class="fas fa-user"></i></div>
+                <strong>Create Your Account</strong>
+                <p>Easily track your orders, save your addresses and more.</p>
+            </div>
+            <div class="ty-whatsnext__step">
+                <div class="ty-whatsnext__icon"><i class="fas fa-tags"></i></div>
+                <strong>Exclusive Offers</strong>
+                <p>Enjoy perks reserved for our VIP customers.</p>
+            </div>
+            <div class="ty-whatsnext__step">
+                <div class="ty-whatsnext__icon"><i class="fas fa-gift"></i></div>
+                <strong>Loyalty Rewards</strong>
+                <p>Earn points and unlock gifts.</p>
+            </div>
+            <div class="ty-whatsnext__step">
+                <div class="ty-whatsnext__icon"><i class="fas fa-mobile-screen-button"></i></div>
+                <strong>Stay Connected</strong>
+                <p>Follow us for daily inspiration.</p>
+            </div>
+        </div>
+        <a href="/account.html" class="ty-whatsnext__cta">
+            Create My Account <i class="far fa-heart"></i>
+        </a>
+    </div>
 </section>
 
 
@@ -194,36 +247,25 @@
     </div>
 </section>
 
-<section class="bbw-custom-banner" id="bbw-banner-section" style="display:none;">
-    <div class="bbw-cb-images">
-        <div class="bbw-cb-img bbw-cb-img--left">
-            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Article_card_11.1.png?v=1779050357" alt="" loading="lazy">
-        </div>
-        <div class="bbw-cb-img bbw-cb-img--right">
-            <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Article_card_14.1.png?v=1779050357" alt="" loading="lazy">
-        </div>
-    </div>
-    <div class="bbw-cb-overlay"></div>
-    <div class="bbw-cb-shimmer-top"></div>
-    <div class="bbw-cb-content">
-        <span class="bbw-cb-eyebrow">
-            <span class="bbw-cb-eyebrow-dot"></span>
-            You are BBW4LIFE
-            <span class="bbw-cb-eyebrow-dot"></span>
-        </span>
-        <blockquote class="bbw-cb-quote">
-            "You didn't just place an order.<br>You chose to love yourself — boldly."
-        </blockquote>
-        <p class="bbw-cb-sub">
-            You are beautiful. You are powerful. You are enough.<br class="bbw-cb-br">Every curve you carry is a crown. Wear it with pride. <i class="fas fa-crown bbw-crown-icon"></i>
-        </p>
-        <div class="bbw-cb-line">
-            <span></span>
-            <i class="bbw-cb-diamond">◆</i>
-            <span></span>
+<section class="ty-promo-banner" id="bbw-banner-section" style="display:none;">
+    <div class="ty-promo-banner__photo">
+        <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Article_card_11.1.png?v=1779050357" alt="BBW4LIFE" loading="lazy">
+        <div class="ty-promo-banner__photo-text">
+            <span class="ty-promo-banner__eyebrow">Welcome to the</span>
+            <strong class="ty-promo-banner__title">BBW4LIFE Family</strong>
+            <p class="ty-promo-banner__quote">You are gorgeous.<br>You are beautiful.<br>You are BBW4LIFE.<span class="ty-promo-banner__heart"> ♡</span></p>
         </div>
     </div>
-    <div class="bbw-cb-shimmer-bottom"></div>
+
+    <div class="ty-promo-banner__offer">
+        <span class="ty-promo-banner__offer-pct" id="ty-promo-pct">— % OFF</span>
+        <span class="ty-promo-banner__offer-sub">ON YOUR NEXT ORDER</span>
+        <p class="ty-promo-banner__offer-desc">Use the code below on your next purchase.</p>
+        <div class="ty-promo-banner__code" id="ty-promo-code">—</div>
+        <a href="/collections/bbw4life-all-product.html" class="ty-promo-banner__cta">
+            Discover New Arrivals <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
 </section>
 
 <section class="bbw-request-section bbw-request-section--personalized" id="bbw-request-personalized-section" data-scroll-reveal style="display:none;">
@@ -232,21 +274,18 @@
             <i class="fas fa-wand-magic-sparkles"></i>
             <span>You deserve a style that was made <em>just for you</em> — your body, your vision, your rules. Let us create it.</span>
         </div>
-        </div>
-        
-        <section class="my-product-section" data-scroll-reveal>
-            <div class="container">
-                <button class="my-product-btn" id="openMyProductPopup">
-                    <span class="my-product-btn__icon">
-                        <i class="fas fa-wand-magic-sparkles"></i>
-                    </span>
-                    <span class="my-product-btn__text">
-                        <strong><i class="fas fa-wand-magic-sparkles"></i> Design My Personalized Product</strong>
-                        <small>Your curves. Your style. Your size. We bring your dream to life — just for you.</small>
-                    </span>
-                    <span class="my-product-btn__arrow">→</span>
-                </button>
-            </div>
+
+        <button class="my-product-btn" id="openMyProductPopup">
+            <span class="my-product-btn__icon">
+                <i class="fas fa-wand-magic-sparkles"></i>
+            </span>
+            <span class="my-product-btn__text">
+                <strong><i class="fas fa-wand-magic-sparkles"></i> Design My Personalized Product</strong>
+                <small>Your curves. Your style. Your size. We bring your dream to life — just for you.</small>
+            </span>
+            <span class="my-product-btn__arrow">→</span>
+        </button>
+    </div>
 </section>
 
 
@@ -258,27 +297,101 @@
     </a>
 </div>
 
+</div>
+
 <script src="thankyou.js"></script>
 
 <script src="/pdg-francenel.js"></script>
 <script src="/script.js"></script>
 
-<footer class="ty-footer">
-  <div class="ty-footer__inner">
+<footer class="ty-footer" id="ty-footer-section" style="display:none;">
+
+  <div class="ty-footer__perks">
+    <div class="ty-footer__perk">
+      <i class="fas fa-truck-fast"></i>
+      <div>
+        <strong>Fast Shipping</strong>
+        <span>Worldwide delivery</span>
+      </div>
+    </div>
+    <div class="ty-footer__perk">
+      <i class="fas fa-rotate"></i>
+      <div>
+        <strong>Easy Returns</strong>
+        <span>30 days to change your mind</span>
+      </div>
+    </div>
+    <div class="ty-footer__perk">
+      <i class="fas fa-shield-halved"></i>
+      <div>
+        <strong>Secure Payment</strong>
+        <span>100% protected</span>
+      </div>
+    </div>
+    <div class="ty-footer__perk">
+      <i class="fas fa-rotate"></i>
+      <div>
+        <strong>Satisfaction Guaranteed</strong>
+        <span>Your happiness, our priority</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ty-footer__main">
+    <div class="ty-footer__col">
+      <span class="ty-footer__col-title">Subscribe To Our Newsletter</span>
+      <p class="ty-footer__newsletter-sub">Get our latest news, tips and exclusive offers.</p>
+      <form class="ty-footer__newsletter" id="ty-footer-newsletter-form">
+        <input type="email" id="ty-footer-newsletter-email" placeholder="Your email" required autocomplete="email">
+        <button type="submit" id="ty-footer-newsletter-btn" aria-label="Subscribe">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+      <span class="ty-footer__newsletter-msg" id="ty-footer-newsletter-msg"></span>
+
+      <span class="ty-footer__col-title ty-footer__col-title--social">Follow Us</span>
+      <div class="ty-footer__socials">
+        <a id="ty-social-instagram" href="" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a id="ty-social-facebook" href="" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a id="ty-social-tiktok" href="" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a id="ty-social-pinterest" href="" target="_blank" rel="noopener" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+        <a id="ty-social-youtube" href="" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="mailto:support@bbw4life.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        <a id="ty-social-whatsapp" href="" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="ty-footer__col">
+      <span class="ty-footer__col-title">Need Help?</span>
+      <a href="mailto:support@bbw4life.com" class="ty-footer__contact-line">
+        <i class="fas fa-envelope"></i> support@bbw4life.com
+      </a>
+      <a href="https://wa.me/18292677434" target="_blank" rel="noopener" class="ty-footer__contact-line">
+        <i class="fas fa-comment-dots"></i> Live Chat
+      </a>
+    </div>
+
     <a href="/index.html" class="ty-footer__logo">
       <img src="/public/vrlogo bbw4life.png" alt="BBW4LIFE">
+      <span class="ty-footer__logo-text">
+        <strong class="ty-footer__logo-name">BBW<em>4</em>LIFE</strong>
+        <small>BEAUTY HAS NO SIZE <i class="far fa-heart"></i></small>
+      </span>
     </a>
+  </div>
+
+  <div class="ty-footer__bottom">
+    <p class="ty-footer__copy">
+      &copy; <span id="ty-year"></span> BBW4LIFE. All rights reserved.
+    </p>
     <nav class="ty-footer__links" aria-label="Policies">
-      <a href="/policies/return-policy.html">Return Policy</a>
-      <a href="/policies/shipping-policy.html">Shipping Policy</a>
       <a href="/policies/terms.html">Terms of Service</a>
       <a href="/policies/privacy.html">Privacy Policy</a>
+      <a href="/policies/refund.html">Return Policy</a>
+      <a href="/policies/shipping.html">Shipping Policy</a>
     </nav>
-    <p class="ty-footer__copy">
-      &copy; <span id="ty-year"></span> BBW4LIFE — Beauty Has No Sizes.
-      All rights reserved.
-    </p>
   </div>
+
 </footer>
 
 <script src="https://js.stripe.com/v3/"></script>

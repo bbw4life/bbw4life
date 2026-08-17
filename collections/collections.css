@@ -3402,7 +3402,7 @@
 ================================================================ */
 .bbw-hero-originals {
   position: relative;
-  min-height: 460px;
+  min-height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3556,7 +3556,7 @@
 }
 
 @media (max-width: 768px) {
-  .bbw-hero-originals { min-height: 340px; }
+  .bbw-hero-originals { min-height: 280px; }
   .bbw-hero-orig__inner { padding: 48px 16px 40px; }
   .bbw-hero-orig__badges { gap: 0 4px; padding-top: 22px; }
   .bbw-hero-orig__badge { font-size: 9.5px; padding: 4px 10px; border-left: none !important; }

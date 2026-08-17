@@ -1724,10 +1724,11 @@ function showErrorPopup(message) {
     const countEl   = document.getElementById('bbwBxgxCount');
     const msgEl     = document.getElementById('bbwBxgxMsg');
 
-    if (titleEl) {
-        const giftWord = getQty > 1 ? 'FREE Gifts' : 'FREE Gift';
-        titleEl.textContent = `Buy ${buyQty}, Get ${getQty} ${giftWord}!`;
-    }
+    const giftWord  = getQty > 1 ? 'FREE Gifts' : 'FREE Gift';
+    const titleDefault = `Buy ${buyQty}, Get ${getQty} ${giftWord}!`;
+    const titleUnlocked = `Congratulations! Your ${getQty} ${giftWord} ${getQty > 1 ? 'are' : 'is'} waiting — checkout now!`;
+
+    if (titleEl) titleEl.textContent = titleDefault;
 
     function render() {
         let cartNow = [];
@@ -1736,16 +1737,20 @@ function showErrorPopup(message) {
 
         const clamped = Math.min(paidQty, buyQty);
         const pct = buyQty > 0 ? Math.round((clamped / buyQty) * 100) : 0;
+        const unlocked = paidQty >= buyQty;
 
         if (fillEl) fillEl.style.width = pct + '%';
         if (tooltipEl) tooltipEl.textContent = pct + '%';
         if (pctEl) pctEl.textContent = pct + '%';
         if (countEl) countEl.textContent = `${clamped}/${buyQty}`;
         widget.classList.toggle('is-active', paidQty > 0);
+        widget.classList.toggle('is-unlocked', unlocked);
+
+        if (titleEl) titleEl.textContent = unlocked ? titleUnlocked : titleDefault;
 
         if (msgEl) {
             const giftLabel = getQty > 1 ? `${getQty} free gifts` : 'free gift';
-            if (paidQty >= buyQty) {
+            if (unlocked) {
                 msgEl.textContent = `You've unlocked your ${giftLabel} from BBW4LIFE!`;
             } else {
                 const remaining = buyQty - paidQty;

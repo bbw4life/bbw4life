@@ -19,14 +19,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css">
 <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css">
-
-
-<!-- /tokens.css, /style.css et /src/components/footer.css NE sont plus
-     réinjectés ici : chaque page les charge déjà de façon synchrone
-     dans son propre <head>. Les réinjecter ici les chargeait une
-     deuxième fois, en dernier dans <head>, ce qui écrasait de façon
-     aléatoire (selon le timing du fetch) les variables :root
-     spécifiques à certaines pages. -->
 <link rel="stylesheet" href="/blog/blog-search.css">
 <link rel="stylesheet" href="/cart.css">
 
@@ -101,12 +93,3 @@
 
 <script src="https://www.paypal.com/sdk/js?client-id=AbHxiQOr022CZ5tf7LtOUlpW-NZxUMfCxankCaZnFJNcN6msJ_eNT3HAptmJhcaQDNltCahOOzi4CoPX&currency=USD&intent=capture"></script>
 
-<!-- /checkout/checkout.js n'est plus réinjecté ici : ce script attend
-     un bouton de paiement (#pay-button) qui n'existe que sur checkout.html,
-     qui charge déjà sa propre copie explicitement. L'injecter partout
-     causait une TypeError sitewide (addEventListener sur null). -->
-<!-- /script.js n'est plus réinjecté ici : chaque page charge déjà
-     sa propre copie directement dans son <head>/<body>. Le réinjecter
-     causait un double chargement (623 Ko), une SyntaxError de
-     redéclaration, et une part importante du blocage du thread
-     principal au démarrage. -->

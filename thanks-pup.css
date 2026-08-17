@@ -568,11 +568,11 @@
 
 
 .bbw-request-section--personalized .bbw-request-label {
-  color: #1a0f0a !important;
+  color: rgba(253, 249, 244, 0.72) !important;
 }
 
 .bbw-request-section--personalized .bbw-request-label span {
-  color: #1a0f0a !important;
+  color: rgba(253, 249, 244, 0.72) !important;
 }
 
 .bbw-request-section--personalized .bbw-request-label em {

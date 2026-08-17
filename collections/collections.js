@@ -655,7 +655,7 @@
       renderRV();
       renderFBT();
 
-      window.__allProducts = allProducts;
+      
     })
     .catch(err => console.error('[Collection] Failed to load products.data.json:', err));
 

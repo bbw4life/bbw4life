@@ -4690,6 +4690,10 @@ details[open] .chevron {
     font-size: 18px;
     line-height: 1.15;
     color: var(--bbw-black, #15110E);
+    transition: color 0.3s ease;
+}
+.bbw-bxgx-widget.is-unlocked .bbw-bxgx-widget__title {
+    color: var(--bbw-black, #15110E);
 }
 .bbw-bxgx-widget__subtitle {
     margin: 0 0 12px;
