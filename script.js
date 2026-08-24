@@ -1417,15 +1417,20 @@ function showErrorPopup(message) {
 
         const photoImg = document.getElementById('bbw-nb-photo-img');
         const photoPreloadLogo = document.getElementById('bbwNbPhotoPreloadLogo');
+        const photoSkeleton = document.getElementById('bbwNbPhotoSkeleton');
         if (photoImg && cfg.photo) {
           if (photoPreloadLogo) {
-            const revealPhoto = () => photoPreloadLogo.classList.add('is-loaded');
+            const revealPhoto = () => {
+              photoPreloadLogo.classList.add('is-loaded');
+              if (photoSkeleton && photoSkeleton.parentNode) photoSkeleton.parentNode.removeChild(photoSkeleton);
+            };
             photoImg.addEventListener('load', revealPhoto, { once: true });
             photoImg.addEventListener('error', revealPhoto, { once: true });
           }
           photoImg.src = cfg.photo;
           if (photoPreloadLogo && photoImg.complete && photoImg.naturalWidth > 0) {
             photoPreloadLogo.classList.add('is-loaded');
+            if (photoSkeleton && photoSkeleton.parentNode) photoSkeleton.parentNode.removeChild(photoSkeleton);
           }
         }
 
