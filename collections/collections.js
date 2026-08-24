@@ -850,16 +850,7 @@
   }
 
   function applyAll() {
-    filtered = allProducts.filter(productMatchesFilters);
-    // Sécurité anti-doublon (ex: onglet New Arrivals) : ne garder qu'une
-    // seule carte par id produit, même si allProducts en contenait
-    // plusieurs occurrences pour une raison quelconque.
-    const seenIds = new Set();
-    filtered = filtered.filter(p => {
-      if (seenIds.has(p.id)) return false;
-      seenIds.add(p.id);
-      return true;
-    });
+    filtered    = allProducts.filter(productMatchesFilters);
     filtered    = sortProducts(filtered);
     currentPage = 1;
     selectedProducts.clear();
