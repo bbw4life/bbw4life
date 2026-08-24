@@ -7512,6 +7512,23 @@ if (carousel) {
   const wishlistBadge = document.querySelector('.wishlist-badge');
   const cartIcon = document.querySelector('.cart-icon');
 
+  // Recharge `wishlist` (variable de cette closure) depuis localStorage et
+  // rafraîchit tout l'affichage — nécessaire pour tout code EXTÉRIEUR à
+  // cette closure (ex: le wishlist share receiver, IIFE top-level plus bas
+  // dans ce fichier) qui écrit dans localStorage sans jamais pouvoir
+  // toucher directement cette variable `wishlist` locale. Sans ce pont,
+  // le badge peut sembler à jour (mis à jour via window.updateBadges,
+  // qui lit pourtant la même variable obsolète) alors que la popup
+  // wishlist (renderWishlist) reste vide, et un ajout ultérieur écrase
+  // silencieusement ce que le lien partagé avait ajouté.
+  window.__bbwReloadWishlist = function () {
+    try { wishlist = JSON.parse(localStorage.getItem('wishlist')) || []; } catch (e) { wishlist = []; }
+    window.wishlist = wishlist;
+    updateBadges();
+    updateWishlistIcons();
+    renderWishlist();
+  };
+
  function saveCart() { 
   localStorage.setItem('cart', JSON.stringify(cart));
   window.cart = cart;
@@ -8869,14 +8886,17 @@ const BBW_WISHLIST_SLUG_MAP = {
     ids = ids.map(s => reverseMap[s] || s);
 
     function addSharedToWishlist() {
-        // wishlist/saveWishlist/updateBadges/updateWishlistIcons vivent dans
-        // la closure DOMContentLoaded plus haut dans ce fichier — inaccessibles
-        // ici directement (cette IIFE est top-level, hors de cette closure).
-        // On écrit donc directement dans localStorage (source de vérité
-        // partagée par les deux mondes), plutôt que de dépendre de la
-        // variable `wishlist` de la closure — appeler window.saveWishlist()
-        // ici persisterait SA propre variable (potentiellement désynchronisée
-        // de ce qu'on vient de calculer), pas ce tableau-ci.
+        // wishlist/saveWishlist/updateBadges/updateWishlistIcons/renderWishlist
+        // vivent dans la closure DOMContentLoaded plus haut dans ce fichier —
+        // inaccessibles ici directement (cette IIFE est top-level, hors de
+        // cette closure). On écrit donc directement dans localStorage
+        // (source de vérité partagée par les deux mondes), PUIS on demande à
+        // la closure de relire localStorage et de tout re-render via le pont
+        // window.__bbwReloadWishlist — sans ça, le badge peut sembler à jour
+        // (mis à jour "à la main" sur une copie) mais la popup wishlist
+        // (renderWishlist, qui lit la variable `wishlist` de la closure,
+        // jamais synchronisée) reste vide, et un ajout ultérieur dans cette
+        // même session écrase silencieusement ce que le lien avait ajouté.
         let wl = [];
         try { wl = JSON.parse(localStorage.getItem('wishlist')) || []; } catch (e) {}
         ids.forEach(id => {
@@ -8887,9 +8907,13 @@ const BBW_WISHLIST_SLUG_MAP = {
             }
         });
         localStorage.setItem('wishlist', JSON.stringify(wl));
-        window.wishlist = wl;
-        if (typeof window.updateBadges === 'function') window.updateBadges();
-        if (typeof window.updateWishlistIcons === 'function') window.updateWishlistIcons();
+        if (typeof window.__bbwReloadWishlist === 'function') {
+            window.__bbwReloadWishlist();
+        } else {
+            window.wishlist = wl;
+            if (typeof window.updateBadges === 'function') window.updateBadges();
+            if (typeof window.updateWishlistIcons === 'function') window.updateWishlistIcons();
+        }
 
         const count = ids.length;
         setTimeout(() => {
