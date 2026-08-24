@@ -30,7 +30,20 @@
 <body>
 
   <div id="reading-progress-bar" aria-hidden="true"></div>
-  <div id="header-container"></div>
+  <div id="header-container">
+    <div class="skel-header-placeholder" aria-hidden="true">
+      <div class="skel-header-placeholder__ann skel-shimmer"></div>
+      <div class="skel-header-placeholder__main">
+        <div class="skel-shimmer skel-header-placeholder__burger"></div>
+        <div class="skel-shimmer skel-header-placeholder__logo"></div>
+        <div class="skel-header-placeholder__icons">
+          <div class="skel-shimmer skel-header-placeholder__icon"></div>
+          <div class="skel-shimmer skel-header-placeholder__icon"></div>
+          <div class="skel-shimmer skel-header-placeholder__icon"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <main>
   <div id="breadcrumb-container"></div>
@@ -86,6 +99,7 @@
           <div class="slider-arrow next"><i class="fi fi-rr-angle-right"></i></div>
           <span class="product-badge" style="display:none;"></span>
           <div class="slider-shimmer-bar"></div>
+            <div class="skel-shimmer skel-abs-fill is-skeleton" data-skel-main-image aria-hidden="true"></div>
         </div>
       </div>
 
@@ -572,42 +586,17 @@
 
 </main>
 
-<div id="footer-container"></div>
+<div id="footer-container">
+    <div class="skel-footer-placeholder skel-shimmer" aria-hidden="true"></div>
+  </div>
 
 <script src="/widgets-loader.js"></script>
 <script src="/pdg-francenel.js"></script>
+<script src="/src/components/skeleton.js"></script>
 <script src="/script.js"></script>
 <script src="/products/products.js"></script>
 
-<script>
-  fetch('/src/components/header.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('header-container').innerHTML = html;
-      const s = document.createElement('script');
-      s.src = '/src/components/header.js';
-      document.body.appendChild(s);
-    })
-    .catch(err => console.error('Header load error:', err));
-
-  fetch('/src/components/footer.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('footer-container').innerHTML = html;
-      document.dispatchEvent(new Event('footer:loaded'));
-      const s = document.createElement('script');
-      s.src = '/src/components/footer.js';
-      document.body.appendChild(s);
-    })
-    .catch(err => console.error('Footer load error:', err));
-
-  fetch('/src/components/newsletter.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('newsletter-container').innerHTML = html;
-    })
-    .catch(err => console.error('Newsletter load error:', err));
-</script>
+<script src="/src/components/layout-loader.js"></script>
 
 
 <div id="sticky-atc" class="sticky-atc" aria-hidden="true">

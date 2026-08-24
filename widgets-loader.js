@@ -174,6 +174,32 @@
 </div>
 
 
+<!-- ═══════════════════════════════════════════════════════
+     BBW4LIFE — WIDGETS DOCK (collapsible)
+     Regroupe tous les widgets flottants (chat, cadeau, compte, nav)
+     dans une seule colonne collée à droite. Replié par défaut : seul
+     ce bouton toggle est visible. Les widgets eux-mêmes sont déplacés
+     ici en JS (bbwInitWidgetsDock), sans toucher à leur propre logique
+     (drag, ouverture chat, etc.) qui reste basée sur leur id/classe.
+═══════════════════════════════════════════════════════ -->
+<div id="bbw-widgets-dock">
+  <div class="bbw-icon-btn icon-wrapper bbw-dock-icon" id="bbwDockWishlistTrigger" aria-label="Wishlist" role="button" tabindex="0">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" class="wishlist-icon"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <span class="bbw-badge wishlist-badge">0</span>
+  </div>
+
+  <div class="bbw-icon-btn icon-wrapper bbw-dock-icon" id="bbwDockCartTrigger" aria-label="Cart" role="button" tabindex="0">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cart-icon"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    <span class="bbw-badge cart-badge">0</span>
+  </div>
+
+  <button id="bbw-widgets-dock-toggle" aria-label="Show/hide widgets" aria-expanded="false">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+</div>
+
 <div class="paul-indicator-wrapper">
   <a href="#" class="paul-indicator" id="paulTrigger">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -620,6 +646,55 @@
 
   // Injecte juste avant </body> — synchrone, pas de fetch
   document.body.appendChild(container);
+
+  /* ──────────────────────────────────────────────────────────
+     2.5 WIDGETS DOCK — regroupe chat / cadeau / compte / nav
+        dans une seule colonne collée à droite, repliée par défaut.
+        On ne fait que RÉ-ANCRER (appendChild) les wrappers déjà
+        injectés dans le dock : leur position:fixed d'origine et
+        toute leur logique (drag, clic, etc., basée sur id/classe)
+        continuent de fonctionner à l'identique, peu importe leur
+        parent DOM.
+  ────────────────────────────────────────────────────────── */
+  (function bbwInitWidgetsDock() {
+    var dock    = document.getElementById('bbw-widgets-dock');
+    var toggle  = document.getElementById('bbw-widgets-dock-toggle');
+    if (!dock || !toggle) return;
+
+    var chatToggle    = document.getElementById('cf-chat-toggle');
+    var giftBtn       = document.querySelector('.bbw-bday-gift-btn');
+    var accountWrap   = document.querySelector('.paul-indicator-wrapper');
+    var navWrap       = document.getElementById('floating-nav');
+    var wishlistIcon  = document.getElementById('bbwDockWishlistTrigger');
+    var cartIcon      = document.getElementById('bbwDockCartTrigger');
+
+    // Ordre d'empilement voulu (du haut vers le bas, toggle tout en bas) :
+    // cadeau (avec son badge notification), wishlist, panier, compte,
+    // chat, navigation, toggle.
+    [giftBtn, wishlistIcon, cartIcon, accountWrap, chatToggle, navWrap].forEach(function (el) {
+      if (el) dock.insertBefore(el, toggle);
+    });
+
+    function setOpen(open) {
+      dock.classList.toggle('bbw-dock--open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // Pas de resync de #cf-chat-widget ici : le faire au moment où le
+      // dock s'ouvre (avant même que le chat soit utilisé) positionnait
+      // la fenêtre de chat (fond crème) dans la zone du dock alors
+      // qu'elle est censée rester invisible — d'où un aplat blanc visible
+      // derrière les icônes. La resync se fait maintenant seulement au
+      // clic sur le bouton chat lui-même (cf. plus bas), juste avant
+      // l'ouverture réelle du chat.
+    }
+
+    // Fermé par défaut.
+    setOpen(false);
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setOpen(!dock.classList.contains('bbw-dock--open'));
+    });
+  })();
 
   /* ──────────────────────────────────────────────────────────
      3. DÉLÉGATION D'ÉVÉNEMENTS

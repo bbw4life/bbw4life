@@ -5024,7 +5024,9 @@ details[open] .chevron {
     left: 0;
     right: 0;
     z-index: 9990;
-    background: #fdf8f2;
+    background: rgba(21, 17, 14, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-top: 1.5px solid rgba(184,146,90, 0.30);
     box-shadow: 0 -6px 32px rgba(184,146,90, 0.10);
     transform: translateY(110%);
@@ -5072,7 +5074,7 @@ details[open] .chevron {
 .sticky-atc__title {
     font-size: 13px;
     font-weight: 600;
-    color: #15110E;
+    color: #fdf8f2;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -5113,7 +5115,7 @@ details[open] .chevron {
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(45, 26, 14, 0.50);
+    color: rgba(253, 248, 242, 0.60);
     white-space: nowrap;
 }
 
@@ -5156,7 +5158,7 @@ details[open] .chevron {
 .satc-color-name {
     font-size: 12px;
     font-weight: 500;
-    color: rgba(45, 26, 14, 0.65);
+    color: rgba(253, 248, 242, 0.75);
     min-width: 0;
     max-width: 55px;
     white-space: nowrap;
@@ -5215,7 +5217,7 @@ details[open] .chevron {
     text-align: center;
     font-size: 13px;
     font-weight: 600;
-    color: #15110E;
+    color: #fdf8f2;
     user-select: none;
 }
 

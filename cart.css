@@ -1186,7 +1186,9 @@
   position: fixed;
   bottom: 0px; left: 0; right: 0;
   z-index: 1000;
-  background: linear-gradient(160deg, #15110E 0%, #22141A 62%, #15110E 100%);
+  background: rgba(21, 17, 14, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-top: 1px solid rgba(184,146,90,0.32);
   padding: 0px 16px 4px;
   box-sizing: border-box;

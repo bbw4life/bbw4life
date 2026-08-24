@@ -137,6 +137,18 @@
     });
   }
 
+  // Mode "always visible" mobile (barre compacte intégrée au header) :
+  // taper/toucher le champ doit quand même déclencher le même overlay
+  // plein-largeur que le clic sur l'icône loupe en mode normal — pas
+  // rester dans la petite barre compacte pour la saisie.
+  if (searchInput) {
+    searchInput.addEventListener('focus', () => {
+      if (window.innerWidth <= 768 && searchEl && searchEl.getAttribute('data-always-visible') === 'yes') {
+        setSearchOpen(true);
+      }
+    });
+  }
+
   if (searchClose) {
     searchClose.addEventListener('click', () => {
       setSearchOpen(false);
@@ -220,6 +232,10 @@
     if (cached !== 'yes') return;
     var desktopSearch = document.getElementById('bbwSearchDesktop');
     if (desktopSearch && window.innerWidth > 768) desktopSearch.style.display = 'flex';
+    // Mobile : pose immédiatement l'attribut (déjà lu depuis le cache, pas
+    // encore confirmé par le fetch ci-dessous) pour éviter le flash icône
+    // loupe → barre always-visible au chargement.
+    if (searchEl) searchEl.setAttribute('data-always-visible', 'yes');
   })();
 
   function applySearchSetting() {

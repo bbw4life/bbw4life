@@ -178,6 +178,11 @@
   let settings     = {};
   let colSettings  = {};
   let filtered     = [];
+  // Onglet "New Arrivals" (data-cat="new") : 12 produits piochés (mélange
+  // stable, calculé une seule fois) dans la vraie collection New Arrivals
+  // (settings.jrgq_collections.collections id="bbw4life-new-arrivals"),
+  // au lieu d'une approximation par position dans le tableau produits.
+  let newArrivalsIds = null;
 
   let activeFilters = {
     category: 'all', availability: [],
@@ -774,6 +779,23 @@
     return Math.round(((prod.compare_price - prod.price) / prod.compare_price) * 100);
   }
 
+  // Pioche 12 IDs mélangés dans la vraie collection New Arrivals
+  // (settings.jrgq_collections), calculé une seule fois puis mis en
+  // cache pour que le mélange reste stable tant que la page ne recharge
+  // pas (sinon les résultats de l'onglet changeraient à chaque clic).
+  function getNewArrivalsIds() {
+    if (newArrivalsIds) return newArrivalsIds;
+    const jrgq = (settings.jrgq_collections && settings.jrgq_collections.collections) || [];
+    const col = jrgq.find(c => c.id === 'bbw4life-new-arrivals');
+    const ids = (col && col.product_ids || []).slice();
+    for (let i = ids.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+    }
+    newArrivalsIds = ids.slice(0, 12);
+    return newArrivalsIds;
+  }
+
   function productMatchesFilters(prod) {
     if (prod.price > activeFilters.priceMax) return false;
     if (activeFilters.priceMin > 0 && prod.price < activeFilters.priceMin) return false;
@@ -782,9 +804,7 @@
     if (cat === 'bestsellers') {
       if ((prod.rating || 0) < 4.5 && (prod.reviews_count || 0) < 100) return false;
     } else if (cat === 'new') {
-      const cutoff = Math.floor(allProducts.length * 0.75);
-      const idx = allProducts.findIndex(p => p.id === prod.id);
-      if (idx < cutoff) return false;
+      if (!getNewArrivalsIds().includes(prod.id)) return false;
     } else if (cat !== 'all') {
       const ids = CATEGORY_MAP[cat];
       if (ids && !ids.includes(prod.id)) return false;
@@ -830,7 +850,16 @@
   }
 
   function applyAll() {
-    filtered    = allProducts.filter(productMatchesFilters);
+    filtered = allProducts.filter(productMatchesFilters);
+    // Sécurité anti-doublon (ex: onglet New Arrivals) : ne garder qu'une
+    // seule carte par id produit, même si allProducts en contenait
+    // plusieurs occurrences pour une raison quelconque.
+    const seenIds = new Set();
+    filtered = filtered.filter(p => {
+      if (seenIds.has(p.id)) return false;
+      seenIds.add(p.id);
+      return true;
+    });
     filtered    = sortProducts(filtered);
     currentPage = 1;
     selectedProducts.clear();

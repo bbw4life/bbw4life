@@ -1596,6 +1596,98 @@ body {
   .bbw-icon-btn { width: 38px; height: 38px; min-width: 38px; font-size: 16px; border-radius: 2px; }
   .bbw-drawer { width: min(100vw, 420px); }
 
+  /* ── Recherche mobile "always visible" (header_search_always_visible:
+     yes dans settings) — même champ, mais intégré en permanence dans le
+     flux du header au lieu d'un overlay plein écran qui s'ouvre au clic.
+     Classe posée en JS par applySearchSetting() (header.js). Ordre visuel
+     voulu : burger → logo (compact) → recherche (s'étire) → icônes.
+     .bbw-header__left (qui contient burger + search ensemble dans le DOM)
+     passe en display:contents pour que ses deux enfants deviennent des
+     flex-items directs du header, réordonnables indépendamment l'un de
+     l'autre autour du logo via order. ── */
+  .bbw-header__inner:has(.bbw-search[data-always-visible="yes"]) {
+    display: flex;
+    align-items: center;
+  }
+  .bbw-header__inner:has(.bbw-search[data-always-visible="yes"]) .bbw-header__left {
+    display: contents;
+  }
+  .bbw-header__inner:has(.bbw-search[data-always-visible="yes"]) .bbw-burger {
+    order: 0;
+  }
+  .bbw-header__inner:has(.bbw-search[data-always-visible="yes"]) .bbw-header__logo {
+    order: 1;
+    grid-column: auto;
+    justify-self: auto;
+    flex-shrink: 0;
+    margin: 0 10px;
+  }
+  .bbw-header__inner:has(.bbw-search[data-always-visible="yes"]) .bbw-header__logo .bbw-logo__img {
+    height: 40px;
+  }
+  .bbw-header__inner:has(.bbw-search[data-always-visible="yes"]) .bbw-search {
+    order: 2;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .bbw-header__inner:has(.bbw-search[data-always-visible="yes"]) .bbw-header__right {
+    order: 3;
+    flex-shrink: 0;
+    gap: 2px;
+  }
+  .bbw-header__inner:has(.bbw-search[data-always-visible="yes"]) .bbw-icon-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 14px;
+  }
+
+  /* État "au repos" : barre compacte intégrée au header. Dès que
+     .is-open est ajouté (focus sur le champ — cf. header.js), toutes
+     ces règles sont sautées et l'ancien style overlay plein-écran
+     (.bbw-search__bar de base, plus haut) reprend intégralement la
+     main, exactement comme le comportement historique de l'icône
+     loupe : recouvre le header, mic/submit/close séparés à 42px. */
+  .bbw-search[data-always-visible="yes"] {
+    flex: 1 1 auto;
+    max-width: none;
+    min-width: 0;
+  }
+  .bbw-search[data-always-visible="yes"] .bbw-search__icon {
+    display: none;
+  }
+  .bbw-search[data-always-visible="yes"] .bbw-search__bar:not(.is-open) {
+    position: static;
+    width: 100% !important;
+    height: 38px;
+    opacity: 1;
+    pointer-events: all;
+    transform: none;
+    background: rgba(21,17,14,0.04);
+    border: 1.5px solid var(--bbw-gold-border);
+    border-radius: 100px;
+    padding: 0 3px 0 14px;
+    gap: 2px;
+  }
+  .bbw-search[data-always-visible="yes"] .bbw-search__bar:not(.is-open) .bbw-search__input {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    height: auto;
+    font-size: 13px;
+  }
+  .bbw-search[data-always-visible="yes"] .bbw-search__bar:not(.is-open) .bbw-search__close {
+    display: none;
+  }
+  .bbw-search[data-always-visible="yes"] .bbw-search__bar:not(.is-open) .bbw-search__mic,
+  .bbw-search[data-always-visible="yes"] .bbw-search__bar:not(.is-open) .bbw-search__submit {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    font-size: 12px;
+  }
+
   .bbw-drawer__stats { margin: 8px 12px 4px; padding: 12px 14px; }
   .bbw-drawer__stat strong { font-size: 1.15rem; }
   .bbw-drawer__stat span   { font-size: 8.5px; }

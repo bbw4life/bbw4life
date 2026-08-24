@@ -6823,7 +6823,7 @@ body { margin-bottom: 0 !important; }
   overflow: hidden;
   background: var(--bbw-black);
   text-align: center;
-  padding: 96px 24px 108px;
+  padding: 64px 24px 72px;
 }
 
 .bbw-finale-field {
@@ -7210,20 +7210,20 @@ body { margin-bottom: 0 !important; }
 .bbw-promo-cta:hover span { transform: translateX(3px); }
 
 @media (max-width: 640px) {
-  .bbw-finale { padding: 188px 20px 88px; }
+  .bbw-finale { padding: 150px 20px 60px; }
   .bbw-finale-wave--top { height: 40px; }
   .bbw-finale-wave--top svg { height: 40px; }
   .bbw-finale-wave--bottom { height: 30px; }
   .bbw-finale-wave--bottom svg { height: 30px; }
   .bbw-finale-title { font-size: clamp(1.55rem, 7vw, 2.15rem); }
-  .bbw-promo-title { margin-bottom: 32px; }
+  .bbw-promo-title { margin-bottom: 24px; }
 
   .bbw-promo-float {
-    top: 96px;
+    top: 70px;
     right: 50%;
     transform: translate(50%, 0);
-    width: 148px;
-    height: 148px;
+    width: 118px;
+    height: 118px;
     animation: bbwPromoFloatBobMobile 5.5s ease-in-out infinite;
   }
   @keyframes bbwPromoFloatBobMobile {
@@ -7233,9 +7233,9 @@ body { margin-bottom: 0 !important; }
 
   .bbw-promo-jackpot-badge {
     top: 0;
-    right: calc(50% - 118px);
-    width: 68px;
-    height: 68px;
+    right: calc(50% - 95px);
+    width: 54px;
+    height: 54px;
     animation-name: bbwPromoFloatBobMobile;
   }
   .bbw-promo-jackpot-label { font-size: 0.48rem; }

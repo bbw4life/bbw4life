@@ -19,10 +19,10 @@
   /* ═══════════════════════════════════════
      HERO BANNER
   ═══════════════════════════════════════ */
-  --hero-height-desktop:      620px;
-  --hero-height-mobile:       520px;
-  --hero-thumb-size-desktop:  80px;
-  --hero-thumb-size-mobile:   52px;
+  --hero-height-desktop:      300px;
+  --hero-height-mobile:       200px;
+  --hero-thumb-size-desktop:  44px;
+  --hero-thumb-size-mobile:   34px;
   --hero-thumb-gap:           12px;
   --hero-btn-bg:              var(--bbw-gold);
   --hero-btn-color:           #000000;
@@ -150,6 +150,14 @@ body {
   -ms-overflow-style: none;
 }
 .story-circles-track::-webkit-scrollbar { display: none; }
+
+/* Story rows Femme/Homme (home, au-dessus de BBW Features) : pas
+   d'eyebrow au-dessus (retiré), donc moins de padding-top que la
+   section #story-circles d'origine qui en a un. */
+#story-row-women,
+#story-row-men {
+  padding-top: 10px;
+}
 
 
 .story-circles-section:not(.anim--marquee) .story-circles-track {
@@ -613,7 +621,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center 8%;
   opacity: 0;
   transition: opacity var(--hero-transition);
   pointer-events: none;
@@ -641,7 +649,7 @@ body {
 .bbw-hero__content {
   position: relative;
   z-index: 10;
-  padding: 150px 68px 50px;
+  padding: 14px 68px;
   max-width: 640px;
   color: var(--hero-text-color);
 }
@@ -653,7 +661,7 @@ body {
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--bbw-gold-vivid);
-  margin-bottom: 18px;
+  margin-bottom: 8px;
   opacity: 0;
   transform: translateY(18px);
   animation: bbwHeroFadeUp 0.65s 0.05s cubic-bezier(0.22,1,0.36,1) forwards;
@@ -679,7 +687,7 @@ body {
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.42);
-  margin-bottom: 14px;
+  margin-bottom: 6px;
   opacity: 0;
   transform: translateY(18px);
   animation: bbwHeroFadeUp 0.65s 0.18s cubic-bezier(0.22,1,0.36,1) forwards;
@@ -687,11 +695,11 @@ body {
 
 .bbw-hero__subtitle {
   font-family: var(--font-display);
-  font-size: clamp(38px, 6vw, 78px);
+  font-size: clamp(24px, 3.4vw, 42px);
   font-weight: 600;
   font-style: italic;
-  line-height: 1.02;
-  margin-bottom: 22px;
+  line-height: 1.05;
+  margin-bottom: 10px;
   color: var(--bbw-white);
   letter-spacing: -0.01em;
   opacity: 0;
@@ -707,11 +715,15 @@ body {
 
 .bbw-hero__text {
   font-family: var(--font-body);
-  font-size: clamp(14px, 1.25vw, 16px);
+  font-size: clamp(13px, 1.1vw, 14px);
   color: rgba(255,255,255,0.68);
-  line-height: 1.72;
-  margin-bottom: 36px;
+  line-height: 1.4;
+  margin-bottom: 10px;
   max-width: 46ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   opacity: 0;
   transform: translateY(18px);
   animation: bbwHeroFadeUp 0.65s 0.44s cubic-bezier(0.22,1,0.36,1) forwards;
@@ -736,7 +748,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 32px;
+  margin-bottom: 10px;
   opacity: 0;
   transform: translateY(18px);
   animation: bbwHeroFadeUp 0.65s 0.56s cubic-bezier(0.22,1,0.36,1) forwards;
@@ -749,8 +761,8 @@ body {
   background: rgba(21,17,14,0.72);
   border: 1px solid var(--bbw-gold-border);
   border-radius: 4px;
-  padding: 10px 16px;
-  min-width: 62px;
+  padding: 6px 12px;
+  min-width: 48px;
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(12px);
@@ -764,7 +776,7 @@ body {
 
 .bbw-hero__cd-num {
   font-family: var(--font-display);
-  font-size: clamp(22px, 3vw, 36px);
+  font-size: clamp(16px, 2vw, 24px);
   font-weight: 600;
   color: var(--bbw-white);
   line-height: 1;
@@ -773,18 +785,18 @@ body {
 
 .bbw-hero__cd-label {
   font-family: var(--font-body);
-  font-size: 8.5px;
-  letter-spacing: 0.22em;
+  font-size: 8px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--bbw-gold);
-  margin-top: 5px;
+  margin-top: 3px;
 }
 
 .bbw-hero__cd-sep {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 300;
   color: var(--bbw-gold-border-hi);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   align-self: center;
 }
 
@@ -810,7 +822,7 @@ body {
   background: var(--bbw-gold);
   border: 1px solid var(--bbw-gold);
   border-radius: 2px;
-  padding: 16px 40px;
+  padding: 11px 30px;
   cursor: pointer;
   text-decoration: none;
   position: relative;
@@ -941,34 +953,38 @@ body {
   }
 
   .bbw-hero__content {
-    padding: 0 20px 24px;
+    padding: 0 16px 14px;
     max-width: 100%;
   }
 
+  .bbw-hero__eyebrow { font-size: 9px; margin-bottom: 4px; }
+  .bbw-hero__title   { font-size: 10px; margin-bottom: 3px; }
+
   .bbw-hero__subtitle {
-    font-size: clamp(22px, 7.5vw, 30px);
-    margin-bottom: 10px;
+    font-size: clamp(15px, 5vw, 19px);
+    margin-bottom: 5px;
   }
 
   .bbw-hero__text {
-    font-size: 12px;
-    margin-bottom: 16px;
+    font-size: 11px;
+    margin-bottom: 8px;
+    line-height: 1.4;
   }
 
   .bbw-hero__countdown {
     gap: 5px;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 
   .bbw-hero__cd-block {
-    padding: 6px 10px;
-    min-width: 44px;
+    padding: 4px 8px;
+    min-width: 36px;
     border-radius: 6px;
   }
 
-  .bbw-hero__cd-num  { font-size: 20px; }
-  .bbw-hero__cd-sep  { font-size: 18px; margin-bottom: 12px; }
-  .bbw-hero__btn     { font-size: 12px; padding: 11px 24px; }
+  .bbw-hero__cd-num  { font-size: 16px; }
+  .bbw-hero__cd-sep  { font-size: 14px; margin-bottom: 8px; }
+  .bbw-hero__btn     { font-size: 11px; padding: 8px 20px; }
 
   .bbw-hero__thumbs {
     flex-direction: row !important;
@@ -1009,7 +1025,7 @@ body {
   top: 0; left: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center 8%;
 }
 
 @media (max-width: 767px) {
@@ -3809,6 +3825,157 @@ body {
     to   { opacity: 1; transform: translateX(-50%) translateY(-10px); }
 }
 
+/* ================================================================
+   WIDGETS DOCK — regroupe chat / cadeau / compte / navigation dans
+   une colonne collée à droite. Replié par défaut (seul le toggle est
+   visible) ; ouvert, les widgets s'affichent empilés à leur taille
+   normale. Les enfants gardent leur position:fixed d'origine tant
+   qu'ils ne sont pas déplacés en drag : on l'annule ici pour les
+   ancrer dans le flux du dock (colonne), le drag existant (qui pose
+   des styles inline left/bottom) reprend ensuite naturellement la
+   main dès qu'un widget est déplacé, car un style inline bat toujours
+   une règle de classe.
+================================================================ */
+#bbw-widgets-dock {
+    position: fixed;
+    right: 10px;
+    bottom: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+/* Le toggle doit toujours rester tout en bas de la pile (cf. image de
+   référence), quel que soit l'ordre DOM d'insertion des widgets (qui,
+   eux, s'empilent au-dessus dans leur ordre naturel de haut en bas). */
+#bbw-widgets-dock-toggle {
+    order: 999;
+}
+
+#bbw-widgets-dock > *:not(#bbw-widgets-dock-toggle) {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    top: auto !important;
+    display: none !important;
+}
+
+/* .bbw-dock-icon (wishlist/panier) a besoin de rester position:relative :
+   leur badge (.bbw-badge, position:absolute top/right négatifs) s'ancre
+   sur le PARENT positionné le plus proche — en position:static (forcé
+   ci-dessus pour les autres widgets, à l'origine position:fixed), le
+   badge remonte s'ancrer sur #bbw-widgets-dock (position:fixed) au lieu
+   du cercle de l'icône, et atterrit hors de l'écran/du cercle. */
+#bbw-widgets-dock > .bbw-dock-icon:not(#bbw-widgets-dock-toggle) {
+    position: relative !important;
+}
+
+/* .bbw-dock-icon (wishlist/panier) exclu ici : leur display d'ouverture
+   (flex, pour centrer le SVG dans le cercle) est fixé par la règle dédiée
+   juste en dessous, pas par un revert générique qui les ramènerait au
+   display natif de <div> (block). */
+#bbw-widgets-dock.bbw-dock--open > *:not(#bbw-widgets-dock-toggle):not(.bbw-dock-icon) {
+    display: revert !important;
+}
+
+/* Spécificité alignée (2 ID, via :not(#id) qui compte comme un ID) sur la
+   règle "fermé" ci-dessus (#bbw-widgets-dock > *:not(#bbw-widgets-dock-
+   toggle), display:none !important) pour que l'ouverture la batte, plus
+   la classe .bbw-dock--open sur le parent pour ne s'appliquer qu'ouvert. */
+#bbw-widgets-dock.bbw-dock--open > .bbw-dock-icon:not(#bbw-widgets-dock-toggle) {
+    display: flex !important;
+}
+
+/* Wishlist/panier réutilisent .bbw-icon-btn.icon-wrapper (header.css) tel
+   quel côté comportement (clic → ouvre drawer/wishlist, badges .cart-badge/
+   .wishlist-badge déjà synchronisés partout via updateBadges()) — seul
+   l'habillage visuel est réadapté ici pour matcher les cercles sombres du
+   dock plutôt que le style carré/doré du header. */
+#bbw-widgets-dock .bbw-dock-icon {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background: linear-gradient(145deg, #1a1310 0%, var(--bbw-black) 60%, #0c0906 100%) !important;
+    border: 1.5px solid var(--bbw-gold-border-hi) !important;
+    color: var(--bbw-gold-light) !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    box-shadow: 0 4px 16px rgba(21,17,14,0.42), 0 0 18px rgba(184,146,90,0.28) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+/* Le SVG à l'intérieur est un élément inline-replaced : sans display:block
+   explicite, certains navigateurs lui laissent un espace d'alignement de
+   baseline qui décale visuellement le tracé hors du centre du cercle
+   flex, contrairement aux autres icônes du dock qui n'ont pas ce souci
+   (probablement car leur propre CSS d'origine fixe déjà ce point). */
+#bbw-widgets-dock .bbw-dock-icon svg {
+    display: block !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+/* header.css (.bbw-icon-btn:hover, et ses variantes @media plus petites)
+   applique un fond doré clair et une taille réduite pensés pour le style
+   carré/discret du header — dans le dock, ça fait apparaître un rond
+   beige/clair au survol et une taille incohérente avec les autres icônes
+   du dock. On force l'apparence du dock ici, à toutes les tailles d'écran. */
+#bbw-widgets-dock .bbw-dock-icon:hover {
+    background: linear-gradient(145deg, #2a1f18 0%, #1a1310 60%, #0c0906 100%) !important;
+    border-color: var(--bbw-gold-border-hi) !important;
+    color: var(--bbw-gold-light) !important;
+}
+
+#bbw-widgets-dock-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    background: var(--bbw-black, #15110E);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.30);
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Sans ceci, certains navigateurs (Chrome/Safari mobile en particulier)
+   appliquent un fond de focus/tap par défaut sur <button> — visible ici
+   comme un flash blanc au clic, qui disparaît dès qu'on clique ailleurs
+   (perte du focus). Le bouton garde son propre fond noir dans tous les
+   états. */
+#bbw-widgets-dock-toggle:hover,
+#bbw-widgets-dock-toggle:active,
+#bbw-widgets-dock-toggle:focus,
+#bbw-widgets-dock-toggle:focus-visible {
+    background: var(--bbw-black, #15110E);
+}
+
+#bbw-widgets-dock-toggle svg {
+    transition: transform 0.25s ease;
+}
+
+#bbw-widgets-dock.bbw-dock--open #bbw-widgets-dock-toggle svg {
+    transform: rotate(180deg);
+}
+
+#bbw-widgets-dock-toggle:hover {
+    transform: scale(1.08);
+}
+
 @keyframes topBarShimmer {
     0%   { background-position: -200% 0; opacity: 0.8; }
     50%  { background-position: 0% 0;    opacity: 1; }
@@ -4893,6 +5060,27 @@ body {
   padding: 0 20px 0 6px;
   transform: translateY(-3px);
   box-shadow: 0 14px 36px rgba(184,146,90,0.40), 0 4px 12px rgba(21,17,14,0.25);
+}
+
+/* Dans le widgets dock (#bbw-widgets-dock ouvert), les icônes sont
+   empilées serrées dans une colonne étroite : l'expansion en pilule
+   (width:auto + label) déborde sur les icônes voisines et crée une
+   bande translucide qui ressemble à un fond blanc/transparent parasite.
+   On garde donc le bouton en simple cercle, sans expansion, ici. */
+#bbw-widgets-dock #cf-chat-toggle:hover {
+  width: 44px;
+  padding: 0;
+  border-radius: 50%;
+}
+#bbw-widgets-dock #cf-chat-toggle:hover .cf-toggle-label {
+  max-width: 0;
+  opacity: 0;
+  margin-left: 0;
+}
+#bbw-widgets-dock #cf-chat-toggle:hover .cf-toggle-inner {
+  width: 100%;
+  height: 100%;
+  background: transparent;
 }
 
 #cf-chat-toggle:active {
@@ -6819,40 +7007,47 @@ body {
     #rc-popup-container.rc-pos-top-left     { top: 78px; left: 10px; right: auto; }
 
     #rc-popup {
-        max-width: 252px;
-        border-radius: 18px;
+        max-width: 210px;
+        border-radius: 15px;
     }
 
     #rc-popup-body {
-        padding: 10px 12px 4px 12px;
-        gap: 10px;
+        padding: 8px 10px 3px 10px;
+        gap: 8px;
     }
 
     #rc-avatar-img,
     #rc-avatar-video {
-        width: 38px;
-        height: 38px;
+        width: 30px;
+        height: 30px;
     }
 
-    #rc-subtitle    { font-size: 9px;    margin-bottom: 1px; }
-    #rc-title       { font-size: 11.5px; margin-bottom: 1px; }
-    #rc-description { font-size: 10px; }
+    #rc-subtitle    { font-size: 8px;   margin-bottom: 1px; }
+    #rc-title       { font-size: 10px;  margin-bottom: 1px; }
+    #rc-description { font-size: 8.5px; }
 
     #rc-count-badge {
-        font-size: 9.5px;
-        padding: 3px 8px;
-        margin: 6px 12px 0;
+        font-size: 8px;
+        padding: 2px 6px;
+        margin: 5px 10px 0;
     }
 
     #rc-checkout-btn {
-        font-size: 11px;
-        padding: 10px 12px;
-        margin: 8px 10px 10px;
+        font-size: 9.5px;
+        padding: 8px 10px;
+        margin: 6px 8px 8px;
     }
 
     #rc-urgency-bar {
         height: 2px;
-        margin: 0 10px 10px;
+        margin: 0 8px 8px;
+    }
+
+    #rc-close {
+        top: 8px;
+        right: 8px;
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -6915,6 +7110,177 @@ body {
   transform: scale(1.15);
 }
 
+
+
+/* ================================================================
+   SKELETON SCREENS — placeholders imitant la structure réelle des
+   zones remplies dynamiquement (script.js/products.js), affichés
+   entre la disparition du preloader global et l'injection du vrai
+   contenu (voir src/components/skeleton.js). Même motif shimmer que
+   l'existant (.ac-skeleton dans collections.css, .cp-item-skeleton
+   dans cart.css) pour rester cohérent visuellement avec le site.
+================================================================ */
+.skel-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bbw-gold-pale) 25%,
+    var(--bbw-gold-pale-mid) 50%,
+    var(--bbw-gold-pale) 75%
+  );
+  background-size: 400% 100%;
+  animation: bbwSkelShimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes bbwSkelShimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.skel-abs-fill {
+  position: absolute;
+  inset: 0;
+}
+
+.skel-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.skel-line {
+  height: 12px;
+  border-radius: 4px;
+  margin: 6px 0;
+}
+
+.skel-line--sm { height: 9px; width: 65%; }
+.skel-line--xs { height: 8px; width: 46px; border-radius: 3px; margin: 6px 0 0; }
+
+.skel-card-body { padding: 10px; }
+
+.skel-thumb-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+}
+
+/* Cartes/éléments en état skeleton : pas d'interactions, animations de
+   hover réelles désactivées le temps que le vrai contenu arrive. */
+/* Ne PAS mettre animation-play-state:paused ici : plusieurs composants
+   réels (ex: .story-circle-item, animation sc-entrance) utilisent une
+   animation d'ENTRÉE (fade-in depuis opacity:0) — la mettre en pause fige
+   l'élément invisible à son état de départ pour toujours, ce qui rendait
+   le skeleton invisible. On coupe seulement les interactions/transitions
+   de survol, pas les animations elles-mêmes. */
+.is-skeleton {
+  pointer-events: none !important;
+}
+.is-skeleton:hover { transform: none !important; box-shadow: none !important; }
+
+.is-skeleton-thumb { position: relative; background: var(--bbw-gold-pale); }
+.is-skeleton-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--bbw-gold-pale) 25%, var(--bbw-gold-pale-mid) 50%, var(--bbw-gold-pale) 75%);
+  background-size: 400% 100%;
+  animation: bbwSkelShimmer 1.6s ease-in-out infinite;
+}
+
+/* Texte du hero encore vide : on masque le texte réel (vide de toute
+   façon) et on affiche une ligne shimmer à sa place, sans changer sa
+   boîte englobante (même hauteur de ligne réservée par le CSS d'origine
+   du hero — pas de saut de layout à l'arrivée du vrai texte). */
+.skel-text-loading {
+  position: relative;
+  color: transparent !important;
+  border-radius: 4px;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.06) 25%,
+    rgba(255,255,255,0.14) 50%,
+    rgba(255,255,255,0.06) 75%
+  );
+  background-size: 400% 100%;
+  animation: bbwSkelShimmer 1.6s ease-in-out infinite;
+}
+.skel-text-loading::before {
+  content: '\00a0';
+}
+
+/* Variante pour les compteurs statistiques inline (data-stat-text) sur
+   fond clair — même motif que .skel-shimmer plutôt que la teinte
+   blanche pensée pour le hero sombre. */
+.skel-text-loading--inline {
+  background: linear-gradient(
+    90deg,
+    var(--bbw-gold-pale) 25%,
+    var(--bbw-gold-pale-mid) 50%,
+    var(--bbw-gold-pale) 75%
+  );
+  background-size: 400% 100%;
+}
+
+/* Skeleton du header, présent dans le HTML statique de chaque page
+   pendant que src/components/header.html est fetché (layout-loader.js).
+   Même hauteur que le header réel (--ann-bar-h + --bbw-header-h,
+   header.css) pour ne jamais provoquer de saut de layout. */
+.skel-header-placeholder {
+  height: calc(var(--ann-bar-h, 40px) + var(--bbw-header-h, 84px));
+  background: var(--bbw-black, #15110E);
+  display: flex;
+  flex-direction: column;
+}
+.skel-header-placeholder__ann {
+  height: var(--ann-bar-h, 40px);
+  flex-shrink: 0;
+}
+.skel-header-placeholder__main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  gap: 16px;
+}
+.skel-header-placeholder__burger {
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.skel-header-placeholder__logo {
+  width: 140px;
+  height: 36px;
+  border-radius: 4px;
+}
+.skel-header-placeholder__icons {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.skel-header-placeholder__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+@media (max-width: 768px) {
+  .skel-header-placeholder__logo { width: 100px; height: 28px; }
+  .skel-header-placeholder__icon { width: 26px; height: 26px; }
+}
+
+/* Skeleton du footer — contenu en bas de page, peu visible pendant le
+   chargement initial (au-delà du viewport) : un bloc de hauteur
+   approximative suffit à éviter le grand saut de layout sans reproduire
+   chaque colonne du footer réel (5 colonnes + bannière promo + bas de
+   page, cf. src/components/footer.html). */
+.skel-footer-placeholder {
+  height: 480px;
+}
+@media (max-width: 768px) {
+  .skel-footer-placeholder { height: 620px; }
+}
 
 
 /* ================================================================
@@ -8362,10 +8728,14 @@ body.sr-page .curva-search-dropdown {
 }
 .bbw-wave-sep svg { display: block; width: 100%; }
 
-/* Légère respiration continue — jamais brusque, jamais kitsch */
+/* Légère respiration continue — jamais brusque, jamais kitsch.
+   Pas de translateX : la vague est dessinée pile sur la largeur du
+   viewBox (0 0 1200 90), donc tout décalage horizontal découvre un
+   bord vide sur le côté opposé. Seul scaleY respire, sans jamais
+   toucher aux bords gauche/droit. */
 @keyframes bbw-wave-breathe {
-  0%, 100% { transform: translateX(0) scaleY(1); }
-  50%      { transform: translateX(-1.4%) scaleY(1.05); }
+  0%, 100% { transform: scaleY(1); }
+  50%      { transform: scaleY(1.05); }
 }
 .bbw-wave-sep path {
   transform-origin: center bottom;

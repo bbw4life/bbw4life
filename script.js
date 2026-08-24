@@ -1112,6 +1112,10 @@ function showErrorPopup(message) {
     const altBase = escapeAttr(productTitle ? `${productTitle} — BBW4LIFE plus size` : 'BBW4LIFE plus size product');
     thumbsContainer.innerHTML = '';
     mainSlider.querySelectorAll('.main-image').forEach(el => el.remove());
+    // Retire le skeleton statique (product1.html etc.) posé sur l'image
+    // principale en attendant ce remplissage réel.
+    const mainSkel = mainSlider.querySelector('[data-skel-main-image]');
+    if (mainSkel) mainSkel.remove();
     // Mobile n'a pas besoin d'une image aussi large que desktop — l'écran
     // physique le plus large (devicePixelRatio compris) ne dépasse jamais
     // ~1300px de large réel, donc demander 1800px partout gonfle
@@ -1432,6 +1436,8 @@ function showErrorPopup(message) {
           .map(id => products.find(p => p.id === id))
           .filter(Boolean);
         if (!prods.length) { section.style.display = 'none'; return; }
+
+        grid.innerHTML = ''; // retire un éventuel skeleton avant de remplir
 
         prods.forEach(prod => {
           const productUrl = getProductUrl(prod.id);
@@ -4533,6 +4539,8 @@ initAnnouncementBar();
 
     if (!prods.length) { section.style.display = 'none'; return; }
 
+    track.innerHTML = ''; // retire un éventuel skeleton avant de remplir
+
     prods.forEach(function (prod) {
       var url  = getUrl(allProducts, prod.id);
       var card = buildCard(prod, url, btnText);
@@ -6441,6 +6449,12 @@ if (rcCheckoutBtn) {
     return a;
   }
 
+  // Vide le track avant de le remplir (retire au passage le skeleton
+  // éventuellement posé par src/components/skeleton.js) — sans ça, le
+  // vrai contenu s'ajoutait après les placeholders au lieu de les
+  // remplacer.
+  track.innerHTML = '';
+
   if (animType === 'marquee') {
     const screenW = window.innerWidth;
     const itemW   = 90 + 18;
@@ -6465,6 +6479,83 @@ if (rcCheckoutBtn) {
   } else {
     realItems.forEach(item => track.appendChild(makeItem(item)));
   }
+})();
+
+
+// ── STORY ROWS (Femme / Homme) — même rendu visuel que #story-circles,
+// mais 2 sections indépendantes au-dessus de BBW Features, alimentées
+// chacune par leur propre clé settings (story_row_women / story_row_men).
+(function initStoryRows() {
+  const settings = products.find(p => p.type === 'settings') || {};
+
+  function resolveCollection(colId) {
+    const jrgq = (settings.jrgq_collections && settings.jrgq_collections.collections) || [];
+    let col = jrgq.find(c => c.id === colId);
+    if (!col) col = settings[colId] || null;
+    return col;
+  }
+
+  function truncateLabel(title, maxLen) {
+    if (title.length <= maxLen) return title;
+    return title.slice(0, maxLen).trim() + '...';
+  }
+
+  function makeItem(item) {
+    const label = truncateLabel(item.title, 14);
+    const img   = upgradeShopifyImageUrl(item.image, 300);
+    const a = document.createElement('a');
+    a.href      = item.url;
+    a.className = 'story-circle-item' + (item.kind === 'collection' ? ' story-circle-item--collection' : '');
+    a.setAttribute('aria-label', item.title);
+    a.innerHTML = `
+      <div class="story-circle-ring">
+        <img class="story-circle-img"
+             src="${img}"
+             alt="${item.title}"
+             loading="lazy"
+             onerror="this.src='${item.image}'">
+      </div>
+      <span class="story-circle-label">${label}</span>`;
+    return a;
+  }
+
+  function buildRow(sectionId, trackId, settingsKey) {
+    const section = document.getElementById(sectionId);
+    const track   = document.getElementById(trackId);
+    if (!section || !track) return;
+
+    const rowSettings = settings[settingsKey] || {};
+    const ids = rowSettings.product_ids || [];
+    if (!ids.length) { section.style.display = 'none'; return; }
+
+    section.classList.add('border--solid');
+    section.style.setProperty('--sc-border-size', '2px');
+    section.style.setProperty('--sc-border-color', '#B8925A');
+
+    const realItems = ids
+      .filter(id => !id.startsWith('--'))
+      .map(id => {
+        if (id.startsWith('collection:')) {
+          const col = resolveCollection(id.slice('collection:'.length));
+          if (!col) return null;
+          return { kind: 'collection', url: col.url, title: col.title || col.id, image: col.image };
+        }
+        const prod = products.find(p => p.id === id);
+        if (!prod) return null;
+        return { kind: 'product', url: getProductUrl(prod.id), title: prod.title, image: prod.image };
+      })
+      .filter(Boolean);
+
+    if (!realItems.length) { section.style.display = 'none'; return; }
+
+    section.style.setProperty('--sc-count', realItems.length);
+
+    track.innerHTML = ''; // retire un éventuel skeleton avant de remplir
+    realItems.forEach(item => track.appendChild(makeItem(item)));
+  }
+
+  buildRow('story-row-women', 'storyRowWomenTrack', 'story_row_women');
+  buildRow('story-row-men',   'storyRowMenTrack',   'story_row_men');
 })();
 
 
@@ -7435,7 +7526,16 @@ if (carousel) {
     wishlistCountEl.textContent = qty;
   }
 }
-function saveWishlist() { localStorage.setItem('wishlist', JSON.stringify(wishlist)); }
+function saveWishlist() {
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  // Miroir global, même pattern que window.cart (saveCart ci-dessus) —
+  // requis par les IIFE top-level hors de cette closure (ex: le
+  // wishlist share receiver plus bas dans ce fichier), qui n'ont sinon
+  // aucun accès à cette variable `wishlist` locale.
+  window.wishlist = wishlist;
+}
+window.saveWishlist        = saveWishlist;
+window.updateBadges        = updateBadges;
 
 
 window.__bbwRestoreSavedCart = async function (userEmail, token) {
@@ -8508,6 +8608,7 @@ function showCheckoutBlockPopup() {
       if (filledSvg && emptySvg) { filledSvg.style.display = isInWishlist ? 'block' : 'none'; emptySvg.style.display = isInWishlist ? 'none' : 'block'; }
     });
   }
+  window.updateWishlistIcons = updateWishlistIcons;
 
   updateBadges();
   updateWishlistIcons();
@@ -8763,16 +8864,27 @@ const BBW_WISHLIST_SLUG_MAP = {
     ids = ids.map(s => reverseMap[s] || s);
 
     function addSharedToWishlist() {
+        // wishlist/saveWishlist/updateBadges/updateWishlistIcons vivent dans
+        // la closure DOMContentLoaded plus haut dans ce fichier — inaccessibles
+        // ici directement (cette IIFE est top-level, hors de cette closure).
+        // On écrit donc directement dans localStorage (source de vérité
+        // partagée par les deux mondes), plutôt que de dépendre de la
+        // variable `wishlist` de la closure — appeler window.saveWishlist()
+        // ici persisterait SA propre variable (potentiellement désynchronisée
+        // de ce qu'on vient de calculer), pas ce tableau-ci.
+        let wl = [];
+        try { wl = JSON.parse(localStorage.getItem('wishlist')) || []; } catch (e) {}
         ids.forEach(id => {
             const exists = products.find(p => p.id === id);
             if (!exists) return;
-            if (!wishlist.includes(id)) {
-                wishlist.push(id);
+            if (!wl.includes(id)) {
+                wl.push(id);
             }
         });
-        saveWishlist();
-        updateBadges();
-        updateWishlistIcons();
+        localStorage.setItem('wishlist', JSON.stringify(wl));
+        window.wishlist = wl;
+        if (typeof window.updateBadges === 'function') window.updateBadges();
+        if (typeof window.updateWishlistIcons === 'function') window.updateWishlistIcons();
 
         const count = ids.length;
         setTimeout(() => {
@@ -10425,8 +10537,6 @@ function loadProfilePhoto() {
   ────────────────────────────────────────────────────────────── */
   var CFG = {
     show:              'yes',
-    desktop_position:  'left',
-    mobile_position:   'left',
     promo_code:        'MYBIRTHDAY',
     promo_discount:    '20%',
     marquee_texts: [
@@ -10447,8 +10557,6 @@ function loadProfilePhoto() {
     var settings = allProducts.find(function (p) { return p.type === 'settings'; }) || {};
     var bg = settings.birthday_gift || {};
     if (bg.show              !== undefined) CFG.show              = bg.show;
-    if (bg.desktop_position  !== undefined) CFG.desktop_position  = bg.desktop_position;
-    if (bg.mobile_position   !== undefined) CFG.mobile_position   = bg.mobile_position;
     if (bg.promo_code        !== undefined) CFG.promo_code        = bg.promo_code;
     if (bg.promo_discount    !== undefined) CFG.promo_discount    = bg.promo_discount;
     if (bg.marquee_texts     !== undefined) CFG.marquee_texts     = bg.marquee_texts;
@@ -10462,23 +10570,13 @@ function loadProfilePhoto() {
     if (bg.copied_label !== undefined) CFG.copied_label = bg.copied_label;
   }
   /* ────────────────────────────────────────────────────────────
-     POSITION DU BOUTON SELON SETTINGS
+     POSITION DU BOUTON
+     Le bouton vit maintenant dans le widgets dock (widgets-loader.js,
+     #bbw-widgets-dock), qui impose sa propre position (colonne collée
+     à droite) — ce n'est plus configurable par setting individuellement.
+     Fonction gardée en no-op pour ne pas casser ses appelants existants.
   ────────────────────────────────────────────────────────────── */
-  function applyPosition() {
-    var isMobile = window.innerWidth <= 768;
-    var pos = isMobile ? CFG.mobile_position.toLowerCase() : CFG.desktop_position.toLowerCase();
-
-    giftBtn.classList.remove(
-      'bbw-bday--desktop-right', 'bbw-bday--desktop-left',
-      'bbw-bday--mobile-right',  'bbw-bday--mobile-left'
-    );
-
-    if (isMobile) {
-      giftBtn.classList.add(pos === 'right' ? 'bbw-bday--mobile-right' : 'bbw-bday--mobile-left');
-    } else {
-      giftBtn.classList.add(pos === 'right' ? 'bbw-bday--desktop-right' : 'bbw-bday--desktop-left');
-    }
-  }
+  function applyPosition() {}
 
   /* ────────────────────────────────────────────────────────────
      MARQUEE
@@ -12685,6 +12783,16 @@ document.addEventListener('DOMContentLoaded', function () {
         updateWindowPos(left, bottom);
       }
 
+      // Exposé pour le widgets dock (widgets-loader.js) : quand le dock
+      // s'ouvre, #cf-chat-toggle change de place à l'écran (il sort du
+      // dock collé à droite) mais #cf-chat-widget (la fenêtre de chat)
+      // garde sa position CSS par défaut, indépendante — sans ceci, le
+      // chat s'ouvrirait visuellement déconnecté du bouton qui l'a ouvert.
+      window.__cfSyncToTogglePosition = function () {
+        const rect = toggle.getBoundingClientRect();
+        applyPosition(rect.left, window.innerHeight - rect.bottom);
+      };
+
       function startDrag(clientX, clientY) {
         isDragging = true;
         hasMoved   = false;
@@ -12757,6 +12865,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ── Open / Close ── */
     function openChat() {
+      // Le bouton peut avoir changé de place sans passer par le drag
+      // (ex: sorti du widgets dock — cf. widgets-loader.js) : on
+      // resynchronise la position de la fenêtre juste avant de l'ouvrir,
+      // plutôt qu'en permanence (sinon la fenêtre, même invisible côté
+      // opacity, se retrouve positionnée dans la zone du dock fermé).
+      // applyPosition() vit dans la closure initDrag ci-dessus, inaccessible
+      // ici directement — on repasse donc par le miroir global déjà exposé.
+      if (typeof window.__cfSyncToTogglePosition === 'function') {
+        window.__cfSyncToTogglePosition();
+      }
+
       isOpen = true;
       window_.classList.add('cf-open');
       window_.setAttribute('aria-hidden', 'false');
