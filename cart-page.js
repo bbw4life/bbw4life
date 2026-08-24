@@ -1014,9 +1014,17 @@
     function buildCartShareUrl() {
       var cart = getCart();
       if (!cart.length) return null;
-      var slugs = cart.map(function (i) {
-        return CART_SLUG_MAP[i.id] || i.id;
-      }).join(',');
+      // Répète le slug autant de fois que sa quantité (ex: 5x noir → id,id,id,id,id)
+      // — le récepteur (initCartShareReceiver) incrémente déjà la quantité de
+      // 1 pour chaque occurrence du même id dans la liste, donc c'est ici,
+      // à la construction du lien, qu'il faut refléter la vraie quantité.
+      var slugsList = [];
+      cart.forEach(function (i) {
+        var slug = CART_SLUG_MAP[i.id] || i.id;
+        var qty  = i.quantity > 0 ? i.quantity : 1;
+        for (var n = 0; n < qty; n++) slugsList.push(slug);
+      });
+      var slugs = slugsList.join(',');
       return window.location.origin + '/bbw4life/cart?cart_share=' + encodeURIComponent(slugs);
     }
 

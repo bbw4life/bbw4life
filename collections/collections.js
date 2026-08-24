@@ -3134,7 +3134,18 @@
     function buildCartShareUrl() {
       var cart = getCart();
       if (!cart.length) return null;
-      var ids = cart.map(function (i) { return i.id; }).join(',');
+      // Répète l'id autant de fois que sa quantité (ex: 5x noir → id,id,id,id,id)
+      // — le récepteur (initCartShareReceiver) incrémente déjà la quantité de
+      // 1 pour chaque occurrence du même id dans la liste, donc c'est ici,
+      // à la construction du lien, qu'il faut refléter la vraie quantité :
+      // avant ce correctif, un seul id était envoyé par ligne de panier,
+      // peu importe sa quantité réelle (5x noir devenait 1x noir au clic).
+      var idsList = [];
+      cart.forEach(function (i) {
+        var qty = i.quantity > 0 ? i.quantity : 1;
+        for (var n = 0; n < qty; n++) idsList.push(i.id);
+      });
+      var ids = idsList.join(',');
       return window.location.origin + '/cart.html?cart_share=' + encodeURIComponent(ids);
     }
 
