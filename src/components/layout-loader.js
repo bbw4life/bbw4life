@@ -7,7 +7,7 @@
   // fetch). On sert la version en cache immédiatement (sans attendre le
   // réseau), puis on revalide en arrière-plan pour garder le cache à jour
   // si header.html/footer.html changent plus tard.
-  var CACHE_VERSION = 'v1';
+  var CACHE_VERSION = 'v2';
   var CACHE_PREFIX = 'bbw_layout_cache_' + CACHE_VERSION + '_';
   var CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24h : re-fetch même si cache présent, au cas où le contenu a changé
 

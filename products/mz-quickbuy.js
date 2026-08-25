@@ -171,23 +171,9 @@
         syncQtyFromReal();
         syncSizeOptionsFromReal();
         syncColorOptionsFromReal();
-        modal.classList.remove('mz-gesture-active');
       }
     });
     modalObserver.observe(modal, { attributes: true, attributeFilter: ['class'] });
-
-    /* ── Icône loupe : indique qu'on peut recliquer pour zoomer davantage ;
-       cliquer dessus déclenche exactement le même zoom qu'un clic sur
-       l'image (réutilise le handler 'click' déjà posé sur modalImg par
-       script.js — aucune logique de zoom dupliquée ici). ── */
-    const zoomHintBtn = document.getElementById('mzZoomHintBtn');
-    if (zoomHintBtn) {
-      zoomHintBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        modalImg.click();
-      });
-    }
 
     /* ── Swipe entre images (uniquement si scale === 1, cf. en-tête) ──
        On lit la transform actuelle de #modal-zoom-image pour savoir si
@@ -200,29 +186,6 @@
     }
 
     let swipeStartX = 0, swipeStartY = 0, swiping = false;
-
-    /* ── Masquage du panneau + icône loupe dès que l'image passe en état
-       ZOOMÉ (scale > 1). On ne réagit qu'aux transitions réelles début/fin
-       de geste (touchstart/touchend) plutôt qu'à chaque frame de pan via
-       MutationObserver sur le style inline — celui-ci se déclenchait à
-       haute fréquence pendant le drag (script.js réécrit style.transform
-       à chaque touchmove) et ralentissait l'interaction. ── */
-    modalImg.addEventListener('touchstart', function () {
-      if (isZoomed()) modal.classList.add('mz-gesture-active');
-    }, { passive: true });
-    modalImg.addEventListener('touchend', function () {
-      modal.classList.remove('mz-gesture-active');
-    }, { passive: true });
-    modalImg.addEventListener('touchcancel', function () {
-      modal.classList.remove('mz-gesture-active');
-    }, { passive: true });
-    modalImg.addEventListener('click', function () {
-      // Un clic simple (sans drag) bascule directement scale 1 <-> 2.5
-      // dans script.js — resynchronise l'état juste après ce toggle.
-      setTimeout(function () {
-        modal.classList.toggle('mz-gesture-active', isZoomed());
-      }, 0);
-    });
 
     modalImg.addEventListener('touchstart', function (e) {
       if (isZoomed() || e.touches.length > 1) { swiping = false; return; }

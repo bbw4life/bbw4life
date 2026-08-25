@@ -3518,9 +3518,18 @@ function showErrorPopup(message) {
           const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
           let scale = 1, translateX = 0, translateY = 0, isDraggingZoom = false;
           let lastTouchX = 0, lastTouchY = 0, maxTranslateX = 0, maxTranslateY = 0;
+          let wasZoomedIn = false;
           function updateTransform(smooth = true) {
             modalImg.style.transition = smooth ? 'transform 0.25s ease' : 'none';
             modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            // Ne touche au DOM (classList) que sur un vrai changement d'état
+            // zoomé/dézoomé — pas à chaque frame de pan (touchmove appelle
+            // updateTransform en continu pendant un drag à scale > 1).
+            const isZoomedIn = scale > 1.01;
+            if (isZoomedIn !== wasZoomedIn) {
+              wasZoomedIn = isZoomedIn;
+              if (modal) modal.classList.toggle('mz-zoomed-in', isZoomedIn);
+            }
           }
           function calculateBounds() {
             if (!modalImg.naturalWidth || !modalContainer) return;
@@ -3640,6 +3649,8 @@ function showErrorPopup(message) {
           if (closeBtn && modal) {
             const closeModal = () => {
               modal.classList.remove('active');
+              modal.classList.remove('mz-zoomed-in');
+              wasZoomedIn = false;
               scale = 1; translateX = 0; translateY = 0;
               modalImg.style.transform = '';
             };
@@ -6794,11 +6805,22 @@ if (rcCheckoutBtn) {
         const windowHeight = window.innerHeight;
 
         const isMobileStickyAtc = window.innerWidth <= 768;
+          const stickyAtcSettings = ((window.__allProducts || []).find(p => p.type === 'settings') || {});
+          // Pages BBW Features (produits 69-75, 98-110) : contenu plus court
+          // que les autres fiches produit, le footer arrive donc plus vite
+          // en scroll — un threshold mobile dédié, plus petit, évite que la
+          // barre sticky apparaisse trop tôt sur ces pages spécifiquement.
+          const pageProductMatch = (window.location.pathname || '').match(/product(\d+)\.html/);
+          const pageProductNum = pageProductMatch ? parseInt(pageProductMatch[1], 10) : null;
+          const isBbwFeaturesPage = pageProductNum !== null &&
+            ((pageProductNum >= 69 && pageProductNum <= 75) || (pageProductNum >= 98 && pageProductNum <= 110));
           const mobileThreshold = parseFloat(
-            ((window.__allProducts || []).find(p => p.type === 'settings') || {}).sticky_atc_mobile_threshold || 6.0
+            (isBbwFeaturesPage
+              ? stickyAtcSettings.sticky_atc_mobile_threshold_bbw_features
+              : stickyAtcSettings.sticky_atc_mobile_threshold) || 6.0
           );
           const desktopThreshold = parseFloat(
-            ((window.__allProducts || []).find(p => p.type === 'settings') || {}).sticky_atc_desktop_threshold || 4.5
+            stickyAtcSettings.sticky_atc_desktop_threshold || 4.5
           );
           const nearFooter = footerTop < windowHeight * (isMobileStickyAtc ? mobileThreshold : desktopThreshold);
 

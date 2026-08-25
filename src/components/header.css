@@ -13,9 +13,10 @@
      LAYOUT — HEADER
   ═══════════════════════════════════════ */
   --ann-bar-h:        40px;
+  --promo-bar-h:      27px;
   --bbw-header-h:     84px;
   --bbw-bc-h:         36px;
-  --bbw-total-top:    calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
+  --bbw-total-top:    calc(var(--ann-bar-h) + var(--promo-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
   --bbw-drawer-w:     340px;
 
   /* ═══════════════════════════════════════
@@ -184,11 +185,86 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   PROMO BAR — affiliate/jackpot + free shipping, sous l'announcement bar
+═══════════════════════════════════════════════════════════════ */
+.promo-bar {
+  position: fixed;
+  top: var(--ann-bar-h);
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1090;
+  background: #f7f3ee;
+  border-bottom: 1px solid var(--bbw-gold-border);
+  box-sizing: border-box;
+}
+
+.promo-bar__inner {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 5px 22px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 10px 18px;
+}
+
+.promo-bar__item,
+.promo-bar__item span {
+  color: #15110E !important;
+}
+.promo-bar__item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: normal;
+  text-align: center;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.promo-bar__item i {
+  font-size: 13px;
+  color: var(--bbw-gold);
+  flex-shrink: 0;
+}
+
+.promo-bar__divider {
+  width: 1px;
+  align-self: stretch;
+  min-height: 16px;
+  background: var(--bbw-gold-border-hi, rgba(184,146,90,0.35));
+  flex-shrink: 0;
+}
+
+@media (max-width: 680px) {
+  .promo-bar__inner {
+    gap: 6px 10px;
+    padding: 6px 10px;
+  }
+  .promo-bar__item { font-size: 10px; gap: 5px; flex: 1 1 0; }
+  .promo-bar__item i { font-size: 10.5px; }
+  .promo-bar__item span { white-space: normal; }
+}
+
+@media (max-width: 480px) {
+  .promo-bar__inner { gap: 5px 8px; padding: 6px 8px; }
+  .promo-bar__item { font-size: 8.8px; gap: 4px; }
+  .promo-bar__item i { font-size: 9.5px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    HEADER BASE
 ═══════════════════════════════════════════════════════════════ */
 .bbw-header {
   position: fixed;
-  top: var(--ann-bar-h);
+  top: calc(var(--ann-bar-h) + var(--promo-bar-h));
   left: 0;
   right: 0;
   width: 100%;
@@ -1499,9 +1575,10 @@ body {
 @media (max-width: 768px) {
   :root {
     --ann-bar-h:     40px;
+    --promo-bar-h:   36px;
     --bbw-header-h:  56px;
     --bbw-bc-h:      32px;
-    --bbw-total-top: calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
+    --bbw-total-top: calc(var(--ann-bar-h) + var(--promo-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
     --bbw-drawer-w:  min(100vw, 420px);
   }
 
@@ -1718,9 +1795,10 @@ body {
 @media (max-width: 420px) {
   :root {
     --ann-bar-h:     40px;
+    --promo-bar-h:   36px;
     --bbw-header-h:  52px;
     --bbw-bc-h:      32px;
-    --bbw-total-top: calc(var(--ann-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
+    --bbw-total-top: calc(var(--ann-bar-h) + var(--promo-bar-h) + var(--bbw-header-h) + var(--bbw-bc-h));
   }
 
   .bbw-header__inner { padding: 0 10px; gap: 4px; }
@@ -1747,7 +1825,7 @@ body {
 ═══════════════════════════════════════════════════════════════ */
 #bc-nav {
   position: fixed;
-  top: calc(var(--ann-bar-h) + var(--bbw-header-h));
+  top: calc(var(--ann-bar-h) + var(--promo-bar-h) + var(--bbw-header-h));
   left: 0;
   right: 0;
   width: 100%;
@@ -1887,8 +1965,8 @@ body {
 
 .bc-item a:hover {
   opacity: 1;
-  color: var(--rose, #c0385e);
-  text-shadow: 0 0 12px rgba(192,56,94,0.22);
+  color: var(--bbw-gold, #B8925A);
+  text-shadow: 0 0 12px rgba(184,146,90,0.22);
 }
 
 .bc-item + .bc-item::before {
@@ -1915,6 +1993,24 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: bcGoldShift 3s ease infinite;
+}
+
+/* Fond transparent (verre dépoli au scroll) : les teintes gris-mauve
+   pensées pour un fond clair opaque deviennent peu lisibles dès que le
+   contenu de la page (images, sections sombres) transparaît derrière —
+   on force un noir pur pour garantir le contraste dans cet état. */
+#bc-nav.bc-nav--scrolled .bc-item,
+#bc-nav.bc-nav--scrolled .bc-item a {
+  color: #000000;
+}
+#bc-nav.bc-nav--scrolled .bc-item a:hover {
+  color: var(--bbw-gold, #B8925A);
+}
+#bc-nav.bc-nav--scrolled .bc-item.bc-active a {
+  background: none;
+  -webkit-text-fill-color: #000000;
+  color: #000000;
+  animation: none;
 }
 
 .bc-item.bc-active a::after {

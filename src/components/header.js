@@ -978,3 +978,45 @@
   }
 
 })();
+
+
+/* ──────────────────────────────────────────────────────────────
+   PROMO BAR — affiliate/jackpot + free shipping (textes dynamiques
+   depuis les settings, jamais en dur)
+────────────────────────────────────────────────────────────── */
+(function initPromoBar() {
+
+  function run() {
+    const allProducts = window.__allProducts || [];
+    const settings     = allProducts.find(p => p.type === 'settings') || {};
+
+    const jackpot  = settings.jackpot_reward_amount || 150;
+    const shipping = (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) || 75;
+
+    const affiliateEl = document.getElementById('promoBarAffiliate');
+    const shippingEl   = document.getElementById('promoBarShipping');
+
+    if (affiliateEl) {
+      affiliateEl.textContent = `Become an Affiliate — Earn Per Click + a $${jackpot} Jackpot Bonus`;
+    }
+    if (shippingEl) {
+      shippingEl.textContent = `Free Worldwide Shipping on Orders Over $${shipping}`;
+    }
+  }
+
+  if (window.__allProducts && window.__allProducts.length) {
+    run();
+  } else {
+    let tries = 0;
+    const wait = setInterval(() => {
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(wait);
+        run();
+      } else if (++tries > 60) {
+        clearInterval(wait);
+        run();
+      }
+    }, 100);
+  }
+
+})();

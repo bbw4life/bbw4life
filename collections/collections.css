@@ -89,14 +89,27 @@
 .bbw-flourish--dawn { background: linear-gradient(180deg, var(--col-dark) 0%, var(--col-bg) 82%); }
 .bbw-flourish--dusk { background: linear-gradient(180deg, var(--col-bg) 0%, var(--col-dark) 82%); }
 .bbw-flourish--light { background: var(--bbw-white); }
+/* Transition ivoire → ivoire (pas de bande noire) : simple séparateur
+   décoratif utilisable même quand le bloc qu'il encadrait auparavant
+   (trust-badges) est masqué par show_collection_trust_bars. */
+.bbw-flourish--ivory { background: var(--col-bg); }
 
 .bbw-flourish__svg { display: block; width: 100%; height: 100%; }
 
 .bbw-flourish__wave { fill: var(--col-dark); }
 .bbw-flourish__wave--soft { fill: var(--col-dark); opacity: 0.55; }
+.bbw-flourish--ivory .bbw-flourish__wave { fill: var(--col-dark); }
 
 @media (max-width: 900px) { .col-wave { height: 44px; } }
 @media (max-width: 600px) { .col-wave { height: 34px; } }
+
+/* Masqué par défaut (avant même le fetch de products.data.json) pour
+   éviter le flash d'affichage-puis-disparition quand
+   show_collection_trust_bars est "no" — collections.js retire ce
+   masquage (display:'') dès que le setting confirme "yes". */
+[data-trust-bar] {
+  display: none;
+}
 
 /* ================================================================
    SOCIAL PROOF BAR
@@ -2897,7 +2910,7 @@
 ================================================================ */
 .ac-hero {
   position: relative;
-  min-height: 360px;
+  min-height: 260px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2962,7 +2975,7 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: 20px 24px 15px;
+  padding: 12px 24px 12px;
   max-width: 760px;
   width: 100%;
 }
@@ -3349,15 +3362,15 @@
 
 @media (max-width: 1024px) and (min-width: 601px) {
   .ac-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .ac-hero  { min-height: 320px; }
+  .ac-hero  { min-height: 230px; }
 }
 
 
 @media (max-width: 600px) {
   .ac-grid { grid-template-columns: 1fr; gap: 18px; }
 
-  .ac-hero { min-height: 260px; }
-  .ac-hero__inner { padding: 44px 16px 48px; }
+  .ac-hero { min-height: 200px; }
+  .ac-hero__inner { padding: 28px 16px 30px; }
   .ac-hero__badges { gap: 8px; }
   .ac-hero__badge { font-size: 11px; padding: 6px 12px; }
 
@@ -3402,7 +3415,7 @@
 ================================================================ */
 .bbw-hero-originals {
   position: relative;
-  min-height: 380px;
+  min-height: 260px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3449,7 +3462,7 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: 64px 24px 56px;
+  padding: 36px 24px 32px;
   max-width: 860px;
   width: 100%;
 }
@@ -3556,8 +3569,8 @@
 }
 
 @media (max-width: 768px) {
-  .bbw-hero-originals { min-height: 280px; }
-  .bbw-hero-orig__inner { padding: 48px 16px 40px; }
+  .bbw-hero-originals { min-height: 200px; }
+  .bbw-hero-orig__inner { padding: 28px 16px 26px; }
   .bbw-hero-orig__badges { gap: 0 4px; padding-top: 22px; }
   .bbw-hero-orig__badge { font-size: 9.5px; padding: 4px 10px; border-left: none !important; }
 }
@@ -3745,9 +3758,13 @@
 
 @media (max-width: 768px) {
   .bbw-how-it-works { padding: 40px 0 36px; }
-  .bbw-hiw__steps { flex-direction: column; align-items: center; gap: 32px; }
-  .bbw-hiw__step { max-width: 100%; padding: 0; }
-  .bbw-hiw__connector { padding-top: 0; transform: rotate(90deg); }
+  .bbw-hiw__steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 16px;
+  }
+  .bbw-hiw__step { max-width: 100%; min-width: 0; padding: 0; }
+  .bbw-hiw__connector { display: none; }
   .bbw-hiw__label-line { max-width: 60px; }
 }
 

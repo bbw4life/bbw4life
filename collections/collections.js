@@ -566,6 +566,16 @@
       window.__allProducts = data;
       settings = data.find(p => p.type === 'settings') || {};
 
+      // ── Barres de confiance (social proof / flash deal / trust badges /
+      // wave décorative) — masquées par défaut via [data-trust-bar]
+      // (CSS, collections.css) pour éviter tout flash ; on les révèle
+      // ici uniquement si le setting confirme "yes".
+      (function applyCollectionTrustBarsSetting() {
+        const showTrustBars = (settings.show_collection_trust_bars || 'yes').toLowerCase() !== 'no';
+        if (!showTrustBars) return;
+        document.querySelectorAll('[data-trust-bar]').forEach(el => { el.removeAttribute('data-trust-bar'); });
+      })();
+
       if (document.getElementById('all-collections-grid')) {
   renderAllCollections(settings);
 

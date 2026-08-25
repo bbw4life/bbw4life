@@ -6250,6 +6250,7 @@
     "inventory_display_mode": "anderson",
     "show_stock_image_badge": "yes",
     "show_nowpayments": "yes",
+    "show_collection_trust_bars": "no",
     "product_title_badge": "yes",
     "thumbnails_desktop_vertical_left": "yes",
     "thumbnails_desktop_horizontal_below": "no",
@@ -6258,6 +6259,7 @@
     "sticky_media_mobile": "no",
     "swatch_scroll_mobile": "yes",
     "sticky_atc_mobile_threshold": 11.0,
+    "sticky_atc_mobile_threshold_bbw_features": 8.0,
     "sticky_atc_desktop_threshold": 7.3,
     "theme_color": "#000000",
     "allowed_languages": ["en", "fr", "es", "ar", "zh", "ht", "hi", "pt", "ru", "de", "ja"],
@@ -6381,9 +6383,9 @@
       "show": "Yes",
       "video_url": "",
       "slides": [
-        { "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/flash_3.jpg?v=1764080083", "alt": "Slim your waist at home in 10 minutes a day" },
-        { "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/flash_2_903b23a6-bd00-4969-8fbe-ec7586d6efd2.jpg?v=1764079925", "alt": "Burn belly fat at home without a gym" },
-        { "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/flash_1.jpg?v=1764079325", "alt": "Adjustable smart hula hoop fits every waist size" }
+        { "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/prod_banner_1.jpg?v=1787677858", "alt": "Slim your waist at home in 10 minutes a day" },
+        { "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/prod_banner_2.jpg?v=1787677858", "alt": "Burn belly fat at home without a gym" },
+        { "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/prod_banner_3.jpg?v=1787677858", "alt": "Adjustable smart hula hoop fits every waist size" }
       ]
     },
     "breadcrumbs": {
@@ -8487,11 +8489,11 @@
     ]
   },
   "content_protection": {
-  "disable_right_click":      "yes",
-  "disable_text_selection":   "yes",
-  "disable_image_download":   "yes",
+  "disable_right_click":      "no",
+  "disable_text_selection":   "no",
+  "disable_image_download":   "no",
   "disable_video_download":   "yes",
-  "disable_copy":             "yes",
+  "disable_copy":             "no",
   "disable_devtools_key": "no"
 },
 "mini_product_slider": {
