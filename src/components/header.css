@@ -195,7 +195,6 @@ body {
   width: 100%;
   z-index: 1090;
   background: #f7f3ee;
-  border-bottom: 1px solid var(--bbw-gold-border);
   box-sizing: border-box;
 }
 

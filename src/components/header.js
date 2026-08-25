@@ -986,6 +986,19 @@
 ────────────────────────────────────────────────────────────── */
 (function initPromoBar() {
 
+  // La hauteur réelle de #promoBar varie selon le texte injecté (montants
+  // à 2 ou 3 chiffres) et le breakpoint (le texte peut wrapper sur 2
+  // lignes en mobile) — --promo-bar-h ne peut pas être devinée en dur
+  // sans risquer un écart de quelques pixels avec le header qui doit
+  // coller juste en dessous. On la mesure et on la pousse en variable
+  // CSS à chaque changement pertinent.
+  function syncPromoBarHeight() {
+    const bar = document.getElementById('promoBar');
+    if (!bar) return;
+    const h = bar.getBoundingClientRect().height;
+    if (h > 0) document.documentElement.style.setProperty('--promo-bar-h', h + 'px');
+  }
+
   function run() {
     const allProducts = window.__allProducts || [];
     const settings     = allProducts.find(p => p.type === 'settings') || {};
@@ -1002,6 +1015,16 @@
     if (shippingEl) {
       shippingEl.textContent = `Free Worldwide Shipping on Orders Over $${shipping}`;
     }
+
+    syncPromoBarHeight();
+    requestAnimationFrame(syncPromoBarHeight);
+    // Le texte peut être mesuré avec la police de fallback avant que la
+    // vraie webfont ne charge — une police plus large peut forcer un
+    // retour à la ligne supplémentaire et agrandir la barre après coup.
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncPromoBarHeight);
+    }
+    setTimeout(syncPromoBarHeight, 500);
   }
 
   if (window.__allProducts && window.__allProducts.length) {
@@ -1018,5 +1041,7 @@
       }
     }, 100);
   }
+
+  window.addEventListener('resize', syncPromoBarHeight, { passive: true });
 
 })();

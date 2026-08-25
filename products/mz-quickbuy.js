@@ -3,9 +3,10 @@
    Panneau quantité + add-to-cart + taille + couleur affiché sous
    l'image du zoom plein écran mobile (#media-zoom-modal). Ne contient
    AUCUNE logique panier propre : chaque interaction pilote les VRAIS
-   champs de .product-section (input quantité, #size-select, .swatch),
-   puis déclenche le vrai bouton .add-to-cart existant (script.js) —
-   c'est ce bouton réel qui ajoute au panier, avec sa logique inchangée.
+   champs de .product-section (input quantité, #size-select, swatch
+   couleur), puis déclenche le vrai bouton .add-to-cart existant
+   (script.js) — c'est ce bouton réel qui ajoute au panier, avec sa
+   logique inchangée.
 
    Swipe entre images : glisser horizontalement sur l'image du modal
    change d'image (comme les points/miniatures du slider principal),
