@@ -8492,7 +8492,7 @@
   "disable_image_download":   "yes",
   "disable_video_download":   "yes",
   "disable_copy":             "yes",
-  "disable_devtools_key": "yes"
+  "disable_devtools_key": "no"
 },
 "mini_product_slider": {
   "title": "Queens Also Love These",

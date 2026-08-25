@@ -1278,6 +1278,10 @@ function showErrorPopup(message) {
       productLayout.classList.add('media-shift');
     }
   }
+  // Exposée pour products/mz-quickbuy.js (swipe entre images dans le zoom
+  // plein écran mobile) — réutilise cette fonction telle quelle plutôt que
+  // de dupliquer la logique de navigation (miniatures, compteur, vidéos).
+  window.changeMainImage = changeMainImage;
 
   function populateMiniSlider(slider, media) {
     if (!slider || !media) return;
@@ -8772,6 +8776,12 @@ const BBW_WISHLIST_SLUG_MAP = {
   'Pdg-Francenel-product109': 'tweedshift-dress-cuffed-sleeve-classic',
   'Pdg-Francenel-product110': 'polkadotblouse-set-wide-leg-belted-trouser',
 };
+// Exposé sur window : un `const` de niveau script n'est visible que dans
+// CE fichier — un autre <script> classique séparé (ex: collections.js,
+// qui réutilise cette même table pour generer des liens cart_share
+// lisibles) ne peut pas résoudre l'identifiant `BBW_WISHLIST_SLUG_MAP`
+// sans ce miroir explicite sur window.
+window.BBW_WISHLIST_SLUG_MAP = BBW_WISHLIST_SLUG_MAP;
 
 // ================================================================
 //   WISHLIST SHARE SYSTEM
@@ -8811,9 +8821,11 @@ const BBW_WISHLIST_SLUG_MAP = {
             whatsapp: `👋 Hey! I've been shopping on *BBW4LIFE* and I can't stop adding things to my wishlist 😍\n\nHere are the products I'm absolutely OBSESSED with:\n\n${itemLines}\n\n💫 Click any link to view — they'll be saved in your wishlist automatically!\n\n🛍️ Shop all: ${shareUrl}\n\nBBW4LIFE — Beauty Has No Sizes | bbw4life.com`,
             twitter:  `I just found my new favourite plus-size picks on BBW4LIFE 🔥\n\nCheck out my wishlist — these items are 🤌\n\n${shareUrl}\n\n#BBW4LIFE #CurvyFashion #WishlistGoals`,
             facebook: `💕 Ladies, I found some AMAZING pieces on BBW4LIFE that I need you to see!\n\nI've added them to my wishlist — tap the link to discover them all (they'll be saved for you automatically!) 👇\n\n${shareUrl}`,
-            pinterest:`✨ My BBW4LIFE Wishlist — save these gorgeous plus-size picks before they're gone! 🛍️\n\n${shareUrl}`,
-            copy:     shareUrl
+            pinterest:`✨ My BBW4LIFE Wishlist — save these gorgeous plus-size picks before they're gone! 🛍️\n\n${shareUrl}`
         };
+        // "Copy Link" copie exactement le même message formaté que WhatsApp
+        // (liste des produits incluse), pas juste l'URL nue.
+        messages.copy = messages.whatsapp;
 
         return messages[platform] || shareUrl;
     }

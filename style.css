@@ -20,7 +20,7 @@
      HERO BANNER
   ═══════════════════════════════════════ */
   --hero-height-desktop:      300px;
-  --hero-height-mobile:       200px;
+  --hero-height-mobile:       300px;
   --hero-thumb-size-desktop:  44px;
   --hero-thumb-size-mobile:   34px;
   --hero-thumb-gap:           12px;
@@ -3294,6 +3294,10 @@ body {
   border-color: transparent;
 }
 
+
+.wishlist-share-btn--copy { color: var(--bbw-gold, #B8925A); }
+.wishlist-share-btn--copy::before { background: var(--bbw-gold, #B8925A); }
+.wishlist-share-btn--copy:hover { color: #fff; }
 
 .wishlist-share-btn--fb  { color: #1877f2; }
 .wishlist-share-btn--fb::before  { background: #1877f2; }

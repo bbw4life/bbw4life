@@ -3134,16 +3134,24 @@
     function buildCartShareUrl() {
       var cart = getCart();
       if (!cart.length) return null;
-      // Répète l'id autant de fois que sa quantité (ex: 5x noir → id,id,id,id,id)
+      // Répète le slug autant de fois que sa quantité (ex: 5x noir → id,id,id,id,id)
       // — le récepteur (initCartShareReceiver) incrémente déjà la quantité de
       // 1 pour chaque occurrence du même id dans la liste, donc c'est ici,
       // à la construction du lien, qu'il faut refléter la vraie quantité :
       // avant ce correctif, un seul id était envoyé par ligne de panier,
       // peu importe sa quantité réelle (5x noir devenait 1x noir au clic).
+      // Utilise window.BBW_WISHLIST_SLUG_MAP (miroir explicite posé par
+      // script.js — un `const` de niveau script n'est PAS visible depuis
+      // un autre fichier <script> séparé sans passer par window) pour un
+      // lien lisible (glam-heels-...) au lieu de l'id brut
+      // (Pdg-Francenel-product1) — même source que le wishlist share,
+      // pas de table dupliquée.
+      var slugMap = window.BBW_WISHLIST_SLUG_MAP || {};
       var idsList = [];
       cart.forEach(function (i) {
+        var slug = slugMap[i.id] || i.id;
         var qty = i.quantity > 0 ? i.quantity : 1;
-        for (var n = 0; n < qty; n++) idsList.push(i.id);
+        for (var n = 0; n < qty; n++) idsList.push(slug);
       });
       var ids = idsList.join(',');
       return window.location.origin + '/cart.html?cart_share=' + encodeURIComponent(ids);
@@ -3289,6 +3297,16 @@
 
     var ids = decodeURIComponent(sharedIds).split(',').filter(Boolean);
     if (!ids.length) return;
+
+    // Le lien contient des slugs lisibles (glam-heels-...), pas les id bruts
+    // — reconversion vers Pdg-Francenel-productN via la même table que
+    // buildCartShareUrl (window.BBW_WISHLIST_SLUG_MAP, miroir posé par
+    // script.js — voir commentaire dans buildCartShareUrl ci-dessus).
+    if (window.BBW_WISHLIST_SLUG_MAP) {
+      var reverseMap = {};
+      Object.keys(window.BBW_WISHLIST_SLUG_MAP).forEach(function (k) { reverseMap[window.BBW_WISHLIST_SLUG_MAP[k]] = k; });
+      ids = ids.map(function (s) { return reverseMap[s] || s; });
+    }
 
     function addSharedToCart() {
       var allProducts = window.__allProducts || [];

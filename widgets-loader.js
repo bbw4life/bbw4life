@@ -163,6 +163,7 @@
     <div class="wishlist-share-footer">
       <span class="wishlist-share-label">Share your wishlist</span>
       <div class="wishlist-share-icons">
+        <button class="wishlist-share-btn wishlist-share-btn--copy" data-wishlist-share="copy" title="Copy Link"><i class="fi fi-rr-copy"></i></button>
         <button class="wishlist-share-btn wishlist-share-btn--wa" data-wishlist-share="whatsapp" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></button>
         <button class="wishlist-share-btn wishlist-share-btn--fb" data-wishlist-share="facebook" title="Share on Facebook"><i class="fab fa-facebook-f"></i></button>
         <button class="wishlist-share-btn wishlist-share-btn--tw" data-wishlist-share="twitter" title="Share on X / Twitter"><i class="fab fa-x-twitter"></i></button>
