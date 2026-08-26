@@ -1590,12 +1590,12 @@ body {
 
   .bbw-search__bar {
     position: fixed;
-    top: var(--ann-bar-h);
+    top: calc(var(--ann-bar-h) + var(--promo-bar-h));
     left: 0; right: 0;
     width: 100% !important;
     height: var(--bbw-header-h);
     background: var(--bbw-black);
-    z-index: 1001;
+    z-index: 1095;
     opacity: 0;
     pointer-events: none;
     transform: translateY(-6px);

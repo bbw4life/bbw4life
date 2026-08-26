@@ -94,9 +94,17 @@ html {
 /* overflow-x:hidden retiré de body : présent sur <html> ci-dessus, ça
    suffit à bloquer le scroll horizontal. Le garder aussi sur <body>
    cassait position:sticky pour ses descendants (ex: #bc-nav). */
+/* Le body réserve dès le premier paint l'espace du header fixe
+   (padding-top: var(--bbw-total-top), header.css) — mais ce header est
+   injecté en JS de façon asynchrone (layout-loader.js fetch header.html).
+   Le temps de ce fetch, ce padding existe déjà sans rien peint dessus :
+   fond body par défaut du navigateur = blanc, ce qui donne un grand bloc
+   blanc au-dessus du contenu au chargement/refresh. On donne au body la
+   couleur du header le temps qu'il s'injecte réellement dessus. */
 body {
   margin: 0;
   padding: 0;
+  background: var(--bbw-black, #15110E);
 }
 
 /* ═══════════════════════════════════════════════
@@ -8883,7 +8891,12 @@ body.sr-page .curva-search-dropdown {
   opacity: 0 !important;
 }
 
-/* ── Texte incrusté sur la photo, ancré à droite ── */
+/* ── Texte incrusté sur la photo, ancré à droite ──
+   Masqué tant que la vraie photo n'est pas chargée : sinon il flotte par-
+   dessus le logo preload / skeleton avant que #bbw-nb-photo-img n'ait de
+   src valide, ce qui donne un rendu cassé (texte sans image derrière). Le
+   preload logo reçoit .is-loaded (script.js, revealPhoto()) exactement au
+   moment où la photo est prête — on cadence le texte sur ce même signal. */
 .bbw-nb-text {
   position: absolute;
   top: 68%;
@@ -8895,6 +8908,14 @@ body.sr-page .curva-search-dropdown {
   background: linear-gradient(135deg, rgba(21,17,14,0.62) 0%, rgba(21,17,14,0.42) 100%);
   border-radius: 14px;
   backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.bbw-nb-photo-preload-logo.is-loaded ~ .bbw-nb-text {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .bbw-nb-photo-sparkle {
@@ -11172,6 +11193,19 @@ body.sr-page .curva-search-dropdown {
     border-radius: 2px !important;
     flex-shrink: 0 !important;
     border: 1px solid var(--bbw-gold-border) !important;
+}
+
+.bd-product-item__media {
+    display: block !important;
+    flex-shrink: 0 !important;
+}
+
+.bd-product-item__title {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+.bd-product-item__title:hover strong {
+    color: var(--bbw-gold) !important;
 }
 
 .bd-product-info {

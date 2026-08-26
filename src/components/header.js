@@ -138,14 +138,21 @@
   }
 
   // Mode "always visible" mobile (barre compacte intégrée au header) :
-  // taper/toucher le champ doit quand même déclencher le même overlay
-  // plein-largeur que le clic sur l'icône loupe en mode normal — pas
-  // rester dans la petite barre compacte pour la saisie.
+  // le champ compact ne doit JAMAIS être tapable directement — un tap
+  // dessus doit ouvrir le même overlay plein-largeur que le clic sur
+  // l'icône loupe, sans jamais laisser le clavier natif s'ouvrir sur la
+  // barre compacte elle-même (blur immédiat + réouverture sur le vrai
+  // champ une fois l'overlay affiché).
   if (searchInput) {
-    searchInput.addEventListener('focus', () => {
-      if (window.innerWidth <= 768 && searchEl && searchEl.getAttribute('data-always-visible') === 'yes') {
-        setSearchOpen(true);
-      }
+    searchInput.addEventListener('pointerdown', e => {
+      const isCompactMode = window.innerWidth <= 768 && searchEl &&
+        searchEl.getAttribute('data-always-visible') === 'yes' &&
+        !searchBar.classList.contains('is-open');
+      if (!isCompactMode) return;
+      e.preventDefault();
+      searchInput.blur();
+      setSearchOpen(true);
+      setTimeout(() => searchInput.focus(), 100);
     });
   }
 

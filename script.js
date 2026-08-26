@@ -2172,10 +2172,14 @@ function showErrorPopup(message) {
             item.dataset.variantId = firstVariant ? firstVariant.vid : '';
             item.dataset.price = price;
 
+            const productUrl = getProductUrl(prod.id);
+
             item.innerHTML = `
-              <img src="${upgradeShopifyImageUrl(prod.image)}" alt="${prod.title}" loading="lazy">
+              <a href="${productUrl}" class="bd-product-item__media">
+                <img src="${upgradeShopifyImageUrl(prod.image)}" alt="${prod.title}" loading="lazy">
+              </a>
               <div class="bd-product-info">
-                <strong>${prod.title}</strong>
+                <a href="${productUrl}" class="bd-product-item__title"><strong>${prod.title}</strong></a>
                 <span>${entry.subtitle || prod.description}</span>
               </div>
               <span class="bd-product-price">$${price.toFixed(2)}</span>
