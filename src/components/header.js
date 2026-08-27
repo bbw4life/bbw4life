@@ -447,6 +447,15 @@
   if (header) {
     const SCROLLED_THRESHOLD = 60;
     const onHeaderScroll = () => {
+      // Sur mobile, un scroll physique garde souvent de l'inertie (momentum)
+      // quelques centaines de ms après que le doigt ait quitté l'écran — si
+      // ce scroll résiduel se poursuit juste après un tap qui vient d'ouvrir
+      // la recherche compacte, ce toggle se redéclenche pendant que le DOM
+      // est encore dans l'état transitoire d'ouverture, et peut faire
+      // clignoter/retomber le blur (.bbw-header--scrolled) qui neutralise le
+      // containing block cassant .bbw-search__bar en position:fixed. On gèle
+      // donc ce recalcul tant que la recherche mobile est ouverte.
+      if (header.classList.contains('bbw-header--search-open')) return;
       header.style.boxShadow = window.scrollY > 10
         ? '0 4px 30px rgba(0,0,0,0.60),0 0 0 1px rgba(201,150,62,0.15)'
         : 'none';
