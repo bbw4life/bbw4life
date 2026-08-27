@@ -1388,6 +1388,30 @@
     pointer-events: none;
 }
 
+/* Header dédié pour permettre le collapsible (bbw-collapsible__toggle) —
+   ce bloc n'en avait pas à l'origine, contrairement aux autres blocs
+   décoratifs de la même famille (boho-color-story, bbw-nail-style-compare,
+   etc.), qui suivent tous ce même pattern header + corps repliable. */
+.lp-block__header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 16px;
+    background: #15110E;
+    color: var(--bbw-gold);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+}
+.lp-block__header i {
+    color: var(--bbw-gold);
+    font-size: 0.90rem;
+    flex-shrink: 0;
+}
+
 .lp-block__inner {
     display: flex;
     flex-direction: column;
@@ -1395,6 +1419,10 @@
     position: relative;
     z-index: 1;
     padding: 22px 20px;
+}
+
+@media (max-width: 480px) {
+    .lp-block__header { font-size: 0.68rem; padding: 10px 14px; }
 }
 
 .lp-block__eyebrow {

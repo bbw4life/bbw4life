@@ -6332,7 +6332,7 @@
       "countdown_minutes": 10,
       "countdown_text": "⚡ Offer expires in:",
       "countdown_suffix": "min",
-      "free_shipping_threshold": 100,
+      "free_shipping_threshold": 140,
       "show_free_shipping_bar": "Yes",
       "progress_message": "Add ${remaining} more for FREE shipping!",
       "progress_success_message": "🎉You've unlocked FREE shipping!",
@@ -6679,6 +6679,31 @@
       "Pdg-Francenel-product50",
       "Pdg-Francenel-product38",
       "Pdg-Francenel-product44"
+    ]
+  },
+  "search_story_row": {
+    "label": "Shop The Look",
+    "product_ids": [
+      "Pdg-Francenel-product1",
+      "Pdg-Francenel-product5",
+      "Pdg-Francenel-product14",
+      "Pdg-Francenel-product21",
+      "Pdg-Francenel-product28",
+      "Pdg-Francenel-product33",
+      "Pdg-Francenel-product38",
+      "Pdg-Francenel-product43",
+      "Pdg-Francenel-product48",
+      "Pdg-Francenel-product53",
+      "Pdg-Francenel-product58",
+      "Pdg-Francenel-product62",
+      "Pdg-Francenel-product67",
+      "Pdg-Francenel-product77",
+      "Pdg-Francenel-product81",
+      "Pdg-Francenel-product85",
+      "Pdg-Francenel-product89",
+      "Pdg-Francenel-product93",
+      "Pdg-Francenel-product96",
+      "Pdg-Francenel-product9"
     ]
   },
     "bundle_deal": {
@@ -8490,10 +8515,10 @@
   },
   "content_protection": {
   "disable_right_click":      "no",
-  "disable_text_selection":   "yes",
+  "disable_text_selection":   "no",
   "disable_image_download":   "yes",
   "disable_video_download":   "yes",
-  "disable_copy":             "yes",
+  "disable_copy":             "no",
   "disable_devtools_key": "no"
 },
 "mini_product_slider": {

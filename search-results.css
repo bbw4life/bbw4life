@@ -186,6 +186,105 @@
   .sr-search-bar__submit { width: 38px; height: 38px; font-size: 13px; }
 }
 
+/* Le story row (#sr-story-row) réutilise .story-circles-section, dont le
+   fond par défaut (style.css) est blanc — sur cette page il doit rester
+   dans le même bloc visuel sombre que la barre de recherche juste
+   au-dessus, donc surcharge locale ici. */
+#sr-story-row.story-circles-section {
+  background: #15110E;
+}
+
+/* .story-circle-label est noir par défaut (pensé pour le fond blanc de
+   la home) — sur le fond sombre de cette page il reste quasi invisible
+   sauf au survol (où il passe en doré), donnant l'impression fausse que
+   le titre "n'apparaît qu'au hover". Surcharge locale en clair. */
+#sr-story-row .story-circle-label {
+  color: rgba(255,255,255,0.82);
+}
+#sr-story-row .story-circle-item:hover .story-circle-label {
+  color: var(--bbw-gold);
+}
+
+/* Titre de section, réutilise .col-rv-title (collections.css) dont la
+   couleur par défaut (--col-text, noir) est pensée pour un fond clair —
+   surcharge locale en doré pour rester lisible sur le fond sombre ici. */
+.sr-section-header {
+  padding: 0 24px 0;
+  margin-top: -8px;
+}
+.sr-section-header .col-rv-title {
+  color: var(--bbw-gold, #B8925A);
+}
+
+@media (max-width: 600px) {
+  .sr-section-header { padding: 0 16px 0; }
+}
+
+/* ── SEARCH COLLECTIONS ROW — petites cards horizontales, une seule
+   ligne (scroll horizontal, pas de wrap), sous le story row / au-dessus
+   des résultats. ─────────────────────────────────────────────── */
+.sr-collections-row {
+  padding: 4px 0 28px;
+  background: #15110E;
+}
+
+.sr-collections-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 6px 24px 4px;
+}
+.sr-collections-track::-webkit-scrollbar { display: none; }
+
+.sr-collection-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  border: 1px solid var(--bbw-gold-border);
+}
+
+.sr-collection-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sr-collection-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(21,17,14,0) 40%, rgba(21,17,14,0.82) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+}
+
+.sr-collection-card__title {
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+}
+
+@media (max-width: 600px) {
+  .sr-collections-track { gap: 10px; padding: 6px 16px 4px; }
+  .sr-collection-card { width: 128px; height: 128px; }
+  .sr-collection-card__title { font-size: 11.5px; }
+}
+
 /* ── RESULTS SECTION ─────────────────────────────────────────── */
 .sr-results-section {
   padding: 40px 24px 32px;

@@ -181,6 +181,20 @@
      Web Speech API ; bouton reste caché (display:none en HTML) si le
      navigateur ne le supporte pas (ex: Firefox).
   ────────────────────────────────────────────────────────────── */
+  // Code langue court (bbw_lang, ex: "fr") → locale BCP-47 pour la Web
+  // Speech API (ex: "fr-FR"). Forcer "en-US" en dur faisait échouer la
+  // reconnaissance dès que le client parlait une autre langue que
+  // l'anglais — le modèle anglais entend n'importe quoi sur des mots
+  // français/espagnol/etc. et produit une transcription délirante.
+  const VOICE_LANG_MAP = {
+    en: 'en-US', fr: 'fr-FR', es: 'es-ES', ar: 'ar-SA', zh: 'zh-CN',
+    ht: 'fr-FR', hi: 'hi-IN', pt: 'pt-PT', ru: 'ru-RU', de: 'de-DE', ja: 'ja-JP'
+  };
+  function getVoiceRecognitionLang() {
+    const saved = (localStorage.getItem('bbw_lang') || 'en').toLowerCase();
+    return VOICE_LANG_MAP[saved] || 'en-US';
+  }
+
   function initHeaderVoiceSearch(micBtn, input) {
     if (!micBtn || !input) return;
     const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -189,10 +203,13 @@
     micBtn.style.display = '';
 
     const recognition = new SpeechRecognitionCtor();
-    recognition.lang           = 'en-US';
     recognition.continuous     = false;
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    // Résultats intermédiaires affichés en direct dans le champ pendant
+    // que le client parle, + 3 hypothèses alternatives retenues au lieu
+    // d'une seule — donne une marge d'erreur au lieu de tout miser sur
+    // la première interprétation du moteur.
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 3;
 
     let listening = false;
     function setListening(on) {
@@ -203,18 +220,34 @@
     micBtn.addEventListener('click', e => {
       e.stopPropagation();
       if (listening) { recognition.stop(); return; }
+      // Langue relue à chaque démarrage (pas figée une fois pour toutes
+      // à l'init) — reflète un changement de langue fait entre-temps
+      // dans le sélecteur du header.
+      recognition.lang = getVoiceRecognitionLang();
       try { recognition.start(); setListening(true); }
       catch (err) { console.warn('[VoiceSearch] start failed:', err.message); }
     });
 
     recognition.addEventListener('result', event => {
-      input.value = event.results[0][0].transcript;
+      // Reconstruit le texte complet à partir de TOUS les segments déjà
+      // reconnus (pas seulement le premier), pour une phrase de plusieurs
+      // mots — et prend, pour le dernier segment encore en cours, la
+      // meilleure des 3 alternatives plutôt que la seule proposée avant.
+      let transcript = '';
+      for (let i = 0; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      input.value = transcript;
     });
 
     recognition.addEventListener('end', () => {
       setListening(false);
       const q = input.value.trim();
-      if (q) window.location.href = '/search-results.html?q=' + encodeURIComponent(q);
+      // Laisse le temps au client de voir/corriger le texte transcrit
+      // dans le champ avant de lancer la recherche automatiquement —
+      // une transcription mal comprise se voit et se corrige avant
+      // d'atterrir sur des résultats sans rapport.
+      if (q) setTimeout(() => { window.location.href = '/search-results.html?q=' + encodeURIComponent(q); }, 900);
     });
 
     recognition.addEventListener('error', () => { setListening(false); });

@@ -6519,13 +6519,12 @@ if (rcCheckoutBtn) {
     return col;
   }
 
-  function truncateLabel(title, maxLen) {
-    if (title.length <= maxLen) return title;
-    return title.slice(0, maxLen).trim() + '...';
-  }
-
   function makeItem(item) {
-    const label = truncateLabel(item.title, 14);
+    // Le CSS (.story-circle-label : max-width + overflow:hidden +
+    // text-overflow:ellipsis) gère déjà la coupe visuelle selon l'espace
+    // réel disponible — une troncature JS à longueur fixe en plus ne
+    // faisait que couper le titre bien plus tôt que nécessaire.
+    const label = item.title;
     const img   = upgradeShopifyImageUrl(item.image, 300);
     const a = document.createElement('a');
     a.href      = item.url;
@@ -6580,6 +6579,38 @@ if (rcCheckoutBtn) {
 
   buildRow('story-row-women', 'storyRowWomenTrack', 'story_row_women');
   buildRow('story-row-men',   'storyRowMenTrack',   'story_row_men');
+  // Page search-results.html uniquement (section absente ailleurs) —
+  // réutilise intégralement le même buildRow générique, aucune logique
+  // dupliquée.
+  buildRow('sr-story-row', 'srStoryRowTrack', 'search_story_row');
+})();
+
+
+// ── SEARCH RESULTS — petites cards de collections (une seule ligne,
+// scroll horizontal), sous le story row de search-results.html.
+// Réutilise settings.jrgq_collections.collections telles quelles —
+// même source que la mosaïque de collections de la home.
+(function initSearchCollectionsRow() {
+  const track = document.getElementById('srCollectionsTrack');
+  if (!track) return;
+
+  const settings = products.find(p => p.type === 'settings') || {};
+  const cols = (settings.jrgq_collections && settings.jrgq_collections.collections) || [];
+  if (!cols.length) { document.getElementById('sr-collections-row').style.display = 'none'; return; }
+
+  track.innerHTML = '';
+  cols.forEach(col => {
+    const a = document.createElement('a');
+    a.href = col.url;
+    a.className = 'sr-collection-card';
+    a.setAttribute('aria-label', col.title || col.id);
+    a.innerHTML = `
+      <img src="${upgradeShopifyImageUrl(col.image, 400)}" alt="${col.title || ''}" loading="lazy">
+      <div class="sr-collection-card__overlay">
+        <span class="sr-collection-card__title">${col.title || ''}</span>
+      </div>`;
+    track.appendChild(a);
+  });
 })();
 
 
@@ -10484,9 +10515,27 @@ function loadProfilePhoto() {
         body:    JSON.stringify({ action: 'get-stats', email: email, token: token })
       });
       var data = await res.json();
-      if (data.birthday) bdayInput.value = data.birthday;
+      // Le CSS masque le placeholder "dd/mm/yyyy" via un sélecteur
+      // [value]:not([value=""]) — celui-ci lit l'ATTRIBUT HTML, jamais la
+      // propriété .value modifiée par script, donc il faut aussi poser
+      // l'attribut explicitement pour que le placeholder disparaisse.
+      if (data.birthday) {
+        bdayInput.value = data.birthday;
+        bdayInput.setAttribute('value', data.birthday);
+      }
     } catch (e) {}
   }
+
+  // Même correctif que loadBirthday() : quand le client choisit une date
+  // dans le picker natif, .value change mais pas l'attribut HTML — sans
+  // ça le faux placeholder CSS "dd/mm/yyyy" resterait affiché par-dessus.
+  bdayInput.addEventListener('change', function () {
+    if (bdayInput.value) {
+      bdayInput.setAttribute('value', bdayInput.value);
+    } else {
+      bdayInput.removeAttribute('value');
+    }
+  });
 
   bdaySaveBtn.addEventListener('click', async function () {
     var email = localStorage.getItem('userEmail');
