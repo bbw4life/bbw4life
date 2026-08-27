@@ -36,7 +36,7 @@
 .sr-hero {
   position: relative;
   overflow: hidden;
-  padding: 64px 24px 48px;
+  padding: 32px 24px 24px;
   background: linear-gradient(170deg, #15110E 0%, #241c17 60%, #15110E 100%);
   text-align: center;
 }
@@ -179,7 +179,7 @@
 }
 
 @media (max-width: 600px) {
-  .sr-hero { padding: 48px 16px 36px; }
+  .sr-hero { padding: 24px 16px 18px; }
   .sr-search-bar { padding: 6px 6px 6px 16px; }
   .sr-search-bar__input { font-size: 14px; }
   .sr-search-bar__mic,
@@ -192,6 +192,7 @@
    au-dessus, donc surcharge locale ici. */
 #sr-story-row.story-circles-section {
   background: #15110E;
+  padding-top: 8px;
 }
 
 /* .story-circle-label est noir par défaut (pensé pour le fond blanc de

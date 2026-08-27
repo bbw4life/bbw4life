@@ -744,6 +744,16 @@ document.addEventListener('DOMContentLoaded', () => {
     makeDraggable(bdayGiftBtn, {});
   }
 
+  const dockWishlist = document.getElementById('bbwDockWishlistTrigger');
+  if (dockWishlist) {
+    makeDraggable(dockWishlist, {});
+  }
+
+  const dockCart = document.getElementById('bbwDockCartTrigger');
+  if (dockCart) {
+    makeDraggable(dockCart, {});
+  }
+
 })();
 
 
