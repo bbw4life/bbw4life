@@ -313,9 +313,16 @@
       link.appendChild(text);
       link.appendChild(badge);
 
-      // Navigation on click
+      // Navigation on click — a result can carry a custom "action" instead
+      // of a real URL (ex: Affiliate Program opens the footer popup via
+      // window.openAffiliatePopup, exposed by src/components/footer.js,
+      // rather than navigating to a page).
       link.addEventListener('mousedown', e => {
         e.preventDefault();
+        if (item.action === 'open-affiliate-popup' && typeof window.openAffiliatePopup === 'function') {
+          window.openAffiliatePopup();
+          return;
+        }
         window.location.href = item.url;
       });
 

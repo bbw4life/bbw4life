@@ -118,9 +118,23 @@
   // se positionne alors relativement au header au lieu du viewport et
   // "tombe" sous le header au lieu de le recouvrir. On neutralise donc le
   // blur du header tant que la recherche mobile est ouverte.
+  // Voir plus bas pour l'explication complète — un input readonly est la
+  // seule garantie fiable (tous navigateurs/OS) qu'aucune saisie/clavier
+  // ne s'ouvre sur la barre compacte tant qu'elle n'est pas passée en
+  // mode overlay plein-largeur (.is-open).
+  function syncCompactSearchReadonly() {
+    if (!searchInput || !searchEl) return;
+    const isCompactMode = window.innerWidth <= 768 &&
+      searchEl.getAttribute('data-always-visible') === 'yes' &&
+      searchBar && !searchBar.classList.contains('is-open');
+    if (isCompactMode) searchInput.setAttribute('readonly', 'readonly');
+    else searchInput.removeAttribute('readonly');
+  }
+
   function setSearchOpen(open) {
     if (searchBar) searchBar.classList.toggle('is-open', open);
     if (headerEl)  headerEl.classList.toggle('bbw-header--search-open', open);
+    syncCompactSearchReadonly();
   }
 
   if (searchToggle) {
@@ -138,11 +152,14 @@
   }
 
   // Mode "always visible" mobile (barre compacte intégrée au header) :
-  // le champ compact ne doit JAMAIS être tapable directement — un tap
-  // dessus doit ouvrir le même overlay plein-largeur que le clic sur
-  // l'icône loupe, sans jamais laisser le clavier natif s'ouvrir sur la
-  // barre compacte elle-même (blur immédiat + réouverture sur le vrai
-  // champ une fois l'overlay affiché).
+  // le champ compact ne doit JAMAIS être tapable directement — readonly
+  // (posé par syncCompactSearchReadonly, cf. plus haut) empêche déjà tout
+  // clavier/saisie native ; ce listener se contente d'ouvrir l'overlay au
+  // tap, avant que le focus (bloqué par readonly de toute façon) ne
+  // puisse se produire.
+  syncCompactSearchReadonly();
+  window.addEventListener('resize', syncCompactSearchReadonly, { passive: true });
+
   if (searchInput) {
     searchInput.addEventListener('pointerdown', e => {
       const isCompactMode = window.innerWidth <= 768 && searchEl &&
@@ -150,7 +167,6 @@
         !searchBar.classList.contains('is-open');
       if (!isCompactMode) return;
       e.preventDefault();
-      searchInput.blur();
       setSearchOpen(true);
       setTimeout(() => searchInput.focus(), 100);
     });
@@ -1050,7 +1066,7 @@
     const shippingEl   = document.getElementById('promoBarShipping');
 
     if (affiliateEl) {
-      affiliateEl.textContent = `Become an Affiliate — Earn Per Click + a $${jackpot} Jackpot Bonus`;
+      affiliateEl.innerHTML = `<a href="/account.html" class="promo-bar__link">Become an Affiliate</a> — Earn Per Click + a $${jackpot} Jackpot Bonus`;
     }
     if (shippingEl) {
       shippingEl.textContent = `Free Worldwide Shipping on Orders Over $${shipping}`;

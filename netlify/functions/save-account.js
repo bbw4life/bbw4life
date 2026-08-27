@@ -493,6 +493,16 @@ exports.handler = async (event) => {
       const rowNum = rowIndex + 1;
 
       if (rowIndex !== -1) {
+        // Déjà abonné (colonne F = "Yes") — pas de doublon silencieux ni
+        // de renvoi de l'email de bienvenue à chaque nouvelle tentative.
+        const alreadySubscribed = normalize((rows[rowIndex] || [])[5] || "") === "yes";
+        if (alreadySubscribed) {
+          return {
+            statusCode: 200,
+            body: JSON.stringify({ success: false, error: "This email is already subscriber" })
+          };
+        }
+
         await sheets.spreadsheets.values.update({
           spreadsheetId,
           range: `bbw4life-accounts!F${rowNum}`,

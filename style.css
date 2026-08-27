@@ -3664,6 +3664,15 @@ body {
   bottom: 8%;
 }
 
+.col-qv-media .bbw-watermark {
+  font-size: clamp(16px, 4vw, 28px);
+}
+
+.cf-pc-img-wrap .bbw-watermark {
+  font-size: clamp(9px, 2.5vw, 13px);
+  bottom: 8%;
+}
+
 @media (max-width: 768px) {
   .bbw-watermark {
     font-size: clamp(14px, 4.5vw, 22px);
@@ -3682,6 +3691,13 @@ body {
   }
   .pdp-grid-card .bbw-watermark {
     font-size: clamp(9px, 2.5vw, 12px);
+    bottom: 8%;
+  }
+  .col-qv-media .bbw-watermark {
+    font-size: clamp(13px, 4vw, 20px);
+  }
+  .cf-pc-img-wrap .bbw-watermark {
+    font-size: clamp(8px, 2.5vw, 11px);
     bottom: 8%;
   }
 }
@@ -3866,13 +3882,29 @@ body {
     order: 999;
 }
 
-#bbw-widgets-dock > *:not(#bbw-widgets-dock-toggle) {
+#bbw-widgets-dock > *:not(#bbw-widgets-dock-toggle):not(#bbw-dock-help-icon) {
     position: static !important;
     left: auto !important;
     right: auto !important;
     bottom: auto !important;
     top: auto !important;
     display: none !important;
+}
+
+/* Point d'interrogation — visible au repos (dock fermé), juste au-dessus
+   du toggle ; masqué dès que le dock s'ouvre (cf. règle .bbw-dock--open
+   plus bas), pour ne pas se mêler aux icônes déployées. */
+#bbw-dock-help-icon {
+    width: 40px;
+    color: var(--bbw-gold, #B8925A);
+    font-weight: 900;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: 998;
+    pointer-events: none;
+    margin-bottom: -6px;
 }
 
 /* .bbw-dock-icon (wishlist/panier) a besoin de rester position:relative :
@@ -3899,6 +3931,10 @@ body {
    la classe .bbw-dock--open sur le parent pour ne s'appliquer qu'ouvert. */
 #bbw-widgets-dock.bbw-dock--open > .bbw-dock-icon:not(#bbw-widgets-dock-toggle) {
     display: flex !important;
+}
+
+#bbw-widgets-dock.bbw-dock--open > #bbw-dock-help-icon {
+    display: none !important;
 }
 
 /* Wishlist/panier réutilisent .bbw-icon-btn.icon-wrapper (header.css) tel

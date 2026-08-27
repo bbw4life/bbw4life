@@ -4592,7 +4592,7 @@ details[open] .chevron {
     opacity: 0.7;
 }
 #sanaica-banner-paul .sanaica-banner-paul-indicator.active {
-    background: #dd1260;
+    background: var(--bbw-gold, #B8925A);
     opacity: 1;
     transform: scale(1.2);
 }
@@ -6281,6 +6281,7 @@ body:has(.product-section) .bbw-footer {
         overflow: visible !important;
         white-space: nowrap !important;
         font-size: 11px !important;
+        max-width: none !important;
     }
 }
 

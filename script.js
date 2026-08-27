@@ -6647,6 +6647,17 @@ if (rcCheckoutBtn) {
         const satcSizeEl  = document.getElementById('satc-size');
         const satcMinus   = document.getElementById('satc-minus');
         const satcPlus    = document.getElementById('satc-plus');
+
+        // Coupe le nom de couleur après 6 lettres + "..." — mobile
+        // uniquement (le CSS gère déjà la troncature à l'ellipsis normale
+        // sur desktop via max-width, laissée intacte).
+        function setSatcColorName(name) {
+            if (!satcColorName) return;
+            const isMobile = window.innerWidth <= 640;
+            satcColorName.textContent = (isMobile && name.length > 6)
+                ? name.slice(0, 6) + '...'
+                : name;
+        }
         const satcQtyVal  = document.getElementById('satc-qty-val');
         const satcAddBtn  = document.getElementById('satc-add-btn');
         const satcBuyBtn  = document.getElementById('satc-buy-btn');
@@ -6701,7 +6712,7 @@ if (rcCheckoutBtn) {
                     satcSwatches.querySelectorAll('.satc-swatch').forEach(s => s.classList.remove('active'));
                     sw.classList.add('active');
                     satcSelectedColor = col.name;
-                    satcColorName.textContent = col.name;
+                    setSatcColorName(col.name);
                     if (col.image) satcImg.src = upgradeShopifyImageUrl(col.image);
                     updateSatcPrice();
                 });
@@ -6709,7 +6720,7 @@ if (rcCheckoutBtn) {
             });
             // Sélectionner la 1ère couleur par défaut
             satcSelectedColor = product.colors[0].name;
-            satcColorName.textContent = product.colors[0].name;
+            setSatcColorName(product.colors[0].name);
             if (product.colors.length > 3) {
                 satcSwatches.classList.add('overflow-active');
                 if (satcColorField) satcColorField.classList.add('satc-color-field--overflow');
@@ -13543,7 +13554,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         addMessage(aiReply, 'ai', products, showContact ? contactInfo : null, pageButtons, data.founderPhoto || null);
         if (escalate) addEscalationForm();
-        conversationHistory.push({ role: 'assistant', content: aiReply });
+
+        // Les product cards sont rendues côté frontend (image/prix/couleurs) et
+        // ne font jamais partie du texte aiReply — sans cette ligne, l'historique
+        // envoyé au modèle au tour suivant ne contient QUE la phrase d'intro
+        // ("Voici 3 super options !"), donc Claude ne sait plus quels produits il
+        // a réellement montrés dès que le client dit "montre-moi ceux-là" /
+        // "les 3 que tu m'as proposés" — d'où des réponses hors-sujet (bug
+        // observé : redirige vers les boutons contact au lieu des produits).
+        let historyContent = aiReply;
+        if (products.length) {
+          const shownList = products.map(p => `${p.title} ($${p.price})`).join(', ');
+          historyContent += `\n[Products shown to user in this reply: ${shownList}]`;
+        }
+        conversationHistory.push({ role: 'assistant', content: historyContent });
         try { sessionStorage.setItem('cf_history', JSON.stringify(conversationHistory.slice(-20))); } catch(e) {}
 
         if (conversationHistory.length > 20) {
@@ -16377,6 +16401,12 @@ function injectColFbt() {
 
     /* ── 13. FBT cards (collections page) ── */
     document.querySelectorAll('.col-fbt-card__img').forEach(injectOnImg);
+
+    /* ── 14. Quick View (collections page) ── */
+    document.querySelectorAll('.col-qv-media').forEach(inject);
+
+    /* ── 15. Chat product cards ── */
+    document.querySelectorAll('.cf-pc-img-wrap').forEach(inject);
   }
 
   /* ── Lancer quand products est prêt ── */
@@ -16437,7 +16467,7 @@ function injectColFbt() {
       '.col-card__media, .bbwpg-card__img-wrap, ' +
       '.cs-media, .rv-card__img-wrap, .fs-img-frame, .mini-media-slider, ' +
       '.cart-item-img-wrap, .cp-item-img-wrap, .drawer-extra-card__img-wrap, .cp-extra-card__img-wrap, ' +
-      '.highlight-product-card'
+      '.highlight-product-card, .col-qv-media, .cf-pc-img-wrap'
     ).forEach(inject);
 
     document.querySelectorAll('.col-rv-card__img, .col-fbt-card__img').forEach(injectOnImg);
@@ -16466,7 +16496,7 @@ function injectColFbt() {
     '.cart-item-img-wrap, .cp-item-img-wrap, .drawer-extra-card__img-wrap, .cp-extra-card__img-wrap, ' +
     '.highlight-product-card, .product-card, ' +
     '.bbw-nb-card__media, .jrgq-gal-img-wrap, .imq-card, ' +
-    '.col-hero__media';
+    '.col-hero__media, .col-qv-media, .cf-pc-img-wrap';
   const IMG_WRAP_SELECTORS = '.col-rv-card__img, .col-fbt-card__img';
   /* Conteneurs mixtes (image + texte côte à côte, ex: flex) : on entoure
      seulement l'<img> d'un wrapper dédié, pour ne pas recouvrir le texte. */

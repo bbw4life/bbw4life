@@ -194,6 +194,8 @@
     <span class="bbw-badge cart-badge">0</span>
   </div>
 
+  <div id="bbw-dock-help-icon" aria-hidden="true">?</div>
+
   <button id="bbw-widgets-dock-toggle" aria-label="Show/hide widgets" aria-expanded="false">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="18 15 12 9 6 15"/>

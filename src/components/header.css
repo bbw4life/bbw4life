@@ -228,6 +228,15 @@ body {
   min-width: 0;
 }
 
+.promo-bar__link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.promo-bar__link:hover {
+  color: var(--bbw-gold, #B8925A);
+}
+
 .promo-bar__item i {
   font-size: 13px;
   color: var(--bbw-gold);

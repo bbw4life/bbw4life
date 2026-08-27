@@ -357,9 +357,19 @@
   font-weight: 700;
   letter-spacing: 0.20em;
   text-transform: uppercase;
-  color: var(--blog-gold-light);
+  color: #fff;
   margin-bottom: 8px;
-  opacity: 0.90;
+  opacity: 1;
+  /* Ancien style : police manuscrite fine (Alex Brush) + doré translucide
+     directement sur la photo — illisible sur fond clair, peu importe le
+     chargement de la police. Badge net à la place : fond sombre en
+     pilule + texte droit blanc, garantit le contraste peu importe la
+     photo derrière. */
+  background: rgba(21,17,14,0.55);
+  border: 1px solid rgba(184,146,90,0.55);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-family: var(--font-body, 'Inter', sans-serif);
 }
 
 /* Magazine masthead — hero signature, distinct from the

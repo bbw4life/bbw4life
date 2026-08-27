@@ -1421,5 +1421,13 @@
   "keywords": ["polka dot blouse", "belted trouser set", "wide leg pants set", "polkadotblouse", "navy polka dot", "power look", "ensemble à pois", "product110"],
   "type": "product",
   "icon": "fas fa-tag"
+},
+{
+  "title": "Affiliate Program",
+  "url": "#",
+  "action": "open-affiliate-popup",
+  "keywords": ["affiliate", "become affiliate", "affiliate program", "earn %", "earn commission", "referral", "make money", "partner", "affiliation"],
+  "type": "program",
+  "icon": "fas fa-bullhorn"
 }
 ]

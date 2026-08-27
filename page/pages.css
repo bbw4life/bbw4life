@@ -913,7 +913,7 @@
 }
 
 .detailed-testimonials-section {
-    padding: var(--os-section-space) 0;
+    padding: calc(var(--os-section-space) * 0.55) 0;
     background: var(--os-ivory);
 }
 
@@ -3810,6 +3810,15 @@
 .au-marquee-strip--rose .au-mq-item i { color: var(--au-rose-light); }
 .au-marquee-strip--gold .au-mq-item  { color: #15110E; }
 .au-marquee-strip--gold .au-mq-item i { color: #15110E; opacity: 0.70; }
+.au-marquee-strip--gold .au-mq-item [data-stat-text] {
+  color: #15110E !important;
+  -webkit-text-fill-color: #15110E !important;
+}
+.au-marquee-strip--warm .au-mq-item [data-stat-text],
+.au-marquee-strip--rose .au-mq-item [data-stat-text] {
+  color: rgba(255,255,255,0.75) !important;
+  -webkit-text-fill-color: rgba(255,255,255,0.75) !important;
+}
 
 .au-mq-sep {
   color: var(--au-gold);
