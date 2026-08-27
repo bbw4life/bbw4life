@@ -3882,7 +3882,7 @@ body {
     order: 999;
 }
 
-#bbw-widgets-dock > *:not(#bbw-widgets-dock-toggle):not(#bbw-dock-help-icon) {
+#bbw-widgets-dock > *:not(#bbw-widgets-dock-toggle) {
     position: static !important;
     left: auto !important;
     right: auto !important;
@@ -3893,13 +3893,18 @@ body {
 
 /* Point d'interrogation — visible au repos (dock fermé), juste au-dessus
    du toggle ; masqué dès que le dock s'ouvre (cf. règle .bbw-dock--open
-   plus bas), pour ne pas se mêler aux icônes déployées. */
-#bbw-dock-help-icon {
+   plus bas), pour ne pas se mêler aux icônes déployées.
+   #bbw-widgets-dock > #bbw-dock-help-icon (spécificité 2 IDs) est
+   nécessaire ici — la règle générique "fermé" juste au-dessus
+   (#bbw-widgets-dock > *:not(#bbw-widgets-dock-toggle)) compte 2 IDs
+   elle aussi (:not(#id) compte comme un ID), donc un simple
+   #bbw-dock-help-icon (1 ID) perdait face à elle malgré !important. */
+#bbw-widgets-dock > #bbw-dock-help-icon {
     width: 40px;
     color: var(--bbw-gold, #B8925A);
     font-weight: 900;
     font-size: 20px;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     order: 998;
@@ -3920,8 +3925,10 @@ body {
 /* .bbw-dock-icon (wishlist/panier) exclu ici : leur display d'ouverture
    (flex, pour centrer le SVG dans le cercle) est fixé par la règle dédiée
    juste en dessous, pas par un revert générique qui les ramènerait au
-   display natif de <div> (block). */
-#bbw-widgets-dock.bbw-dock--open > *:not(#bbw-widgets-dock-toggle):not(.bbw-dock-icon) {
+   display natif de <div> (block). #bbw-dock-help-icon exclu aussi : il
+   doit rester masqué à l'ouverture (règle dédiée plus bas), pas revenir
+   à son display normal comme les autres widgets. */
+#bbw-widgets-dock.bbw-dock--open > *:not(#bbw-widgets-dock-toggle):not(.bbw-dock-icon):not(#bbw-dock-help-icon) {
     display: revert !important;
 }
 
@@ -3933,6 +3940,8 @@ body {
     display: flex !important;
 }
 
+/* 3 IDs (#bbw-widgets-dock + .bbw-dock--open + #bbw-dock-help-icon) —
+   bat clairement la règle "visible par défaut" ci-dessus (2 IDs). */
 #bbw-widgets-dock.bbw-dock--open > #bbw-dock-help-icon {
     display: none !important;
 }

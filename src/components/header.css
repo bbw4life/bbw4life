@@ -299,11 +299,16 @@ body {
 /* Neutralise le blur pendant que la recherche mobile est ouverte : un
    backdrop-filter actif sur ce conteneur casse le position:fixed de
    .bbw-search__bar (nouveau containing block), qui se retrouve alors
-   collée au header au lieu de couvrir tout le haut de l'écran. */
+   collée au header au lieu de couvrir tout le haut de l'écran.
+   transition: none est nécessaire ici — sinon backdrop-filter transitionne
+   sur 0.45s (hérité de .bbw-header) et le containing block bascule de
+   façon intermittente pendant l'animation, provoquant un flash où la
+   barre de recherche apparaît puis "retombe" avant de se stabiliser. */
 .bbw-header--search-open.bbw-header--scrolled {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   background-color: var(--bbw-black);
+  transition: none;
 }
 
 .bbw-header__topline {
