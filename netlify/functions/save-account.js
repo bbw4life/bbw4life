@@ -2,12 +2,9 @@
 process.removeAllListeners('warning');
 const crypto = require('crypto');
 const { google } = require('googleapis');
-const { OAuth2Client } = require('google-auth-library');
-const { verifyAccountToken, generateAccountToken, generateConfirmToken, verifyConfirmToken } = require('./account-token');
+const { verifyAccountToken, generateConfirmToken, verifyConfirmToken } = require('./account-token');
 const { notifyWelcome, notifyNewsletter1, notifyConfirmEmail, notifyPasswordReset } = require('./notify-email');
 const { hashPassword, verifyPassword, isHashedPassword } = require('./_lib/password');
-
-const googleOAuthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // ── Confirmation directe dans le fil Telegram du client (pas la Web App
 // elle-même) après signup_via_telegram / link_telegram — le message reste
@@ -672,106 +669,6 @@ exports.handler = async (event) => {
       await sendTelegramConfirmation(telegramChatId, `🎉 Welcome to BBW4LIFE, ${normalize(firstName)}! Your account has been created successfully and is now linked to Telegram — order confirmations, tracking numbers, new arrivals and exclusive promos will be sent right here.`);
 
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
-    }
-
-    // ==================== GOOGLE SIGN-IN (login + signup unifiés) ====================
-    // L'ID token Google prouve déjà la possession de l'email (comme
-    // signup_via_telegram prouve via Telegram) — donc pas de mot de passe
-    // classique requis et confirmation email sautée d'office. Si le compte
-    // existe déjà (créé en email/password ou via Google précédemment), on
-    // se contente de le retrouver et de renvoyer un token de session, sans
-    // jamais dupliquer la ligne (même principe que link_telegram).
-    if (action === 'auth-google') {
-      const { credential } = body;
-      if (!credential) throw new Error("Google credential required");
-      if (!process.env.GOOGLE_CLIENT_ID) throw new Error("Google sign-in not configured");
-
-      let payload;
-      try {
-        const ticket = await googleOAuthClient.verifyIdToken({
-          idToken: credential,
-          audience: process.env.GOOGLE_CLIENT_ID
-        });
-        payload = ticket.getPayload();
-      } catch (e) {
-        console.warn('[auth-google] Invalid Google credential:', e.message);
-        return { statusCode: 401, body: JSON.stringify({ success: false, error: 'INVALID_GOOGLE_TOKEN' }) };
-      }
-
-      if (!payload || !payload.email) {
-        return { statusCode: 401, body: JSON.stringify({ success: false, error: 'INVALID_GOOGLE_TOKEN' }) };
-      }
-      if (payload.email_verified === false) {
-        return { statusCode: 401, body: JSON.stringify({ success: false, error: 'GOOGLE_EMAIL_NOT_VERIFIED' }) };
-      }
-
-      const googleEmail     = normalize(payload.email);
-      const googleFirstName = normalize(payload.given_name || '');
-      const googleLastName  = normalize(payload.family_name || '');
-      const existingIdx     = rows.findIndex(row => normalize(row[2] || "") === googleEmail);
-
-      let userRow;
-      if (existingIdx !== -1) {
-        // Compte déjà existant (email/password ou Google précédent) — on se
-        // contente de s'y connecter, sans rien écraser.
-        userRow = rows[existingIdx];
-
-        // Si le compte n'était pas encore confirmé (créé via signup classique
-        // sans avoir cliqué le lien email), Google vient de prouver l'email :
-        // on le débloque au passage plutôt que de laisser le client coincé.
-        const emailConfirmed = (userRow[31] || '').toLowerCase().trim();
-        if (emailConfirmed !== 'yes') {
-          await sheets.spreadsheets.values.update({
-            spreadsheetId,
-            range: `bbw4life-accounts!AF${existingIdx + 1}`,
-            valueInputOption: "RAW",
-            resource: { values: [["yes"]] }
-          });
-        }
-      } else {
-        // Google fournit toujours l'email vérifié — le client ne passe pas
-        // par la checkbox newsletter classique du signup, donc on l'abonne
-        // automatiquement d'office (colonne F = "Yes") plutôt que de le
-        // laisser jamais rejoindre la liste faute d'avoir vu cette case.
-        const memberSince = formatDate();
-        const values = [[
-          googleLastName, googleFirstName, googleEmail, "", "", "Yes",
-          0, 0, 0, "", "", "", "", "", 0, memberSince, "[]"
-        ]];
-        await sheets.spreadsheets.values.append({
-          spreadsheetId, range: "bbw4life-accounts!A:Z", valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", resource: { values }
-        });
-
-        const newRowNum = rows.length + 1;
-        const newsletterScheduledAt = new Date(Date.now() + 2 * 60 * 1000).toISOString();
-        await sheets.spreadsheets.values.update({
-          spreadsheetId,
-          range: `bbw4life-accounts!AF${newRowNum}:AJ${newRowNum}`,
-          valueInputOption: "RAW",
-          resource: { values: [["yes", "no", "no", newsletterScheduledAt, "no"]] }
-        });
-
-        await notifyWelcome({ email: googleEmail, firstName: googleFirstName }).catch((e) => {
-          console.warn('[auth-google] notifyWelcome failed:', e.message);
-        });
-
-        userRow = [googleLastName, googleFirstName, googleEmail, "", "", "Yes", 0, 0, 0, "", "", "", "", ""];
-      }
-
-      const user = {
-        lastName:     userRow[0]  || "",
-        firstName:    userRow[1]  || "",
-        email:        userRow[2]  || "",
-        phone:        userRow[3]  || "",
-        addressLine1: userRow[9]  || "",
-        line2:        userRow[10] || "",
-        city:         userRow[11] || "",
-        state:        userRow[12] || "",
-        zip:          userRow[13] || ""
-      };
-      const token = generateAccountToken(user.email);
-
-      return { statusCode: 200, body: JSON.stringify({ success: true, user, token }) };
     }
 
   if (action === 'aff-create') {

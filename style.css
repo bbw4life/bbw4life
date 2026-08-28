@@ -4504,39 +4504,6 @@ body {
         0 1px 0 rgba(255,255,255,0.40) inset;
 }
 
-.paul-divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 12px 0;
-    color: rgba(255,255,255,0.45);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-.paul-divider::before,
-.paul-divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
-}
-
-.paul-divider span {
-    padding: 0 12px;
-}
-
-.paul-google-btn-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 6px;
-}
-
-.paul-google-btn-wrapper > div {
-    width: 100% !important;
-}
-
 .paul-btn:active {
     transform: scale(0.98) !important;
     box-shadow: inset 0 2px 8px rgba(0,0,0,0.25) !important;
