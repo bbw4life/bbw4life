@@ -122,7 +122,7 @@ exports.handler = async (event) => {
       return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear().toString().slice(-2)}`;
     }
 
-    const res = await sheets.spreadsheets.values.get({ spreadsheetId, range: "bbw4life-accounts!A:AF" });
+    const res = await sheets.spreadsheets.values.get({ spreadsheetId, range: "bbw4life-accounts!A:AK" });
     let rows = res.data.values || [];
     const rowIndex = rows.findIndex(row => normalize(row[2] || "") === normalize(email));
     const rowNum = rowIndex + 1;
@@ -570,7 +570,86 @@ exports.handler = async (event) => {
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
 
+    // ==================== TELEGRAM — LINK EXISTING ACCOUNT ====================
+    // Appelé par telegram-webhook.js quand un client déjà connecté clique
+    // "Add me on Telegram" (/start acct_<email base64>) — associe juste le
+    // chat_id reçu à son compte existant, colonne AK.
+    if (action === 'link_telegram') {
+      const { telegramChatId } = body;
+      if (!email || !telegramChatId) throw new Error("email and telegramChatId are required");
+      if (rowIndex === -1) {
+        return { statusCode: 200, body: JSON.stringify({ success: false, error: 'ACCOUNT_NOT_FOUND' }) };
+      }
 
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `bbw4life-accounts!AK${rowNum}`,
+        valueInputOption: "RAW",
+        resource: { values: [[String(telegramChatId)]] }
+      });
+
+      return { statusCode: 200, body: JSON.stringify({ success: true }) };
+    }
+
+    // ==================== TELEGRAM — SIGNUP VIA WEB APP ====================
+    // Appelé depuis telegram-signup.html (Telegram Web App) quand un client
+    // sans compte remplit le formulaire ouvert via le bouton "Create my
+    // BBW4LIFE account" — crée le compte comme un signup classique, coche
+    // automatiquement newsletter=Yes, et associe le chat_id dans la même
+    // opération (colonne AK). Pas de double confirmation email requise ici :
+    // le client vient de prouver la possession de son compte Telegram, et le
+    // mot de passe est retiré côté Telegram juste après envoi (cf. plan).
+    if (action === 'signup_via_telegram') {
+      const { telegramChatId } = body;
+      if (!lastName || !firstName || !email || !password || !telegramChatId) {
+        throw new Error("Missing required fields");
+      }
+
+      if (rowIndex !== -1) {
+        // Email déjà existant — on associe simplement ce chat_id au compte
+        // trouvé plutôt que de bloquer avec une erreur (le client a
+        // volontairement redonné son email pour se relier à Telegram).
+        await sheets.spreadsheets.values.update({
+          spreadsheetId,
+          range: `bbw4life-accounts!AK${rowNum}`,
+          valueInputOption: "RAW",
+          resource: { values: [[String(telegramChatId)]] }
+        });
+        return { statusCode: 200, body: JSON.stringify({ success: true, linkedExisting: true }) };
+      }
+
+      const passNormalized = normalize(password);
+      const passHashed = hashPassword(passNormalized);
+      const memberSince = formatDate();
+      const values = [[normalize(lastName), normalize(firstName), normalize(email), normalize(phone), passHashed, "Yes",
+                       0, 0, 0, "", "", "", "", "", 0, memberSince, "[]"]];
+      await sheets.spreadsheets.values.append({
+        spreadsheetId, range: "bbw4life-accounts!A:Z", valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", resource: { values }
+      });
+
+      const newRowNum = rows.length + 1;
+      const newsletterScheduledAt = new Date(Date.now() + 2 * 60 * 1000).toISOString();
+
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `bbw4life-accounts!AF${newRowNum}:AK${newRowNum}`,
+        valueInputOption: "RAW",
+        resource: { values: [[
+          "yes",  // Email confirmé d'office — le client a déjà prouvé sa présence via Telegram
+          "no",
+          "no",
+          newsletterScheduledAt,
+          "no",
+          String(telegramChatId)
+        ]] }
+      });
+
+      await notifyWelcome({ email, firstName }).catch((e) => {
+        console.warn('[signup_via_telegram] notifyWelcome failed:', e.message);
+      });
+
+      return { statusCode: 200, body: JSON.stringify({ success: true }) };
+    }
 
   if (action === 'aff-create') {
   if (!email) throw new Error("Email required");

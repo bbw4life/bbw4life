@@ -1110,3 +1110,49 @@
   window.addEventListener('resize', syncPromoBarHeight, { passive: true });
 
 })();
+
+
+/* ──────────────────────────────────────────────────────────────
+   TELEGRAM — "Add me on Telegram" (drawer menu footer)
+   Connecté : payload encode l'email (compte connu) → le webhook
+   associe directement le chat_id reçu à ce compte.
+   Non connecté : payload = "new" → le webhook envoie un message
+   avec un bouton Web App qui ouvre telegram-signup.html.
+────────────────────────────────────────────────────────────── */
+(function initTelegramDrawerButton() {
+  const btn = document.getElementById('bbwTelegramBtn');
+  if (!btn) return;
+
+  function run() {
+    const allProducts = window.__allProducts || [];
+    const settings = allProducts.find(p => p.type === 'settings') || {};
+    const botUsername = settings.telegram_bot_username || '';
+    if (!botUsername) return;
+
+    let email = '';
+    try { email = localStorage.getItem('userEmail') || ''; } catch (e) {}
+
+    // start= n'accepte que [A-Za-z0-9_-] côté Telegram — encode l'email
+    // en base64 (URL-safe) plutôt que de le passer en clair.
+    const payload = email
+      ? 'acct_' + btoa(email).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+      : 'new';
+
+    btn.href = `https://t.me/${botUsername}?start=${payload}`;
+  }
+
+  if (window.__allProducts && window.__allProducts.length) {
+    run();
+  } else {
+    let tries = 0;
+    const wait = setInterval(() => {
+      if (window.__allProducts && window.__allProducts.length) {
+        clearInterval(wait);
+        run();
+      } else if (++tries > 60) {
+        clearInterval(wait);
+        run();
+      }
+    }, 100);
+  }
+})();
