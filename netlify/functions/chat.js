@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const path  = require('path');
 const fs    = require('fs');
 const { notifyTelegram } = require('./notify-telegram');
+const { generateChatId, appendLiveChatRow } = require('./_lib/live-chat-sheet');
 
 
 async function loadProductsData() {
@@ -1352,19 +1353,64 @@ async function handleHumanEscalation(body, headers) {
   const lastName  = (body.lastName  || '').trim();
   const email     = (body.email     || '').trim();
   const phone     = (body.phone     || '').trim();
+  const deviceId  = (body.deviceId  || '').trim();
 
   if (!firstName || !email) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'firstName and email are required' }) };
   }
 
+  const chatId = generateChatId();
   const fullName = [firstName, lastName].filter(Boolean).join(' ');
+
+  // Ligne d'ouverture de session (status="pending" jusqu'à la 1ère réponse
+  // agent, cf. telegram-webhook.js) — c'est cette ligne que
+  // setLiveChatStatus() met à jour ensuite (pending → answered → closed).
+  // deviceId permet au webhook de retrouver la Push_Subscriptions du bon
+  // visiteur pour le notifier quand l'agent répond.
+  try {
+    await appendLiveChatRow(chatId, 'client', `[Live chat started by ${fullName}]`, 'pending', deviceId);
+  } catch (e) {
+    console.error('[live-chat] Failed to open session in sheet:', e.message);
+    // On continue quand même — le client aura au moins reçu la notification
+    // Telegram, même si le suivi live (polling/replies) ne fonctionnera pas.
+  }
+
   const message =
     `${fullName} — un client persiste pour te parler, PDG Francenel.\n` +
     `Il est en ligne maintenant, tu peux lui écrire.\n` +
     `Email : ${email}\n` +
-    `Téléphone/WhatsApp : ${phone || 'non fourni'}`;
+    `Téléphone/WhatsApp : ${phone || 'non fourni'}\n\n` +
+    `💬 Pour lui répondre EN DIRECT dans son chat sur le site, commence chaque message par :\n` +
+    `<code>${chatId}:</code> ton message\n` +
+    `Exemple : <code>${chatId}: Bonjour ! Comment puis-je vous aider ?</code>\n\n` +
+    `Pour terminer la conversation live : <code>${chatId}: CLOSE</code>`;
 
   await notifyTelegram(message);
+
+  return { statusCode: 200, headers, body: JSON.stringify({ success: true, chatId }) };
+}
+
+/* Message du client tapé APRÈS l'escalade (pendant que le live chat est
+   actif) — part directement dans le sheet pour que l'agent le voie côté
+   Telegram (via un digest, ou simplement en le consultant), sans passer
+   par l'IA. Notifie aussi Telegram pour que l'agent voie le message sans
+   avoir à rafraîchir le sheet manuellement. */
+async function handleLiveChatMessage(body, headers) {
+  const chatId = (body.chatId || '').trim();
+  const text    = (body.message || '').trim();
+
+  if (!chatId || !text) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'chatId and message are required' }) };
+  }
+
+  try {
+    await appendLiveChatRow(chatId, 'client', text, '');
+  } catch (e) {
+    console.error('[live-chat] Failed to save client message:', e.message);
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to send message' }) };
+  }
+
+  await notifyTelegram(`💬 <code>${chatId}</code> — nouveau message du client :\n${text}`);
 
   return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
 }
@@ -1405,6 +1451,10 @@ exports.handler = async (event, context) => {
 
     if (action === 'human_escalation') {
       return await handleHumanEscalation(JSON.parse(event.body), headers);
+    }
+
+    if (action === 'live_chat_message') {
+      return await handleLiveChatMessage(JSON.parse(event.body), headers);
     }
 
     if (!message || message.trim().length === 0) {

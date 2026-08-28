@@ -5281,6 +5281,31 @@ body {
   position: relative;
 }
 
+.cf-live-chat-badge {
+  position: absolute;
+  bottom: 6px;
+  left: 66px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #6bd97a;
+  letter-spacing: 0.02em;
+}
+.cf-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6bd97a;
+  box-shadow: 0 0 6px #6bd97a;
+  animation: cfLiveDotPulse 1.6s ease-in-out infinite;
+}
+@keyframes cfLiveDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.8); }
+}
+
 .cf-chat-header::after {
   content: '';
   position: absolute;

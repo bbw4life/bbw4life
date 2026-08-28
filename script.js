@@ -12867,6 +12867,20 @@ document.addEventListener('DOMContentLoaded', function () {
     let conversationHistory = [];
     try { conversationHistory = JSON.parse(sessionStorage.getItem('cf_history') || '[]'); } catch(e) {}
 
+    /* ── LIVE CHAT — état + polling ──
+       Tant que liveChatId est défini, les messages tapés par le client
+       partent vers l'action 'live_chat_message' (agent humain) au lieu
+       de l'IA. Le polling continue tant que la page reste ouverte, même
+       si le widget de chat est réduit (cf. demande explicite) — d'où son
+       intervalle géré hors de la logique d'ouverture/fermeture du widget. */
+    let liveChatId = null;
+    let liveChatPollTimer = null;
+    let liveChatLastCount = 0;
+    try {
+      liveChatId = sessionStorage.getItem('cf_live_chat_id') || null;
+      liveChatLastCount = parseInt(sessionStorage.getItem('cf_live_chat_seen') || '0', 10) || 0;
+    } catch(e) {}
+
     /* ── Client-side language detection ── */
     function detectUILanguage(text) {
       const t = (text || '').toLowerCase().trim();
@@ -13426,6 +13440,82 @@ document.addEventListener('DOMContentLoaded', function () {
     function hideTyping()  { if (typing) typing.style.display = 'none'; }
 
     /* ── Human escalation inline form ── */
+    /* ── LIVE CHAT ── */
+    function startLiveChat(chatId) {
+      liveChatId = chatId;
+      liveChatLastCount = 0;
+      try {
+        sessionStorage.setItem('cf_live_chat_id', chatId);
+        sessionStorage.setItem('cf_live_chat_seen', '0');
+      } catch(e) {}
+      showLiveChatIndicator(true);
+      if (liveChatPollTimer) clearInterval(liveChatPollTimer);
+      liveChatPollTimer = setInterval(pollLiveChat, 4000);
+      pollLiveChat();
+    }
+
+    function stopLiveChat() {
+      liveChatId = null;
+      liveChatLastCount = 0;
+      try {
+        sessionStorage.removeItem('cf_live_chat_id');
+        sessionStorage.removeItem('cf_live_chat_seen');
+      } catch(e) {}
+      showLiveChatIndicator(false);
+      if (liveChatPollTimer) { clearInterval(liveChatPollTimer); liveChatPollTimer = null; }
+    }
+
+    function showLiveChatIndicator(on) {
+      const header = document.querySelector('.cf-chat-header');
+      if (!header) return;
+      let badge = header.querySelector('.cf-live-chat-badge');
+      if (on) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'cf-live-chat-badge';
+          badge.innerHTML = '<span class="cf-live-dot"></span> Agent en ligne';
+          header.appendChild(badge);
+        }
+      } else if (badge) {
+        badge.remove();
+      }
+    }
+
+    async function pollLiveChat() {
+      if (!liveChatId) return;
+      try {
+        const res = await fetch(`/.netlify/functions/get-live-chat-messages?chatId=${encodeURIComponent(liveChatId)}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data.success) return;
+
+        const newMessages = (data.messages || []).slice(liveChatLastCount);
+        newMessages.forEach(m => {
+          addMessage(m.message, 'ai', [], null, []);
+        });
+        if (newMessages.length) {
+          liveChatLastCount = data.messages.length;
+          try { sessionStorage.setItem('cf_live_chat_seen', String(liveChatLastCount)); } catch(e) {}
+        }
+
+        if (data.status === 'closed') {
+          addMessage("Cette conversation en direct est terminée. Je reprends le relais — n'hésite pas si tu as d'autres questions ! 😊", 'ai', [], null, []);
+          stopLiveChat();
+        }
+      } catch (err) {
+        console.warn('Live chat poll error:', err);
+      }
+    }
+
+    // Reprend le polling au chargement de page si une session live chat
+    // était déjà active (widget rouvert, page rafraîchie tant qu'elle
+    // reste ouverte).
+    if (liveChatId) {
+      showLiveChatIndicator(true);
+      liveChatPollTimer = setInterval(pollLiveChat, 4000);
+      pollLiveChat();
+    }
+
     function addEscalationForm() {
       const msgEl = document.createElement('div');
       msgEl.className = 'cf-message cf-message--ai';
@@ -13456,7 +13546,8 @@ document.addEventListener('DOMContentLoaded', function () {
           firstName: form.firstName.value.trim(),
           lastName:  form.lastName.value.trim(),
           email:     form.email.value.trim(),
-          phone:     form.phone.value.trim()
+          phone:     form.phone.value.trim(),
+          deviceId:  bbwGetPushDeviceId()
         };
 
         try {
@@ -13466,10 +13557,13 @@ document.addEventListener('DOMContentLoaded', function () {
             body:    JSON.stringify(payload)
           });
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
 
           try { sessionStorage.setItem('cf_escalated', 'true'); } catch(e) {}
           form.remove();
           addMessage("Merci ! 🙏 J'ai prévenu notre équipe, ils te contactent très bientôt.", 'ai', [], null, []);
+
+          if (data.chatId) startLiveChat(data.chatId);
         } catch (err) {
           console.error('Escalation error:', err);
           submitBtn.disabled = false;
@@ -13509,9 +13603,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
       input.value      = '';
       input.style.height = 'auto';
+      clearPendingImage();
+
+      // ── LIVE CHAT actif : le message part vers l'agent humain (Telegram),
+      // pas vers l'IA. Comportement transparent pour le client — même champ,
+      // même bulle, juste une notification Telegram côté agent au lieu d'une
+      // réponse IA. ──
+      if (liveChatId) {
+        sendBtn.disabled = true;
+        isLoading = true;
+        try {
+          await fetch('/.netlify/functions/chat', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ action: 'live_chat_message', chatId: liveChatId, message: text })
+          });
+        } catch (err) {
+          console.warn('Live chat send error:', err);
+        } finally {
+          sendBtn.disabled = false;
+          isLoading = false;
+        }
+        return;
+      }
+
       sendBtn.disabled = true;
       isLoading        = true;
-      clearPendingImage();
 
       showTyping();
 
