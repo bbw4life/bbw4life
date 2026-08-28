@@ -5934,6 +5934,15 @@ body {
   flex-shrink: 0;
 }
 
+.cf-live-chat-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--bbw-gold, #B8925A);
+  margin-bottom: 6px;
+}
+
 .cf-escalation-form {
   display: flex;
   flex-direction: column;

@@ -5604,7 +5604,6 @@ if (window.innerWidth <= 768) {
           <span class="verified-badge">${googleSVG}</span>
         </div>
         <p class="review-text">"${r.text}"</p>
-        <span class="review-date">${r.date}</span>
       </div>`;
 
     container.appendChild(item);
@@ -13440,7 +13439,29 @@ document.addEventListener('DOMContentLoaded', function () {
     function hideTyping()  { if (typing) typing.style.display = 'none'; }
 
     /* ── Human escalation inline form ── */
-    /* ── LIVE CHAT ── */
+    /* ── LIVE CHAT ──
+       Fermeture auto après 2 minutes SANS message du client (pas de
+       l'agent) — le timer redémarre à chaque message que le client
+       envoie (formulaire d'escalade, puis chaque message tapé pendant
+       la session), pas à chaque réponse agent reçue. */
+    const LIVE_CHAT_INACTIVITY_MS = 2 * 60 * 1000;
+    let liveChatInactivityTimer = null;
+
+    function markLiveChatClientActivity() {
+      try { sessionStorage.setItem('cf_live_chat_last_activity', String(Date.now())); } catch(e) {}
+      if (liveChatInactivityTimer) clearTimeout(liveChatInactivityTimer);
+      liveChatInactivityTimer = setTimeout(onLiveChatInactivityTimeout, LIVE_CHAT_INACTIVITY_MS);
+    }
+
+    // Simple avertissement affiché après 2 minutes sans message du client —
+    // ne ferme PAS la session : le polling continue, l'agent peut toujours
+    // répondre, seule une commande CLOSE explicite dans Telegram termine
+    // réellement le live chat (cf. telegram-webhook.js).
+    function onLiveChatInactivityTimeout() {
+      if (!liveChatId) return;
+      addMessage("Just checking in — are you still there? Your live chat is still open, so feel free to keep typing whenever you're ready! 😊", 'ai', [], null, []);
+    }
+
     function startLiveChat(chatId) {
       liveChatId = chatId;
       liveChatLastCount = 0;
@@ -13452,6 +13473,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (liveChatPollTimer) clearInterval(liveChatPollTimer);
       liveChatPollTimer = setInterval(pollLiveChat, 4000);
       pollLiveChat();
+      markLiveChatClientActivity();
     }
 
     function stopLiveChat() {
@@ -13460,9 +13482,11 @@ document.addEventListener('DOMContentLoaded', function () {
       try {
         sessionStorage.removeItem('cf_live_chat_id');
         sessionStorage.removeItem('cf_live_chat_seen');
+        sessionStorage.removeItem('cf_live_chat_last_activity');
       } catch(e) {}
       showLiveChatIndicator(false);
       if (liveChatPollTimer) { clearInterval(liveChatPollTimer); liveChatPollTimer = null; }
+      if (liveChatInactivityTimer) { clearTimeout(liveChatInactivityTimer); liveChatInactivityTimer = null; }
     }
 
     function showLiveChatIndicator(on) {
@@ -13509,11 +13533,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Reprend le polling au chargement de page si une session live chat
     // était déjà active (widget rouvert, page rafraîchie tant qu'elle
-    // reste ouverte).
+    // reste ouverte) — le timer d'inactivité tient compte du temps déjà
+    // écoulé depuis le dernier message client, pas d'un redémarrage à 0.
     if (liveChatId) {
       showLiveChatIndicator(true);
       liveChatPollTimer = setInterval(pollLiveChat, 4000);
       pollLiveChat();
+
+      let lastActivity = 0;
+      try { lastActivity = parseInt(sessionStorage.getItem('cf_live_chat_last_activity') || '0', 10); } catch(e) {}
+      const elapsed = lastActivity ? (Date.now() - lastActivity) : 0;
+      const remaining = Math.max(0, LIVE_CHAT_INACTIVITY_MS - elapsed);
+      liveChatInactivityTimer = setTimeout(onLiveChatInactivityTimeout, remaining);
     }
 
     function addEscalationForm() {
@@ -13522,7 +13553,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const bubble = document.createElement('div');
       bubble.className = 'cf-msg-bubble';
-      bubble.innerHTML = 'Laisse-moi te connecter à notre équipe — donne-moi juste quelques minutes. Peux-tu me laisser tes coordonnées ? 🙏';
+      bubble.innerHTML = '<span class="cf-live-chat-title">💬 Live Chat</span>Laisse-moi te connecter à notre équipe — donne-moi juste quelques minutes. Peux-tu me laisser tes coordonnées ? 🙏';
       msgEl.appendChild(bubble);
 
       const form = document.createElement('form');
@@ -13610,6 +13641,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // même bulle, juste une notification Telegram côté agent au lieu d'une
       // réponse IA. ──
       if (liveChatId) {
+        markLiveChatClientActivity();
         sendBtn.disabled = true;
         isLoading = true;
         try {
@@ -13662,11 +13694,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const contactInfo = data.contactInfo || null;
         const pageButtons = data.pageButtons || [];
 
+        // Dès la 1ère demande de contact humain, on propose déjà le live
+        // chat (avant : fallait redemander 2 fois) — ce petit formulaire
+        // capte des emails plus vite pour le marketing, autant le montrer
+        // tout de suite plutôt que de faire attendre le client.
         let escalate = false;
         if (showContact) {
-          let count = parseInt(sessionStorage.getItem('cf_contact_count') || '0', 10) + 1;
-          try { sessionStorage.setItem('cf_contact_count', String(count)); } catch(e) {}
-          escalate = count >= 2 && sessionStorage.getItem('cf_escalated') !== 'true';
+          escalate = sessionStorage.getItem('cf_escalated') !== 'true';
         }
 
         addMessage(aiReply, 'ai', products, showContact ? contactInfo : null, pageButtons, data.founderPhoto || null);

@@ -893,7 +893,6 @@
             '<span class="verified-badge">' + googleSVG + '</span>' +
           '</div>' +
           '<p class="review-text">"' + r.text + '"</p>' +
-          '<span class="review-date">' + r.date + '</span>' +
         '</div>';
       container.appendChild(item);
     });
