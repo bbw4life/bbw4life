@@ -28,6 +28,14 @@
   schedule = "*/5 * * * *"
   background = true
 
+[functions."send-telegram-new-arrivals"]
+  schedule = "0 12 */3 * *"
+  background = true
+
+[functions."send-telegram-promo"]
+  schedule = "0 12 */6 * *"
+  background = true
+
 
 # ─────────────────────────────────────────────
 # CACHE — no-store interdit TOUTE mise en cache (navigateur + intermédiaires),
