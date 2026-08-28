@@ -195,6 +195,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         setField('address2',      line2);
         setField('address-line2', line2);
         setField('addr-line2',    line2);
+        // Compte connecté : "save info" n'a pas de sens à re-proposer, la
+        // checkbox reste simplement cochable pour mettre à jour l'adresse.
+    } else {
+        // ====================== GUEST PRE-FILL (save info) ======================
+        // Un guestId n'existe en localStorage que si ce même navigateur a déjà
+        // coché "Save this information for next time" ici. S'il est absent
+        // (jamais sauvé, ou cache vidé depuis), il n'y a rien à restaurer —
+        // et donc rien à ré-écrire : l'ancienne ligne éventuelle côté serveur
+        // reste orpheline et inaccessible, ce qui revient à l'avoir "vidée"
+        // pour ce client.
+        const guestId = localStorage.getItem('bbw_guest_id');
+        if (guestId) {
+            fetch('/.netlify/functions/guest-checkout-info', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'get', guestId })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.success || !data.info) return;
+                    const setField = (id, value) => {
+                        const el = document.getElementById(id);
+                        if (el && value) el.value = value;
+                    };
+                    const info = data.info;
+                    setField('first-name',   info.firstName  || '');
+                    setField('last-name',    info.lastName   || '');
+                    setField('email',        info.email      || '');
+                    setField('address',      info.address    || '');
+                    setField('city',         info.city       || '');
+                    setField('state',        info.state      || '');
+                    setField('postal-code',  info.postalCode || '');
+                    setField('address2',      info.address2 || '');
+                    setField('address-line2', info.address2 || '');
+                    setField('addr-line2',    info.address2 || '');
+                    const saveCheckbox = document.getElementById('ck-save-info');
+                    if (saveCheckbox) saveCheckbox.checked = true;
+                })
+                .catch(e => console.warn('[guest-checkout-info] restore failed:', e.message));
+        }
     }
 
     // ====================== RENDER CART ======================
@@ -359,6 +399,79 @@ document.addEventListener('DOMContentLoaded', async () => {
         return workingCart;
     }
 
+    // ====================== NEWSLETTER OPT-IN ======================
+    // Coché + email pas déjà abonné → abonne. Coché + déjà abonné → le
+    // backend renvoie juste une erreur silencieuse (pas de doublon). Décoché
+    // → aucun appel, jamais de désabonnement déclenché depuis le checkout.
+    function handleNewsletterOptIn(shippingData) {
+        const checkbox = document.getElementById('ck-newsletter-optin');
+        if (!checkbox || !checkbox.checked || !shippingData.email) return;
+
+        fetch('/.netlify/functions/save-account', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'newsletter-subscribe',
+                email: shippingData.email,
+                firstName: shippingData.firstName,
+                lastName: shippingData.lastName
+            })
+        }).catch(e => console.warn('[newsletter-optin] failed:', e.message));
+    }
+
+    // ====================== SAVE INFO FOR NEXT TIME ======================
+    // Connecté : met à jour l'adresse du compte (bbw4life-accounts).
+    // Invité : sauvegarde dans la sheet Guest_Saved_Info, rattachée à un
+    // guestId généré localement — perdu si le cache est vidé, ce qui rend la
+    // ligne orpheline inatteignable (cf. commentaire du GUEST PRE-FILL).
+    function handleSaveInfo(shippingData) {
+        const checkbox = document.getElementById('ck-save-info');
+        if (!checkbox || !checkbox.checked) return;
+
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            const email = localStorage.getItem('userEmail');
+            const token = localStorage.getItem('userAccountToken');
+            if (!email || !token) return;
+            fetch('/.netlify/functions/save-account', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'update-address',
+                    email, token,
+                    line1: shippingData.address,
+                    line2: shippingData.address2,
+                    city: shippingData.city,
+                    state: shippingData.state,
+                    zip: shippingData.postalCode
+                })
+            }).catch(e => console.warn('[save-info] update-address failed:', e.message));
+        } else {
+            let guestId = localStorage.getItem('bbw_guest_id');
+            if (!guestId) {
+                guestId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+                localStorage.setItem('bbw_guest_id', guestId);
+            }
+            fetch('/.netlify/functions/guest-checkout-info', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'save',
+                    guestId,
+                    info: {
+                        firstName: shippingData.firstName,
+                        lastName: shippingData.lastName,
+                        email: shippingData.email,
+                        address: shippingData.address,
+                        address2: shippingData.address2,
+                        city: shippingData.city,
+                        state: shippingData.state,
+                        postalCode: shippingData.postalCode
+                    }
+                })
+            }).catch(e => console.warn('[save-info] guest save failed:', e.message));
+        }
+    }
+
     // ====================== PAYMENT ======================
     // Étapes 1-2 (validation serveur + token anti-fraude) partagées entre le
     // bouton "Pay Now" (Stripe/Crypto) et le vrai bouton SDK PayPal, qui
@@ -386,6 +499,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const shippingData = await getShippingData();
         shippingData.affRef = window.getAffRef ? window.getAffRef() : (localStorage.getItem('aff_ref') || '');
+
+        // ── Newsletter opt-in & Save info (best-effort, ne doit jamais bloquer le paiement) ──
+        handleNewsletterOptIn(shippingData);
+        handleSaveInfo(shippingData);
 
         const discountedCart = getDiscountedCart();
         const selectedMethodPay = document.querySelector('.shipping-option.selected')?.dataset.method || 'Standard Shipping';

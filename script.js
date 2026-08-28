@@ -10098,6 +10098,105 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ====================== GOOGLE SIGN-IN ======================
+  // Un seul flow "auth-google" côté backend gère à la fois login (compte
+  // existant) et signup (nouveau compte, email confirmé d'office car Google
+  // a déjà prouvé sa possession) — pas de distinction ici entre les deux
+  // boutons, ils appellent exactement le même callback.
+  (function initGoogleSignIn() {
+    const loginSlot  = document.getElementById('paul-google-login-btn');
+    const signupSlot = document.getElementById('paul-google-signup-btn');
+    if (!loginSlot && !signupSlot) return; // page sans popup auth
+
+    async function onGoogleCredential(response) {
+      const settingsNow   = (window.__allProducts || []).find(p => p.type === 'settings') || {};
+      const allowMultiple = ((settingsNow.account_restrictions || {}).allow_multiple_accounts_per_device || 'yes').toLowerCase().trim();
+      if (allowMultiple === 'no' && bbwGetDeviceAccountEmail()) {
+        window.showAccountBlockPopup('device_limit');
+        return;
+      }
+
+      try {
+        const res  = await fetch('/.netlify/functions/save-account', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'auth-google', credential: response.credential })
+        });
+        const data = await res.json();
+        if (!data.success) {
+          window.showToast("Error: " + (data.error || "Google sign-in failed"));
+          return;
+        }
+
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', data.user.email);
+        localStorage.setItem('userAccountToken', data.token);
+        localStorage.setItem('userFirstName', data.user.firstName);
+        localStorage.setItem('userLastName',  data.user.lastName);
+        localStorage.setItem('userAddressLine1', data.user.addressLine1 || '');
+        localStorage.setItem('userLine2',  data.user.line2  || '');
+        localStorage.setItem('userCity',   data.user.city   || '');
+        localStorage.setItem('userState',  data.user.state  || '');
+        localStorage.setItem('userZip',    data.user.zip    || '');
+        const addressStr = [data.user.addressLine1, data.user.line2, data.user.city, data.user.state, data.user.zip].filter(Boolean).join(', ');
+        localStorage.setItem('userAddress', addressStr || 'No default address set');
+        if (allowMultiple === 'no') bbwSetDeviceAccountEmail(data.user.email);
+
+        await new Promise((resolve) => {
+          let tries = 0;
+          const waitForRestore = setInterval(() => {
+            tries++;
+            if (typeof window.__bbwRestoreSavedCart === 'function') {
+              clearInterval(waitForRestore);
+              window.__bbwRestoreSavedCart(data.user.email, data.token).then(resolve).catch(resolve);
+            } else if (tries > 50) {
+              clearInterval(waitForRestore);
+              resolve();
+            }
+          }, 100);
+        });
+
+        window.showToast(`Welcome ${data.user.firstName} !`);
+        if (paulPopupOverlay) paulPopupOverlay.classList.remove('active');
+        if (isAccountPage) location.reload(); else window.location.href = '/account.html';
+      } catch (err) {
+        window.showToast("Network error");
+      }
+    }
+
+    let googleClientId = null;
+
+    function renderButtons() {
+      if (!window.google || !google.accounts || !google.accounts.id || !googleClientId) return;
+      google.accounts.id.initialize({
+        client_id: googleClientId,
+        callback: onGoogleCredential
+      });
+      const opts = { theme: 'outline', size: 'large', width: 320, text: 'continue_with' };
+      if (loginSlot)  google.accounts.id.renderButton(loginSlot,  opts);
+      if (signupSlot) google.accounts.id.renderButton(signupSlot, opts);
+    }
+
+    function loadGsiScript() {
+      if (window.google && google.accounts && google.accounts.id) { renderButtons(); return; }
+      const gsiScript = document.createElement('script');
+      gsiScript.src = 'https://accounts.google.com/gsi/client';
+      gsiScript.async = true;
+      gsiScript.defer = true;
+      gsiScript.onload = renderButtons;
+      document.head.appendChild(gsiScript);
+    }
+
+    fetch('/.netlify/functions/get-google-client-id')
+      .then(r => r.json())
+      .then(data => {
+        if (!data.clientId) return;
+        googleClientId = data.clientId;
+        loadGsiScript();
+      })
+      .catch(() => {});
+  })();
+
   // ACCOUNT PAGE
   if (isAccountPage) {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
