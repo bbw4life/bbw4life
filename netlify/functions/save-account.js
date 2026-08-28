@@ -6,6 +6,23 @@ const { verifyAccountToken, generateConfirmToken, verifyConfirmToken } = require
 const { notifyWelcome, notifyNewsletter1, notifyConfirmEmail, notifyPasswordReset } = require('./notify-email');
 const { hashPassword, verifyPassword, isHashedPassword } = require('./_lib/password');
 
+// ── Confirmation directe dans le fil Telegram du client (pas la Web App
+// elle-même) après signup_via_telegram / link_telegram — le message reste
+// visible dans son chat même s'il ferme la Web App tout de suite après. ──
+async function sendTelegramConfirmation(telegramChatId, text) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  if (!token || !telegramChatId) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: telegramChatId, text, parse_mode: 'HTML' })
+    });
+  } catch (e) {
+    console.warn('[sendTelegramConfirmation] failed:', e.message);
+  }
+}
+
 // ── Rate limiting pour request-password-reset — par email (fallback IP si
 // email absent) plutôt que par IP seule : derrière un même NAT/proxy (ou
 // quand x-forwarded-for est absent, cas fréquent en test local), toutes
@@ -615,6 +632,7 @@ exports.handler = async (event) => {
           valueInputOption: "RAW",
           resource: { values: [[String(telegramChatId)]] }
         });
+        await sendTelegramConfirmation(telegramChatId, "✅ You're all set! Your existing BBW4LIFE account is now linked to Telegram — order confirmations, tracking numbers, new arrivals and exclusive promos will be sent here.");
         return { statusCode: 200, body: JSON.stringify({ success: true, linkedExisting: true }) };
       }
 
@@ -647,6 +665,8 @@ exports.handler = async (event) => {
       await notifyWelcome({ email, firstName }).catch((e) => {
         console.warn('[signup_via_telegram] notifyWelcome failed:', e.message);
       });
+
+      await sendTelegramConfirmation(telegramChatId, `🎉 Welcome to BBW4LIFE, ${normalize(firstName)}! Your account has been created successfully and is now linked to Telegram — order confirmations, tracking numbers, new arrivals and exclusive promos will be sent right here.`);
 
       return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
