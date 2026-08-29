@@ -6,7 +6,8 @@ const NEW_CATEGORIES = [
   {
     category: "New Arrivals",
     subcategories: [
-      { name: "Bag Hand Woman", ids: ["32048194","32048196","32048200"] },
+      { name: "Shoes Men's", ids: ["32492179","32492177","32492120","32492118","32492114"] },
+      { name: "Shirts Men's", ids: ["32492170","32492169","32492167","32492160","32492144"] },
     ]
   },
 ];

@@ -1088,7 +1088,7 @@ Track your order → 🔗[PAGE:/page/order-tracking.html]
 FACTS — the ONLY real numbers of this program, use them exactly, never invent others:
 - Commission: ${affiliation.commission_percent || 10}% on every order placed through the affiliate's unique link
 - Jackpot bonus: $${affiliation.jackpot_reward_amount || 150} once the affiliate reaches ${affiliation.jackpot_orders_threshold || 30} orders
-- Exclusive personal promo code: -${affiliation.promo_code_discount_percent || 50}% off, unlocked as the affiliate progresses toward their reward
+- Exclusive personal promo code: -${affiliation.promo_code_discount_percent || 50}% off, unlocked once the affiliate reaches ${affiliation.promo_code_unlock_percent || 90}% of the way to the jackpot (i.e. ${Math.ceil((affiliation.jackpot_orders_threshold || 30) * (affiliation.promo_code_unlock_percent || 90) / 100)} orders out of ${affiliation.jackpot_orders_threshold || 30})
 - Pay-per-click bonus (if enabled): $${affiliation.click_reward_amount || 5} for every ${affiliation.clicks_per_reward || 4000} clicks on their link
 - How it works: (1) create a username, (2) get a unique link (bbw4life.com/?ref=username), (3) earn on every order placed through it
 - Earnings can be withdrawn via PayPal

@@ -1123,11 +1123,12 @@
   const btn = document.getElementById('bbwTelegramBtn');
   if (!btn) return;
 
+  // Retourne true si le href a bien pu être résolu (produits déjà chargés).
   function run() {
     const allProducts = window.__allProducts || [];
     const settings = allProducts.find(p => p.type === 'settings') || {};
     const botUsername = settings.telegram_bot_username || '';
-    if (!botUsername) return;
+    if (!botUsername) return false;
 
     let email = '';
     try { email = localStorage.getItem('userEmail') || ''; } catch (e) {}
@@ -1139,20 +1140,35 @@
       : 'new';
 
     btn.href = `https://t.me/${botUsername}?start=${payload}`;
+    return true;
   }
 
   if (window.__allProducts && window.__allProducts.length) {
     run();
   } else {
-    let tries = 0;
+    // Pas de plafond de tentatives : sur une connexion lente,
+    // /products.data.json (volumineux) peut prendre plus de quelques
+    // secondes — abandonner laissait le bouton bloqué sur href="#" pour
+    // toujours (bug observé : clic sans effet sur certains téléphones).
     const wait = setInterval(() => {
       if (window.__allProducts && window.__allProducts.length) {
-        clearInterval(wait);
-        run();
-      } else if (++tries > 60) {
         clearInterval(wait);
         run();
       }
     }, 100);
   }
+
+  // Filet de sécurité : si l'utilisateur clique avant que le href n'ait
+  // été résolu (ou si telegram_bot_username manquait encore à ce moment),
+  // on retente une dernière fois côté clic plutôt que de laisser un lien
+  // mort — l'utilisateur ne doit jamais avoir à cliquer "pour rien".
+  btn.addEventListener('click', (e) => {
+    if (btn.getAttribute('href') && btn.getAttribute('href') !== '#') return;
+    e.preventDefault();
+    if (run()) {
+      window.location.href = btn.href;
+    } else {
+      window.showToast && window.showToast('Loading, please try again in a second…');
+    }
+  });
 })();

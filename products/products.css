@@ -104,7 +104,7 @@
     }
     .product-media {
         position: sticky !important;
-        top: 160px !important;
+        top: 185px !important;
         align-self: flex-start !important;
         
     }
@@ -675,7 +675,7 @@
     gap: var(--unique-gap);
     cursor: pointer;
     flex-shrink: 0;
-    --unique-star-color: #e8e2d4 !important;
+    --unique-star-color: #dcdce6 !important;
     --unique-background-color: #00B67A !important;
     --unique-icon-size: 20px !important;
     --unique-gap: 2px !important;
@@ -701,38 +701,39 @@
     flex-shrink: 1;
 }
 .unique-star {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: var(--unique-icon-size, 26px);
     height: var(--unique-icon-size, 26px);
     position: relative;
-    font-size: var(--unique-icon-size, 26px);
-    font-weight: 900;
-    line-height: 1;
     flex-shrink: 0;
+    background: var(--unique-star-color, #dcdce6);
+    border-radius: var(--unique-star-bg-radius, 4px);
+    overflow: hidden;
 }
 .unique-star::before {
     content: '★';
-    color: var(--unique-star-color, #ddd);
-    position: absolute; left: 0; top: 0;
+    color: #fff;
+    position: relative;
     line-height: 1; font-weight: 900;
-    -webkit-text-stroke: 0.5px var(--unique-star-color, #ddd);
+    font-size: calc(var(--unique-icon-size, 26px) * 0.62);
 }
-.unique-star.full::before {
-    color: var(--unique-background-color, #00B67A);
-    -webkit-text-stroke: 0.5px var(--unique-background-color, #00B67A);
+.unique-star.full {
+    background: var(--unique-background-color, #00B67A);
 }
-.unique-star.half::before {
-    color: var(--unique-star-color, #ddd);
-    -webkit-text-stroke: 0.5px var(--unique-star-color, #ddd);
+.unique-star.half {
+    background: var(--unique-star-color, #dcdce6);
 }
 .unique-star.half::after {
-    content: '★';
-    color: var(--unique-background-color, #00B67A);
+    content: '';
     position: absolute; left: 0; top: 0;
-    width: 50%; overflow: hidden;
-    display: block; line-height: 1;
-    white-space: nowrap; font-weight: 900;
-    -webkit-text-stroke: 0.5px var(--unique-background-color, #00B67A);
+    width: 50%; height: 100%;
+    background: var(--unique-background-color, #00B67A);
+    z-index: 0;
+}
+.unique-star.half::before {
+    z-index: 1;
 }
 .unique-truck {
     width: var(--truck-size) !important;
