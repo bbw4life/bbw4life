@@ -5779,8 +5779,10 @@ body { margin-bottom: 0 !important; }
    placeholder est ignoré par les navigateurs sur ce type de champ, et les
    pseudo-éléments ne fonctionnent pas directement sur un <input>. Overlay
    ::before posé sur le WRAPPER (vrai élément, pas remplacé), positionné
-   par-dessus le champ, mobile uniquement, masqué dès qu'une vraie date est
-   choisie via :has() sur l'attribut value de l'input. */
+   par-dessus le champ, mobile uniquement, masqué via la classe .has-value
+   (ajoutée en JS sur input/change — le sélecteur CSS [value] ne peut PAS
+   détecter une date choisie dans le picker natif, qui met à jour la
+   propriété DOM sans jamais toucher l'attribut HTML value). */
 @media (max-width: 768px) {
   .bbwnl-input-wrap:has(.bbwnl-input--date)::before {
     content: 'dd/mm/yyyy';
@@ -5794,7 +5796,7 @@ body { margin-bottom: 0 !important; }
     pointer-events: none;
     z-index: 1;
   }
-  .bbwnl-input-wrap:has(.bbwnl-input--date[value]:not([value=""]))::before {
+  .bbwnl-input-wrap.has-value::before {
     content: none;
   }
 }
@@ -6822,8 +6824,13 @@ body { margin-bottom: 0 !important; }
   isolation: isolate;
   overflow: hidden;
   background: var(--bbw-black);
-  text-align: center;
-  padding: 64px 24px 72px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 250px;
+  padding: 24px 24px 24px clamp(24px, 6vw, 80px);
+  box-sizing: border-box;
 }
 
 .bbw-finale-field {
@@ -6847,54 +6854,46 @@ body { margin-bottom: 0 !important; }
 .bbw-finale-wave svg { display: block; width: 100%; }
 .bbw-finale-wave path { fill: var(--footer-bg); }
 
-.bbw-finale-wave--top { top: 0; height: 64px; }
-.bbw-finale-wave--top svg { height: 64px; }
+.bbw-finale-wave--top { top: 0; height: 36px; }
+.bbw-finale-wave--top svg { height: 36px; }
 
-.bbw-finale-wave--bottom { bottom: 0; height: 46px; }
-.bbw-finale-wave--bottom svg { height: 46px; }
+.bbw-finale-wave--bottom { bottom: 0; height: 28px; }
+.bbw-finale-wave--bottom svg { height: 28px; }
 
 .bbw-finale-inner {
   position: relative;
   z-index: 2;
+  width: 100%;
   max-width: 640px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .bbw-finale-mark {
-  width: 44px;
-  height: auto;
-  display: block;
-  margin: 0 auto 22px;
-  fill: none;
-  stroke: var(--bbw-gold);
-  stroke-width: 1.1;
-  stroke-linecap: round;
-  opacity: 0.85;
+  display: none;
 }
 
 .bbw-finale-kicker {
   display: block;
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.6rem;
   font-weight: 600;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--bbw-gold-light);
-  margin-bottom: 18px;
+  margin-bottom: 4px;
 }
 
 .bbw-finale-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
-  line-height: 1.18;
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  line-height: 1.1;
   color: var(--bbw-white);
   letter-spacing: 0.005em;
-  margin-bottom: 26px;
+  margin-bottom: 6px;
 }
 .bbw-finale-title span {
-  display: inline-block;
-  margin-top: 4px;
+  display: inline;
   font-style: italic;
   background: linear-gradient(120deg, var(--bbw-gold-light) 0%, var(--bbw-gold) 55%, var(--bbw-gold-vivid) 100%);
   -webkit-background-clip: text;
@@ -6902,30 +6901,15 @@ body { margin-bottom: 0 !important; }
   -webkit-text-fill-color: transparent;
   color: var(--bbw-gold);
 }
+.bbw-finale-title br {
+  display: none;
+}
 
 .bbw-finale-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 220px;
-  margin: 0 auto 26px;
+  display: none;
 }
-.bbw-finale-divider::before,
-.bbw-finale-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(184,146,90,0.50));
-}
-.bbw-finale-divider::after { background: linear-gradient(to left, transparent, rgba(184,146,90,0.50)); }
 .bbw-finale-divider-gem {
-  width: 6px;
-  height: 6px;
-  margin: 0 12px;
-  flex-shrink: 0;
-  background: var(--bbw-gold-light);
-  transform: rotate(45deg);
-  box-shadow: 0 0 10px rgba(232,188,106,0.50);
+  display: none;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -6933,9 +6917,15 @@ body { margin-bottom: 0 !important; }
    bloc "Thank you for trusting" + stats dans .bbw-finale)
 ════════════════════════════════════════════════════════════════ */
 
-.bbw-promo-inner { max-width: 720px; }
+.bbw-promo-inner { max-width: 680px; }
 
-.bbw-promo-title { margin-bottom: 40px; }
+.bbw-promo-title { margin-bottom: 14px; }
+
+/* Réserve la place occupée par la bulle photo + badge jackpot (ancrés à
+   droite du bandeau) pour que le texte de gauche ne passe jamais dessous. */
+@media (min-width: 641px) {
+  .bbw-promo-inner { padding-right: 190px; }
+}
 
 /* ── Fond plein-largeur : les 3 images se relaient derrière tout le
      contenu de la section, semi-transparentes sous un voile noir. ── */
@@ -6979,8 +6969,8 @@ body { margin-bottom: 0 !important; }
   top: 50%;
   right: 6%;
   transform: translateY(-50%);
-  width: 210px;
-  height: 210px;
+  width: 150px;
+  height: 150px;
   z-index: 1;
   pointer-events: none;
   border-radius: 50%;
@@ -7032,36 +7022,36 @@ body { margin-bottom: 0 !important; }
 }
 
 .bbw-promo-ring--1 {
-  top: 8%;
+  top: 6%;
   left: 4%;
-  width: 130px;
-  height: 130px;
+  width: 90px;
+  height: 90px;
   animation: bbwPromoRingPulse 6s ease-in-out infinite;
 }
 .bbw-promo-ring--2 {
-  top: 58%;
+  top: 60%;
   left: 10%;
-  width: 70px;
-  height: 70px;
+  width: 48px;
+  height: 48px;
   border-color: rgba(232,188,106,0.45);
   animation: bbwPromoRingDrift 8s ease-in-out infinite;
   animation-delay: 1.2s;
 }
 .bbw-promo-ring--3 {
-  top: 22%;
+  top: 24%;
   left: 16%;
-  width: 34px;
-  height: 34px;
+  width: 24px;
+  height: 24px;
   background: rgba(184,146,90,0.14);
   border-color: rgba(184,146,90,0.55);
   animation: bbwPromoRingPulse 4.5s ease-in-out infinite;
   animation-delay: 0.6s;
 }
 .bbw-promo-ring--4 {
-  top: 72%;
+  top: 70%;
   left: 2%;
-  width: 190px;
-  height: 190px;
+  width: 130px;
+  height: 130px;
   border-color: rgba(184,146,90,0.24);
   animation: bbwPromoRingDrift 10s ease-in-out infinite;
   animation-delay: 2.4s;
@@ -7080,15 +7070,15 @@ body { margin-bottom: 0 !important; }
 /* ── Badge jackpot — flotte à côté de la bulle photo ── */
 .bbw-promo-jackpot-badge {
   position: absolute;
-  top: calc(50% - 130px);
-  right: calc(6% + 150px);
+  top: calc(50% - 95px);
+  right: calc(6% + 108px);
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 92px;
-  height: 92px;
+  width: 66px;
+  height: 66px;
   border-radius: 50%;
   background: linear-gradient(160deg, var(--bbw-black) 0%, #1c1712 100%);
   border: 2px solid rgba(184,146,90,0.55);
@@ -7099,16 +7089,16 @@ body { margin-bottom: 0 !important; }
 }
 .bbw-promo-jackpot-label {
   font-family: var(--font-body);
-  font-size: 0.56rem;
+  font-size: 0.44rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(246,239,229,0.60);
   margin-bottom: 2px;
 }
 .bbw-promo-jackpot-amount {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--bbw-gold-vivid);
   line-height: 1;
@@ -7118,7 +7108,7 @@ body { margin-bottom: 0 !important; }
 .bbw-promo-slides {
   position: relative;
   z-index: 2;
-  min-height: 210px;
+  min-height: 84px;
 }
 
 .bbw-promo-slide {
@@ -7142,32 +7132,29 @@ body { margin-bottom: 0 !important; }
 }
 
 .bbw-promo-slide-kicker {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--bbw-gold-light);
-  margin-bottom: 12px;
+  display: none;
 }
 
 .bbw-promo-slide-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.5rem;
-  line-height: 1.28;
+  font-size: 1.02rem;
+  line-height: 1.2;
   color: var(--bbw-white);
-  margin: 0 0 16px;
+  margin: 0 0 6px;
 }
 
 .bbw-promo-slide-text {
   font-family: var(--font-body);
-  font-size: 0.96rem;
-  line-height: 1.75;
+  font-size: 0.78rem;
+  line-height: 1.4;
   color: rgba(246,239,229,0.76);
-  max-width: 480px;
-  margin: 0 auto 24px;
+  max-width: 460px;
+  margin: 0 0 10px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .bbw-promo-accent {
@@ -7180,17 +7167,17 @@ body { margin-bottom: 0 !important; }
   align-items: center;
   gap: 8px;
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--bbw-black) !important;
   background: linear-gradient(120deg, var(--bbw-gold-light) 0%, var(--bbw-gold) 60%, var(--bbw-gold-vivid) 100%) !important;
-  padding: 11px 20px;
+  padding: 8px 16px;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
-  border-radius: 8px;
+  border-radius: 7px;
   text-decoration: none;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -7210,45 +7197,53 @@ body { margin-bottom: 0 !important; }
 .bbw-promo-cta:hover span { transform: translateX(3px); }
 
 @media (max-width: 640px) {
-  .bbw-finale { padding: 150px 20px 60px; }
-  .bbw-finale-wave--top { height: 40px; }
-  .bbw-finale-wave--top svg { height: 40px; }
-  .bbw-finale-wave--bottom { height: 30px; }
-  .bbw-finale-wave--bottom svg { height: 30px; }
-  .bbw-finale-title { font-size: clamp(1.55rem, 7vw, 2.15rem); }
-  .bbw-promo-title { margin-bottom: 24px; }
+  .bbw-finale { min-height: 300px; padding: 20px 16px 14px; }
+  .bbw-finale-wave--top { height: 24px; }
+  .bbw-finale-wave--top svg { height: 24px; }
+  .bbw-finale-wave--bottom { height: 18px; }
+  .bbw-finale-wave--bottom svg { height: 18px; }
+  .bbw-finale-kicker { font-size: 0.52rem; letter-spacing: 0.14em; margin-bottom: 4px; }
+  .bbw-finale-title { font-size: clamp(1.02rem, 5.6vw, 1.3rem); white-space: nowrap; margin-bottom: 8px; }
+  .bbw-promo-title { margin-bottom: 8px; }
+
+  /* Bulle photo + badge jackpot : visibles en mobile, ancrés en haut à
+     droite (petite taille) — le texte réserve la place via padding-right. */
+  .bbw-promo-inner { padding-right: 68px; }
 
   .bbw-promo-float {
-    top: 70px;
-    right: 50%;
-    transform: translate(50%, 0);
-    width: 118px;
-    height: 118px;
+    top: 26px;
+    right: 16px;
+    left: auto;
+    transform: none;
+    width: 66px;
+    height: 66px;
     animation: bbwPromoFloatBobMobile 5.5s ease-in-out infinite;
   }
   @keyframes bbwPromoFloatBobMobile {
-    0%, 100% { transform: translate(50%, 0); }
-    50%      { transform: translate(50%, -10px); }
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
   }
 
   .bbw-promo-jackpot-badge {
-    top: 0;
-    right: calc(50% - 95px);
-    width: 54px;
-    height: 54px;
+    top: 100px;
+    right: 22px;
+    left: auto;
+    width: 42px;
+    height: 42px;
     animation-name: bbwPromoFloatBobMobile;
   }
-  .bbw-promo-jackpot-label { font-size: 0.48rem; }
-  .bbw-promo-jackpot-amount { font-size: 0.92rem; }
+  .bbw-promo-jackpot-label { font-size: 0.36rem; }
+  .bbw-promo-jackpot-amount { font-size: 0.64rem; }
 
-  .bbw-promo-slides { min-height: 260px; }
-  .bbw-promo-slide-title { font-size: 1.22rem; }
-  .bbw-promo-slide-text { font-size: 0.88rem; }
+  .bbw-promo-slides { min-height: 96px; }
+  .bbw-promo-slide-title { font-size: 1rem; line-height: 1.22; margin-bottom: 6px; }
+  .bbw-promo-slide-text { font-size: 0.78rem; line-height: 1.4; margin-bottom: 10px; }
+  .bbw-promo-cta { font-size: 0.66rem; padding: 7px 14px; }
 
-  .bbw-promo-ring--1 { width: 80px; height: 80px; top: 4%; left: -6%; }
-  .bbw-promo-ring--2 { width: 44px; height: 44px; top: 46%; left: 2%; }
+  .bbw-promo-ring--1 { width: 60px; height: 60px; top: 4%; left: -6%; }
+  .bbw-promo-ring--2 { width: 34px; height: 34px; top: 46%; left: 2%; }
   .bbw-promo-ring--3 { display: none; }
-  .bbw-promo-ring--4 { width: 120px; height: 120px; top: 80%; left: -8%; }
+  .bbw-promo-ring--4 { width: 90px; height: 90px; top: 78%; left: -8%; }
 }
 
 

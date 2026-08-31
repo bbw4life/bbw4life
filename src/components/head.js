@@ -11,7 +11,7 @@ const SEO_MAP = {
     '/index': {
         title: 'BBW4LIFE — Beauty Has No Size | Plus Size Fashion for Curvy Women',
         description: 'BBW4LIFE — the #1 plus size fashion brand for curvy women. Shop bold dresses, swimwear, beauty & more in sizes XL to 6XL. Free shipping. 30-day returns. Beauty Has No Size.',
-        keywords: 'plus size fashion, curvy women clothing, BBW4LIFE, body positive fashion, plus size dresses, BBW clothing, curvy fashion 2026, plus size swimwear, plus size beauty, BBW style, big beautiful women fashion, body positive brand',
+        keywords: 'plus size fashion, curvy women clothing, BBW4LIFE, body positive fashion, plus size dresses, BBW clothing, curvy fashion 2026, plus size swimwear, plus size beauty, BBW style, big beautiful women fashion, body positive brand, plus size store, plus size store online, online store plus size, store fashion for plus size, plus size fashion store, plus size clothing store, plus size boutique, plus size local store, sexy dress for woman plus size, sexy dress plus size, sexy plus size dress, long dress plus size, long dress for woman plus size, bbw model, bbw fashion, bbw dresses, bbw clothes, bbw store, curvy model, curvy store, curvy boutique, plus size women store, plus size clothes for woman, plus size outfit ideas, plus size clothing online, big size dress woman, big size clothing store, XL to 6XL store, plus size fashion shop, plus size apparel store, curvy fashion online, women plus size clothing store, shop plus size dresses online',
         og_image: 'https://bbw4life.com/public/og-home.jpg',
         canonical: 'https://bbw4life.com/'
     },
@@ -1257,6 +1257,70 @@ const SEO_MAP = {
         keywords: 'plus size blouse set, BBW4LIFE original, polka dot blouse curvy, wide leg trouser set plus size, two piece set curvy women, plus size power look, navy blouse plus size, belted trouser set, sizes 1XL to 4XL set, BBW4LIFE featured, plus size office set, polka dot set curvy',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_110-1.png?v=1785110688',
         canonical: 'https://bbw4life.com/products/product110.html'
+    },
+
+    '/products/product111.html': {
+        title: 'Autumn Canvas High-Top Boots — Men\'s Outdoor Workwear | BBW4LIFE',
+        description: 'Sturdy canvas high-top boots built for outdoor durability and everyday street style. Available in Black, Beige and Yellow. Men\'s sizes 39 to 44. Free worldwide shipping.',
+        keywords: 'mens high top boots, canvas boots men, autumn boots men plus size, black beige yellow boots, workwear boots men, mens outdoor footwear, BBW4LIFE men, sizes 39 to 44 boots',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product111-principale.png',
+        canonical: 'https://bbw4life.com/products/product111.html'
+    },
+
+    '/products/product112.html': {
+        title: 'No-Tie Leather Sneakers — Men\'s Slip-On Street Style | BBW4LIFE',
+        description: 'Easy slip-on leather sneakers with a no-tie design for effortless everyday style. Available in Black, White and Grey. Men\'s sizes 39 to 44. Free worldwide shipping.',
+        keywords: 'no tie sneakers men, leather sneakers men plus size, slip on sneakers men, black white grey sneakers, mens street style shoes, BBW4LIFE men, sizes 39 to 44 sneakers',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product112-principale.png',
+        canonical: 'https://bbw4life.com/products/product112.html'
+    },
+
+    '/products/product113.html': {
+        title: 'High-Top Martin Boots — Men\'s Outdoor Workwear | BBW4LIFE',
+        description: 'Anti-slip, wear-resistant high-top boots with a thick sole built for outdoor and workwear use. Available in Khaki and Black. Men\'s sizes 39 to 44. Free worldwide shipping.',
+        keywords: 'martin boots men, high top boots men plus size, anti slip work boots, khaki black boots men, mens outdoor workwear boots, BBW4LIFE men, sizes 39 to 44 boots',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product113-principale.png?v=1788010675',
+        canonical: 'https://bbw4life.com/products/product113.html'
+    },
+
+    '/products/product114.html': {
+        title: 'Breathable Mesh Sneakers — Men\'s Casual Dad Shoes | BBW4LIFE',
+        description: 'Lightweight, breathable mesh sneakers with a thick sole for all-day comfort. Available in Beige, White and Black. Men\'s sizes 39 to 44. Free worldwide shipping.',
+        keywords: 'mesh sneakers men, dad shoes men plus size, breathable sneakers men, beige white black sneakers, mens casual sneakers, BBW4LIFE men, sizes 39 to 44 sneakers',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenelproduct114-principale.png?v=1788111166',
+        canonical: 'https://bbw4life.com/products/product114.html'
+    },
+
+    '/products/product115.html': {
+        title: 'EVA Sole House Slippers — Men\'s Slides | BBW4LIFE',
+        description: 'Soft EVA sole slides for the home, built for everyday comfort. Available in 4 colors. Men\'s sizes 38-39 to 46-47. Free worldwide shipping.',
+        keywords: 'house slippers men, eva slides men plus size, mens home slippers, indoor slides men, mens lounge footwear, BBW4LIFE men, sizes 38 to 47 slides',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product115-principale.png?v=1788114548',
+        canonical: 'https://bbw4life.com/products/product115.html'
+    },
+
+    '/products/product116.html': {
+        title: 'Solid Color Short-Sleeve T-Shirt — Men\'s Slim Fit | BBW4LIFE',
+        description: 'A versatile slim-fit short-sleeve tee in a soft solid color. Available in 8 colors. Men\'s sizes M to 5XL. Free worldwide shipping.',
+        keywords: 'mens slim fit tee, short sleeve tshirt men plus size, solid color tshirt men, basic tee men, mens everyday tshirt, BBW4LIFE men, sizes M to 5XL tshirt',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product116-principale.png?v=1788117973',
+        canonical: 'https://bbw4life.com/products/product116.html'
+    },
+
+    '/products/product117.html': {
+        title: 'V-Neck Ice Silk T-Shirt — Men\'s Quick-Dry Fitness Top | BBW4LIFE',
+        description: 'A thin, stretchy V-neck tee in cool ice-silk fabric. Sweat-absorbing and quick-drying. Available in 5 colors. Men\'s sizes M to XXXL. Free worldwide shipping.',
+        keywords: 'ice silk tshirt men, v neck tee men plus size, quick dry fitness shirt, mens gym tshirt, sweat absorbing tee men, BBW4LIFE men, sizes M to XXXL tshirt',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product117-principale.png?v=1788121118',
+        canonical: 'https://bbw4life.com/products/product117.html'
+    },
+
+    '/products/product118.html': {
+        title: 'Classic V-Neck Tee Multipack — Men\'s Casual White/Black | BBW4LIFE',
+        description: 'A comfortable, loose-fit classic V-neck tee available in simple 1, 2, 3 or 4-piece packs. Men\'s sizes S to XXL. Free worldwide shipping.',
+        keywords: 'v neck tee multipack men, tshirt pack men plus size, white black tee pack, mens basic tee pack, everyday essential tshirt men, BBW4LIFE men, sizes S to XXL tshirt',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-principale.png?v=1788124329',
+        canonical: 'https://bbw4life.com/products/product118.html'
     }
 
 };

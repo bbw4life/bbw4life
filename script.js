@@ -2148,6 +2148,116 @@ function showErrorPopup(message) {
       })();
 
       // ══════════════════════════════════════════
+      //  FEATURED SPOTLIGHT 2 — produit fixe (product114) mais toutes
+      //  les données (prix, titre, desc, rating, images...) viennent de
+      //  products.data.json, jamais en dur dans le HTML.
+      // ══════════════════════════════════════════
+      (function initFeaturedSpotlight2() {
+        const spotlightId = 'Pdg-Francenel-product114';
+        const prod = products.find(p => p.id === spotlightId);
+        const section = document.getElementById('featured-spotlight-2');
+        if (!section) return;
+        if (!prod) return;
+
+        // Titre
+        const titleEl = section.querySelector('.fs-title');
+        if (titleEl) titleEl.textContent = prod.title;
+
+        // Prix
+        const priceEl = section.querySelector('.fs-price');
+        if (priceEl) priceEl.textContent = `$${prod.price.toFixed(2)}`;
+
+        const compareEl = section.querySelector('.fs-compare');
+        if (compareEl) {
+          if (prod.compare_price > prod.price) {
+            compareEl.textContent = `$${prod.compare_price.toFixed(2)}`;
+            compareEl.style.display = '';
+          } else {
+            compareEl.style.display = 'none';
+          }
+        }
+
+        const discountTagEl = section.querySelector('.fs-discount-tag');
+        if (discountTagEl) {
+          if (prod.compare_price > prod.price) {
+            const pct = Math.round(((prod.compare_price - prod.price) / prod.compare_price) * 100);
+            discountTagEl.textContent = `-${pct}%`;
+            discountTagEl.style.display = '';
+          } else {
+            discountTagEl.style.display = 'none';
+          }
+        }
+
+        // Description
+        const descEl = section.querySelector('.fs-desc');
+        if (descEl) descEl.textContent = prod.description;
+
+        // Rating & reviews
+        const starsEl = section.querySelector('.fs-stars');
+        const countEl = section.querySelector('.fs-count');
+        const rating = prod.rating || 4.8;
+        const reviewsCount = prod.reviews_count || 0;
+
+        if (starsEl) {
+          starsEl.innerHTML = '';
+          for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('span');
+            star.className = 'unique-star';
+            if (i <= Math.floor(rating)) {
+              star.classList.add('full');
+            } else if (i - rating < 1 && i - rating > 0) {
+              star.classList.add('half');
+            }
+            starsEl.appendChild(star);
+          }
+        }
+        if (countEl) countEl.textContent = `${rating.toFixed(1)} · ${reviewsCount.toLocaleString()} reviews`;
+
+        // Badge depuis le produit
+        const fsBadgeFloat = section.querySelector('.fs-badge-float');
+        if (fsBadgeFloat) {
+          if (prod.badge && prod.badge.text) {
+            fsBadgeFloat.textContent = prod.badge.text;
+            fsBadgeFloat.style.display = '';
+          } else {
+            fsBadgeFloat.style.display = 'none';
+          }
+        }
+
+        // Image principale — première image media
+        const mainImg = section.querySelector('#fs2MainImg');
+        const media = prod.media || [];
+        if (mainImg && media.length > 0) {
+          mainImg.src = upgradeShopifyImageUrl(media[0]);
+          mainImg.alt = prod.title;
+        }
+
+        // Thumbnails — 4 premières images media
+        const thumbs = section.querySelectorAll('[data-fs2-thumb]');
+        thumbs.forEach((thumb, i) => {
+          const src = media[i] ? upgradeShopifyImageUrl(media[i]) : '';
+          if (src) {
+            thumb.src = src;
+            thumb.alt = `${prod.title} ${i + 1}`;
+            thumb.style.display = 'block';
+            thumb.addEventListener('click', () => {
+              if (mainImg) mainImg.src = src;
+              thumbs.forEach(t => t.classList.remove('fs-thumb--active'));
+              thumb.classList.add('fs-thumb--active');
+            });
+          } else {
+            thumb.style.display = 'none';
+          }
+        });
+        thumbs.forEach(t => t.classList.remove('fs-thumb--active'));
+        if (thumbs[0]) thumbs[0].classList.add('fs-thumb--active');
+
+        // Lien "View Product"
+        const viewBtn = section.querySelector('.fs-btn-primary');
+        if (viewBtn) viewBtn.href = getProductUrl(spotlightId);
+      })();
+
+      // ══════════════════════════════════════════
       //  BUNDLE DEAL — dynamique depuis settings
       // ══════════════════════════════════════════
       (function initBundleDeal() {
@@ -3250,6 +3360,14 @@ function showErrorPopup(message) {
               'Pdg-Francenel-product108': 'rufflecascade-sheath-draped-side-detail',
               'Pdg-Francenel-product109': 'tweedshift-dress-cuffed-sleeve-classic',
               'Pdg-Francenel-product110': 'polkadotblouse-set-wide-leg-belted-trouser',
+              'Pdg-Francenel-product111': 'autumn-canvas-high-top-boots-mens-workwear',
+              'Pdg-Francenel-product112': 'no-tie-leather-sneakers-mens-slip-on',
+              'Pdg-Francenel-product113': 'high-top-martin-boots-mens-outdoor-workwear',
+              'Pdg-Francenel-product114': 'breathable-mesh-sneakers-mens-casual-dad-shoes',
+              'Pdg-Francenel-product115': 'eva-sole-house-slippers-mens-slides',
+              'Pdg-Francenel-product116': 'solid-color-short-sleeve-tshirt-mens-slim-fit',
+              'Pdg-Francenel-product117': 'v-neck-ice-silk-tshirt-mens-quick-dry-fitness-top',
+              'Pdg-Francenel-product118': 'classic-v-neck-tee-multipack-mens-casual-white-black',
             };
 
               // ── Récupérer les données du produit courant
@@ -7064,7 +7182,12 @@ if (rcCheckoutBtn) {
     .catch(error => console.error('Erreur de chargement des produits:', error));
 
   // ====================== SCROLL REVEAL ======================
-  document.querySelectorAll('section').forEach(sec => { if (!sec.hasAttribute('data-scroll-reveal')) sec.setAttribute('data-scroll-reveal', ''); });
+  // (auto-tag sur toutes les <section> retiré : sur les pages sans le CSS
+  // [data-scroll-reveal] associé — ex. index.html, qui ne charge pas
+  // search-results.css — ce tag ne produisait aucun effet visuel tout en
+  // forçant un getBoundingClientRect() par section à chaque frame de
+  // scroll, non-throttled. Ne reste géré que ce qui est marqué en dur
+  // dans le HTML, comme sur search-results.html.)
 
 
 
@@ -7157,13 +7280,22 @@ if (rcCheckoutBtn) {
   });
 
   // ====================== SCROLL REVEAL ======================
+  // IntersectionObserver au lieu d'un scroll listener + getBoundingClientRect
+  // par élément à chaque frame (l'ancienne version forçait un reflow sur
+  // chaque [data-scroll-reveal] à chaque pixel scrollé — coûteux et source
+  // de jank pendant le scroll).
   const revealElements = document.querySelectorAll('[data-scroll-reveal]');
-  const revealOnScroll = () => {
-    const windowHeight = window.innerHeight;
-    revealElements.forEach(el => { if (el.getBoundingClientRect().top < windowHeight - 100) el.classList.add('revealed'); });
-  };
-  window.addEventListener('scroll', revealOnScroll);
-  revealOnScroll();
+  if (revealElements.length && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -100px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+  }
 
 
 

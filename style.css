@@ -1043,62 +1043,6 @@ body {
 }
 
 
-/* ================================================================
-   BANDE DE RÉASSURANCE — statique, remplace les bandeaux marquee
-================================================================ */
-.reassure-bar {
-  background: var(--bbw-black);
-  border-bottom: 1px solid var(--bbw-gold-border);
-  padding: 20px 0;
-}
-
-.reassure-bar__inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px 32px;
-}
-
-.reassure-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(255,255,255,0.72);
-  font-family: var(--font-body);
-  font-size: 12.5px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.reassure-item svg { color: var(--bbw-gold); flex-shrink: 0; }
-
-.reassure-sep {
-  width: 1px;
-  height: 16px;
-  background: var(--bbw-gold-border);
-}
-
-@media (max-width: 768px) {
-  .reassure-bar { padding: 16px 0; }
-  .reassure-bar__inner {
-    padding: 0 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px 12px;
-  }
-  .reassure-item {
-    font-size: 11px;
-    white-space: normal;
-  }
-  .reassure-sep { display: none; }
-}
-
 
 /* ================================================================
    PRODUCT CAROUSEL — surcharge éditoriale (bbwpg-section--v2)
@@ -8833,15 +8777,6 @@ body.sr-page .curva-search-dropdown {
   animation: bbw-wave-breathe 11s ease-in-out infinite;
 }
 
-/* Reassurance bar (noir) -> Trust banner (ivoire) */
-.bbw-wave-sep--reassure {
-  background: var(--bbw-black);
-  height: 46px;
-  z-index: 2;
-}
-.bbw-wave-sep--reassure svg { height: 46px; }
-.bbw-wave-sep--reassure path { fill: #fdfaf5; }
-
 /* BBW Featured (ivoire) -> fond noir premium, vague blanche */
 .bbw-wave-sep--nb {
   background: var(--bbw-black);
@@ -8882,9 +8817,15 @@ body.sr-page .curva-search-dropdown {
 .bbw-wave-sep--reviews-in path,
 .bbw-wave-sep--reviews-out path { fill: #fdfaf5; animation: none !important; }
 
+/* Hero -> Our Story (ivoire) */
+.bbw-wave-sep--ourstory {
+  height: 40px;
+  z-index: 2;
+}
+.bbw-wave-sep--ourstory svg { height: 40px; }
+.bbw-wave-sep--ourstory path { fill: #fdfaf5; }
+
 @media (max-width: 640px) {
-  .bbw-wave-sep--reassure { height: 28px; }
-  .bbw-wave-sep--reassure svg { height: 28px; }
   .bbw-wave-sep--nb { height: 26px; }
   .bbw-wave-sep--nb svg { height: 26px; }
   .bbw-wave-sep--stories { height: 36px; }
@@ -8893,10 +8834,112 @@ body.sr-page .curva-search-dropdown {
   .bbw-wave-sep--reviews-in svg { height: 28px; }
   .bbw-wave-sep--reviews-out { height: 28px; }
   .bbw-wave-sep--reviews-out svg { height: 28px; }
+  .bbw-wave-sep--ourstory { height: 22px; }
+  .bbw-wave-sep--ourstory svg { height: 22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .bbw-wave-sep path { animation: none !important; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   OUR STORY — collage photo (gauche) + texte (droite), entre le hero
+   et les Story Rows. Hauteur fixe 150px sur desktop ; passe en colonne
+   sur mobile (la contrainte de 150px ne tient plus une fois empilé,
+   donc hauteur libre en dessous de 768px comme le reste des sections
+   home). Classes scopées .our-story* — aucune règle ne cible un
+   sélecteur générique (img, section, etc.) donc pas de fuite possible
+   vers d'autres sections de la page.
+════════════════════════════════════════════════════════════════ */
+.our-story {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 60px);
+  width: 100%;
+  height: 150px;
+  margin: 0;
+  padding: 0 clamp(16px, 4vw, 40px);
+  background-color: #ffffff;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.our-story__images {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(170px, 22vw, 250px);
+  height: 146px;
+}
+
+.our-story__img {
+  position: absolute;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.our-story__img--back {
+  top: 0;
+  left: 0;
+  width: 58%;
+  height: 92%;
+  z-index: 1;
+}
+
+.our-story__img--front {
+  bottom: 0;
+  right: 0;
+  width: 58%;
+  height: 82%;
+  z-index: 2;
+}
+
+.our-story__content {
+  flex: 0 1 560px;
+  min-width: 0;
+  height: 146px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #f5f0e8;
+  padding: 16px 28px;
+  box-sizing: border-box;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.our-story__label {
+  font-size: clamp(10px, 1vw, 12px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c9a15a;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.our-story__title {
+  font-family: 'Great Vibes', 'Brush Script MT', var(--font-display), cursive;
+  font-size: clamp(24px, 3vw, 34px);
+  color: #2b2b2b;
+  margin: 0 0 6px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.our-story__text {
+  font-size: clamp(11px, 1.15vw, 13.5px);
+  line-height: 1.5;
+  color: #6b6b6b;
+  margin: 0;
+  max-width: 62ch;
+}
+
+@media (max-width: 480px) {
+  .our-story { gap: 12px; padding: 0 12px; }
+  .our-story__images { width: 96px; height: 100px; }
+  .our-story__content { padding: 10px 14px; }
 }
 
 
@@ -10590,6 +10633,7 @@ body.sr-page .curva-search-dropdown {
 }
 
 .comm-reviews-band {
+  background: linear-gradient(160deg, #fdf8f2 0%, #f8f0e6 40%, #f3e8d8 100%);
   position: relative;
   margin: 0 -10px -10px;
   padding: 44px 10px 0;
@@ -13237,6 +13281,9 @@ button::selection, button *::selection {
     max-width: 100%;
   }
 }
+
+
+
 
 
 

@@ -111,6 +111,14 @@
     '/products/product108.html': '/bbw4life/rufflecascade-sheath-draped-side-detail',
     '/products/product109.html': '/bbw4life/tweedshift-dress-cuffed-sleeve-classic',
     '/products/product110.html': '/bbw4life/polkadotblouse-set-wide-leg-belted-trouser',
+    '/products/product111.html': '/bbw4life/autumn-canvas-high-top-boots-mens-workwear',
+    '/products/product112.html': '/bbw4life/no-tie-leather-sneakers-mens-slip-on',
+    '/products/product113.html': '/bbw4life/high-top-martin-boots-mens-outdoor-workwear',
+    '/products/product114.html': '/bbw4life/breathable-mesh-sneakers-mens-casual-dad-shoes',
+    '/products/product115.html': '/bbw4life/eva-sole-house-slippers-mens-slides',
+    '/products/product116.html': '/bbw4life/solid-color-short-sleeve-tshirt-mens-slim-fit',
+    '/products/product117.html': '/bbw4life/v-neck-ice-silk-tshirt-mens-quick-dry-fitness-top',
+    '/products/product118.html': '/bbw4life/classic-v-neck-tee-multipack-mens-casual-white-black',
 
     // ── BLOG ARTICLES ─────────────────────────────────────
     '/blog/article-featured.html': '/bbw4life/journal/beauty-has-no-sizes-movement-redefining-beauty',

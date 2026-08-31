@@ -1423,6 +1423,62 @@
   "icon": "fas fa-tag"
 },
 {
+  "title": "Autumn Canvas High-Top Boots — Men's Outdoor Workwear",
+  "url": "/products/product111.html",
+  "keywords": ["high top boots", "canvas boots", "mens boots", "autumn boots", "black beige boots", "workwear boots", "bottes montantes homme", "product111"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "No-Tie Leather Sneakers — Men's Slip-On Street Style",
+  "url": "/products/product112.html",
+  "keywords": ["no tie sneakers", "leather sneakers", "slip on shoes", "mens sneakers", "black white grey sneakers", "baskets sans lacet homme", "product112"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "High-Top Martin Boots — Men's Outdoor Workwear",
+  "url": "/products/product113.html",
+  "keywords": ["martin boots", "high top boots", "khaki boots", "anti slip boots", "mens work boots", "bottes martin homme", "product113"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "Breathable Mesh Sneakers — Men's Casual Dad Shoes",
+  "url": "/products/product114.html",
+  "keywords": ["mesh sneakers", "dad shoes", "breathable sneakers", "mens casual sneakers", "beige white black sneakers", "baskets respirantes homme", "product114"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "EVA Sole House Slippers — Men's Slides",
+  "url": "/products/product115.html",
+  "keywords": ["house slippers", "eva slides", "mens slides", "home slippers", "indoor slides", "chaussons homme", "product115"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "Solid Color Short-Sleeve T-Shirt — Men's Slim Fit",
+  "url": "/products/product116.html",
+  "keywords": ["short sleeve tee", "solid color tshirt", "mens slim fit tee", "basic tshirt", "tshirt homme", "product116"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "V-Neck Ice Silk T-Shirt — Men's Quick-Dry Fitness Top",
+  "url": "/products/product117.html",
+  "keywords": ["ice silk tshirt", "v neck tee", "quick dry shirt", "fitness top", "gym tshirt", "tshirt sport homme", "product117"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "Classic V-Neck Tee Multipack — Men's Casual White/Black",
+  "url": "/products/product118.html",
+  "keywords": ["tee multipack", "v neck tee pack", "white black tshirt", "basic tee pack", "tshirt pack homme", "product118"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
   "title": "Affiliate Program",
   "url": "#",
   "action": "open-affiliate-popup",

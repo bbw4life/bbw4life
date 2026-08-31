@@ -2280,7 +2280,22 @@ document.addEventListener('click', function (e) {
   var inputEmail = document.getElementById('bbwNlEmail');
   var inputBday  = document.getElementById('bbwNlBday');
 
-  if (!overlay) return; 
+  if (!overlay) return;
+
+  /* ── Faux placeholder "dd/mm/yyyy" (mobile, voir footer.css) : le
+     sélecteur CSS [value] ne détecte jamais une date choisie via le picker
+     natif, qui met à jour la propriété DOM sans toucher l'attribut HTML.
+     On bascule donc une vraie classe ici, sur input ET change (le picker
+     mobile ne déclenche pas toujours 'input'). ── */
+  if (inputBday) {
+    var syncBdayHasValue = function () {
+      var wrap = inputBday.closest('.bbwnl-input-wrap');
+      if (wrap) wrap.classList.toggle('has-value', !!inputBday.value);
+    };
+    inputBday.addEventListener('input', syncBdayHasValue);
+    inputBday.addEventListener('change', syncBdayHasValue);
+    syncBdayHasValue();
+  }
 
   /* ──────────────────────────────────────────────────────────
      RISING PARTICLES (ambient)

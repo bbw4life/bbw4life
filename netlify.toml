@@ -631,6 +631,46 @@
   to = "/products/product110.html"
   status = 200
 
+[[redirects]]
+  from = "/bbw4life/autumn-canvas-high-top-boots-mens-workwear"
+  to = "/products/product111.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/no-tie-leather-sneakers-mens-slip-on"
+  to = "/products/product112.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/high-top-martin-boots-mens-outdoor-workwear"
+  to = "/products/product113.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/breathable-mesh-sneakers-mens-casual-dad-shoes"
+  to = "/products/product114.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/eva-sole-house-slippers-mens-slides"
+  to = "/products/product115.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/solid-color-short-sleeve-tshirt-mens-slim-fit"
+  to = "/products/product116.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/v-neck-ice-silk-tshirt-mens-quick-dry-fitness-top"
+  to = "/products/product117.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/classic-v-neck-tee-multipack-mens-casual-white-black"
+  to = "/products/product118.html"
+  status = 200
+
 # ─────────────────────────────────────────────
 # BLOG ARTICLES — Pretty URLs
 # ─────────────────────────────────────────────
