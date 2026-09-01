@@ -6771,7 +6771,7 @@
   "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-hover.png?v=1788124330",
   "sizes": ["S","M","L","XL","XXL"],
   "colors": [
-    { "name": "4-Pack White/Black", "hex": "#F5F5F0", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-4packs_white.png?v=1788124329", "active": true },
+    { "name": "4-Pack White", "hex": "#F5F5F0", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-4packs_white.png?v=1788124329", "active": true },
     { "name": "1-Pack Black", "hex": "#1A1A1A", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-1pack_black.png?v=1788124329", "active": true },
     { "name": "2-Pack Black/White", "hex": "#1A1A1A", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-2pack.png?v=1788124329", "active": true },
     { "name": "1-Pack White", "hex": "#F5F5F0", "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-1pack_white.png?v=1788124329", "active": true },
@@ -6838,7 +6838,7 @@
     "thumbnails_mobile_vertical_left": "no",
     "sticky_media_mobile": "no",
     "swatch_scroll_mobile": "yes",
-    "sticky_atc_mobile_threshold": 11.0,
+    "sticky_atc_mobile_threshold": 10.0,
     "sticky_atc_mobile_threshold_bbw_features": 8.0,
     "sticky_atc_desktop_threshold": 7.3,
     "theme_color": "#000000",
@@ -9135,7 +9135,7 @@
     ]
   },
   "content_protection": {
-  "disable_right_click":      "yes",
+  "disable_right_click":      "no",
   "disable_text_selection":   "yes",
   "disable_image_download":   "yes",
   "disable_video_download":   "yes",

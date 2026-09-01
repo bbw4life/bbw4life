@@ -82,7 +82,25 @@
   }
 
   // ── Header ──
+  // loadFragment peut appeler ce callback deux fois (injection immédiate
+  // depuis un cache périmé, puis re-injection après revalidation réseau
+  // si le HTML a changé) — ne charger header.js qu'une seule fois évite
+  // deux IIFE initTelegramDrawerButton() concurrents : le second remplace
+  // le bouton du DOM (innerHTML) mais le premier script, déjà chargé,
+  // ne re-scanne jamais ce nouveau bouton, qui reste alors sans href
+  // résolu ni listener tant qu'aucun clic ne se produit (bouton "mort").
+  var headerScriptLoaded = false;
   loadFragment('/src/components/header.html', 'header-container', function () {
+    if (headerScriptLoaded) {
+      // Le DOM du header vient d'être remplacé (revalidation réseau après
+      // un cache périmé) : le script header.js déjà chargé n'a écouté que
+      // le premier bouton Telegram, désormais orphelin — ce signal lui
+      // permet de re-scanner le nouveau bouton et d'y rattacher son
+      // listener (cf. initTelegramDrawerButton dans header.js).
+      document.dispatchEvent(new Event('header:reinjected'));
+      return;
+    }
+    headerScriptLoaded = true;
     appendScript('/src/components/header.js');
   });
 

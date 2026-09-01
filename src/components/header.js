@@ -1120,55 +1120,67 @@
    avec un bouton Web App qui ouvre telegram-signup.html.
 ────────────────────────────────────────────────────────────── */
 (function initTelegramDrawerButton() {
-  const btn = document.getElementById('bbwTelegramBtn');
-  if (!btn) return;
+  // layout-loader.js peut réinjecter header.html une seconde fois
+  // (revalidation réseau après un cache périmé) sans recharger ce script —
+  // le bouton d'origine devient alors orphelin. setup() est donc rappelée
+  // à chaque événement 'header:reinjected' pour rattacher un listener
+  // frais sur le nouveau bouton du DOM plutôt que de dépendre d'un seul
+  // appel initial (cf. layout-loader.js, commentaire header:reinjected).
+  function setup() {
+    const btn = document.getElementById('bbwTelegramBtn');
+    if (!btn || btn.dataset.telegramReady) return;
+    btn.dataset.telegramReady = '1';
 
-  // Retourne true si le href a bien pu être résolu (produits déjà chargés).
-  function run() {
-    const allProducts = window.__allProducts || [];
-    const settings = allProducts.find(p => p.type === 'settings') || {};
-    const botUsername = settings.telegram_bot_username || '';
-    if (!botUsername) return false;
+    // Retourne true si le href a bien pu être résolu (produits déjà chargés).
+    function run() {
+      const allProducts = window.__allProducts || [];
+      const settings = allProducts.find(p => p.type === 'settings') || {};
+      const botUsername = settings.telegram_bot_username || '';
+      if (!botUsername) return false;
 
-    let email = '';
-    try { email = localStorage.getItem('userEmail') || ''; } catch (e) {}
+      let email = '';
+      try { email = localStorage.getItem('userEmail') || ''; } catch (e) {}
 
-    // start= n'accepte que [A-Za-z0-9_-] côté Telegram — encode l'email
-    // en base64 (URL-safe) plutôt que de le passer en clair.
-    const payload = email
-      ? 'acct_' + btoa(email).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
-      : 'new';
+      // start= n'accepte que [A-Za-z0-9_-] côté Telegram — encode l'email
+      // en base64 (URL-safe) plutôt que de le passer en clair.
+      const payload = email
+        ? 'acct_' + btoa(email).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+        : 'new';
 
-    btn.href = `https://t.me/${botUsername}?start=${payload}`;
-    return true;
-  }
-
-  if (window.__allProducts && window.__allProducts.length) {
-    run();
-  } else {
-    // Pas de plafond de tentatives : sur une connexion lente,
-    // /products.data.json (volumineux) peut prendre plus de quelques
-    // secondes — abandonner laissait le bouton bloqué sur href="#" pour
-    // toujours (bug observé : clic sans effet sur certains téléphones).
-    const wait = setInterval(() => {
-      if (window.__allProducts && window.__allProducts.length) {
-        clearInterval(wait);
-        run();
-      }
-    }, 100);
-  }
-
-  // Filet de sécurité : si l'utilisateur clique avant que le href n'ait
-  // été résolu (ou si telegram_bot_username manquait encore à ce moment),
-  // on retente une dernière fois côté clic plutôt que de laisser un lien
-  // mort — l'utilisateur ne doit jamais avoir à cliquer "pour rien".
-  btn.addEventListener('click', (e) => {
-    if (btn.getAttribute('href') && btn.getAttribute('href') !== '#') return;
-    e.preventDefault();
-    if (run()) {
-      window.location.href = btn.href;
-    } else {
-      window.showToast && window.showToast('Loading, please try again in a second…');
+      btn.href = `https://t.me/${botUsername}?start=${payload}`;
+      return true;
     }
-  });
+
+    if (window.__allProducts && window.__allProducts.length) {
+      run();
+    } else {
+      // Pas de plafond de tentatives : sur une connexion lente,
+      // /products.data.json (volumineux) peut prendre plus de quelques
+      // secondes — abandonner laissait le bouton bloqué sur href="#" pour
+      // toujours (bug observé : clic sans effet sur certains téléphones).
+      const wait = setInterval(() => {
+        if (window.__allProducts && window.__allProducts.length) {
+          clearInterval(wait);
+          run();
+        }
+      }, 100);
+    }
+
+    // Filet de sécurité : si l'utilisateur clique avant que le href n'ait
+    // été résolu (ou si telegram_bot_username manquait encore à ce moment),
+    // on retente une dernière fois côté clic plutôt que de laisser un lien
+    // mort — l'utilisateur ne doit jamais avoir à cliquer "pour rien".
+    btn.addEventListener('click', (e) => {
+      if (btn.getAttribute('href') && btn.getAttribute('href') !== '#') return;
+      e.preventDefault();
+      if (run()) {
+        window.location.href = btn.href;
+      } else {
+        window.showToast && window.showToast('Loading, please try again in a second…');
+      }
+    });
+  }
+
+  setup();
+  document.addEventListener('header:reinjected', setup);
 })();

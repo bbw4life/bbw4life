@@ -10119,7 +10119,11 @@ body.sr-page .curva-search-dropdown {
     width: calc((100% - 14px) / 2.1);
   }
   .bss-nav { display: none; }
-  .bbw-stories-section { padding: 10px 0 6px; }
+  /* padding-top >= hauteur de .bbw-wave-sep--stories en mobile (36px,
+     cf. @media 640px ci-dessus) + une petite marge — sinon la vague
+     (position:absolute, posée par-dessus le contenu) déborde sur le
+     haut des cercles de story et les coupe visuellement. */
+  .bbw-stories-section { padding: 44px 0 6px; }
 }
 @media (max-width: 480px) {
   .bss-video-item {
@@ -11255,7 +11259,7 @@ body.sr-page .curva-search-dropdown {
 
 
 .bundle-deal-section {
-  padding: 64px 0 !important;
+  padding: 64px 0 16px !important;
   background: #fdfaf5 !important;
   position: relative !important;
   overflow: hidden !important;
