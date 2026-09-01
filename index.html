@@ -18,6 +18,9 @@
   <meta name="twitter:description" content="BBW4LIFE — the #1 plus size fashion brand for curvy women. Shop bold dresses, swimwear, beauty &amp; more in sizes XL to 6XL. Free shipping. 30-day returns. Beauty Has No Size.">
   <meta name="twitter:image" content="https://bbw4life.com/public/og-home.jpg">
   <link rel="icon" href="/public/bbw4life-favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap">
   <link rel="stylesheet" href="/tokens.css">
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/src/components/header.css">
@@ -118,18 +121,25 @@
        Story Rows. Hauteur fixe 150px desktop, empile en colonne sur
        mobile (voir media query dédiée).
   ================================================================ -->
-    <section class="our-story">
+    <section class="our-story is-skeleton" id="ourStorySection">
       <div class="our-story__images">
         <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-8.png?v=1785457197&width=600&quality=90"
           alt="" loading="lazy" class="our-story__img our-story__img--back">
         <img src="https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenelproduct114-1.png?v=1788111168&width=600&quality=90"
           alt="" loading="lazy" class="our-story__img our-story__img--front">
+        <div class="skel-shimmer skel-abs-fill our-story__skel our-story__skel--back" aria-hidden="true"></div>
+        <div class="skel-shimmer skel-abs-fill our-story__skel our-story__skel--front" aria-hidden="true"></div>
       </div>
 
       <div class="our-story__content">
         <p class="our-story__label">Welcome, Queens & Kings</p>
         <h2 class="our-story__title">In Our Store</h2>
         <p class="our-story__text">Your plus-size store — bold pieces from XL to 6XL, or fully customized just for you. BBW4LIFE: Beauty Has No Size.</p>
+        <div class="our-story__skel-text" aria-hidden="true">
+          <div class="skel-shimmer skel-line" style="width:40%;height:11px;"></div>
+          <div class="skel-shimmer skel-line" style="width:65%;height:22px;margin-top:8px;"></div>
+          <div class="skel-shimmer skel-line" style="width:85%;height:11px;margin-top:10px;"></div>
+        </div>
       </div>
     </section>
 
@@ -621,6 +631,7 @@
             </div>
             <div class="fs-actions">
               <a href="products/product114.html" class="fs-btn-primary">View Product →</a>
+              <div class="fs-stock"></div>
             </div>
           </div>
         </div>

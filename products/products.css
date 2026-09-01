@@ -2016,16 +2016,23 @@
 ════════════════════════════ */
 .quantity-add-wrapper {
     width: 100%;
-    padding: 3px !important;
+    padding: 14px !important;
+    background: linear-gradient(160deg, #fdfbf8 0%, #f6f0e6 100%);
+    border: none;
+    border-radius: 18px;
+    box-shadow:
+        0 10px 30px rgba(21,17,14,0.06),
+        0 1px 0 rgba(255,255,255,0.9) inset;
+    box-sizing: border-box;
 }
 .quantity-add {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     width: 100%;
 }
 .quantity-add__row {
-    display: flex; gap: 8px; align-items: center;
+    display: flex; gap: 10px; align-items: stretch;
     width: 100%;
 }
 .quantity-add__row .add-to-cart.cta,
@@ -2037,116 +2044,145 @@
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 9px;
 }
 
 
+/* ── Sélecteur de quantité — pilule segmentée, relief nacré ── */
 .quantity-add-wrapper .quantity {
-    display: flex; align-items: center; gap: 5px;
-    border: 1px solid rgba(184,146,90,0.35);
-    padding: 4px; border-radius: 10px;
-    background: linear-gradient(135deg,
-        rgba(255,255,255,0.92) 0%,
-        rgba(253,249,244,0.97) 100%
-    );
+    display: flex; align-items: stretch; gap: 0;
+    border: 1px solid rgba(184,146,90,0.30);
+    padding: 0; border-radius: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #fdf9f3 100%);
     box-shadow:
-        0 2px 12px rgba(184,146,90,0.12),
-        0 1px 0 rgba(255,255,255,0.90) inset;
+        0 0 0 5px #ffffff,
+        0 4px 14px rgba(184,146,90,0.14),
+        0 1px 0 rgba(255,255,255,0.95) inset,
+        0 -1px 0 rgba(184,146,90,0.08) inset;
     flex-shrink: 0;
+    overflow: hidden;
 }
 .quantity-add-wrapper .quantity button {
-    background: rgba(184,146,90, 0.08);
+    background: transparent;
     color: var(--bbw-gold);
     border: none;
-    padding: 7px 13px; cursor: pointer;
-    border-radius: 6px; font-weight: 800;
-    font-size: 16px;
+    padding: 10px 15px; cursor: pointer;
+    border-radius: 0; font-weight: 700;
+    font-size: 17px;
     transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
     flex-shrink: 0;
     box-shadow: none;
 }
+.quantity-add-wrapper .quantity button:first-child {
+    border-right: 1px solid rgba(184,146,90,0.22);
+}
+.quantity-add-wrapper .quantity button:last-child {
+    border-left: 1px solid rgba(184,146,90,0.22);
+}
 .quantity-add-wrapper .quantity button:hover {
-    background: rgba(184,146,90, 0.18);
+    background: rgba(184,146,90, 0.10);
     color: var(--bbw-gold);
     transform: none;
     box-shadow: none;
 }
 .quantity-add-wrapper .quantity input {
-    width: 46px; text-align: center;
-    border: none; font-size: 16px; font-weight: 700;
+    width: 50px; text-align: center;
+    border: none; font-size: 17px; font-weight: 700;
     background: transparent; color: var(--bbw-black);
 }
 
 
+/* ── ADD TO CART — laqué noir, liseré or, relief bombé ── */
 button.add-to-cart.cta {
-    background: #15110E !important;
-    color: var(--bbw-gold) !important;
+    background: linear-gradient(180deg, #211a15 0%, #15110E 55%, #0d0a07 100%) !important;
+    color: var(--bbw-gold-light) !important;
     font-size: 14px !important;
-    padding: 12px 22px !important;
+    padding: 15px 22px !important;
     cursor: pointer; flex-shrink: 0 !important;
     width: auto !important; min-width: fit-content !important;
-    border-radius: 10px !important;
+    border-radius: 13px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.06em !important;
-    border: 1.5px solid rgba(184,146,90,0.55) !important;
+    letter-spacing: 0.07em !important;
+    border: 1px solid rgba(184,146,90,0.65) !important;
     box-shadow:
-        0 6px 22px rgba(0,0,0,0.22),
-        0 1px 0 rgba(184,146,90,0.15) inset !important;
+        0 0 0 5px #ffffff,
+        0 10px 26px rgba(0,0,0,0.30),
+        0 1px 0 rgba(255,255,255,0.06) inset,
+        0 -2px 4px rgba(0,0,0,0.35) inset !important;
     transition: all 0.32s cubic-bezier(0.4,0,0.2,1) !important;
     white-space: nowrap;
     position: relative; overflow: hidden;
     text-transform: uppercase;
 }
+button.add-to-cart.cta::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: 13px 13px 0 0;
+}
 button.add-to-cart.cta::after {
     content: '';
     position: absolute; top: -50%; left: -70%;
     width: 45%; height: 200%;
-    background: linear-gradient(90deg, transparent, rgba(184,146,90,0.13), transparent);
+    background: linear-gradient(90deg, transparent, rgba(184,146,90,0.16), transparent);
     transform: skewX(-20deg);
     animation: shimmerBar 3s ease-in-out infinite;
 }
 button.add-to-cart.cta:hover {
-    background: var(--bbw-black) !important;
+    background: linear-gradient(180deg, #2a221b 0%, #1a1510 55%, #100c08 100%) !important;
     color: var(--bbw-gold-light) !important;
-    border-color: rgba(184,146,90,0.80) !important;
+    border-color: rgba(184,146,90,0.90) !important;
     transform: translateY(-3px) scale(1.02) !important;
     box-shadow:
-        0 12px 32px rgba(0,0,0,0.28),
-        0 1px 0 rgba(184,146,90,0.20) inset !important;
+        0 0 0 5px #ffffff,
+        0 16px 36px rgba(0,0,0,0.34),
+        0 1px 0 rgba(255,255,255,0.08) inset,
+        0 -2px 4px rgba(0,0,0,0.35) inset !important;
 }
 
 
+/* ── BUY NOW — or métallique brossé, relief bombé ── */
 button.buy-now.cta {
-    background: linear-gradient(135deg,
-        var(--bbw-gold) 0%,
-        var(--bbw-gold-light) 40%,
-        var(--bbw-gold) 70%,
-        #b07d28 100%
+    background: linear-gradient(180deg,
+        #f3d78e 0%,
+        var(--bbw-gold-light) 22%,
+        var(--bbw-gold) 55%,
+        #a9761f 100%
     ) !important;
     background-size: 200% auto !important;
-    color: var(--bbw-black) !important;
+    color: #241a08 !important;
     font-size: 14px !important;
-    padding: 12px 22px !important;
+    padding: 15px 22px !important;
     cursor: pointer; flex-shrink: 0 !important;
     width: auto !important; min-width: fit-content !important;
-    border-radius: 10px !important;
+    border-radius: 13px !important;
     font-weight: 800 !important;
-    letter-spacing: 0.06em !important;
-    border: none !important;
+    letter-spacing: 0.07em !important;
+    border: 1px solid rgba(120,84,20,0.45) !important;
     box-shadow:
-        0 6px 22px rgba(184,146,90,0.38),
-        0 1px 0 rgba(255,255,255,0.30) inset !important;
+        0 0 0 5px #ffffff,
+        0 10px 26px rgba(184,146,90,0.42),
+        0 1px 0 rgba(255,255,255,0.55) inset,
+        0 -2px 4px rgba(120,84,20,0.30) inset !important;
     transition: all 0.32s cubic-bezier(0.4,0,0.2,1) !important;
     animation: ctaShimmerGold 3.5s linear infinite !important;
     white-space: nowrap;
     text-transform: uppercase;
     position: relative; overflow: hidden;
 }
+button.buy-now.cta::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.35) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: 13px 13px 0 0;
+}
 button.buy-now.cta::after {
     content: '';
     position: absolute; top: -50%; left: -70%;
     width: 45%; height: 200%;
-    background: rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.30);
     transform: skewX(-20deg);
     animation: shimmerBar 3s 1s ease-in-out infinite;
 }
@@ -2154,33 +2190,44 @@ button.buy-now.cta:hover {
     background-position: right center !important;
     transform: translateY(-3px) scale(1.02) !important;
     box-shadow:
-        0 12px 34px rgba(184,146,90,0.50),
-        0 1px 0 rgba(255,255,255,0.40) inset !important;
+        0 0 0 5px #ffffff,
+        0 16px 38px rgba(184,146,90,0.54),
+        0 1px 0 rgba(255,255,255,0.65) inset,
+        0 -2px 4px rgba(120,84,20,0.30) inset !important;
     color: #0e0803 !important;
 }
+
+
+/* ── PayPal — nacré ivoire, liseré or, sobre et distinct des 2 autres ── */
 button.buy-paypal.cta {
-    background: #FFC439 !important;
+    background: linear-gradient(180deg, #ffffff 0%, #fbf6ec 100%) !important;
     color: #003087 !important;
     font-size: 14px !important;
-    padding: 12px 16px !important;
+    padding: 15px 16px !important;
     cursor: pointer; flex-shrink: 0 !important;
-    border-radius: 10px !important;
+    border-radius: 13px !important;
     font-weight: 700 !important;
     letter-spacing: 0.02em !important;
-    border: none !important;
+    border: 1px solid rgba(184,146,90,0.40) !important;
     box-shadow:
-        0 6px 22px rgba(0,0,0,0.12),
-        0 1px 0 rgba(255,255,255,0.35) inset !important;
+        0 0 0 5px #ffffff,
+        0 8px 22px rgba(21,17,14,0.10),
+        0 1px 0 rgba(255,255,255,0.9) inset,
+        0 -2px 4px rgba(184,146,90,0.10) inset !important;
     transition: all 0.32s cubic-bezier(0.4,0,0.2,1) !important;
     white-space: nowrap;
+    position: relative;
 }
 button.buy-paypal.cta svg { flex-shrink: 0; }
 button.buy-paypal.cta:hover {
-    background: #f2ba36 !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f6efe0 100%) !important;
+    border-color: rgba(184,146,90,0.65) !important;
     transform: translateY(-3px) scale(1.02) !important;
     box-shadow:
-        0 12px 32px rgba(0,0,0,0.18),
-        0 1px 0 rgba(255,255,255,0.40) inset !important;
+        0 0 0 5px #ffffff,
+        0 14px 30px rgba(21,17,14,0.14),
+        0 1px 0 rgba(255,255,255,0.9) inset,
+        0 -2px 4px rgba(184,146,90,0.10) inset !important;
 }
 button.buy-paypal.cta.is-loading {
     opacity: 0.6 !important;
@@ -2188,9 +2235,11 @@ button.buy-paypal.cta.is-loading {
     pointer-events: none;
 }
 @media (max-width: 768px) {
-    button.add-to-cart.cta { padding: 10px 14px !important; font-size: 12px !important; }
-    button.buy-now.cta     { padding: 10px 14px !important; font-size: 12px !important; }
-    button.buy-paypal.cta  { padding: 10px 12px !important; font-size: 12px !important; }
+    .quantity-add-wrapper { padding: 10px !important; border-radius: 15px; }
+    button.add-to-cart.cta { padding: 12px 14px !important; font-size: 12px !important; border-radius: 11px !important; }
+    button.buy-now.cta     { padding: 12px 14px !important; font-size: 12px !important; border-radius: 11px !important; }
+    button.buy-paypal.cta  { padding: 12px 12px !important; font-size: 12px !important; border-radius: 11px !important; }
+    .quantity-add-wrapper .quantity { border-radius: 10px; }
 }
 
 /* ── Trust icons sous les boutons de paiement — même style que le footer

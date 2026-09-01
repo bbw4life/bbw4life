@@ -3718,18 +3718,21 @@ body {
   height: 100% !important;
 }
 
-/* Spotlight — mini gallery thumbnails (.fs-thumb), même principe : le
-   wrapper reprend le flex/height du thumb pour ne pas casser la rangée. */
+/* Spotlight — mini gallery thumbnails (.fs-thumb) : le wrapper de preload
+   (span injecté par initCardPreloadLogo) reste purement structurel — flex
+   + hauteur pour ne pas casser la rangée — et laisse .fs-thumb porter
+   100% de son propre style (bordure, padding, fond, ombre, radius). Pas
+   d'overflow:hidden ni de radius ici : ça écraserait visuellement le
+   design premium de la thumbnail dès que le wrapper est en place. */
 .fs-mini-gallery .bbw-preload-img-wrap {
+  position: relative;
   flex: 1;
-  height: 80px;
-  border-radius: 2px;
-  overflow: hidden;
+  height: 84px;
+  display: block;
 }
 .fs-mini-gallery .bbw-preload-img-wrap img {
   width: 100% !important;
   height: 100% !important;
-  border: none !important;
 }
 @media (max-width: 768px) {
   .fs-mini-gallery .bbw-preload-img-wrap { height: 62px; }
@@ -7939,24 +7942,40 @@ body.sr-page .curva-search-dropdown {
 
 .fs-mini-gallery {
   display: flex;
-  gap: 10px;
-  margin-top: 14px;
+  gap: 12px;
+  margin-top: 16px;
 }
 .fs-thumb {
   flex: 1;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 2px;
+  height: 84px;
+  object-fit: contain;
+  border-radius: 10px;
   cursor: pointer;
-  border: 1px solid var(--bbw-gold-border);
-  background: #ede0cc;
-  transition: border-color 0.25s ease;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #15110E;
+  background:
+    linear-gradient(160deg, #ffffff 0%, #fdf9f2 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.9) inset,
+    0 6px 16px rgba(21,17,14,0.07);
+  transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), border-color 0.28s ease, box-shadow 0.28s ease;
 }
 .fs-thumb:hover {
   border-color: var(--bbw-gold);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.9) inset,
+    0 12px 26px rgba(184,146,90,0.26);
 }
 .fs-thumb--active {
   border-color: var(--bbw-gold) !important;
+  background:
+    linear-gradient(160deg, #fffdf8 0%, #faf1de 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.95) inset,
+    0 0 0 3px rgba(184,146,90,0.16),
+    0 12px 28px rgba(184,146,90,0.32) !important;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -8184,7 +8203,7 @@ body.sr-page .curva-search-dropdown {
   .featured-spotlight-section { padding: 10px 0 !important; }
   .fs-inner { padding: 0 10px !important; }
   .fs-main-img { height: 280px; }
-  .fs-thumb    { height: 62px; }
+  .fs-thumb    { height: 62px; padding: 5px; border-radius: 8px; }
   .fs-features { grid-template-columns: 1fr; }
   .fs-title    { font-size: 20px; }
   .fs-btn-primary { font-size: 14px; padding: 13px 24px; }
@@ -8898,6 +8917,7 @@ body.sr-page .curva-search-dropdown {
 }
 
 .our-story__content {
+  position: relative;
   flex: 0 1 560px;
   min-width: 0;
   height: 146px;
@@ -8934,6 +8954,32 @@ body.sr-page .curva-search-dropdown {
   color: #6b6b6b;
   margin: 0;
   max-width: 62ch;
+}
+
+/* ── Skeleton (premier paint, avant que initOurStorySkeleton() en JS
+   révèle le vrai contenu) : masque les 2 photos + le texte réel derrière
+   un shimmer, dimensions identiques au contenu final pour zéro layout
+   shift. Overlays en position:absolute par-dessus les <img> réelles
+   (elles continuent de charger en arrière-plan pendant ce temps). ── */
+.our-story__skel { border-radius: 4px; }
+.our-story__skel--back  { top: 0; left: 0; width: 58%; height: 92%; z-index: 3; }
+.our-story__skel--front { bottom: 0; right: 0; width: 58%; height: 82%; z-index: 4; }
+
+.our-story__skel-text { display: none; }
+
+.our-story.is-skeleton .our-story__img { visibility: hidden; }
+.our-story.is-skeleton .our-story__label,
+.our-story.is-skeleton .our-story__title,
+.our-story.is-skeleton .our-story__text {
+  visibility: hidden;
+}
+.our-story.is-skeleton .our-story__skel-text {
+  display: block;
+  position: absolute;
+  inset: 16px 28px;
+}
+.our-story:not(.is-skeleton) .our-story__skel {
+  display: none;
 }
 
 @media (max-width: 480px) {

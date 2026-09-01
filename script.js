@@ -2148,6 +2148,32 @@ function showErrorPopup(message) {
       })();
 
       // ══════════════════════════════════════════
+      //  OUR STORY — retire le skeleton une fois les 2 photos chargées
+      //  (contenu 100% statique, seul le poids réseau des images justifie
+      //  un état de chargement ici).
+      // ══════════════════════════════════════════
+      (function initOurStorySkeleton() {
+        const section = document.getElementById('ourStorySection');
+        if (!section) return;
+        const imgs = section.querySelectorAll('.our-story__img');
+        if (!imgs.length) { section.classList.remove('is-skeleton'); return; }
+
+        let remaining = imgs.length;
+        const reveal = () => {
+          remaining--;
+          if (remaining <= 0) section.classList.remove('is-skeleton');
+        };
+        imgs.forEach(img => {
+          if (img.complete) {
+            reveal();
+          } else {
+            img.addEventListener('load', reveal, { once: true });
+            img.addEventListener('error', reveal, { once: true });
+          }
+        });
+      })();
+
+      // ══════════════════════════════════════════
       //  FEATURED SPOTLIGHT 2 — produit fixe (product114) mais toutes
       //  les données (prix, titre, desc, rating, images...) viennent de
       //  products.data.json, jamais en dur dans le HTML.
@@ -2255,6 +2281,29 @@ function showErrorPopup(message) {
         // Lien "View Product"
         const viewBtn = section.querySelector('.fs-btn-primary');
         if (viewBtn) viewBtn.href = getProductUrl(spotlightId);
+
+        // Stock dynamique
+        if (prod.cj_id) {
+          const fsStock = section.querySelector('.fs-stock');
+          if (fsStock) {
+            fsStock.innerHTML = '⏳ Checking stock...';
+            fetch(`/.netlify/functions/get-product-stock?cj_id=${prod.cj_id}`)
+              .then(r => r.json())
+              .then(stockData => {
+                if (stockData.success && stockData.totalStock !== null) {
+                  const inventoryMode = (settings.inventory_display_mode || 'anderson').toLowerCase().trim();
+                  const s = inventoryMode === 'francenel'
+                    ? stockData.totalStock
+                    : capDisplayStock(stockData.totalStock);
+                  const color = s <= 100 ? '🔴' : s <= 200 ? '🟡' : '🟢';
+                  fsStock.innerHTML = `${color} Only <strong>${s} left</strong> in stock`;
+                } else {
+                  fsStock.style.display = 'none';
+                }
+              })
+              .catch(() => { fsStock.style.display = 'none'; });
+          }
+        }
       })();
 
       // ══════════════════════════════════════════
