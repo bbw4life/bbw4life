@@ -62,7 +62,7 @@ exports.handler = async (event) => {
       shipping.city       || '',                              // I
       shipping.postalCode || '',                              // J
       shipping.address    || '',                              // K
-      item.cj_product_id  || item.cj_id || '',               // L ← cj_product_id
+      item.cj_product_id  || item.eprolo_id || '',               // L ← cj_product_id
       item.variantsid     || item.cj_variant_id || '',        // M ← variant_id
       item.quantity       || 1,                               // N
       status,                                                 // O

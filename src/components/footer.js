@@ -1117,7 +1117,7 @@
         color:         color || null,
         quantity:      1,
         fromQuiz:      true,
-        cj_product_id: prod.cj_id || null,
+        cj_product_id: prod.cj_product_id || prod.eprolo_id || null,
         cj_variant_id: vid        || null
       });
     }

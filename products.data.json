@@ -1,6 +1,6 @@
 [
   {
-    "cj_id": "31506995",
+    "eprolo_id": "31506995",
     "sku_internal": "PSW-SH-001",
     "id": "Pdg-Francenel-product1",
     "url": "/products/product1.html",
@@ -75,7 +75,7 @@
     ]
   },
   {
-    "cj_id": "31507001",
+    "eprolo_id": "31507001",
     "sku_internal": "PSW-SH-002",
     "id": "Pdg-Francenel-product2",
     "url": "/products/product2.html",
@@ -155,7 +155,7 @@
     ]
   },
   {
-    "cj_id": "31506993",
+    "eprolo_id": "31506993",
     "sku_internal": "PSW-SH-003",
     "id": "Pdg-Francenel-product3",
     "url": "/products/product3.html",
@@ -238,7 +238,7 @@
     ]
   },
   {
-    "cj_id": "31506990",
+    "eprolo_id": "31506990",
     "sku_internal": "PSW-SH-004",
     "id": "Pdg-Francenel-product4",
     "url": "/products/product4.html",
@@ -323,7 +323,7 @@
     ]
   },
   {
-    "cj_id": "31506877",
+    "eprolo_id": "31506877",
     "sku_internal": "PSW-SH-005",
     "id": "Pdg-Francenel-product5",
     "url": "/products/product5.html",
@@ -393,7 +393,7 @@
     ]
   },
   {
-    "cj_id": "31506874",
+    "eprolo_id": "31506874",
     "sku_internal": "PSW-SH-006",
     "id": "Pdg-Francenel-product6",
     "url": "/products/product6.html",
@@ -445,7 +445,7 @@
     ]
   },
   {
-    "cj_id": "31506899",
+    "eprolo_id": "31506899",
     "sku_internal": "PSW-DR-001",
     "id": "Pdg-Francenel-product7",
     "url": "/products/product7.html",
@@ -492,7 +492,7 @@
     ]
   },
   {
-    "cj_id": "31506898",
+    "eprolo_id": "31506898",
     "sku_internal": "PSW-DR-002",
     "id": "Pdg-Francenel-product8",
     "url": "/products/product8.html",
@@ -538,7 +538,7 @@
     ]
   },
   {
-    "cj_id": "31506897",
+    "eprolo_id": "31506897",
     "sku_internal": "PSW-DR-003",
     "id": "Pdg-Francenel-product9",
     "url": "/products/product9.html",
@@ -596,7 +596,7 @@
     ]
   },
   {
-    "cj_id": "31506895",
+    "eprolo_id": "31506895",
     "sku_internal": "PSW-DR-004",
     "id": "Pdg-Francenel-product10",
     "url": "/products/product10.html",
@@ -642,7 +642,7 @@
     ]
   },
   {
-    "cj_id": "31506885",
+    "eprolo_id": "31506885",
     "sku_internal": "PSW-DR-005",
     "id": "Pdg-Francenel-product11",
     "url": "/products/product11.html",
@@ -695,7 +695,7 @@
     ]
   },
   {
-    "cj_id": "31506863",
+    "eprolo_id": "31506863",
     "sku_internal": "PSW-DR-006",
     "id": "Pdg-Francenel-product12",
     "url": "/products/product12.html",
@@ -742,7 +742,7 @@
     ]
   },
   {
-    "cj_id": "31506856",
+    "eprolo_id": "31506856",
     "sku_internal": "PSW-DR-007",
     "id": "Pdg-Francenel-product13",
     "url": "/products/product13.html",
@@ -796,7 +796,7 @@
     ]
   },
   {
-    "cj_id": "31506842",
+    "eprolo_id": "31506842",
     "sku_internal": "PSW-DR-008",
     "id": "Pdg-Francenel-product14",
     "url": "/products/product14.html",
@@ -857,7 +857,7 @@
     ]
   },
   {
-    "cj_id": "31506840",
+    "eprolo_id": "31506840",
     "sku_internal": "PSW-DR-009",
     "id": "Pdg-Francenel-product15",
     "url": "/products/product15.html",
@@ -923,7 +923,7 @@
     ]
   },
   {
-    "cj_id": "31506894",
+    "eprolo_id": "31506894",
     "sku_internal": "PSW-DR-010",
     "id": "Pdg-Francenel-product16",
     "url": "/products/product16.html",
@@ -969,7 +969,7 @@
     ]
   },
   {
-    "cj_id": "31506891",
+    "eprolo_id": "31506891",
     "sku_internal": "PSW-BT-001",
     "id": "Pdg-Francenel-product17",
     "url": "/products/product17.html",
@@ -1043,7 +1043,7 @@
     ]
   },
   {
-    "cj_id": "31506893",
+    "eprolo_id": "31506893",
     "sku_internal": "PSW-BT-002",
     "id": "Pdg-Francenel-product18",
     "url": "/products/product18.html",
@@ -1090,7 +1090,7 @@
     ]
   },
   {
-    "cj_id": "31506890",
+    "eprolo_id": "31506890",
     "sku_internal": "PSW-SX-001",
     "id": "Pdg-Francenel-product19",
     "url": "/products/product19.html",
@@ -1141,7 +1141,7 @@
     ]
   },
   {
-    "cj_id": "31506872",
+    "eprolo_id": "31506872",
     "sku_internal": "PSW-SX-002",
     "id": "Pdg-Francenel-product20",
     "url": "/products/product20.html",
@@ -1185,7 +1185,7 @@
     ]
   },
   {
-    "cj_id": "31506846",
+    "eprolo_id": "31506846",
     "sku_internal": "PSW-SX-003",
     "id": "Pdg-Francenel-product21",
     "url": "/products/product21.html",
@@ -1229,7 +1229,7 @@
     ]
   },
   {
-    "cj_id": "31506841",
+    "eprolo_id": "31506841",
     "sku_internal": "PSW-SX-004",
     "id": "Pdg-Francenel-product22",
     "url": "/products/product22.html",
@@ -1296,7 +1296,7 @@
     ]
   },
   {
-    "cj_id": "31506880",
+    "eprolo_id": "31506880",
     "sku_internal": "PSW-BR-001",
     "id": "Pdg-Francenel-product23",
     "url": "/products/product23.html",
@@ -1412,7 +1412,7 @@
     ]
   },
   {
-    "cj_id": "31506879",
+    "eprolo_id": "31506879",
     "sku_internal": "PSW-BR-002",
     "id": "Pdg-Francenel-product24",
     "url": "/products/product24.html",
@@ -1479,7 +1479,7 @@
     ]
   },
   {
-    "cj_id": "31506871",
+    "eprolo_id": "31506871",
     "sku_internal": "PSW-BK-001",
     "id": "Pdg-Francenel-product25",
     "url": "/products/product25.html",
@@ -1525,7 +1525,7 @@
     ]
   },
   {
-    "cj_id": "31506851",
+    "eprolo_id": "31506851",
     "sku_internal": "PSW-BK-002",
     "id": "Pdg-Francenel-product26",
     "url": "/products/product26.html",
@@ -1582,7 +1582,7 @@
     ]
   },
   {
-    "cj_id": "31506845",
+    "eprolo_id": "31506845",
     "sku_internal": "PSW-BK-003",
     "id": "Pdg-Francenel-product27",
     "url": "/products/product27.html",
@@ -1630,7 +1630,7 @@
     ]
   },
   {
-    "cj_id": "31506839",
+    "eprolo_id": "31506839",
     "sku_internal": "PSW-BK-004",
     "id": "Pdg-Francenel-product28",
     "url": "/products/product28.html",
@@ -1677,7 +1677,7 @@
     ]
   },
   {
-    "cj_id": "31506830",
+    "eprolo_id": "31506830",
     "sku_internal": "PSW-BK-005",
     "id": "Pdg-Francenel-product29",
     "url": "/products/product29.html",
@@ -1729,7 +1729,7 @@
     ]
   },
   {
-    "cj_id": "31506822",
+    "eprolo_id": "31506822",
     "sku_internal": "PSW-BK-006",
     "id": "Pdg-Francenel-product30",
     "url": "/products/product30.html",
@@ -1777,7 +1777,7 @@
     ]
   },
   {
-    "cj_id": "31506857",
+    "eprolo_id": "31506857",
     "sku_internal": "PSW-TP-001",
     "id": "Pdg-Francenel-product31",
     "url": "/products/product31.html",
@@ -1823,7 +1823,7 @@
     ]
   },
   {
-    "cj_id": "31506854",
+    "eprolo_id": "31506854",
     "sku_internal": "PSW-TP-002",
     "id": "Pdg-Francenel-product32",
     "url": "/products/product32.html",
@@ -1874,7 +1874,7 @@
     ]
   },
   {
-    "cj_id": "31506868",
+    "eprolo_id": "31506868",
     "sku_internal": "PSW-TP-003",
     "id": "Pdg-Francenel-product33",
     "url": "/products/product33.html",
@@ -1920,7 +1920,7 @@
     ]
   },
   {
-    "cj_id": "31506889",
+    "eprolo_id": "31506889",
     "sku_internal": "PSW-TP-004",
     "id": "Pdg-Francenel-product34",
     "url": "/products/product34.html",
@@ -1968,7 +1968,7 @@
     ]
   },
   {
-    "cj_id": "31507010",
+    "eprolo_id": "31507010",
     "sku_internal": "PSM-PT-001",
     "id": "Pdg-Francenel-product35",
     "url": "/products/product35.html",
@@ -2058,7 +2058,7 @@
     ]
   },
   {
-    "cj_id": "31506972",
+    "eprolo_id": "31506972",
     "sku_internal": "PSM-PT-002",
     "id": "Pdg-Francenel-product36",
     "url": "/products/product36.html",
@@ -2165,7 +2165,7 @@
     ]
   },
   {
-    "cj_id": "31506964",
+    "eprolo_id": "31506964",
     "sku_internal": "PSM-PT-003",
     "id": "Pdg-Francenel-product37",
     "url": "/products/product37.html",
@@ -2233,7 +2233,7 @@
     ]
   },
   {
-    "cj_id": "31506942",
+    "eprolo_id": "31506942",
     "sku_internal": "PSM-PT-004",
     "id": "Pdg-Francenel-product38",
     "url": "/products/product38.html",
@@ -2293,7 +2293,7 @@
     ]
   },
   {
-    "cj_id": "31507005",
+    "eprolo_id": "31507005",
     "sku_internal": "PSM-SH-001",
     "id": "Pdg-Francenel-product39",
     "url": "/products/product39.html",
@@ -2366,7 +2366,7 @@
     ]
   },
   {
-    "cj_id": "31506999",
+    "eprolo_id": "31506999",
     "sku_internal": "PSM-SH-002",
     "id": "Pdg-Francenel-product40",
     "url": "/products/product40.html",
@@ -2418,7 +2418,7 @@
     ]
   },
   {
-    "cj_id": "31506996",
+    "eprolo_id": "31506996",
     "sku_internal": "PSM-SH-003",
     "id": "Pdg-Francenel-product41",
     "url": "/products/product41.html",
@@ -2470,7 +2470,7 @@
     ]
   },
   {
-    "cj_id": "31506987",
+    "eprolo_id": "31506987",
     "sku_internal": "PSM-SH-004",
     "id": "Pdg-Francenel-product42",
     "url": "/products/product42.html",
@@ -2536,7 +2536,7 @@
     ]
   },
   {
-    "cj_id": "31506961",
+    "eprolo_id": "31506961",
     "sku_internal": "PSM-SH-005",
     "id": "Pdg-Francenel-product43",
     "url": "/products/product43.html",
@@ -2611,7 +2611,7 @@
     ]
   },
   {
-    "cj_id": "31506959",
+    "eprolo_id": "31506959",
     "sku_internal": "PSM-SH-006",
     "id": "Pdg-Francenel-product44",
     "url": "/products/product44.html",
@@ -2683,7 +2683,7 @@
     ]
   },
   {
-    "cj_id": "31506957",
+    "eprolo_id": "31506957",
     "sku_internal": "PSM-SH-007",
     "id": "Pdg-Francenel-product45",
     "url": "/products/product45.html",
@@ -2749,7 +2749,7 @@
     ]
   },
   {
-    "cj_id": "31506986",
+    "eprolo_id": "31506986",
     "sku_internal": "PSM-SR-001",
     "id": "Pdg-Francenel-product46",
     "url": "/products/product46.html",
@@ -2831,7 +2831,7 @@
     ]
   },
   {
-    "cj_id": "31506956",
+    "eprolo_id": "31506956",
     "sku_internal": "PSM-SR-002",
     "id": "Pdg-Francenel-product47",
     "url": "/products/product47.html",
@@ -2886,7 +2886,7 @@
     ]
   },
   {
-    "cj_id": "31506938",
+    "eprolo_id": "31506938",
     "sku_internal": "PSM-SR-003",
     "id": "Pdg-Francenel-product48",
     "url": "/products/product48.html",
@@ -2938,7 +2938,7 @@
     ]
   },
   {
-    "cj_id": "31506970",
+    "eprolo_id": "31506970",
     "sku_internal": "PSM-SW-001",
     "id": "Pdg-Francenel-product49",
     "url": "/products/product49.html",
@@ -3037,7 +3037,7 @@
     ]
   },
   {
-    "cj_id": "31506983",
+    "eprolo_id": "31506983",
     "sku_internal": "PSM-SW-002",
     "id": "Pdg-Francenel-product50",
     "url": "/products/product50.html",
@@ -3119,7 +3119,7 @@
     ]
   },
   {
-    "cj_id": "31506831",
+    "eprolo_id": "31506831",
     "sku_internal": "PSM-SW-003",
     "id": "Pdg-Francenel-product51",
     "url": "/products/product51.html",
@@ -3191,7 +3191,7 @@
     ]
   },
   {
-    "cj_id": "31507085",
+    "eprolo_id": "31507085",
     "sku_internal": "BT-NA-001",
     "id": "Pdg-Francenel-product52",
     "url": "/products/product52.html",
@@ -3238,7 +3238,7 @@
     ]
   },
   {
-    "cj_id": "31507084",
+    "eprolo_id": "31507084",
     "sku_internal": "BT-NA-002",
     "id": "Pdg-Francenel-product53",
     "url": "/products/product53.html",
@@ -3284,7 +3284,7 @@
     ]
   },
   {
-    "cj_id": "31507050",
+    "eprolo_id": "31507050",
     "sku_internal": "BT-NA-003",
     "id": "Pdg-Francenel-product54",
     "url": "/products/product54.html",
@@ -3328,7 +3328,7 @@
     ]
   },
   {
-    "cj_id": "31507083",
+    "eprolo_id": "31507083",
     "sku_internal": "BT-EB-001",
     "id": "Pdg-Francenel-product55",
     "url": "/products/product55.html",
@@ -3374,7 +3374,7 @@
     ]
   },
   {
-    "cj_id": "31507079",
+    "eprolo_id": "31507079",
     "sku_internal": "BT-EB-002",
     "id": "Pdg-Francenel-product56",
     "url": "/products/product56.html",
@@ -3417,7 +3417,7 @@
   ]
 },
 {
-    "cj_id": "31507077",
+    "eprolo_id": "31507077",
     "sku_internal": "BT-EB-003",
     "id": "Pdg-Francenel-product57",
     "url": "/products/product57.html",
@@ -3461,7 +3461,7 @@
   ]
 },
 {
-    "cj_id": "31507080",
+    "eprolo_id": "31507080",
     "sku_internal": "BT-LP-001",
     "id": "Pdg-Francenel-product58",
     "url": "/products/product58.html",
@@ -3505,7 +3505,7 @@
   ]
 },
 {
-    "cj_id": "31507082",
+    "eprolo_id": "31507082",
     "sku_internal": "BT-LP-002",
     "id": "Pdg-Francenel-product59",
     "url": "/products/product59.html",
@@ -3554,7 +3554,7 @@
   ]
 },
 {
-    "cj_id": "31507075",
+    "eprolo_id": "31507075",
     "sku_internal": "BT-MK-001",
     "id": "Pdg-Francenel-product60",
     "url": "/products/product60.html",
@@ -3599,7 +3599,7 @@
   ]
 },
 {
-    "cj_id": "31507069",
+    "eprolo_id": "31507069",
     "sku_internal": "BT-HC-001",
     "id": "Pdg-Francenel-product61",
     "url": "/products/product61.html",
@@ -3643,7 +3643,7 @@
   ]
 },
 {
-    "cj_id": "31507068",
+    "eprolo_id": "31507068",
     "sku_internal": "BT-HC-002",
     "id": "Pdg-Francenel-product62",
     "url": "/products/product62.html",
@@ -3687,7 +3687,7 @@
   ]
 },
 {
-    "cj_id": "31507066",
+    "eprolo_id": "31507066",
     "sku_internal": "BT-HC-003",
     "id": "Pdg-Francenel-product63",
     "url": "/products/product63.html",
@@ -3731,7 +3731,7 @@
   ]
 },
 {
-    "cj_id": "31507047",
+    "eprolo_id": "31507047",
     "sku_internal": "BT-SK-001",
     "id": "Pdg-Francenel-product64",
     "url": "/products/product64.html",
@@ -3777,7 +3777,7 @@
   ]
 },
 {
-    "cj_id": "31507042",
+    "eprolo_id": "31507042",
     "sku_internal": "BT-SK-002",
     "id": "Pdg-Francenel-product65",
     "url": "/products/product65.html",
@@ -3820,7 +3820,7 @@
   ]
 },
 {
-    "cj_id": "31507040",
+    "eprolo_id": "31507040",
     "sku_internal": "BT-SK-003",
     "id": "Pdg-Francenel-product66",
     "url": "/products/product66.html",
@@ -3864,7 +3864,7 @@
   ]
 },
 {
-    "cj_id": "31507037",
+    "eprolo_id": "31507037",
     "sku_internal": "BT-SK-004",
     "id": "Pdg-Francenel-product67",
     "url": "/products/product67.html",
@@ -3909,7 +3909,7 @@
   ]
 },
 {
-    "cj_id": "31507030",
+    "eprolo_id": "31507030",
     "sku_internal": "BT-SK-005",
     "id": "Pdg-Francenel-product68",
     "url": "/products/product68.html",
@@ -3965,7 +3965,7 @@
   ]
  },
  {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-011",
   "id": "Pdg-Francenel-product69",
   "url": "/products/product69.html",
@@ -4011,7 +4011,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-SK-001",
   "id": "Pdg-Francenel-product70",
   "url": "/products/product70.html",
@@ -4056,7 +4056,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-012",
   "id": "Pdg-Francenel-product71",
   "url": "/products/product71.html",
@@ -4104,7 +4104,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-LW-001",
   "id": "Pdg-Francenel-product72",
   "url": "/products/product72.html",
@@ -4150,7 +4150,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-013",
   "id": "Pdg-Francenel-product73",
   "url": "/products/product73.html",
@@ -4197,7 +4197,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-014",
   "id": "Pdg-Francenel-product74",
   "url": "/products/product74.html",
@@ -4244,7 +4244,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-ST-001",
   "id": "Pdg-Francenel-product75",
   "url": "/products/product75.html",
@@ -4291,7 +4291,7 @@
  },
 
   {
-    "cj_id": "32048267",
+    "eprolo_id": "32048267",
     "sku_internal": "PSW-SH-007",
     "id": "Pdg-Francenel-product76",
     "url": "/products/product76.html",
@@ -4345,7 +4345,7 @@
   },
 
   {
-    "cj_id": "32048149",
+    "eprolo_id": "32048149",
     "sku_internal": "PSW-SH-008",
     "id": "Pdg-Francenel-product77",
     "url": "/products/product77.html",
@@ -4404,7 +4404,7 @@
   },
 
   {
-    "cj_id": "32048075",
+    "eprolo_id": "32048075",
     "sku_internal": "PSW-SH-009",
     "id": "Pdg-Francenel-product78",
     "url": "/products/product78.html",
@@ -4484,7 +4484,7 @@
   },
 
   {
-    "cj_id": "32048080",
+    "eprolo_id": "32048080",
     "sku_internal": "PSW-DR-015",
     "id": "Pdg-Francenel-product79",
     "url": "/products/product79.html",
@@ -4546,7 +4546,7 @@
   },
 
   {
-    "cj_id": "32048087",
+    "eprolo_id": "32048087",
     "sku_internal": "PSW-DR-016",
     "id": "Pdg-Francenel-product80",
     "url": "/products/product80.html",
@@ -4610,7 +4610,7 @@
   },
 
   {
-    "cj_id": "32048089",
+    "eprolo_id": "32048089",
     "sku_internal": "PSW-DR-017",
     "id": "Pdg-Francenel-product81",
     "url": "/products/product81.html",
@@ -4659,7 +4659,7 @@
   },
 
   {
-    "cj_id": "32048102",
+    "eprolo_id": "32048102",
     "sku_internal": "PSW-DR-018",
     "id": "Pdg-Francenel-product82",
     "url": "/products/product82.html",
@@ -4749,7 +4749,7 @@
   },
 
   {
-    "cj_id": "32048106",
+    "eprolo_id": "32048106",
     "sku_internal": "PSW-DR-019",
     "id": "Pdg-Francenel-product83",
     "url": "/products/product83.html",
@@ -4824,7 +4824,7 @@
   },
 
   {
-    "cj_id": "32048127",
+    "eprolo_id": "32048127",
     "sku_internal": "PSW-DR-020",
     "id": "Pdg-Francenel-product84",
     "url": "/products/product84.html",
@@ -4884,7 +4884,7 @@
   },
 
   {
-    "cj_id": "32048189",
+    "eprolo_id": "32048189",
     "sku_internal": "PSW-BG-001",
     "id": "Pdg-Francenel-product85",
     "url": "/products/product85.html",
@@ -4955,7 +4955,7 @@
   },
 
   {
-    "cj_id": "32048193",
+    "eprolo_id": "32048193",
     "sku_internal": "PSW-BG-002",
     "id": "Pdg-Francenel-product86",
     "url": "/products/product86.html",
@@ -5010,7 +5010,7 @@
   },
 
   {
-    "cj_id": "32048246",
+    "eprolo_id": "32048246",
     "sku_internal": "PSW-BG-003",
     "id": "Pdg-Francenel-product87",
     "url": "/products/product87.html",
@@ -5062,7 +5062,7 @@
   },
 
   {
-    "cj_id": "32048245",
+    "eprolo_id": "32048245",
     "sku_internal": "PSW-BG-004",
     "id": "Pdg-Francenel-product88",
     "url": "/products/product88.html",
@@ -5111,7 +5111,7 @@
   },
 
   {
-    "cj_id": "32048241",
+    "eprolo_id": "32048241",
     "sku_internal": "PSW-BG-005",
     "id": "Pdg-Francenel-product89",
     "url": "/products/product89.html",
@@ -5162,7 +5162,7 @@
   },
 
   {
-    "cj_id": "32048231",
+    "eprolo_id": "32048231",
     "sku_internal": "PSW-BG-006",
     "id": "Pdg-Francenel-product90",
     "url": "/products/product90.html",
@@ -5222,7 +5222,7 @@
   },
 
   {
-    "cj_id": "32048228",
+    "eprolo_id": "32048228",
     "sku_internal": "PSW-BG-007",
     "id": "Pdg-Francenel-product91",
     "url": "/products/product91.html",
@@ -5273,7 +5273,7 @@
   },
 
   {
-    "cj_id": "32048209",
+    "eprolo_id": "32048209",
     "sku_internal": "PSW-BG-008",
     "id": "Pdg-Francenel-product92",
     "url": "/products/product92.html",
@@ -5323,7 +5323,7 @@
   },
 
   {
-    "cj_id": "32048207",
+    "eprolo_id": "32048207",
     "sku_internal": "PSW-BG-009",
     "id": "Pdg-Francenel-product93",
     "url": "/products/product93.html",
@@ -5371,7 +5371,7 @@
   },
 
   {
-    "cj_id": "32048204",
+    "eprolo_id": "32048204",
     "sku_internal": "PSW-BG-010",
     "id": "Pdg-Francenel-product94",
     "url": "/products/product94.html",
@@ -5426,7 +5426,7 @@
   },
 
   {
-    "cj_id": "32048202",
+    "eprolo_id": "32048202",
     "sku_internal": "PSW-BG-011",
     "id": "Pdg-Francenel-product95",
     "url": "/products/product95.html",
@@ -5476,7 +5476,7 @@
   },
 
   {
-    "cj_id": "32048084",
+    "eprolo_id": "32048084",
     "sku_internal": "PSW-TP-005",
     "id": "Pdg-Francenel-product96",
     "url": "/products/product96.html",
@@ -5583,7 +5583,7 @@
   },
 
   {
-    "cj_id": "32048099",
+    "eprolo_id": "32048099",
     "sku_internal": "PSW-BK-007",
     "id": "Pdg-Francenel-product97",
     "url": "/products/product97.html",
@@ -5645,7 +5645,7 @@
   },
 
  {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-021",
   "id": "Pdg-Francenel-product98",
   "url": "/products/product98.html",
@@ -5692,7 +5692,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-022",
   "id": "Pdg-Francenel-product99",
   "url": "/products/product99.html",
@@ -5738,7 +5738,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-JS-001",
   "id": "Pdg-Francenel-product100",
   "url": "/products/product100.html",
@@ -5783,7 +5783,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-023",
   "id": "Pdg-Francenel-product101",
   "url": "/products/product101.html",
@@ -5832,7 +5832,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-CT-001",
   "id": "Pdg-Francenel-product102",
   "url": "/products/product102.html",
@@ -5878,7 +5878,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-024",
   "id": "Pdg-Francenel-product103",
   "url": "/products/product103.html",
@@ -5923,7 +5923,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-BO-001",
   "id": "Pdg-Francenel-product104",
   "url": "/products/product104.html",
@@ -5971,7 +5971,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-JK-001",
   "id": "Pdg-Francenel-product105",
   "url": "/products/product105.html",
@@ -6016,7 +6016,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-025",
   "id": "Pdg-Francenel-product106",
   "url": "/products/product106.html",
@@ -6062,7 +6062,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-026",
   "id": "Pdg-Francenel-product107",
   "url": "/products/product107.html",
@@ -6108,7 +6108,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-027",
   "id": "Pdg-Francenel-product108",
   "url": "/products/product108.html",
@@ -6154,7 +6154,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-DR-028",
   "id": "Pdg-Francenel-product109",
   "url": "/products/product109.html",
@@ -6200,7 +6200,7 @@
 },
 
 {
-  "cj_id": "XXXXX",
+  "eprolo_id": "XXXXX",
   "sku_internal": "PSW-ST-002",
   "id": "Pdg-Francenel-product110",
   "url": "/products/product110.html",
@@ -6245,7 +6245,7 @@
 },
 
 {
-  "cj_id": "32492179",
+  "eprolo_id": "32492179",
   "sku_internal": "PSW-SH-001",
   "id": "Pdg-Francenel-product111",
   "url": "/products/product111.html",
@@ -6311,7 +6311,7 @@
 },
 
 {
-  "cj_id": "32492177",
+  "eprolo_id": "32492177",
   "sku_internal": "PSW-SH-002",
   "id": "Pdg-Francenel-product112",
   "url": "/products/product112.html",
@@ -6375,7 +6375,7 @@
 },
 
 {
-  "cj_id": "32492120",
+  "eprolo_id": "32492120",
   "sku_internal": "PSW-SH-003",
   "id": "Pdg-Francenel-product113",
   "url": "/products/product113.html",
@@ -6432,7 +6432,7 @@
 },
 
 {
-  "cj_id": "32492118",
+  "eprolo_id": "32492118",
   "sku_internal": "PSW-SH-004",
   "id": "Pdg-Francenel-product114",
   "url": "/products/product114.html",
@@ -6499,7 +6499,7 @@
 },
 
 {
-  "cj_id": "32492114",
+  "eprolo_id": "32492114",
   "sku_internal": "PSW-SH-005",
   "id": "Pdg-Francenel-product115",
   "url": "/products/product115.html",
@@ -6566,7 +6566,7 @@
 },
 
 {
-  "cj_id": "32492170",
+  "eprolo_id": "32492170",
   "sku_internal": "PSW-SH-006",
   "id": "Pdg-Francenel-product116",
   "url": "/products/product116.html",
@@ -6673,7 +6673,7 @@
 },
 
 {
-  "cj_id": "32492169",
+  "eprolo_id": "32492169",
   "sku_internal": "PSW-SH-007",
   "id": "Pdg-Francenel-product117",
   "url": "/products/product117.html",
@@ -6746,7 +6746,7 @@
 },
 
 {
-  "cj_id": "32492167",
+  "eprolo_id": "32492167",
   "sku_internal": "PSW-SH-008",
   "id": "Pdg-Francenel-product118",
   "url": "/products/product118.html",
@@ -6822,6 +6822,28 @@
     "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-8.png?v=1788124329",
     "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-6.png?v=1788124329"
   ]
+},
+
+{
+  "_draft_note": "BROUILLON — inactive intentionnellement. Premier produit source CJ Dropshipping du catalogue. cj_product_id = vrai pid déjà présent dans netlify/functions/fetch-cj-products.js (PRODUCT_IDS[0]), mais titre/prix/variantes/images pas encore récupérés depuis l'API CJ (nécessite CJ_API_KEY, disponible seulement sur Netlify). Compléter via fetch-cj-products.js puis repasser active à true. Supprimer ce champ _draft_note une fois complété.",
+  "cj_product_id": "1661565742099206144",
+  "sku_internal": "CJ-DRAFT-001",
+  "id": "Pdg-Francenel-product121",
+  "url": "/products/product121.html",
+  "active": false,
+  "stock_managed_by": "cj",
+  "currency": "USD",
+  "last_updated": "2026-09-02",
+  "title": "TODO — à compléter avec les données réelles CJ",
+  "description": "TODO — brouillon en attente des données réelles CJ Dropshipping.",
+  "price": 0,
+  "compare_price": 0,
+  "image": "",
+  "image_hover": "",
+  "sizes": [],
+  "colors": [],
+  "variants": [],
+  "media": []
 },
 
 {

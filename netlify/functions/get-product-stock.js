@@ -12,13 +12,13 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: '' };
   }
 
-  const { cj_id } = event.queryStringParameters || {};
+  const { eprolo_id } = event.queryStringParameters || {};
 
-  if (!cj_id) {
+  if (!eprolo_id) {
     return {
       statusCode: 400,
       headers,
-      body: JSON.stringify({ success: false, error: 'Missing cj_id parameter' })
+      body: JSON.stringify({ success: false, error: 'Missing eprolo_id parameter' })
     };
   }
 
@@ -40,7 +40,7 @@ exports.handler = async (event) => {
       .update(apiKey + timestamp + apiSecret)
       .digest('hex');
 
-    const url = `https://openapi.eprolo.com/getproduct.html?sign=${sign}&timestamp=${timestamp}&id=${cj_id}`;
+    const url = `https://openapi.eprolo.com/getproduct.html?sign=${sign}&timestamp=${timestamp}&id=${eprolo_id}`;
 
     const response = await fetch(url, {
       method: 'GET',
@@ -74,7 +74,7 @@ exports.handler = async (event) => {
         headers,
         body: JSON.stringify({
           success:      true,
-          cj_id:        cj_id,
+          eprolo_id:        eprolo_id,
           totalStock:   totalStock,
           variantCount: variants.length
         })
@@ -82,13 +82,13 @@ exports.handler = async (event) => {
     }
 
     const errMsg = data.msg || 'Product not found';
-    console.warn(`[get-product-stock] EPROLO error for cj_id=${cj_id}: ${errMsg}`);
+    console.warn(`[get-product-stock] EPROLO error for eprolo_id=${eprolo_id}: ${errMsg}`);
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         success:    false,
-        cj_id:      cj_id,
+        eprolo_id:      eprolo_id,
         totalStock: null,
         error:      errMsg
       })

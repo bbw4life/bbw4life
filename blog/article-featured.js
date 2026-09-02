@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', function () {
       
 
       var pageTitle = document.getElementById('page-title');
-      if (pageTitle) pageTitle.textContent = f.title + ' | CurvaFit Journal';
+      if (pageTitle) pageTitle.textContent = f.title + ' | BBW4LIFE Journal';
 
       var metaDesc = document.getElementById('meta-description');
       if (metaDesc) metaDesc.setAttribute('content', f.excerpt);
 
       var metaOgTitle = document.getElementById('meta-og-title');
-      if (metaOgTitle) metaOgTitle.setAttribute('content', f.title + ' — CurvaFit Journal');
+      if (metaOgTitle) metaOgTitle.setAttribute('content', f.title + ' — BBW4LIFE Journal');
 
       var metaOgDesc = document.getElementById('meta-og-desc');
       if (metaOgDesc) metaOgDesc.setAttribute('content', f.excerpt);
@@ -53,16 +53,16 @@ document.addEventListener('DOMContentLoaded', function () {
           },
           'publisher': {
             '@type': 'Organization',
-            'name': 'CurvaFit',
+            'name': 'BBW4LIFE',
             'logo': {
               '@type': 'ImageObject',
-              'url': 'https://www.curva-fit.com/src-images/LogoCurvafit(1).png'
+              'url': 'https://bbw4life.com/public/vrlogo bbw4life.png'
             }
           },
           'datePublished': f.date,
           'mainEntityOfPage': {
             '@type': 'WebPage',
-            '@id': 'https://www.curva-fit.com' + (f.url || '/blog/article-featured.html')
+            '@id': 'https://bbw4life.com' + (f.url || '/blog/article-featured.html')
           }
         });
       }

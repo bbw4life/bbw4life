@@ -1,5 +1,5 @@
 /* ================================================================
-   CURVAFIT BLOG — blog.js
+   BBW4LIFE BLOG — blog.js
    Injection depuis blog-articles.json + toutes les fonctions blog
 ================================================================ */
 

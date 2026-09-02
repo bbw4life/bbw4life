@@ -14,6 +14,7 @@
         "npm:@paypal/checkout-server-sdk@^1.0.3",
         "npm:dotenv@^17.4.2",
         "npm:googleapis@128",
+        "npm:playwright@^1.62.1",
         "npm:resend@4",
         "npm:sharp@0.33",
         "npm:stripe@16",

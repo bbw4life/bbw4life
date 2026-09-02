@@ -106,7 +106,7 @@ exports.handler = async (event) => {
             currency_code: 'USD',
             value: serverAmount.toFixed(2),
           },
-          description: `CurvaFit Reservation — ${program || 'Program'}`,
+          description: `BBW4LIFE Reservation — ${program || 'Program'}`,
           custom_id:   `${customer.email || ''}|${customer.firstName || ''}|${customer.lastName || ''}|${customer.phone || ''}|${program || ''}|${serverAmount}`,
         }],
         application_context: {

@@ -298,8 +298,26 @@ exports.handler = async (event) => {
     const readyForEprolo = groupedCart.filter(item => item.variantsid);
     const notReady = cart.filter(item => !item.variantsid);
 
-    // ── Récupérer fulfillment_method depuis shipping (envoyé par checkout.js) ──
-    const fulfillment_method = (shipping.fulfillment_method || 'eprolo').toLowerCase().trim();
+    // ── Récupérer fulfillment_method depuis shipping (envoyé par checkout.js,
+    //    basé sur le pays — countries.json) ──
+    let fulfillment_method = (shipping.fulfillment_method || 'eprolo').toLowerCase().trim();
+
+    // ── Si le panier contient un produit dont le stock est géré par CJ
+    //    (stock_managed_by: "cj" dans products.data.json), on force 'cj'
+    //    quel que soit le pays — un produit CJ ne peut pas être fulfill par
+    //    Eprolo. Vérifié côté serveur (jamais confiance au fulfillment_method
+    //    envoyé par le client) contre le catalogue à jour. ──
+    try {
+      const catalogForFulfillment = await getAllProductsData();
+      const cartHasCjProduct = cart.some(item => {
+        const prod = catalogForFulfillment.find(p => p.id === item.id);
+        return prod && prod.stock_managed_by === 'cj';
+      });
+      if (cartHasCjProduct) fulfillment_method = 'cj';
+    } catch (e) {
+      console.warn('[VERIFY PAYMENT] Vérification produit CJ échouée, fulfillment basé sur le pays uniquement:', e.message);
+    }
+
     console.log(`[VERIFY PAYMENT] Fulfillment method détecté: ${fulfillment_method}`);
 
     for (const item of notReady) {

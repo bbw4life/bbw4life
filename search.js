@@ -200,7 +200,7 @@
 
     const div = document.createElement('div');
     div.id        = 'bbw-search-dropdown';
-    div.className = 'curva-search-dropdown';
+    div.className = 'bbw-search-dropdown';
     div.setAttribute('role', 'listbox');
     document.body.appendChild(div);
     return div;
@@ -235,7 +235,7 @@
 
     if (!results.length) {
       dropdown.innerHTML =
-        `<div class="curva-search-empty">No results for "<strong>${escapeHtml(query)}</strong>"</div>`;
+        `<div class="bbw-search-empty">No results for "<strong>${escapeHtml(query)}</strong>"</div>`;
       return;
     }
 
@@ -246,21 +246,21 @@
       // Section header when type changes
       if (item.type !== lastType) {
         const header = document.createElement('div');
-        header.className   = 'curva-search-header';
+        header.className   = 'bbw-search-header';
         header.textContent = TYPE_LABELS[item.type] || item.type;
         dropdown.appendChild(header);
         lastType = item.type;
       }
 
       const link = document.createElement('a');
-      link.className = 'curva-search-item';
+      link.className = 'bbw-search-item';
       link.href      = item.url;
       link.setAttribute('role', 'option');
       link.dataset.idx = idx;
 
       // Icon — kept as before for every result type.
       const icon = document.createElement('span');
-      icon.className = 'curva-search-icon';
+      icon.className = 'bbw-search-icon';
       if (item.icon && (item.icon.startsWith('fas ') || item.icon.startsWith('far ') || item.icon.startsWith('fab '))) {
         const i = document.createElement('i');
         i.className = item.icon;
@@ -275,9 +275,9 @@
       let thumb = null;
       if (item.type === 'product' && item.image) {
         thumb = document.createElement('span');
-        thumb.className = 'curva-search-thumb';
+        thumb.className = 'bbw-search-thumb';
         const img = document.createElement('img');
-        img.className = 'curva-search-thumb-img';
+        img.className = 'bbw-search-thumb-img';
         img.src = item.image;
         img.alt = '';
         img.loading = 'lazy';
@@ -286,16 +286,16 @@
 
       // Text block
       const text = document.createElement('span');
-      text.className = 'curva-search-text';
+      text.className = 'bbw-search-text';
 
       const title = document.createElement('span');
-      title.className = 'curva-search-title';
+      title.className = 'bbw-search-title';
       title.innerHTML = highlight(escapeHtml(item.title), query);
 
       // Optional price for products
       if (item.type === 'product' && item.price) {
         const price = document.createElement('span');
-        price.className   = 'curva-search-price';
+        price.className   = 'bbw-search-price';
         price.textContent = '$' + parseFloat(item.price).toFixed(2);
         text.appendChild(title);
         text.appendChild(price);
@@ -305,7 +305,7 @@
 
       // Badge
       const badge = document.createElement('span');
-      badge.className   = 'curva-search-badge';
+      badge.className   = 'bbw-search-badge';
       badge.textContent = TYPE_LABELS[item.type] || item.type;
 
       link.appendChild(icon);
@@ -371,7 +371,7 @@
     };
 
     const setActive = idx => {
-      const items = dropdown.querySelectorAll('.curva-search-item');
+      const items = dropdown.querySelectorAll('.bbw-search-item');
       items.forEach((el, i) => el.classList.toggle('active', i === idx));
       activeIdx = idx;
     };
@@ -387,7 +387,7 @@
     });
 
     input.addEventListener('keydown', e => {
-      const items = dropdown.querySelectorAll('.curva-search-item');
+      const items = dropdown.querySelectorAll('.bbw-search-item');
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         setActive(Math.min(activeIdx + 1, items.length - 1));

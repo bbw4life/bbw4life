@@ -312,7 +312,7 @@
     .btn-copy:hover { box-shadow: 0 0 16px rgba(0,255,157,0.2); }
     .btn-copy.copied { color: #fff; border-color: var(--green); background: rgba(0,255,157,0.12); }
 
-    
+
     .status-bar {
       font-size: 11px;
       color: var(--text-dim);
@@ -621,6 +621,9 @@
     <button class="btn btn-copy" id="copy-btn" onclick="copyLogs()">
       ⧉ &nbsp;Copier le log brut
     </button>
+    <button class="btn btn-run" id="margin-btn" onclick="fetchMarginAll()" style="background:var(--green);box-shadow:0 0 20px rgba(0,255,157,0.25);color:#000;">
+      💰 &nbsp;Vérifier la marge (tous les produits)
+    </button>
   </div>
 
   <div class="status-bar" id="status-bar">
@@ -642,6 +645,8 @@
       <div class="s-value pink" id="stat-errors">0</div>
     </div>
   </div>
+
+  <div id="margin-view" style="display:none;"></div>
 
   <div class="cat-tabs" id="cat-tabs"></div>
   <div class="subcat-row" id="subcat-row"></div>
@@ -992,6 +997,131 @@
     runBtn.textContent = '✨  Nouveaux produits (22)';
   }
 
+  // ── 3e bouton : récupère TOUT le catalogue (mêmes catégories que le 1er
+  //    bouton) et affiche directement Cost/Shipping/Price/Marge pour CHAQUE
+  //    variante de CHAQUE produit dans un tableau à plat — rien à saisir. ──
+  async function fetchMarginAll() {
+    const btn   = document.getElementById('margin-btn');
+    const view  = document.getElementById('margin-view');
+
+    document.getElementById('product-view').style.display  = 'none';
+    document.getElementById('cat-tabs').style.display      = 'none';
+    document.getElementById('subcat-row').style.display    = 'none';
+    document.getElementById('stats-row').style.display     = 'none';
+    document.getElementById('log-section').style.display   = 'none';
+
+    btn.disabled    = true;
+    btn.textContent = '⏳  Chargement...';
+    view.style.display = 'block';
+    view.innerHTML = `<div style="color:var(--text-dim);font-size:12px;padding:20px 0;">Appel Eprolo en cours pour tous les produits (peut prendre un moment)...</div>`;
+    setStatus('running', 'Récupération marge — tous les produits...');
+
+    try {
+      const res  = await fetch('/.netlify/functions/fetch-eprolo-products');
+      const data = await res.json();
+
+      if (!data.success || !Array.isArray(data.products)) {
+        view.innerHTML = `<div style="color:var(--accent2);">Aucune donnée retournée. Vérifie la fonction Netlify.</div>`;
+        setStatus('err', 'Échec de la récupération.');
+        return;
+      }
+
+      renderMarginTable(data.products);
+      setStatus('ok', `Marge calculée pour ${data.products.length} produits.`);
+    } catch (err) {
+      view.innerHTML = `<div style="color:var(--accent2);">Erreur : ${esc(err.message)}</div>`;
+      setStatus('err', 'Erreur : ' + err.message);
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = '💰  Vérifier la marge (tous les produits)';
+    }
+  }
+
+  function renderMarginTable(products) {
+    const view = document.getElementById('margin-view');
+    const fmt = (n) => n == null ? '—' : '$' + n.toFixed(2);
+
+    let anyShipping = false, anyPrice = false;
+
+    const rows = [];
+    products.forEach(p => {
+      (p.variantlist || []).forEach(v => {
+        const m = computeMarginFields(v);
+        if (m.shipping != null) anyShipping = true;
+        if (m.price != null) anyPrice = true;
+        const color = (v.option1 || '').replace(/ one$/i, '').trim();
+        const marginColor = m.marginUsd == null ? 'var(--text-dim)' : (m.marginUsd > 0 ? 'var(--green)' : 'var(--accent2)');
+        rows.push(`<tr>
+          <td class="p-title" style="font-size:12px;">${esc(p.title || '')}</td>
+          <td class="td-id">${esc(String(p.id))}</td>
+          <td class="td-sku">${esc(v.sku || '—')}</td>
+          <td class="td-size">${esc(color)} ${esc(v.option2 || '')}</td>
+          <td class="td-price">${fmt(m.cost)}</td>
+          <td class="td-price" style="color:${m.shipping == null ? 'var(--text-dim)' : 'var(--yellow)'}">${fmt(m.shipping)}</td>
+          <td class="td-price" style="color:${m.price == null ? 'var(--text-dim)' : 'var(--accent)'}">${fmt(m.price)}</td>
+          <td class="td-price" style="color:${marginColor}">${fmt(m.marginUsd)}${m.marginPercent != null ? ` (${m.marginPercent}%)` : ''}</td>
+        </tr>`);
+      });
+    });
+
+    const note = (anyShipping && anyPrice)
+      ? '✅ Champs Shipping et Price suggéré trouvés dans la réponse Eprolo — marge calculée avec les vraies valeurs.'
+      : `⚠️ Champ(s) non trouvé(s) dans la réponse Eprolo : ${!anyShipping ? 'shipping ' : ''}${!anyPrice ? 'price suggéré' : ''}. Seul "cost" est confirmé fiable — ces autres valeurs ne sont peut-être pas exposées par cette API.`;
+
+    view.innerHTML = `
+      <div class="margin-note-banner" style="font-size:11px;color:${(anyShipping && anyPrice) ? 'var(--green)' : 'var(--yellow)'};background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:16px;">${esc(note)}</div>
+      <div style="overflow-x:auto;">
+        <table class="variants-table">
+          <thead><tr><th>PRODUIT</th><th>EPROLO_ID</th><th>SKU</th><th>VARIANTE</th><th>COST</th><th>SHIPPING</th><th>PRICE (suggéré)</th><th>MARGE</th></tr></thead>
+          <tbody>${rows.join('') || '<tr><td colspan="8" style="color:var(--text-dim);">Aucune variante.</td></tr>'}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  // ── Détection des champs Cost/Shipping/Price/Compare directement dans les
+  //    données Eprolo déjà renvoyées par fetch-eprolo-products — aucun appel
+  //    séparé ni ID à saisir, ça tourne automatiquement sur CHAQUE variante
+  //    de CHAQUE produit dès que la liste est chargée. ──
+  const FIELD_GROUPS = {
+    cost:     /^cost$|cost.?price|purchase.?price|wholesale/i,
+    shipping: /ship|freight|logistic/i,
+    price:    /^price$|retail|sale.?price|suggest|market.?price/i,
+    compare:  /compare/i,
+  };
+
+  function classifyFields(obj) {
+    const out = { cost: {}, shipping: {}, price: {}, compare: {} };
+    if (!obj || typeof obj !== 'object') return out;
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value !== null && typeof value === 'object') return;
+      for (const [group, pattern] of Object.entries(FIELD_GROUPS)) {
+        if (pattern.test(key)) out[group][key] = value;
+      }
+    });
+    return out;
+  }
+
+  function firstNumeric(fieldsObj) {
+    for (const v of Object.values(fieldsObj)) {
+      const n = parseFloat(v);
+      if (!isNaN(n)) return n;
+    }
+    return null;
+  }
+
+  function computeMarginFields(v) {
+    const fields   = classifyFields(v);
+    const cost     = firstNumeric(fields.cost);
+    const shipping = firstNumeric(fields.shipping);
+    const price    = firstNumeric(fields.price);
+    const compare  = firstNumeric(fields.compare);
+    const costParts = [cost, shipping].filter(n => typeof n === 'number');
+    const totalCost  = costParts.length ? costParts.reduce((s, n) => s + n, 0) : null;
+    const marginUsd     = (price != null && totalCost != null) ? +(price - totalCost).toFixed(2) : null;
+    const marginPercent = (marginUsd != null && price) ? +((marginUsd / price) * 100).toFixed(1) : null;
+    return { cost, shipping, price, compare, marginUsd, marginPercent };
+  }
 
   function parseProducts(data) {
     if (data.products && Array.isArray(data.products)) {
@@ -1002,12 +1132,15 @@
           color = color.charAt(0).toUpperCase() + color.slice(1);
           const size    = (v.option2 || '').trim();
           const option3 = (v.option3 || '').trim();
+          const margin  = computeMarginFields(v);
           if (!colorGroups[color]) colorGroups[color] = [];
           colorGroups[color].push({
             id: v.id, sku: v.sku || 'N/A', price: v.cost || 'N/A',
             weight: v.weight || 'N/A',
             stock: v.inventory_quantity !== undefined ? v.inventory_quantity : 'N/A',
             size, option3,
+            cost: margin.cost, shipping: margin.shipping, sellPrice: margin.price,
+            compare: margin.compare, marginUsd: margin.marginUsd, marginPercent: margin.marginPercent,
           });
         });
         return {
@@ -1090,25 +1223,34 @@
             <span class="color-name">${esc(color)}</span>
             <span class="color-count">${vars.length} taille(s)</span>
           </div>
+          <div style="overflow-x:auto;">
           <table class="variants-table">
-            <thead><tr><th>ID</th><th>SKU</th><th>SIZE</th><th>PRIX</th><th>POIDS</th><th>STOCK</th>${vars.some(v => v.option3) ? '<th>OPT3</th>' : ''}</tr></thead>
-            <tbody>${vars.map(v => `<tr>
+            <thead><tr><th>ID</th><th>SKU</th><th>SIZE</th><th>COST</th><th>SHIPPING</th><th>PRICE (suggéré)</th><th>MARGE</th><th>POIDS</th><th>STOCK</th>${vars.some(v => v.option3) ? '<th>OPT3</th>' : ''}</tr></thead>
+            <tbody>${vars.map(v => {
+              const fmt = (n) => n == null ? '—' : '$' + n.toFixed(2);
+              const marginColor = v.marginUsd == null ? 'var(--text-dim)' : (v.marginUsd > 0 ? 'var(--green)' : 'var(--accent2)');
+              return `<tr>
               <td class="td-id">${esc(v.id)}</td>
               <td class="td-sku">${esc(v.sku)}</td>
               <td class="td-size">${esc(v.size) || '—'}</td>
-              <td class="td-price">$${esc(String(v.price))}</td>
+              <td class="td-price">${fmt(v.cost)}</td>
+              <td class="td-price" style="color:${v.shipping == null ? 'var(--text-dim)' : 'var(--yellow)'}">${fmt(v.shipping)}</td>
+              <td class="td-price" style="color:${v.sellPrice == null ? 'var(--text-dim)' : 'var(--accent)'}">${fmt(v.sellPrice)}</td>
+              <td class="td-price" style="color:${marginColor}">${fmt(v.marginUsd)}${v.marginPercent != null ? ` (${v.marginPercent}%)` : ''}</td>
               <td class="td-weight">${esc(String(v.weight))}g</td>
               <td class="td-stock" style="color:${stockColor(v.stock)}">${esc(String(v.stock))}</td>
               ${vars.some(vv => vv.option3) ? `<td>${esc(v.option3)}</td>` : ''}
-            </tr>`).join('')}</tbody>
+            </tr>`;
+            }).join('')}</tbody>
           </table>
+          </div>
         </div>`).join('');
       return `
         <div class="product-card" id="card-${i}">
           <div class="product-header" onclick="toggleCard(${i})">
             <span class="p-index">#${String(i+1).padStart(2,'0')}</span>
             <span class="p-title">${esc(p.title)}</span>
-            <span class="p-id">${esc(String(p.id))}</span>
+            <span class="p-id" title="eprolo_id">eprolo_id: ${esc(String(p.id))}</span>
             <div class="p-badges">
               <span class="badge badge-subcat">${esc(p.subcategory)}</span>
               ${isOk ? `<span class="badge badge-ok">OK</span>` : `<span class="badge badge-err">ERR</span>`}

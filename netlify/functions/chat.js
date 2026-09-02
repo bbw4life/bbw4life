@@ -107,7 +107,7 @@ function buildProductIndex(rawData) {
       reviewsCount: item.reviews_count || null,
       badge:        item.badge ? (item.badge.text || '') : '',
       url:          `/products/product${index + 1}.html`,
-      cj_id:        item.cj_id
+      eprolo_id:        item.eprolo_id
     };
   });
 

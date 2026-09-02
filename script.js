@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
     // Ne pas tracker la page analytics elle-même
-    if (window.location.pathname.includes('curvafit-analytiques')) return;
+    if (window.location.pathname.includes('bbw4life-analytiques')) return;
 
     function getBrowser() {
       const ua = navigator.userAgent;
@@ -1041,7 +1041,7 @@ function applyPromoFreeItems() {
                 color:         color || null,
                 quantity:      1,
                 isFreePromo:   true,
-                cj_product_id: prod.cj_id,
+                cj_product_id: prod.cj_product_id || prod.eprolo_id,
                 cj_variant_id: firstVariant ? firstVariant.vid : null
             });
         }
@@ -1899,21 +1899,21 @@ function showErrorPopup(message) {
 
             const nameEl = document.getElementById('cf-agent-name');
             if (nameEl) {
-              nameEl.innerHTML = (w.agent_name || 'Curva')
+              nameEl.innerHTML = (w.agent_name || 'Berline')
                 + (w.agent_badge ? ` <span class="cf-ai-badge">${w.agent_badge}</span>` : '');
             }
 
             const titleEl = document.getElementById('cf-agent-title');
-            if (titleEl) titleEl.textContent = w.agent_title || 'CurvaFit Fitness Expert';
+            if (titleEl) titleEl.textContent = w.agent_title || 'BBW4LIFE Style Expert';
 
             const typingEl = document.getElementById('cf-typing-label');
-            if (typingEl) typingEl.textContent = w.typing_label || 'Curva is typing…';
+            if (typingEl) typingEl.textContent = w.typing_label || 'Berline is typing…';
 
             const inputEl = document.getElementById('cf-input');
             if (inputEl) inputEl.placeholder = w.input_placeholder || 'Ask me anything…';
 
             const hintEl = document.getElementById('cf-powered-by');
-            if (hintEl) hintEl.textContent = w.powered_by || 'Powered by CurvaFit AI · Press Enter to send';
+            if (hintEl) hintEl.textContent = w.powered_by || 'Powered by BBW4LIFE AI · Press Enter to send';
 
             const chipsContainer = document.getElementById('cf-quick-chips');
             if (chipsContainer && chips.length) {
@@ -2124,11 +2124,11 @@ function showErrorPopup(message) {
         if (viewBtn) viewBtn.href = getProductUrl(spotlightId);
 
         // Stock dynamique
-          if (prod.cj_id) {
+          if (prod.eprolo_id) {
             const fsStock = section.querySelector('.fs-stock');
             if (fsStock) {
               fsStock.innerHTML = '⏳ Checking stock...';
-              fetch(`/.netlify/functions/get-product-stock?cj_id=${prod.cj_id}`)
+              fetch(`/.netlify/functions/get-product-stock?eprolo_id=${prod.eprolo_id}`)
                 .then(r => r.json())
                 .then(stockData => {
                   if (stockData.success && stockData.totalStock !== null) {
@@ -2283,11 +2283,11 @@ function showErrorPopup(message) {
         if (viewBtn) viewBtn.href = getProductUrl(spotlightId);
 
         // Stock dynamique
-        if (prod.cj_id) {
+        if (prod.eprolo_id) {
           const fsStock = section.querySelector('.fs-stock');
           if (fsStock) {
             fsStock.innerHTML = '⏳ Checking stock...';
-            fetch(`/.netlify/functions/get-product-stock?cj_id=${prod.cj_id}`)
+            fetch(`/.netlify/functions/get-product-stock?eprolo_id=${prod.eprolo_id}`)
               .then(r => r.json())
               .then(stockData => {
                 if (stockData.success && stockData.totalStock !== null) {
@@ -2415,7 +2415,7 @@ function showErrorPopup(message) {
                   color: color || null,
                   quantity: 1,
                   fromBundle: true,
-                  cj_product_id: prod.cj_id,
+                  cj_product_id: prod.cj_product_id || prod.eprolo_id,
                   cj_variant_id: firstVariant ? firstVariant.vid : null
                 });
               }
@@ -3131,8 +3131,8 @@ function showErrorPopup(message) {
         if (typeof loadDynamicReviews === 'function') loadDynamicReviews();
         const prod = products.find(p => p.id === pid);
         // PATCH 3 — Stock bar
-        if (prod && prod.cj_id) {
-            initStockBar(prod.cj_id);
+        if (prod && prod.eprolo_id) {
+            initStockBar(prod.eprolo_id);
         }
 
         // ====================== RATING & REVIEWS COUNT ======================
@@ -4051,14 +4051,14 @@ function showErrorPopup(message) {
               if (type === "single") {
                 if (!hasColors && !hasSizes) {
                   const variant = product.variants ? product.variants[0] : null;
-                  items.push({ id: product.id, title: product.title, price: product.price*(1-discount), compare_price: product.price*ratio, image: itemImage, size: null, color: null, quantity: 1, fromBundle: true, cj_product_id: product.cj_id, cj_variant_id: variant ? variant.vid : null });
+                  items.push({ id: product.id, title: product.title, price: product.price*(1-discount), compare_price: product.price*ratio, image: itemImage, size: null, color: null, quantity: 1, fromBundle: true, cj_product_id: product.cj_product_id || product.eprolo_id, cj_variant_id: variant ? variant.vid : null });
                 } else {
                   const { color: selectedColor = null, size: selectedSize = null } = getSelectedValues(container);
                   if ((hasColors && !selectedColor) || (hasSizes && !selectedSize)) { showErrorPopup("Please complete your selection."); return; }
                   if (selectedColor) { const colorObj = product.colors.find(c => c.name === selectedColor); if (colorObj) itemImage = colorObj.image; }
                   const varPrice = getVariantPrice(product, selectedColor, selectedSize);
                   const variant = product.variants.find(v => v.color === selectedColor && v.size === selectedSize);
-                  items.push({ id: product.id, title: product.title, price: varPrice*(1-discount), compare_price: varPrice*ratio, image: itemImage, size: selectedSize, color: selectedColor, quantity: 1, fromBundle: true, cj_product_id: product.cj_id, cj_variant_id: variant ? variant.vid : null });
+                  items.push({ id: product.id, title: product.title, price: varPrice*(1-discount), compare_price: varPrice*ratio, image: itemImage, size: selectedSize, color: selectedColor, quantity: 1, fromBundle: true, cj_product_id: product.cj_product_id || product.eprolo_id, cj_variant_id: variant ? variant.vid : null });
                 }
               } else {
                 const count = type === "duo" ? 2 : 3;
@@ -4069,7 +4069,7 @@ function showErrorPopup(message) {
                   let pairImage = product.image;
                   if (!hasColors && !hasSizes) {
                     const variant = product.variants ? product.variants[0] : null;
-                    items.push({ id: product.id, title: product.title, price: product.price*(1-discount), compare_price: product.price*ratio, image: pairImage, size: null, color: null, quantity: 1, fromBundle: true, cj_product_id: product.cj_id, cj_variant_id: variant ? variant.vid : null });
+                    items.push({ id: product.id, title: product.title, price: product.price*(1-discount), compare_price: product.price*ratio, image: pairImage, size: null, color: null, quantity: 1, fromBundle: true, cj_product_id: product.cj_product_id || product.eprolo_id, cj_variant_id: variant ? variant.vid : null });
                     continue;
                   }
                   const { color: selectedColor = null, size: selectedSize = null } = getSelectedValues(pair);
@@ -4077,7 +4077,7 @@ function showErrorPopup(message) {
                   if (selectedColor) { const colorObj = product.colors.find(c => c.name === selectedColor); if (colorObj) pairImage = colorObj.image; }
                   const varPrice = getVariantPrice(product, selectedColor, selectedSize);
                   const variant = product.variants.find(v => v.color === selectedColor && v.size === selectedSize);
-                  items.push({ id: product.id, title: product.title, price: varPrice*(1-discount), compare_price: varPrice*ratio, image: pairImage, size: selectedSize, color: selectedColor, quantity: 1, fromBundle: true, cj_product_id: product.cj_id, cj_variant_id: variant ? variant.vid : null });
+                  items.push({ id: product.id, title: product.title, price: varPrice*(1-discount), compare_price: varPrice*ratio, image: pairImage, size: selectedSize, color: selectedColor, quantity: 1, fromBundle: true, cj_product_id: product.cj_product_id || product.eprolo_id, cj_variant_id: variant ? variant.vid : null });
                 }
                 if (!valid) return;
               }
@@ -4512,7 +4512,7 @@ window.updateWishlistIcons = updateWishlistIcons;
           quantity:      1,
           fromUpsell:    true,
           upsellDiscount: discountPct,
-          cj_product_id: prod.cj_id,
+          cj_product_id: prod.cj_product_id || prod.eprolo_id,
           cj_variant_id: cjVariantId
       });
         }
@@ -6979,7 +6979,7 @@ if (rcCheckoutBtn) {
                     size:          satcSelectedSize,
                     color:         satcSelectedColor,
                     quantity:      satcQty,
-                    cj_product_id: product.cj_id,
+                    cj_product_id: product.cj_product_id || product.eprolo_id,
                     cj_variant_id: cjVariantId
                 });
             }
@@ -8234,7 +8234,7 @@ document.dispatchEvent(new Event('wishlist:change'));
     const varCompare = getVariantComparePrice(product, selectedColor, selectedSize);
     let cartItem = cart.find(i => i.id === id && i.size === selectedSize && i.color === selectedColor);
     if (cartItem) cartItem.quantity += quantity;
-    else cart.push({ id: product.id, title: product.title, price: varPrice, compare_price: varCompare, image: itemImage, size: selectedSize, color: selectedColor, quantity, cj_product_id: product.cj_id, cj_variant_id: cjVariantId });
+    else cart.push({ id: product.id, title: product.title, price: varPrice, compare_price: varCompare, image: itemImage, size: selectedSize, color: selectedColor, quantity, cj_product_id: product.cj_product_id || product.eprolo_id, cj_variant_id: cjVariantId });
    saveCart();
     updateCartQuantityInSheet();
     if (products && products.length > 0 && typeof applyPromoFreeItems === 'function') {
@@ -8334,7 +8334,7 @@ document.dispatchEvent(new Event('wishlist:change'));
           size:          size,
           color:         color,
           quantity:      1,
-          cj_product_id: product.cj_id,
+          cj_product_id: product.cj_product_id || product.eprolo_id,
           cj_variant_id: cjVariantId
         });
       }
@@ -12408,7 +12408,7 @@ window.addEventListener('load', () => {
       bindEvents();
     })
     .catch(function () {
-      console.warn('CurvaFit FAQ: faq-data.json not found, smart search disabled.');
+      console.warn('BBW4LIFE FAQ: faq-data.json not found, smart search disabled.');
     });
 
   function filterData(query) {
@@ -12891,7 +12891,7 @@ function capDisplayStock(realStock) {
 
 
 
-function initStockBar(cjId) {
+function initStockBar(eproloId) {
     const block = document.getElementById('pp-stock-block');
     const label = document.getElementById('pp-stock-label');
     const fill  = document.getElementById('pp-stock-bar-fill');
@@ -12899,7 +12899,7 @@ function initStockBar(cjId) {
     const imgBadge = document.querySelector('.pp-stock-image-badge');
     if (!block || !label || !fill || !hint) return;
 
-    fetch(`/.netlify/functions/get-product-stock?cj_id=${cjId}`)
+    fetch(`/.netlify/functions/get-product-stock?eprolo_id=${eproloId}`)
         .then(function(res) { return res.json(); })
         .then(function(data) {
             block.classList.remove('loading');
@@ -15209,7 +15209,7 @@ document.addEventListener('DOMContentLoaded', function () {
             color:         color || null,
             quantity:      1,
             fromHeroPack:  true,
-            cj_product_id: prod.cj_id,
+            cj_product_id: prod.cj_product_id || prod.eprolo_id,
             cj_variant_id: variant ? variant.vid : null
           });
         }
@@ -15564,7 +15564,7 @@ document.addEventListener('DOMContentLoaded', function () {
         size:          size,
         color:         color,
         quantity:      1,
-        cj_product_id: prod.cj_id,
+        cj_product_id: prod.cj_product_id || prod.eprolo_id,
         cj_variant_id: vid
       });
     }

@@ -7652,11 +7652,11 @@ body {
 
 
 /* ============================================================
-   SEARCH GLOBAL — curva-search.css — ULTRA PREMIUM
+   SEARCH GLOBAL — bbw-search.css — ULTRA PREMIUM
    Palette : fond crème ivoire · bordure or · icônes or
              section header fond noir · texte or
    ============================================================ */
-.curva-search-dropdown {
+.bbw-search-dropdown {
   position: fixed;
   z-index: 999999;
   background: linear-gradient(160deg, #fdf8f0 0%, #faf4e8 50%, #f7f0e2 100%);
@@ -7677,11 +7677,11 @@ body {
   font-family: inherit;
 }
 
-.curva-search-dropdown::-webkit-scrollbar {
+.bbw-search-dropdown::-webkit-scrollbar {
   display: none;
 }
 
-.curva-search-dropdown.open {
+.bbw-search-dropdown.open {
   display: block;
   animation: searchFadeIn .18s ease;
 }
@@ -7689,7 +7689,7 @@ body {
 /* Search results page only: the dropdown must stay BELOW the fixed header
    (z-index:1000) when scrolling, unlike everywhere else on the site where
    it needs to float above all page content. Header itself is untouched. */
-body.sr-page .curva-search-dropdown {
+body.sr-page .bbw-search-dropdown {
   z-index: 998;
 }
 
@@ -7700,7 +7700,7 @@ body.sr-page .curva-search-dropdown {
 
 
 
-.curva-search-header {
+.bbw-search-header {
   padding: 10px 16px 6px;
   font-size: 9.5px;
   font-weight: 700;
@@ -7711,12 +7711,12 @@ body.sr-page .curva-search-dropdown {
   border-bottom: 1px solid rgba(201, 160, 62, 0.30);
   border-top: 1px solid rgba(201, 160, 62, 0.15);
 }
-.curva-search-header:first-child {
+.bbw-search-header:first-child {
   border-top: none;
 }
 
 
-.curva-search-item {
+.bbw-search-item {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -7729,17 +7729,17 @@ body.sr-page .curva-search-dropdown {
   overflow-x: hidden;
 }
 
-.curva-search-item:last-child {
+.bbw-search-item:last-child {
   border-bottom: none;
 }
 
-.curva-search-item:hover,
-.curva-search-item.active {
+.bbw-search-item:hover,
+.bbw-search-item.active {
   background: linear-gradient(90deg, rgba(201, 160, 62, 0.10), rgba(30, 18, 8, 0.05));
 }
 
 
-.curva-search-icon {
+.bbw-search-icon {
   font-size: 16px;
   width: 36px;
   text-align: center;
@@ -7748,13 +7748,13 @@ body.sr-page .curva-search-dropdown {
   color: #c9a03e;
 }
 
-.curva-search-icon i {
+.bbw-search-icon i {
   color: #c9a03e !important;
 }
 
 /* Real product thumbnail (from products.data.json) shown next to the
    type icon, to the left of the title — products only. */
-.curva-search-thumb {
+.bbw-search-thumb {
   display: block;
   width: 32px;
   height: 32px;
@@ -7764,7 +7764,7 @@ body.sr-page .curva-search-dropdown {
   border: 1px solid rgba(201, 160, 62, 0.25);
   background: #fff;
 }
-.curva-search-thumb-img {
+.bbw-search-thumb-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -7772,14 +7772,14 @@ body.sr-page .curva-search-dropdown {
 }
 
 
-.curva-search-text {
+.bbw-search-text {
   flex: 1;
   min-width: 0;
   overflow-x: hidden;
   padding-right: 10px;
 }
 
-.curva-search-title {
+.bbw-search-title {
   font-size: 13.5px;
   font-weight: 500;
   color: #1c1206;
@@ -7791,7 +7791,7 @@ body.sr-page .curva-search-dropdown {
 }
 
 
-.curva-search-title mark {
+.bbw-search-title mark {
   background: rgba(201, 160, 62, 0.18);
   color: #a07820;
   border-radius: 3px;
@@ -7801,7 +7801,7 @@ body.sr-page .curva-search-dropdown {
 }
 
 
-.curva-search-price {
+.bbw-search-price {
   font-size: 12px;
   font-weight: 600;
   color: #c9a03e;
@@ -7810,7 +7810,7 @@ body.sr-page .curva-search-dropdown {
 }
 
 
-.curva-search-badge {
+.bbw-search-badge {
   font-size: 9.5px;
   font-weight: 600;
   color: #c9a03e;
@@ -7827,7 +7827,7 @@ body.sr-page .curva-search-dropdown {
 }
 
 
-.curva-search-empty {
+.bbw-search-empty {
   padding: 22px 18px;
   font-size: 13px;
   color: #a09070;
@@ -7835,7 +7835,7 @@ body.sr-page .curva-search-dropdown {
 }
 
 @media (max-width: 480px) {
-  .curva-search-dropdown {
+  .bbw-search-dropdown {
     min-width: unset !important;
     max-width: unset !important;
     left: 8px !important;

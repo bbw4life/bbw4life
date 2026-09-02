@@ -94,7 +94,7 @@ exports.handler = async (event) => {
     // ── Construire les produits ────────────────────────────────────
     // Chaque item doit avoir : cj_product_id, cj_variant_id, quantity
     const products = cart.map(item => {
-      const pid = item.cj_product_id || item.cj_id;
+      const pid = item.cj_product_id || item.eprolo_id;
       const vid = item.cj_variant_id || item.variantsid;
 
       if (!pid) throw new Error(`Missing cj_product_id for item: ${item.title || vid}`);

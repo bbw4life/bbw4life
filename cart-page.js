@@ -842,7 +842,7 @@
             quantity:      1,
             fromUpsell:    true,
             upsellDiscount: discountPct,
-            cj_product_id: prod.cj_id,
+            cj_product_id: prod.cj_product_id || prod.eprolo_id,
             cj_variant_id: cjVariantId
           });
         }
@@ -1259,7 +1259,7 @@
             color:          color || null,
             quantity:       1,
             fromSharedCart: true,
-            cj_product_id:  prod.cj_id,
+            cj_product_id:  prod.cj_product_id || prod.eprolo_id,
             cj_variant_id:  variant ? variant.vid : null
           });
           setCart(cart);
@@ -1490,7 +1490,7 @@
         color:         color || null,
         quantity:      1,
         fromExtraSuggestion: true,
-        cj_product_id: prod.cj_id,
+        cj_product_id: prod.cj_product_id || prod.eprolo_id,
         cj_variant_id: cjVariantId
       });
     }
