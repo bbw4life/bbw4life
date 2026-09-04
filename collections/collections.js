@@ -16,7 +16,21 @@
     );
     const w = size || 800;
     const sep = url.includes('?') ? '&' : '?';
-    return url + sep + 'width=' + w + '&quality=90'; 
+    return url + sep + 'width=' + w + '&quality=90';
+  }
+
+  /* ================================================================
+     NAVIGATION — cartes produits cliquées en JS (window.location.href)
+     plutôt que via un vrai <a href>. Sur desktop (>768px, même seuil
+     que script.js), ouvre en nouvel onglet ; sur mobile, navigation
+     normale dans le même onglet, comportement inchangé.
+  ================================================================ */
+  function navigateToUrl(url) {
+    if (window.innerWidth > 768) {
+      window.open(url, '_blank', 'noopener');
+    } else {
+      window.location.href = url;
+    }
   }
 
   /* ================================================================
@@ -485,7 +499,7 @@
         '<p class="col-rv-card__title">' + title + '</p>' +
         '<span class="col-rv-card__price">$' + price.toFixed(2) + '</span>' +
       '</div>';
-    card.addEventListener('click', () => { window.location.href = url; });
+    card.addEventListener('click', () => { navigateToUrl(url); });
     colRvGrid.appendChild(card);
   });
 }
@@ -519,7 +533,7 @@
           '<p class="col-fbt-card__title">' + prod.title + '</p>' +
           '<span class="col-fbt-card__price">$' + prod.price.toFixed(2) + '</span>' +
         '</div>';
-      card.addEventListener('click', () => { window.location.href = url; });
+      card.addEventListener('click', () => { navigateToUrl(url); });
       colFbtInner.appendChild(card);
       if (i < picks.length - 1) {
         const plus = document.createElement('span');
@@ -1008,7 +1022,7 @@
     card.querySelector('.col-card__media').addEventListener('click', e => {
       if (e.target.closest('.col-card__wishlist') || e.target.closest('.col-card__quick-view')) return;
       addToRV(prod);
-      window.location.href = productUrl;
+      navigateToUrl(productUrl);
     });
 
     card.querySelector('.col-card__title').addEventListener('click', () => { addToRV(prod); });
@@ -2421,8 +2435,8 @@
       const img   = cartItem.querySelector('img');
       const title = cartItem.querySelector('h4');
       const url   = getProductUrl(item.id);
-      if (img)   { img.style.cursor = 'pointer';   img.addEventListener('click', function () { window.location.href = url; }); }
-      if (title) { title.style.cursor = 'pointer'; title.addEventListener('click', function () { window.location.href = url; }); }
+      if (img)   { img.style.cursor = 'pointer';   img.addEventListener('click', function () { navigateToUrl(url); }); }
+      if (title) { title.style.cursor = 'pointer'; title.addEventListener('click', function () { navigateToUrl(url); }); }
 
       
       const rBtn = cartItem.querySelector('.cart-item-request-btn');

@@ -1,6 +1,36 @@
 const BBW_VAPID_PUBLIC_KEY = 'BPAy2x7jsTHvHMYA5uLWKZAbmwpAtUlFtCbgSiALsYFH4EKhSTxUemonrVf-xzg5FxsQIB4GXZdA_N5gwvLWF8Y';
 
 
+// ══════════════════════════════════════════════════════════════
+//  DESKTOP — liens de pages (page/, products/, collections/, blog/) en
+//  nouvel onglet. Sur mobile (≤768px, même seuil que le reste du
+//  site), comportement inchangé — navigation dans le même onglet.
+//  Délégation globale au clic plutôt que target="_blank" en dur sur
+//  chaque <a> : un seul endroit à maintenir, et le comportement
+//  mobile reste garanti même si une page oublie l'attribut.
+// ══════════════════════════════════════════════════════════════
+(function openPageLinksInNewTabOnDesktop() {
+  document.addEventListener('click', function (e) {
+    if (window.innerWidth <= 768) return; // mobile : comportement inchangé
+
+    // Clic modifié (ctrl/cmd/shift/molette) : laisser le navigateur gérer.
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+
+    const href = link.getAttribute('href') || '';
+    // Cible uniquement les pages de contenu (pas les ancres #, pas les
+    // liens transactionnels checkout/panier/compte, pas les liens externes).
+    if (!/^\/?(page|products|collections|blog)\//i.test(href)) return;
+    if (link.target === '_blank') return; // déjà configuré, ne pas dupliquer
+
+    e.preventDefault();
+    window.open(link.href, '_blank', 'noopener');
+  });
+})();
+
+
 (function captureAffiliateRef() {
   const urlParams = new URLSearchParams(window.location.search);
   const refParam  = urlParams.get('ref');
