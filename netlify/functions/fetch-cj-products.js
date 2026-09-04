@@ -36,6 +36,54 @@ async function getCJAccessToken() {
   return data.data.accessToken;
 }
 
+// ── Titre produit — /product/query renvoie productNameEn, absent de
+//    /product/variant/query (qui ne liste que les variants). ──
+async function getCJProductTitle(token, pid) {
+  const url = `https://developers.cjdropshipping.com/api2.0/v1/product/query?pid=${encodeURIComponent(pid)}`;
+  const res = await fetch(url, { method: 'GET', headers: { 'CJ-Access-Token': token } });
+  const text = await res.text();
+  let data = {};
+  try { data = JSON.parse(text); } catch {}
+  if (data.result === true && data.data) {
+    return data.data.productNameEn || data.data.productName || null;
+  }
+  return null;
+}
+
+// ── Shipping cost estimatif — même endpoint logistic/freightCalculate
+//    que create-cj-order.js (source de vérité pour le vrai checkout),
+//    calculé ici vers une destination de référence fixe (CN → US),
+//    faute de destination client réelle à ce stade (simple aperçu
+//    inventaire, pas une commande). Retourne l'option la moins chère,
+//    comme au moment du vrai paiement. ──
+const CJ_SHIPPING_FROM = 'CN';
+const CJ_SHIPPING_TO   = 'US';
+async function getCJShippingCost(token, vid) {
+  const url = 'https://developers.cjdropshipping.com/api2.0/v1/logistic/freightCalculate';
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'CJ-Access-Token': token },
+    body: JSON.stringify({
+      startCountryCode: CJ_SHIPPING_FROM,
+      endCountryCode:   CJ_SHIPPING_TO,
+      products: [{ vid, quantity: 1 }]
+    })
+  });
+  const text = await res.text();
+  let data = {};
+  try { data = JSON.parse(text); } catch {}
+  if (data.result === true && Array.isArray(data.data) && data.data.length > 0) {
+    const cheapest = data.data.reduce((min, o) =>
+      (Number(o.logisticPrice) || Infinity) < (Number(min.logisticPrice) || Infinity) ? o : min
+    , data.data[0]);
+    return {
+      price:        cheapest.logisticPrice != null ? Number(cheapest.logisticPrice) : null,
+      logisticName: cheapest.logisticName || null
+    };
+  }
+  return null;
+}
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // Reconnaît un token de type "taille" (XS, S, M, L, XL, 2XL... ou numérique)
@@ -154,7 +202,36 @@ exports.handler = async (event) => {
 
         if (data.result === true && Array.isArray(data.data)) {
           log(`  ✅  ${pid}  →  OK  (${data.data.length} variant(s))  [${label}]`);
-          allProducts.push({ pid, label, variants: data.data });
+
+          // ── Titre produit (appel séparé, product/query n'existe pas
+          //    dans variant/query) ── respecte le rate-limit ~1 req/s.
+          await sleep(CJ_REQUEST_DELAY_MS);
+          let title = null;
+          try {
+            title = await getCJProductTitle(token, pid);
+            log(title ? `        📦  Titre : ${title}` : `        ⚠️  Titre introuvable pour ${pid}`);
+          } catch (titleErr) {
+            log(`        ⚠️  Titre : EXCEPTION : ${titleErr.message}`);
+          }
+
+          // ── Shipping cost estimatif (CN → US) sur le 1er variant
+          //    disponible, comme aperçu — le vrai calcul au checkout se
+          //    fait par commande réelle (create-cj-order.js). ──
+          let shipping = null;
+          const firstVid = data.data[0]?.vid;
+          if (firstVid) {
+            await sleep(CJ_REQUEST_DELAY_MS);
+            try {
+              shipping = await getCJShippingCost(token, firstVid);
+              log(shipping
+                ? `        🚚  Shipping (${CJ_SHIPPING_FROM}→${CJ_SHIPPING_TO}) : $${shipping.price} via ${shipping.logisticName}`
+                : `        ⚠️  Shipping introuvable pour ${pid}`);
+            } catch (shipErr) {
+              log(`        ⚠️  Shipping : EXCEPTION : ${shipErr.message}`);
+            }
+          }
+
+          allProducts.push({ pid, label, title, shipping, variants: data.data });
         } else {
           const errMsg = data.message || responseText.slice(0, 200) || 'réponse invalide';
           log(`  ⚠️  ${pid}  →  ERREUR : ${errMsg}  [${label}]`);
@@ -177,8 +254,9 @@ exports.handler = async (event) => {
 
       log("");
       log(SEP);
-      log(`  [${String(offset + index + 1).padStart(2, '0')}]  ${product.label}`);
+      log(`  [${String(offset + index + 1).padStart(2, '0')}]  ${product.title || product.label}`);
       log(`        PID : ${product.pid}    |    Variants : ${varCount}`);
+      log(`        SHIPPING (${CJ_SHIPPING_FROM}→${CJ_SHIPPING_TO}) : ${product.shipping ? `$${product.shipping.price} via ${product.shipping.logisticName}` : 'N/A'}`);
       log(SEP2);
 
       if (!varCount) {

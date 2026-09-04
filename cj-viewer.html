@@ -194,6 +194,7 @@
     .badge-ok  { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
     .badge-err { background: rgba(255,61,127,0.1); color: var(--accent2); border: 1px solid rgba(255,61,127,0.2); }
     .badge-subcat { background: rgba(255,214,0,0.08); color: var(--yellow); border: 1px solid rgba(255,214,0,0.2); }
+    .badge-shipping { background: rgba(0,255,157,0.08); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
     .chevron { color: var(--text-dim); transition: transform 0.25s; font-size: 10px; }
     .product-card.open .chevron { transform: rotate(90deg); }
     .variants-body { display: none; border-top: 1px solid var(--border); }
@@ -862,7 +863,8 @@
           });
         });
         return {
-          pid: p.pid, label: p.label || p.pid, colorGroups,
+          pid: p.pid, label: p.label || p.pid, title: p.title || null,
+          shipping: p.shipping || null, colorGroups,
           variants: p.variants || [],
           status: 'ok',
         };
@@ -986,15 +988,19 @@
             </tr>`).join('')}</tbody>
           </table>
         </div>`).join('');
+      const shippingLabel = p.shipping
+        ? `$${esc(String(p.shipping.price))} · ${esc(p.shipping.logisticName || '')}`
+        : 'N/A';
       return `
         <div class="product-card" id="card-cj-${i}">
           <div class="product-header" onclick="toggleCard('cj', ${i})">
             <span class="p-index">#${String(i+1).padStart(2,'0')}</span>
-            <span class="p-title">${esc(p.label || p.pid)}</span>
+            <span class="p-title">${esc(p.title || p.label || p.pid)}</span>
             <span class="p-id">${esc(String(p.pid))}</span>
             <div class="p-badges">
               <span class="badge badge-ok">OK</span>
               <span class="badge badge-variants">${varCount} variants</span>
+              <span class="badge badge-shipping" title="Shipping estimé CN→US">🚚 ${shippingLabel}</span>
             </div>
             <span class="chevron">▶</span>
           </div>
