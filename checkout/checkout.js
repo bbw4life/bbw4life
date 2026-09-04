@@ -1056,9 +1056,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const realProducts = productsData.filter(p => !p.type && p.active !== false);
 
-        const freeIds = Array.isArray(cd.promo_free_product_ids) && cd.promo_free_product_ids.length > 0
+        const manIds = Array.isArray(cd.promo_free_product_ids_man) && cd.promo_free_product_ids_man.length > 0
+            ? cd.promo_free_product_ids_man
+            : null;
+        const womanIds = Array.isArray(cd.promo_free_product_ids) && cd.promo_free_product_ids.length > 0
             ? cd.promo_free_product_ids
             : null;
+        // Même choix persisté (localStorage) que le panier — sans ça, cette
+        // copie indépendante de la logique écrasait toujours le cadeau
+        // gratuit avec la liste femme par défaut, même après un choix
+        // "man" fait dans le drawer.
+        const genderChoice = window.getCartGenderChoice ? window.getCartGenderChoice() : 'woman';
+        const freeIds = (genderChoice === 'man' && manIds) ? manIds : womanIds;
 
         const paidQty = cart.filter(i => !i.isFreePromo).reduce((sum, i) => sum + i.quantity, 0);
         cart = cart.filter(i => !i.isFreePromo);

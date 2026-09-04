@@ -18256,11 +18256,10 @@
     ]
   },
   {
-    "_draft_note": "BROUILLON — inactive intentionnellement. Premier produit source CJ Dropshipping du catalogue. cj_product_id = vrai pid déjà présent dans netlify/functions/fetch-cj-products.js (PRODUCT_IDS[0]), mais titre/prix/variantes/images pas encore récupérés depuis l'API CJ (nécessite CJ_API_KEY, disponible seulement sur Netlify). Compléter via fetch-cj-products.js puis repasser active à true. Supprimer ce champ _draft_note une fois complété.",
     "cj_product_id": "1661565742099206144",
     "sku_internal": "CJ-DRAFT-001",
-    "id": "Pdg-Francenel-product121",
-    "url": "/products/product121.html",
+    "id": "Pdg-Francenel-product119",
+    "url": "/products/product119.html",
     "active": false,
     "stock_managed_by": "cj",
     "currency": "USD",
@@ -21715,10 +21714,10 @@
     },
     "content_protection": {
       "disable_right_click": "no",
-      "disable_text_selection": "yes",
+      "disable_text_selection": "no",
       "disable_image_download": "yes",
       "disable_video_download": "yes",
-      "disable_copy": "yes",
+      "disable_copy": "no",
       "disable_devtools_key": "yes"
     },
     "mini_product_slider": {

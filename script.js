@@ -979,14 +979,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let products = [];
 
-  // Choix homme/femme pour le cadeau gratuit — volontairement en mémoire
-  // seulement (pas de persistance localStorage) : reparts à zéro à chaque
-  // ouverture/rechargement, cf. demande explicite du client. Le défaut
-  // 'woman' préserve le comportement historique de promo_free_product_ids
-  // quand le client n'interagit jamais avec la barre. Exposé sur window
-  // pour être partagé avec cart-page.js (cart.html charge les deux scripts
-  // dans le même contexte global).
-  window.cartGenderChoice = window.cartGenderChoice || 'woman';
+  // Choix homme/femme pour le cadeau gratuit — persisté en localStorage
+  // (clé CART_GENDER_KEY) uniquement pour survivre à la navigation panier
+  // → checkout → paiement (Stripe/PayPal doivent facturer/livrer les
+  // mêmes 3 produits que ceux affichés dans le panier). Le défaut 'woman'
+  // préserve le comportement historique de promo_free_product_ids quand
+  // le client n'interagit jamais avec la barre.
+  const CART_GENDER_KEY = 'cart_gender_choice';
+  function getCartGenderChoice() {
+    return localStorage.getItem(CART_GENDER_KEY) || 'woman';
+  }
+  function setCartGenderChoice(v) {
+    localStorage.setItem(CART_GENDER_KEY, v);
+  }
+  // Exposées globalement pour cart-page.js et checkout.js (chargés sur la
+  // même page que script.js), qui doivent résoudre le même choix homme/
+  // femme sans dupliquer la logique de lecture/écriture localStorage.
+  window.getCartGenderChoice = getCartGenderChoice;
+  window.setCartGenderChoice = setCartGenderChoice;
 
 // ====================== APPLY PROMO FREE ITEMS ======================
 function applyPromoFreeItems() {
@@ -1015,7 +1025,7 @@ function applyPromoFreeItems() {
         : null;
     // 'man' seulement si explicitement choisi ET que le setting homme existe ;
     // sinon on garde le sens actuel (femme) — woman explicite ou pas de choix.
-    const freeIds = (window.cartGenderChoice === 'man' && manIds) ? manIds : womanIds;
+    const freeIds = (getCartGenderChoice() === 'man' && manIds) ? manIds : womanIds;
 
     const paidQty = cart.filter(i => !i.isFreePromo).reduce((sum, i) => sum + i.quantity, 0);
     cart = cart.filter(i => !i.isFreePromo);
@@ -8634,7 +8644,7 @@ document.dispatchEvent(new Event('wishlist:change'));
       opt.addEventListener('click', (e) => {
         e.stopPropagation();
         const gender = opt.dataset.gender;
-        window.cartGenderChoice = gender;
+        setCartGenderChoice(gender);
         _syncGenderOptionActive(wrap);
         // renderCart() appelle déjà applyPromoFreeItems() en interne puis
         // redessine réellement le DOM du panier — appeler seulement
@@ -8649,7 +8659,7 @@ document.dispatchEvent(new Event('wishlist:change'));
 
   function _syncGenderOptionActive(wrap) {
     wrap.querySelectorAll('.cart-gender-option').forEach(opt => {
-      opt.classList.toggle('active', opt.dataset.gender === window.cartGenderChoice);
+      opt.classList.toggle('active', opt.dataset.gender === getCartGenderChoice());
     });
   }
 

@@ -555,13 +555,13 @@
        promo_buy_quantity atteint ; bascule le cadeau gratuit
        entre les produits femme (défaut) et homme.
   ════════════════════════════════════════════════════ */
-  // Partagé avec script.js (chargé sur la même page) via window — pas de
-  // persistance localStorage, repart à zéro à chaque chargement.
-  window.cartGenderChoice = window.cartGenderChoice || 'woman';
-
+  // Choix persisté en localStorage via script.js (getCartGenderChoice/
+  // setCartGenderChoice, chargé avant cart-page.js sur cart.html) — doit
+  // survivre à la navigation panier → checkout → paiement.
   function _cpSyncGenderOptionActive(wrap) {
+    var choice = window.getCartGenderChoice ? window.getCartGenderChoice() : 'woman';
     wrap.querySelectorAll('.cart-gender-option').forEach(function (opt) {
-      opt.classList.toggle('active', opt.dataset.gender === window.cartGenderChoice);
+      opt.classList.toggle('active', opt.dataset.gender === choice);
     });
   }
 
@@ -608,11 +608,11 @@
     wrap.querySelectorAll('.cart-gender-option').forEach(function (opt) {
       opt.addEventListener('click', function (e) {
         e.stopPropagation();
-        window.cartGenderChoice = opt.dataset.gender;
+        if (window.setCartGenderChoice) window.setCartGenderChoice(opt.dataset.gender);
         _cpSyncGenderOptionActive(wrap);
         // applyPromoFreeItems (définie dans script.js, chargé avant
         // cart-page.js sur cart.html) échange réellement les articles
-        // gratuits du panier selon window.cartGenderChoice.
+        // gratuits du panier selon le choix persisté en localStorage.
         if (typeof window.applyPromoFreeItems === 'function') {
           window.applyPromoFreeItems();
         }

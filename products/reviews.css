@@ -1031,6 +1031,12 @@
         display: flex !important;
         flex-direction: column !important;
     }
+    /* Doit rester après la règle ci-dessus : sans elle, le !important sur
+       .review-card display:flex réaffiche en mobile les avis censés être
+       masqués derrière "Read more reviews". */
+    .review-card.hidden {
+        display: none !important;
+    }
 
     .rv-card-header {
         padding: 9px 10px 8px;
