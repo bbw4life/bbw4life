@@ -580,8 +580,8 @@
   renderAllCollections(settings);
 
   const spFreeShipEl = document.getElementById('spFreeShipping');
-  if (spFreeShipEl) spFreeShipEl.textContent = 
-    (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) || 50;
+  if (spFreeShipEl) spFreeShipEl.textContent =
+    (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) || 140;
 
   return;
 }
@@ -613,7 +613,7 @@
       if (flashTitleEl && bp.percent) flashTitleEl.innerHTML = flashTitleEl.innerHTML.replace('20', bp.percent);
 
       
-      const freeShipThreshold = (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) ? settings.cart_drawer.free_shipping_threshold : 50;
+      const freeShipThreshold = (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) ? settings.cart_drawer.free_shipping_threshold : 140;
       const spFreeShipEl = $('spFreeShipping');
       if (spFreeShipEl) spFreeShipEl.textContent = freeShipThreshold;
 
@@ -2511,7 +2511,7 @@
     const products = window.__allProducts || [];
     const settings = products.find(function (p) { return p.type === 'settings'; }) || {};
     const cd       = settings.cart_drawer || {};
-    const threshold = parseFloat(cd.free_shipping_threshold) || 350;
+    const threshold = parseFloat(cd.free_shipping_threshold) || 140;
 
     const subtotal = cart.reduce(function (sum, i) {
       return sum + parseFloat(i.price) * i.quantity;
@@ -2562,7 +2562,7 @@
     const products  = window.__allProducts || [];
     const settings  = products.find(function (p) { return p.type === 'settings'; }) || {};
     const cd        = settings.cart_drawer || {};
-    const threshold = parseFloat(cd.free_shipping_threshold) || 350;
+    const threshold = parseFloat(cd.free_shipping_threshold) || 140;
     const showBar   = (cd.show_free_shipping_bar || 'Yes').toLowerCase() === 'yes';
     const bar       = document.getElementById('cp-progress-container');
     if (!bar) return;

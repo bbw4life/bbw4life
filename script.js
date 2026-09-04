@@ -979,6 +979,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let products = [];
 
+  // Choix homme/femme pour le cadeau gratuit — volontairement en mémoire
+  // seulement (pas de persistance localStorage) : reparts à zéro à chaque
+  // ouverture/rechargement, cf. demande explicite du client. Le défaut
+  // 'woman' préserve le comportement historique de promo_free_product_ids
+  // quand le client n'interagit jamais avec la barre. Exposé sur window
+  // pour être partagé avec cart-page.js (cart.html charge les deux scripts
+  // dans le même contexte global).
+  window.cartGenderChoice = window.cartGenderChoice || 'woman';
+
 // ====================== APPLY PROMO FREE ITEMS ======================
 function applyPromoFreeItems() {
     const settings = products.find(p => p.type === 'settings');
@@ -998,9 +1007,15 @@ function applyPromoFreeItems() {
 
     const realProducts = products.filter(p => !p.type && p.active !== false);
 
-    const freeIds = Array.isArray(cd.promo_free_product_ids) && cd.promo_free_product_ids.length > 0
+    const manIds = Array.isArray(cd.promo_free_product_ids_man) && cd.promo_free_product_ids_man.length > 0
+        ? cd.promo_free_product_ids_man
+        : null;
+    const womanIds = Array.isArray(cd.promo_free_product_ids) && cd.promo_free_product_ids.length > 0
         ? cd.promo_free_product_ids
         : null;
+    // 'man' seulement si explicitement choisi ET que le setting homme existe ;
+    // sinon on garde le sens actuel (femme) — woman explicite ou pas de choix.
+    const freeIds = (window.cartGenderChoice === 'man' && manIds) ? manIds : womanIds;
 
     const paidQty = cart.filter(i => !i.isFreePromo).reduce((sum, i) => sum + i.quantity, 0);
     cart = cart.filter(i => !i.isFreePromo);
@@ -1397,7 +1412,7 @@ function showErrorPopup(message) {
       const ab       = settings.announcement_bar || {};
       const stats    = settings.site_stats   || {};
 
-      const freeShipping = cd.free_shipping_threshold || 350;
+      const freeShipping = cd.free_shipping_threshold || 140;
       const buyQty       = cd.promo_buy_quantity      || 5;
       const getQty       = cd.promo_get_quantity      || 3;
       const members      = stats.members              || 12000;
@@ -8056,6 +8071,7 @@ document.dispatchEvent(new Event('wishlist:change'));
       const cd = (products.find(p => p.type === 'settings') || {}).cart_drawer || {};
       updateCartProgressBar(cd);
       updateCartPromoMessage(cd);
+      updateCartGenderPicker(cd);
     }
     updateBadges();
 
@@ -8417,6 +8433,7 @@ document.dispatchEvent(new Event('wishlist:change'));
     initCartCountdown(cd);
     updateCartProgressBar(cd);
     updateCartPromoMessage(cd);
+    updateCartGenderPicker(cd);
     initCartBanner(cd);
     initCartPromoCodeSlider(promos);
   }
@@ -8488,7 +8505,7 @@ document.dispatchEvent(new Event('wishlist:change'));
         if (existingContainer) existingContainer.style.display = 'none';
         return;
     }
-    const threshold    = parseFloat(cd.free_shipping_threshold) || 75;
+    const threshold    = parseFloat(cd.free_shipping_threshold) || 140;
     const cartSubtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
     const remaining    = Math.max(0, threshold - cartSubtotal);
     const pct          = Math.min(100, (cartSubtotal / threshold) * 100);
@@ -8569,6 +8586,71 @@ document.dispatchEvent(new Event('wishlist:change'));
     }
     span.innerHTML = msg;
     span.className = `promo-text ${cls}`;
+  }
+
+  // ── Barre "Choose who you are" — visible seulement une fois le seuil
+  //    promo_buy_quantity atteint ; permet de basculer le cadeau gratuit
+  //    entre les produits femme (par défaut) et homme. ──
+  function updateCartGenderPicker(cd) {
+    const body = cartDrawer.querySelector('.cart-drawer__body');
+    if (!body) return;
+    const wrap = body.querySelector('#cart-gender-picker');
+    if (!wrap) return;
+
+    const buyQty = parseInt(cd.promo_buy_quantity) || 0;
+    const getQty = parseInt(cd.promo_get_quantity)  || 0;
+    const count  = cart.filter(i => !i.isFreePromo).reduce((s, i) => s + i.quantity, 0);
+    const unlocked = buyQty > 0 && count >= buyQty;
+
+    wrap.classList.toggle('is-visible', unlocked);
+    if (!unlocked) { wrap.classList.remove('is-open'); return; }
+
+    const titleEl = wrap.querySelector('#cart-gender-picker-title');
+    if (titleEl) {
+      titleEl.innerHTML = `Give me my <span class="promo-number">${getQty}</span> ${getQty > 1 ? 'products' : 'product'} free`;
+    }
+
+    if (wrap.dataset.built) {
+      _syncGenderOptionActive(wrap);
+      return;
+    }
+    wrap.dataset.built = '1';
+
+    const womanImg = cd.promo_gender_select_image_woman || '';
+    const manImg   = cd.promo_gender_select_image_man   || '';
+    const womanImgEl = wrap.querySelector('.cart-gender-option[data-gender="woman"] img');
+    const manImgEl   = wrap.querySelector('.cart-gender-option[data-gender="man"] img');
+    if (womanImgEl) womanImgEl.src = womanImg;
+    if (manImgEl)   manImgEl.src   = manImg;
+
+    const bar = wrap.querySelector('#cart-gender-picker-bar');
+    if (bar) {
+      bar.addEventListener('click', () => {
+        wrap.classList.toggle('is-open');
+      });
+    }
+
+    wrap.querySelectorAll('.cart-gender-option').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const gender = opt.dataset.gender;
+        window.cartGenderChoice = gender;
+        _syncGenderOptionActive(wrap);
+        // renderCart() appelle déjà applyPromoFreeItems() en interne puis
+        // redessine réellement le DOM du panier — appeler seulement
+        // applyPromoFreeItems() ne met à jour que le tableau `cart`/
+        // localStorage sans jamais rafraîchir l'affichage.
+        renderCart();
+      });
+    });
+
+    _syncGenderOptionActive(wrap);
+  }
+
+  function _syncGenderOptionActive(wrap) {
+    wrap.querySelectorAll('.cart-gender-option').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.gender === window.cartGenderChoice);
+    });
   }
 
   function initCartBanner(cd) {

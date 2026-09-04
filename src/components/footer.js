@@ -1978,7 +1978,7 @@ document.addEventListener('click', function (e) {
     if (!valEl) return;
 
     var cd        = settings.cart_drawer || {};
-    var threshold = parseFloat(cd.free_shipping_threshold) || 75;
+    var threshold = parseFloat(cd.free_shipping_threshold) || 140;
     valEl.textContent = '$' + threshold.toFixed(0);
   }
 
@@ -3166,7 +3166,7 @@ window.BbwNlSpinWheel = (function () {
     var commission = aff.commission_percent != null ? aff.commission_percent : 10;
     var jackpot    = aff.jackpot_reward_amount != null ? aff.jackpot_reward_amount : 150;
     var threshold  = aff.jackpot_orders_threshold != null ? aff.jackpot_orders_threshold : 30;
-    var freeShip   = cartDrawer.free_shipping_threshold != null ? cartDrawer.free_shipping_threshold : 350;
+    var freeShip   = cartDrawer.free_shipping_threshold != null ? cartDrawer.free_shipping_threshold : 140;
 
     document.querySelectorAll('[data-aff-commission]').forEach(function (el) { el.textContent = commission; });
     document.querySelectorAll('[data-aff-jackpot]').forEach(function (el) { el.textContent = jackpot; });

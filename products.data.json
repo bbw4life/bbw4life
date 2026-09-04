@@ -16,15 +16,29 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.9,
-    "reviews_count": 45,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "Glam Heels — Strap Sandals",
     "description": "You slip them on and heads turn instantly. Bold cross-strap design, thick heel comfort, available in Red, Black & Pink.",
     "price": 28.93,
     "compare_price": 39.99,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel1.png?v=1778006831",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel1.1.png?v=1778005529",
-    "sizes": ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+    "sizes": [
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
     "colors": [
       {
         "name": "Red",
@@ -286,15 +300,27 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.9,
-    "reviews_count": 41,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "RetroRun Sneakers — Sole Street",
     "description": "A round-toe retro vibe with a chunky sole that adds height and attitude. Available in four bold colors, sizes 37–44.",
     "price": 27.83,
     "compare_price": 38.99,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel2.png?v=1778005505",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel2.1.png?v=1778005519",
-    "sizes": ["37", "38", "39", "40", "41", "42", "43", "44"],
+    "sizes": [
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -578,15 +604,28 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 32,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Deal" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Deal"
+    },
     "title": "BohoFlip Sandals — Embroidered Summer",
     "description": "Electric embroidery meets effortless summer style. Slip on these plus-size flip flops and feel the vacation mood instantly.",
     "price": 19.09,
     "compare_price": 31.79,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel3.png?v=1778005555",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel3.1.png?v=1778005555",
-    "sizes": ["35", "36", "37", "38", "39", "40", "41", "42", "43"],
+    "sizes": [
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -897,15 +936,28 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 26,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "PowerHeels — 12cm Stiletto Pumps",
     "description": "Stand tall and own every room. These 12cm high heels combine dramatic height with four stunning colorways for the bold woman.",
     "price": 32.86,
     "compare_price": 45.05,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_4.png?v=1778005553",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_4.1.png?v=1778005563",
-    "sizes": ["5", "6", "6.5", "7.5", "8.5", "9", "9.5", "10", "10.5"],
+    "sizes": [
+      "5",
+      "6",
+      "6.5",
+      "7.5",
+      "8.5",
+      "9",
+      "9.5",
+      "10",
+      "10.5"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -1218,15 +1270,27 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 24,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 12,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "WinterBoost Boots — Ankle Boots",
     "description": "Cozy, chic, and ready for any season. These short boots pair with everything and keep your style effortlessly elevated.",
     "price": 24.26,
     "compare_price": 35.19,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_5.png?v=1778005552",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_5.1.png?v=1778005556",
-    "sizes": ["36", "37", "38", "39", "40", "41", "42", "43"],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -1447,15 +1511,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 16,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "ColorStilettos — Stiletto Flip Flop",
     "description": "A vibrant colorful stiletto flip flop that brings fun and fashion together. Perfect for parties, beach, and bold everyday looks.",
     "price": 29.62,
     "compare_price": 44.09,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_6.png?v=1778005556",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_6.1.png?v=1778005557",
-    "sizes": ["36", "37", "38", "39", "40", "41", "42"],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42"
+    ],
     "colors": [
       {
         "name": "Multicolor",
@@ -1546,15 +1621,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 30,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 15,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "NightChic Dress — Mock Sleeve",
     "description": "Printed elegance in a mock-neck silhouette. This long-sleeve dress is your go-to for evenings out and effortless sophistication.",
     "price": 29.37,
     "compare_price": 42.2,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_7.png?v=1778005542",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_7.1.png?v=1778005542",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -1622,15 +1705,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 30,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "SlitLux Dress — Cutout Neck",
     "description": "Daring cutout detail meets a flattering slit hemline. This round-neck long-sleeve dress is for women who aren't afraid to shine.",
     "price": 26.1,
     "compare_price": 39.09,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_8.png?v=1778005553",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_8.1.png?v=1778005553",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -1697,15 +1788,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 22,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 13,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "PlaidOverall Dress — Wide Strap",
     "description": "Charming plaid patterns on a wide-strap overall dress. Playful, casual, and made for women who love comfortable chic.",
     "price": 22.67,
     "compare_price": 32.89,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_9.png?v=1778005555",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_9.1.png?v=1778005534",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Dark Green",
@@ -1842,15 +1941,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 24,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 17,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "FloralFlounce Dress — Surplice Sleeve",
     "description": "Feminine and flowing, this surplice-neck dress with flounce sleeves flatters every curve. A printed beauty made to impress.",
     "price": 35.77,
     "compare_price": 49.81,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_10.png?v=1778005540",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_10.1.png?v=1778005541",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "White",
@@ -1917,15 +2024,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 25,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "VintageSquare Dress — Printed Neck",
     "description": "A vintage-inspired square neckline meets a beautiful printed fabric. Short sleeves, flattering cut — dress up or dress down.",
     "price": 31.17,
     "compare_price": 46.81,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_11.png?v=1778005545",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_11.1.png?v=1778005554",
-    "sizes": ["XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -2028,15 +2143,22 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 21,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 13,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "PaisleyBelt Dress — Floral Belted",
     "description": "Vibrant paisley print with a flattering belted waist. This orange dress radiates confidence and feminine energy all day long.",
     "price": 41.77,
     "compare_price": 56.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_12.png?v=1778005552",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_12.1.png?v=1778005539",
-    "sizes": ["(US 14-16)1X", "(US 18-20)2X", "(US 22-24)3X"],
+    "sizes": [
+      "(US 14-16)1X",
+      "(US 18-20)2X",
+      "(US 22-24)3X"
+    ],
     "colors": [
       {
         "name": "Orange",
@@ -2098,15 +2220,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 27,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "MeshDuo Set — Dress & Suit",
     "description": "Sheer mesh meets structured style in this two-piece set. Sultry, sophisticated, and designed to make a lasting impression.",
     "price": 51.77,
     "compare_price": 67.88,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_13.png?v=1778005558",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_13.1.png?v=1778005507",
-    "sizes": ["L", "XL", "XXL", "XXXL", "4XL"],
+    "sizes": [
+      "L",
+      "XL",
+      "XXL",
+      "XXXL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -2222,15 +2353,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 29,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "MeshGlam Dress — Stitching Maxi",
     "description": "Elegant mesh stitching in solid colors creates a figure-flattering silhouette. Sultry and stylish from day to night.",
     "price": 22.07,
     "compare_price": 32.85,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_14.png?v=1778005517",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_14.1.png?v=1778005530",
-    "sizes": ["XL", "XXL", "XXXL", "4XL", "5XL"],
+    "sizes": [
+      "XL",
+      "XXL",
+      "XXXL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Khaki",
@@ -2388,15 +2528,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 31,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "LinenBreeze Dress — Cotton Button-Down",
     "description": "Breathable cotton-linen blend in a single-breasted button-down style. Relaxed, natural comfort that moves beautifully with you.",
     "price": 34.17,
     "compare_price": 47.8,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_15.png?v=1778005560",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_15.1.png?v=1778005561",
-    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "White",
@@ -2595,15 +2746,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 23,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "StripedMini Dress — V-Neck Sleeve",
     "description": "Classic stripes reimagined in a flattering V-neck mini silhouette. Fun, flirty, and perfect for any casual outing.",
     "price": 25.16,
     "compare_price": 36.18,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_16.png?v=1778005557",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_16.1.png?v=1778005557",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Burnt Coral",
@@ -2670,15 +2829,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 35,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "LoungeRobe — Comfortable Sleepwear Bathrobe",
     "description": "Wrap yourself in pure comfort. This loose plus-size bathrobe is your perfect home companion — soft, breathable, and relaxing.",
     "price": 21.67,
     "compare_price": 32.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_17.png?v=1778005557",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_17.1.jpg?v=1778005512",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -2919,15 +3087,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 17,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 18,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "LaceNight Dress — Strap Nightdress",
     "description": "Lace details on a short strap nightdress that blends sensuality with comfort. Perfect for evenings when you want to feel stunning.",
     "price": 19.31,
     "compare_price": 27.82,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_18.png?v=1778005559",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_18.1.png?v=1778005556",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Wine Red",
@@ -3001,15 +3178,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 15,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 10,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "LaceThong Set — Skirt & Lingerie",
     "description": "Alluring sheer lace skirt paired with a matching thong for a set that's effortlessly seductive and confidently bold.",
     "price": 26.17,
     "compare_price": 37.09,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_19.png?v=1778005557",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_19.1.png?v=1778005544",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -3110,15 +3295,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 20,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "SolidSexy Bikini — Waist Swimsuit",
     "description": "A solid-color high-waist bikini designed for the curves you love. Bold, beautiful, and made to turn heads at the pool.",
     "price": 22.18,
     "compare_price": 29.81,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_20.png?v=1778005555",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_20.1.png?v=1778005569",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Pink",
@@ -3183,15 +3376,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 16,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "CurveBikini — High Waist Swimwear",
     "description": "Celebrate your curves in this solid-color high-waist bikini. Flattering coverage, vibrant energy, and all-day beach confidence.",
     "price": 22.41,
     "compare_price": 29.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_21.png?v=1778005553",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_21.1.png?v=1778005561",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -3256,15 +3457,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 18,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "LeopardNight Set — Pajama Lingerie",
     "description": "Wild leopard print meets sheer mesh in this fun lingerie set. Playful, bold, and made for women who love their confidence.",
     "price": 19.57,
     "compare_price": 27.18,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_22.png?v=1778005569",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_22.1.png?v=1778005559",
-    "sizes": ["L", "XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Leopard Print",
@@ -3463,8 +3673,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.3,
-    "reviews_count": 23,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "SupportBra — Gathered Breathable Mesh",
     "description": "Customized support for every size. This breathable mesh bra with large cups provides all-day lift, comfort, and confidence.",
     "price": 20.67,
@@ -4012,15 +4225,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 12,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 14,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "LaceRomper — Jumpsuit Lace Splicing",
     "description": "A daring one-piece lace romper that merges style and seduction. The splicing thong detail makes it unforgettably bold.",
     "price": 19.17,
     "compare_price": 26.82,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_24.png?v=1778005555",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_24.1.png?v=1778005570",
-    "sizes": ["S", "M", "L", "XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -4220,15 +4444,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.9,
-    "reviews_count": 8,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "StripedBikini — Print Striped",
     "description": "Fun striped prints in a flattering bikini cut. Lightweight, colorful, and ready for your next beach adventure.",
     "price": 26.41,
     "compare_price": 35.19,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_25.png?v=1778005525",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_25.1.jpg?v=1778005444",
-    "sizes": ["XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Lake Blue",
@@ -4295,15 +4527,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 15,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "TubeBikini — Plus Size Swimsuit",
     "description": "A stylish tube top bikini with excellent coverage and maximum confidence. Available in Blue, Green, and a fun pattern.",
     "price": 26.28,
     "compare_price": 45.29,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_26.png?v=1778005513",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_26.1.png?v=1778005542",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Blue",
@@ -4439,15 +4679,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 27,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "RuffleOne Bikini — Ruffled Piece",
     "description": "Feminine ruffles on a V-neck one-piece swimsuit. Flattering and fun — because one piece can be just as bold as two.",
     "price": 27.12,
     "compare_price": 39.26,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_27.png?v=1778005534",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_27.1.png?v=1778005513",
-    "sizes": ["XL", "1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "XL",
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Blue",
@@ -4522,15 +4771,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 17,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "BandageBikini — Solid Bandage Swimsuit",
     "description": "A chic bandage-style bikini in solid colors. Sleek, secure, and sculptural — designed to make you feel amazing at any size.",
     "price": 23.51,
     "compare_price": 35.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_28.png?v=1778005568",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_28.1.png?v=1778005548",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Green",
@@ -4598,15 +4855,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 19,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 14,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "ContrastOne Piece — Contrasting Swimwear",
     "description": "Eye-catching contrasting colors make this one-piece a true showstopper. Bold, modern, and uniquely flattering for plus sizes.",
     "price": 22.27,
     "compare_price": 33.19,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_29.png?v=1778005522",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_29.1.png?v=1778005481",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Green",
@@ -4714,15 +4979,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.9,
-    "reviews_count": 8,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 17,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "PremiumBikini — Plus Swimsuit Collection",
     "description": "A premium plus-size bikini with exceptional fabric and flattering fit. Stylish and supportive for any aquatic adventure.",
     "price": 29.33,
     "compare_price": 49.11,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_30.png?v=1778005443",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_30.1.png?v=1778005466",
-    "sizes": ["XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -4791,15 +5064,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 18,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "IrregularTop — Round Irregular Hem",
     "description": "An effortlessly cool irregular hem top in classic black. Loose fit, round neck, and spring-summer ready for any occasion.",
     "price": 27.1,
     "compare_price": 36.8,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_31.png?v=1778005514",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_31.1.png?v=1778005513",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -4867,14 +5148,23 @@
     "trio_discount": 20,
     "rating": 4.7,
     "reviews_count": 14,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "ChristmasSweat — Plus Size Sweatshirt",
     "description": "Festive and fun, this casual Christmas sweatshirt is made from soft polyester. Comfortable for holiday gatherings and cozy days.",
     "price": 17.77,
     "compare_price": 26.18,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_32.png?v=1778005516",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_32.1.png?v=1778005506",
-    "sizes": ["S", "M", "L", "XL", "2XL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -4952,15 +5242,22 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 13,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 17,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "DalmationShorts — Waist Print Shorts",
     "description": "Playful Dalmatian print on high-waist shorts that are bold and fun. White background, eye-catching pattern, perfect for summer.",
     "price": 29.84,
     "compare_price": 41.24,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_33.png?v=1778005509",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_33.1.png?v=1778005510",
-    "sizes": ["(US 14-16)1X", "(US 18-20)2X", "(US 22-24)3X"],
+    "sizes": [
+      "(US 14-16)1X",
+      "(US 18-20)2X",
+      "(US 22-24)3X"
+    ],
     "colors": [
       {
         "name": "White",
@@ -5021,15 +5318,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.9,
-    "reviews_count": 10,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 18,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "LeopardShirt — Collar Spliced Blouse",
     "description": "Wild leopard print meets an irregular collar in this striking spliced shirt. Bold enough to make any outfit unforgettable.",
     "price": 24.67,
     "compare_price": 35.89,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_34.png?v=1778005443",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_34.1.png?v=1778005504",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -5098,15 +5403,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 32,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "DrawstringPants — Casual with Pockets",
     "description": "Relaxed drawstring pants with deep pockets in 6 colors. Comfortable enough for all day, stylish enough for any occasion.",
     "price": 31.77,
     "compare_price": 49.15,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_35.1.png?v=1778005505",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_35.png?v=1778005495",
-    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Navy",
@@ -5470,15 +5786,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 19,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 13,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "CropSlimPants — Drawstring Cropped Pants",
     "description": "Slim-fitting cropped pants with a drawstring waist in 8 stunning colors. Trendy, versatile, and made for the modern man.",
     "price": 19.17,
     "compare_price": 26.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_36.png?v=1778005495",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_36.1.png?v=1778005505",
-    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Dark Gray",
@@ -5953,15 +6280,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.9,
-    "reviews_count": 25,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 15,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "HaremPrints — Cuff Printed Trousers",
     "description": "Trendy printed harem trousers with cuffed ankles. A loose, breathable fit in three bold colors for the man with style.",
     "price": 38.17,
     "compare_price": 53.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_37.png?v=1778005543",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_37.1.png?v=1778005449",
-    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -6162,15 +6500,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 12,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "LooseJeans — Men's Relaxed Denim",
     "description": "Classic loose jeans in three washes — Graphite Gray, Glacier Blue, and Solid Black. Effortless style, maximum comfort, all day long.",
     "price": 38.7,
     "compare_price": 51.18,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_38.png?v=1778005458",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_38.1.png?v=1778005525",
-    "sizes": ["M", "L", "XL", "XXL", "XXXL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "XXXL"
+    ],
     "colors": [
       {
         "name": "Graphite Gray",
@@ -6327,15 +6674,28 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 39,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "BritishLoafers — Formal Party Shoes",
     "description": "British-inspired formal loafers with tassel detailing. Perfect for weddings, parties, and business events — slip on elegance.",
     "price": 39.61,
     "compare_price": 52.8,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_39.png?v=1778005503",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_39.1.png?v=1778005541",
-    "sizes": ["6.5", "7", "8", "8.5", "9.5", "10", "10.5", "11", "12"],
+    "sizes": [
+      "6.5",
+      "7",
+      "8",
+      "8.5",
+      "9.5",
+      "10",
+      "10.5",
+      "11",
+      "12"
+    ],
     "colors": [
       {
         "name": "Brown",
@@ -6577,15 +6937,27 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 37,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "AirMesh Runners — Sports Sneakers",
     "description": "Breathable air-cushion mesh shoes built for serious performance. Lightweight, shock-absorbing, and stylish from the gym to the street.",
     "price": 33.17,
     "compare_price": 49.85,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_40.png?v=1778005512",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_40.1.png?v=1778005529",
-    "sizes": ["39", "40", "41", "42", "43", "44", "45", "46"],
+    "sizes": [
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46"
+    ],
     "colors": [
       {
         "name": "Blue",
@@ -6682,15 +7054,27 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 23,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 12,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "LeatherCasuals — Breathable Flat Sneakers",
     "description": "Fashion leather casual shoes that combine breathability with sharp style. Versatile enough for work, dates, and daily adventures.",
     "price": 41.19,
     "compare_price": 61.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_41.png?v=1778005510",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_41.1.png?v=1778005569",
-    "sizes": ["6", "6.5", "7", "8", "8.5", "9.5", "10", "11"],
+    "sizes": [
+      "6",
+      "6.5",
+      "7",
+      "8",
+      "8.5",
+      "9.5",
+      "10",
+      "11"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -6787,15 +7171,30 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 18,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "BusinessDress Shoes — Wedding Formal",
     "description": "Versatile business formal shoes in Black and Brown, sized up to 48. Polished enough for the office, sharp enough for the altar.",
     "price": 19.84,
     "compare_price": 26.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_42.png?v=1778005489",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_42.1.png?v=1778005523",
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"],
+    "sizes": [
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -6995,15 +7394,29 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 29,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "HollowSneakers — Big Size Shoes",
     "description": "Lightweight hollow mesh sneakers with a trendy design. Comfortable, versatile, and available in three bold colorways up to size 47.",
     "price": 27.1,
     "compare_price": 37.22,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_43.png?v=1778005529",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_43.1.png?v=1778005548",
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47"],
+    "sizes": [
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -7259,15 +7672,28 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 21,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 17,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "TrendTrainers — Outdoor Sport Sneakers",
     "description": "High-performance sport sneakers for the active man. Arrives in three striking colors with superior support for every outdoor adventure.",
     "price": 32.67,
     "compare_price": 49.5,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_44.png?v=1778005510",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_44.1.png?v=1778005529",
-    "sizes": ["39", "40", "41", "42", "43", "44", "45", "46", "47"],
+    "sizes": [
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47"
+    ],
     "colors": [
       {
         "name": "White",
@@ -7502,15 +7928,30 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 26,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "PatentLoafers — Party Wedding Shoes",
     "description": "Patent leather point-toe loafers with a luxurious finish. Slip them on for your next wedding, gala, or big night out.",
     "price": 27.07,
     "compare_price": 39.2,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_45.png?v=1778005437",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_45.1.png?v=1778005492",
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"],
+    "sizes": [
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48"
+    ],
     "colors": [
       {
         "name": "Brown",
@@ -7710,15 +8151,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 16,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 10,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "CollarShirt — Plus Size Button-Down",
     "description": "A classic collared button-down shirt in 5 crisp colors. Professional, breathable, and perfectly fitted from M to 5XL.",
     "price": 19.73,
     "compare_price": 26.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_46.png?v=1778005507",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_46.1.png?v=1778005534",
-    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -8027,15 +8479,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 24,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 17,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "GeoPolo Shirt — Geometric Print",
     "description": "A bold geometric pattern polo shirt with short sleeves. Stand out effortlessly in Black or White — casual, sharp, and confident.",
     "price": 25.17,
     "compare_price": 38.4,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_47.png?v=1778005471",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_47.1.png?v=1778005550",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -8152,15 +8613,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 11,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "StripedCollar Sweater — Casual Knit",
     "description": "A stylish striped collar sweater in White-Coffee and Black-Gray. Cozy, refined, and perfectly suited for cooler days.",
     "price": 21.3,
     "compare_price": 37.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_48.png?v=1778005563",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_48.1.png?v=1778005552",
-    "sizes": ["M", "L", "XL", "XXL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
     "colors": [
       {
         "name": "White and Coffee",
@@ -8262,15 +8731,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 17,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 14,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "TurtleneckLux — Men's Sleeve Sweater",
     "description": "A warm turtleneck sweater in 8 rich colors from Tangerine to Burgundy. Timeless style and premium comfort for every season.",
     "price": 26.67,
     "compare_price": 39.29,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_49.png?v=1778005523",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_49.1.png?v=1778005531",
-    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Tangerine",
@@ -8689,15 +9168,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 25,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "HikeJacket — Plus Size Outdoor",
     "description": "A waterproof couple's hiking jacket in 5 striking colors. Wind and rain resistant — adventure-ready from M to 5XL.",
     "price": 53.07,
     "compare_price": 69.11,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_50.png?v=1778005483",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_50.1.png?v=1778005508",
-    "sizes": ["M", "L", "XL", "XXL", "XXXL", "XXXXL", "5XL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "XXXL",
+      "XXXXL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -9006,15 +9496,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.3,
-    "reviews_count": 15,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 14,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "RoundNeck Sweatshirt — Plus Pullover",
     "description": "A clean round-neck sweatshirt in five great colors. Soft, relaxed, and built for everyday wear from M to XXXL.",
     "price": 19.54,
     "compare_price": 28.38,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_51.png?v=1778005524",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_51.1.png?v=1778005532",
-    "sizes": ["M", "L", "XL", "XXL", "XXXL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "XXXL"
+    ],
     "colors": [
       {
         "name": "Brown",
@@ -9253,15 +9752,21 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 27,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 18,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "NailBond Glue — UV Nail Tips",
     "description": "Ultra-strong nail glue gel for rhinestones, tips, and gems. Dries fast, bonds hard, and keeps your nail art flawless longer.",
     "price": 10.04,
     "compare_price": 19.31,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_52.png?v=1778005483",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_52.1.png?v=1778005474",
-    "sizes": ["20g", "30g"],
+    "sizes": [
+      "20g",
+      "30g"
+    ],
     "colors": [
       {
         "name": "Metallic Pink",
@@ -9322,8 +9827,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 12,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "BowNails — Manicure Long Nails",
     "description": "Elegant bow-design almond-shaped press-on nails in two stunning styles. Wear salon-quality manicure anywhere, in minutes.",
     "price": 10.17,
@@ -9391,7 +9899,10 @@
     "trio_discount": 20,
     "rating": 4.8,
     "reviews_count": 19,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "NailRepair Lotion — Nail Nourishing",
     "description": "Restore and brighten damaged nails with this nourishing lotion. Softens, moisturizes, and brings your nails back to life.",
     "price": 27.37,
@@ -9445,8 +9956,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 16,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "BrowDye Pencil — Quick-Dry Eyebrow",
     "description": "Long-lasting liquid eyebrow pencil that creates natural, three-dimensional brows. Waterproof and travel-ready in Dark Grey & Gold.",
     "price": 10.27,
@@ -9513,8 +10027,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 21,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 12,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "Curl & Volume Mascara — Waterproof",
     "description": "Volumizing 4D mascara that curls, lifts and defines lashes. Waterproof, sweat-resistant, and built for all-day wear.",
     "price": 17.41,
@@ -9567,8 +10084,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 20,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "BrowKit Pro — Stencil & Cream",
     "description": "All-in-one eyebrow kit with stencils and smooth color cream. Natural 3D brows without smudging — easy, precise, perfect.",
     "price": 26.09,
@@ -9622,8 +10142,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 27,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "Obsidian Lip Balm — Treatment",
     "description": "Warming obsidian lip balm that gently moisturizes, reduces lip lines and leaves lips soft, smooth and tenderly cared for.",
     "price": 17.12,
@@ -9677,8 +10200,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 13,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "reviews_count": 12,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "TearOff Lip Gloss — 4-Color",
     "description": "Peel-off lip gloss in 4 vibrant shades. Long-lasting color that moisturizes without sticking to the cup — bold lips all day.",
     "price": 10.25,
@@ -9770,8 +10296,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 25,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "GingerClean Pads — Lemon Makeup Remover",
     "description": "Gentle cleansing pads infused with ginger and lemon to remove makeup thoroughly. Leaves skin clean, soft and without tightness.",
     "price": 17.2,
@@ -9826,8 +10355,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 16,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 13,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "DeepRepair Hair Mask — Moisturizing",
     "description": "Intensive hair mask that moisturizes, repairs color damage, iron damage and frizz. Leaves hair silky smooth and full of life.",
     "price": 27.17,
@@ -9882,7 +10414,10 @@
     "trio_discount": 20,
     "rating": 4.6,
     "reviews_count": 20,
-    "badge": { "icon": "fi-rr-flame", "text": "In Promotion" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "In Promotion"
+    },
     "title": "BatanaGlow Oil — Hair Care",
     "description": "Batana essential oil that deeply moisturizes, improves dry and damaged hair, and leaves every strand smooth and healthy.",
     "price": 15.02,
@@ -9936,15 +10471,20 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 12,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 18,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "BatanaBoost Oil — Growth Conditioner",
     "description": "120ml batana oil conditioner that moisturizes, repairs and promotes hair growth. Rich formula for stronger, healthier hair.",
     "price": 10.17,
     "compare_price": 18.11,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_63.png?v=1778005567",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_63.1.png?v=1778005540",
-    "sizes": ["120ml"],
+    "sizes": [
+      "120ml"
+    ],
     "colors": [
       {
         "name": "Brown",
@@ -9992,7 +10532,10 @@
     "trio_discount": 20,
     "rating": 4.7,
     "reviews_count": 17,
-    "badge": { "icon": "fi-rr-flame", "text": "Best deal" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best deal"
+    },
     "title": "PoreClean Gel — Deep Exfoliating",
     "description": "Deep cleansing exfoliating gel that fights blackheads and acne, tightens pores and brightens skin for a fresh radiant glow.",
     "price": 27.09,
@@ -10048,8 +10591,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 18,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "KnuckleWhite Serum — Joint Skin Brightener",
     "description": "Targeted whitening serum for knuckles and joints. Reduces melanin buildup, brightens dark spots and softens skin texture.",
     "price": 26.19,
@@ -10102,8 +10648,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 24,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 14,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "Propolis Glow Essence — Serum",
     "description": "Propolis and nicotinamide essence that reduces acne marks, moisturizes deeply and brightens skin tone for a luminous complexion.",
     "price": 27.37,
@@ -10157,8 +10706,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 29,
-    "badge": { "icon": "fi-rr-flame", "text": "Best Seller" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Best Seller"
+    },
     "title": "MenGlow Cream — Concealing Cream",
     "description": "Refreshing non-greasy men's face cream that conceals, brightens skin tone and minimizes pores — effortless grooming daily.",
     "price": 28.37,
@@ -10213,8 +10765,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 21,
-    "badge": { "icon": "fi-rr-flame", "text": "Top Sale" },
+    "reviews_count": 15,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "Top Sale"
+    },
     "title": "IceGlow Grid Set — Facial Cooling",
     "description": "Silicone ice grid scraping plate for facial care. Apply ice to reduce puffiness, tighten pores and refresh skin — 7 colors.",
     "price": 12.05,
@@ -10346,14 +10901,23 @@
     "trio_discount": 20,
     "rating": 4.8,
     "reviews_count": 4,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "GlamSatin Dress — Black Halter Ruched Maxi",
     "description": "Turn heads in this luxurious black satin halter maxi dress. Deep V-neckline, ruched waist knot detail, and a bold front slit — made for queens.",
     "price": 1.5,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_69.png?v=1778005476",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_69.1.png?v=1778005498",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -10367,35 +10931,35 @@
         "vid": "800000001",
         "color": "Black",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000002",
         "color": "Black",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000003",
         "color": "Black",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000004",
         "color": "Black",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000005",
         "color": "Black",
         "size": "5XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -10409,7 +10973,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_69_7.png?v=1778793476"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-SK-001",
@@ -10428,14 +10991,22 @@
     "trio_discount": 20,
     "rating": 4.7,
     "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "PowerSuit — Ivory Structured Skirt Suit",
     "description": "Command every room in this ivory cream power suit. Tailored single-breasted blazer with notched lapels and matching pencil skirt — professional elegance redefined.",
-    "price": 3.0,
+    "price": 3,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_70.png?v=1778005483",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_70.1.png?v=1778005486",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Ivory creme",
@@ -10449,28 +11020,28 @@
         "vid": "800000006",
         "color": "Ivory",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000007",
         "color": "Ivory",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000008",
         "color": "Ivory",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000009",
         "color": "Ivory",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -10483,7 +11054,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_70_6.png?v=1778794583"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-012",
@@ -10502,14 +11072,23 @@
     "trio_discount": 20,
     "rating": 4.8,
     "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "BohoFloral Maxi — Wrap Floral Bishop Sleeve",
     "description": "Free-spirited elegance in a flowing cream floral maxi wrap dress. Long bishop sleeves, self-tie waist sash, and a dreamy peach floral print — pure boho magic.",
     "price": 4.5,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_71.png?v=1778005501",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_71.1.png?v=1778005507",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Cream Floral",
@@ -10523,35 +11102,35 @@
         "vid": "800000010",
         "color": "Cream Floral",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000011",
         "color": "Cream Floral",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000012",
         "color": "Cream Floral",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000013",
         "color": "Cream Floral",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000014",
         "color": "Cream Floral",
         "size": "5XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -10566,7 +11145,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_71_8.png?v=1778795536"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-LW-001",
@@ -10585,14 +11163,22 @@
     "trio_discount": 20,
     "rating": 4.6,
     "reviews_count": 7,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "CozyLounge Set — Cream Tank & Beige Wide-Leg",
     "description": "The ultimate comfort two-piece: a soft cream knit tank top paired with relaxed beige wide-leg lounge pants. Effortless style for your best days at home.",
     "price": 2.25,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_72.png?v=1778005488",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_72.1.png?v=1778005486",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Cream/Beige",
@@ -10606,28 +11192,28 @@
         "vid": "800000015",
         "color": "Cream/Beige",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000016",
         "color": "Cream/Beige",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000017",
         "color": "Cream/Beige",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000018",
         "color": "Cream/Beige",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -10641,7 +11227,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_72_7.png?v=1778796822"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-013",
@@ -10660,14 +11245,23 @@
     "trio_discount": 20,
     "rating": 4.5,
     "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "BlushLace Gown — Lace Cap Sleeve Empire Maxi",
     "description": "Romantic and timeless, this blush pink lace cap sleeve gown features a stunning V-neckline and flowing empire chiffon skirt. Perfect for weddings, galas and unforgettable evenings.",
     "price": 1.45,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_73.png?v=1778005484",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_73.1.png?v=1778005455",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Blush Pink",
@@ -10681,35 +11275,35 @@
         "vid": "800000019",
         "color": "Blush Pink",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000020",
         "color": "Blush Pink",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000021",
         "color": "Blush Pink",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000022",
         "color": "Blush Pink",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000023",
         "color": "Blush Pink",
         "size": "5XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -10723,7 +11317,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_73_7.png?v=1778797726"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-014",
@@ -10742,14 +11335,23 @@
     "trio_discount": 20,
     "rating": 4.6,
     "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "TealEmpire Gown — Sleeveless V-Neck Formal Maxi",
     "description": "Make a statement in this deep teal sleeveless empire maxi gown. Wrap-style V-neckline, ruched waist knot detail, and a dramatic flowing skirt — elegance in every step.",
     "price": 3.75,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_74.png?v=1778005477",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_74.1.png?v=1778005475",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Deep Teal",
@@ -10763,35 +11365,35 @@
         "vid": "800000024",
         "color": "Deep Teal",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000025",
         "color": "Deep Teal",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000026",
         "color": "Deep Teal",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000027",
         "color": "Deep Teal",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000028",
         "color": "Deep Teal",
         "size": "5XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -10805,7 +11407,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_74_7.png?v=1778798613"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-ST-001",
@@ -10824,14 +11425,23 @@
     "trio_discount": 20,
     "rating": 4.6,
     "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "JacquardPower Suit — Multicolor Floral Brocade",
     "description": "Unleash your boldest self in this jewel-tone floral jacquard power suit. Long-sleeve wrap blazer with self-tie sash and matching wide-leg trousers — runway energy, every day.",
     "price": 1.99,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_75.png?v=1778005493",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_75.1.png?v=1778005501",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Multicolor",
@@ -10845,35 +11455,35 @@
         "vid": "800000029",
         "color": "Multicolor",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000030",
         "color": "Multicolor",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000031",
         "color": "Multicolor",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000032",
         "color": "Multicolor",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000033",
         "color": "Multicolor",
         "size": "5XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -10887,7 +11497,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_75_7.png?v=1778800275"
     ]
   },
-
   {
     "eprolo_id": "32048267",
     "sku_internal": "PSW-SH-007",
@@ -10905,15 +11514,28 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 19,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 18,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "PatchLace Flats — Leisure Sneakers",
     "description": "Effortless leisure flats with a soft patchwork upper and classic laces. Light, breathable and easy to pair with any curvy outfit.",
     "price": 28.83,
     "compare_price": 54.78,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product76-1.png?v=1785113428",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product76_hover.png?v=1785113428",
-    "sizes": ["35", "36", "37", "38", "39", "40", "41", "42", "43"],
+    "sizes": [
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43"
+    ],
     "colors": [
       {
         "name": "Light Pink",
@@ -11000,7 +11622,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product76-11.png?v=1785250503"
     ]
   },
-
   {
     "eprolo_id": "32048149",
     "sku_internal": "PSW-SH-008",
@@ -11018,15 +11639,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 23,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "WarmStep Boots — Fur-Lined Sneakers",
     "description": "Padded winter boots designed to keep you warm without sacrificing style. Plush lining, sneaker-style sole — cozy from the first step.",
     "price": 18.06,
     "compare_price": 34.31,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product77-1.png?v=1785113428",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product77_hover.png?v=1785113428",
-    "sizes": ["35", "36", "37", "38", "39", "40"],
+    "sizes": [
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -11141,7 +11772,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product77-10.png?v=1785267233"
     ]
   },
-
   {
     "eprolo_id": "32048075",
     "sku_internal": "PSW-SH-009",
@@ -11159,15 +11789,27 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 17,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "PlatformWalk Sneakers — Plus Size Vulcanized Shoes",
     "description": "Vulcanized platform sneakers built for all-day walking comfort. Four fresh colorways, sizes 35–42 — durable style that keeps up with you.",
     "price": 20.07,
     "compare_price": 38.13,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product78-1.png?v=1785113428",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product78_hover.png?v=1785113428",
-    "sizes": ["35", "36", "37", "38", "39", "40", "41", "42"],
+    "sizes": [
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42"
+    ],
     "colors": [
       {
         "name": "Black Red",
@@ -11433,7 +12075,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product78-10_715eefa1-594e-4a1d-bbea-f1fff7ffa962.png?v=1785269917"
     ]
   },
-
   {
     "eprolo_id": "32048080",
     "sku_internal": "PSW-DR-015",
@@ -11451,15 +12092,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 28,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "StripeWrap Bodycon — Bandage Dress",
     "description": "A striped bodycon dress with a snug bandage fit that celebrates every curve. Short sleeves, bold print — confidence built in.",
     "price": 29.13,
     "compare_price": 55.35,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product79-1.png?v=1785114531",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product79-hover.png?v=1785114531",
-    "sizes": ["XL", "XXL", "XXXL", "4XL", "5XL"],
+    "sizes": [
+      "XL",
+      "XXL",
+      "XXXL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -11600,7 +12250,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product79-10.png?v=1785271645"
     ]
   },
-
   {
     "eprolo_id": "32048087",
     "sku_internal": "PSW-DR-016",
@@ -11618,15 +12267,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 21,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "FlareFit Dress — Flared Sleeve Hip-Hugging",
     "description": "A hip-hugging silhouette softened by breezy flared sleeves. Light, feminine and made to flatter your natural shape.",
     "price": 34.41,
     "compare_price": 65.38,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product80-1.png?v=1785190237",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product80-hover.png?v=1785190237",
-    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "XXXL"
+    ],
     "colors": [
       {
         "name": "Green",
@@ -11787,7 +12446,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product80-9.png?v=1785273581"
     ]
   },
-
   {
     "eprolo_id": "32048089",
     "sku_internal": "PSW-DR-017",
@@ -11805,15 +12463,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 16,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "OfficeStripe Shirt Dress — Streetwear",
     "description": "A streetwear-inspired striped shirt dress with patchwork detail. Office-ready by day, effortlessly stylish after hours.",
     "price": 39.24,
     "compare_price": 74.56,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product81-1.png?v=1785191023",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product81-hover.png?v=1785191023",
-    "sizes": ["L", "XL", "XXL", "XXXL", "4XL", "5XL"],
+    "sizes": [
+      "L",
+      "XL",
+      "XXL",
+      "XXXL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "White-Black",
@@ -11877,7 +12545,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/product81-8.png?v=1785274640"
     ]
   },
-
   {
     "eprolo_id": "32048102",
     "sku_internal": "PSW-DR-018",
@@ -11895,15 +12562,23 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 9,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "DrawShirt Dress — Collar Streetwear",
     "description": "A drop-shoulder shirt dress with a drawstring waist and classic collar. Nine bold colors — everyday streetwear, elevated.",
     "price": 32.61,
     "compare_price": 61.96,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product82-1.png?v=1785196106",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product82-hover.png?v=1785196103",
-    "sizes": ["L", "XL", "XXL", "XXXL"],
+    "sizes": [
+      "L",
+      "XL",
+      "XXL",
+      "XXXL"
+    ],
     "colors": [
       {
         "name": "Black-White",
@@ -12228,7 +12903,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product82-8.png?v=1785355642"
     ]
   },
-
   {
     "eprolo_id": "32048106",
     "sku_internal": "PSW-DR-019",
@@ -12246,15 +12920,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 8,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "AutumnVneck Maxi — Waist Matching Dress",
     "description": "A high-waist V-neck maxi dress perfect for autumn parties and family photos. Five rich colors, an elegant everyday silhouette.",
     "price": 39.72,
     "compare_price": 75.47,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-1.png?v=1785202911",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-hover.png?v=1785202911",
-    "sizes": ["XL", "XXL", "XXXL", "4XL", "5XL"],
+    "sizes": [
+      "XL",
+      "XXL",
+      "XXXL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Wine Red",
@@ -12478,7 +13161,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-6.png?v=1785362899"
     ]
   },
-
   {
     "eprolo_id": "32048127",
     "sku_internal": "PSW-DR-020",
@@ -12496,15 +13178,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 9,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "BeltedBanquet Dress — Sleeve Printed Waist",
     "description": "A printed high-waist banquet dress with a cinching belt. Long sleeves, elegant flow — built for your next big evening.",
     "price": 38.97,
     "compare_price": 74.04,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-1.png?v=1785203662",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-hover.png?v=1785203663",
-    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "XXXL"
+    ],
     "colors": [
       {
         "name": "Red",
@@ -12620,7 +13312,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-12.png?v=1785365413"
     ]
   },
-
   {
     "eprolo_id": "32048189",
     "sku_internal": "PSW-BG-001",
@@ -12638,15 +13329,20 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 10,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "WovenTassel Bag — Hand-Crochet Bag",
     "description": "A hand-crocheted shoulder bag with playful tassel detail. Thirteen shades to choose from — boho charm for every outfit.",
     "price": 32.16,
     "compare_price": 61.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-1.png?v=1785206937",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-hover.png?v=1785206937",
-    "sizes": ["21x16cm"],
+    "sizes": [
+      "21x16cm"
+    ],
     "colors": [
       {
         "name": "Light Blue",
@@ -12834,7 +13530,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-4.png?v=1785368513"
     ]
   },
-
   {
     "eprolo_id": "32048193",
     "sku_internal": "PSW-BG-002",
@@ -12852,8 +13547,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "KoreanTrend Bag — Messenger Bag",
     "description": "A small Korean-style shoulder bag with a clean, trendy silhouette. Five easy colors — the perfect grab-and-go accessory.",
     "price": 9.03,
@@ -12944,7 +13642,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-11.png?v=1785371146"
     ]
   },
-
   {
     "eprolo_id": "32048246",
     "sku_internal": "PSW-BG-003",
@@ -12962,8 +13659,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 12,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "BlockSquare Bag — Mini Bag",
     "description": "A compact color-blocked square bag, versatile enough for hand-held or shoulder carry. Simple lines, everyday elegance.",
     "price": 25.11,
@@ -13029,7 +13729,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product87-12.png?v=1785431364"
     ]
   },
-
   {
     "eprolo_id": "32048245",
     "sku_internal": "PSW-BG-004",
@@ -13047,8 +13746,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 12,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "RattanRing Tote — Hand-Knitted Bag",
     "description": "A hand-knitted cotton rope tote with a rattan ring handle. Airy, natural texture — made for beach days and market runs.",
     "price": 19.17,
@@ -13100,7 +13802,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product88-5.png?v=1785432588"
     ]
   },
-
   {
     "eprolo_id": "32048241",
     "sku_internal": "PSW-BG-005",
@@ -13118,8 +13819,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "CommuterCanvas Tote — Zipper Bag",
     "description": "A roomy canvas commuter tote with multiple pockets and a secure zipper. Practical, sturdy, and made for busy days.",
     "price": 13.32,
@@ -13184,7 +13888,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product89-3.png?v=1785433820"
     ]
   },
-
   {
     "eprolo_id": "32048231",
     "sku_internal": "PSW-BG-006",
@@ -13202,8 +13905,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 9,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 17,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "EmbroidTote Bag — Top-Handle Crossbody",
     "description": "A leather-look tote with embroidered top-handle detail and crossbody strap. Seven colors — simple style that goes anywhere.",
     "price": 19.23,
@@ -13321,7 +14027,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product90-1.png?v=1785237006"
     ]
   },
-
   {
     "eprolo_id": "32048228",
     "sku_internal": "PSW-BG-007",
@@ -13339,8 +14044,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 15,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "TexturedMini Bag — Japanese-Style Bag",
     "description": "A textured mini messenger bag with a clean, minimalist silhouette. Fresh and versatile — a small bag with big style.",
     "price": 11.31,
@@ -13405,7 +14113,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product91-2.png?v=1785450903"
     ]
   },
-
   {
     "eprolo_id": "32048209",
     "sku_internal": "PSW-BG-008",
@@ -13423,8 +14130,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "RetroNiche Bag — Shoulder Messenger",
     "description": "A retro-designed shoulder bag with generous capacity and a niche, ins-worthy feel. Understated luxury for everyday carry.",
     "price": 28.29,
@@ -13488,7 +14198,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product92-3.png?v=1785451792"
     ]
   },
-
   {
     "eprolo_id": "32048207",
     "sku_internal": "PSW-BG-009",
@@ -13506,8 +14215,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 4,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 10,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "LeopardUnderarm Bag — Drawstring Crossbody",
     "description": "An underarm crossbody bag with a bold print and drawstring closure. Retro attitude in a compact, easy-carry shape.",
     "price": 24.9,
@@ -13558,7 +14270,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product93-10.png?v=1785452686"
     ]
   },
-
   {
     "eprolo_id": "32048204",
     "sku_internal": "PSW-BG-010",
@@ -13576,8 +14287,11 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.8,
-    "reviews_count": 7,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "MetalChain Clutch — Party Bag",
     "description": "A metallic chain-strap evening bag built for parties and date nights. Four finishes — the finishing touch on a glam look.",
     "price": 26.58,
@@ -13657,7 +14371,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product94-1.png?v=1785211454"
     ]
   },
-
   {
     "eprolo_id": "32048202",
     "sku_internal": "PSW-BG-011",
@@ -13675,15 +14388,20 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 14,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "PatternTote Bag — Earring-Decorated Tote",
     "description": "A patterned tote finished with a decorative earring charm. Playful, feminine, and roomy enough for everyday essentials.",
     "price": 20.25,
     "compare_price": 38.48,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product95-1.png?v=1785210406",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product95-hover.png?v=1785210406",
-    "sizes": ["20cm-30cm"],
+    "sizes": [
+      "20cm-30cm"
+    ],
     "colors": [
       {
         "name": "White",
@@ -13740,7 +14458,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product95-9.png?v=1785455710"
     ]
   },
-
   {
     "eprolo_id": "32048084",
     "sku_internal": "PSW-TP-005",
@@ -13758,15 +14475,27 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 8,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "PleatedTwo-Piece — Color Skirt Set",
     "description": "A solid-color pleated skirt two-piece set in seven fresh shades. Coordinated, comfortable, and endlessly wearable.",
     "price": 24.93,
     "compare_price": 47.37,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-1.png?v=1785189040",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-hover.png?v=1785189044",
-    "sizes": ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "White",
@@ -14218,7 +14947,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-4.png?v=1785457198"
     ]
   },
-
   {
     "eprolo_id": "32048099",
     "sku_internal": "PSW-BK-007",
@@ -14236,15 +14964,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 9,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 18,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "OnePiece Swim — Plus Swimsuit",
     "description": "A classic plus-size one-piece swimsuit in three bold colors. Full coverage, full confidence — pool and beach ready.",
     "price": 28.29,
     "compare_price": 53.75,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-1.png?v=1785192602",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-hover.png?v=1785192601",
-    "sizes": ["XL", "1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "XL",
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Pink",
@@ -14385,7 +15122,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-11.png?v=1785463793"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-021",
@@ -14403,14 +15139,23 @@
     "trio_discount": 20,
     "rating": 4.7,
     "reviews_count": 7,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "Gilded Gala Gown — Sequin Bodice Tiered Tulle Dress",
     "description": "A showstopper for your biggest nights. A sequined sweetheart bodice meets sheer polka-dot mesh sleeves, cinched by a gold-link belt, above a dramatic ribbon-trimmed tulle skirt in caramel and black — pure red-carpet glamour for queens who own the room.",
-    "price": 2.0,
+    "price": 2,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_98.png?v=1785063294",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_98_hover.png?v=1785063294",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Caramel Black",
@@ -14424,35 +15169,35 @@
         "vid": "800000034",
         "color": "Caramel Black",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000035",
         "color": "Caramel Black",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000036",
         "color": "Caramel Black",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000037",
         "color": "Caramel Black",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000038",
         "color": "Caramel Black",
         "size": "5XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -14467,7 +15212,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_98-8.png?v=1785073004"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-022",
@@ -14485,14 +15229,23 @@
     "trio_discount": 20,
     "rating": 4.8,
     "reviews_count": 4,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "MidnightVelvet Sheath — Three-Quarter Sleeve Bodycon",
     "description": "Rich navy velvet hugs every curve in this elegant sheath dress. A clean boat neckline and three-quarter sleeves keep it polished, while the soft velvet finish makes it perfect for holiday parties and elevated evenings.",
     "price": 2.25,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_99.png?v=1785063293",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_99_hover.png?v=1785063293",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Midnight Navy Velvet",
@@ -14506,35 +15259,35 @@
         "vid": "800000039",
         "color": "Midnight Navy Velvet",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000040",
         "color": "Midnight Navy Velvet",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000041",
         "color": "Midnight Navy Velvet",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000042",
         "color": "Midnight Navy Velvet",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000043",
         "color": "Midnight Navy Velvet",
         "size": "5XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -14548,7 +15301,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_99-7.png?v=1785074177"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-JS-001",
@@ -14566,14 +15318,22 @@
     "trio_discount": 20,
     "rating": 4.6,
     "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "VelvetWrap Jumpsuit — Gold Belt Wide-Leg",
     "description": "A sleeveless navy velvet jumpsuit with a flattering wrap bodice and breezy wide-leg trousers, cinched at the waist with a statement gold buckle belt. Effortless glamour from cocktail hour to midnight.",
-    "price": 4.0,
+    "price": 4,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_100.png?v=1785063291",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_100_hover.png?v=1785063292",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Navy Velvet",
@@ -14587,28 +15347,28 @@
         "vid": "800000044",
         "color": "Navy Velvet",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000045",
         "color": "Navy Velvet",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000046",
         "color": "Navy Velvet",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000047",
         "color": "Navy Velvet",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -14622,7 +15382,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_100-7.png?v=1785075194"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-023",
@@ -14640,14 +15399,25 @@
     "trio_discount": 20,
     "rating": 4.7,
     "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "SavannahPrint Sundress — Tribal Tiered Mini",
     "description": "Bold tribal print in amber, black and turquoise brings vacation energy to this flowy spaghetti-strap sundress. A smocked waist and tiered ruffle skirt make it effortlessly fun for beach days and street style alike.",
     "price": 2.6,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_101.png?v=1785063294",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_101_hover.png?v=1785063295",
-    "sizes": ["S", "M", "L", "XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Savannah Multicolor",
@@ -14661,49 +15431,49 @@
         "vid": "800000048",
         "color": "Savannah Multicolor",
         "size": "S",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000049",
         "color": "Savannah Multicolor",
         "size": "M",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000050",
         "color": "Savannah Multicolor",
         "size": "L",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000051",
         "color": "Savannah Multicolor",
         "size": "XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000052",
         "color": "Savannah Multicolor",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000053",
         "color": "Savannah Multicolor",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000054",
         "color": "Savannah Multicolor",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -14718,7 +15488,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_101-8.png?v=1785081779"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-CT-001",
@@ -14736,14 +15505,23 @@
     "trio_discount": 20,
     "rating": 4.8,
     "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "ClassicTrench Coat — Belted Double-Breasted",
     "description": "A timeless camel trench coat with a double-breasted button front, structured shoulder tabs, and a cinching waist belt. Polished outerwear that elevates every curvy silhouette from office to weekend.",
     "price": 1.75,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_102.png?v=1785063294",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_102_hover.png?v=1785063294",
-    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "Camel",
@@ -14757,35 +15535,35 @@
         "vid": "800000055",
         "color": "Camel",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000056",
         "color": "Camel",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000057",
         "color": "Camel",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000058",
         "color": "Camel",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000059",
         "color": "Camel",
         "size": "5XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -14799,7 +15577,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_102-7.png?v=1785083106"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-024",
@@ -14817,14 +15594,22 @@
     "trio_discount": 20,
     "rating": 4.6,
     "reviews_count": 4,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "TieFront Sheath — Cap Sleeve Wrap Detail",
     "description": "A soft lavender sheath dress with delicate cap sleeves and a chic tie-front knot at the waist. Flattering, feminine, and just as easy from the office as it is for evening plans.",
     "price": 2.95,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_103.png?v=1785063292",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_103_hover.png?v=1785063292",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Lavender",
@@ -14838,28 +15623,28 @@
         "vid": "800000060",
         "color": "Lavender",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000061",
         "color": "Lavender",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000062",
         "color": "Lavender",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000063",
         "color": "Lavender",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -14873,7 +15658,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_103-4.png?v=1785102055"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-BO-001",
@@ -14891,14 +15675,25 @@
     "trio_discount": 20,
     "rating": 4.7,
     "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "SlouchSuede Boots — Knee-High Block Heel",
     "description": "Slouchy suede knee-high boots in warm camel with a sleek pointed toe and a sculpted block heel. Elevated comfort that pairs beautifully with dresses, denim or leggings.",
     "price": 3.25,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_104.png?v=1785063293",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_104_hover.png?v=1785063293",
-    "sizes": ["36", "37", "38", "39", "40", "41", "42"],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42"
+    ],
     "colors": [
       {
         "name": "Camel Suede",
@@ -14912,49 +15707,49 @@
         "vid": "800000064",
         "color": "Camel Suede",
         "size": "36",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000065",
         "color": "Camel Suede",
         "size": "37",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000066",
         "color": "Camel Suede",
         "size": "38",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000067",
         "color": "Camel Suede",
         "size": "39",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000068",
         "color": "Camel Suede",
         "size": "40",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000069",
         "color": "Camel Suede",
         "size": "41",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000070",
         "color": "Camel Suede",
         "size": "42",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -14968,7 +15763,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_104-4.png?v=1785103040"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-JK-001",
@@ -14986,14 +15780,22 @@
     "trio_discount": 20,
     "rating": 4.8,
     "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "VelvetTailored Blazer — Peak Lapel Jacket",
     "description": "A sharply tailored black velvet blazer with peak lapels, a single flattering button close, and a chest pocket detail. Instant polish for date night, work, or a night out.",
     "price": 3.15,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_105.png?v=1785063294",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_105_hover.png?v=1785063294",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Black Velvet",
@@ -15007,28 +15809,28 @@
         "vid": "800000071",
         "color": "Black Velvet",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000072",
         "color": "Black Velvet",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000073",
         "color": "Black Velvet",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000074",
         "color": "Black Velvet",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -15042,7 +15844,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_105-3.png?v=1785104675"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-025",
@@ -15060,14 +15861,22 @@
     "trio_discount": 20,
     "rating": 4.5,
     "reviews_count": 4,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "ColorblockMidi — Stripe Detail Sheath Dress",
     "description": "A rose pink sheath dress with a sleek black stripe running from collar to hem for an instantly slimming, sophisticated line. Short sleeves and a clean crew neck keep it endlessly wearable.",
     "price": 2.75,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_106.png?v=1785063290",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_106_hover.png?v=1785063292",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Rose Pink",
@@ -15081,28 +15890,28 @@
         "vid": "800000075",
         "color": "Rose Pink",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000076",
         "color": "Rose Pink",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000077",
         "color": "Rose Pink",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000078",
         "color": "Rose Pink",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -15117,7 +15926,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_106-5.png?v=1785106036"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-026",
@@ -15135,14 +15943,22 @@
     "trio_discount": 20,
     "rating": 4.9,
     "reviews_count": 6,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "HoundstoothTweed Set — Button-Front Skirt Dress",
     "description": "A wine and cream houndstooth tweed two-piece with a gold-button front, matching flap pockets, and a fitted pencil skirt. Classic Parisian polish reimagined for the curvy queen.",
-    "price": 5.0,
+    "price": 5,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_107.png?v=1785063295",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_107_hover.png?v=1785063294",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Wine Tweed",
@@ -15156,28 +15972,28 @@
         "vid": "800000079",
         "color": "Wine Tweed",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000080",
         "color": "Wine Tweed",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000081",
         "color": "Wine Tweed",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000082",
         "color": "Wine Tweed",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -15192,7 +16008,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_107-4.png?v=1785107325"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-027",
@@ -15210,14 +16025,22 @@
     "trio_discount": 20,
     "rating": 4.6,
     "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "RuffleCascade Sheath — Draped Side Detail",
     "description": "A cascading ruffle flows down the side of this warm terracotta sheath dress. Flutter cap sleeves and a softly ruched waist add romance to a refined silhouette.",
     "price": 3.4,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_108.png?v=1785063293",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_108_hover.png?v=1785063294",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Terracotta",
@@ -15231,28 +16054,28 @@
         "vid": "800000083",
         "color": "Terracotta",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000084",
         "color": "Terracotta",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000085",
         "color": "Terracotta",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000086",
         "color": "Terracotta",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -15267,7 +16090,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_108-5.png?v=1785108632"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-DR-028",
@@ -15285,14 +16107,22 @@
     "trio_discount": 20,
     "rating": 4.5,
     "reviews_count": 4,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "TweedShift Dress — Cuffed Sleeve Classic",
     "description": "A soft blush tweed shift dress with three-quarter cuffed sleeves and a clean crew neckline. Understated texture and a timeless shape for effortless everyday elegance.",
     "price": 4.25,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_109.png?v=1785063295",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_109_hover.png?v=1785063295",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Blush Tweed",
@@ -15306,28 +16136,28 @@
         "vid": "800000087",
         "color": "Blush Tweed",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000088",
         "color": "Blush Tweed",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000089",
         "color": "Blush Tweed",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000090",
         "color": "Blush Tweed",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -15342,7 +16172,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_109-5.png?v=1785109729"
     ]
   },
-
   {
     "eprolo_id": "XXXXX",
     "sku_internal": "PSW-ST-002",
@@ -15360,14 +16189,22 @@
     "trio_discount": 20,
     "rating": 4.7,
     "reviews_count": 5,
-    "badge": { "icon": "fi-rr-flame", "text": "New Brand" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Brand"
+    },
     "title": "PolkaDotBlouse Set — Wide-Leg Belted Trouser",
     "description": "A navy polka-dot button-down blouse paired with breezy wide-leg trousers and a tan belt. A complete power look that celebrates curves with easy, put-together confidence.",
     "price": 3.78,
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_110.png?v=1785063292",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_110_hover.png?v=1785063292",
-    "sizes": ["1XL", "2XL", "3XL", "4XL"],
+    "sizes": [
+      "1XL",
+      "2XL",
+      "3XL",
+      "4XL"
+    ],
     "colors": [
       {
         "name": "Navy Polka Dot",
@@ -15381,28 +16218,28 @@
         "vid": "800000091",
         "color": "Navy Polka Dot",
         "size": "1XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000092",
         "color": "Navy Polka Dot",
         "size": "2XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000093",
         "color": "Navy Polka Dot",
         "size": "3XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       },
       {
         "vid": "800000094",
         "color": "Navy Polka Dot",
         "size": "4XL",
-        "price": 0.0,
+        "price": 0,
         "active": true
       }
     ],
@@ -15416,7 +16253,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_110-3.png?v=1785110688"
     ]
   },
-
   {
     "eprolo_id": "32492179",
     "sku_internal": "PSW-SH-001",
@@ -15433,15 +16269,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 16,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 19,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "Autumn Canvas High-Top Boots — Men's Workwear",
     "description": "Rugged canvas high-top boots with a durable, versatile design built for the streets or the job site. A sturdy sole and classic silhouette bring easy everyday confidence.",
     "price": 67.04,
     "compare_price": 110.14,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product111-_1.png?v=1788005172",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product111-hover.png?v=1788005172",
-    "sizes": ["39", "40", "41", "42", "43", "44"],
+    "sizes": [
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -15605,7 +16451,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product111-10.png?v=1788004325"
     ]
   },
-
   {
     "eprolo_id": "32492177",
     "sku_internal": "PSW-SH-002",
@@ -15622,15 +16467,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.4,
-    "reviews_count": 14,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 10,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "No-Tie Leather Sneakers — Men's Slip-On",
     "description": "Sleek slip-on leather sneakers with a rotating buckle closure — no laces needed. A sporty, versatile design that moves easily from casual days to quick errands.",
     "price": 47.86,
     "compare_price": 75.26,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product112-principale.png?v=1788008732",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product112-hover.png?v=1788008734",
-    "sizes": ["39", "40", "41", "42", "43", "44"],
+    "sizes": [
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44"
+    ],
     "colors": [
       {
         "name": "Black",
@@ -15792,7 +16647,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product112-6.png?v=1788008732"
     ]
   },
-
   {
     "eprolo_id": "32492120",
     "sku_internal": "PSW-SH-003",
@@ -15809,15 +16663,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 18,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "High-Top Martin Boots — Men's Outdoor Workwear",
     "description": "Anti-slip, wear-resistant high-top boots with a thick sole built for outdoor and workwear use. A versatile, trendy silhouette that holds up to everyday demands.",
     "price": 42.85,
     "compare_price": 70.15,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product113-principale.png?v=1788010675",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product113-hover.png?v=1788010677",
-    "sizes": ["39", "40", "41", "42", "43", "44"],
+    "sizes": [
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44"
+    ],
     "colors": [
       {
         "name": "Khaki",
@@ -15931,7 +16795,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product113-6.png?v=1788010639"
     ]
   },
-
   {
     "eprolo_id": "32492118",
     "sku_internal": "PSW-SH-004",
@@ -15948,15 +16811,25 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.7,
-    "reviews_count": 19,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 16,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "Breathable Mesh Sneakers — Men's Casual Dad Shoes",
     "description": "Lightweight, breathable mesh sneakers with a thick sole for all-day comfort. A trendy, versatile pair that pairs easily with any casual outfit.",
     "price": 43.52,
     "compare_price": 73.89,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenelproduct114-principale.png?v=1788111166",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenelproduct114-hover.png?v=1788111168",
-    "sizes": ["39", "40", "41", "42", "43", "44"],
+    "sizes": [
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44"
+    ],
     "colors": [
       {
         "name": "Beige",
@@ -16121,7 +16994,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenelproduct114-8.png?v=1788111168"
     ]
   },
-
   {
     "eprolo_id": "32492114",
     "sku_internal": "PSW-SH-005",
@@ -16139,14 +17011,23 @@
     "trio_discount": 20,
     "rating": 4.3,
     "reviews_count": 13,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "EVA Sole House Slippers — Men's Slides",
     "description": "Soft EVA sole slides for the home, built for everyday comfort. A simple, lightweight design perfect for lounging around the house.",
     "price": 28.02,
     "compare_price": 45.52,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product115-principale.png?v=1788114548",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product115-hover.png?v=1788114549",
-    "sizes": ["38-39", "40-41", "42-43", "44-45", "46-47"],
+    "sizes": [
+      "38-39",
+      "40-41",
+      "42-43",
+      "44-45",
+      "46-47"
+    ],
     "colors": [
       {
         "name": "White Green",
@@ -16328,7 +17209,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product115-6.png?v=1788114546"
     ]
   },
-
   {
     "eprolo_id": "32492170",
     "sku_internal": "PSW-SH-006",
@@ -16345,15 +17225,26 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.5,
-    "reviews_count": 17,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 20,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "Solid Color Short-Sleeve T-Shirt — Men's Slim Fit",
     "description": "A versatile slim-fit short-sleeve tee in a soft solid color. Simple, comfortable, and easy to layer for warm-weather everyday wear.",
     "price": 40.06,
     "compare_price": 72.36,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product116-principale.png?v=1788117973",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product116-hover.png?v=1788117973",
-    "sizes": ["M", "L", "XL", "XXL", "XXXL", "4XL", "5XL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "XXXL",
+      "4XL",
+      "5XL"
+    ],
     "colors": [
       {
         "name": "White",
@@ -16811,7 +17702,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product116-6.png?v=1788117971"
     ]
   },
-
   {
     "eprolo_id": "32492169",
     "sku_internal": "PSW-SH-007",
@@ -16828,15 +17718,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.6,
-    "reviews_count": 15,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 10,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "V-Neck Ice Silk T-Shirt — Men's Quick-Dry Fitness Top",
     "description": "A thin, stretchy V-neck tee in cool ice-silk fabric. Sweat-absorbing and quick-drying — ideal for workouts or hot summer days.",
     "price": 17.84,
     "compare_price": 26.04,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product117-principale.png?v=1788121118",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product117-hover.png?v=1788121118",
-    "sizes": ["M", "L", "XL", "XXL", "XXXL"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "XXXL"
+    ],
     "colors": [
       {
         "name": "Grey",
@@ -17059,7 +17958,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product117-6.png?v=1788121118"
     ]
   },
-
   {
     "eprolo_id": "32492167",
     "sku_internal": "PSW-SH-008",
@@ -17076,15 +17974,24 @@
     "duo_discount": 10,
     "trio_discount": 20,
     "rating": 4.2,
-    "reviews_count": 13,
-    "badge": { "icon": "fi-rr-flame", "text": "New Arrival" },
+    "reviews_count": 17,
+    "badge": {
+      "icon": "fi-rr-flame",
+      "text": "New Arrival"
+    },
     "title": "Classic V-Neck Tee Multipack — Men's Casual White/Black",
     "description": "A comfortable, loose-fit classic V-neck tee available in simple 1, 2, 3 or 4-piece packs. An easy everyday essential in clean solid tones.",
     "price": 10.25,
     "compare_price": 19.3,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-principale.png?v=1788124329",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-hover.png?v=1788124330",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
     "colors": [
       {
         "name": "4-Pack White",
@@ -17348,7 +18255,6 @@
       "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-6.png?v=1788124329"
     ]
   },
-
   {
     "_draft_note": "BROUILLON — inactive intentionnellement. Premier produit source CJ Dropshipping du catalogue. cj_product_id = vrai pid déjà présent dans netlify/functions/fetch-cj-products.js (PRODUCT_IDS[0]), mais titre/prix/variantes/images pas encore récupérés depuis l'API CJ (nécessite CJ_API_KEY, disponible seulement sur Netlify). Compléter via fetch-cj-products.js puis repasser active à true. Supprimer ce champ _draft_note une fois complété.",
     "cj_product_id": "1661565742099206144",
@@ -17370,7 +18276,6 @@
     "variants": [],
     "media": []
   },
-
   {
     "type": "settings",
     "stripe_public_key": "pk_live_51PMDwoF9QAVBUyaU9ffneo6gWLCCPP94en6PPapDPawI9mnKqWBnJUjTbjUzjw3B8Et2ZWLBQHfCxm2djyCkzvXw00sP60H2NX",
@@ -17385,8 +18290,8 @@
     "thumbnails_mobile_vertical_left": "no",
     "sticky_media_mobile": "no",
     "swatch_scroll_mobile": "yes",
-    "sticky_atc_mobile_threshold": 10.0,
-    "sticky_atc_mobile_threshold_bbw_features": 8.0,
+    "sticky_atc_mobile_threshold": 10,
+    "sticky_atc_mobile_threshold_bbw_features": 8,
     "sticky_atc_desktop_threshold": 7.3,
     "theme_color": "#000000",
     "allowed_languages": [
@@ -17545,11 +18450,18 @@
       "show_banner_bxgx_widget": "yes",
       "show_media_counter": "yes",
       "show_mobile_zoom_icon": "yes",
+      "promo_free_product_ids_man": [
+        "Pdg-Francenel-product46",
+        "Pdg-Francenel-product112",
+        "Pdg-Francenel-product51"
+      ],
       "promo_free_product_ids": [
         "Pdg-Francenel-product17",
         "Pdg-Francenel-product60",
         "Pdg-Francenel-product3"
       ],
+      "promo_gender_select_image_woman": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/women.png?v=1788535552",
+      "promo_gender_select_image_man": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/men.png?v=1788535534",
       "promo_initial_message": "Buy paul {buy} items, get {get} FREE!",
       "promo_progress_message": "Add {remaining} more, get {get} FREE!",
       "promo_complete_message": "🎁 Congrats! You get {get} FREE item!",
@@ -17699,10 +18611,22 @@
     },
     "announcement_bar": {
       "items": [
-        { "text": "Free Shipping Worldwide", "icon": "fi fi-rr-globe" },
-        { "text": "Results in 30 Days — Guaranteed", "icon": "fi fi-rr-star" },
-        { "text": "Secure Checkout", "icon": "fi fi-rr-lock" },
-        { "text": "24/7 Customer Support", "icon": "fi fi-rr-headset" }
+        {
+          "text": "Free Shipping Worldwide",
+          "icon": "fi fi-rr-globe"
+        },
+        {
+          "text": "Results in 30 Days — Guaranteed",
+          "icon": "fi fi-rr-star"
+        },
+        {
+          "text": "Secure Checkout",
+          "icon": "fi fi-rr-lock"
+        },
+        {
+          "text": "24/7 Customer Support",
+          "icon": "fi fi-rr-headset"
+        }
       ],
       "promo_prefix": "Get 40% OFF with code:",
       "promo_code": "PAUL81",
@@ -17757,18 +18681,55 @@
       "bundle_trio": "Add 3 Items & Checkout"
     },
     "programs": {
-      "beginner": { "price": 99, "label": "Start Soft Start" },
-      "intermediate": { "price": 159, "label": "Start Deeper Refiner" },
-      "maintenance": { "price": 479, "label": "Start Forever Fit" }
+      "beginner": {
+        "price": 99,
+        "label": "Start Soft Start"
+      },
+      "intermediate": {
+        "price": 159,
+        "label": "Start Deeper Refiner"
+      },
+      "maintenance": {
+        "price": 479,
+        "label": "Start Forever Fit"
+      }
     },
     "promos": [
-      { "code": "BBWQUEEN", "items": 3, "percent": 20 },
-      { "code": "NOLIMITS30", "items": 6, "percent": 30 },
-      { "code": "GLOWUP35", "items": 7, "percent": 35 },
-      { "code": "LUXECURVE", "items": 2, "percent": 10 },
-      { "code": "FLAUNTIT", "items": 4, "percent": 25 },
-      { "code": "BIGBEAUTY50", "items": 10, "percent": 50 },
-      { "code": "PAUL81", "items": 8, "percent": 40 }
+      {
+        "code": "BBWQUEEN",
+        "items": 3,
+        "percent": 20
+      },
+      {
+        "code": "NOLIMITS30",
+        "items": 6,
+        "percent": 30
+      },
+      {
+        "code": "GLOWUP35",
+        "items": 7,
+        "percent": 35
+      },
+      {
+        "code": "LUXECURVE",
+        "items": 2,
+        "percent": 10
+      },
+      {
+        "code": "FLAUNTIT",
+        "items": 4,
+        "percent": 25
+      },
+      {
+        "code": "BIGBEAUTY50",
+        "items": 10,
+        "percent": 50
+      },
+      {
+        "code": "PAUL81",
+        "items": 8,
+        "percent": 40
+      }
     ],
     "enable_media_zoom": "yes",
     "plans_available": "no",
@@ -17836,7 +18797,6 @@
       },
       "border_size": 2,
       "border_color": "#B8925A",
-
       "product_ids": [
         "Pdg-Francenel-product101",
         "Pdg-Francenel-product106",
@@ -17989,730 +18949,1276 @@
       "product1": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product8" },
-          { "product_id": "Pdg-Francenel-product7" },
-          { "product_id": "Pdg-Francenel-product13" }
+          {
+            "product_id": "Pdg-Francenel-product8"
+          },
+          {
+            "product_id": "Pdg-Francenel-product7"
+          },
+          {
+            "product_id": "Pdg-Francenel-product13"
+          }
         ]
       },
       "product2": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product15" },
-          { "product_id": "Pdg-Francenel-product34" },
-          { "product_id": "Pdg-Francenela-product32" }
+          {
+            "product_id": "Pdg-Francenel-product15"
+          },
+          {
+            "product_id": "Pdg-Francenel-product34"
+          },
+          {
+            "product_id": "Pdg-Francenela-product32"
+          }
         ]
       },
       "product3": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product27" },
-          { "product_id": "Pdg-Francenel-product28" },
-          { "product_id": "Pdg-Francenel-product29" }
+          {
+            "product_id": "Pdg-Francenel-product27"
+          },
+          {
+            "product_id": "Pdg-Francenel-product28"
+          },
+          {
+            "product_id": "Pdg-Francenel-product29"
+          }
         ]
       },
       "product4": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product11" },
-          { "product_id": "Pdg-Francenel-product16" },
-          { "product_id": "Pdg-Francenel-product18" }
+          {
+            "product_id": "Pdg-Francenel-product11"
+          },
+          {
+            "product_id": "Pdg-Francenel-product16"
+          },
+          {
+            "product_id": "Pdg-Francenel-product18"
+          }
         ]
       },
       "product5": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product9" },
-          { "product_id": "Pdg-Francenel-product34" },
-          { "product_id": "Pdg-Francenel-product16" }
+          {
+            "product_id": "Pdg-Francenel-product9"
+          },
+          {
+            "product_id": "Pdg-Francenel-product34"
+          },
+          {
+            "product_id": "Pdg-Francenel-product16"
+          }
         ]
       },
       "product6": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product4" }
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product4"
+          }
         ]
       },
       "product7": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product8" },
-          { "product_id": "Pdg-Francenel-product19" }
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product8"
+          },
+          {
+            "product_id": "Pdg-Francenel-product19"
+          }
         ]
       },
       "product8": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product4" },
-          { "product_id": "Pdg-Francenel-product7" },
-          { "product_id": "Pdg-Francenel-product18" }
+          {
+            "product_id": "Pdg-Francenel-product4"
+          },
+          {
+            "product_id": "Pdg-Francenel-product7"
+          },
+          {
+            "product_id": "Pdg-Francenel-product18"
+          }
         ]
       },
       "product9": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product10" },
-          { "product_id": "Pdg-Francenel-product33" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product10"
+          },
+          {
+            "product_id": "Pdg-Francenel-product33"
+          }
         ]
       },
       "product10": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product11" },
-          { "product_id": "Pdg-Francenel-product56" }
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product11"
+          },
+          {
+            "product_id": "Pdg-Francenel-product56"
+          }
         ]
       },
       "product11": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product4" },
-          { "product_id": "Pdg-Francenel-product12" },
-          { "product_id": "Pdg-Francenel-product57" }
+          {
+            "product_id": "Pdg-Francenel-product4"
+          },
+          {
+            "product_id": "Pdg-Francenel-product12"
+          },
+          {
+            "product_id": "Pdg-Francenel-product57"
+          }
         ]
       },
       "product12": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product11" },
-          { "product_id": "Pdg-Francenel-product34" }
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product11"
+          },
+          {
+            "product_id": "Pdg-Francenel-product34"
+          }
         ]
       },
       "product13": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product4" },
-          { "product_id": "Pdg-Francenel-product14" },
-          { "product_id": "Pdg-Francenel-product19" }
+          {
+            "product_id": "Pdg-Francenel-product4"
+          },
+          {
+            "product_id": "Pdg-Francenel-product14"
+          },
+          {
+            "product_id": "Pdg-Francenel-product19"
+          }
         ]
       },
       "product14": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product13" },
-          { "product_id": "Pdg-Francenel-product22" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product13"
+          },
+          {
+            "product_id": "Pdg-Francenel-product22"
+          }
         ]
       },
       "product15": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product2" },
-          { "product_id": "Pdg-Francenel-product35" },
-          { "product_id": "Pdg-Francenel-product66" }
+          {
+            "product_id": "Pdg-Francenel-product2"
+          },
+          {
+            "product_id": "Pdg-Francenel-product35"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          }
         ]
       },
       "product16": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product11" },
-          { "product_id": "Pdg-Francenel-product58" }
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product11"
+          },
+          {
+            "product_id": "Pdg-Francenel-product58"
+          }
         ]
       },
       "product17": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product18" },
-          { "product_id": "Pdg-Francenel-product22" },
-          { "product_id": "Pdg-Francenel-product61" }
+          {
+            "product_id": "Pdg-Francenel-product18"
+          },
+          {
+            "product_id": "Pdg-Francenel-product22"
+          },
+          {
+            "product_id": "Pdg-Francenel-product61"
+          }
         ]
       },
       "product18": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product17" },
-          { "product_id": "Pdg-Francenel-product19" },
-          { "product_id": "Pdg-Francenel-product58" }
+          {
+            "product_id": "Pdg-Francenel-product17"
+          },
+          {
+            "product_id": "Pdg-Francenel-product19"
+          },
+          {
+            "product_id": "Pdg-Francenel-product58"
+          }
         ]
       },
       "product19": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product18" },
-          { "product_id": "Pdg-Francenel-product22" },
-          { "product_id": "Pdg-Francenel-product24" }
+          {
+            "product_id": "Pdg-Francenel-product18"
+          },
+          {
+            "product_id": "Pdg-Francenel-product22"
+          },
+          {
+            "product_id": "Pdg-Francenel-product24"
+          }
         ]
       },
       "product20": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product21" },
-          { "product_id": "Pdg-Francenel-product66" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product21"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          }
         ]
       },
       "product21": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product20" },
-          { "product_id": "Pdg-Francenel-product64" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product20"
+          },
+          {
+            "product_id": "Pdg-Francenel-product64"
+          }
         ]
       },
       "product22": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product17" },
-          { "product_id": "Pdg-Francenel-product19" },
-          { "product_id": "Pdg-Francenel-product59" }
+          {
+            "product_id": "Pdg-Francenel-product17"
+          },
+          {
+            "product_id": "Pdg-Francenel-product19"
+          },
+          {
+            "product_id": "Pdg-Francenel-product59"
+          }
         ]
       },
       "product23": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product24" },
-          { "product_id": "Pdg-Francenel-product22" },
-          { "product_id": "Pdg-Francenel-product64" }
+          {
+            "product_id": "Pdg-Francenel-product24"
+          },
+          {
+            "product_id": "Pdg-Francenel-product22"
+          },
+          {
+            "product_id": "Pdg-Francenel-product64"
+          }
         ]
       },
       "product24": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product23" },
-          { "product_id": "Pdg-Francenel-product19" },
-          { "product_id": "Pdg-Francenel-product58" }
+          {
+            "product_id": "Pdg-Francenel-product23"
+          },
+          {
+            "product_id": "Pdg-Francenel-product19"
+          },
+          {
+            "product_id": "Pdg-Francenel-product58"
+          }
         ]
       },
       "product25": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product26" },
-          { "product_id": "Pdg-Francenel-product65" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product26"
+          },
+          {
+            "product_id": "Pdg-Francenel-product65"
+          }
         ]
       },
       "product26": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product25" },
-          { "product_id": "Pdg-Francenel-product60" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product25"
+          },
+          {
+            "product_id": "Pdg-Francenel-product60"
+          }
         ]
       },
       "product27": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product28" },
-          { "product_id": "Pdg-Francenel-product64" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product28"
+          },
+          {
+            "product_id": "Pdg-Francenel-product64"
+          }
         ]
       },
       "product28": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product29" },
-          { "product_id": "Pdg-Francenel-product66" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product29"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          }
         ]
       },
       "product29": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product30" },
-          { "product_id": "Pdg-Francenel-product60" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product30"
+          },
+          {
+            "product_id": "Pdg-Francenel-product60"
+          }
         ]
       },
       "product30": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product23" },
-          { "product_id": "Pdg-Francenel-product65" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product23"
+          },
+          {
+            "product_id": "Pdg-Francenel-product65"
+          }
         ]
       },
       "product31": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product33" },
-          { "product_id": "Pdg-Francenel-product35" },
-          { "product_id": "Pdg-Francenel-product56" }
+          {
+            "product_id": "Pdg-Francenel-product33"
+          },
+          {
+            "product_id": "Pdg-Francenel-product35"
+          },
+          {
+            "product_id": "Pdg-Francenel-product56"
+          }
         ]
       },
       "product32": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product31" },
-          { "product_id": "Pdg-Francenel-product35" },
-          { "product_id": "Pdg-Francenel-product2" }
+          {
+            "product_id": "Pdg-Francenel-product31"
+          },
+          {
+            "product_id": "Pdg-Francenel-product35"
+          },
+          {
+            "product_id": "Pdg-Francenel-product2"
+          }
         ]
       },
       "product33": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product31" },
-          { "product_id": "Pdg-Francenel-product34" },
-          { "product_id": "Pdg-Francenel-product3" }
+          {
+            "product_id": "Pdg-Francenel-product31"
+          },
+          {
+            "product_id": "Pdg-Francenel-product34"
+          },
+          {
+            "product_id": "Pdg-Francenel-product3"
+          }
         ]
       },
       "product34": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product31" },
-          { "product_id": "Pdg-Francenel-product12" },
-          { "product_id": "Pdg-Francenel-product1" }
+          {
+            "product_id": "Pdg-Francenel-product31"
+          },
+          {
+            "product_id": "Pdg-Francenel-product12"
+          },
+          {
+            "product_id": "Pdg-Francenel-product1"
+          }
         ]
       },
       "product35": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product39" },
-          { "product_id": "Pdg-Francenel-product46" },
-          { "product_id": "Pdg-Francenel-product49" }
+          {
+            "product_id": "Pdg-Francenel-product39"
+          },
+          {
+            "product_id": "Pdg-Francenel-product46"
+          },
+          {
+            "product_id": "Pdg-Francenel-product49"
+          }
         ]
       },
       "product36": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product40" },
-          { "product_id": "Pdg-Francenel-product46" },
-          { "product_id": "Pdg-Francenel-product37" }
+          {
+            "product_id": "Pdg-Francenel-product40"
+          },
+          {
+            "product_id": "Pdg-Francenel-product46"
+          },
+          {
+            "product_id": "Pdg-Francenel-product37"
+          }
         ]
       },
       "product37": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product40" },
-          { "product_id": "Pdg-Francenel-product36" },
-          { "product_id": "Pdg-Francenel-product47" }
+          {
+            "product_id": "Pdg-Francenel-product40"
+          },
+          {
+            "product_id": "Pdg-Francenel-product36"
+          },
+          {
+            "product_id": "Pdg-Francenel-product47"
+          }
         ]
       },
       "product38": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product39" },
-          { "product_id": "Pdg-Francenel-product46" },
-          { "product_id": "Pdg-Francenel-product48" }
+          {
+            "product_id": "Pdg-Francenel-product39"
+          },
+          {
+            "product_id": "Pdg-Francenel-product46"
+          },
+          {
+            "product_id": "Pdg-Francenel-product48"
+          }
         ]
       },
       "product39": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product38" },
-          { "product_id": "Pdg-Francenel-product46" },
-          { "product_id": "Pdg-Francenel-product67" }
+          {
+            "product_id": "Pdg-Francenel-product38"
+          },
+          {
+            "product_id": "Pdg-Francenel-product46"
+          },
+          {
+            "product_id": "Pdg-Francenel-product67"
+          }
         ]
       },
       "product40": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product36" },
-          { "product_id": "Pdg-Francenel-product47" },
-          { "product_id": "Pdg-Francenel-product67" }
+          {
+            "product_id": "Pdg-Francenel-product36"
+          },
+          {
+            "product_id": "Pdg-Francenel-product47"
+          },
+          {
+            "product_id": "Pdg-Francenel-product67"
+          }
         ]
       },
       "product41": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product38" },
-          { "product_id": "Pdg-Francenel-product46" },
-          { "product_id": "Pdg-Francenel-product49" }
+          {
+            "product_id": "Pdg-Francenel-product38"
+          },
+          {
+            "product_id": "Pdg-Francenel-product46"
+          },
+          {
+            "product_id": "Pdg-Francenel-product49"
+          }
         ]
       },
       "product42": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product38" },
-          { "product_id": "Pdg-Francenel-product46" },
-          { "product_id": "Pdg-Francenel-product48" }
+          {
+            "product_id": "Pdg-Francenel-product38"
+          },
+          {
+            "product_id": "Pdg-Francenel-product46"
+          },
+          {
+            "product_id": "Pdg-Francenel-product48"
+          }
         ]
       },
       "product43": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product36" },
-          { "product_id": "Pdg-Francenel-product47" },
-          { "product_id": "Pdg-Francenel-product50" }
+          {
+            "product_id": "Pdg-Francenel-product36"
+          },
+          {
+            "product_id": "Pdg-Francenel-product47"
+          },
+          {
+            "product_id": "Pdg-Francenel-product50"
+          }
         ]
       },
       "product44": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product36" },
-          { "product_id": "Pdg-Francenel-product50" },
-          { "product_id": "Pdg-Francenel-product67" }
+          {
+            "product_id": "Pdg-Francenel-product36"
+          },
+          {
+            "product_id": "Pdg-Francenel-product50"
+          },
+          {
+            "product_id": "Pdg-Francenel-product67"
+          }
         ]
       },
       "product45": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product38" },
-          { "product_id": "Pdg-Francenel-product46" },
-          { "product_id": "Pdg-Francenel-product49" }
+          {
+            "product_id": "Pdg-Francenel-product38"
+          },
+          {
+            "product_id": "Pdg-Francenel-product46"
+          },
+          {
+            "product_id": "Pdg-Francenel-product49"
+          }
         ]
       },
       "product46": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product42" },
-          { "product_id": "Pdg-Francenel-product38" },
-          { "product_id": "Pdg-Francenel-product67" }
+          {
+            "product_id": "Pdg-Francenel-product42"
+          },
+          {
+            "product_id": "Pdg-Francenel-product38"
+          },
+          {
+            "product_id": "Pdg-Francenel-product67"
+          }
         ]
       },
       "product47": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product40" },
-          { "product_id": "Pdg-Francenel-product36" },
-          { "product_id": "Pdg-Francenel-product67" }
+          {
+            "product_id": "Pdg-Francenel-product40"
+          },
+          {
+            "product_id": "Pdg-Francenel-product36"
+          },
+          {
+            "product_id": "Pdg-Francenel-product67"
+          }
         ]
       },
       "product48": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product42" },
-          { "product_id": "Pdg-Francenel-product49" },
-          { "product_id": "Pdg-Francenel-product38" }
+          {
+            "product_id": "Pdg-Francenel-product42"
+          },
+          {
+            "product_id": "Pdg-Francenel-product49"
+          },
+          {
+            "product_id": "Pdg-Francenel-product38"
+          }
         ]
       },
       "product49": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product45" },
-          { "product_id": "Pdg-Francenel-product35" },
-          { "product_id": "Pdg-Francenel-product48" }
+          {
+            "product_id": "Pdg-Francenel-product45"
+          },
+          {
+            "product_id": "Pdg-Francenel-product35"
+          },
+          {
+            "product_id": "Pdg-Francenel-product48"
+          }
         ]
       },
       "product50": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product43" },
-          { "product_id": "Pdg-Francenel-product36" },
-          { "product_id": "Pdg-Francenel-product51" }
+          {
+            "product_id": "Pdg-Francenel-product43"
+          },
+          {
+            "product_id": "Pdg-Francenel-product36"
+          },
+          {
+            "product_id": "Pdg-Francenel-product51"
+          }
         ]
       },
       "product51": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product35" },
-          { "product_id": "Pdg-Francenel-product40" },
-          { "product_id": "Pdg-Francenel-product48" }
+          {
+            "product_id": "Pdg-Francenel-product35"
+          },
+          {
+            "product_id": "Pdg-Francenel-product40"
+          },
+          {
+            "product_id": "Pdg-Francenel-product48"
+          }
         ]
       },
       "product52": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product53" },
-          { "product_id": "Pdg-Francenel-product54" },
-          { "product_id": "Pdg-Francenel-product55" }
+          {
+            "product_id": "Pdg-Francenel-product53"
+          },
+          {
+            "product_id": "Pdg-Francenel-product54"
+          },
+          {
+            "product_id": "Pdg-Francenel-product55"
+          }
         ]
       },
       "product53": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product52" },
-          { "product_id": "Pdg-Francenel-product54" },
-          { "product_id": "Pdg-Francenel-product59" }
+          {
+            "product_id": "Pdg-Francenel-product52"
+          },
+          {
+            "product_id": "Pdg-Francenel-product54"
+          },
+          {
+            "product_id": "Pdg-Francenel-product59"
+          }
         ]
       },
       "product54": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product52" },
-          { "product_id": "Pdg-Francenel-product53" },
-          { "product_id": "Pdg-Francenel-product64" }
+          {
+            "product_id": "Pdg-Francenel-product52"
+          },
+          {
+            "product_id": "Pdg-Francenel-product53"
+          },
+          {
+            "product_id": "Pdg-Francenel-product64"
+          }
         ]
       },
       "product55": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product56" },
-          { "product_id": "Pdg-Francenel-product57" },
-          { "product_id": "Pdg-Francenel-product59" }
+          {
+            "product_id": "Pdg-Francenel-product56"
+          },
+          {
+            "product_id": "Pdg-Francenel-product57"
+          },
+          {
+            "product_id": "Pdg-Francenel-product59"
+          }
         ]
       },
       "product56": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product55" },
-          { "product_id": "Pdg-Francenel-product57" },
-          { "product_id": "Pdg-Francenel-product58" }
+          {
+            "product_id": "Pdg-Francenel-product55"
+          },
+          {
+            "product_id": "Pdg-Francenel-product57"
+          },
+          {
+            "product_id": "Pdg-Francenel-product58"
+          }
         ]
       },
       "product57": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product55" },
-          { "product_id": "Pdg-Francenel-product56" },
-          { "product_id": "Pdg-Francenel-product60" }
+          {
+            "product_id": "Pdg-Francenel-product55"
+          },
+          {
+            "product_id": "Pdg-Francenel-product56"
+          },
+          {
+            "product_id": "Pdg-Francenel-product60"
+          }
         ]
       },
       "product58": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product59" },
-          { "product_id": "Pdg-Francenel-product56" },
-          { "product_id": "Pdg-Francenel-product65" }
+          {
+            "product_id": "Pdg-Francenel-product59"
+          },
+          {
+            "product_id": "Pdg-Francenel-product56"
+          },
+          {
+            "product_id": "Pdg-Francenel-product65"
+          }
         ]
       },
       "product59": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product58" },
-          { "product_id": "Pdg-Francenel-product55" },
-          { "product_id": "Pdg-Francenel-product64" }
+          {
+            "product_id": "Pdg-Francenel-product58"
+          },
+          {
+            "product_id": "Pdg-Francenel-product55"
+          },
+          {
+            "product_id": "Pdg-Francenel-product64"
+          }
         ]
       },
       "product60": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product64" },
-          { "product_id": "Pdg-Francenel-product66" },
-          { "product_id": "Pdg-Francenel-product61" }
+          {
+            "product_id": "Pdg-Francenel-product64"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          },
+          {
+            "product_id": "Pdg-Francenel-product61"
+          }
         ]
       },
       "product61": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product62" },
-          { "product_id": "Pdg-Francenel-product63" },
-          { "product_id": "Pdg-Francenel-product60" }
+          {
+            "product_id": "Pdg-Francenel-product62"
+          },
+          {
+            "product_id": "Pdg-Francenel-product63"
+          },
+          {
+            "product_id": "Pdg-Francenel-product60"
+          }
         ]
       },
       "product62": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product61" },
-          { "product_id": "Pdg-Francenel-product63" },
-          { "product_id": "Pdg-Francenel-product54" }
+          {
+            "product_id": "Pdg-Francenel-product61"
+          },
+          {
+            "product_id": "Pdg-Francenel-product63"
+          },
+          {
+            "product_id": "Pdg-Francenel-product54"
+          }
         ]
       },
       "product63": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product61" },
-          { "product_id": "Pdg-Francenel-product62" },
-          { "product_id": "Pdg-Francenel-product64" }
+          {
+            "product_id": "Pdg-Francenel-product61"
+          },
+          {
+            "product_id": "Pdg-Francenel-product62"
+          },
+          {
+            "product_id": "Pdg-Francenel-product64"
+          }
         ]
       },
       "product64": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product66" },
-          { "product_id": "Pdg-Francenel-product65" },
-          { "product_id": "Pdg-Francenel-product60" }
+          {
+            "product_id": "Pdg-Francenel-product66"
+          },
+          {
+            "product_id": "Pdg-Francenel-product65"
+          },
+          {
+            "product_id": "Pdg-Francenel-product60"
+          }
         ]
       },
       "product65": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product64" },
-          { "product_id": "Pdg-Francenel-product66" },
-          { "product_id": "Pdg-Francenel-product68" }
+          {
+            "product_id": "Pdg-Francenel-product64"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          },
+          {
+            "product_id": "Pdg-Francenel-product68"
+          }
         ]
       },
       "product66": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product64" },
-          { "product_id": "Pdg-Francenel-product65" },
-          { "product_id": "Pdg-Francenel-product60" }
+          {
+            "product_id": "Pdg-Francenel-product64"
+          },
+          {
+            "product_id": "Pdg-Francenel-product65"
+          },
+          {
+            "product_id": "Pdg-Francenel-product60"
+          }
         ]
       },
       "product67": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product64" },
-          { "product_id": "Pdg-Francenel-product66" },
-          { "product_id": "Pdg-Francenel-product68" }
+          {
+            "product_id": "Pdg-Francenel-product64"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          },
+          {
+            "product_id": "Pdg-Francenel-product68"
+          }
         ]
       },
       "product68": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product64" },
-          { "product_id": "Pdg-Francenel-product65" },
-          { "product_id": "Pdg-Francenel-product66" }
+          {
+            "product_id": "Pdg-Francenel-product64"
+          },
+          {
+            "product_id": "Pdg-Francenel-product65"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          }
         ]
       },
       "product76": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product77" },
-          { "product_id": "Pdg-Francenel-product78" },
-          { "product_id": "Pdg-Francenel-product79" }
+          {
+            "product_id": "Pdg-Francenel-product77"
+          },
+          {
+            "product_id": "Pdg-Francenel-product78"
+          },
+          {
+            "product_id": "Pdg-Francenel-product79"
+          }
         ]
       },
       "product77": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product83" },
-          { "product_id": "Pdg-Francenel-product89" },
-          { "product_id": "Pdg-Francenel-product61" }
+          {
+            "product_id": "Pdg-Francenel-product83"
+          },
+          {
+            "product_id": "Pdg-Francenel-product89"
+          },
+          {
+            "product_id": "Pdg-Francenel-product61"
+          }
         ]
       },
       "product78": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product81" },
-          { "product_id": "Pdg-Francenel-product87" },
-          { "product_id": "Pdg-Francenel-product59" }
+          {
+            "product_id": "Pdg-Francenel-product81"
+          },
+          {
+            "product_id": "Pdg-Francenel-product87"
+          },
+          {
+            "product_id": "Pdg-Francenel-product59"
+          }
         ]
       },
       "product79": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product90" },
-          { "product_id": "Pdg-Francenel-product58" }
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product90"
+          },
+          {
+            "product_id": "Pdg-Francenel-product58"
+          }
         ]
       },
       "product80": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product6" },
-          { "product_id": "Pdg-Francenel-product86" },
-          { "product_id": "Pdg-Francenel-product66" }
+          {
+            "product_id": "Pdg-Francenel-product6"
+          },
+          {
+            "product_id": "Pdg-Francenel-product86"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          }
         ]
       },
       "product81": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product92" },
-          { "product_id": "Pdg-Francenel-product57" }
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product92"
+          },
+          {
+            "product_id": "Pdg-Francenel-product57"
+          }
         ]
       },
       "product82": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product4" },
-          { "product_id": "Pdg-Francenel-product89" },
-          { "product_id": "Pdg-Francenel-product10" }
+          {
+            "product_id": "Pdg-Francenel-product4"
+          },
+          {
+            "product_id": "Pdg-Francenel-product89"
+          },
+          {
+            "product_id": "Pdg-Francenel-product10"
+          }
         ]
       },
       "product83": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product77" },
-          { "product_id": "Pdg-Francenel-product88" },
-          { "product_id": "Pdg-Francenel-product61" }
+          {
+            "product_id": "Pdg-Francenel-product77"
+          },
+          {
+            "product_id": "Pdg-Francenel-product88"
+          },
+          {
+            "product_id": "Pdg-Francenel-product61"
+          }
         ]
       },
       "product84": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product4" },
-          { "product_id": "Pdg-Francenel-product94" },
-          { "product_id": "Pdg-Francenel-product59" }
+          {
+            "product_id": "Pdg-Francenel-product4"
+          },
+          {
+            "product_id": "Pdg-Francenel-product94"
+          },
+          {
+            "product_id": "Pdg-Francenel-product59"
+          }
         ]
       },
       "product85": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product16" },
-          { "product_id": "Pdg-Francenel-product60" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product16"
+          },
+          {
+            "product_id": "Pdg-Francenel-product60"
+          }
         ]
       },
       "product86": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product8" },
-          { "product_id": "Pdg-Francenel-product12" },
-          { "product_id": "Pdg-Francenel-product55" }
+          {
+            "product_id": "Pdg-Francenel-product8"
+          },
+          {
+            "product_id": "Pdg-Francenel-product12"
+          },
+          {
+            "product_id": "Pdg-Francenel-product55"
+          }
         ]
       },
       "product87": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product14" },
-          { "product_id": "Pdg-Francenel-product4" },
-          { "product_id": "Pdg-Francenel-product58" }
+          {
+            "product_id": "Pdg-Francenel-product14"
+          },
+          {
+            "product_id": "Pdg-Francenel-product4"
+          },
+          {
+            "product_id": "Pdg-Francenel-product58"
+          }
         ]
       },
       "product88": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product31" },
-          { "product_id": "Pdg-Francenel-product62" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product31"
+          },
+          {
+            "product_id": "Pdg-Francenel-product62"
+          }
         ]
       },
       "product89": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product9" },
-          { "product_id": "Pdg-Francenel-product2" },
-          { "product_id": "Pdg-Francenel-product63" }
+          {
+            "product_id": "Pdg-Francenel-product9"
+          },
+          {
+            "product_id": "Pdg-Francenel-product2"
+          },
+          {
+            "product_id": "Pdg-Francenel-product63"
+          }
         ]
       },
       "product90": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product11" },
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product66" }
+          {
+            "product_id": "Pdg-Francenel-product11"
+          },
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          }
         ]
       },
       "product91": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product14" },
-          { "product_id": "Pdg-Francenel-product34" },
-          { "product_id": "Pdg-Francenel-product53" }
+          {
+            "product_id": "Pdg-Francenel-product14"
+          },
+          {
+            "product_id": "Pdg-Francenel-product34"
+          },
+          {
+            "product_id": "Pdg-Francenel-product53"
+          }
         ]
       },
       "product92": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product82" },
-          { "product_id": "Pdg-Francenel-product6" },
-          { "product_id": "Pdg-Francenel-product57" }
+          {
+            "product_id": "Pdg-Francenel-product82"
+          },
+          {
+            "product_id": "Pdg-Francenel-product6"
+          },
+          {
+            "product_id": "Pdg-Francenel-product57"
+          }
         ]
       },
       "product93": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product22" },
-          { "product_id": "Pdg-Francenel-product6" },
-          { "product_id": "Pdg-Francenel-product59" }
+          {
+            "product_id": "Pdg-Francenel-product22"
+          },
+          {
+            "product_id": "Pdg-Francenel-product6"
+          },
+          {
+            "product_id": "Pdg-Francenel-product59"
+          }
         ]
       },
       "product94": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product84" },
-          { "product_id": "Pdg-Francenel-product1" },
-          { "product_id": "Pdg-Francenel-product58" }
+          {
+            "product_id": "Pdg-Francenel-product84"
+          },
+          {
+            "product_id": "Pdg-Francenel-product1"
+          },
+          {
+            "product_id": "Pdg-Francenel-product58"
+          }
         ]
       },
       "product95": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product16" },
-          { "product_id": "Pdg-Francenel-product2" },
-          { "product_id": "Pdg-Francenel-product55" }
+          {
+            "product_id": "Pdg-Francenel-product16"
+          },
+          {
+            "product_id": "Pdg-Francenel-product2"
+          },
+          {
+            "product_id": "Pdg-Francenel-product55"
+          }
         ]
       },
       "product96": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product2" },
-          { "product_id": "Pdg-Francenel-product87" },
-          { "product_id": "Pdg-Francenel-product52" }
+          {
+            "product_id": "Pdg-Francenel-product2"
+          },
+          {
+            "product_id": "Pdg-Francenel-product87"
+          },
+          {
+            "product_id": "Pdg-Francenel-product52"
+          }
         ]
       },
       "product97": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product3" },
-          { "product_id": "Pdg-Francenel-product88" },
-          { "product_id": "Pdg-Francenel-product58" }
+          {
+            "product_id": "Pdg-Francenel-product3"
+          },
+          {
+            "product_id": "Pdg-Francenel-product88"
+          },
+          {
+            "product_id": "Pdg-Francenel-product58"
+          }
         ]
       }
     },
     "cart_page_upsell": {
       "discount_percent": 20,
       "items": [
-        { "product_id": "Pdg-Francenel-product60" },
-        { "product_id": "Pdg-Francenel-product56" },
-        { "product_id": "Pdg-Francenel-product54" }
+        {
+          "product_id": "Pdg-Francenel-product60"
+        },
+        {
+          "product_id": "Pdg-Francenel-product56"
+        },
+        {
+          "product_id": "Pdg-Francenel-product54"
+        }
       ]
     },
     "cart_extra_products": {
@@ -18774,7 +20280,6 @@
       "show_all_centered": "no",
       "two_columns_mobile": "yes"
     },
-
     "newsletter_auto_popup": {
       "show": "yes",
       "delay_seconds": 20,
@@ -18791,9 +20296,18 @@
       "thumbnails_position_desktop": "right",
       "thumbnails_position_mobile": "top",
       "show_individual_buttons": "no",
-      "button_1": { "text": "Discover", "url": "/collections/nouveautes.html" },
-      "button_2": { "text": "Promotions", "url": "/collections/soldes.html" },
-      "button_3": { "text": "Our brands", "url": "/collections/marques.html" },
+      "button_1": {
+        "text": "Discover",
+        "url": "/collections/nouveautes.html"
+      },
+      "button_2": {
+        "text": "Promotions",
+        "url": "/collections/soldes.html"
+      },
+      "button_3": {
+        "text": "Our brands",
+        "url": "/collections/marques.html"
+      },
       "main_button": {
         "text": "Unlock the Full Pack",
         "product_ids": [
@@ -18991,7 +20505,6 @@
             "Pdg-Francenel-product36",
             "Pdg-Francenel-product37",
             "Pdg-Francenel-product38",
-
             "-- SHOES --",
             "Pdg-Francenel-product39",
             "Pdg-Francenel-product111",
@@ -19005,7 +20518,6 @@
             "Pdg-Francenel-product115",
             "Pdg-Francenel-product44",
             "Pdg-Francenel-product45",
-
             "-- SHIRTS --",
             "Pdg-Francenel-product46",
             "Pdg-Francenel-product116",
@@ -19013,7 +20525,6 @@
             "Pdg-Francenel-product47",
             "Pdg-Francenel-product118",
             "Pdg-Francenel-product48",
-
             "-- SWEATERS --",
             "Pdg-Francenel-product49",
             "Pdg-Francenel-product50",
@@ -19036,24 +20547,19 @@
             "Pdg-Francenel-product52",
             "Pdg-Francenel-product53",
             "Pdg-Francenel-product54",
-
             "-- EYEBROW --",
             "Pdg-Francenel-product55",
             "Pdg-Francenel-product56",
             "Pdg-Francenel-product57",
-
             "-- LIP --",
             "Pdg-Francenel-product58",
             "Pdg-Francenel-product59",
-
             "-- MAKEUP --",
             "Pdg-Francenel-product60",
-
             "-- HAIRCARE --",
             "Pdg-Francenel-product61",
             "Pdg-Francenel-product62",
             "Pdg-Francenel-product63",
-
             "-- SKINCARE --",
             "Pdg-Francenel-product64",
             "Pdg-Francenel-product65",
@@ -19108,7 +20614,6 @@
             "Pdg-Francenel-product76",
             "Pdg-Francenel-product77",
             "Pdg-Francenel-product78",
-
             "-- WOMAN : DRESSES --",
             "Pdg-Francenel-product7",
             "Pdg-Francenel-product8",
@@ -19126,21 +20631,17 @@
             "Pdg-Francenel-product82",
             "Pdg-Francenel-product83",
             "Pdg-Francenel-product84",
-
             "-- WOMAN : BATHROBE --",
             "Pdg-Francenel-product17",
             "Pdg-Francenel-product18",
-
             "-- WOMAN : SEXY --",
             "Pdg-Francenel-product19",
             "Pdg-Francenel-product20",
             "Pdg-Francenel-product21",
             "Pdg-Francenel-product22",
-
             "-- WOMAN : BREATHABLE --",
             "Pdg-Francenel-product23",
             "Pdg-Francenel-product24",
-
             "-- WOMAN : BIKINI --",
             "Pdg-Francenel-product25",
             "Pdg-Francenel-product26",
@@ -19149,14 +20650,12 @@
             "Pdg-Francenel-product29",
             "Pdg-Francenel-product30",
             "Pdg-Francenel-product97",
-
             "-- WOMAN : TOPS --",
             "Pdg-Francenel-product31",
             "Pdg-Francenel-product32",
             "Pdg-Francenel-product33",
             "Pdg-Francenel-product34",
             "Pdg-Francenel-product96",
-
             "-- WOMAN : BAGS --",
             "Pdg-Francenel-product85",
             "Pdg-Francenel-product86",
@@ -19169,13 +20668,11 @@
             "Pdg-Francenel-product93",
             "Pdg-Francenel-product94",
             "Pdg-Francenel-product95",
-
             "-- MAN : PANTS --",
             "Pdg-Francenel-product35",
             "Pdg-Francenel-product36",
             "Pdg-Francenel-product37",
             "Pdg-Francenel-product38",
-
             "-- MAN : SHOES --",
             "Pdg-Francenel-product39",
             "Pdg-Francenel-product111",
@@ -19189,7 +20686,6 @@
             "Pdg-Francenel-product115",
             "Pdg-Francenel-product44",
             "Pdg-Francenel-product45",
-
             "-- MAN : SHIRTS --",
             "Pdg-Francenel-product46",
             "Pdg-Francenel-product116",
@@ -19197,41 +20693,33 @@
             "Pdg-Francenel-product47",
             "Pdg-Francenel-product118",
             "Pdg-Francenel-product48",
-
             "-- MAN : SWEATERS --",
             "Pdg-Francenel-product49",
             "Pdg-Francenel-product50",
             "Pdg-Francenel-product51",
-
             "-- BEAUTY : NAILS --",
             "Pdg-Francenel-product52",
             "Pdg-Francenel-product53",
             "Pdg-Francenel-product54",
-
             "-- BEAUTY : EYEBROW --",
             "Pdg-Francenel-product55",
             "Pdg-Francenel-product56",
             "Pdg-Francenel-product57",
-
             "-- BEAUTY : LIP --",
             "Pdg-Francenel-product58",
             "Pdg-Francenel-product59",
-
             "-- BEAUTY : MAKEUP --",
             "Pdg-Francenel-product60",
-
             "-- BEAUTY : HAIRCARE --",
             "Pdg-Francenel-product61",
             "Pdg-Francenel-product62",
             "Pdg-Francenel-product63",
-
             "-- BEAUTY : SKINCARE --",
             "Pdg-Francenel-product64",
             "Pdg-Francenel-product65",
             "Pdg-Francenel-product66",
             "Pdg-Francenel-product67",
             "Pdg-Francenel-product68",
-
             "--BBW ORIGINAL:COMINGSOON--",
             "Pdg-Francenel-product98",
             "Pdg-Francenel-product99",
@@ -19407,7 +20895,6 @@
         }
       ]
     },
-
     "most-popular": {
       "id": "most-popular",
       "title": "Most Popular",
@@ -19447,7 +20934,6 @@
         "Pdg-Francenel-product64"
       ]
     },
-
     "all-collections": [
       {
         "id": "curvy-dresses",
@@ -19504,27 +20990,132 @@
       "enabled": "yes",
       "default_lang": "en",
       "options": [
-        { "code": "en", "label": "EN", "name": "English", "flag": "🇺🇸" },
-        { "code": "es", "label": "ES", "name": "Español", "flag": "🇪🇸" },
-        { "code": "fr", "label": "FR", "name": "Français", "flag": "🇫🇷" },
-        { "code": "pt", "label": "PT", "name": "Português", "flag": "🇧🇷" },
-        { "code": "de", "label": "DE", "name": "Deutsch", "flag": "🇩🇪" },
-        { "code": "it", "label": "IT", "name": "Italiano", "flag": "🇮🇹" },
-        { "code": "zh", "label": "ZH", "name": "中文", "flag": "🇨🇳" },
-        { "code": "ja", "label": "JA", "name": "日本語", "flag": "🇯🇵" },
-        { "code": "ar", "label": "AR", "name": "العربية", "flag": "🇸🇦" },
-        { "code": "hi", "label": "HI", "name": "हिन्दी", "flag": "🇮🇳" },
-        { "code": "ru", "label": "RU", "name": "Русский", "flag": "🇷🇺" },
-        { "code": "ko", "label": "KO", "name": "한국어", "flag": "🇰🇷" },
-        { "code": "nl", "label": "NL", "name": "Nederlands", "flag": "🇳🇱" },
-        { "code": "tr", "label": "TR", "name": "Türkçe", "flag": "🇹🇷" },
-        { "code": "pl", "label": "PL", "name": "Polski", "flag": "🇵🇱" },
-        { "code": "vi", "label": "VI", "name": "Tiếng Việt", "flag": "🇻🇳" },
-        { "code": "th", "label": "TH", "name": "ภาษาไทย", "flag": "🇹🇭" },
-        { "code": "id", "label": "ID", "name": "Indonesia", "flag": "🇮🇩" },
-        { "code": "ro", "label": "RO", "name": "Română", "flag": "🇷🇴" },
-        { "code": "sw", "label": "SW", "name": "Kiswahili", "flag": "🇰🇪" },
-        { "code": "ht", "label": "HT", "name": "Kreyòl", "flag": "🇭🇹" }
+        {
+          "code": "en",
+          "label": "EN",
+          "name": "English",
+          "flag": "🇺🇸"
+        },
+        {
+          "code": "es",
+          "label": "ES",
+          "name": "Español",
+          "flag": "🇪🇸"
+        },
+        {
+          "code": "fr",
+          "label": "FR",
+          "name": "Français",
+          "flag": "🇫🇷"
+        },
+        {
+          "code": "pt",
+          "label": "PT",
+          "name": "Português",
+          "flag": "🇧🇷"
+        },
+        {
+          "code": "de",
+          "label": "DE",
+          "name": "Deutsch",
+          "flag": "🇩🇪"
+        },
+        {
+          "code": "it",
+          "label": "IT",
+          "name": "Italiano",
+          "flag": "🇮🇹"
+        },
+        {
+          "code": "zh",
+          "label": "ZH",
+          "name": "中文",
+          "flag": "🇨🇳"
+        },
+        {
+          "code": "ja",
+          "label": "JA",
+          "name": "日本語",
+          "flag": "🇯🇵"
+        },
+        {
+          "code": "ar",
+          "label": "AR",
+          "name": "العربية",
+          "flag": "🇸🇦"
+        },
+        {
+          "code": "hi",
+          "label": "HI",
+          "name": "हिन्दी",
+          "flag": "🇮🇳"
+        },
+        {
+          "code": "ru",
+          "label": "RU",
+          "name": "Русский",
+          "flag": "🇷🇺"
+        },
+        {
+          "code": "ko",
+          "label": "KO",
+          "name": "한국어",
+          "flag": "🇰🇷"
+        },
+        {
+          "code": "nl",
+          "label": "NL",
+          "name": "Nederlands",
+          "flag": "🇳🇱"
+        },
+        {
+          "code": "tr",
+          "label": "TR",
+          "name": "Türkçe",
+          "flag": "🇹🇷"
+        },
+        {
+          "code": "pl",
+          "label": "PL",
+          "name": "Polski",
+          "flag": "🇵🇱"
+        },
+        {
+          "code": "vi",
+          "label": "VI",
+          "name": "Tiếng Việt",
+          "flag": "🇻🇳"
+        },
+        {
+          "code": "th",
+          "label": "TH",
+          "name": "ภาษาไทย",
+          "flag": "🇹🇭"
+        },
+        {
+          "code": "id",
+          "label": "ID",
+          "name": "Indonesia",
+          "flag": "🇮🇩"
+        },
+        {
+          "code": "ro",
+          "label": "RO",
+          "name": "Română",
+          "flag": "🇷🇴"
+        },
+        {
+          "code": "sw",
+          "label": "SW",
+          "name": "Kiswahili",
+          "flag": "🇰🇪"
+        },
+        {
+          "code": "ht",
+          "label": "HT",
+          "name": "Kreyòl",
+          "flag": "🇭🇹"
+        }
       ]
     },
     "country_selector": {
@@ -19931,11 +21522,9 @@
       "padding_top": 1,
       "padding_bottom": 2
     },
-
     "style_quiz": {
       "show": "yes",
       "trigger_link_id": "bbwFindYourBestLink",
-
       "styles": {
         "Casual": {
           "description": "Comfortable, relaxed and effortlessly chic for everyday living.",
@@ -19946,7 +21535,6 @@
             "Pdg-Francenel-product39"
           ]
         },
-
         "Chic": {
           "description": "Refined elegance with a contemporary edge — timeless sophistication.",
           "product_ids": [
@@ -19956,7 +21544,6 @@
             "Pdg-Francenel-product11"
           ]
         },
-
         "Beauty": {
           "description": "Glow from within — skincare, makeup and beauty rituals that celebrate you.",
           "product_ids": [
@@ -19966,7 +21553,6 @@
             "Pdg-Francenel-product67"
           ]
         },
-
         "Glamour": {
           "description": "Bold, dazzling and unapologetically radiant — you were born to shine.",
           "product_ids": [
@@ -19977,12 +21563,19 @@
           ]
         }
       },
-
       "occasions": {
-        "Everyday": { "slot": 0 },
-        "Evening": { "slot": 1 },
-        "Work": { "slot": 2 },
-        "Party": { "slot": 3 }
+        "Everyday": {
+          "slot": 0
+        },
+        "Evening": {
+          "slot": 1
+        },
+        "Work": {
+          "slot": 2
+        },
+        "Party": {
+          "slot": 3
+        }
       }
     },
     "find_your_look": {
@@ -20048,7 +21641,6 @@
       "message": "💔 YOUR CART MISSES YOU!",
       "speed": 150,
       "catchy_addon": "⏳ COME BACK!",
-
       "animation": {
         "typewriter": "no",
         "fade": "no",
@@ -20061,7 +21653,6 @@
         "flash": "no",
         "ping": "no"
       },
-
       "separator": {
         "space": "yes",
         "dash": "no",
@@ -20221,19 +21812,56 @@
       "copy_label": "Copy Code",
       "copied_label": "Copied!",
       "default_customers": [
-        { "firstName": "Tanya", "lastName": "Moore" },
-        { "firstName": "Rashida", "lastName": "Vaughn" },
-        { "firstName": "Aaliyah", "lastName": "Coleman" },
-        { "firstName": "Brianna", "lastName": "Foster" },
-        { "firstName": "Nadia", "lastName": "Reyes" },
-        { "firstName": "Simone", "lastName": "Bennett" },
-        { "firstName": "Yolanda", "lastName": "Price" },
-        { "firstName": "Camille", "lastName": "Russell" },
-        { "firstName": "Talia", "lastName": "Morgan" },
-        { "firstName": "Priscilla", "lastName": "Hayes" },
-        { "firstName": "Renata", "lastName": "Sanders" },
-        { "firstName": "Marisol", "lastName": "Ortega" }
+        {
+          "firstName": "Tanya",
+          "lastName": "Moore"
+        },
+        {
+          "firstName": "Rashida",
+          "lastName": "Vaughn"
+        },
+        {
+          "firstName": "Aaliyah",
+          "lastName": "Coleman"
+        },
+        {
+          "firstName": "Brianna",
+          "lastName": "Foster"
+        },
+        {
+          "firstName": "Nadia",
+          "lastName": "Reyes"
+        },
+        {
+          "firstName": "Simone",
+          "lastName": "Bennett"
+        },
+        {
+          "firstName": "Yolanda",
+          "lastName": "Price"
+        },
+        {
+          "firstName": "Camille",
+          "lastName": "Russell"
+        },
+        {
+          "firstName": "Talia",
+          "lastName": "Morgan"
+        },
+        {
+          "firstName": "Priscilla",
+          "lastName": "Hayes"
+        },
+        {
+          "firstName": "Renata",
+          "lastName": "Sanders"
+        },
+        {
+          "firstName": "Marisol",
+          "lastName": "Ortega"
+        }
       ]
-    }
+    },
+    "use_pretty_urls": "no"
   }
 ]

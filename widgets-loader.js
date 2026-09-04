@@ -69,6 +69,27 @@
       <p>Add products to start shopping.</p>
       <a href="/collections/bbw4life-all-product.html" class="cta button-3d">Shop Now</a>
     </div>
+    <div class="cart-gender-picker" id="cart-gender-picker">
+      <div class="cart-gender-picker__bar" id="cart-gender-picker-bar">
+        <span class="cart-gender-picker__title" id="cart-gender-picker-title"></span>
+        <span class="cart-gender-picker__chevron"><i class="fas fa-chevron-down"></i></span>
+      </div>
+      <div class="cart-gender-picker__panel">
+        <div class="cart-gender-picker__panel-inner">
+          <p class="cart-gender-picker__question">Choose who you are!</p>
+          <div class="cart-gender-picker__options">
+            <label class="cart-gender-option" data-gender="woman">
+              <span class="gender-swatch"><img src="" alt="Woman" loading="lazy"></span>
+              <span class="cart-gender-option__label">Woman</span>
+            </label>
+            <label class="cart-gender-option" data-gender="man">
+              <span class="gender-swatch"><img src="" alt="Man" loading="lazy"></span>
+              <span class="cart-gender-option__label">Man</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="reviews-carousel" id="cart-reviews-carousel"></div>
     <div class="marquee-container cart-marquee">
       <div class="marquee-content">

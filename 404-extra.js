@@ -30,7 +30,7 @@
       });
 
       
-      var threshold = (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) || 75;
+      var threshold = (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) || 140;
       document.querySelectorAll('.hdr-free-shipping-threshold').forEach(function (el) {
         el.textContent = threshold;
       });

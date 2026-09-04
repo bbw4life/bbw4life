@@ -1069,7 +1069,7 @@
     const settings     = allProducts.find(p => p.type === 'settings') || {};
 
     const jackpot  = settings.jackpot_reward_amount || 150;
-    const shipping = (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) || 75;
+    const shipping = (settings.cart_drawer && settings.cart_drawer.free_shipping_threshold) || 140;
 
     const affiliateEl = document.getElementById('promoBarAffiliate');
     const shippingEl   = document.getElementById('promoBarShipping');

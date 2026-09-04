@@ -1001,7 +1001,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const selectedMethod = document.querySelector('.shipping-option.selected')?.dataset.method || '';
         const freeShipThresh = (() => {
             const s = productsData.find(i => i.type === 'settings');
-            return s?.cart_drawer?.free_shipping_threshold || 0;
+            return s?.cart_drawer?.free_shipping_threshold || 140;
         })();
         const isFreeByThreshold = freeShipThresh > 0 && subtotal >= freeShipThresh;
         updateFreeShippingPromoLock(isFreeByThreshold);
@@ -1194,7 +1194,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ── Garde : aucun code promo ne peut être combiné avec la livraison
     //    gratuite une fois le seuil atteint (le champ est normalement déjà
     //    masqué à ce stade — ceci protège aussi contre un état obsolète) ──
-    const freeShipThreshGuard = parseFloat(cd.free_shipping_threshold) || 0;
+    const freeShipThreshGuard = parseFloat(cd.free_shipping_threshold) || 140;
     if (freeShipThreshGuard > 0 && getSubtotal() >= freeShipThreshGuard) {
         promoMessage.textContent = "This code cannot be combined with free shipping.";
         promoMessage.style.color = 'red';
@@ -1375,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             const discountPct    = check.discountPct || 0;
-            const freeShipThresh = parseFloat(cd.free_shipping_threshold) || 0;
+            const freeShipThresh = parseFloat(cd.free_shipping_threshold) || 140;
             const subtotal       = getSubtotal();
             if (freeShipThresh > 0 && subtotal >= freeShipThresh) {
                 promoMessage.textContent = "This code cannot be combined with free shipping.";

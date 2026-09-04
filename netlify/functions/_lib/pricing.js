@@ -62,7 +62,7 @@ async function computeServerTotal(cart, settings, allProducts, shippingMethod, p
   const cd = settings.cart_drawer || {};
   const SHIPPING_COST = parseFloat(settings.shipping_cost) || 10.00;
   const TAX_RATE      = parseFloat(settings.tax_rate)      || 0.00;
-  const freeThreshold = parseFloat(cd.free_shipping_threshold) || 0;
+  const freeThreshold = parseFloat(cd.free_shipping_threshold) || 140;
 
   const buyQty = parseInt(cd.promo_buy_quantity) || 0;
   const getQty = parseInt(cd.promo_get_quantity)  || 0;

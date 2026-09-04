@@ -194,8 +194,31 @@
       
       <div class="cp-promo-codes" id="cp-promo-codes-container"></div>
 
-      
-     
+
+      <div class="cart-gender-picker cp-gender-picker" id="cp-gender-picker">
+        <div class="cart-gender-picker__bar" id="cp-gender-picker-bar">
+          <span class="cart-gender-picker__title" id="cp-gender-picker-title"></span>
+          <span class="cart-gender-picker__chevron"><i class="fas fa-chevron-down"></i></span>
+        </div>
+        <div class="cart-gender-picker__panel">
+          <div class="cart-gender-picker__panel-inner">
+            <p class="cart-gender-picker__question">Choose who you are!</p>
+            <div class="cart-gender-picker__options">
+              <label class="cart-gender-option" data-gender="woman">
+                <span class="gender-swatch"><img src="" alt="Woman" loading="lazy"></span>
+                <span class="cart-gender-option__label">Woman</span>
+              </label>
+              <label class="cart-gender-option" data-gender="man">
+                <span class="gender-swatch"><img src="" alt="Man" loading="lazy"></span>
+                <span class="cart-gender-option__label">Man</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
 <div class="cp-social-proof" id="cp-social-proof" style="display:none;">
         <div class="cp-sp-header">
           <i class="fas fa-star" style="color:#c9963e;"></i>
@@ -315,7 +338,7 @@
           </div>
           <div class="cp-trust-item">
             <i class="fas fa-truck" aria-hidden="true"></i>
-            <span>Free Shipping $<span class="hdr-free-shipping-threshold">350</span>+</span>
+            <span>Free Shipping $<span class="hdr-free-shipping-threshold"></span>+</span>
           </div>
           <div class="cp-trust-item">
             <i class="fas fa-headset" aria-hidden="true"></i>

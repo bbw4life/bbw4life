@@ -651,7 +651,7 @@ const founderPhotoLine   = founderPhoto
   const taxRate        = settings.tax_rate      || 0.5;
   const shippingCost   = settings.shipping_cost || 40.0;
   const taxPercent     = Math.round(taxRate * 100);
-  const freeShipThresh = shipping.free_shipping_threshold || 350;
+  const freeShipThresh = shipping.free_shipping_threshold || 140;
 
   const promosText = promos.length
     ? promos.map(p => `• Code **[[${p.code}]]** → **${p.percent}% off** on ${p.items}+ items`).join('\n')

@@ -316,6 +316,7 @@
     updateHeader();
     updateProgressBar();
     updatePromoMessage();
+    updateGenderPicker();
 
     if (typeof window.convertPricesForCountry === 'function') {
       var _activeCountry = localStorage.getItem('bbw_country');
@@ -387,7 +388,7 @@
     const products = window.__allProducts || [];
     const settings = products.find(function (p) { return p.type === 'settings'; }) || {};
     const cd       = settings.cart_drawer || {};
-    const threshold = parseFloat(cd.free_shipping_threshold) || 350;
+    const threshold = parseFloat(cd.free_shipping_threshold) || 140;
 
     const subtotal = cart.reduce(function (sum, i) {
       return sum + parseFloat(i.price) * i.quantity;
@@ -467,7 +468,7 @@
     const products  = window.__allProducts || [];
     const settings  = products.find(function (p) { return p.type === 'settings'; }) || {};
     const cd        = settings.cart_drawer || {};
-    const threshold = parseFloat(cd.free_shipping_threshold) || 350;
+    const threshold = parseFloat(cd.free_shipping_threshold) || 140;
     const showBar   = (cd.show_free_shipping_bar || 'Yes').toLowerCase() === 'yes';
     const bar       = document.getElementById('cp-progress-container');
     if (!bar) return;
@@ -546,6 +547,80 @@
     span.innerHTML  = msg;
     span.className  = 'promo-text ' + cls;
     wrap.style.display = '';
+  }
+
+  /* ════════════════════════════════════════════════════
+     GENDER FREE-GIFT PICKER
+     → Barre "Choose who you are!" visible seulement une fois
+       promo_buy_quantity atteint ; bascule le cadeau gratuit
+       entre les produits femme (défaut) et homme.
+  ════════════════════════════════════════════════════ */
+  // Partagé avec script.js (chargé sur la même page) via window — pas de
+  // persistance localStorage, repart à zéro à chaque chargement.
+  window.cartGenderChoice = window.cartGenderChoice || 'woman';
+
+  function _cpSyncGenderOptionActive(wrap) {
+    wrap.querySelectorAll('.cart-gender-option').forEach(function (opt) {
+      opt.classList.toggle('active', opt.dataset.gender === window.cartGenderChoice);
+    });
+  }
+
+  function updateGenderPicker() {
+    var products = window.__allProducts || [];
+    var settings = products.find(function (p) { return p.type === 'settings'; }) || {};
+    var cd       = settings.cart_drawer || {};
+    var wrap     = document.getElementById('cp-gender-picker');
+    if (!wrap) return;
+
+    var cart = getCart();
+    var buyQty = parseInt(cd.promo_buy_quantity) || 0;
+    var getQty = parseInt(cd.promo_get_quantity)  || 0;
+    var count  = cart.filter(function (i) { return !i.isFreePromo; })
+                      .reduce(function (s, i) { return s + i.quantity; }, 0);
+    var unlocked = buyQty > 0 && count >= buyQty;
+
+    wrap.classList.toggle('is-visible', unlocked);
+    if (!unlocked) { wrap.classList.remove('is-open'); return; }
+
+    var titleEl = document.getElementById('cp-gender-picker-title');
+    if (titleEl) {
+      titleEl.innerHTML = 'Give me my <span class="promo-number">' + getQty + '</span> ' + (getQty > 1 ? 'products' : 'product') + ' free';
+    }
+
+    if (wrap.dataset.built) {
+      _cpSyncGenderOptionActive(wrap);
+      return;
+    }
+    wrap.dataset.built = '1';
+
+    var womanImgEl = wrap.querySelector('.cart-gender-option[data-gender="woman"] img');
+    var manImgEl   = wrap.querySelector('.cart-gender-option[data-gender="man"] img');
+    if (womanImgEl) womanImgEl.src = cd.promo_gender_select_image_woman || '';
+    if (manImgEl)   manImgEl.src   = cd.promo_gender_select_image_man   || '';
+
+    var bar = document.getElementById('cp-gender-picker-bar');
+    if (bar) {
+      bar.addEventListener('click', function () {
+        wrap.classList.toggle('is-open');
+      });
+    }
+
+    wrap.querySelectorAll('.cart-gender-option').forEach(function (opt) {
+      opt.addEventListener('click', function (e) {
+        e.stopPropagation();
+        window.cartGenderChoice = opt.dataset.gender;
+        _cpSyncGenderOptionActive(wrap);
+        // applyPromoFreeItems (définie dans script.js, chargé avant
+        // cart-page.js sur cart.html) échange réellement les articles
+        // gratuits du panier selon window.cartGenderChoice.
+        if (typeof window.applyPromoFreeItems === 'function') {
+          window.applyPromoFreeItems();
+        }
+        document.dispatchEvent(new Event('cart:update'));
+      });
+    });
+
+    _cpSyncGenderOptionActive(wrap);
   }
 
   /* ════════════════════════════════════════════════════
@@ -1307,6 +1382,7 @@
       renderPageCart();
       updateProgressBar();
       updatePromoMessage();
+      updateGenderPicker();
     });
   }
 

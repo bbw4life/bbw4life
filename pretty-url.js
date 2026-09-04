@@ -142,11 +142,54 @@
   window.BBW_SLUGS = SLUGS;
   var path = window.location.pathname;
   var pretty = SLUGS[path];
-  if (pretty && path !== pretty) {
-    // Préserve la query string (ex: ?openCart=true venant d'une notification
-    // push) et le hash — sinon ils sont perdus avant que le reste du site
-    // (ex: checkOpenCartFromPush dans script.js) ne puisse les lire.
-    var newUrl = pretty + window.location.search + window.location.hash;
-    window.history.replaceState({}, document.title, newUrl);
+
+  // ── Setting settings.use_pretty_urls (products.data.json) ──────────
+  // "yes" (défaut) → comportement actuel, URL réécrite en jolie URL.
+  // "no" → on n'y touche pas, la barre d'adresse garde le .html brut.
+  // Ce script s'exécute tôt et de façon synchrone (avant même que le body
+  // existe) : on ne peut pas attendre un fetch réseau ici sans retarder
+  // l'affichage. Fast-path : dernière valeur connue en localStorage.
+  // Confirmation asynchrone en fond pour rester à jour si le setting
+  // change côté products.data.json (même mécanisme que preloader-inline.js).
+  var PRETTY_URL_CACHE_KEY = 'bbw_use_pretty_urls';
+  var prettyUrlsEnabled = true;
+  try {
+    var cachedSetting = localStorage.getItem(PRETTY_URL_CACHE_KEY);
+    if (cachedSetting === 'no') prettyUrlsEnabled = false;
+  } catch (e) {}
+
+  function applyPrettyUrl() {
+    if (!prettyUrlsEnabled) return;
+    if (pretty && window.location.pathname === path && path !== pretty) {
+      // Préserve la query string (ex: ?openCart=true venant d'une notification
+      // push) et le hash — sinon ils sont perdus avant que le reste du site
+      // (ex: checkOpenCartFromPush dans script.js) ne puisse les lire.
+      var newUrl = pretty + window.location.search + window.location.hash;
+      window.history.replaceState({}, document.title, newUrl);
+    }
   }
+
+  applyPrettyUrl();
+
+  fetch('/products.data.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var arr = Array.isArray(data) ? data : [];
+      var settings = arr.find(function (p) { return p.type === 'settings'; }) || {};
+      var setting = (settings.use_pretty_urls || 'yes').trim().toLowerCase();
+      try { localStorage.setItem(PRETTY_URL_CACHE_KEY, setting === 'no' ? 'no' : 'yes'); } catch (e) {}
+      // Si le cache disait "yes" (ou rien) mais la vraie valeur est "no",
+      // et qu'on avait déjà réécrit l'URL en jolie URL par erreur : on
+      // restaure le .html d'origine pour rester cohérent avec le setting.
+      if (setting === 'no' && prettyUrlsEnabled && window.location.pathname === pretty) {
+        window.history.replaceState({}, document.title, path + window.location.search + window.location.hash);
+      }
+      // Si le cache disait "no" mais la vraie valeur est "yes" : applique
+      // la jolie URL maintenant qu'on sait qu'elle doit l'être.
+      if (setting !== 'no' && !prettyUrlsEnabled) {
+        prettyUrlsEnabled = true;
+        applyPrettyUrl();
+      }
+    })
+    .catch(function () {});
 })();

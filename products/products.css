@@ -1016,6 +1016,130 @@
 
 
 /* ════════════════════════════
+   COLLECTION CTA
+   → Bouton or premium plein, forte incitation au clic,
+     invite à explorer la collection de ce produit
+════════════════════════════ */
+.pp-collection-cta {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    margin: 16px 0 0;
+    padding: 18px 24px;
+    background: linear-gradient(180deg, #ffffff 0%, #fdfaf4 100%);
+    border: 1px solid var(--bbw-gold-border-hi);
+    border-radius: 14px;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.9) inset,
+        0 14px 30px rgba(184,146,90,0.22),
+        0 4px 12px rgba(0,0,0,0.06),
+        0 1px 0 rgba(255,255,255,0.9) inset;
+    color: var(--bbw-gold);
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    animation: ppCollectionPulse 2.6s ease-in-out infinite;
+    transition: transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.pp-collection-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(184,146,90,0.08) 0%, rgba(255,255,255,0) 45%);
+    pointer-events: none;
+    z-index: 0;
+}
+.pp-collection-cta::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 55%;
+    background: linear-gradient(100deg, transparent 20%, rgba(232,188,106,0.55) 48%, rgba(255,224,160,0.75) 50%, rgba(232,188,106,0.55) 52%, transparent 80%);
+    left: -70%;
+    pointer-events: none;
+    z-index: 0;
+}
+.pp-collection-cta:hover {
+    animation-play-state: paused;
+    transform: translateY(-3px) scale(1.015);
+    border-color: var(--bbw-gold-vivid);
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.9) inset,
+        0 20px 40px rgba(184,146,90,0.32),
+        0 6px 16px rgba(0,0,0,0.09),
+        0 1px 0 rgba(255,255,255,0.9) inset;
+}
+.pp-collection-cta:hover::after {
+    animation: ppCollectionShimmer 1s ease forwards;
+}
+@keyframes ppCollectionShimmer {
+    from { left: -70%; }
+    to   { left: 120%; }
+}
+@keyframes ppCollectionPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 0 1px rgba(255,255,255,0.9) inset,
+            0 14px 30px rgba(184,146,90,0.22),
+            0 4px 12px rgba(0,0,0,0.06),
+            0 1px 0 rgba(255,255,255,0.9) inset;
+    }
+    50% {
+        box-shadow:
+            0 0 0 1px rgba(255,255,255,0.9) inset,
+            0 14px 34px rgba(184,146,90,0.4),
+            0 4px 12px rgba(0,0,0,0.06),
+            0 1px 0 rgba(255,255,255,0.9) inset;
+    }
+}
+.pp-collection-cta:active { transform: translateY(-1px) scale(1); }
+.pp-collection-cta__label {
+    position: relative;
+    z-index: 1;
+}
+.pp-collection-cta__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: var(--bbw-gold-vivid);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+    animation: ppCollectionArrowNudge 1.6s ease-in-out infinite;
+}
+@keyframes ppCollectionArrowNudge {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(4px); }
+}
+.pp-collection-cta:hover .pp-collection-cta__arrow {
+    animation-play-state: paused;
+    transform: translateX(7px);
+}
+
+@media (max-width: 640px) {
+    .pp-collection-cta {
+        padding: 15px 16px;
+        font-size: 0.86rem;
+        letter-spacing: 0.03em;
+        gap: 9px;
+    }
+}
+
+
+/* ════════════════════════════
    MARQUEE
    → Fond noir de marque, or antique — ton éditorial sobre
 ════════════════════════════ */
@@ -6667,4 +6791,23 @@ body:has(.product-section) .bbw-footer {
     .pdp-grid-card .pdp-grid-card__wishlist,
     .pdp-grid-card .mini-wishlist-icon { width: 26px; height: 26px; }
     .pdp-grid-card__swatch { width: 19px; height: 19px; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   PP IMAGE BLOCK — bloc image seule, fond blanc, sans bordure.
+   Placé au-dessus du bundle et/ou en dessous de l'upsell selon la
+   page produit. Pleine largeur, hauteur automatique (ratio naturel
+   de l'image).
+════════════════════════════════════════════════════════════ */
+.pp-image-block {
+    width: 100%;
+    background: #ffffff;
+    border: none;
+    margin: 0;
+}
+.pp-image-block img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
 }

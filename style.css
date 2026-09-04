@@ -2285,6 +2285,146 @@ body {
 .promo-text.complete .promo-number { color: #22a06b; }
 
 /* ================================================================
+   GENDER FREE-GIFT PICKER
+   → Barre collapsible affichée uniquement quand promo_buy_quantity
+     est atteint ; permet de choisir quel(s) cadeau(x) gratuit(s)
+     (homme/femme) recevoir.
+================================================================ */
+.cart-gender-picker {
+    display: none;
+    border-bottom: 1px solid rgba(201,150,62,0.18);
+    overflow: hidden;
+}
+.cart-gender-picker.is-visible { display: block; }
+
+.cart-gender-picker__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 11px 18px;
+    cursor: pointer;
+    user-select: none;
+    background: linear-gradient(135deg,
+        rgba(201,150,62,0.12) 0%,
+        rgba(255,252,245,0.95) 50%,
+        rgba(201,150,62,0.08) 100%);
+}
+.cart-gender-picker__title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1e1a1c;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.015em;
+    line-height: 1.3;
+}
+.cart-gender-picker__title .promo-number {
+    background: linear-gradient(90deg, var(--bbw-gold, #B8925A) 0%, var(--bbw-gold-vivid, #CBA45C) 50%, var(--bbw-gold, #B8925A) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 900;
+    font-size: 1.15em;
+}
+
+@media (max-width: 640px) {
+    .cart-gender-picker__title { font-size: 0.94rem; }
+}
+.cart-gender-picker__chevron {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(201,150,62,0.12);
+    color: #c9963e;
+    font-size: 0.7rem;
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), background 0.25s ease;
+}
+.cart-gender-picker.is-open .cart-gender-picker__chevron {
+    transform: rotate(180deg);
+    background: rgba(201,150,62,0.22);
+}
+
+.cart-gender-picker__panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+    background: linear-gradient(155deg, #211a15 0%, #171310 55%, #0d0a07 100%);
+}
+.cart-gender-picker.is-open .cart-gender-picker__panel {
+    max-height: 150px;
+}
+.cart-gender-picker__panel-inner {
+    padding: 12px 18px 16px;
+}
+.cart-gender-picker__question {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--bbw-gold-light, #e8bc6a);
+    margin: 0 0 10px;
+    font-family: 'DM Sans', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.cart-gender-picker__options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+.cart-gender-option {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+}
+.gender-swatch {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(184,146,90,0.45);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+    overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+}
+.gender-swatch img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.cart-gender-option.active .gender-swatch {
+    border-color: #e8bc6a;
+    border-width: 3px;
+    box-shadow: 0 0 0 4px rgba(232,188,106,0.22);
+    transform: scale(1.08);
+}
+.cart-gender-option__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #f2ece2;
+    font-family: 'DM Sans', sans-serif;
+}
+.cart-gender-option.active .cart-gender-option__label {
+    color: #e8bc6a;
+    font-weight: 800;
+}
+
+/* Variante cart.html — bloc plus haut, boules un peu plus grandes */
+.cp-gender-picker.cart-gender-picker.is-open .cart-gender-picker__panel {
+    max-height: 200px;
+}
+.cp-gender-picker .gender-swatch {
+    width: 48px;
+    height: 48px;
+}
+.cp-gender-picker .cart-gender-picker__panel-inner { padding: 16px 20px 20px; }
+
+/* ================================================================
    BANNER SLIDER — ✦ RETOUCHE COULEURS
 ================================================================ */
 .cart-drawer__paul-banner {
