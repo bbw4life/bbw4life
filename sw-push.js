@@ -13,16 +13,12 @@ self.addEventListener('push', function (event) {
   const title   = data.title || 'BBW4LIFE';
   const hasCart = data.hasCart === true;
 
-  const actions = hasCart
-    ? [
-        { action: 'open_cart', title: '🛒 View Cart' },
-        { action: 'dismiss',   title: 'Dismiss' }
-      ]
-    : [
-        { action: 'open_url', title: '👑 Shop Now' },
-        { action: 'dismiss',  title: 'Dismiss' }
-      ];
-
+  // Pas de boutons d'action (View Cart / Shop Now) : l'API actions[] est le
+  // champ le moins fiable des notifications push (Windows/Chrome ne relaie
+  // pas toujours correctement quel bouton a été cliqué via l'Action Center
+  // natif — cf. MDN Notification.actions). Le clic sur la notification
+  // elle-même déclenche déjà la bonne action ci-dessous (view cart / shop
+  // now selon hasCart), donc les boutons étaient redondants et peu fiables.
   const options = {
     body: data.body || 'You have items waiting in your cart 🛍️',
     icon: data.icon || 'https://bbw4life.com/public/bbw4life-favicon.png',
@@ -34,8 +30,7 @@ self.addEventListener('push', function (event) {
     silent: false,
     timestamp: Date.now(),
     vibrate: [100, 50, 100],
-    data: { url: data.url || '/', hasCart: hasCart },
-    actions: actions
+    data: { url: data.url || '/', hasCart: hasCart }
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
@@ -46,14 +41,14 @@ self.addEventListener('notificationclick', function (event) {
   // rendu sans risque : si une exception synchrone survenait ici sans
   // protection, event.waitUntil() ne serait jamais appelé et la
   // notification se contenterait de se fermer sans jamais rediriger
-  // (exactement le bug rapporté).
-  let notification, action, data, targetUrl, hasCart, wantsCart;
+  // (exactement le bug rapporté). Pas de boutons d'action (retirés, peu
+  // fiables) : un seul chemin, le clic sur la notification elle-même.
+  let notification, data, targetUrl, hasCart, wantsCart;
   try {
     notification = event.notification;
-    action = event.action || '';
     data = notification.data || {};
     hasCart = data.hasCart || false;
-    wantsCart = (action === 'open_cart' || (action === '' && hasCart));
+    wantsCart = hasCart;
     // Filet de sécurité : si data.url manque ou est corrompu, retomber sur
     // la vraie page panier pour "View Cart" / la home pour "Shop Now" —
     // plutôt que sur une valeur générique qui pourrait ne mener nulle part.
@@ -63,8 +58,6 @@ self.addEventListener('notificationclick', function (event) {
     console.error('[SW] notificationclick: erreur pendant la lecture des données', err);
     return;
   }
-
-  if (action === 'dismiss') return;
 
   // IMPORTANT : le "user activation" transitoire accordé par le clic sur la
   // notification n'autorise qu'UN SEUL appel consommateur (focus() OU

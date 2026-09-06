@@ -2,6 +2,16 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# ─────────────────────────────────────────────
+# DEV — dossier publié en local pour `netlify dev`. Sans ça, son serveur
+# statique de secours ne détecte pas la racine et renvoie 403 Forbidden sur
+# toute page dans un sous-dossier (products/, blog/, page/, collections/...),
+# alors que la page d'accueil (racine) fonctionne. N'affecte pas le déploiement
+# réel (le dossier publié en production reste géré depuis le dashboard Netlify).
+# ─────────────────────────────────────────────
+[dev]
+  publish = "."
+
 [build.environment]
   NODE_OPTIONS = "--no-deprecation"
 

@@ -998,37 +998,51 @@
     runBtn.textContent = '✨  Nouveaux produits (22)';
   }
 
-  // ── 3e bouton : récupère TOUT le catalogue (mêmes catégories que le 1er
-  //    bouton) et affiche directement Cost/Shipping/Price/Marge pour CHAQUE
-  //    variante de CHAQUE produit dans un tableau à plat — rien à saisir. ──
+  // ── 3e bouton : totalement indépendant des boutons 1 et 2 — sa propre
+  //    fonction Netlify (get-eprolo-margin-all.js), son propre appel réseau,
+  //    par lots pour éviter un timeout sur les 90+ produits. ──
   async function fetchMarginAll() {
-    const btn   = document.getElementById('margin-btn');
-    const view  = document.getElementById('margin-view');
+    const btn  = document.getElementById('margin-btn');
+    const view = document.getElementById('margin-view');
 
     document.getElementById('product-view').style.display  = 'none';
     document.getElementById('cat-tabs').style.display      = 'none';
     document.getElementById('subcat-row').style.display    = 'none';
-    document.getElementById('stats-row').style.display     = 'none';
     document.getElementById('log-section').style.display   = 'none';
 
-    btn.disabled    = true;
-    btn.textContent = '⏳  Chargement...';
+    btn.disabled = true;
     view.style.display = 'block';
-    view.innerHTML = `<div style="color:var(--text-dim);font-size:12px;padding:20px 0;">Appel Eprolo en cours pour tous les produits (peut prendre un moment)...</div>`;
-    setStatus('running', 'Récupération marge — tous les produits...');
+
+    let allMarginProducts = [];
+    let offset = 0;
+    let total  = null;
 
     try {
-      const res  = await fetch('/.netlify/functions/fetch-eprolo-products');
-      const data = await res.json();
+      while (true) {
+        btn.textContent = total
+          ? `⏳  ${allMarginProducts.length}/${total}...`
+          : '⏳  Chargement...';
+        setStatus('running', `Récupération marge — ${allMarginProducts.length}${total ? '/' + total : ''} produits...`);
+        view.innerHTML = `<div style="color:var(--text-dim);font-size:12px;padding:20px 0;">Récupération en cours — ${allMarginProducts.length}${total ? '/' + total : ''} produits analysés...</div>`;
 
-      if (!data.success || !Array.isArray(data.products)) {
-        view.innerHTML = `<div style="color:var(--accent2);">Aucune donnée retournée. Vérifie la fonction Netlify.</div>`;
-        setStatus('err', 'Échec de la récupération.');
-        return;
+        const res  = await fetch(`/.netlify/functions/get-eprolo-margin-all?offset=${offset}&limit=12`);
+        const data = await res.json();
+
+        if (!data.success) {
+          view.innerHTML = `<div style="color:var(--accent2);">Erreur : ${esc(data.error || 'échec de la récupération')}</div>`;
+          setStatus('err', 'Échec de la récupération.');
+          return;
+        }
+
+        total = data.total;
+        allMarginProducts = allMarginProducts.concat(data.products);
+
+        if (!data.hasMore) break;
+        offset = data.nextOffset;
       }
 
-      renderMarginTable(data.products);
-      setStatus('ok', `Marge calculée pour ${data.products.length} produits.`);
+      renderMarginTable(allMarginProducts);
+      setStatus('ok', `Marge calculée pour ${allMarginProducts.length} produits.`);
     } catch (err) {
       view.innerHTML = `<div style="color:var(--accent2);">Erreur : ${esc(err.message)}</div>`;
       setStatus('err', 'Erreur : ' + err.message);

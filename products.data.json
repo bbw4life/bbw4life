@@ -27,18 +27,7 @@
     "compare_price": 39.99,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel1.png?v=1778006831",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel1.1.png?v=1778005529",
-    "sizes": [
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11",
-      "12"
-    ],
+    "sizes": ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
     "colors": [
       {
         "name": "Red",
@@ -311,16 +300,7 @@
     "compare_price": 38.99,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel2.png?v=1778005505",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel2.1.png?v=1778005519",
-    "sizes": [
-      "37",
-      "38",
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
-    ],
+    "sizes": ["37", "38", "39", "40", "41", "42", "43", "44"],
     "colors": [
       {
         "name": "Black",
@@ -615,17 +595,7 @@
     "compare_price": 31.79,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel3.png?v=1778005555",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel3.1.png?v=1778005555",
-    "sizes": [
-      "35",
-      "36",
-      "37",
-      "38",
-      "39",
-      "40",
-      "41",
-      "42",
-      "43"
-    ],
+    "sizes": ["35", "36", "37", "38", "39", "40", "41", "42", "43"],
     "colors": [
       {
         "name": "Black",
@@ -947,17 +917,7 @@
     "compare_price": 45.05,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_4.png?v=1778005553",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_4.1.png?v=1778005563",
-    "sizes": [
-      "5",
-      "6",
-      "6.5",
-      "7.5",
-      "8.5",
-      "9",
-      "9.5",
-      "10",
-      "10.5"
-    ],
+    "sizes": ["5", "6", "6.5", "7.5", "8.5", "9", "9.5", "10", "10.5"],
     "colors": [
       {
         "name": "Black",
@@ -1281,16 +1241,7 @@
     "compare_price": 35.19,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_5.png?v=1778005552",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_5.1.png?v=1778005556",
-    "sizes": [
-      "36",
-      "37",
-      "38",
-      "39",
-      "40",
-      "41",
-      "42",
-      "43"
-    ],
+    "sizes": ["36", "37", "38", "39", "40", "41", "42", "43"],
     "colors": [
       {
         "name": "Black",
@@ -1522,15 +1473,7 @@
     "compare_price": 44.09,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_6.png?v=1778005556",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_6.1.png?v=1778005557",
-    "sizes": [
-      "36",
-      "37",
-      "38",
-      "39",
-      "40",
-      "41",
-      "42"
-    ],
+    "sizes": ["36", "37", "38", "39", "40", "41", "42"],
     "colors": [
       {
         "name": "Multicolor",
@@ -1632,12 +1575,7 @@
     "compare_price": 42.2,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_7.png?v=1778005542",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_7.1.png?v=1778005542",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -1716,12 +1654,7 @@
     "compare_price": 39.09,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_8.png?v=1778005553",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_8.1.png?v=1778005553",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -1799,12 +1732,7 @@
     "compare_price": 32.89,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_9.png?v=1778005555",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_9.1.png?v=1778005534",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Dark Green",
@@ -1952,12 +1880,7 @@
     "compare_price": 49.81,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_10.png?v=1778005540",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_10.1.png?v=1778005541",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "White",
@@ -2035,12 +1958,7 @@
     "compare_price": 46.81,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_11.png?v=1778005545",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_11.1.png?v=1778005554",
-    "sizes": [
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -2154,11 +2072,7 @@
     "compare_price": 56.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_12.png?v=1778005552",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_12.1.png?v=1778005539",
-    "sizes": [
-      "(US 14-16)1X",
-      "(US 18-20)2X",
-      "(US 22-24)3X"
-    ],
+    "sizes": ["(US 14-16)1X", "(US 18-20)2X", "(US 22-24)3X"],
     "colors": [
       {
         "name": "Orange",
@@ -2231,13 +2145,7 @@
     "compare_price": 67.88,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_13.png?v=1778005558",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_13.1.png?v=1778005507",
-    "sizes": [
-      "L",
-      "XL",
-      "XXL",
-      "XXXL",
-      "4XL"
-    ],
+    "sizes": ["L", "XL", "XXL", "XXXL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -2364,13 +2272,7 @@
     "compare_price": 32.85,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_14.png?v=1778005517",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_14.1.png?v=1778005530",
-    "sizes": [
-      "XL",
-      "XXL",
-      "XXXL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["XL", "XXL", "XXXL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Khaki",
@@ -2539,15 +2441,7 @@
     "compare_price": 47.8,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_15.png?v=1778005560",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_15.1.png?v=1778005561",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "White",
@@ -2757,12 +2651,7 @@
     "compare_price": 36.18,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_16.png?v=1778005557",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_16.1.png?v=1778005557",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Burnt Coral",
@@ -2840,13 +2729,7 @@
     "compare_price": 32.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_17.png?v=1778005557",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_17.1.jpg?v=1778005512",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Black",
@@ -3098,13 +2981,7 @@
     "compare_price": 27.82,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_18.png?v=1778005559",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_18.1.png?v=1778005556",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Wine Red",
@@ -3189,12 +3066,7 @@
     "compare_price": 37.09,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_19.png?v=1778005557",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_19.1.png?v=1778005544",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -3306,12 +3178,7 @@
     "compare_price": 29.81,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_20.png?v=1778005555",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Franecenel_20.1.png?v=1778005569",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Pink",
@@ -3387,12 +3254,7 @@
     "compare_price": 29.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_21.png?v=1778005553",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_21.1.png?v=1778005561",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -3468,13 +3330,7 @@
     "compare_price": 27.18,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_22.png?v=1778005569",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_22.1.png?v=1778005559",
-    "sizes": [
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["L", "XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Leopard Print",
@@ -4236,15 +4092,7 @@
     "compare_price": 26.82,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_24.png?v=1778005555",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_24.1.png?v=1778005570",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["S", "M", "L", "XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -4455,12 +4303,7 @@
     "compare_price": 35.19,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_25.png?v=1778005525",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_25.1.jpg?v=1778005444",
-    "sizes": [
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Lake Blue",
@@ -4538,12 +4381,7 @@
     "compare_price": 45.29,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_26.png?v=1778005513",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_26.1.png?v=1778005542",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Blue",
@@ -4690,13 +4528,7 @@
     "compare_price": 39.26,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_27.png?v=1778005534",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_27.1.png?v=1778005513",
-    "sizes": [
-      "XL",
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["XL", "1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Blue",
@@ -4782,12 +4614,7 @@
     "compare_price": 35.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_28.png?v=1778005568",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_28.1.png?v=1778005548",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Green",
@@ -4866,12 +4693,7 @@
     "compare_price": 33.19,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_29.png?v=1778005522",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_29.1.png?v=1778005481",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Green",
@@ -4990,12 +4812,7 @@
     "compare_price": 49.11,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_30.png?v=1778005443",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_30.1.png?v=1778005466",
-    "sizes": [
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -5075,12 +4892,7 @@
     "compare_price": 36.8,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_31.png?v=1778005514",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_31.1.png?v=1778005513",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -5158,13 +4970,7 @@
     "compare_price": 26.18,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_32.png?v=1778005516",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_32.1.png?v=1778005506",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
+    "sizes": ["S", "M", "L", "XL", "2XL"],
     "colors": [
       {
         "name": "Black",
@@ -5253,11 +5059,7 @@
     "compare_price": 41.24,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_33.png?v=1778005509",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_33.1.png?v=1778005510",
-    "sizes": [
-      "(US 14-16)1X",
-      "(US 18-20)2X",
-      "(US 22-24)3X"
-    ],
+    "sizes": ["(US 14-16)1X", "(US 18-20)2X", "(US 22-24)3X"],
     "colors": [
       {
         "name": "White",
@@ -5329,12 +5131,7 @@
     "compare_price": 35.89,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_34.png?v=1778005443",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_34.1.png?v=1778005504",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black",
@@ -5414,15 +5211,7 @@
     "compare_price": 49.15,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_35.1.png?v=1778005505",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_35.png?v=1778005495",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Navy",
@@ -5797,15 +5586,7 @@
     "compare_price": 26.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_36.png?v=1778005495",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_36.1.png?v=1778005505",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Dark Gray",
@@ -6291,15 +6072,7 @@
     "compare_price": 53.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_37.png?v=1778005543",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_37.1.png?v=1778005449",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Black",
@@ -6511,13 +6284,7 @@
     "compare_price": 51.18,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_38.png?v=1778005458",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_38.1.png?v=1778005525",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "XXXL"
-    ],
+    "sizes": ["M", "L", "XL", "XXL", "XXXL"],
     "colors": [
       {
         "name": "Graphite Gray",
@@ -6685,17 +6452,7 @@
     "compare_price": 52.8,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_39.png?v=1778005503",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_39.1.png?v=1778005541",
-    "sizes": [
-      "6.5",
-      "7",
-      "8",
-      "8.5",
-      "9.5",
-      "10",
-      "10.5",
-      "11",
-      "12"
-    ],
+    "sizes": ["6.5", "7", "8", "8.5", "9.5", "10", "10.5", "11", "12"],
     "colors": [
       {
         "name": "Brown",
@@ -6948,16 +6705,7 @@
     "compare_price": 49.85,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_40.png?v=1778005512",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_40.1.png?v=1778005529",
-    "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44",
-      "45",
-      "46"
-    ],
+    "sizes": ["39", "40", "41", "42", "43", "44", "45", "46"],
     "colors": [
       {
         "name": "Blue",
@@ -7065,16 +6813,7 @@
     "compare_price": 61.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_41.png?v=1778005510",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_41.1.png?v=1778005569",
-    "sizes": [
-      "6",
-      "6.5",
-      "7",
-      "8",
-      "8.5",
-      "9.5",
-      "10",
-      "11"
-    ],
+    "sizes": ["6", "6.5", "7", "8", "8.5", "9.5", "10", "11"],
     "colors": [
       {
         "name": "Black",
@@ -7182,19 +6921,7 @@
     "compare_price": 26.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_42.png?v=1778005489",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_42.1.png?v=1778005523",
-    "sizes": [
-      "38",
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44",
-      "45",
-      "46",
-      "47",
-      "48"
-    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"],
     "colors": [
       {
         "name": "Black",
@@ -7405,18 +7132,7 @@
     "compare_price": 37.22,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_43.png?v=1778005529",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_43.1.png?v=1778005548",
-    "sizes": [
-      "38",
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44",
-      "45",
-      "46",
-      "47"
-    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47"],
     "colors": [
       {
         "name": "Black",
@@ -7683,17 +7399,7 @@
     "compare_price": 49.5,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_44.png?v=1778005510",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_44.1.png?v=1778005529",
-    "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44",
-      "45",
-      "46",
-      "47"
-    ],
+    "sizes": ["39", "40", "41", "42", "43", "44", "45", "46", "47"],
     "colors": [
       {
         "name": "White",
@@ -7939,19 +7645,7 @@
     "compare_price": 39.2,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_45.png?v=1778005437",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_45.1.png?v=1778005492",
-    "sizes": [
-      "38",
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44",
-      "45",
-      "46",
-      "47",
-      "48"
-    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"],
     "colors": [
       {
         "name": "Brown",
@@ -8162,15 +7856,7 @@
     "compare_price": 26.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_46.png?v=1778005507",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_46.1.png?v=1778005534",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Black",
@@ -8490,13 +8176,7 @@
     "compare_price": 38.4,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_47.png?v=1778005471",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_47.1.png?v=1778005550",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
     "colors": [
       {
         "name": "Black",
@@ -8624,12 +8304,7 @@
     "compare_price": 37.08,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_48.png?v=1778005563",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_48.1.png?v=1778005552",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
+    "sizes": ["M", "L", "XL", "XXL"],
     "colors": [
       {
         "name": "White and Coffee",
@@ -8742,14 +8417,7 @@
     "compare_price": 39.29,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_49.png?v=1778005523",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_49.1.png?v=1778005531",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["M", "L", "XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Tangerine",
@@ -9179,15 +8847,7 @@
     "compare_price": 69.11,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_50.png?v=1778005483",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_50.1.png?v=1778005508",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "XXXL",
-      "XXXXL",
-      "5XL"
-    ],
+    "sizes": ["M", "L", "XL", "XXL", "XXXL", "XXXXL", "5XL"],
     "colors": [
       {
         "name": "Black",
@@ -9507,13 +9167,7 @@
     "compare_price": 28.38,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_51.png?v=1778005524",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_51.1.png?v=1778005532",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "XXXL"
-    ],
+    "sizes": ["M", "L", "XL", "XXL", "XXXL"],
     "colors": [
       {
         "name": "Brown",
@@ -9763,10 +9417,7 @@
     "compare_price": 19.31,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_52.png?v=1778005483",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_52.1.png?v=1778005474",
-    "sizes": [
-      "20g",
-      "30g"
-    ],
+    "sizes": ["20g", "30g"],
     "colors": [
       {
         "name": "Metallic Pink",
@@ -10482,9 +10133,7 @@
     "compare_price": 18.11,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_63.png?v=1778005567",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_63.1.png?v=1778005540",
-    "sizes": [
-      "120ml"
-    ],
+    "sizes": ["120ml"],
     "colors": [
       {
         "name": "Brown",
@@ -10911,13 +10560,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_69.png?v=1778005476",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_69.1.png?v=1778005498",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Black",
@@ -11001,12 +10644,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_70.png?v=1778005483",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_70.1.png?v=1778005486",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Ivory creme",
@@ -11082,13 +10720,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_71.png?v=1778005501",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_71.1.png?v=1778005507",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Cream Floral",
@@ -11173,12 +10805,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_72.png?v=1778005488",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_72.1.png?v=1778005486",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Cream/Beige",
@@ -11255,13 +10882,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_73.png?v=1778005484",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_73.1.png?v=1778005455",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Blush Pink",
@@ -11345,13 +10966,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_74.png?v=1778005477",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_74.1.png?v=1778005475",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Deep Teal",
@@ -11435,13 +11050,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_75.png?v=1778005493",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel_75.1.png?v=1778005501",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Multicolor",
@@ -11525,17 +11134,7 @@
     "compare_price": 54.78,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product76-1.png?v=1785113428",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product76_hover.png?v=1785113428",
-    "sizes": [
-      "35",
-      "36",
-      "37",
-      "38",
-      "39",
-      "40",
-      "41",
-      "42",
-      "43"
-    ],
+    "sizes": ["35", "36", "37", "38", "39", "40", "41", "42", "43"],
     "colors": [
       {
         "name": "Light Pink",
@@ -11650,14 +11249,7 @@
     "compare_price": 34.31,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product77-1.png?v=1785113428",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product77_hover.png?v=1785113428",
-    "sizes": [
-      "35",
-      "36",
-      "37",
-      "38",
-      "39",
-      "40"
-    ],
+    "sizes": ["35", "36", "37", "38", "39", "40"],
     "colors": [
       {
         "name": "Black",
@@ -11800,16 +11392,7 @@
     "compare_price": 38.13,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product78-1.png?v=1785113428",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product78_hover.png?v=1785113428",
-    "sizes": [
-      "35",
-      "36",
-      "37",
-      "38",
-      "39",
-      "40",
-      "41",
-      "42"
-    ],
+    "sizes": ["35", "36", "37", "38", "39", "40", "41", "42"],
     "colors": [
       {
         "name": "Black Red",
@@ -12103,13 +11686,7 @@
     "compare_price": 55.35,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product79-1.png?v=1785114531",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product79-hover.png?v=1785114531",
-    "sizes": [
-      "XL",
-      "XXL",
-      "XXXL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["XL", "XXL", "XXXL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Black",
@@ -12278,14 +11855,7 @@
     "compare_price": 65.38,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product80-1.png?v=1785190237",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product80-hover.png?v=1785190237",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "XXXL"
-    ],
+    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
     "colors": [
       {
         "name": "Green",
@@ -12474,14 +12044,7 @@
     "compare_price": 74.56,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product81-1.png?v=1785191023",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product81-hover.png?v=1785191023",
-    "sizes": [
-      "L",
-      "XL",
-      "XXL",
-      "XXXL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["L", "XL", "XXL", "XXXL", "4XL", "5XL"],
     "colors": [
       {
         "name": "White-Black",
@@ -12573,12 +12136,7 @@
     "compare_price": 61.96,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product82-1.png?v=1785196106",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product82-hover.png?v=1785196103",
-    "sizes": [
-      "L",
-      "XL",
-      "XXL",
-      "XXXL"
-    ],
+    "sizes": ["L", "XL", "XXL", "XXXL"],
     "colors": [
       {
         "name": "Black-White",
@@ -12931,13 +12489,7 @@
     "compare_price": 75.47,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-1.png?v=1785202911",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product83-hover.png?v=1785202911",
-    "sizes": [
-      "XL",
-      "XXL",
-      "XXXL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["XL", "XXL", "XXXL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Wine Red",
@@ -13189,14 +12741,7 @@
     "compare_price": 74.04,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-1.png?v=1785203662",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product84-hover.png?v=1785203663",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "XXXL"
-    ],
+    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
     "colors": [
       {
         "name": "Red",
@@ -13340,9 +12885,7 @@
     "compare_price": 61.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-1.png?v=1785206937",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product85-hover.png?v=1785206937",
-    "sizes": [
-      "21x16cm"
-    ],
+    "sizes": ["21x16cm"],
     "colors": [
       {
         "name": "Light Blue",
@@ -14399,9 +13942,7 @@
     "compare_price": 38.48,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product95-1.png?v=1785210406",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product95-hover.png?v=1785210406",
-    "sizes": [
-      "20cm-30cm"
-    ],
+    "sizes": ["20cm-30cm"],
     "colors": [
       {
         "name": "White",
@@ -14486,16 +14027,7 @@
     "compare_price": 47.37,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-1.png?v=1785189040",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product96-hover.png?v=1785189044",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "White",
@@ -14975,13 +14507,7 @@
     "compare_price": 53.75,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-1.png?v=1785192602",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product97-hover.png?v=1785192601",
-    "sizes": [
-      "XL",
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["XL", "1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Pink",
@@ -15149,13 +14675,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_98.png?v=1785063294",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_98_hover.png?v=1785063294",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Caramel Black",
@@ -15239,13 +14759,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_99.png?v=1785063293",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_99_hover.png?v=1785063293",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Midnight Navy Velvet",
@@ -15328,12 +14842,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_100.png?v=1785063291",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_100_hover.png?v=1785063292",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Navy Velvet",
@@ -15409,15 +14918,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_101.png?v=1785063294",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_101_hover.png?v=1785063295",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["S", "M", "L", "XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Savannah Multicolor",
@@ -15515,13 +15016,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_102.png?v=1785063294",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_102_hover.png?v=1785063294",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL", "5XL"],
     "colors": [
       {
         "name": "Camel",
@@ -15604,12 +15099,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_103.png?v=1785063292",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_103_hover.png?v=1785063292",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Lavender",
@@ -15685,15 +15175,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_104.png?v=1785063293",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_104_hover.png?v=1785063293",
-    "sizes": [
-      "36",
-      "37",
-      "38",
-      "39",
-      "40",
-      "41",
-      "42"
-    ],
+    "sizes": ["36", "37", "38", "39", "40", "41", "42"],
     "colors": [
       {
         "name": "Camel Suede",
@@ -15790,12 +15272,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_105.png?v=1785063294",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_105_hover.png?v=1785063294",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Black Velvet",
@@ -15871,12 +15348,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_106.png?v=1785063290",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_106_hover.png?v=1785063292",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Rose Pink",
@@ -15953,12 +15425,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_107.png?v=1785063295",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_107_hover.png?v=1785063294",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Wine Tweed",
@@ -16035,12 +15502,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_108.png?v=1785063293",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_108_hover.png?v=1785063294",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Terracotta",
@@ -16117,12 +15579,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_109.png?v=1785063295",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_109_hover.png?v=1785063295",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Blush Tweed",
@@ -16199,12 +15656,7 @@
     "compare_price": 10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_110.png?v=1785063292",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/bbw-product_110_hover.png?v=1785063292",
-    "sizes": [
-      "1XL",
-      "2XL",
-      "3XL",
-      "4XL"
-    ],
+    "sizes": ["1XL", "2XL", "3XL", "4XL"],
     "colors": [
       {
         "name": "Navy Polka Dot",
@@ -16280,14 +15732,7 @@
     "compare_price": 110.14,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product111-_1.png?v=1788005172",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product111-hover.png?v=1788005172",
-    "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
-    ],
+    "sizes": ["39", "40", "41", "42", "43", "44"],
     "colors": [
       {
         "name": "Black",
@@ -16478,14 +15923,7 @@
     "compare_price": 75.26,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product112-principale.png?v=1788008732",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product112-hover.png?v=1788008734",
-    "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
-    ],
+    "sizes": ["39", "40", "41", "42", "43", "44"],
     "colors": [
       {
         "name": "Black",
@@ -16674,14 +16112,7 @@
     "compare_price": 70.15,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product113-principale.png?v=1788010675",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product113-hover.png?v=1788010677",
-    "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
-    ],
+    "sizes": ["39", "40", "41", "42", "43", "44"],
     "colors": [
       {
         "name": "Khaki",
@@ -16822,14 +16253,7 @@
     "compare_price": 73.89,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenelproduct114-principale.png?v=1788111166",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenelproduct114-hover.png?v=1788111168",
-    "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
-    ],
+    "sizes": ["39", "40", "41", "42", "43", "44"],
     "colors": [
       {
         "name": "Beige",
@@ -17021,13 +16445,7 @@
     "compare_price": 45.52,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product115-principale.png?v=1788114548",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product115-hover.png?v=1788114549",
-    "sizes": [
-      "38-39",
-      "40-41",
-      "42-43",
-      "44-45",
-      "46-47"
-    ],
+    "sizes": ["38-39", "40-41", "42-43", "44-45", "46-47"],
     "colors": [
       {
         "name": "White Green",
@@ -17236,15 +16654,7 @@
     "compare_price": 72.36,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product116-principale.png?v=1788117973",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product116-hover.png?v=1788117973",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "XXXL",
-      "4XL",
-      "5XL"
-    ],
+    "sizes": ["M", "L", "XL", "XXL", "XXXL", "4XL", "5XL"],
     "colors": [
       {
         "name": "White",
@@ -17729,13 +17139,7 @@
     "compare_price": 26.04,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product117-principale.png?v=1788121118",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product117-hover.png?v=1788121118",
-    "sizes": [
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "XXXL"
-    ],
+    "sizes": ["M", "L", "XL", "XXL", "XXXL"],
     "colors": [
       {
         "name": "Grey",
@@ -17985,13 +17389,7 @@
     "compare_price": 19.3,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-principale.png?v=1788124329",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product118-hover.png?v=1788124330",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
     "colors": [
       {
         "name": "4-Pack White",
@@ -18418,12 +17816,10 @@
     "title": "Laikou Vitamin C Skincare Cleanser",
     "description": "Laikou Vitamin C Skincare Cleanser, 40g.",
     "price": 15.18,
-    "compare_price": 28.10,
+    "compare_price": 28.1,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-principale.png?v=1788579102",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-hover.png?v=1788579108",
-    "sizes": [
-      "40g"
-    ],
+    "sizes": ["40g"],
     "colors": [
       {
         "name": "White",
@@ -18474,13 +17870,11 @@
     "reviews_count": 14,
     "title": "Hyaluronic Acid Water-Sensitive Sunscreen — Refreshing, Not Oily, 50ml",
     "description": "Hyaluronic Acid Water-sensitive Sunscreen, refreshing and not oily, 50ml, White.",
-    "price": 15.10,
+    "price": 15.1,
     "compare_price": 27.65,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-principale.png?v=1788614637",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-hover.png?v=1788614641",
-    "sizes": [
-      "50ml"
-    ],
+    "sizes": ["50ml"],
     "colors": [
       {
         "name": "White",
@@ -18494,7 +17888,7 @@
         "vid": "1794195871656062976",
         "color": "White",
         "size": "50ml",
-        "price": 15.10,
+        "price": 15.1,
         "active": true
       }
     ],
@@ -18535,9 +17929,7 @@
     "compare_price": 29.02,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-principale.png?v=1788617070",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-hover.png?v=1788617072",
-    "sizes": [
-      "100ml"
-    ],
+    "sizes": ["100ml"],
     "colors": [
       {
         "name": "Blue",
@@ -22378,6 +21770,6 @@
         }
       ]
     },
-    "use_pretty_urls": "no"
+    "use_pretty_urls": "yes"
   }
 ]
