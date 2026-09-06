@@ -18275,8 +18275,8 @@
     "reviews_count": 15,
     "title": "LED Facial Mask Skin Care Mask Beauty Salon",
     "description": "LED Facial Mask Skin Care Mask Beauty Salon — English Style.",
-    "price": 17.01,
-    "compare_price": 17.01,
+    "price": 65.21,
+    "compare_price": 120.28,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-principale.png?v=1788574574",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-hover.png?v=1788574578",
     "colors": [
@@ -18291,7 +18291,7 @@
       {
         "vid": "2608260240401634600",
         "color": "White",
-        "price": 17.01,
+        "price": 65.21,
         "active": true
       }
     ],
@@ -18328,8 +18328,8 @@
     "reviews_count": 10,
     "title": "Neck & Face Lifting Beauty Instrument",
     "description": "Micro-current lifting and tightening device with color light therapy for neck and face care.",
-    "price": 5.97,
-    "compare_price": 5.97,
+    "price": 34.17,
+    "compare_price": 55.97,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-principale.png?v=1788577429",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-hover.png?v=1788577435",
     "colors": [
@@ -18362,25 +18362,25 @@
       {
         "vid": "2408060950231624600",
         "color": "White",
-        "price": 5.97,
+        "price": 34.17,
         "active": true
       },
       {
         "vid": "2408060950231624900",
         "color": "Pink",
-        "price": 5.97,
+        "price": 34.17,
         "active": true
       },
       {
         "vid": "2408060950231625100",
         "color": "Black",
-        "price": 5.97,
+        "price": 34.17,
         "active": true
       },
       {
         "vid": "2408060950231625300",
-        "color": "Gradient Color",
-        "price": 6.14,
+        "color": "Gradient",
+        "price": 34.17,
         "active": true
       }
     ],
@@ -18417,8 +18417,8 @@
     "reviews_count": 13,
     "title": "Laikou Vitamin C Skincare Cleanser",
     "description": "Laikou Vitamin C Skincare Cleanser, 40g.",
-    "price": 1.18,
-    "compare_price": 1.18,
+    "price": 15.18,
+    "compare_price": 28.10,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-principale.png?v=1788579102",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-hover.png?v=1788579108",
     "sizes": [
@@ -18435,9 +18435,9 @@
     "variants": [
       {
         "vid": "2602060608011624300",
-        "color": "Default",
+        "color": "White",
         "size": "40g",
-        "price": 1.18,
+        "price": 15.18,
         "active": true
       }
     ],
@@ -18474,8 +18474,8 @@
     "reviews_count": 14,
     "title": "Hyaluronic Acid Water-Sensitive Sunscreen — Refreshing, Not Oily, 50ml",
     "description": "Hyaluronic Acid Water-sensitive Sunscreen, refreshing and not oily, 50ml, White.",
-    "price": 1.65,
-    "compare_price": 1.65,
+    "price": 15.10,
+    "compare_price": 27.65,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-principale.png?v=1788614637",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-hover.png?v=1788614641",
     "sizes": [
@@ -18494,7 +18494,7 @@
         "vid": "1794195871656062976",
         "color": "White",
         "size": "50ml",
-        "price": 1.65,
+        "price": 15.10,
         "active": true
       }
     ],
@@ -18531,8 +18531,8 @@
     "reviews_count": 10,
     "title": "Skin Hydrating And Moisturizing Mist",
     "description": "Skin Hydrating And Moisturizing Mist, 100ml.",
-    "price": 1.74,
-    "compare_price": 1.74,
+    "price": 15.74,
+    "compare_price": 29.02,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-principale.png?v=1788617070",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-hover.png?v=1788617072",
     "sizes": [
@@ -18551,7 +18551,7 @@
         "vid": "2603010902011605000",
         "color": "Blue",
         "size": "100ml",
-        "price": 1.74,
+        "price": 15.74,
         "active": true
       }
     ],
@@ -22227,11 +22227,11 @@
       ]
     },
     "content_protection": {
-      "disable_right_click": "no",
-      "disable_text_selection": "no",
+      "disable_right_click": "yes",
+      "disable_text_selection": "yes",
       "disable_image_download": "yes",
       "disable_video_download": "yes",
-      "disable_copy": "no",
+      "disable_copy": "yes",
       "disable_devtools_key": "yes"
     },
     "mini_product_slider": {
@@ -22296,10 +22296,10 @@
       "tagline": "The New Icons Of Curvy Fashion",
       "photo": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/BBW_Original_Coming_Soon.png?v=1777936945",
       "product_ids": [
-        "Pdg-Francenel-product106",
-        "Pdg-Francenel-product110",
-        "Pdg-Francenel-product107",
-        "Pdg-Francenel-product102"
+        "Pdg-Francenel-product101",
+        "Pdg-Francenel-product71",
+        "Pdg-Francenel-product98",
+        "Pdg-Francenel-product108"
       ]
     },
     "watermark": {
@@ -22378,6 +22378,6 @@
         }
       ]
     },
-    "use_pretty_urls": "yes"
+    "use_pretty_urls": "no"
   }
 ]
