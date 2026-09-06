@@ -13,12 +13,18 @@ self.addEventListener('push', function (event) {
   const title   = data.title || 'BBW4LIFE';
   const hasCart = data.hasCart === true;
 
-  // Pas de boutons d'action (View Cart / Shop Now) : l'API actions[] est le
-  // champ le moins fiable des notifications push (Windows/Chrome ne relaie
-  // pas toujours correctement quel bouton a été cliqué via l'Action Center
-  // natif — cf. MDN Notification.actions). Le clic sur la notification
-  // elle-même déclenche déjà la bonne action ci-dessous (view cart / shop
-  // now selon hasCart), donc les boutons étaient redondants et peu fiables.
+  // Un seul bouton d'action (pas de "Dismiss") : avec 2+ actions, certains
+  // relais de notification natifs (Windows Action Center notamment) ont un
+  // historique de bugs d'indexation où le mauvais "action id" est renvoyé
+  // au service worker. Un seul bouton, dont l'id correspond à EXACTEMENT
+  // la même cible que le clic sur le corps de la notification, élimine
+  // toute ambiguïté — voir notificationclick ci-dessous : les deux chemins
+  // (bouton et corps) exécutent littéralement la même fonction avec la
+  // même cible.
+  const actions = hasCart
+    ? [{ action: 'open_cart', title: '🛒 View Cart' }]
+    : [{ action: 'open_url', title: '👑 Shop Now' }];
+
   const options = {
     body: data.body || 'You have items waiting in your cart 🛍️',
     icon: data.icon || 'https://bbw4life.com/public/bbw4life-favicon.png',
@@ -30,7 +36,8 @@ self.addEventListener('push', function (event) {
     silent: false,
     timestamp: Date.now(),
     vibrate: [100, 50, 100],
-    data: { url: data.url || '/', hasCart: hasCart }
+    data: { url: data.url || '/', hasCart: hasCart },
+    actions: actions
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
