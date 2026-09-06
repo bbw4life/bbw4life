@@ -7,7 +7,7 @@ const BBW_VAPID_PUBLIC_KEY = 'BPAy2x7jsTHvHMYA5uLWKZAbmwpAtUlFtCbgSiALsYFH4EKhST
 //  site), comportement inchangé — navigation dans le même onglet.
 //  Délégation globale au clic plutôt que target="_blank" en dur sur
 //  chaque <a> : un seul endroit à maintenir, et le comportement
-//  mobile reste garanti même si une page oublie l'attribut.
+//  mobile reste garanti même si une page oublie l'attribut
 // ══════════════════════════════════════════════════════════════
 (function openPageLinksInNewTabOnDesktop() {
   document.addEventListener('click', function (e) {
@@ -885,6 +885,11 @@ document.addEventListener('DOMContentLoaded', () => {
         '/bbw4life/propolis-glow-essence',
         '/bbw4life/menglow-cream',
         '/bbw4life/iceglow-grid-set',
+        '/bbw4life/led-facial-mask-skin-care-beauty-salon',
+        '/bbw4life/neck-face-lifting-beauty-instrument',
+        '/bbw4life/laikou-vitamin-c-skincare-cleanser',
+        '/bbw4life/hyaluronic-acid-water-sensitive-sunscreen',
+        '/bbw4life/skin-hydrating-moisturizing-mist',
         '/bbw4life/glamsatin-dress',
         '/bbw4life/powersuit',
         '/bbw4life/bohofloral-maxi',
@@ -3187,7 +3192,13 @@ function showErrorPopup(message) {
         const prod = products.find(p => p.id === pid);
         // PATCH 3 — Stock bar
         if (prod && prod.eprolo_id) {
-            initStockBar(prod.eprolo_id);
+            initStockBar({ eprolo_id: prod.eprolo_id });
+        } else if (prod && prod.cj_product_id) {
+            // CJ Dropshipping — rate-limit bien plus strict qu'Eprolo,
+            // donc initStockBar met le résultat en cache localStorage
+            // (voir la fonction) avant de retaper l'API à chaque visite.
+            const vids = (prod.variants || []).map(v => v.vid).filter(Boolean);
+            if (vids.length) initStockBar({ cj_product_id: prod.cj_product_id, cj_vids: vids });
         }
 
         // ====================== RATING & REVIEWS COUNT ======================
@@ -3472,6 +3483,11 @@ function showErrorPopup(message) {
               'Pdg-Francenel-product116': 'solid-color-short-sleeve-tshirt-mens-slim-fit',
               'Pdg-Francenel-product117': 'v-neck-ice-silk-tshirt-mens-quick-dry-fitness-top',
               'Pdg-Francenel-product118': 'classic-v-neck-tee-multipack-mens-casual-white-black',
+              'Pdg-Francenel-product119': 'led-facial-mask-skin-care-beauty-salon',
+              'Pdg-Francenel-product120': 'neck-face-lifting-beauty-instrument',
+              'Pdg-Francenel-product121': 'laikou-vitamin-c-skincare-cleanser',
+              'Pdg-Francenel-product122': 'hyaluronic-acid-water-sensitive-sunscreen',
+              'Pdg-Francenel-product123': 'skin-hydrating-moisturizing-mist',
             };
 
               // ── Récupérer les données du produit courant
@@ -9155,6 +9171,19 @@ const BBW_WISHLIST_SLUG_MAP = {
   'Pdg-Francenel-product108': 'rufflecascade-sheath-draped-side-detail',
   'Pdg-Francenel-product109': 'tweedshift-dress-cuffed-sleeve-classic',
   'Pdg-Francenel-product110': 'polkadotblouse-set-wide-leg-belted-trouser',
+  'Pdg-Francenel-product111': 'autumn-canvas-high-top-boots-mens-workwear',
+  'Pdg-Francenel-product112': 'no-tie-leather-sneakers-mens-slip-on',
+  'Pdg-Francenel-product113': 'high-top-martin-boots-mens-outdoor-workwear',
+  'Pdg-Francenel-product114': 'breathable-mesh-sneakers-mens-casual-dad-shoes',
+  'Pdg-Francenel-product115': 'eva-sole-house-slippers-mens-slides',
+  'Pdg-Francenel-product116': 'solid-color-short-sleeve-tshirt-mens-slim-fit',
+  'Pdg-Francenel-product117': 'v-neck-ice-silk-tshirt-mens-quick-dry-fitness-top',
+  'Pdg-Francenel-product118': 'classic-v-neck-tee-multipack-mens-casual-white-black',
+  'Pdg-Francenel-product119': 'led-facial-mask-skin-care-beauty-salon',
+  'Pdg-Francenel-product120': 'neck-face-lifting-beauty-instrument',
+  'Pdg-Francenel-product121': 'laikou-vitamin-c-skincare-cleanser',
+  'Pdg-Francenel-product122': 'hyaluronic-acid-water-sensitive-sunscreen',
+  'Pdg-Francenel-product123': 'skin-hydrating-moisturizing-mist',
 };
 // Exposé sur window : un `const` de niveau script n'est visible que dans
 // CE fichier — un autre <script> classique séparé (ex: collections.js,
@@ -13013,7 +13042,28 @@ function capDisplayStock(realStock) {
 
 
 
-function initStockBar(eproloId) {
+// CJ Dropshipping impose un rate-limit bien plus strict qu'Eprolo — on met
+// donc le résultat en cache localStorage avec un TTL généreux (10 min) pour
+// ne jamais retaper l'API à chaque visite/rechargement de la même page
+// produit. Eprolo n'a pas ce problème et reste sans cache, comportement
+// original intact.
+const CJ_STOCK_CACHE_TTL_MS = 10 * 60 * 1000;
+function getCachedCJStock(cjProductId) {
+    try {
+        const raw = localStorage.getItem('cj_stock_' + cjProductId);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (!parsed || (Date.now() - parsed.ts) > CJ_STOCK_CACHE_TTL_MS) return null;
+        return parsed.data;
+    } catch { return null; }
+}
+function setCachedCJStock(cjProductId, data) {
+    try {
+        localStorage.setItem('cj_stock_' + cjProductId, JSON.stringify({ ts: Date.now(), data }));
+    } catch {}
+}
+
+function initStockBar(source) {
     const block = document.getElementById('pp-stock-block');
     const label = document.getElementById('pp-stock-label');
     const fill  = document.getElementById('pp-stock-bar-fill');
@@ -13021,9 +13071,7 @@ function initStockBar(eproloId) {
     const imgBadge = document.querySelector('.pp-stock-image-badge');
     if (!block || !label || !fill || !hint) return;
 
-    fetch(`/.netlify/functions/get-product-stock?eprolo_id=${eproloId}`)
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
+    function renderStock(data) {
             block.classList.remove('loading');
 
             if (!data.success || data.totalStock === null) {
@@ -13103,12 +13151,35 @@ function initStockBar(eproloId) {
                     imgBadge.style.display = 'none';
                 }
             }
-        })
-        .catch(function(err) {
-            console.warn('[StockBar] Could not load stock:', err);
-            block.classList.add('error');
-            if (imgBadge) imgBadge.style.display = 'none';
-        });
+    }
+
+    function onError(err) {
+        console.warn('[StockBar] Could not load stock:', err);
+        block.classList.add('error');
+        if (imgBadge) imgBadge.style.display = 'none';
+    }
+
+    // CJ Dropshipping — sert le cache localStorage si encore valide,
+    // sinon appelle l'API (rate-limit strict côté CJ) puis met en cache.
+    if (source && source.cj_product_id) {
+        const cached = getCachedCJStock(source.cj_product_id);
+        if (cached) { renderStock(cached); return; }
+
+        fetch(`/.netlify/functions/get-product-stock?cj_vids=${(source.cj_vids || []).join(',')}`)
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                setCachedCJStock(source.cj_product_id, data);
+                renderStock(data);
+            })
+            .catch(onError);
+        return;
+    }
+
+    // EPROLO — comportement original intact, sans cache.
+    fetch(`/.netlify/functions/get-product-stock?eprolo_id=${source.eprolo_id}`)
+        .then(function(res) { return res.json(); })
+        .then(renderStock)
+        .catch(onError);
 }
 
 

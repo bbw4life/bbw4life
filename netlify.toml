@@ -671,6 +671,31 @@
   to = "/products/product118.html"
   status = 200
 
+[[redirects]]
+  from = "/bbw4life/led-facial-mask-skin-care-beauty-salon"
+  to = "/products/product119.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/neck-face-lifting-beauty-instrument"
+  to = "/products/product120.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/laikou-vitamin-c-skincare-cleanser"
+  to = "/products/product121.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/hyaluronic-acid-water-sensitive-sunscreen"
+  to = "/products/product122.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/skin-hydrating-moisturizing-mist"
+  to = "/products/product123.html"
+  status = 200
+
 # ─────────────────────────────────────────────
 # BLOG ARTICLES — Pretty URLs
 # ─────────────────────────────────────────────

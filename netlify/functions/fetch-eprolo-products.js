@@ -58,6 +58,47 @@ CATEGORIES.forEach(cat => {
 const SEP  = "═".repeat(80);
 const SEP2 = "─".repeat(80);
 
+// ── Shipping cost — Eprolo "Shipping Rate Inquiry API"
+//    (get_product_shiping_fees.html). Isolé dans sa propre fonction et
+//    son propre try/catch dans l'appelant : une erreur ici ne doit
+//    jamais faire échouer la récupération du produit lui-même, qui
+//    fonctionne déjà et ne doit pas être touchée.
+//    Destination de référence fixe (US), même logique que côté CJ —
+//    simple aperçu inventaire, pas un vrai calcul de commande.
+const EPROLO_SHIPPING_COUNTRY = 'US';
+async function getEproloShippingCost(apiKey, apiSecret, productId, variantId) {
+  const timestamp = Date.now();
+  const sign = crypto
+    .createHash('md5')
+    .update(apiKey + timestamp + apiSecret)
+    .digest('hex');
+
+  const url = `https://openapi.eprolo.com/get_product_shiping_fees.html?sign=${sign}&timestamp=${timestamp}&productid=${productId}&variantId=${variantId}&countrycode=${EPROLO_SHIPPING_COUNTRY}`;
+
+  const response     = await fetch(url, { method: "GET", headers: { "apiKey": apiKey } });
+  const responseText = await response.text();
+
+  let data = {};
+  try { data = JSON.parse(responseText); } catch {}
+
+  if (!((data.code === 0 || data.code === "0") && data.data)) return null;
+
+  const variant = Array.isArray(data.data.variantlist) ? data.data.variantlist[0] : null;
+  const costList = variant?.logistics_cost_list?.[0]?.cost_list;
+  if (!Array.isArray(costList) || !costList.length) return null;
+
+  const cheapest = costList.reduce((min, o) =>
+    (Number(o.cost) || Infinity) < (Number(min.cost) || Infinity) ? o : min
+  , costList[0]);
+
+  return {
+    price:      cheapest.cost != null ? Number(cheapest.cost) : null,
+    method:     cheapest.ship_method || null,
+    shiptime:   cheapest.shiptime || null,
+    country:    cheapest.country || null
+  };
+}
+
 exports.handler = async (event) => {
   const logs = [];
   const log = (msg) => { console.log(msg); logs.push(msg); };
@@ -92,7 +133,23 @@ exports.handler = async (event) => {
 
           if ((data.code === 0 || data.code === "0") && data.data) {
             log(`  ✅  ${productId}  →  OK  [${category} > ${subcategory}]`);
-            return { ...data.data, category, subcategory };
+
+            // ── Shipping cost (appel séparé, best-effort) — ne doit
+            //    jamais faire échouer le produit si ça rate. ──
+            let shipping = null;
+            const firstVariantId = data.data.variantlist?.[0]?.id;
+            if (firstVariantId) {
+              try {
+                shipping = await getEproloShippingCost(apiKey, apiSecret, productId, firstVariantId);
+                log(shipping
+                  ? `        🚚  Shipping (→${EPROLO_SHIPPING_COUNTRY}) : $${shipping.price} via ${shipping.method}`
+                  : `        ⚠️  Shipping introuvable pour ${productId}`);
+              } catch (shipErr) {
+                log(`        ⚠️  Shipping : EXCEPTION : ${shipErr.message}`);
+              }
+            }
+
+            return { ...data.data, category, subcategory, shipping };
           } else {
             const errMsg = data.msg || 'réponse invalide';
             log(`  ⚠️  ${productId}  →  ERREUR : ${errMsg}  [${category} > ${subcategory}]`);
@@ -119,6 +176,7 @@ exports.handler = async (event) => {
       log(SEP);
       log(`  [${String(index + 1).padStart(2, '0')}]  ${product.title}`);
       log(`        ID : ${product.id}    |    Variants : ${varCount}    |    Cat: ${product.category} > ${product.subcategory}`);
+      log(`        SHIPPING (→${EPROLO_SHIPPING_COUNTRY}) : ${product.shipping ? `$${product.shipping.price} via ${product.shipping.method}` : 'N/A'}`);
       log(SEP2);
 
       if (varCount === 0) {

@@ -647,7 +647,15 @@
       
       const realProducts = data.filter(p => !p.type && p.active !== false);
       if (productIds.length > 0) {
-        allProducts = productIds.map(id => realProducts.find(p => p.id === id)).filter(Boolean);
+        // Un même produit peut apparaître dans plusieurs sections de
+        // product_ids (ex: mis en avant en tête ET mélangé dans une
+        // sous-catégorie) — on ne garde que sa première occurrence pour
+        // que l'onglet "All" ne l'affiche jamais deux fois.
+        const seenIds = new Set();
+        allProducts = productIds
+          .map(id => realProducts.find(p => p.id === id))
+          .filter(Boolean)
+          .filter(p => { if (seenIds.has(p.id)) return false; seenIds.add(p.id); return true; });
       } else {
         allProducts = realProducts;
       }
@@ -803,20 +811,15 @@
     return Math.round(((prod.compare_price - prod.price) / prod.compare_price) * 100);
   }
 
-  // Pioche 12 IDs mélangés dans la vraie collection New Arrivals
-  // (settings.jrgq_collections), calculé une seule fois puis mis en
-  // cache pour que le mélange reste stable tant que la page ne recharge
-  // pas (sinon les résultats de l'onglet changeraient à chaque clic).
+  // Tous les IDs de la vraie collection New Arrivals (settings.jrgq_collections),
+  // dans l'ordre du JSON — pas de mélange aléatoire, pas de nombre fixe imposé :
+  // affiche tout ce qu'il y a, ni plus ni moins, sans dupliquer pour compléter
+  // un quota.
   function getNewArrivalsIds() {
     if (newArrivalsIds) return newArrivalsIds;
     const jrgq = (settings.jrgq_collections && settings.jrgq_collections.collections) || [];
     const col = jrgq.find(c => c.id === 'bbw4life-new-arrivals');
-    const ids = (col && col.product_ids || []).slice();
-    for (let i = ids.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [ids[i], ids[j]] = [ids[j], ids[i]];
-    }
-    newArrivalsIds = ids.slice(0, 12);
+    newArrivalsIds = (col && col.product_ids || []).slice();
     return newArrivalsIds;
   }
 

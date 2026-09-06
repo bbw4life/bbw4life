@@ -472,6 +472,7 @@
     .badge-ok       { background: rgba(0,255,157,0.1); color: var(--green);  border: 1px solid rgba(0,255,157,0.2); }
     .badge-err      { background: rgba(255,61,127,0.1); color: var(--accent2); border: 1px solid rgba(255,61,127,0.2); }
     .badge-subcat   { background: rgba(255,214,0,0.08); color: var(--yellow); border: 1px solid rgba(255,214,0,0.2); }
+    .badge-shipping { background: rgba(0,255,157,0.08); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
 
     .chevron { color: var(--text-dim); transition: transform 0.25s; font-size: 10px; }
     .product-card.open .chevron { transform: rotate(90deg); }
@@ -1148,6 +1149,7 @@
           variants: p.variantlist || [],
           category: p.category || '',
           subcategory: p.subcategory || '',
+          shippingRate: p.shipping || null,
           status: 'ok',
         };
       });
@@ -1216,6 +1218,9 @@
     view.innerHTML = filtered.map((p, i) => {
       const varCount = p.variants.length;
       const isOk     = p.status === 'ok';
+      const shippingRateLabel = p.shippingRate
+        ? `$${esc(String(p.shippingRate.price))} · ${esc(p.shippingRate.method || '')}`
+        : 'N/A';
       const variantsHTML = Object.entries(p.colorGroups).map(([color, vars]) => `
         <div class="color-group">
           <div class="color-label">
@@ -1255,6 +1260,7 @@
               <span class="badge badge-subcat">${esc(p.subcategory)}</span>
               ${isOk ? `<span class="badge badge-ok">OK</span>` : `<span class="badge badge-err">ERR</span>`}
               <span class="badge badge-variants">${varCount} variants</span>
+              <span class="badge badge-shipping" title="Coût de livraison estimé (Eprolo Shipping Rate Inquiry)">🚚 ${shippingRateLabel}</span>
             </div>
             <span class="chevron">▶</span>
           </div>

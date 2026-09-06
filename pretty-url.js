@@ -119,6 +119,11 @@
     '/products/product116.html': '/bbw4life/solid-color-short-sleeve-tshirt-mens-slim-fit',
     '/products/product117.html': '/bbw4life/v-neck-ice-silk-tshirt-mens-quick-dry-fitness-top',
     '/products/product118.html': '/bbw4life/classic-v-neck-tee-multipack-mens-casual-white-black',
+    '/products/product119.html': '/bbw4life/led-facial-mask-skin-care-beauty-salon',
+    '/products/product120.html': '/bbw4life/neck-face-lifting-beauty-instrument',
+    '/products/product121.html': '/bbw4life/laikou-vitamin-c-skincare-cleanser',
+    '/products/product122.html': '/bbw4life/hyaluronic-acid-water-sensitive-sunscreen',
+    '/products/product123.html': '/bbw4life/skin-hydrating-moisturizing-mist',
 
     // ── BLOG ARTICLES ─────────────────────────────────────
     '/blog/article-featured.html': '/bbw4life/journal/beauty-has-no-sizes-movement-redefining-beauty',

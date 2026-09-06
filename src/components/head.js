@@ -923,6 +923,46 @@ const SEO_MAP = {
         canonical: 'https://bbw4life.com/products/product68.html'
     },
 
+    '/products/product119.html': {
+        title: 'LED Facial Mask — Skin Care Beauty Salon Device | BBW4LIFE',
+        description: 'LED Facial Mask Skin Care device for at-home beauty salon results. Multi-light therapy for glowing, radiant skin. Curvy beauty essentials by BBW4LIFE. Free worldwide shipping.',
+        keywords: 'LED facial mask, LED light therapy mask, facial skin care device, beauty salon at home, red light therapy face, blue light therapy face, BBW4LIFE beauty, curvy beauty skincare, facial light therapy, skin care device, glowing skin mask, BBW beauty tools',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-principale.png?v=1788574574',
+        canonical: 'https://bbw4life.com/products/product119.html'
+    },
+
+    '/products/product120.html': {
+        title: 'Neck & Face Lifting Beauty Instrument | BBW4LIFE',
+        description: 'Micro-current lifting and tightening device with light therapy for neck and face care. Available in White, Pink, Black & Gradient. Curvy beauty essentials by BBW4LIFE. Free worldwide shipping.',
+        keywords: 'neck lifting device, face lifting instrument, micro current beauty device, color light beauty tool, facial tightening device, BBW4LIFE beauty, curvy beauty skincare, neck tightening tool, beauty instrument, skin lifting device, BBW beauty tools',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-principale.png?v=1788577429',
+        canonical: 'https://bbw4life.com/products/product120.html'
+    },
+
+    '/products/product121.html': {
+        title: 'Laikou Vitamin C Skincare Cleanser | BBW4LIFE',
+        description: 'Laikou Vitamin C Skincare Cleanser, 40g — brightening daily face wash for radiant, even-toned skin. Curvy beauty essentials by BBW4LIFE. Free worldwide shipping.',
+        keywords: 'vitamin C cleanser, brightening face wash, Laikou skincare, daily facial cleanser, vitamin C face wash, BBW4LIFE beauty, curvy beauty skincare, brightening cleanser, even skin tone wash, BBW beauty skincare',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-principale.png?v=1788579102',
+        canonical: 'https://bbw4life.com/products/product121.html'
+    },
+
+    '/products/product122.html': {
+        title: 'Hyaluronic Acid Water-Sensitive Sunscreen | BBW4LIFE',
+        description: 'Hyaluronic Acid Water-Sensitive Sunscreen, 50ml — refreshing, not oily, everyday sun protection. Curvy beauty essentials by BBW4LIFE. Free worldwide shipping.',
+        keywords: 'hyaluronic acid sunscreen, water sensitive sunscreen, non oily sunscreen, daily sun protection, hydrating sunscreen, BBW4LIFE beauty, curvy beauty skincare, refreshing sunscreen, facial sun protection, BBW beauty skincare',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-principale.png?v=1788614637',
+        canonical: 'https://bbw4life.com/products/product122.html'
+    },
+
+    '/products/product123.html': {
+        title: 'Skin Hydrating & Moisturizing Mist | BBW4LIFE',
+        description: 'Skin Hydrating And Moisturizing Mist, 100ml — refreshing facial mist for instant hydration, anytime. Curvy beauty essentials by BBW4LIFE. Free worldwide shipping.',
+        keywords: 'hydrating facial mist, moisturizing mist, skin refresh spray, facial mist spray, instant hydration mist, BBW4LIFE beauty, curvy beauty skincare, dewy skin mist, makeup setting mist, BBW beauty skincare',
+        og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-principale.png?v=1788617070',
+        canonical: 'https://bbw4life.com/products/product123.html'
+    },
+
     '/products/product69.html': {
         title: 'GlamSatin Dress — Black Halter Ruched Maxi | BBW4LIFE',
         description: 'Turn heads in this luxurious black satin halter maxi dress. Deep V-neckline, ruched waist knot detail, bold front slit — made for queens plus size. Sizes 1XL to 5XL. Free worldwide shipping. BBW4LIFE Original.',

@@ -13554,8 +13554,8 @@
     },
     "title": "KoreanTrend Bag — Messenger Bag",
     "description": "A small Korean-style shoulder bag with a clean, trendy silhouette. Five easy colors — the perfect grab-and-go accessory.",
-    "price": 9.03,
-    "compare_price": 17.16,
+    "price": 19.03,
+    "compare_price": 27.16,
     "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-1.png?v=1785208338",
     "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-franceel-product86-hover.png?v=1785208340",
     "sizes": [],
@@ -13596,35 +13596,35 @@
         "vid": "721081437",
         "color": "White",
         "size": "",
-        "price": 9.03,
+        "price": 19.03,
         "active": true
       },
       {
         "vid": "721081438",
         "color": "Red",
         "size": "",
-        "price": 9.03,
+        "price": 19.03,
         "active": true
       },
       {
         "vid": "721081439",
         "color": "Black",
         "size": "",
-        "price": 9.03,
+        "price": 19.03,
         "active": true
       },
       {
         "vid": "721081440",
         "color": "Brown",
         "size": "",
-        "price": 9.03,
+        "price": 19.03,
         "active": true
       },
       {
         "vid": "721081441",
         "color": "Dark Khaki",
         "size": "",
-        "price": 9.03,
+        "price": 19.03,
         "active": true
       }
     ],
@@ -18256,24 +18256,317 @@
     ]
   },
   {
-    "cj_product_id": "1661565742099206144",
-    "sku_internal": "CJ-DRAFT-001",
+    "cj_product_id": "2608260240401633500",
+    "sku_internal": "CJYD309610001AZ",
     "id": "Pdg-Francenel-product119",
     "url": "/products/product119.html",
-    "active": false,
+    "active": true,
     "stock_managed_by": "cj",
     "currency": "USD",
-    "last_updated": "2026-09-02",
-    "title": "TODO — à compléter avec les données réelles CJ",
-    "description": "TODO — brouillon en attente des données réelles CJ Dropshipping.",
-    "price": 0,
-    "compare_price": 0,
-    "image": "",
-    "image_hover": "",
-    "sizes": [],
-    "colors": [],
-    "variants": [],
-    "media": []
+    "last_updated": "2026-09-03",
+    "cycle_days_start": 16,
+    "cycle_days_end": 4,
+    "start_date": "2026-09-19",
+    "end_date": "2026-09-24",
+    "single_discount": 5,
+    "duo_discount": 10,
+    "trio_discount": 20,
+    "rating": 4.6,
+    "reviews_count": 15,
+    "title": "LED Facial Mask Skin Care Mask Beauty Salon",
+    "description": "LED Facial Mask Skin Care Mask Beauty Salon — English Style.",
+    "price": 17.01,
+    "compare_price": 17.01,
+    "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-principale.png?v=1788574574",
+    "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-hover.png?v=1788574578",
+    "colors": [
+      {
+        "name": "White",
+        "hex": "#FFFFFF",
+        "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-white.png?v=1788574574",
+        "active": true
+      }
+    ],
+    "variants": [
+      {
+        "vid": "2608260240401634600",
+        "color": "White",
+        "price": 17.01,
+        "active": true
+      }
+    ],
+    "media": [
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-1.png?v=1788574575",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-8.png?v=1788574577",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-2.png?v=1788574577",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-3.png?v=1788574577",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-7.png?v=1788574577",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-9.png?v=1788574576",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-5.png?v=1788574577",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-4.png?v=1788574578",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-10.png?v=1788574576",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-119-6.png?v=1788574577"
+    ]
+  },
+  {
+    "cj_product_id": "2408060950231624400",
+    "sku_internal": "CJYD210353101AZ",
+    "id": "Pdg-Francenel-product120",
+    "url": "/products/product120.html",
+    "active": true,
+    "stock_managed_by": "cj",
+    "currency": "USD",
+    "last_updated": "2026-09-03",
+    "cycle_days_start": 13,
+    "cycle_days_end": 5,
+    "start_date": "2026-09-16",
+    "end_date": "2026-09-21",
+    "single_discount": 5,
+    "duo_discount": 10,
+    "trio_discount": 20,
+    "rating": 4.5,
+    "reviews_count": 10,
+    "title": "Neck & Face Lifting Beauty Instrument",
+    "description": "Micro-current lifting and tightening device with color light therapy for neck and face care.",
+    "price": 5.97,
+    "compare_price": 5.97,
+    "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-principale.png?v=1788577429",
+    "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-hover.png?v=1788577435",
+    "colors": [
+      {
+        "name": "White",
+        "hex": "#FFFFFF",
+        "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-white.png?v=1788577428",
+        "active": true
+      },
+      {
+        "name": "Pink",
+        "hex": "#FF69B4",
+        "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-pink.png?v=1788577430",
+        "active": true
+      },
+      {
+        "name": "Black",
+        "hex": "#000000",
+        "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-black.png?v=1788577430",
+        "active": true
+      },
+      {
+        "name": "Gradient",
+        "hex": "#CCCCCC",
+        "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-Gradient.png?v=1788577430",
+        "active": true
+      }
+    ],
+    "variants": [
+      {
+        "vid": "2408060950231624600",
+        "color": "White",
+        "price": 5.97,
+        "active": true
+      },
+      {
+        "vid": "2408060950231624900",
+        "color": "Pink",
+        "price": 5.97,
+        "active": true
+      },
+      {
+        "vid": "2408060950231625100",
+        "color": "Black",
+        "price": 5.97,
+        "active": true
+      },
+      {
+        "vid": "2408060950231625300",
+        "color": "Gradient Color",
+        "price": 6.14,
+        "active": true
+      }
+    ],
+    "media": [
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-1.png?v=1788577435",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-3.png?v=1788577435",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-5.png?v=1788577435",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-2.png?v=1788577435",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-7.png?v=1788577435",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-9.png?v=1788577434",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-4.png?v=1788577433",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-8.png?v=1788577435",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-10.png?v=1788577435",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-120-6.png?v=1788577435"
+    ]
+  },
+  {
+    "cj_product_id": "2602060608011624000",
+    "sku_internal": "CJYD275576601AZ",
+    "id": "Pdg-Francenel-product121",
+    "url": "/products/product121.html",
+    "active": true,
+    "stock_managed_by": "cj",
+    "currency": "USD",
+    "last_updated": "2026-09-03",
+    "cycle_days_start": 14,
+    "cycle_days_end": 5,
+    "start_date": "2026-09-17",
+    "end_date": "2026-09-22",
+    "single_discount": 5,
+    "duo_discount": 10,
+    "trio_discount": 20,
+    "rating": 4.8,
+    "reviews_count": 13,
+    "title": "Laikou Vitamin C Skincare Cleanser",
+    "description": "Laikou Vitamin C Skincare Cleanser, 40g.",
+    "price": 1.18,
+    "compare_price": 1.18,
+    "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-principale.png?v=1788579102",
+    "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-hover.png?v=1788579108",
+    "sizes": [
+      "40g"
+    ],
+    "colors": [
+      {
+        "name": "White",
+        "hex": "#F5F5F0",
+        "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-white.png?v=1788579234",
+        "active": true
+      }
+    ],
+    "variants": [
+      {
+        "vid": "2602060608011624300",
+        "color": "Default",
+        "size": "40g",
+        "price": 1.18,
+        "active": true
+      }
+    ],
+    "media": [
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-1.png?v=1788579108",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-4.png?v=1788579107",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-7.png?v=1788579108",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-3.png?v=1788579106",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-6.png?v=1788579108",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-2.png?v=1788579107",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-10.png?v=1788579107",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-8.png?v=1788579106",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-9.png?v=1788579107",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-121-5.png?v=1788579104"
+    ]
+  },
+  {
+    "cj_product_id": "1794195871538622464",
+    "sku_internal": "CJYD204503001AZ",
+    "id": "Pdg-Francenel-product122",
+    "url": "/products/product122.html",
+    "active": true,
+    "stock_managed_by": "cj",
+    "currency": "USD",
+    "last_updated": "2026-09-03",
+    "cycle_days_start": 11,
+    "cycle_days_end": 5,
+    "start_date": "2026-09-14",
+    "end_date": "2026-09-19",
+    "single_discount": 5,
+    "duo_discount": 10,
+    "trio_discount": 20,
+    "rating": 4.7,
+    "reviews_count": 14,
+    "title": "Hyaluronic Acid Water-Sensitive Sunscreen — Refreshing, Not Oily, 50ml",
+    "description": "Hyaluronic Acid Water-sensitive Sunscreen, refreshing and not oily, 50ml, White.",
+    "price": 1.65,
+    "compare_price": 1.65,
+    "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-principale.png?v=1788614637",
+    "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-hover.png?v=1788614641",
+    "sizes": [
+      "50ml"
+    ],
+    "colors": [
+      {
+        "name": "White",
+        "hex": "#FFFFFF",
+        "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-white.png?v=1788614628",
+        "active": true
+      }
+    ],
+    "variants": [
+      {
+        "vid": "1794195871656062976",
+        "color": "White",
+        "size": "50ml",
+        "price": 1.65,
+        "active": true
+      }
+    ],
+    "media": [
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-7.png?v=1788614641",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-2.png?v=1788614641",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-9.png?v=1788614641",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-4.png?v=1788614641",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-1.png?v=1788614638",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-10.png?v=1788614641",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-5.png?v=1788614641",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-3.png?v=1788614641",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-8.png?v=1788614641",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-122-6.png?v=1788614640"
+    ]
+  },
+  {
+    "cj_product_id": "2603010902011604600",
+    "sku_internal": "CJMJ277139201AZ",
+    "id": "Pdg-Francenel-product123",
+    "url": "/products/product123.html",
+    "active": true,
+    "stock_managed_by": "cj",
+    "currency": "USD",
+    "last_updated": "2026-09-03",
+    "cycle_days_start": 12,
+    "cycle_days_end": 4,
+    "start_date": "2026-09-15",
+    "end_date": "2026-09-19",
+    "single_discount": 5,
+    "duo_discount": 10,
+    "trio_discount": 20,
+    "rating": 4.4,
+    "reviews_count": 10,
+    "title": "Skin Hydrating And Moisturizing Mist",
+    "description": "Skin Hydrating And Moisturizing Mist, 100ml.",
+    "price": 1.74,
+    "compare_price": 1.74,
+    "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-principale.png?v=1788617070",
+    "image_hover": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-hover.png?v=1788617072",
+    "sizes": [
+      "100ml"
+    ],
+    "colors": [
+      {
+        "name": "Blue",
+        "hex": "#8ac3f2",
+        "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-blue.png?v=1788617066",
+        "active": true
+      }
+    ],
+    "variants": [
+      {
+        "vid": "2603010902011605000",
+        "color": "Blue",
+        "size": "100ml",
+        "price": 1.74,
+        "active": true
+      }
+    ],
+    "media": [
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-9.png?v=1788617073",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-3.png?v=1788617073",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-6.png?v=1788617072",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-1.png?v=1788617072",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-10.png?v=1788617073",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-4.png?v=1788617073",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-8.png?v=1788617071",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-2.png?v=1788617073",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-7.png?v=1788617072",
+      "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/pdg-francenel-product-123-5.png?v=1788617073"
+    ]
   },
   {
     "type": "settings",
@@ -18450,14 +18743,14 @@
       "show_media_counter": "yes",
       "show_mobile_zoom_icon": "yes",
       "promo_free_product_ids_man": [
-        "Pdg-Francenel-product46",
-        "Pdg-Francenel-product112",
-        "Pdg-Francenel-product51"
+        "Pdg-Francenel-product118",
+        "Pdg-Francenel-product43",
+        "Pdg-Francenel-product36"
       ],
       "promo_free_product_ids": [
-        "Pdg-Francenel-product17",
-        "Pdg-Francenel-product60",
-        "Pdg-Francenel-product3"
+        "Pdg-Francenel-product78",
+        "Pdg-Francenel-product86",
+        "Pdg-Francenel-product34"
       ],
       "promo_gender_select_image_woman": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/women.png?v=1788535552",
       "promo_gender_select_image_man": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/men.png?v=1788535534",
@@ -18749,7 +19042,7 @@
       "glowPop": "no"
     },
     "top_starter_products": {
-      "label": "Best products to start your weight loss journey",
+      "label": "Best products to start",
       "product_ids": [
         "Pdg-Francenel-product1",
         "Pdg-Francenel-product2",
@@ -18805,12 +19098,12 @@
         "Pdg-Francenel-product76",
         "Pdg-Francenel-product81",
         "Pdg-Francenel-product107",
-        "Pdg-Francenel-product1",
+        "Pdg-Francenel-product119",
         "collection:curvy-woman",
         "Pdg-Francenel-product90",
         "Pdg-Francenel-product36",
         "Pdg-Francenel-product78",
-        "Pdg-Francenel-product2",
+        "Pdg-Francenel-product120",
         "Pdg-Francenel-product93",
         "Pdg-Francenel-product38",
         "collection:bbw-features-products",
@@ -18821,7 +19114,7 @@
         "collection:shoes-sandals",
         "Pdg-Francenel-product39",
         "Pdg-Francenel-product13",
-        "Pdg-Francenel-product22",
+        "Pdg-Francenel-product122",
         "collection:curvy-bags",
         "Pdg-Francenel-product41",
         "Pdg-Francenel-product33",
@@ -18841,16 +19134,20 @@
     "story_row_women": {
       "label": "Women's Picks",
       "product_ids": [
+        "Pdg-Francenel-product119",
         "Pdg-Francenel-product76",
         "Pdg-Francenel-product1",
         "Pdg-Francenel-product85",
         "Pdg-Francenel-product79",
+        "Pdg-Francenel-product120",
         "Pdg-Francenel-product87",
         "Pdg-Francenel-product7",
         "Pdg-Francenel-product77",
+        "Pdg-Francenel-product123",
         "Pdg-Francenel-product90",
         "Pdg-Francenel-product81",
         "Pdg-Francenel-product2",
+        "Pdg-Francenel-product121",
         "Pdg-Francenel-product93",
         "Pdg-Francenel-product9"
       ]
@@ -18881,17 +19178,20 @@
       "product_ids": [
         "Pdg-Francenel-product1",
         "Pdg-Francenel-product5",
+        "Pdg-Francenel-product119",
         "Pdg-Francenel-product14",
         "Pdg-Francenel-product117",
         "Pdg-Francenel-product21",
         "Pdg-Francenel-product28",
         "Pdg-Francenel-product33",
+        "Pdg-Francenel-product122",
         "Pdg-Francenel-product113",
         "Pdg-Francenel-product38",
         "Pdg-Francenel-product43",
         "Pdg-Francenel-product48",
         "Pdg-Francenel-product53",
         "Pdg-Francenel-product118",
+        "Pdg-Francenel-product123",
         "Pdg-Francenel-product58",
         "Pdg-Francenel-product62",
         "Pdg-Francenel-product67",
@@ -20204,6 +20504,188 @@
             "product_id": "Pdg-Francenel-product58"
           }
         ]
+      },
+      "product111": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product38"
+          },
+          {
+            "product_id": "Pdg-Francenel-product113"
+          },
+          {
+            "product_id": "Pdg-Francenel-product50"
+          }
+        ]
+      },
+      "product112": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product38"
+          },
+          {
+            "product_id": "Pdg-Francenel-product41"
+          },
+          {
+            "product_id": "Pdg-Francenel-product47"
+          }
+        ]
+      },
+      "product113": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product37"
+          },
+          {
+            "product_id": "Pdg-Francenel-product111"
+          },
+          {
+            "product_id": "Pdg-Francenel-product51"
+          }
+        ]
+      },
+      "product114": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product40"
+          },
+          {
+            "product_id": "Pdg-Francenel-product44"
+          },
+          {
+            "product_id": "Pdg-Francenel-product36"
+          }
+        ]
+      },
+      "product115": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product49"
+          },
+          {
+            "product_id": "Pdg-Francenel-product51"
+          },
+          {
+            "product_id": "Pdg-Francenel-product36"
+          }
+        ]
+      },
+      "product116": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product35"
+          },
+          {
+            "product_id": "Pdg-Francenel-product117"
+          },
+          {
+            "product_id": "Pdg-Francenel-product41"
+          }
+        ]
+      },
+      "product117": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product36"
+          },
+          {
+            "product_id": "Pdg-Francenel-product116"
+          },
+          {
+            "product_id": "Pdg-Francenel-product44"
+          }
+        ]
+      },
+      "product118": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product35"
+          },
+          {
+            "product_id": "Pdg-Francenel-product116"
+          },
+          {
+            "product_id": "Pdg-Francenel-product117"
+          }
+        ]
+      },
+      "product119": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product121"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          },
+          {
+            "product_id": "Pdg-Francenel-product65"
+          }
+        ]
+      },
+      "product120": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product121"
+          },
+          {
+            "product_id": "Pdg-Francenel-product122"
+          },
+          {
+            "product_id": "Pdg-Francenel-product68"
+          }
+        ]
+      },
+      "product121": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product122"
+          },
+          {
+            "product_id": "Pdg-Francenel-product123"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          }
+        ]
+      },
+      "product122": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product121"
+          },
+          {
+            "product_id": "Pdg-Francenel-product123"
+          },
+          {
+            "product_id": "Pdg-Francenel-product65"
+          }
+        ]
+      },
+      "product123": {
+        "discount_percent": 20,
+        "items": [
+          {
+            "product_id": "Pdg-Francenel-product121"
+          },
+          {
+            "product_id": "Pdg-Francenel-product122"
+          },
+          {
+            "product_id": "Pdg-Francenel-product66"
+          }
+        ]
       }
     },
     "cart_page_upsell": {
@@ -20226,14 +20708,17 @@
         "Pdg-Francenel-product78",
         "Pdg-Francenel-product76",
         "Pdg-Francenel-product112",
+        "Pdg-Francenel-product119",
         "Pdg-Francenel-product2",
         "Pdg-Francenel-product7",
         "Pdg-Francenel-product12",
+        "Pdg-Francenel-product123",
         "Pdg-Francenel-product35",
         "Pdg-Francenel-product118",
         "Pdg-Francenel-product56",
         "Pdg-Francenel-product51",
         "Pdg-Francenel-product49",
+        "Pdg-Francenel-product122",
         "Pdg-Francenel-product114",
         "Pdg-Francenel-product47",
         "Pdg-Francenel-product62",
@@ -20265,9 +20750,11 @@
         "Pdg-Francenel-product101",
         "Pdg-Francenel-product77",
         "Pdg-Francenel-product47",
+        "Pdg-Francenel-product119",
         "Pdg-Francenel-product106",
         "Pdg-Francenel-product32",
         "Pdg-Francenel-product11",
+        "Pdg-Francenel-product121",
         "Pdg-Francenel-product5",
         "Pdg-Francenel-product46",
         "Pdg-Francenel-product34",
@@ -20354,12 +20841,15 @@
         "Pdg-Francenel-product76",
         "Pdg-Francenel-product84",
         "Pdg-Francenel-product77",
+        "Pdg-Francenel-product119",
         "Pdg-Francenel-product97",
         "Pdg-Francenel-product1",
         "Pdg-Francenel-product35",
+        "Pdg-Francenel-product121",
         "Pdg-Francenel-product81",
         "Pdg-Francenel-product52",
         "Pdg-Francenel-product7",
+        "Pdg-Francenel-product123",
         "Pdg-Francenel-product39",
         "Pdg-Francenel-product90",
         "Pdg-Francenel-product56",
@@ -20542,6 +21032,11 @@
           "cta_label": "Discover Beauty →",
           "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Curvy_Beauty.png?v=1777936945",
           "product_ids": [
+            "Pdg-Francenel-product121",
+            "Pdg-Francenel-product119",
+            "Pdg-Francenel-product123",
+            "Pdg-Francenel-product122",
+            "Pdg-Francenel-product120",
             "-- NAILS --",
             "Pdg-Francenel-product52",
             "Pdg-Francenel-product53",
@@ -20560,14 +21055,19 @@
             "Pdg-Francenel-product62",
             "Pdg-Francenel-product63",
             "-- SKINCARE --",
+            "Pdg-Francenel-product121",
             "Pdg-Francenel-product64",
+            "Pdg-Francenel-product119",
             "Pdg-Francenel-product65",
             "Pdg-Francenel-product66",
+            "Pdg-Francenel-product123",
             "Pdg-Francenel-product67",
-            "Pdg-Francenel-product68"
+            "Pdg-Francenel-product122",
+            "Pdg-Francenel-product68",
+            "Pdg-Francenel-product120"
           ],
           "stat_label": "Beauty Products",
-          "stat_value": "17 styles",
+          "stat_value": "Glow Your skin",
           "name": "Curvy Beauty",
           "quote": "Glow from the inside out — beauty made for you.",
           "featured": true
@@ -20714,10 +21214,15 @@
             "Pdg-Francenel-product62",
             "Pdg-Francenel-product63",
             "-- BEAUTY : SKINCARE --",
+            "Pdg-Francenel-product119",
+            "Pdg-Francenel-product120",
             "Pdg-Francenel-product64",
             "Pdg-Francenel-product65",
+            "Pdg-Francenel-product121",
             "Pdg-Francenel-product66",
+            "Pdg-Francenel-product122",
             "Pdg-Francenel-product67",
+            "Pdg-Francenel-product123",
             "Pdg-Francenel-product68",
             "--BBW ORIGINAL:COMINGSOON--",
             "Pdg-Francenel-product98",
@@ -20788,6 +21293,11 @@
           "cta_label": "Shop New Arrivals →",
           "image": "https://cdn.shopify.com/s/files/1/0746/5346/6724/files/New_arrivals.png?v=1781828071",
           "product_ids": [
+            "Pdg-Francenel-product121",
+            "Pdg-Francenel-product119",
+            "Pdg-Francenel-product123",
+            "Pdg-Francenel-product122",
+            "Pdg-Francenel-product120",
             "Pdg-Francenel-product76",
             "Pdg-Francenel-product77",
             "Pdg-Francenel-product111",
@@ -20908,11 +21418,13 @@
         "Pdg-Francenel-product78",
         "Pdg-Francenel-product82",
         "Pdg-Francenel-product85",
+        "Pdg-Francenel-product119",
         "Pdg-Francenel-product90",
         "Pdg-Francenel-product96",
         "Pdg-Francenel-product97",
         "Pdg-Francenel-product77",
         "Pdg-Francenel-product83",
+        "Pdg-Francenel-product122",
         "Pdg-Francenel-product94",
         "Pdg-Francenel-product79",
         "Pdg-Francenel-product1",
@@ -21688,11 +22200,13 @@
         "Pdg-Francenel-product97",
         "Pdg-Francenel-product81",
         "Pdg-Francenel-product78",
+        "Pdg-Francenel-product119",
         "Pdg-Francenel-product90",
         "Pdg-Francenel-product93",
         "Pdg-Francenel-product87",
         "Pdg-Francenel-product30",
         "Pdg-Francenel-product31",
+        "Pdg-Francenel-product120",
         "Pdg-Francenel-product45",
         "Pdg-Francenel-product61",
         "Pdg-Francenel-product47",
@@ -21727,9 +22241,11 @@
         "Pdg-Francenel-product84",
         "Pdg-Francenel-product111",
         "Pdg-Francenel-product56",
+        "Pdg-Francenel-product119",
         "Pdg-Francenel-product97",
         "Pdg-Francenel-product43",
         "Pdg-Francenel-product81",
+        "Pdg-Francenel-product123",
         "Pdg-Francenel-product116",
         "Pdg-Francenel-product59",
         "Pdg-Francenel-product14",
@@ -21738,6 +22254,7 @@
         "Pdg-Francenel-product113",
         "Pdg-Francenel-product90",
         "Pdg-Francenel-product36",
+        "Pdg-Francenel-product120",
         "Pdg-Francenel-product93",
         "Pdg-Francenel-product68",
         "Pdg-Francenel-product87",
@@ -21861,6 +22378,6 @@
         }
       ]
     },
-    "use_pretty_urls": "no"
+    "use_pretty_urls": "yes"
   }
 ]
