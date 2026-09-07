@@ -1247,6 +1247,129 @@ function showErrorPopup(message) {
     mainSlider.querySelector('.prev').onclick = () => changeMainImage('prev');
     mainSlider.querySelector('.next').onclick = () => changeMainImage('next');
     initMediaCounter(mainSlider, media.length);
+    initMediaAutoSlider(mainSlider, media.length);
+  }
+
+  // ════════════════════════════════════════════════
+  //   AUTO SLIDER — fait défiler automatiquement les images du produit.
+  //   Règles (toutes vérifiées ensemble, une seule source d'état par
+  //   page produit — pas de re-création multiple de timers) :
+  //   1. Stoppe pendant le zoom (loupe desktop au survol du slider, OU
+  //      modal plein écran mobile) — reprend 10s après la fin du zoom.
+  //   2. Stoppe DÉFINITIVEMENT dès qu'une couleur est sélectionnée (le
+  //      bloc "boules" de couleur) — pas de reprise pour cette page.
+  //   3. Démarre 10s après l'arrivée sur la page produit ; ce délai ne
+  //      s'écoule pas pendant que l'onglet est en arrière-plan.
+  //   4. Reprend au bon moment selon le device (mobile: fermeture du
+  //      modal ; desktop: la souris quitte le slider / arrête de
+  //      "loupe" l'image).
+  //   5. Stoppe dès qu'un slide manuel a lieu (flèches, miniatures,
+  //      swipe mobile) et reprend 10s après le dernier slide manuel.
+  //
+  //   Un seul setTimeout/setInterval vit à la fois : chaque fonction qui
+  //   pourrait re-déclencher un démarrage passe par armStart(), qui clear
+  //   systématiquement tout timer existant avant d'en poser un nouveau —
+  //   pas de risque de deux intervalles indépendants comme rencontré une
+  //   précédente fois avec un double listener load/error sur la même image.
+  // ════════════════════════════════════════════════
+  function initMediaAutoSlider(mainSlider, totalMedia) {
+    if (!mainSlider || totalMedia <= 1) return;
+    const settings = (window.__allProducts || []).find(p => p.type === 'settings') || {};
+    const autoSliderOn = (settings.media_auto_slider || 'no').toLowerCase().trim() === 'yes';
+    if (!autoSliderOn) return;
+    const AUTO_SLIDER_DELAY = 10000;
+    const AUTO_SLIDER_INTERVAL = 4500;
+
+    let startTimerId = null;
+    let intervalId = null;
+    let colorLocked = false;     // règle 2 : verrou permanent, jamais levé
+    let zoomActive = false;      // règle 1/4 : zoom desktop ou mobile en cours
+
+    function stopInterval() {
+      if (intervalId) { clearInterval(intervalId); intervalId = null; }
+    }
+    function cancelStartTimer() {
+      if (startTimerId) { clearTimeout(startTimerId); startTimerId = null; }
+    }
+    // Coupe tout, sans rien reprogrammer — utilisé pour le verrou couleur
+    // et pour l'arrêt le temps que l'onglet est en arrière-plan.
+    function haltAll() {
+      cancelStartTimer();
+      stopInterval();
+    }
+    function tick() {
+      if (document.hidden || zoomActive || colorLocked) return;
+      const images = mainSlider.querySelectorAll('.main-image');
+      if (!images.length) return;
+      const activeContainer = images[currentMainIndex];
+      if (activeContainer && activeContainer.dataset.isVideo === '1') return; // ne coupe pas une vidéo en lecture
+      changeMainImage('next', { auto: true });
+    }
+    // Arme (ou réarme) le délai de 10s avant le premier tick. Toujours
+    // appelée à travers ce point d'entrée unique — jamais deux fois en
+    // parallèle car cancelStartTimer() est systématique avant repose.
+    function armStart() {
+      if (colorLocked || document.hidden || zoomActive) return;
+      cancelStartTimer();
+      stopInterval();
+      startTimerId = setTimeout(() => {
+        startTimerId = null;
+        if (colorLocked || document.hidden || zoomActive) return;
+        stopInterval();
+        intervalId = setInterval(tick, AUTO_SLIDER_INTERVAL);
+      }, AUTO_SLIDER_DELAY);
+    }
+
+    // Règle 3 : démarrage 10s après l'arrivée sur la page produit — armé
+    // une seule fois ici, au moment où le slider est prêt (pas besoin
+    // d'attendre le chargement de l'image : le délai de 10s laisse de
+    // toute façon largement le temps à l'image déjà en cours d'affichage
+    // de finir de charger).
+    armStart();
+
+    // Règle 3 (suite) : le compteur de 10s ne doit pas avancer en
+    // arrière-plan. On coupe tout à la mise en arrière-plan, et on
+    // repart d'un délai complet de 10s au retour (sauf verrous actifs).
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        haltAll();
+      } else {
+        armStart();
+      }
+    });
+
+    // Règle 2 : une couleur choisie coupe tout, définitivement.
+    window.__bbwLockMediaAutoSliderForColor = function () {
+      colorLocked = true;
+      haltAll();
+    };
+
+    // Règle 1/4 : zoom desktop (loupe au survol) et zoom mobile (modal
+    // plein écran) partagent le même verrou temporaire — l'un ou l'autre
+    // suffit à couper, et la fin de l'un ou l'autre programme la reprise
+    // dans 10s (sauf si l'autre zoom est encore actif, ou couleur verrouillée).
+    function onZoomStart() {
+      if (zoomActive) return;
+      zoomActive = true;
+      haltAll();
+    }
+    function onZoomEnd() {
+      if (!zoomActive) return;
+      zoomActive = false;
+      if (!colorLocked) armStart();
+    }
+    window.__bbwMediaAutoSliderZoomStart = onZoomStart;
+    window.__bbwMediaAutoSliderZoomEnd = onZoomEnd;
+
+    // Règle 5 : un slide manuel (flèches, miniatures, swipe) coupe tout et
+    // reprend 10s après le DERNIER slide manuel — armStart() réarme déjà
+    // un délai complet de 10s à chaque appel, donc il suffit de le
+    // rappeler à chaque slide manuel pour repousser la reprise à chaque fois.
+    window.__bbwMediaAutoSliderManualSlide = function () {
+      if (colorLocked || zoomActive) return; // ces verrous restent prioritaires
+      haltAll();
+      armStart();
+    };
   }
 
   // ════════════════════════════════════════════════
@@ -1283,7 +1406,14 @@ function showErrorPopup(message) {
   // Nombre de cartes visibles empilées derrière l'image active (cf. pile de
   // cartes en profondeur en bas-gauche) ; au-delà, data-depth="hidden".
   const STACK_VISIBLE_DEPTH = 2;
-  function changeMainImage(dir) {
+  // `opts.auto` distingue un défilement déclenché par l'auto slider d'un
+  // vrai slide manuel (flèches, miniatures, swipe) — seul le second doit
+  // couper puis reprogrammer l'auto slider (règle 5).
+  function changeMainImage(dir, opts) {
+    const isAutoSlide = !!(opts && opts.auto);
+    if (!isAutoSlide && typeof window.__bbwMediaAutoSliderManualSlide === 'function') {
+      window.__bbwMediaAutoSliderManualSlide();
+    }
     const images = document.querySelectorAll('#main-image-slider .main-image');
     const thumbs = document.querySelectorAll('#product-thumbnails .thumbnail-item');
     if (!images.length) return;
@@ -3665,6 +3795,9 @@ function showErrorPopup(message) {
                 colorContainer.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
                 swatch.classList.add('active');
                 updateProductPrice();
+                if (typeof window.__bbwLockMediaAutoSliderForColor === 'function') {
+                  window.__bbwLockMediaAutoSliderForColor();
+                }
               });
               // Le tooltip (::after, "content: attr(data-color)") est centré
               // sur le swatch par défaut — au survol, on mesure sa position
@@ -3824,10 +3957,16 @@ function showErrorPopup(message) {
               pane.style.left = (rect.right + 24) + 'px';
               lens.classList.add('is-active');
               pane.classList.add('is-active');
+              if (typeof window.__bbwMediaAutoSliderZoomStart === 'function') {
+                window.__bbwMediaAutoSliderZoomStart();
+              }
             };
             const hideZoom = () => {
               lens.classList.remove('is-active');
               pane.classList.remove('is-active');
+              if (typeof window.__bbwMediaAutoSliderZoomEnd === 'function') {
+                window.__bbwMediaAutoSliderZoomEnd();
+              }
             };
             const moveZoom = (e) => {
               if (e.target.closest('.slider-arrow')) { hideZoom(); return; }
@@ -3866,6 +4005,9 @@ function showErrorPopup(message) {
             updateTransform(false);
             if (modalImg.complete) calculateBounds();
             else modalImg.onload = calculateBounds;
+            if (typeof window.__bbwMediaAutoSliderZoomStart === 'function') {
+              window.__bbwMediaAutoSliderZoomStart();
+            }
           }
 
           mainImages.forEach(container => {
@@ -3905,6 +4047,9 @@ function showErrorPopup(message) {
               wasZoomedIn = false;
               scale = 1; translateX = 0; translateY = 0;
               modalImg.style.transform = '';
+              if (typeof window.__bbwMediaAutoSliderZoomEnd === 'function') {
+                window.__bbwMediaAutoSliderZoomEnd();
+              }
             };
             closeBtn.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
@@ -17021,7 +17166,8 @@ function injectColFbt() {
     '.cart-item-img-wrap, .cp-item-img-wrap, .drawer-extra-card__img-wrap, .cp-extra-card__img-wrap, ' +
     '.highlight-product-card, .product-card, ' +
     '.bbw-nb-card__media, .jrgq-gal-img-wrap, .imq-card, ' +
-    '.col-hero__media, .col-qv-media, .cf-pc-img-wrap';
+    '.col-hero__media, .col-qv-media, .cf-pc-img-wrap, ' +
+    '.main-image, .thumbnail-item';
   const IMG_WRAP_SELECTORS = '.col-rv-card__img, .col-fbt-card__img';
   /* Conteneurs mixtes (image + texte côte à côte, ex: flex) : on entoure
      seulement l'<img> d'un wrapper dédié, pour ne pas recouvrir le texte. */

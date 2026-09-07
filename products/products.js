@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
           sw.dataset.color = col.name;
           sw.dataset.image = col.image;
           sw.dataset.variantId = col.variant_id;
-          if (index === 0) sw.classList.add('active');
           if (index >= SWATCH_VISIBLE_LIMIT) sw.classList.add('swatch-extra');
           colorContainer.appendChild(sw);
         });
@@ -56,10 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleBtn.setAttribute('aria-label', expanded ? 'Show fewer colors' : 'Show more colors');
           });
           colorContainer.appendChild(toggleBtn);
-        }
-
-        if (product.colors[0] && product.colors[0].image) {
-          updateMainImageForColor(product.colors[0].image);
         }
 
         setupColorListeners();
@@ -90,6 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
         swatch.classList.add('active');
         const imageUrl = swatch.dataset.image;
         if (imageUrl) updateMainImageForColor(imageUrl);
+        // Une couleur choisie arrête définitivement l'auto slider (script.js,
+        // initMediaAutoSlider) — ce fichier construit ses propres swatches
+        // indépendamment de script.js (fetch séparé de products.data.json),
+        // donc ce hook doit être posé ici aussi, pas seulement là-bas.
+        if (typeof window.__bbwLockMediaAutoSliderForColor === 'function') {
+          window.__bbwLockMediaAutoSliderForColor();
+        }
       });
     });
   }

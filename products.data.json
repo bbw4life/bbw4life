@@ -17973,6 +17973,7 @@
     "thumbnails_mobile_horizontal": "yes",
     "thumbnails_mobile_vertical_left": "no",
     "sticky_media_mobile": "no",
+    "media_auto_slider": "yes",
     "swatch_scroll_mobile": "yes",
     "sticky_atc_mobile_threshold": 10,
     "sticky_atc_mobile_threshold_bbw_features": 8,
@@ -18168,7 +18169,7 @@
       "banner_slide_duration_ms": 5000
     },
     "preloader": {
-      "show": "yes",
+      "show": "no",
       "style_pulse_logo": "no",
       "style_progress_bar": "no",
       "style_spinner_ring": "no",

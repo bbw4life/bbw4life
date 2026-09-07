@@ -245,7 +245,7 @@
     transform: scale(1.03);
     box-shadow: 0 6px 18px rgba(184,146,90,0.22);
 }
-.thumbnail-item img,
+.thumbnail-item img:not(.bbw-card-preload-logo),
 .thumbnail-item video {
     width: 84px !important;
     height: 84px !important;
@@ -261,7 +261,7 @@
 .thumbnail-item video {
     object-fit: cover;
 }
-.thumbnail-item.active img,
+.thumbnail-item.active img:not(.bbw-card-preload-logo),
 .thumbnail-item.active video {
     border: 2px solid var(--bbw-gold);
     box-shadow: 0 0 0 3px rgba(184,146,90,0.16);

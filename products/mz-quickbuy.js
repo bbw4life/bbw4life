@@ -25,7 +25,15 @@
     const modal      = document.getElementById('media-zoom-modal');
     const modalImg    = document.getElementById('modal-zoom-image');
     const quickbuy    = document.getElementById('mzQuickbuy');
-    if (!modal || !modalImg || !quickbuy) return;
+    const mainSlider0 = document.getElementById('main-image-slider');
+    if (!modal || !modalImg) return;
+
+    // Swipe entre images : indépendant du panneau quickbuy — certaines
+    // pages (BBW Features) gardent le zoom plein écran mais retirent
+    // #mzQuickbuy volontairement (pas de bouton d'achat rapide dessus).
+    initSwipeBetweenImages(modal, modalImg, mainSlider0);
+
+    if (!quickbuy) return;
 
     const realQtyInput   = document.querySelector('.quantity-add-wrapper .quantity input');
     const realSizeSelect = document.getElementById('size-select');
@@ -176,10 +184,15 @@
     });
     modalObserver.observe(modal, { attributes: true, attributeFilter: ['class'] });
 
-    /* ── Swipe entre images (uniquement si scale === 1, cf. en-tête) ──
-       On lit la transform actuelle de #modal-zoom-image pour savoir si
-       elle est zoomée, plutôt que de dupliquer la variable `scale`
-       interne à script.js (fermée dans une IIFE, non exposée). ── */
+  });
+
+  /* ── Swipe entre images dans le zoom plein écran (uniquement si
+     scale === 1, cf. en-tête) — indépendant du panneau quickbuy, actif
+     sur toute page ayant #media-zoom-modal, avec ou sans #mzQuickbuy.
+     On lit la transform actuelle de #modal-zoom-image pour savoir si
+     elle est zoomée, plutôt que de dupliquer la variable `scale`
+     interne à script.js (fermée dans une IIFE, non exposée). ── */
+  function initSwipeBetweenImages(modal, modalImg, mainSlider) {
     function isZoomed() {
       const t = modalImg.style.transform || '';
       const m = t.match(/scale\(([\d.]+)\)/);
@@ -216,5 +229,5 @@
       const rawSrc = activeImg.currentSrc || activeImg.src;
       modalImg.src = typeof upgradeShopifyImageUrl === 'function' ? upgradeShopifyImageUrl(rawSrc, 1400) : rawSrc;
     }, { passive: true });
-  });
+  }
 })();

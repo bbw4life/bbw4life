@@ -567,7 +567,7 @@ body {
   /* Ne doit jamais dépasser --bbw-header-h : un logo plus grand que le
      header déborde visuellement (et reste cliquable) par-dessus le
      breadcrumb juste en dessous, ce qui bloque les clics dessus. */
-  height: 90px;
+  height: 95px;
   width: auto;
   object-fit: contain;
   transition: var(--bbw-transition);

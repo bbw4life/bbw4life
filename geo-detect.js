@@ -607,11 +607,82 @@
     '.product-price .current-price',
     '.product-price .compare-price',
     '.price-wrapper .current-price',
-    '.price-wrapper .compare-price',
+    '.price-wrapper .compare-price'
+  ].join(', ');
+
+  /* Sélecteurs "nombre nu" : le span ne contient que le chiffre — le
+     symbole $ (s'il existe) est un caractère HTML statique juste avant,
+     en dehors du span (ex: "Over $<span class="marquee-free-shipping">
+     140</span>"). extractUSD/convertElement exigent un "$" DANS le
+     textContent, donc ces éléments ne sont jamais convertis par le
+     mécanisme normal — traités séparément ci-dessous. */
+  var BARE_NUMBER_SELECTORS = [
     '.marquee-free-shipping',
     '.col-marquee-free-shipping',
-    '.hdr-free-shipping-threshold'
+    '.hdr-free-shipping-threshold',
+    '[data-aff-jackpot]',
+    '[data-aff-jackpot-badge]',
+    '[data-shipping-threshold]'
   ].join(', ');
+
+  function convertBareNumberElement(el, rate, symbol, currencyCode) {
+    if (currencyCode === 'USD') {
+      if (el.dataset.usdBare && el.textContent !== el.dataset.usdBare) {
+        el.textContent = el.dataset.usdBare;
+      }
+      return;
+    }
+    var raw = el.dataset.usdBare;
+    if (raw === undefined) {
+      raw = (el.textContent || '').replace(/[^\d.]/g, '');
+      if (!raw) return;
+      el.dataset.usdBare = raw;
+    }
+    var usd = parseFloat(raw);
+    if (isNaN(usd) || usd <= 0) return;
+
+    // Neutralise le "$" littéral statique juste avant le span (texte libre
+    // dans le même parent) pour éviter un double symbole ("$€ 130") — le
+    // span devient la seule source du symbole affiché. Fait une seule
+    // fois (marqué par prevDollarRemoved) : ce même appel est redéclenché
+    // en boucle par le MutationObserver qui nous a fait démarrer (chaque
+    // écriture DOM ci-dessous est elle-même une mutation), donc il ne
+    // faut jamais retester /\$\s*$/ après coup — il ne matchera plus une
+    // fois le "$" retiré, et on retomberait sur le nombre seul sans symbole.
+    if (el.dataset.prevDollarRemoved !== '1') {
+      var prev = el.previousSibling;
+      if (prev && prev.nodeType === Node.TEXT_NODE && /\$\s*$/.test(prev.nodeValue)) {
+        prev.nodeValue = prev.nodeValue.replace(/\$\s*$/, '');
+      }
+      el.dataset.prevDollarRemoved = '1';
+    }
+
+    var converted = usd * rate;
+    var formatted = converted < 1000 ? Math.round(converted) : Math.round(converted).toLocaleString();
+    var newText = symbol + formatted;
+    if (el.textContent !== newText) el.textContent = newText;
+  }
+
+  function convertBareNumbersForCountry(rate, symbol, currencyCode) {
+    document.querySelectorAll(BARE_NUMBER_SELECTORS).forEach(function(el) {
+      convertBareNumberElement(el, rate, symbol, currencyCode);
+    });
+  }
+
+  function resetBareNumbersToUSD() {
+    document.querySelectorAll(BARE_NUMBER_SELECTORS).forEach(function(el) {
+      if (el.dataset.usdBare && el.textContent !== el.dataset.usdBare) {
+        el.textContent = el.dataset.usdBare;
+      }
+      if (el.dataset.prevDollarRemoved === '1') {
+        var prev = el.previousSibling;
+        if (prev && prev.nodeType === Node.TEXT_NODE && !/\$\s*$/.test(prev.nodeValue)) {
+          prev.nodeValue = prev.nodeValue + '$';
+        }
+        delete el.dataset.prevDollarRemoved;
+      }
+    });
+  }
 
   function convertAllPrices(rate, symbol, currencyCode) {
     
@@ -715,6 +786,7 @@
               el.dataset.converted = country;
             }
           });
+          convertBareNumbersForCountry(r, sym, code);
         });
       }, 50);
     });
@@ -758,13 +830,14 @@
     });
 
     if (code === 'USD') {
-      
+
       document.querySelectorAll(PRICE_SELECTORS).forEach(function(el) {
         if (el.dataset.usd) {
           el.textContent = '$' + parseFloat(el.dataset.usd).toFixed(2);
           delete el.dataset.usd;
         }
       });
+      resetBareNumbersToUSD();
       _observerStarted = false;
       return;
     }
@@ -776,18 +849,19 @@
         return;
       }
 
-      
+
       convertAllPrices(rate, symbol, code);
       document.querySelectorAll(PRICE_SELECTORS).forEach(function(el) {
         el.dataset.converted = countryCode;
       });
+      convertBareNumbersForCountry(rate, symbol, code);
 
-      
+
       _observerStarted = false;
       startPriceObserver(rate, symbol, code);
     });
 
-    
+
     [500, 1000, 2000, 3000, 5000, 8000, 12000].forEach(function(delay) {
       setTimeout(function() {
         if (_activeCountry !== countryCode) return;
@@ -800,6 +874,7 @@
               el.dataset.converted = countryCode;
             }
           });
+          convertBareNumbersForCountry(r, symbol, code);
         });
       }, delay);
     });
