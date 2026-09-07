@@ -88,19 +88,10 @@
 
 
 html {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
-/* overflow-x:hidden retiré de body : présent sur <html> ci-dessus, ça
-   suffit à bloquer le scroll horizontal. Le garder aussi sur <body>
-   cassait position:sticky pour ses descendants (ex: #bc-nav). */
-/* Le body réserve dès le premier paint l'espace du header fixe
-   (padding-top: var(--bbw-total-top), header.css) — mais ce header est
-   injecté en JS de façon asynchrone (layout-loader.js fetch header.html).
-   Le temps de ce fetch, ce padding existe déjà sans rien peint dessus :
-   fond body par défaut du navigateur = blanc, ce qui donne un grand bloc
-   blanc au-dessus du contenu au chargement/refresh. On donne au body la
-   couleur du header le temps qu'il s'injecte réellement dessus. */
+
 body {
   margin: 0;
   padding: 0;
@@ -1136,8 +1127,9 @@ body {
 
 /* Badge remise : or discret plutôt que rose vif */
 .bbwpg-section--v2 .bbwpg-card__discount {
-  background: var(--bbw-rose) !important;
-  color: #fff !important;
+  background: #F6EFE5 !important;
+  color: var(--bbw-gold) !important;
+  border: 1px solid var(--bbw-gold) !important;
   box-shadow: none !important;
   border-radius: 2px !important;
 }
@@ -8234,8 +8226,9 @@ body.sr-page .bbw-search-dropdown {
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
-  background: var(--bbw-rose);
-  color: #fff;
+  background: #F6EFE5;
+  color: var(--bbw-gold);
+  border: 1px solid var(--bbw-gold);
   padding: 5px 14px;
   border-radius: 2px;
   letter-spacing: 0.03em;
@@ -10465,8 +10458,9 @@ body.sr-page .bbw-search-dropdown {
   position: absolute;
   top: 12px;
   left: 12px;
-  background: var(--bbw-rose);
-  color: #ffffff;
+  background: #F6EFE5;
+  color: var(--bbw-gold);
+  border: 1px solid var(--bbw-gold);
   font-size: 10px;
   font-weight: 700;
   padding: 4px 10px;

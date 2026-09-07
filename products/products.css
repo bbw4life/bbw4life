@@ -1265,9 +1265,9 @@
     flex-shrink: 0;
 }
 .product-discount-badge {
-    background: #15110E;
+    background: #F6EFE5;
     color: var(--bbw-gold);
-    border: 1px solid rgba(184,146,90,0.50);
+    border: 1px solid var(--bbw-gold);
     padding: 5px 14px;
     border-radius: 100px;
     font-size: 0.83rem;
@@ -3299,7 +3299,7 @@ details[open] .chevron {
         border-radius: 16px !important;
     }
     .product-content > * { max-width: 100% !important; box-sizing: border-box !important; }
-    .paul-main-title { font-size: 18px; }
+    .paul-main-title { font-size: 16px; }
 }
 
 
@@ -4563,8 +4563,8 @@ details[open] .chevron {
     position: absolute !important;
     top: 7px !important;
     left: 7px !important;
-    background: var(--bbw-black) !important;
-    color: var(--bbw-gold-light) !important;
+    background: #F6EFE5 !important;
+    color: var(--bbw-gold) !important;
     padding: 3px 9px !important;
     font-size: 10px !important;
     border-radius: 100px !important;
@@ -4572,7 +4572,7 @@ details[open] .chevron {
     font-weight: 700 !important;
     font-family: var(--font-body, sans-serif) !important;
     letter-spacing: 0.06em !important;
-    border: 1px solid rgba(184,146,90,0.30) !important;
+    border: 1px solid var(--bbw-gold) !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
 }
 
@@ -5151,6 +5151,53 @@ details[open] .chevron {
     }
 }
 
+/* Flèches de navigation manuelle dans le zoom plein écran mobile — même
+   fonction que le swipe déjà présent (mz-quickbuy.js, initSwipeBetweenImages),
+   juste un déclencheur alternatif pour les clients qui préfèrent taper.
+   Design volontairement différent des flèches .slider-arrow du slider
+   principal (cercle plein ivoire) : ici un simple chevron sur verre
+   dépoli sombre, cohérent avec le fond noir du modal. Masquées pendant
+   le zoom (même règle que .mz-zoom-badge) — le swipe/clic sert alors à
+   déplacer l'image zoomée, pas à changer d'image. */
+.mz-nav-arrow {
+    display: none;
+}
+@media (max-width: 768px) {
+    .mz-nav-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: rgba(21,17,14,0.40);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        border: 1px solid rgba(255,255,255,0.22);
+        color: rgba(255,255,255,0.85);
+        cursor: pointer;
+        z-index: 10001;
+        opacity: 1;
+        transition: opacity 0.18s ease, background 0.18s ease;
+    }
+    .mz-nav-arrow:active {
+        background: rgba(21,17,14,0.60);
+    }
+    .mz-nav-arrow svg {
+        width: 16px;
+        height: 16px;
+    }
+    .mz-nav-prev { left: 10px; }
+    .mz-nav-next { right: 10px; }
+    #media-zoom-modal.mz-zoomed-in .mz-nav-arrow {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
 /* ================================================================
    MEDIA ZOOM — QUICK BUY MOBILE
    Panneau quantité/add-to-cart/taille/couleur affiché sous l'image en
@@ -5702,8 +5749,8 @@ details[open] .chevron {
     .satc-field--qty { flex: 0 0 auto !important; min-width: 0 !important; order: 3 !important; }
 
     .sticky-atc__actions { display: contents !important; }
-    #satc-buy-btn { order: 4 !important; flex: 1 1 0 !important; min-width: 0 !important; width: auto !important; }
-    #satc-add-btn { order: 5 !important; flex-basis: 100% !important; }
+    #satc-add-btn { order: 4 !important; flex: 1 1 0 !important; min-width: 0 !important; width: auto !important; }
+    #satc-buy-btn { order: 5 !important; flex-basis: 100% !important; }
 
     .sticky-atc__btn { width: 100% !important; justify-content: center !important; height: 46px !important; font-size: 15px !important; }
 
@@ -6018,8 +6065,9 @@ body:has(.product-section) .bbw-footer {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: linear-gradient(135deg, var(--bbw-gold), var(--bbw-gold-light));
-  color: #15110E;
+  background: #F6EFE5;
+  color: var(--bbw-gold);
+  border: 1px solid var(--bbw-gold);
   font-size: 0.58rem;
   font-weight: 800;
   padding: 2px 7px;
@@ -6110,8 +6158,9 @@ body:has(.product-section) .bbw-footer {
 .rv-card__discount-inline {
   font-size: 0.62rem;
   font-weight: 700;
-  color: #8a6018;
-  background: rgba(184,146,90,0.14);
+  color: var(--bbw-gold);
+  background: #F6EFE5;
+  border: 1px solid var(--bbw-gold);
   border-radius: 100px;
   padding: 1px 6px;
   letter-spacing: 0.04em;
@@ -6572,14 +6621,14 @@ body:has(.product-section) .bbw-footer {
     transform: scale(1.05);
 }
 
-/* Discount badge — top-left, burgundy pill */
+/* Discount badge — top-left */
 .pdp-grid-card__discount {
     position: absolute;
     top: 10px;
     left: 10px;
     z-index: 3;
-    background: var(--bbw-rose, #6E2439);
-    color: #fff;
+    background: #F6EFE5;
+    color: var(--bbw-gold);
     font-family: var(--font-body, sans-serif);
     font-size: 11px;
     font-weight: 700;
@@ -6587,7 +6636,7 @@ body:has(.product-section) .bbw-footer {
     padding: 4px 10px;
     border-radius: 100px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    border: 1px solid rgba(255,255,255,0.25);
+    border: 1px solid var(--bbw-gold);
 }
 
 /* Text badge — own row above the image, e.g. "⚡ Speedy Shipping" */

@@ -199,6 +199,22 @@
       return m ? parseFloat(m[1]) > 1.01 : false;
     }
 
+    // Réutilisée par le swipe tactile ET les flèches de navigation
+    // manuelle (mz-nav-prev/next) — même logique, deux déclencheurs.
+    function goToImage(dir) {
+      if (typeof window.changeMainImage !== 'function') return;
+      // Réutilise intégralement la navigation du slider principal (gère
+      // miniatures, compteur, vidéos) — dir 'next'/'prev' comme un
+      // carrousel classique.
+      window.changeMainImage(dir);
+      if (!mainSlider) return;
+      const activeContainer = mainSlider.querySelector('.main-image.active');
+      const activeImg = activeContainer ? activeContainer.querySelector('img') : null;
+      if (!activeImg) return;
+      const rawSrc = activeImg.currentSrc || activeImg.src;
+      modalImg.src = typeof upgradeShopifyImageUrl === 'function' ? upgradeShopifyImageUrl(rawSrc, 1400) : rawSrc;
+    }
+
     let swipeStartX = 0, swipeStartY = 0, swiping = false;
 
     modalImg.addEventListener('touchstart', function (e) {
@@ -217,17 +233,28 @@
       const dy = endY - swipeStartY;
       const SWIPE_THRESHOLD = 40;
       if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
-      if (typeof window.changeMainImage !== 'function') return;
-      // Réutilise intégralement la navigation du slider principal (gère
-      // miniatures, compteur, vidéos) — swipe gauche = image suivante,
-      // droite = précédente, comme un carrousel classique.
-      window.changeMainImage(dx < 0 ? 'next' : 'prev');
-      if (!mainSlider) return;
-      const activeContainer = mainSlider.querySelector('.main-image.active');
-      const activeImg = activeContainer ? activeContainer.querySelector('img') : null;
-      if (!activeImg) return;
-      const rawSrc = activeImg.currentSrc || activeImg.src;
-      modalImg.src = typeof upgradeShopifyImageUrl === 'function' ? upgradeShopifyImageUrl(rawSrc, 1400) : rawSrc;
+      goToImage(dx < 0 ? 'next' : 'prev');
     }, { passive: true });
+
+    // Flèches manuelles gauche/droite — visibles seulement quand l'image
+    // n'est pas zoomée (masquées par CSS via #media-zoom-modal.mz-zoomed-in,
+    // même règle que .mz-zoom-badge), mais on bloque aussi le clic ici en
+    // filet de sécurité si jamais elles restaient cliquables.
+    const navPrev = modal.querySelector('.mz-nav-prev');
+    const navNext = modal.querySelector('.mz-nav-next');
+    if (navPrev) {
+      navPrev.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (isZoomed()) return;
+        goToImage('prev');
+      });
+    }
+    if (navNext) {
+      navNext.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (isZoomed()) return;
+        goToImage('next');
+      });
+    }
   }
 })();

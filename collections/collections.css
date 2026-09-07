@@ -1353,8 +1353,9 @@
 }
 
 .col-card__badge--discount {
-  background: var(--col-accent);
-  color: var(--bbw-white);
+  background: #F6EFE5;
+  color: var(--bbw-gold);
+  border: 1px solid var(--bbw-gold);
   box-shadow: none;
 }
 

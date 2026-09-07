@@ -20155,9 +20155,9 @@
       ]
     },
     "mobile_links_behavior": {
-      "hide_completely": "no",
+      "hide_completely": "yes",
       "show_all_centered": "no",
-      "two_columns_mobile": "yes"
+      "two_columns_mobile": "no"
     },
     "newsletter_auto_popup": {
       "show": "yes",
@@ -21620,12 +21620,12 @@
       ]
     },
     "content_protection": {
-      "disable_right_click": "yes",
+      "disable_right_click": "no",
       "disable_text_selection": "yes",
       "disable_image_download": "yes",
       "disable_video_download": "yes",
       "disable_copy": "yes",
-      "disable_devtools_key": "no"
+      "disable_devtools_key": "yes"
     },
     "mini_product_slider": {
       "title": "Queens And King Also Love These",
