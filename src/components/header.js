@@ -219,7 +219,12 @@
     micBtn.style.display = '';
 
     const recognition = new SpeechRecognitionCtor();
-    recognition.continuous     = false;
+    // continuous:true — sinon le navigateur coupe automatiquement
+    // l'écoute après un court silence (~2s), avant même que le client
+    // n'ait eu le temps de parler. Avec true, l'écoute continue jusqu'à
+    // ce que le client reclique lui-même sur le micro (recognition.stop()
+    // ci-dessous), ou clique/touche ailleurs (arrêt navigateur natif).
+    recognition.continuous     = true;
     // Résultats intermédiaires affichés en direct dans le champ pendant
     // que le client parle, + 3 hypothèses alternatives retenues au lieu
     // d'une seule — donne une marge d'erreur au lieu de tout miser sur
