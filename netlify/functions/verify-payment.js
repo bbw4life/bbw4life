@@ -321,7 +321,10 @@ exports.handler = async (event) => {
     cart.forEach(item => {
       const vid = item.variantsid || null;
       if (vid) {
-        if (!cartMap[vid]) cartMap[vid] = { title: item.title, price: item.price, quantity: 0, variantsid: vid };
+        // cj_product_id doit survivre à ce regroupement — sans lui, la
+        // colonne L (save-pending-order.js) reste vide pour les commandes
+        // CJ même quand il avait été correctement résolu plus haut.
+        if (!cartMap[vid]) cartMap[vid] = { title: item.title, price: item.price, quantity: 0, variantsid: vid, cj_product_id: item.cj_product_id || null };
         cartMap[vid].quantity += item.quantity;
       }
     });
