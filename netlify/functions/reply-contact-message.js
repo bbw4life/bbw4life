@@ -524,10 +524,11 @@ Write a warm, professional email body. Use ONLY the support notes as your basis.
           // ── Telegram : avertir le client qu'on lui a répondu (best effort) ──
           notifyCustomerTelegram(
             email,
-            `${firstName || 'there'}, we heard you! 💬\n\n` +
-            `<b>You got a reply from BBW4LIFE!</b>\n` +
-            `Re: <b>${subjectResp}</b>\n\n` +
-            `Check your email for our full reply — we've sent it to ${email}.`
+            (accountFirstName) =>
+              `${accountFirstName}, we heard you! 💬\n\n` +
+              `<b>You got a reply from BBW4LIFE!</b>\n` +
+              `Re: <b>${subjectResp}</b>\n\n` +
+              `Check your email for our full reply — we've sent it to ${email}.`
           ).catch(e => console.warn('[reply-contact-message] Telegram notify failed:', e.message));
         }
 

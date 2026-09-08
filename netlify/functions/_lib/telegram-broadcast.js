@@ -158,37 +158,52 @@ async function sendTelegramPhoto(chatId, photoUrl, caption) {
   }
 }
 
-/** Retrouve le TelegramChatId (colonne AK) d'un client à partir de son email
- *  (colonne C) — même logique déjà utilisée et éprouvée par le tracking de
- *  commande dans send-email-auto.js (runTrackingChecker). */
-async function getTelegramChatIdByEmail(email) {
+/** Retrouve le compte (prénom + TelegramChatId) d'un client à partir de son
+ *  email — colonne B=firstName, C=email ... AK=telegram_chat_id. Le prénom
+ *  est TOUJOURS celui du compte (créé à l'inscription), jamais celui saisi
+ *  dans un formulaire ponctuel (checkout, story, contact) qui peut différer
+ *  (ex: commande passée pour quelqu'un d'autre) — c'est le compte qui est
+ *  lié à Telegram, pas le formulaire. */
+async function getAccountByEmail(email) {
   if (!email) return null;
   try {
     const sheets = getSheetsClient();
     const spreadsheetId = getAccountsSpreadsheetId();
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: 'bbw4life-accounts!C:AK' // C=email ... AK=telegram_chat_id (index 34)
+      range: 'bbw4life-accounts!B:AK' // B=firstName, C=email ... AK=telegram_chat_id
     });
     const rows = res.data.values || [];
-    const row = rows.find(r => (r[0] || '').trim().toLowerCase() === email.trim().toLowerCase());
-    const chatId = row ? (row[34] || '').trim() : '';
-    return chatId || null;
+    const row = rows.find(r => (r[1] || '').trim().toLowerCase() === email.trim().toLowerCase()); // C - B = index 1
+    if (!row) return null;
+    return {
+      firstName: (row[0] || '').trim(),  // B - B = index 0
+      chatId:    (row[35] || '').trim()  // AK - B = index 35
+    };
   } catch (e) {
-    console.warn('[telegram-broadcast] getTelegramChatIdByEmail failed:', e.message);
+    console.warn('[telegram-broadcast] getAccountByEmail failed:', e.message);
     return null;
   }
+}
+
+/** Conservé pour compatibilité — ne renvoie que le chatId. */
+async function getTelegramChatIdByEmail(email) {
+  const account = await getAccountByEmail(email);
+  return account ? (account.chatId || null) : null;
 }
 
 /** Envoie un message Telegram à un client identifié par email, seulement
  *  s'il a lié son compte à Telegram (TelegramChatId non vide). Ne fait rien
  *  silencieusement sinon — jamais d'erreur bloquante pour l'appelant, même
- *  pattern que les autres notifications "best effort" du site. */
+ *  pattern que les autres notifications "best effort" du site.
+ *  "text" peut être une chaîne, ou une fonction (firstName) => chaîne — dans
+ *  ce 2e cas, firstName vient du COMPTE (jamais d'un formulaire ponctuel). */
 async function notifyCustomerTelegram(email, text, replyMarkup) {
-  const chatId = await getTelegramChatIdByEmail(email);
-  if (!chatId) return { sent: false, reason: 'not_linked' };
-  await sendTelegramMessage(chatId, text, replyMarkup);
-  return { sent: true, chatId };
+  const account = await getAccountByEmail(email);
+  if (!account || !account.chatId) return { sent: false, reason: 'not_linked' };
+  const finalText = typeof text === 'function' ? text(account.firstName || 'there') : text;
+  await sendTelegramMessage(account.chatId, finalText, replyMarkup);
+  return { sent: true, chatId: account.chatId };
 }
 
 async function sendTelegramMessage(chatId, text, replyMarkup) {
@@ -219,6 +234,7 @@ module.exports = {
   setCursorValue,
   sendTelegramPhoto,
   sendTelegramMessage,
+  getAccountByEmail,
   getTelegramChatIdByEmail,
   notifyCustomerTelegram
 };

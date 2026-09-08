@@ -4,6 +4,7 @@ process.removeAllListeners('warning');
 const { Resend } = require('resend');
 const { google }  = require('googleapis');
 const crypto = require('crypto');
+const { notifyCustomerTelegram } = require('./_lib/telegram-broadcast');
 
 // ════════════════════════════════════════════════════════════════
 //  ENVIRONMENT
@@ -437,22 +438,14 @@ async function runTrackingChecker(sheets, settings) {
 
       // Client lié à Telegram (bouton "Add me on Telegram") — on lui envoie
       // aussi le numéro de suivi là-bas, en plus de l'email, pour les clients
-      // qui ne consultent pas leur boîte mail de façon fiable.
+      // qui ne consultent pas leur boîte mail de façon fiable. Prénom du
+      // COMPTE (pas celui saisi au checkout, qui peut différer).
       try {
-        const accountRows = await sheetRead(sheets, process.env.SHEET_ID_BBW4LIFE_ACCOUNTS, 'bbw4life-accounts!C:AK');
-        const accountRow = accountRows.find(r => (r[0] || '').trim().toLowerCase() === email.trim().toLowerCase());
-        const clientChatId = accountRow ? (accountRow[34] || '').trim() : ''; // AK - C = index 34
-        if (clientChatId) {
-          await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({
-              chat_id:    clientChatId,
-              text:       `${firstName || 'there'}, exciting news! 🚀\n\n📦 <b>Your BBW4LIFE order has shipped!</b>\nOrder: <b>${internalOrderId}</b>\nTracking number: <b>${result.trackingNumber}</b>${result.carrier ? `\nCarrier: <b>${result.carrier}</b>` : ''}`,
-              parse_mode: 'HTML'
-            })
-          });
-        }
+        await notifyCustomerTelegram(
+          email,
+          (accountFirstName) =>
+            `${accountFirstName}, exciting news! 🚀\n\n📦 <b>Your BBW4LIFE order has shipped!</b>\nOrder: <b>${internalOrderId}</b>\nTracking number: <b>${result.trackingNumber}</b>${result.carrier ? `\nCarrier: <b>${result.carrier}</b>` : ''}`
+        );
       } catch (e) {
         console.warn('[Tracking] Client Telegram notify failed:', e.message);
       }

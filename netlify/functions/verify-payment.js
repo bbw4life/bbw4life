@@ -261,12 +261,13 @@ exports.handler = async (event) => {
       const itemsList = orderItems.map(it => `• ${it.title}${it.size ? ` (${it.size})` : ''} × ${it.quantity}`).join('\n');
       notifyCustomerTelegram(
         shipping.email,
-        `${shipping.firstName || 'there'}, you're all set! 🎉\n\n` +
-        `✅ <b>Order Confirmed!</b>\n` +
-        `Order: <b>${paymentId}</b>\n` +
-        `${itemsList}\n\n` +
-        `💰 Total: <b>$${totalAmount.toFixed(2)}</b>\n\n` +
-        `We'll notify you here as soon as it ships. Thank you for shopping with BBW4LIFE! 💕`
+        (firstName) =>
+          `${firstName}, you're all set! 🎉\n\n` +
+          `✅ <b>Order Confirmed!</b>\n` +
+          `Order: <b>${paymentId}</b>\n` +
+          `${itemsList}\n\n` +
+          `💰 Total: <b>$${totalAmount.toFixed(2)}</b>\n\n` +
+          `We'll notify you here as soon as it ships. Thank you for shopping with BBW4LIFE! 💕`
       ).catch(e => console.warn('[Telegram] order_confirm failed:', e.message));
     }
 

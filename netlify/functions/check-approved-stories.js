@@ -38,7 +38,6 @@ exports.handler = async () => {
 
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
-      const firstName = row[0] || '';
       const email     = (row[2] || '').trim();
       const status    = (row[15] || '').trim().toLowerCase();
       const notifiedAt = (row[17] || '').trim();
@@ -49,10 +48,11 @@ exports.handler = async () => {
 
       const result = await notifyCustomerTelegram(
         email,
-        `${firstName || 'there'}, the wait is over! 🌟\n\n` +
-        `<b>Your BBW4LIFE story is live!</b>\n` +
-        `Your story just got approved and published on our site — thank you for sharing your journey with the community! 💕\n\n` +
-        `Check it out on the site.`
+        (firstName) =>
+          `${firstName}, the wait is over! 🌟\n\n` +
+          `<b>Your BBW4LIFE story is live!</b>\n` +
+          `Your story just got approved and published on our site — thank you for sharing your journey with the community! 💕\n\n` +
+          `Check it out on the site.`
       );
 
       // Marquer comme notifié qu'il ait été lié à Telegram ou non — sinon
