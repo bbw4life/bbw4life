@@ -1114,6 +1114,22 @@
 
   window.addEventListener('resize', syncPromoBarHeight, { passive: true });
 
+  // Traduction (Google Translate, geo-detect.js) : réécrit le texte du DOM
+  // de façon asynchrone, bien après les mesures ci-dessus (chargement,
+  // fonts.ready, timeout 500ms) — une langue plus verbeuse que l'anglais
+  // fait passer la barre sur une ligne de plus, sans que rien ne
+  // resynchronise --promo-bar-h ensuite. Le header (position:fixed,
+  // top:--promo-bar-h) reste alors ancré à l'ancienne hauteur et se fait
+  // chevaucher par le bas de la barre agrandie. On observe le contenu du
+  // bar pour capter ce changement quel qu'en soit le déclencheur.
+  const promoBarEl = document.getElementById('promoBar');
+  if (promoBarEl && window.MutationObserver) {
+    const promoBarObserver = new MutationObserver(() => {
+      requestAnimationFrame(syncPromoBarHeight);
+    });
+    promoBarObserver.observe(promoBarEl, { childList: true, subtree: true, characterData: true });
+  }
+
 })();
 
 

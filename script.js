@@ -6285,6 +6285,19 @@ if (window.innerWidth <= 768) {
     }
     syncBcHeight();
     window.addEventListener('resize', syncBcHeight, { passive: true });
+
+    // Traduction (Google Translate, geo-detect.js) : réécrit "Home"/le
+    // titre courant de façon asynchrone, bien après cette mesure initiale
+    // — une langue plus longue que l'anglais peut faire passer le
+    // breadcrumb sur une ligne de plus sans que rien ne resynchronise
+    // --bbw-bc-h ensuite, laissant un espace vide (ou un chevauchement)
+    // entre le breadcrumb et la section suivante.
+    if (window.MutationObserver) {
+      const bcObserver = new MutationObserver(() => {
+        requestAnimationFrame(syncBcHeight);
+      });
+      bcObserver.observe(nav, { childList: true, subtree: true, characterData: true });
+    }
   }
 
   function tryBuild() {
@@ -17077,6 +17090,9 @@ function injectColFbt() {
 
     /* ── 15. Chat product cards ── */
     document.querySelectorAll('.cf-pc-img-wrap').forEach(inject);
+
+    /* ── 16. Zoom modal plein écran mobile ── */
+    inject(document.querySelector('.modal-zoom-container'));
   }
 
   /* ── Lancer quand products est prêt ── */

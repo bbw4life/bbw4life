@@ -96,6 +96,7 @@ body {
   margin: 0;
   padding: 0;
   background: var(--bbw-black, #15110E);
+  overflow-x: hidden !important;
 }
 
 /* ═══════════════════════════════════════════════
@@ -3747,6 +3748,13 @@ body {
 .cf-pc-img-wrap .bbw-watermark {
   font-size: clamp(9px, 2.5vw, 13px);
   bottom: 8%;
+}
+
+.modal-zoom-container .bbw-watermark {
+  font-size: clamp(24px, 6vw, 46px);
+  top: 70%;
+  bottom: auto;
+  z-index: 3;
 }
 
 @media (max-width: 768px) {
