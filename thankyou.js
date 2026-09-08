@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         sessionStorage.setItem("paymentVerified", verifiedId);
+        if (data.orderNumber) sessionStorage.setItem("orderNumber", data.orderNumber);
         localStorage.removeItem('cart');
 
         showSuccess();
@@ -114,14 +115,19 @@ function revealExtraSections() {
         h1.style.backgroundClip = 'text';
     }
 
-    // Order number / date — dérivés de l'identifiant de paiement déjà
-    // présent dans l'URL (session_id Stripe ou token PayPal), sans
-    // dépendre d'un champ que le backend ne renvoie pas aujourd'hui.
-    const urlParams = new URLSearchParams(window.location.search);
-    const rawId = urlParams.get('session_id') || urlParams.get('token') || '';
+    // Order number — numéro propre (BBW-100001...) renvoyé par verify-payment
+    // et gardé en sessionStorage. Repli sur l'ancien comportement (dérivé de
+    // l'ID de paiement brut) seulement si absent (très anciennes sessions).
     const orderNumberEl = document.getElementById('ty-order-number');
     if (orderNumberEl) {
-        orderNumberEl.textContent = rawId ? '#' + rawId.slice(-10).toUpperCase() : '—';
+        const savedOrderNumber = sessionStorage.getItem('orderNumber');
+        if (savedOrderNumber) {
+            orderNumberEl.textContent = savedOrderNumber;
+        } else {
+            const urlParams = new URLSearchParams(window.location.search);
+            const rawId = urlParams.get('session_id') || urlParams.get('token') || '';
+            orderNumberEl.textContent = rawId ? '#' + rawId.slice(-10).toUpperCase() : '—';
+        }
     }
     const orderDateEl = document.getElementById('ty-order-date');
     if (orderDateEl) {

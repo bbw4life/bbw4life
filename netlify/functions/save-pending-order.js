@@ -16,7 +16,8 @@ exports.handler = async (event) => {
       payment_id,
       status             = 'pending',
       fulfillment_method = 'eprolo',  // 'eprolo' ou 'cj'
-      orderTotal          = 0 
+      orderTotal          = 0,
+      orderNumber          = ''      // ← numéro de commande propre envoyé au client (BBW-100001...)
     } = body;
 
     if (!payment_id) throw new Error('Missing payment_id');
@@ -69,14 +70,15 @@ exports.handler = async (event) => {
       'paid',                                                 // P
       now,                                                    // Q
       shipping.shipping_method || 'Standard Shipping',        // R
-      '',                                                     // S ← réservé
+      '',                                                     // S ← rempli plus tard par send-email-auto.js (tracking number)
       fulfillment_method,                                     // T ← 'eprolo' ou 'cj'
       '',                                                      // U ← rempli plus tard par retry-pending-order
-      '',                                                      // V ← réservé
-      parseFloat(orderTotal) || 0                              // W ← montant total vérifié côté serveur
+      '',                                                      // V ← rempli plus tard par retry-pending-order (cj_order_id)
+      parseFloat(orderTotal) || 0,                             // W ← montant total vérifié côté serveur
+      orderNumber || ''                                        // X ← numéro de commande propre envoyé au client
     ]];
 
-    const rangesToTry = ['bbw4life-pending-orders!A:W'];
+    const rangesToTry = ['bbw4life-pending-orders!A:X'];
 
     let success = false;
     for (const range of rangesToTry) {

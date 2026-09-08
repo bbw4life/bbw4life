@@ -9,6 +9,7 @@ const {
 } = require('./temp-orders-store');
 const { getAllProductsData } = require('./_lib/pricing');
 const { notifyCustomerTelegram } = require('./_lib/telegram-broadcast');
+const { getNextOrderNumber } = require('./_lib/order-number');
 
 // PayPal ne renvoie aucun identifiant produit interne dans ses items — on le
 // retrouve après coup via le variant id (sku), pour que l'historique de
@@ -193,6 +194,18 @@ exports.handler = async (event) => {
 
     if (!paymentVerified || cart.length === 0) throw new Error("Payment verification failed or cart empty");
 
+    // ── Numéro de commande propre (BBW-100001...) envoyé au CLIENT — distinct
+    //    du payment_id Stripe/PayPal (paymentId), qui reste inchangé en
+    //    colonne C du sheet pour la traçabilité interne. Un seul numéro par
+    //    commande (pas par article), généré ici une fois. ──
+    let orderNumber;
+    try {
+      orderNumber = await getNextOrderNumber();
+    } catch (e) {
+      console.warn('[VERIFY PAYMENT] getNextOrderNumber failed, fallback to paymentId:', e.message);
+      orderNumber = paymentId;
+    }
+
     let totalAmount = 0;
     if (provider === "stripe") {
       totalAmount = session.amount_total / 100;
@@ -242,7 +255,7 @@ exports.handler = async (event) => {
           email:      shipping.email,
           firstName:  shipping.firstName || '',
           lastName:   shipping.lastName  || '',
-          orderId:    paymentId,
+          orderId:    orderNumber,
           items:      orderItems,
           total:      totalAmount,
           shippingAddress: [
@@ -264,7 +277,7 @@ exports.handler = async (event) => {
         (firstName) =>
           `${firstName}, you're all set! 🎉\n\n` +
           `✅ <b>Order Confirmed!</b>\n` +
-          `Order: <b>${paymentId}</b>\n` +
+          `Order: <b>${orderNumber}</b>\n` +
           `${itemsList}\n\n` +
           `💰 Total: <b>$${totalAmount.toFixed(2)}</b>\n\n` +
           `We'll notify you here as soon as it ships. Thank you for shopping with BBW4LIFE! 💕`
@@ -355,21 +368,21 @@ exports.handler = async (event) => {
     console.log(`[VERIFY PAYMENT] Fulfillment method détecté: ${fulfillment_method}`);
 
     for (const item of notReady) {
-      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending_stock", fulfillment_method, totalAmount);
+      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending_stock", fulfillment_method, totalAmount, orderNumber);
     }
     for (const item of readyForEprolo) {
-      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending", fulfillment_method, totalAmount);
+      await saveAsPending(item, shipping, BASE_URL, provider, paymentId, "pending", fulfillment_method, totalAmount, orderNumber);
     }
 
     console.log("🎯 Fulfillment terminé");
-    return response(200, { success: true, fulfillmentStatus: "processing" });
+    return response(200, { success: true, fulfillmentStatus: "processing", orderNumber });
   } catch (error) {
     console.error("=== VERIFY PAYMENT ERROR ===", error.message);
     return response(500, { success: false, error: error.message });
   }
 };
 
-async function saveAsPending(item, shipping, BASE_URL, provider, paymentId, status = "pending_stock", fulfillment_method = "eprolo", orderTotal = 0) {
+async function saveAsPending(item, shipping, BASE_URL, provider, paymentId, status = "pending_stock", fulfillment_method = "eprolo", orderTotal = 0, orderNumber = "") {
   try {
     await fetch(`${BASE_URL}/.netlify/functions/save-pending-order`, {
       method: "POST",
@@ -381,7 +394,8 @@ async function saveAsPending(item, shipping, BASE_URL, provider, paymentId, stat
         payment_id:         paymentId || "auto",
         status,
         fulfillment_method, // ← NOUVEAU
-        orderTotal           // ← NOUVEAU : montant total vérifié côté serveur
+        orderTotal,          // ← NOUVEAU : montant total vérifié côté serveur
+        orderNumber          // ← NOUVEAU : numéro de commande propre envoyé au client (colonne X)
       })
     });
   } catch (e) {

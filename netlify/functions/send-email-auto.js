@@ -329,7 +329,7 @@ async function runTrackingChecker(sheets, settings) {
   const rows = await sheetRead(
     sheets,
     process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS,
-    'bbw4life-pending-orders!A:V'
+    'bbw4life-pending-orders!A:X'
   );
 
   if (rows.length <= 1) {
@@ -356,6 +356,9 @@ async function runTrackingChecker(sheets, settings) {
     const trackingCol        = row[18] || '';
     const fulfillmentMethod  = (row[19] || 'eprolo').toLowerCase().trim();
     const cjOrderId          = row[21] || '';
+    // Numéro de commande propre envoyé au CLIENT (colonne X) — repli sur
+    // internalOrderId pour les commandes créées avant l'ajout de ce champ.
+    const customerOrderId    = row[23] || internalOrderId;
 
     if (trackingCol)                   continue;
     if (status !== 'successful')       continue;
@@ -414,7 +417,7 @@ async function runTrackingChecker(sheets, settings) {
         return await composeOrderTracking({
           firstName,
           lastName,
-          orderId:        internalOrderId,
+          orderId:        customerOrderId,
           trackingNumber: result.trackingNumber,
           carrier:        result.carrier || ''
         }, settings);
@@ -444,7 +447,7 @@ async function runTrackingChecker(sheets, settings) {
         await notifyCustomerTelegram(
           email,
           (accountFirstName) =>
-            `${accountFirstName}, exciting news! 🚀\n\n📦 <b>Your BBW4LIFE order has shipped!</b>\nOrder: <b>${internalOrderId}</b>\nTracking number: <b>${result.trackingNumber}</b>${result.carrier ? `\nCarrier: <b>${result.carrier}</b>` : ''}`
+            `${accountFirstName}, exciting news! 🚀\n\n📦 <b>Your BBW4LIFE order has shipped!</b>\nOrder: <b>${customerOrderId}</b>\nTracking number: <b>${result.trackingNumber}</b>${result.carrier ? `\nCarrier: <b>${result.carrier}</b>` : ''}`
         );
       } catch (e) {
         console.warn('[Tracking] Client Telegram notify failed:', e.message);
