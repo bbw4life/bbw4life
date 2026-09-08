@@ -106,6 +106,15 @@ exports.handler = async (event) => {
       cancel_url:  `${process.env.BASE_URL}/checkout.html`,
     });
 
+    // ── Le code promo affilié appliqué (et son montant, déjà calculé côté
+    //    serveur ci-dessus) voyage avec shipping jusqu'à verify-payment.js,
+    //    qui déduira le solde réel APRÈS confirmation du paiement — jamais
+    //    avant, pour ne jamais brûler un solde sur un paiement abandonné. ──
+    if (discountAmount > 0 && promoCode) {
+      shipping.appliedPromoCode     = promoCode;
+      shipping.appliedPromoDiscount = discountAmount;
+    }
+
     // ── Stocker cart + shipping complets dans le Sheet temporaire (clé = session.id) ──
     await saveTempOrder(session.id, cart, shipping);
 

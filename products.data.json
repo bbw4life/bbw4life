@@ -21576,7 +21576,7 @@
       "jackpot_reward_amount": 150,
       "promo_code_unlock_percent": 90,
       "promo_code_prefix": "Francenel467",
-      "promo_code_discount_percent": 50,
+      "promo_code_balance_usd": 100,
       "pay_per_click": "yes",
       "clicks_per_reward": 4000,
       "click_reward_amount": 5
@@ -21620,7 +21620,7 @@
       ]
     },
     "content_protection": {
-      "disable_right_click": "yes",
+      "disable_right_click": "no",
       "disable_text_selection": "yes",
       "disable_image_download": "yes",
       "disable_video_download": "yes",

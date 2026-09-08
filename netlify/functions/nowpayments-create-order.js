@@ -64,7 +64,7 @@ exports.handler = async (event) => {
     const settings       = allProducts.find(p => p.type === 'settings') || {};
     const shippingMethod = shipping?.shipping_method || 'Standard Shipping';
 
-    const { total, sanitizedCart } = await computeServerTotal(
+    const { total, sanitizedCart, discountAmount } = await computeServerTotal(
       rawCart,
       settings,
       allProducts,
@@ -89,6 +89,15 @@ exports.handler = async (event) => {
     const orderTitle = cart.length === 1
       ? cart[0].title.substring(0, 100)
       : `BBW4LIFE — ${cart.length} articles`;
+
+    // ── Le code promo affilié appliqué (et son montant, déjà calculé côté
+    //    serveur ci-dessus) voyage avec shipping jusqu'à verify-payment.js,
+    //    qui déduira le solde réel APRÈS confirmation du paiement — jamais
+    //    avant, pour ne jamais brûler un solde sur un paiement abandonné. ──
+    if (shipping && discountAmount > 0 && promoCode) {
+      shipping.appliedPromoCode     = promoCode;
+      shipping.appliedPromoDiscount = discountAmount;
+    }
 
     // ── Stocker cart + shipping dans le Sheet temporaire (clé = orderId) ──
     await saveTempOrder(orderId, cart, shipping);

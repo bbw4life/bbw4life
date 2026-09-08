@@ -197,7 +197,7 @@ async function bbwSubscribeGeneral() {
 }
 
 
-function bbwShowPromoWarningPopup(code, discountPct) {
+function bbwShowPromoWarningPopup(code, balance) {
   if (document.getElementById('bbw-promo-popup-overlay')) {
     document.getElementById('bbw-promo-popup-overlay').classList.add('bbw-promo-popup--visible');
     return;
@@ -231,19 +231,18 @@ function bbwShowPromoWarningPopup(code, discountPct) {
 
       <div class="bbw-promo-popup-code-wrap">
         <span class="bbw-promo-popup-code-val">${code}</span>
-        <span class="bbw-promo-popup-code-badge">-${discountPct}%</span>
+        <span class="bbw-promo-popup-code-badge">$${parseFloat(balance).toFixed(2)}</span>
       </div>
 
       <div class="bbw-promo-popup-warning">
         <p>
-          <strong>⚠️ Note — Single Use Only:</strong>
-          This promo code can only be applied <strong>once</strong> during checkout.
+          <strong>💳 How it works:</strong>
+          This code carries a <strong>$${parseFloat(balance).toFixed(2)} balance</strong> you can use across
+          <strong>multiple orders</strong> — each order deducts what it needs from the balance.
         </p>
         <p>
-          If you apply this code and do not complete your order, the code will be <strong>marked as used</strong>.
-        </p>
-        <p>
-          In that case, please contact our customer support to receive a new code.
+          If your order costs less than the remaining balance, the rest stays on the code for next time.
+          If it costs more, the whole balance is applied and you pay the difference — the code is then fully used.
         </p>
       </div>
 
@@ -286,7 +285,7 @@ function bbwShowPromoWarningPopup(code, discountPct) {
 
   document.getElementById('bbwPromoCtaCheckout').addEventListener('click', function () {
     localStorage.setItem('bbw_aff_promo_code', code);
-    localStorage.setItem('bbw_aff_promo_discount', discountPct);
+    localStorage.setItem('bbw_aff_promo_discount', balance);
     closePopup();
     window.location.href = '/checkout/checkout.html';
   });
@@ -311,7 +310,7 @@ window.bbwValidateAffPromoCode = async function (code) {
     });
     const data = await res.json();
     if (data.success && data.valid) {
-      return { valid: true, discountPct: data.discountPct };
+      return { valid: true, balance: data.balance };
     }
     return { valid: false, reason: data.reason || 'INVALID' };
   } catch (e) {
@@ -7043,6 +7042,51 @@ if (rcCheckoutBtn) {
 
         // ── Éléments DOM ──
         const bar         = document.getElementById('sticky-atc');
+
+        // ── Barre "teaser" repliable (mobile uniquement, pas sur les pages
+        //    BBW Features 69-75/98-110) — le panneau complet reste replié
+        //    par défaut derrière une fine barre "Make My Purchase Now" que
+        //    le client ouvre lui-même. N'ajoute/ne change rien à l'intérieur
+        //    du panneau .sticky-atc — juste ces 2 éléments autour de lui. ──
+        let satcCollapsed    = true;
+        let satcTeaser       = null;
+        let satcCollapseBtn  = null;
+        if (bar) {
+          const teaserPageMatch = (window.location.pathname || '').match(/product(\d+)\.html/);
+          const teaserPageNum   = teaserPageMatch ? parseInt(teaserPageMatch[1], 10) : null;
+          const teaserIsBbwFeatures = teaserPageNum !== null &&
+            ((teaserPageNum >= 69 && teaserPageNum <= 75) || (teaserPageNum >= 98 && teaserPageNum <= 110));
+
+          if (!teaserIsBbwFeatures) {
+            satcTeaser = document.createElement('div');
+            satcTeaser.id = 'sticky-atc-teaser';
+            satcTeaser.className = 'sticky-atc-teaser';
+            satcTeaser.setAttribute('aria-hidden', 'true');
+            satcTeaser.innerHTML =
+              '<span class="sticky-atc-teaser__title">Make My Purchase Now</span>' +
+              '<button type="button" class="sticky-atc-teaser__toggle" aria-label="Expand purchase panel"><i class="fi fi-rr-angle-small-up"></i></button>';
+            bar.parentNode.insertBefore(satcTeaser, bar);
+
+            satcCollapseBtn = document.createElement('button');
+            satcCollapseBtn.type = 'button';
+            satcCollapseBtn.id = 'sticky-atc-collapse-btn';
+            satcCollapseBtn.className = 'sticky-atc__collapse-btn';
+            satcCollapseBtn.setAttribute('aria-label', 'Collapse purchase panel');
+            satcCollapseBtn.innerHTML = '<i class="fi fi-rr-angle-small-down"></i>';
+            bar.appendChild(satcCollapseBtn);
+
+            satcTeaser.addEventListener('click', function () {
+              satcCollapsed = false;
+              checkStickyVisibility();
+            });
+            satcCollapseBtn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              satcCollapsed = true;
+              checkStickyVisibility();
+            });
+          }
+        }
+
         const satcImg     = document.getElementById('satc-img');
         const satcTitle   = document.getElementById('satc-title');
         const satcPrice   = document.getElementById('satc-price');
@@ -7293,12 +7337,32 @@ if (rcCheckoutBtn) {
           mainBtnVisible = rect.top >= 0 && rect.bottom <= windowHeight;
       }
 
-        if (nearFooter && !mainBtnVisible) {
-            bar.classList.add('visible');
-            bar.setAttribute('aria-hidden', 'false');
+        const satcShouldShow = nearFooter && !mainBtnVisible;
+        // Teaser repliable : mobile uniquement, jamais sur les pages BBW
+        // Features (satcTeaser reste null là-bas — cf. injection plus haut).
+        const satcUseCollapse = isMobileStickyAtc && !!satcTeaser;
+
+        if (satcShouldShow) {
+            if (satcUseCollapse && satcCollapsed) {
+                bar.classList.remove('visible');
+                bar.setAttribute('aria-hidden', 'true');
+                satcTeaser.classList.add('visible');
+                satcTeaser.setAttribute('aria-hidden', 'false');
+            } else {
+                bar.classList.add('visible');
+                bar.setAttribute('aria-hidden', 'false');
+                if (satcTeaser) {
+                    satcTeaser.classList.remove('visible');
+                    satcTeaser.setAttribute('aria-hidden', 'true');
+                }
+            }
         } else {
             bar.classList.remove('visible');
             bar.setAttribute('aria-hidden', 'true');
+            if (satcTeaser) {
+                satcTeaser.classList.remove('visible');
+                satcTeaser.setAttribute('aria-hidden', 'true');
+            }
         }
     }
 
@@ -11975,7 +12039,7 @@ function loadProfilePhoto() {
       jackpotAmt:     parseFloat(affCfg.jackpot_reward_amount)       || 100,
       unlockPct:      parseFloat(affCfg.promo_code_unlock_percent)   || 50,
       promoPrefix:    affCfg.promo_code_prefix                       || 'AFF',
-      promoDisc:      parseFloat(affCfg.promo_code_discount_percent) || 50,
+      promoBalance:   parseFloat(affCfg.promo_code_balance_usd)      || 100,
       payPerClick:    affCfg.pay_per_click                           || 'no',
       clicksPerReward: parseInt(affCfg.clicks_per_reward)            || 1000,
       clickRewardAmt:  parseFloat(affCfg.click_reward_amount)        || 2
@@ -12149,9 +12213,9 @@ function loadProfilePhoto() {
     const jackpotQty  = cfg.jackpotQty;
     const jackpotAmt  = cfg.jackpotAmt;
     const unlockPct   = cfg.unlockPct;
-    const promoPrefix = cfg.promoPrefix;
-    const promoDisc   = cfg.promoDisc;
-    const commPct     = cfg.commPct;
+    const promoPrefix  = cfg.promoPrefix;
+    const promoBalance = cfg.promoBalance;
+    const commPct      = cfg.commPct;
 
     const totalOrders    = parseInt(aff.totalOrders || 0);
     const earnedPct      = totalOrders * commPct;
@@ -12216,7 +12280,7 @@ function loadProfilePhoto() {
 
         const promoNote = rewardPromo.querySelector('.aff-promo-note');
         if (promoNote) {
-          promoNote.textContent = 'Use this code on your next order for -' + promoDisc + '%';
+          promoNote.textContent = 'Use this code — $' + promoBalance.toFixed(2) + ' balance, usable across multiple orders';
         }
 
         // ── Bind copie → lock sur promo, cacher withdraw ──
@@ -12250,10 +12314,10 @@ function loadProfilePhoto() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            action:           'register',
-            code:             code,
-            username:         aff.username || '',
-            discount_percent: cfg.promoDisc || 50
+            action:   'register',
+            code:     code,
+            username: aff.username || '',
+            balance:  cfg.promoBalance || 100
           })
         });
         localStorage.setItem('bbw_promo_registered_' + code, '1');
@@ -12261,9 +12325,9 @@ function loadProfilePhoto() {
         console.warn('[PromoCode] Registration failed:', e.message);
       }
     }
- 
-    // Afficher le popup premium single-use
-    bbwShowPromoWarningPopup(code, cfg.promoDisc || 50);
+
+    // Afficher le popup premium (solde en $, usage multi-commandes)
+    bbwShowPromoWarningPopup(code, cfg.promoBalance || 100);
  
     // Enregistrer le choix seulement si pas encore fait
     if (!localStorage.getItem(storageKey)) {
@@ -12521,12 +12585,12 @@ function loadProfilePhoto() {
         if (el('aff-txt-commission'))  el('aff-txt-commission').textContent  = cfg.commPct + '%';
         if (el('aff-txt-commission2')) el('aff-txt-commission2').textContent = cfg.commPct + '%';
         if (el('aff-txt-unlock'))      el('aff-txt-unlock').textContent      = cfg.unlockPct + '%';
-        if (el('aff-txt-promo-disc'))  el('aff-txt-promo-disc').textContent  = '-' + cfg.promoDisc + '%';
+        if (el('aff-txt-promo-disc'))  el('aff-txt-promo-disc').textContent  = '$' + cfg.promoBalance.toFixed(2);
         if (el('aff-th-commission'))   el('aff-th-commission').textContent   = cfg.commPct;
         if (el('aff-txt-jackpot-qty')) el('aff-txt-jackpot-qty').textContent = cfg.jackpotQty;
         if (el('aff-txt-jackpot-amt')) el('aff-txt-jackpot-amt').textContent = '$' + cfg.jackpotAmt.toFixed(2);
-        if (el('aff-txt-promo-badge')) el('aff-txt-promo-badge').textContent = '-' + cfg.promoDisc + '%';
-        if (el('aff-promo-note'))      el('aff-promo-note').textContent      = 'Use this code on your next order for -' + cfg.promoDisc + '%';
+        if (el('aff-txt-promo-badge')) el('aff-txt-promo-badge').textContent = '$' + cfg.promoBalance.toFixed(2);
+        if (el('aff-promo-note'))      el('aff-promo-note').textContent      = 'Use this code — $' + cfg.promoBalance.toFixed(2) + ' balance, usable across multiple orders';
         // ── Pay-per-click config ──
         const payPerClick      = (cfg.payPerClick || 'no').toLowerCase() === 'yes';
         const clicksPerReward  = parseInt(cfg.clicksPerReward)  || 1000;

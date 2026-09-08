@@ -5447,6 +5447,96 @@ details[open] .chevron {
     transform: translateY(0);
 }
 
+/* ═══════════════════════════════════════
+   STICKY ATC — TEASER REPLIABLE (mobile uniquement)
+   Ajoutée dynamiquement par script.js, jamais sur les pages BBW Features
+   (69-75 / 98-110). Le panneau .sticky-atc lui-même n'est pas modifié —
+   seuls ces 2 nouveaux éléments (barre + bouton replier) sont ajoutés
+   autour de lui.
+═══════════════════════════════════════ */
+.sticky-atc-teaser {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9989;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--bbw-black), var(--bbw-black-soft));
+    border-top: 1.5px solid var(--bbw-gold-border-hi);
+    box-shadow: 0 -6px 24px rgba(0,0,0,0.18);
+    cursor: pointer;
+    transform: translateY(110%);
+    transition: transform 0.42s cubic-bezier(.22, 1, .36, 1);
+}
+
+.sticky-atc-teaser.visible {
+    transform: translateY(0);
+}
+
+.sticky-atc-teaser__title {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bbw-gold-light);
+    display: inline-block;
+    animation: satcTeaserSway 2.8s ease-in-out infinite;
+}
+
+@keyframes satcTeaserSway {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(5px); }
+}
+
+.sticky-atc-teaser__toggle {
+    position: absolute;
+    right: 12px;
+    bottom: 8px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bbw-gold-pale-mid);
+    border: 1px solid var(--bbw-gold-border-hi);
+    border-radius: 50%;
+    color: var(--bbw-gold-light);
+    font-size: 11px;
+    padding: 0;
+    pointer-events: none; /* le clic est géré par la barre entière */
+}
+
+.sticky-atc__collapse-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(21,17,14,0.06);
+    border: 1px solid var(--bbw-gold-border);
+    border-radius: 50%;
+    color: var(--bbw-black);
+    font-size: 11px;
+    padding: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Fonctionnalité mobile uniquement, comme demandé — jamais sur desktop */
+@media (min-width: 769px) {
+    .sticky-atc-teaser,
+    .sticky-atc__collapse-btn {
+        display: none !important;
+    }
+}
+
 .sticky-atc__inner {
     max-width: 1500px;
     margin: 0 auto;

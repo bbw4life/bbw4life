@@ -171,6 +171,15 @@ exports.handler = async (event) => {
     }
     const orderData = await orderRes.json();
 
+    // ── Le code promo affilié appliqué (et son montant, déjà calculé côté
+    //    serveur ci-dessus) voyage avec shipping jusqu'à verify-payment.js,
+    //    qui déduira le solde réel APRÈS confirmation du paiement — jamais
+    //    avant, pour ne jamais brûler un solde sur un paiement abandonné. ──
+    if (discountAmount > 0 && promoCode) {
+      shipping.appliedPromoCode     = promoCode;
+      shipping.appliedPromoDiscount = discountAmount;
+    }
+
     // ── Sauvegarde temporaire pour la détection de panier abandonné ──
     try {
       await saveTempOrder(orderData.id, cart, shipping);

@@ -3,7 +3,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const fetch = require('node-fetch');
 const {
   getAndDeleteTempOrder,
-  deleteTempOrderByPaymentId,
   isOrderAlreadyProcessed,
   markOrderAsProcessed
 } = require('./temp-orders-store');
@@ -98,10 +97,21 @@ exports.handler = async (event) => {
       const finalOrderData = await finalOrderRes.json();
       if (finalOrderData.status !== "COMPLETED") throw new Error("PayPal payment not completed");
 
+      // ── Récupère (au lieu de juste supprimer) le panier temporaire pour
+      //    en extraire le code promo affilié éventuellement appliqué —
+      //    PayPal ne renvoie aucun champ custom pour ça, contrairement à
+      //    Stripe où tempOrder.shipping le porte déjà naturellement. ──
+      let paypalTempPromo = null;
       try {
-        await deleteTempOrderByPaymentId(orderID);
+        const tempOrderForPromo = await getAndDeleteTempOrder(orderID);
+        if (tempOrderForPromo && tempOrderForPromo.shipping && tempOrderForPromo.shipping.appliedPromoCode) {
+          paypalTempPromo = {
+            code:     tempOrderForPromo.shipping.appliedPromoCode,
+            discount: tempOrderForPromo.shipping.appliedPromoDiscount || 0
+          };
+        }
       } catch (e) {
-        console.warn("[PAYPAL] deleteTempOrderByPaymentId failed:", e.message);
+        console.warn("[PAYPAL] getAndDeleteTempOrder failed:", e.message);
       }
 
       purchaseUnit = finalOrderData.purchase_units?.[0] || {};
@@ -180,6 +190,10 @@ exports.handler = async (event) => {
         shipping_method: refParts[4] || "Standard Shipping",
         fulfillment_method: refParts[6] || "eprolo"
     };
+      if (paypalTempPromo) {
+        shipping.appliedPromoCode     = paypalTempPromo.code;
+        shipping.appliedPromoDiscount = paypalTempPromo.discount;
+      }
       console.log("[PAYPAL] Final shipping pulled:", JSON.stringify(shipping));
       paymentVerified = true;
 
@@ -193,6 +207,29 @@ exports.handler = async (event) => {
     }
 
     if (!paymentVerified || cart.length === 0) throw new Error("Payment verification failed or cart empty");
+
+    // ── Déduire le solde du code promo affilié — SEULEMENT maintenant que
+    //    le paiement est réellement confirmé (jamais au clic "Apply" côté
+    //    client, pour ne pas brûler le solde d'un client sur un paiement
+    //    abandonné ou échoué). Le montant déduit est celui déjà calculé
+    //    côté serveur (source unique de vérité) au moment de la création
+    //    du paiement — jamais recalculé/fait confiance côté client. ──
+    if (shipping.appliedPromoCode && shipping.appliedPromoDiscount > 0) {
+      try {
+        await fetch(`${BASE_URL}/.netlify/functions/validate-promo-code`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action:     "consume",
+            code:       shipping.appliedPromoCode,
+            amountUsed: shipping.appliedPromoDiscount
+          })
+        });
+        console.log(`[VERIFY PAYMENT] Solde promo affilié déduit : ${shipping.appliedPromoCode} — $${shipping.appliedPromoDiscount}`);
+      } catch (e) {
+        console.warn('[VERIFY PAYMENT] Déduction solde promo affilié échouée:', e.message);
+      }
+    }
 
     // ── Numéro de commande propre (BBW-100001...) envoyé au CLIENT — distinct
     //    du payment_id Stripe/PayPal (paymentId), qui reste inchangé en

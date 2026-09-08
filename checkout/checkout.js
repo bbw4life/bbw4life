@@ -1476,7 +1476,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            const discountPct    = check.discountPct || 0;
+            // Le code affilié est un solde en $ qui se dépense commande après
+            // commande — la réduction appliquée ici est le plus petit entre
+            // le sous-total de la commande et le solde restant sur le code.
+            const balance        = check.balance || 0;
             const freeShipThresh = parseFloat(cd.free_shipping_threshold) || 140;
             const subtotal       = getSubtotal();
             if (freeShipThresh > 0 && subtotal >= freeShipThresh) {
@@ -1485,9 +1488,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            appliedPromo   = { code: input, percent: discountPct, isAffiliate: true };
-            discountAmount = parseFloat((subtotal * (discountPct / 100)).toFixed(2));
-            promoMessage.textContent = `Affiliate code applied: ${discountPct}% off!`;
+            appliedPromo   = { code: input, balance, isAffiliate: true };
+            discountAmount = parseFloat(Math.min(subtotal, balance).toFixed(2));
+            const remaining = parseFloat((balance - discountAmount).toFixed(2));
+            promoMessage.textContent = remaining > 0
+                ? `Affiliate code applied: $${discountAmount.toFixed(2)} off! ($${remaining.toFixed(2)} left on this code for next time)`
+                : `Affiliate code applied: $${discountAmount.toFixed(2)} off!`;
             promoMessage.style.color = 'green';
             sessionStorage.setItem('pendingAffPromo', userEmail);
             updateTotals();

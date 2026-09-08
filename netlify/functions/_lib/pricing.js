@@ -23,9 +23,13 @@ async function getAllProductsData() {
   }
 }
 
-// ── Codes affiliés à usage unique (Sheet "PromoCodes") — source unique de
-//    vérité côté serveur pour leur %, indépendante de settings.promos[] ──
-async function getAffiliatePromoDiscount(code) {
+// ── Codes affiliés (Sheet "PromoCodes") — solde en $ restant, source
+//    unique de vérité côté serveur, indépendante de settings.promos[].
+//    Le code est un porte-monnaie qui se dépense commande après commande
+//    (voir validate-promo-code.js) : seul le statut "active" (solde > 0)
+//    renvoie un solde utilisable ; "used" = solde épuisé, plus rien à
+//    donner. ──
+async function getAffiliatePromoBalance(code) {
   try {
     const auth = new google.auth.GoogleAuth({
       credentials: {
@@ -47,9 +51,10 @@ async function getAffiliatePromoDiscount(code) {
     for (let i = 1; i < rows.length; i++) {
       const rowCode = (rows[i][0] || '').trim().toUpperCase();
       if (rowCode === target) {
-        const status = (rows[i][3] || '').trim().toLowerCase();
-        if (status !== 'active' && status !== 'used') return 0;
-        return parseFloat(rows[i][2]) || 0;
+        const status  = (rows[i][3] || '').trim().toLowerCase();
+        const balance = parseFloat(rows[i][2]) || 0;
+        if (status !== 'active' || balance <= 0) return 0;
+        return balance;
       }
     }
     return 0;
@@ -205,12 +210,14 @@ async function computeServerTotal(cart, settings, allProducts, shippingMethod, p
       if (promo && promo.percent > 0) {
         discountAmount = parseFloat((subtotal * (promo.percent / 100)).toFixed(2));
       } else {
-        // ── Code affilié à usage unique (préfixe settings.affiliation) ──
+        // ── Code affilié — solde en $ (préfixe settings.affiliation) : la
+        //    commande est réduite du plus petit des deux : son propre
+        //    sous-total, ou le solde restant sur le code. ──
         const affPrefix = ((settings.affiliation || {}).promo_code_prefix || '').toUpperCase().trim();
         if (affPrefix && (inputCode === affPrefix || inputCode.startsWith(affPrefix + '-'))) {
-          const affDiscountPct = await getAffiliatePromoDiscount(inputCode);
-          if (affDiscountPct > 0) {
-            discountAmount = parseFloat((subtotal * (affDiscountPct / 100)).toFixed(2));
+          const affBalance = await getAffiliatePromoBalance(inputCode);
+          if (affBalance > 0) {
+            discountAmount = parseFloat(Math.min(subtotal, affBalance).toFixed(2));
           }
         }
       }
@@ -256,7 +263,7 @@ function verifyCartToken(cart, total, token, secret) {
 
 module.exports = {
   getAllProductsData,
-  getAffiliatePromoDiscount,
+  getAffiliatePromoBalance,
   computeServerTotal,
   generateCartToken,
   verifyCartToken

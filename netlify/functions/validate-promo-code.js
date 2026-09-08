@@ -1,6 +1,19 @@
 /* ================================================================
-   BBW4LIFE — VALIDATE PROMO CODE (Single-Use Affiliate Code)
+   BBW4LIFE — VALIDATE PROMO CODE (Affiliate Reward Balance)
    Netlify Function : /.netlify/functions/validate-promo-code
+
+   Le code affilié n'est plus "à usage unique avec % fixe" — c'est un
+   SOLDE en dollars (ex: $100) qui se dépense commande après commande :
+   - Commande ≤ solde restant → la commande est payée par le solde,
+     le reste du solde survit pour une prochaine commande.
+   - Commande > solde restant → tout le solde restant est déduit de la
+     commande, le client paie la différence, le code devient épuisé
+     (status "used") et ne peut plus être appliqué.
+   Le solde n'est déduit qu'APRÈS confirmation réelle du paiement
+   (action "consume", appelée par verify-payment.js) — jamais au simple
+   clic "Apply" au checkout (action "validate", purement en lecture),
+   pour ne jamais brûler le solde d'un client sur un paiement abandonné
+   ou échoué.
 ================================================================ */
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
@@ -27,9 +40,7 @@ async function getOrCreatePromoSheet(sheets, spreadsheetId) {
       spreadsheetId,
       resource: {
         requests: [{
-          addSheet: {
-            properties: { title: 'PromoCodes' }
-          }
+          addSheet: { properties: { title: 'PromoCodes' } }
         }]
       }
     });
@@ -38,7 +49,7 @@ async function getOrCreatePromoSheet(sheets, spreadsheetId) {
       range: 'PromoCodes!A1:F1',
       valueInputOption: 'RAW',
       resource: {
-        values: [['code', 'username', 'discount_percent', 'status', 'created_at', 'used_at']]
+        values: [['code', 'username', 'balance_usd', 'status', 'created_at', 'used_at']]
       }
     });
   }
@@ -58,7 +69,10 @@ async function findCodeRow(sheets, spreadsheetId, code) {
   return null;
 }
 
-async function registerCode(sheets, spreadsheetId, code, username, discountPct) {
+// ── Enregistre un nouveau code avec son solde initial (ex: $100) — ne
+//    touche pas un code déjà existant (le solde ne doit jamais être
+//    réinitialisé par une ré-inscription accidentelle). ──
+async function registerCode(sheets, spreadsheetId, code, username, balance) {
   await getOrCreatePromoSheet(sheets, spreadsheetId);
 
   const existing = await findCodeRow(sheets, spreadsheetId, code);
@@ -73,7 +87,7 @@ async function registerCode(sheets, spreadsheetId, code, username, discountPct) 
       values: [[
         code.toUpperCase(),
         username || '',
-        discountPct || '',
+        parseFloat(balance) || 0,
         'active',
         new Date().toISOString(),
         ''
@@ -82,7 +96,9 @@ async function registerCode(sheets, spreadsheetId, code, username, discountPct) 
   });
 }
 
-// ── Marquer used immédiatement dès le Apply ──
+// ── Lecture seule : le code est-il utilisable, et avec quel solde ?
+//    Ne modifie RIEN dans le sheet — appelé au clic "Apply" au checkout,
+//    avant tout paiement. ──
 async function validateCode(sheets, spreadsheetId, code) {
   await getOrCreatePromoSheet(sheets, spreadsheetId);
 
@@ -91,31 +107,60 @@ async function validateCode(sheets, spreadsheetId, code) {
     return { valid: false, reason: 'CODE_NOT_FOUND' };
   }
 
-  const { rowIndex, row } = found;
-  const status      = (row[3] || '').trim().toLowerCase();
-  const discountPct = parseFloat(row[2]) || 0;
-  const username    = row[1] || '';
+  const { row } = found;
+  const status  = (row[3] || '').trim().toLowerCase();
+  const balance = parseFloat(row[2]) || 0;
+  const username = row[1] || '';
 
-  if (status === 'used') {
-    return { valid: false, reason: 'CODE_ALREADY_USED', discountPct, username };
+  if (status === 'used' || balance <= 0) {
+    return { valid: false, reason: 'CODE_EXHAUSTED', balance: 0, username };
   }
 
   if (status !== 'active') {
-    return { valid: false, reason: 'CODE_INACTIVE', discountPct, username };
+    return { valid: false, reason: 'CODE_INACTIVE', balance, username };
   }
 
-  
-  // Marquer used immédiatement dès la validation
-await sheets.spreadsheets.values.update({
+  return { valid: true, balance, username };
+}
+
+// ── Déduit réellement le solde utilisé sur CETTE commande — appelé une
+//    seule fois, uniquement après confirmation du paiement
+//    (verify-payment.js). amountUsed = min(sous-total commande, solde
+//    au moment de l'appel), déjà calculé côté serveur par _lib/pricing.js
+//    (source unique de vérité des prix). ──
+async function consumeCode(sheets, spreadsheetId, code, amountUsed) {
+  await getOrCreatePromoSheet(sheets, spreadsheetId);
+
+  const found = await findCodeRow(sheets, spreadsheetId, code);
+  if (!found) return { success: false, reason: 'CODE_NOT_FOUND' };
+
+  const { rowIndex, row } = found;
+  const status  = (row[3] || '').trim().toLowerCase();
+  const balance = parseFloat(row[2]) || 0;
+
+  if (status === 'used' || balance <= 0) {
+    return { success: false, reason: 'CODE_EXHAUSTED' };
+  }
+
+  const used         = Math.min(parseFloat(amountUsed) || 0, balance);
+  const newBalance   = parseFloat((balance - used).toFixed(2));
+  const nowExhausted = newBalance <= 0;
+
+  await sheets.spreadsheets.values.update({
     spreadsheetId,
-    range: `PromoCodes!D${rowIndex}:F${rowIndex}`,
+    range: `PromoCodes!C${rowIndex}:F${rowIndex}`,
     valueInputOption: 'RAW',
     resource: {
-      values: [['used', row[4] || '', new Date().toLocaleString('fr-FR', { timeZone: 'America/New_York' })]]
+      values: [[
+        newBalance,
+        nowExhausted ? 'used' : 'active',
+        row[4] || '',
+        new Date().toLocaleString('fr-FR', { timeZone: 'America/New_York' })
+      ]]
     }
-});
+  });
 
-  return { valid: true, discountPct, username };
+  return { success: true, newBalance, exhausted: nowExhausted };
 }
 
 exports.handler = async (event) => {
@@ -126,7 +171,7 @@ exports.handler = async (event) => {
       return { statusCode: 400, headers, body: JSON.stringify({ success: false, error: 'No body' }) };
     }
 
-    const { action, code, username, discount_percent } = JSON.parse(event.body);
+    const { action, code, username, balance, amountUsed } = JSON.parse(event.body);
     const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_ACCOUNTS;
     const sheets = await getSheets();
 
@@ -134,7 +179,7 @@ exports.handler = async (event) => {
       if (!code || !username) {
         return { statusCode: 400, headers, body: JSON.stringify({ success: false, error: 'Missing code or username' }) };
       }
-      await registerCode(sheets, spreadsheetId, code, username, discount_percent || 0);
+      await registerCode(sheets, spreadsheetId, code, username, balance || 0);
       return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
     }
 
@@ -144,6 +189,14 @@ exports.handler = async (event) => {
       }
       const result = await validateCode(sheets, spreadsheetId, code);
       return { statusCode: 200, headers, body: JSON.stringify({ success: true, ...result }) };
+    }
+
+    if (action === 'consume') {
+      if (!code || amountUsed === undefined) {
+        return { statusCode: 400, headers, body: JSON.stringify({ success: false, error: 'Missing code or amountUsed' }) };
+      }
+      const result = await consumeCode(sheets, spreadsheetId, code, amountUsed);
+      return { statusCode: 200, headers, body: JSON.stringify(result) };
     }
 
     return { statusCode: 400, headers, body: JSON.stringify({ success: false, error: 'Unknown action' }) };
