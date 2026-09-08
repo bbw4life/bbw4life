@@ -3825,15 +3825,26 @@ function showErrorPopup(message) {
           }
 
           const sizeSelect = document.getElementById('size-select');
-          if (sizeSelect && prod.sizes && prod.sizes.length > 0) {
+          // Filtre les entrées vides/espaces (ex: sizes: ["", "  "] ou un
+          // mélange avec de vraies tailles) — un tableau non-vide ne
+          // signifie pas forcément qu'il contient une taille utilisable,
+          // .length > 0 seul laissait passer ces cas et affichait un menu
+          // avec des options vides plutôt que de masquer le champ.
+          const validSizes = Array.isArray(prod.sizes)
+            ? prod.sizes.filter(s => String(s || '').trim() !== '')
+            : [];
+          if (sizeSelect && validSizes.length > 0) {
             sizeSelect.innerHTML = '';
+            sizeSelect.style.display = '';
+            const sizeLabel = document.querySelector('label[for="size-select"]');
+            if (sizeLabel) sizeLabel.style.display = '';
             const defaultOpt = document.createElement('option');
             defaultOpt.value = '';
             defaultOpt.textContent = 'Select Size';
             defaultOpt.selected = true;
             defaultOpt.disabled = true;
             sizeSelect.appendChild(defaultOpt);
-            prod.sizes.forEach(size => {
+            validSizes.forEach(size => {
               const opt = document.createElement('option');
               opt.value = size;
               opt.textContent = size;
@@ -9543,78 +9554,6 @@ window.BBW_WISHLIST_SLUG_MAP = BBW_WISHLIST_SLUG_MAP;
         currentReview = (currentReview + 1) % reviewItems.length;
         reviewItems[currentReview].classList.add('active');
       }, 5000);
-    }
-  }
-
-  // ====================== PAUL BANNER ======================
-  const paulContainer = document.getElementById('paul-banner');
-  if (paulContainer) {
-    const paulVideoUrl    = '';
-    const paulVideo       = paulContainer.querySelector('.paul-banner-video');
-    const paulSoundBtn    = paulContainer.querySelector('.paul-video-sound-toggle');
-    const paulVideoWrapper= paulContainer.querySelector('.paul-banner-video-wrapper');
-    if (paulVideoUrl) {
-      paulVideo.src = paulVideoUrl;
-      paulVideoWrapper.style.display = 'block';
-      document.querySelectorAll('.paul-banner-image').forEach(img => img.style.display = 'none');
-    } else {
-      paulVideoWrapper.style.display = 'none';
-      paulContainer.classList.add('image-mode');
-    }
-    if (paulVideo && paulSoundBtn && paulVideoUrl) {
-      paulSoundBtn.addEventListener('click', () => { paulVideo.muted = !paulVideo.muted; paulSoundBtn.classList.toggle('muted', paulVideo.muted); });
-    }
-    const paulSlides     = paulContainer.querySelectorAll('.paul-banner-slide');
-    const paulIndicators = paulContainer.querySelectorAll('.paul-banner-indicator');
-    if (paulSlides.length > 1) {
-      let paulCurrentSlide = 0, paulSlideTimer;
-      function paulShowSlide(index) {
-        paulSlides.forEach((s, i) => s.classList.toggle('active', i === index));
-        paulIndicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
-        paulCurrentSlide = index;
-      }
-      function paulNextSlide() { paulShowSlide((paulCurrentSlide + 1) % paulSlides.length); }
-      paulShowSlide(0);
-      paulSlideTimer = setInterval(paulNextSlide, 5000);
-      paulIndicators.forEach((ind, i) => { ind.addEventListener('click', () => { clearInterval(paulSlideTimer); paulShowSlide(i); paulSlideTimer = setInterval(paulNextSlide, 5000); }); });
-      paulContainer.addEventListener('mouseenter', () => clearInterval(paulSlideTimer));
-      paulContainer.addEventListener('mouseleave', () => { paulSlideTimer = setInterval(paulNextSlide, 5000); });
-    }
-  }
-
-  // ====================== FRANCENEL BANNER ======================
-  const francenelContainer = document.getElementById('francenel-milliadaire-banner');
-  if (francenelContainer) {
-    const francVideoUrl    = 'https://cdn.shopify.com/videos/c/o/v/c9fa100b503a449e9a8f120d106f8737.mp4';
-    const francVideo       = francenelContainer.querySelector('.francenel-milliadaire-banner-video');
-    const francSoundBtn    = francenelContainer.querySelector('.francenel-milliadaire-video-sound-toggle');
-    const francVideoWrapper= francenelContainer.querySelector('.francenel-milliadaire-banner-video-wrapper');
-    if (francVideoUrl) {
-      francVideo.src = francVideoUrl;
-      francVideoWrapper.style.display = 'block';
-      document.querySelectorAll('.francenel-milliadaire-banner-image').forEach(img => img.style.display = 'none');
-    } else {
-      francVideoWrapper.style.display = 'none';
-      francenelContainer.classList.add('image-mode');
-    }
-    if (francVideo && francSoundBtn && francVideoUrl) {
-      francSoundBtn.addEventListener('click', () => { francVideo.muted = !francVideo.muted; francSoundBtn.classList.toggle('muted', francVideo.muted); });
-    }
-    const francSlides     = francenelContainer.querySelectorAll('.francenel-milliadaire-banner-slide');
-    const francIndicators = francenelContainer.querySelectorAll('.francenel-milliadaire-banner-indicator');
-    if (francSlides.length > 1) {
-      let francCurrentSlide = 0, francSlideTimer;
-      function francShowSlide(index) {
-        francSlides.forEach((s, i) => s.classList.toggle('active', i === index));
-        francIndicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
-        francCurrentSlide = index;
-      }
-      function francNextSlide() { francShowSlide((francCurrentSlide + 1) % francSlides.length); }
-      francShowSlide(0);
-      francSlideTimer = setInterval(francNextSlide, 5000);
-      francIndicators.forEach((ind, i) => { ind.addEventListener('click', () => { clearInterval(francSlideTimer); francShowSlide(i); francSlideTimer = setInterval(francNextSlide, 5000); }); });
-      francenelContainer.addEventListener('mouseenter', () => clearInterval(francSlideTimer));
-      francenelContainer.addEventListener('mouseleave', () => { francSlideTimer = setInterval(francNextSlide, 5000); });
     }
   }
 

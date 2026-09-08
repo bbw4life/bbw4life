@@ -1,6 +1,13 @@
 // checkout.js
 document.addEventListener('DOMContentLoaded', async () => {
 
+    // Code promo restauré depuis un panier abandonné (rempli plus bas, dans
+    // le bloc RESTORE ABANDONED CART) — mémorisé ici pour être réellement
+    // appliqué (pas juste écrit dans le champ) une fois que le bouton
+    // #apply-promo et les données produits sont prêts, cf. plus bas après
+    // le fetch de products.data.json.
+    let restoredPromoCode = null;
+
     // ====================== RESTORE ABANDONED CART ======================
     const urlParams = new URLSearchParams(window.location.search);
     const restoreOrderId = urlParams.get('restore');
@@ -32,6 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (data.promoCode) {
                     const promoInput = document.getElementById('promo-input');
                     if (promoInput) promoInput.value = data.promoCode;
+                    restoredPromoCode = data.promoCode;
                 }
 
                 console.log(`[ABANDONED CART] Panier restauré pour ${restoreOrderId}`);
@@ -172,6 +180,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         })();
         renderCart();
+
+        // ── Auto-application d'un code promo déjà en place dans le champ,
+        //    plutôt que de le laisser comme simple texte que le client doit
+        //    penser à valider lui-même via "Apply". Deux origines possibles,
+        //    ne jamais tenter les deux à la fois :
+        //    1) un panier abandonné restauré (?restore=…) qui avait déjà un
+        //       promoCode — restoredPromoCode, posé plus haut, prioritaire ;
+        //    2) un code affilié laissé par un popup promo ailleurs sur le
+        //       site (script.js écrit bbw_aff_promo_code/discount en
+        //       localStorage avant de rediriger ici).
+        //    Dans les deux cas on déclenche le VRAI bouton "Apply" (même
+        //    validation serveur que si le client l'avait tapé et cliqué
+        //    lui-même) plutôt que de dupliquer la logique de calcul de
+        //    remise, ce qui doublonnerait la réduction déjà posée par ce clic.
+        const promoInputEl  = document.getElementById('promo-input');
+        const applyPromoBtn = document.getElementById('apply-promo');
+        if (restoredPromoCode && promoInputEl && applyPromoBtn) {
+          promoInputEl.value = restoredPromoCode;
+          applyPromoBtn.click();
+        } else if (affPromoCode && promoInputEl && applyPromoBtn && !promoInputEl.value) {
+          promoInputEl.value = affPromoCode;
+          applyPromoBtn.click();
+          // Le serveur marque déjà ce code "used" dès ce premier appel
+          // (cf. validate-promo-code.js — usage unique, indépendant du
+          // succès de la validation). On retire donc immédiatement le
+          // localStorage laissé par le popup pour ne pas re-proposer ce
+          // même code à chaque future visite de checkout — sinon le
+          // client se retrouverait à revoir "code already used" à
+          // chaque rechargement de la page, pour un code qui n'a
+          // jamais pu être réappliqué de toute façon.
+          localStorage.removeItem('bbw_aff_promo_code');
+          localStorage.removeItem('bbw_aff_promo_discount');
+        }
       })
       .catch(error => {
         console.error('Error loading /products.data.json:', error);
@@ -294,6 +335,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
    paymentOptions.forEach(option => {
         option.addEventListener('change', () => {
+            // Ne pas écraser "Processing..." si une requête de paiement est
+            // déjà en cours (payButton.disabled) — changer de radio pendant
+            // ce court délai réseau ne relance rien (le clic est déjà
+            // parti), mais réafficher un autre libellé donnait l'impression
+            // trompeuse que le clic précédent n'avait pas été pris en compte.
+            if (payButton.disabled) return;
             const labels = {
                 stripe:      'Pay with Card',
                 paypal:      'Pay with PayPal',
@@ -325,6 +372,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             const trigger = document.getElementById('country-trigger');
             if (trigger) trigger.style.borderColor = '#ccc';
+        }
+
+        // City n'est qu'un <input type="hidden"> piloté par le dropdown
+        // personnalisé (#city-trigger) — sans ce check, un client qui ne
+        // sélectionne jamais de ville (ou dont le fetch de villes échoue)
+        // passait cette validation client sans le savoir, pour se faire
+        // rejeter côté serveur ("City required") après avoir déjà vu
+        // "Processing...", sans qu'aucun champ visible ne soit marqué en
+        // rouge pour lui indiquer quoi corriger.
+        const cityHidden = document.getElementById('city');
+        if (!cityHidden || !cityHidden.value.trim()) {
+            valid = false;
+            const cityTrigger = document.getElementById('city-trigger');
+            if (cityTrigger) cityTrigger.style.borderColor = 'red';
+        } else {
+            const cityTrigger = document.getElementById('city-trigger');
+            if (cityTrigger) cityTrigger.style.borderColor = '#ccc';
         }
 
         if (!valid) {
@@ -473,9 +537,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ====================== PAYMENT ======================
-    // Étapes 1-2 (validation serveur + token anti-fraude) partagées entre le
-    // bouton "Pay Now" (Stripe/Crypto) et le vrai bouton SDK PayPal, qui
-    // déclenche le paiement directement au clic sans passer par Pay Now.
+    // Étapes 1-2 (validation serveur + token anti-fraude), partagées par les
+    // 3 méthodes de paiement (Stripe, PayPal, crypto) — toutes passent par
+    // le même bouton "Pay Now" (pas de bouton SDK PayPal séparé sur cette
+    // page ; PayPal est géré par redirection vers checkoutnow, cf. plus bas).
     // Lève une erreur (avec message déjà affiché via showErrorPopup) si la
     // validation échoue — l'appelant n'a qu'à laisser l'exception remonter.
     async function runCheckoutValidation() {
@@ -506,7 +571,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const discountedCart = getDiscountedCart();
         const selectedMethodPay = document.querySelector('.shipping-option.selected')?.dataset.method || 'Standard Shipping';
-        const clientSubtotal = discountedCart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+        // Fallback si #total est absent/vide : recalculé depuis le sous-total
+        // brut moins la remise en une seule fois, plutôt qu'en resommant les
+        // prix de discountedCart (chacun déjà arrondi individuellement à 2
+        // décimales par getDiscountedCart) — évite qu'un panier à plusieurs
+        // articles accumule un petit écart d'arrondi par rapport au vrai
+        // total recalculé côté serveur avec la même formule à un seul arrondi.
+        const clientSubtotal = parseFloat((getSubtotal() - discountAmount).toFixed(2));
         const clientTotal = parseFloat(document.getElementById('total').textContent.replace('$', '')) || clientSubtotal;
 
         // ── ÉTAPE 1 : Validation serveur + token ──
@@ -549,7 +620,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw new Error('__silent__');
         }
 
-        return { shippingData, cartToken, sanitizedCart, shippingCost, taxAmount };
+        return { shippingData, cartToken, sanitizedCart, shippingCost, taxAmount, clientTotal };
     }
 
     payButton.addEventListener('click', async () => {
@@ -565,7 +636,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
 
     try {
-        const { shippingData, cartToken, sanitizedCart, shippingCost, taxAmount } = await runCheckoutValidation();
+        const { shippingData, cartToken, sanitizedCart, shippingCost, taxAmount, clientTotal } = await runCheckoutValidation();
 
         // ── ÉTAPE 3 : Paiement avec totaux serveur ──
         if (paymentMethod === 'stripe') {
@@ -584,7 +655,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await response.json();
             if (!response.ok || !data.sessionId) throw new Error(data.error || 'Stripe session failed');
             localStorage.setItem("pendingOrder", "stripe");
-            await stripe.redirectToCheckout({ sessionId: data.sessionId });
+            // redirectToCheckout() ne rejette jamais : elle ne se résout QUE si
+            // la redirection elle-même échoue côté navigateur (ex: bloqueur de
+            // pub/extension qui bloque la navigation tierce) — en cas de succès
+            // la page quitte avant toute résolution. Sans ce check, un échec
+            // silencieux laissait le bouton bloqué sur "Processing..." pour
+            // toujours, sans message ni possibilité de réessayer.
+            const redirectResult = await stripe.redirectToCheckout({ sessionId: data.sessionId });
+            if (redirectResult && redirectResult.error) {
+                throw new Error(redirectResult.error.message || 'Stripe redirect failed');
+            }
 
         } else if (paymentMethod === 'paypal') {
             const response = await fetch('/.netlify/functions/paypal-create-order', {
@@ -614,7 +694,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     shipping:      shippingData,
                     shipping_cost: shippingCost.toFixed(2),
                     tax:           taxAmount.toFixed(2),
-                    cartToken
+                    cartToken,
+                    promoCode: appliedPromo ? appliedPromo.code : null,
+                    clientTotal
                 })
             });
             const data = await response.json();
@@ -979,6 +1061,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 freeShipMsg.innerHTML = `✨ <strong>Free Shipping Unlocked!</strong> Your order already qualifies for free shipping, so promo codes can't be stacked on top of this offer — but every stitch of savings is already working in your favor, Queen.`;
             }
             if (appliedPromo || discountAmount > 0 || affPromoApplied) {
+                // Efface aussi le marqueur sessionStorage posé lors de
+                // l'application du code affilié (cf. handler #apply-promo) —
+                // sans ça, il restait orphelin après ce reset et, si jamais
+                // il survivait jusqu'à runCheckoutValidation() dans un état
+                // incohérent, risquait de faire marquer le code "used" côté
+                // serveur pour une réduction qui n'a plus cours (déjà mis à
+                // l'abri par le check appliedPromo.isAffiliate là-bas, mais
+                // ce nettoyage évite de compter sur cette seule protection).
+                if (affPromoApplied || appliedPromo?.isAffiliate) {
+                    sessionStorage.removeItem('pendingAffPromo');
+                }
                 appliedPromo    = null;
                 discountAmount  = 0;
                 affPromoApplied = false;
