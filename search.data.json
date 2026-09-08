@@ -1485,5 +1485,40 @@
   "keywords": ["affiliate", "become affiliate", "affiliate program", "earn %", "earn commission", "referral", "make money", "partner", "affiliation"],
   "type": "program",
   "icon": "fas fa-bullhorn"
+},
+{
+  "title": "LED Facial Mask Skin Care Mask Beauty Salon",
+  "url": "/products/product119.html",
+  "keywords": ["led facial mask", "led mask", "skin care mask", "beauty salon mask", "light therapy mask", "product119"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "Neck & Face Lifting Beauty Instrument",
+  "url": "/products/product120.html",
+  "keywords": ["face lifting device", "neck lifting", "microcurrent device", "beauty instrument", "skin tightening tool", "product120"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "Laikou Vitamin C Skincare Cleanser",
+  "url": "/products/product121.html",
+  "keywords": ["laikou cleanser", "vitamin c cleanser", "face wash", "skincare cleanser", "facial cleanser", "product121"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "Hyaluronic Acid Water-Sensitive Sunscreen — Refreshing, Not Oily, 50ml",
+  "url": "/products/product122.html",
+  "keywords": ["hyaluronic acid sunscreen", "sunscreen", "spf", "sun protection", "water sensitive sunscreen", "product122"],
+  "type": "product",
+  "icon": "fas fa-tag"
+},
+{
+  "title": "Skin Hydrating And Moisturizing Mist",
+  "url": "/products/product123.html",
+  "keywords": ["hydrating mist", "moisturizing mist", "face mist", "skin mist", "facial spray", "product123"],
+  "type": "product",
+  "icon": "fas fa-tag"
 }
 ]
