@@ -11000,7 +11000,7 @@ function loadProfilePhoto() {
       var res  = await fetch('/.netlify/functions/save-account', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ action: 'newsletter-subscribe', email: email, birthday: birthday })
+        body:    JSON.stringify({ action: 'save-birthday', email: email, birthday: birthday })
       });
       var data = await res.json();
       if (data.success) {

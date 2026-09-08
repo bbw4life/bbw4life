@@ -501,6 +501,39 @@ exports.handler = async (event) => {
       };
     }
 
+    // ==================== SAVE BIRTHDAY (My Account) ====================
+    // Action dédiée, séparée de newsletter-subscribe : la sauvegarde de
+    // l'anniversaire depuis "My Account" utilisait auparavant
+    // newsletter-subscribe, qui retourne une erreur "already subscriber"
+    // dès que l'email est déjà inscrit à la newsletter (cas le plus
+    // courant pour un client qui gère son compte) AVANT même d'atteindre
+    // l'écriture de birthday — l'anniversaire n'était donc jamais
+    // enregistré et le client voyait un message trompeur, sans rapport
+    // avec ce qu'il venait de faire.
+    if (action === 'save-birthday') {
+      if (!email) throw new Error("Email required");
+      if (!birthday) throw new Error("Birthday required");
+
+      const normalizedEmail = normalize(email);
+      const rowIndex = rows.findIndex(row => normalize(row[2] || "") === normalizedEmail);
+      if (rowIndex === -1) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ success: false, error: "Account not found" })
+        };
+      }
+      const rowNum = rowIndex + 1;
+
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `bbw4life-accounts!AB${rowNum}`,
+        valueInputOption: "RAW",
+        resource: { values: [[birthday]] }
+      });
+
+      return { statusCode: 200, body: JSON.stringify({ success: true }) };
+    }
+
     // ==================== NEWSLETTER SUBSCRIBE ====================
     if (action === 'newsletter-subscribe') {
       if (!email) throw new Error("Email required");
