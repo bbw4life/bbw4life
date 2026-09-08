@@ -158,6 +158,39 @@ async function sendTelegramPhoto(chatId, photoUrl, caption) {
   }
 }
 
+/** Retrouve le TelegramChatId (colonne AK) d'un client à partir de son email
+ *  (colonne C) — même logique déjà utilisée et éprouvée par le tracking de
+ *  commande dans send-email-auto.js (runTrackingChecker). */
+async function getTelegramChatIdByEmail(email) {
+  if (!email) return null;
+  try {
+    const sheets = getSheetsClient();
+    const spreadsheetId = getAccountsSpreadsheetId();
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: 'bbw4life-accounts!C:AK' // C=email ... AK=telegram_chat_id (index 34)
+    });
+    const rows = res.data.values || [];
+    const row = rows.find(r => (r[0] || '').trim().toLowerCase() === email.trim().toLowerCase());
+    const chatId = row ? (row[34] || '').trim() : '';
+    return chatId || null;
+  } catch (e) {
+    console.warn('[telegram-broadcast] getTelegramChatIdByEmail failed:', e.message);
+    return null;
+  }
+}
+
+/** Envoie un message Telegram à un client identifié par email, seulement
+ *  s'il a lié son compte à Telegram (TelegramChatId non vide). Ne fait rien
+ *  silencieusement sinon — jamais d'erreur bloquante pour l'appelant, même
+ *  pattern que les autres notifications "best effort" du site. */
+async function notifyCustomerTelegram(email, text, replyMarkup) {
+  const chatId = await getTelegramChatIdByEmail(email);
+  if (!chatId) return { sent: false, reason: 'not_linked' };
+  await sendTelegramMessage(chatId, text, replyMarkup);
+  return { sent: true, chatId };
+}
+
 async function sendTelegramMessage(chatId, text, replyMarkup) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   if (!token) return;
@@ -185,5 +218,7 @@ module.exports = {
   getCursorValue,
   setCursorValue,
   sendTelegramPhoto,
-  sendTelegramMessage
+  sendTelegramMessage,
+  getTelegramChatIdByEmail,
+  notifyCustomerTelegram
 };

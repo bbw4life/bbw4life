@@ -3,6 +3,7 @@ process.removeAllListeners('warning');
 
 const { Resend } = require('resend');
 const { google } = require('googleapis');
+const { notifyCustomerTelegram } = require('./_lib/telegram-broadcast');
 
 const BASE_URL   = process.env.BASE_URL   || 'https://bbw4life.com';
 const FROM_EMAIL = process.env.FROM_EMAIL || 'BBW4LIFE <hello@bbw4life.com>';
@@ -519,6 +520,15 @@ Write a warm, professional email body. Use ONLY the support notes as your basis.
           });
           console.log(`[reply-contact-message] ✅ Reply sent to ${email}`);
           processed++;
+
+          // ── Telegram : avertir le client qu'on lui a répondu (best effort) ──
+          notifyCustomerTelegram(
+            email,
+            `${firstName || 'there'}, we heard you! 💬\n\n` +
+            `<b>You got a reply from BBW4LIFE!</b>\n` +
+            `Re: <b>${subjectResp}</b>\n\n` +
+            `Check your email for our full reply — we've sent it to ${email}.`
+          ).catch(e => console.warn('[reply-contact-message] Telegram notify failed:', e.message));
         }
 
         await sleep(500);

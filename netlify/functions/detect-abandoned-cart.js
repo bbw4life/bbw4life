@@ -4,6 +4,7 @@ const { google } = require("googleapis");
 const fetch = require("node-fetch");
 const { notifyTelegram } = require('./notify-telegram');
 const { notifyCartAbandoned } = require('./notify-email');
+const { notifyCustomerTelegram } = require('./_lib/telegram-broadcast');
 
 const ABANDON_THRESHOLD_MINUTES = 20;
 
@@ -205,6 +206,19 @@ exports.handler = async () => {
         } else {
           console.warn(`[ABANDONED CART] Échec envoi email à ${email}:`, emailResult.error);
         }
+
+        // ── Telegram : relance au client lié, avec bouton "Restore Order"
+        //    (même restartLink que l'email — best effort) ──
+        const cartLines = (cart || []).map(it => `• ${it.title || it.name || 'Item'}`).join('\n');
+        notifyCustomerTelegram(
+          email,
+          `${shipping.firstName || 'there'}, don't forget about these! 👀\n\n` +
+          `🛍️ <b>You left something behind!</b>\n` +
+          `${cartLines || 'Your cart is waiting for you.'}\n\n` +
+          (promo ? `We're giving you a discount, just for you\n✨ Use code <b>${promo.code}</b> for ${promo.percent}% off!\n\n` : '') +
+          `Tap below to pick up right where you left off.`,
+          { inline_keyboard: [[{ text: '🛒 Restore My Order', url: restartLink }]] }
+        ).catch(e => console.warn('[ABANDONED CART] Telegram client notify failed:', e.message));
       }
 
       // ── Supprimer la ligne de Temp_Orders (seulement si la sauvegarde a réussi) ──

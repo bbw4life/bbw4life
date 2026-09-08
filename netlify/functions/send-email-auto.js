@@ -448,7 +448,7 @@ async function runTrackingChecker(sheets, settings) {
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
               chat_id:    clientChatId,
-              text:       `📦 <b>Your BBW4LIFE order has shipped!</b>\n\nOrder: <b>${internalOrderId}</b>\nTracking number: <b>${result.trackingNumber}</b>${result.carrier ? `\nCarrier: <b>${result.carrier}</b>` : ''}`,
+              text:       `${firstName || 'there'}, exciting news! 🚀\n\n📦 <b>Your BBW4LIFE order has shipped!</b>\nOrder: <b>${internalOrderId}</b>\nTracking number: <b>${result.trackingNumber}</b>${result.carrier ? `\nCarrier: <b>${result.carrier}</b>` : ''}`,
               parse_mode: 'HTML'
             })
           });

@@ -30,6 +30,10 @@
   schedule = "*/5 * * * *"
   background = true
 
+[functions."check-approved-stories"]
+  schedule = "*/10 * * * *"
+  background = true
+
 [functions.process-email-queue]
   schedule = "* * * * *"
   background = true

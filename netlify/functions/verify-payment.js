@@ -8,6 +8,7 @@ const {
   markOrderAsProcessed
 } = require('./temp-orders-store');
 const { getAllProductsData } = require('./_lib/pricing');
+const { notifyCustomerTelegram } = require('./_lib/telegram-broadcast');
 
 // PayPal ne renvoie aucun identifiant produit interne dans ses items — on le
 // retrouve après coup via le variant id (sku), pour que l'historique de
@@ -59,15 +60,21 @@ exports.handler = async (event) => {
       if (!tempOrder) throw new Error("Stripe order data not found in temp store");
 
       cart = (tempOrder.cart || []).map(item => ({
-        id:            item.id || item.cj_product_id || '',
-        title:         item.title,
-        price:         parseFloat(item.price) || 0,
-        quantity:      parseInt(item.quantity) || 1,
-        variantsid:    item.cj_variant_id || item.variantsid || null,
-        image:         item.image || '',
-        image_variant: item.image || '',
-        color:         item.color || '',
-        size:          item.size  || ''
+        id:             item.id || item.cj_product_id || '',
+        title:          item.title,
+        price:          parseFloat(item.price) || 0,
+        quantity:       parseInt(item.quantity) || 1,
+        variantsid:     item.cj_variant_id || item.variantsid || null,
+        // Perdu en route auparavant : cj_product_id n'était lu que comme
+        // repli pour "id" ci-dessus, jamais conservé tel quel — save-pending-order.js
+        // (colonne L) en a pourtant besoin pour les commandes CJ (CJ exige
+        // l'ID produit EN PLUS de l'ID variante, contrairement à Eprolo qui
+        // ne demande que la variante).
+        cj_product_id:  item.cj_product_id || null,
+        image:          item.image || '',
+        image_variant:  item.image || '',
+        color:          item.color || '',
+        size:           item.size  || ''
       }));
       shipping = tempOrder.shipping || {};
       paymentVerified = true;
@@ -110,12 +117,20 @@ exports.handler = async (event) => {
       cart = itemsArray.map((item, i) => {
         const descParts = (item.description || '').split('|');
         const variantForLookup = item.sku || storedVariants[i] || null;
+        const resolvedId = findProductIdByVariant(allProductsForLookup, variantForLookup);
+        // Comme pour "id" ci-dessus, PayPal ne renvoie aucun champ interne —
+        // on retrouve cj_product_id après coup dans le catalogue via l'id
+        // produit déjà résolu. Nécessaire pour la colonne L des commandes CJ
+        // (save-pending-order.js) : CJ exige l'ID produit en plus de l'ID
+        // variante, contrairement à Eprolo qui ne demande que la variante.
+        const resolvedProduct = (allProductsForLookup || []).find(p => p.id === resolvedId);
         return {
-          id: findProductIdByVariant(allProductsForLookup, variantForLookup),
+          id: resolvedId,
           title: item.name,
           price: parseFloat(item.unit_amount.value),
           quantity: parseInt(item.quantity),
           variantsid: variantForLookup,
+          cj_product_id: resolvedProduct ? (resolvedProduct.cj_product_id || null) : null,
           image: descParts[1] || item.description || '',
           color: descParts[0] && descParts[0] !== 'N/A' ? descParts[0] : ''
         };
@@ -238,6 +253,21 @@ exports.handler = async (event) => {
           ].filter(Boolean).join(', ')
         })
       }).catch(e => console.warn('[Email] order_confirm failed:', e.message));
+    }
+
+    // ── Telegram : confirmation de commande au client lié (best effort,
+    //    ne bloque jamais le reste si l'envoi échoue) ──
+    if (shipping.email) {
+      const itemsList = orderItems.map(it => `• ${it.title}${it.size ? ` (${it.size})` : ''} × ${it.quantity}`).join('\n');
+      notifyCustomerTelegram(
+        shipping.email,
+        `${shipping.firstName || 'there'}, you're all set! 🎉\n\n` +
+        `✅ <b>Order Confirmed!</b>\n` +
+        `Order: <b>${paymentId}</b>\n` +
+        `${itemsList}\n\n` +
+        `💰 Total: <b>$${totalAmount.toFixed(2)}</b>\n\n` +
+        `We'll notify you here as soon as it ships. Thank you for shopping with BBW4LIFE! 💕`
+      ).catch(e => console.warn('[Telegram] order_confirm failed:', e.message));
     }
 
     // ── Analytics : enregistrer la commande dans le sheet ──
