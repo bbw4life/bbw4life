@@ -7373,6 +7373,20 @@ if (rcCheckoutBtn) {
                 satcTeaser.setAttribute('aria-hidden', 'true');
             }
         }
+
+        // ── Espace réservé pour le footer (products.css, --satc-footer-space) :
+        //    mesuré en vrai (offsetHeight) sur ce qui est réellement affiché
+        //    en bas d'écran à cet instant — jamais une valeur devinée à
+        //    l'avance. transform (utilisé pour cacher bar/teaser) ne change
+        //    pas offsetHeight, donc la mesure reste fiable même caché.
+        //    Uniquement mobile : desktop garde son 60px fixe en CSS,
+        //    on ne touche jamais à la variable en dehors du mobile. ──
+        if (isMobileStickyAtc) {
+            const satcSpace = (satcUseCollapse && satcCollapsed)
+                ? (satcTeaser.offsetHeight || 44)
+                : (bar.offsetHeight || 210);
+            document.documentElement.style.setProperty('--satc-footer-space', satcSpace + 'px');
+        }
     }
 
         window.addEventListener('scroll', checkStickyVisibility, { passive: true });

@@ -5939,8 +5939,8 @@ body:has(.product-section) .bbw-footer {
 
 @media (max-width: 768px) {
     body:has(.product-section) .bbw-footer {
-        margin-bottom: 210px !important;
-    } 
+        margin-bottom: var(--satc-footer-space, 210px) !important;
+    }
 }
 
 
@@ -5951,7 +5951,7 @@ body:has(.product-section) .bbw-footer {
 
 @media (max-width: 768px) {
     .is-product-page:not(:has(.product-section.bbw-featured-request-mode)) .bbw-footer {
-        padding-bottom: 210px !important;
+        padding-bottom: 10px !important;
     }
 }
 
