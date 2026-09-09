@@ -5460,20 +5460,48 @@ details[open] .chevron {
     left: 0;
     right: 0;
     z-index: 9989;
-    height: 42px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    overflow: hidden;
     background: linear-gradient(135deg, var(--bbw-black), var(--bbw-black-soft));
     border-top: 1.5px solid var(--bbw-gold-border-hi);
     box-shadow: 0 -6px 24px rgba(0,0,0,0.18);
     cursor: pointer;
     transform: translateY(110%);
     transition: transform 0.42s cubic-bezier(.22, 1, .36, 1);
+    animation: satcTeaserGlow 2.8s ease-in-out infinite;
 }
 
 .sticky-atc-teaser.visible {
     transform: translateY(0);
+}
+
+/* Léger halo doré qui respire — attire l'œil sans être criard */
+@keyframes satcTeaserGlow {
+    0%, 100% { box-shadow: 0 -6px 24px rgba(0,0,0,0.18); }
+    50%      { box-shadow: 0 -6px 28px rgba(0,0,0,0.18), 0 0 18px var(--bbw-gold-glow-hi); }
+}
+
+/* Reflet lumineux qui balaie la barre en diagonale, en boucle */
+.sticky-atc-teaser::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent, rgba(232,188,106,0.22), transparent);
+    animation: satcTeaserShine 3.6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes satcTeaserShine {
+    0%   { left: -60%; }
+    55%  { left: 130%; }
+    100% { left: 130%; }
 }
 
 .sticky-atc-teaser__title {
@@ -5492,10 +5520,25 @@ details[open] .chevron {
     50%      { transform: translateX(5px); }
 }
 
+.sticky-atc-teaser__icon {
+    color: var(--bbw-gold-light);
+    font-size: 14px;
+    display: inline-flex;
+    transform-origin: center;
+    animation: satcTeaserBounce 1.9s ease-in-out infinite;
+}
+
+@keyframes satcTeaserBounce {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    30%      { transform: scale(1.22) rotate(-8deg); }
+    50%      { transform: scale(1.05) rotate(6deg); }
+    70%      { transform: scale(1.15) rotate(0deg); }
+}
+
 .sticky-atc-teaser__toggle {
     position: absolute;
     right: 12px;
-    bottom: 8px;
+    bottom: 9px;
     width: 24px;
     height: 24px;
     display: flex;
@@ -5508,6 +5551,12 @@ details[open] .chevron {
     font-size: 11px;
     padding: 0;
     pointer-events: none; /* le clic est géré par la barre entière */
+    animation: satcTogglePulse 2.8s ease-in-out infinite;
+}
+
+@keyframes satcTogglePulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--bbw-gold-glow); }
+    50%      { box-shadow: 0 0 0 5px transparent; }
 }
 
 .sticky-atc__collapse-btn {

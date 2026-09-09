@@ -7064,6 +7064,7 @@ if (rcCheckoutBtn) {
             satcTeaser.setAttribute('aria-hidden', 'true');
             satcTeaser.innerHTML =
               '<span class="sticky-atc-teaser__title">Make My Purchase Now</span>' +
+              '<i class="fi fi-rr-shopping-bag sticky-atc-teaser__icon" aria-hidden="true"></i>' +
               '<button type="button" class="sticky-atc-teaser__toggle" aria-label="Expand purchase panel"><i class="fi fi-rr-angle-small-up"></i></button>';
             bar.parentNode.insertBefore(satcTeaser, bar);
 
