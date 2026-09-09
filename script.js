@@ -7052,7 +7052,12 @@ if (rcCheckoutBtn) {
         let satcTeaser       = null;
         let satcCollapseBtn  = null;
         if (bar) {
-          const teaserPageMatch = (window.location.pathname || '').match(/product(\d+)\.html/);
+          // pid (ex: "Pdg-Francenel-product69") vient de l'attribut HTML
+          // statique data-product-id, jamais réécrit — contrairement à
+          // window.location.pathname que pretty-url.js remplace très tôt
+          // (history.replaceState) par l'URL jolie /bbw4life/nom-du-produit,
+          // ce qui rendait la détection par URL toujours fausse en production.
+          const teaserPageMatch = (pid || '').match(/product(\d+)$/);
           const teaserPageNum   = teaserPageMatch ? parseInt(teaserPageMatch[1], 10) : null;
           const teaserIsBbwFeatures = teaserPageNum !== null &&
             ((teaserPageNum >= 69 && teaserPageNum <= 75) || (teaserPageNum >= 98 && teaserPageNum <= 110));
@@ -7317,7 +7322,10 @@ if (rcCheckoutBtn) {
           // que les autres fiches produit, le footer arrive donc plus vite
           // en scroll — un threshold mobile dédié, plus petit, évite que la
           // barre sticky apparaisse trop tôt sur ces pages spécifiquement.
-          const pageProductMatch = (window.location.pathname || '').match(/product(\d+)\.html/);
+          // pid (attribut statique data-product-id) plutôt que l'URL —
+          // pretty-url.js réécrit window.location.pathname avant ce code,
+          // ce qui rendait cette détection toujours fausse en production.
+          const pageProductMatch = (pid || '').match(/product(\d+)$/);
           const pageProductNum = pageProductMatch ? parseInt(pageProductMatch[1], 10) : null;
           const isBbwFeaturesPage = pageProductNum !== null &&
             ((pageProductNum >= 69 && pageProductNum <= 75) || (pageProductNum >= 98 && pageProductNum <= 110));
