@@ -523,9 +523,160 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
+
+    /* ═══════════════ ADMIN KEY + GATE ═══════════════ */
+    #key-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 60;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,150,62,0.28);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      color: rgba(232,188,106,0.55);
+      transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+    #key-toggle:hover { color: var(--gold2); border-color: var(--gold2); transform: scale(1.06); }
+
+    #admin-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(13,13,13,0.72);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #admin-gate.open { display: flex; }
+
+    .gate-card {
+      width: 100%;
+      max-width: 360px;
+      background: #15100e;
+      border: 1px solid rgba(201,150,62,0.25);
+      border-radius: 14px;
+      padding: 32px 28px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+      position: relative;
+    }
+
+    .gate-close {
+      position: absolute;
+      top: 12px; right: 14px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: rgba(253,248,240,0.30);
+      cursor: pointer;
+    }
+    .gate-close:hover { color: var(--ivory); }
+
+    .gate-icon { font-size: 24px; margin-bottom: 12px; }
+    .gate-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ivory);
+      margin-bottom: 4px;
+    }
+    .gate-subtitle {
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      color: rgba(253,248,240,0.40);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .gate-input-wrap { position: relative; margin-bottom: 12px; }
+    .gate-input-wrap input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,150,62,0.28);
+      border-radius: 8px;
+      padding: 12px 42px 12px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      outline: none;
+      color: var(--ivory);
+      transition: border-color 0.2s;
+    }
+    .gate-input-wrap input:focus { border-color: var(--gold2); }
+    .gate-input-wrap input.shake {
+      animation: gateShake 0.38s ease;
+      border-color: var(--rose) !important;
+    }
+    @keyframes gateShake {
+      0%,100% { transform: translateX(0); }
+      18% { transform: translateX(-6px); }
+      36% { transform: translateX(6px); }
+      54% { transform: translateX(-4px); }
+      72% { transform: translateX(4px); }
+    }
+
+    .gate-eye {
+      position: absolute;
+      right: 10px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      cursor: pointer;
+      color: rgba(253,248,240,0.35);
+      font-size: 13px;
+      padding: 4px;
+    }
+
+    .gate-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #15100e;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, box-shadow 0.2s;
+    }
+    .gate-btn:hover { box-shadow: 0 8px 22px rgba(201,150,62,0.35); }
+    .gate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .gate-msg { margin-top: 12px; font-size: 10.5px; color: rgba(253,248,240,0.45); min-height: 14px; }
+    .gate-msg.err { color: var(--rose); }
   </style>
 </head>
 <body>
+
+<!-- Admin key — click to enter the password and preview the live site -->
+<button id="key-toggle" type="button" title="Admin access" aria-label="Admin access"><i class="fas fa-key"></i></button>
+
+<div id="admin-gate">
+  <div class="gate-card">
+    <button class="gate-close" id="gate-close-btn" type="button" aria-label="Close">✕</button>
+    <div class="gate-icon"><i class="fas fa-key" style="color:var(--gold2);"></i></div>
+    <h2 class="gate-title">Admin Access</h2>
+    <p class="gate-subtitle">Preview the site during maintenance</p>
+    <div class="gate-input-wrap">
+      <input type="password" id="gate-pwd" placeholder="Enter password" autocomplete="off" spellcheck="false">
+      <button class="gate-eye" id="gate-eye-btn" type="button" tabindex="-1" title="Show/Hide"><i class="fas fa-eye"></i></button>
+    </div>
+    <button class="gate-btn" id="gate-submit-btn" type="button">Unlock →</button>
+    <p class="gate-msg" id="gate-msg"></p>
+  </div>
+</div>
 
 <!-- Particles canvas -->
 <canvas id="bbw-canvas"></canvas>
@@ -850,6 +1001,144 @@
   }
   animate();
 
+})();
+
+/* ═══════════════════════════════════════
+   6. ADMIN GATE — même système qu'eprolo-viewer.html / cj-viewer.html
+      (get-private-settings, EPROLO_PASSWORD, sessionStorage). Un admin
+      qui déverrouille ici est reconnu par maintenance-gate.js sur
+      toutes les autres pages du site (même clé de session).
+═══════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var MAX_ATTEMPTS  = 5;
+  var LOCK_DURATION = 5 * 60 * 1000;
+  var SESSION_KEY   = 'eprolo_auth_ok';
+  var LOCK_KEY      = 'eprolo_lock_until';
+  var ATTEMPT_KEY   = 'eprolo_attempts';
+
+  var keyToggle   = document.getElementById('key-toggle');
+  var gateOverlay = document.getElementById('admin-gate');
+  var gateClose   = document.getElementById('gate-close-btn');
+  var gateInput   = document.getElementById('gate-pwd');
+  var gateSubmit  = document.getElementById('gate-submit-btn');
+  var gateEyeBtn  = document.getElementById('gate-eye-btn');
+  var gateMsg     = document.getElementById('gate-msg');
+
+  var alreadyAdmin = false;
+  try { alreadyAdmin = sessionStorage.getItem(SESSION_KEY) === 'yes'; } catch (e) {}
+  if (alreadyAdmin) keyToggle.style.color = '#22a06b';
+
+  keyToggle.addEventListener('click', function () {
+    gateOverlay.classList.add('open');
+    gateInput.focus();
+  });
+  gateClose.addEventListener('click', function () {
+    gateOverlay.classList.remove('open');
+  });
+  gateOverlay.addEventListener('click', function (e) {
+    if (e.target === gateOverlay) gateOverlay.classList.remove('open');
+  });
+  gateEyeBtn.addEventListener('click', function () {
+    gateInput.type = gateInput.type === 'password' ? 'text' : 'password';
+  });
+  gateInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+  gateSubmit.addEventListener('click', tryUnlock);
+
+  checkLockState();
+
+  function checkLockState() {
+    var lockUntil = parseInt(localStorage.getItem(LOCK_KEY) || '0');
+    if (lockUntil > Date.now()) applyLock(lockUntil - Date.now());
+  }
+
+  function tryUnlock() {
+    var lockUntil = parseInt(localStorage.getItem(LOCK_KEY) || '0');
+    if (lockUntil > Date.now()) return;
+
+    var val      = gateInput.value;
+    var attempts = parseInt(localStorage.getItem(ATTEMPT_KEY) || '0');
+
+    gateSubmit.disabled    = true;
+    gateSubmit.textContent = 'Checking...';
+    gateMsg.textContent    = '';
+    gateMsg.classList.remove('err');
+
+    fetch('/.netlify/functions/get-private-settings', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ password: val })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        gateSubmit.disabled    = false;
+        gateSubmit.textContent = 'Unlock →';
+
+        if (data.ok) {
+          localStorage.removeItem(ATTEMPT_KEY);
+          localStorage.removeItem(LOCK_KEY);
+          try { sessionStorage.setItem(SESSION_KEY, 'yes'); } catch (e) {}
+          gateMsg.textContent = 'Access granted — redirecting…';
+          setTimeout(function () {
+            var params = new URLSearchParams(window.location.search);
+            var target = params.get('redirect') || '/index.html';
+            window.location.replace(target);
+          }, 500);
+        } else {
+          attempts++;
+          localStorage.setItem(ATTEMPT_KEY, attempts);
+          gateInput.value = '';
+          gateInput.classList.add('shake');
+          setTimeout(function () { gateInput.classList.remove('shake'); }, 400);
+
+          var remaining = MAX_ATTEMPTS - attempts;
+          if (remaining <= 0) {
+            var lockUntilNew = Date.now() + LOCK_DURATION;
+            localStorage.setItem(LOCK_KEY, lockUntilNew);
+            localStorage.removeItem(ATTEMPT_KEY);
+            applyLock(LOCK_DURATION);
+          } else {
+            gateMsg.textContent = remaining + ' attempt' + (remaining > 1 ? 's' : '') + ' remaining';
+            gateMsg.classList.add('err');
+          }
+        }
+      })
+      .catch(function () {
+        gateSubmit.disabled    = false;
+        gateSubmit.textContent = 'Unlock →';
+        gateMsg.textContent    = 'Connection error. Try again.';
+        gateMsg.classList.add('err');
+      });
+  }
+
+  function applyLock(msRemaining) {
+    gateInput.disabled  = true;
+    gateSubmit.disabled = true;
+    gateInput.placeholder = 'Locked';
+
+    function tick() {
+      var left = parseInt(localStorage.getItem(LOCK_KEY) || '0') - Date.now();
+      if (left <= 0) {
+        localStorage.removeItem(LOCK_KEY);
+        localStorage.removeItem(ATTEMPT_KEY);
+        gateInput.disabled    = false;
+        gateSubmit.disabled   = false;
+        gateInput.placeholder = 'Enter password';
+        gateMsg.textContent   = '';
+        gateMsg.classList.remove('err');
+        return;
+      }
+      var m = Math.floor(left / 60000);
+      var s = Math.floor((left % 60000) / 1000);
+      gateMsg.classList.add('err');
+      gateMsg.textContent = 'Too many attempts — locked for ' + m + ':' + (s < 10 ? '0' : '') + s;
+      setTimeout(tick, 1000);
+    }
+    tick();
+  }
 })();
 </script>
 </body>

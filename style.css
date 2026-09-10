@@ -21,8 +21,8 @@
   ═══════════════════════════════════════ */
   --hero-height-desktop:      300px;
   --hero-height-mobile:       300px;
-  --hero-thumb-size-desktop:  44px;
-  --hero-thumb-size-mobile:   34px;
+  --hero-thumb-size-desktop:  52px;
+  --hero-thumb-size-mobile:   42px;
   --hero-thumb-gap:           12px;
   --hero-btn-bg:              var(--bbw-gold);
   --hero-btn-color:           #000000;
@@ -95,7 +95,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: var(--bbw-black, #15110E);
+  background: #fdfcf9;
   overflow-x: hidden !important;
 }
 
@@ -7403,9 +7403,16 @@ body {
 /* Skeleton du header, présent dans le HTML statique de chaque page
    pendant que src/components/header.html est fetché (layout-loader.js).
    Même hauteur que le header réel (--ann-bar-h + --bbw-header-h,
-   header.css) pour ne jamais provoquer de saut de layout. */
+   header.css) pour ne jamais provoquer de saut de layout.
+   header.css pose "body { padding-top: var(--bbw-total-top) }" pour
+   réserver l'espace du header réel une fois chargé (position:fixed).
+   Ce skeleton, lui, est dans le flux normal — sans ce margin-top négatif,
+   le padding du body s'ajoute à sa hauteur et crée un grand espace noir
+   vide au-dessus de lui pendant le chargement. Le margin le remonte pour
+   qu'il occupe exactement l'espace réservé par ce padding. */
 .skel-header-placeholder {
   height: calc(var(--ann-bar-h, 40px) + var(--bbw-header-h, 84px));
+  margin-top: calc(-1 * var(--bbw-total-top, 187px));
   background: var(--bbw-black, #15110E);
   display: flex;
   flex-direction: column;

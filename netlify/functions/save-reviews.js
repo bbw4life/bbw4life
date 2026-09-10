@@ -2,6 +2,7 @@
 process.removeAllListeners('warning');
 const { google } = require('googleapis');
 const { notifyReviewResponse } = require('./notify-email');
+const { verifyAccountToken } = require('./account-token');
 
 
 exports.handler = async (event) => {
@@ -97,7 +98,11 @@ exports.handler = async (event) => {
       const rows = res.data.values || [];
 
       const reviews = rows.slice(1)
-        .filter(row => row[6] === productId)
+        // row[0] (fullName) est obligatoire pour un vrai avis (voir action
+        // 'save-review' ci-dessus) — exclut la ligne "compteur de likes"
+        // dédiée par produit (action 'like-vote' plus bas), qui elle n'a
+        // que G (productId) + I/J/K remplis, sans fullName.
+        .filter(row => row[6] === productId && row[0])
         .map(row => ({
           fullName: row[0] || "",
           email:    row[1] || "",
@@ -111,6 +116,98 @@ exports.handler = async (event) => {
       return {
         statusCode: 200,
         body: JSON.stringify({ success: true, reviews })
+      };
+    }
+
+    // ── LIKE / DISLIKE PRODUIT ─────────────────────────────────────
+    // Même feuille que les avis (bbw4life-customers-reviews) — une ligne
+    // dédiée par produit (identifiée par G=productId, A=fullName vide)
+    // porte le compteur cumulatif : I=likes, J=dislikes, K=voters (JSON
+    // stringifié { "email_ou_anonId": "like"|"dislike" }), pour permettre
+    // à un votant de changer d'avis sans compter deux fois.
+    if (action === 'like-vote' || action === 'get-likes') {
+      const { voteType, anonId } = body;
+      const token = body.token;
+      if (!productId) throw new Error("Product ID manquant");
+
+      // Identité du votant : compte connecté (token HMAC vérifié) sinon
+      // anonId généré/persisté côté client (localStorage) — jamais un
+      // simple email non vérifié, contrairement à 'save-review' plus haut.
+      let voterKey = null;
+      if (email && token) {
+        if (!verifyAccountToken(email, token)) {
+          return { statusCode: 401, body: JSON.stringify({ success: false, error: "Unauthorized" }) };
+        }
+        voterKey = normalize(email);
+      } else if (anonId) {
+        voterKey = String(anonId).trim();
+      }
+      if (!voterKey) throw new Error("Identité du votant manquante");
+
+      const res = await sheets.spreadsheets.values.get({
+        spreadsheetId: reviewsSpreadsheetId,
+        range: "bbw4life-customers-reviews!A:K"
+      });
+      const rows = res.data.values || [];
+
+      // La ligne "compteur likes" du produit : G=productId ET A vide.
+      const likeRowIndex = rows.findIndex((row, i) => i > 0 && row[6] === productId && !row[0]);
+
+      let likes = 0, dislikes = 0, voters = {};
+      if (likeRowIndex !== -1) {
+        const row = rows[likeRowIndex];
+        likes    = parseInt(row[8]  || 0) || 0;
+        dislikes = parseInt(row[9]  || 0) || 0;
+        try { voters = row[10] ? JSON.parse(row[10]) : {}; } catch (e) { voters = {}; }
+      }
+
+      if (action === 'get-likes') {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ success: true, likes, dislikes, myVote: voters[voterKey] || null })
+        };
+      }
+
+      // action === 'like-vote'
+      if (voteType !== 'like' && voteType !== 'dislike') throw new Error("Type de vote invalide");
+
+      const previousVote = voters[voterKey] || null;
+      if (previousVote === voteType) {
+        // Déjà voté pareil — pas de double comptage, renvoie l'état actuel.
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ success: true, likes, dislikes, myVote: voteType })
+        };
+      }
+      if (previousVote === 'like') likes = Math.max(0, likes - 1);
+      if (previousVote === 'dislike') dislikes = Math.max(0, dislikes - 1);
+      if (voteType === 'like') likes += 1;
+      if (voteType === 'dislike') dislikes += 1;
+      voters[voterKey] = voteType;
+
+      if (likeRowIndex !== -1) {
+        const rowNum = likeRowIndex + 1;
+        await sheets.spreadsheets.values.update({
+          spreadsheetId: reviewsSpreadsheetId,
+          range: `bbw4life-customers-reviews!I${rowNum}:K${rowNum}`,
+          valueInputOption: "RAW",
+          resource: { values: [[likes, dislikes, JSON.stringify(voters)]] }
+        });
+      } else {
+        // Première interaction sur ce produit : crée la ligne compteur.
+        // A-F et H vides (ce n'est pas un avis), G=productId, I/J/K remplis.
+        await sheets.spreadsheets.values.append({
+          spreadsheetId: reviewsSpreadsheetId,
+          range: "bbw4life-customers-reviews!A:K",
+          valueInputOption: "RAW",
+          insertDataOption: "INSERT_ROWS",
+          resource: { values: [["", "", "", "", "", "", productId, "", likes, dislikes, JSON.stringify(voters)]] }
+        });
+      }
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ success: true, likes, dislikes, myVote: voteType })
       };
     }
 

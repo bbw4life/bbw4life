@@ -1,5 +1,11 @@
 (function () {
   var SLUGS = {
+    // ── ACCOUNT ───────────────────────────────────────────
+    '/account.html': '/bbw4life/my-account',
+
+    // ── CART ──────────────────────────────────────────────
+    '/cart.html': '/bbw4life/cart',
+
     // ── PRODUCTS ──────────────────────────────────────────
     '/products/product1.html':  '/bbw4life/glam-heels-cross-strap-stiletto-sandals',
     '/products/product2.html':  '/bbw4life/retrorun-sneakers-chunky-sole-street-style',

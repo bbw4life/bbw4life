@@ -1099,15 +1099,25 @@
 
   .bbw-footer__bottom-left {
     flex-direction: row;
+    flex-wrap: nowrap;
     align-items: flex-start;
     justify-content: center;
     gap: 12px;
-    width: 100%;
+    /* Compense le padding fixe (0 40px) de .bbw-footer__bottom-inner, non
+       responsive, qui laissait 40px de marge morte de chaque côté sur
+       mobile — uniquement pour ces 2 selects, le reste du footer bottom
+       (copyright, paiements) garde son padding parent inchangé. */
+    width: calc(100% + 80px);
+    margin-left: -40px;
+    margin-right: -40px;
     padding: 0 10px;
+    box-sizing: border-box;
   }
 
-  .bbw-footer__country-selector { flex: 2 1 0; min-width: 0; }
-  .bbw-footer__lang-selector    { flex: 1 1 0; min-width: 0; }
+  /* 60% / 40% en comptant le gap (12px) dans le calcul, pour que les 2
+     selects restent bien sur la même ligne au lieu de wrapper. */
+  .bbw-footer__country-selector { flex: 0 0 calc(60% - 7.2px); min-width: 0; }
+  .bbw-footer__lang-selector    { flex: 0 0 calc(40% - 4.8px); min-width: 0; }
 
   .bbw-footer__country-selector select,
   .bbw-footer__lang-selector select {

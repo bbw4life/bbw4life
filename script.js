@@ -1,6 +1,7 @@
 const BBW_VAPID_PUBLIC_KEY = 'BPAy2x7jsTHvHMYA5uLWKZAbmwpAtUlFtCbgSiALsYFH4EKhSTxUemonrVf-xzg5FxsQIB4GXZdA_N5gwvLWF8Y';
 
 
+
 // ══════════════════════════════════════════════════════════════
 //  DESKTOP — liens de pages (page/, products/, collections/, blog/) en
 //  nouvel onglet. Sur mobile (≤768px, même seuil que le reste du
@@ -1576,9 +1577,6 @@ function showErrorPopup(message) {
     .then(data => {
       products = data;
       window.__allProducts = data;
-
-
-
       // ══ INJECT MARQUEE DYNAMIC VALUES ══
     (function injectMarqueeValues() {
       const settings = products.find(p => p.type === 'settings') || {};
@@ -3762,6 +3760,125 @@ function showErrorPopup(message) {
             })();
 
 
+            // ════════════════════════════════════════════════
+            //   PRODUCT LIKE / DISLIKE WIDGET
+            //   Compteurs stockés dans la feuille bbw4life-customers-reviews
+            //   (netlify/functions/save-reviews.js, actions like-vote /
+            //   get-likes) — une ligne dédiée par produit (colonnes I/J/K),
+            //   distincte des lignes d'avis. Compte connecté → vote
+            //   mémorisé par email (token vérifié côté serveur), sinon
+            //   vote anonyme via un id généré une fois en localStorage.
+            // ════════════════════════════════════════════════
+            (function initProductLikeWidget() {
+              'use strict';
+
+              const widget      = document.getElementById('product-like-widget');
+              const likeBtn     = document.getElementById('product-like-btn');
+              const dislikeBtn  = document.getElementById('product-dislike-btn');
+              const likeCountEl = document.getElementById('product-like-count');
+              const dislikeCountEl = document.getElementById('product-dislike-count');
+              if (!widget || !likeBtn || !dislikeBtn) return;
+
+              const ANON_ID_KEY = 'bbw_anon_vote_id';
+              function getAnonId() {
+                try {
+                  let id = localStorage.getItem(ANON_ID_KEY);
+                  if (!id) {
+                    id = 'anon-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+                    localStorage.setItem(ANON_ID_KEY, id);
+                  }
+                  return id;
+                } catch (e) {
+                  // localStorage indisponible (mode privé strict, etc.) —
+                  // id ephemere pour cette page seulement, le vote compte
+                  // quand meme cote serveur.
+                  return 'anon-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+                }
+              }
+
+              function getIdentity() {
+                let email = null, token = null;
+                try {
+                  email = localStorage.getItem('userEmail') || null;
+                  token = localStorage.getItem('userAccountToken') || null;
+                } catch (e) {}
+                if (email && token) return { email, token };
+                return { anonId: getAnonId() };
+              }
+
+              function renderCounts(likes, dislikes) {
+                if (likeCountEl) likeCountEl.textContent = likes || 0;
+                if (dislikeCountEl) dislikeCountEl.textContent = dislikes || 0;
+              }
+
+              function renderMyVote(myVote) {
+                likeBtn.classList.toggle('active', myVote === 'like');
+                dislikeBtn.classList.toggle('active', myVote === 'dislike');
+              }
+
+              function callLikeApi(action, voteType) {
+                const identity = getIdentity();
+                const body = Object.assign({ action, productId: pid }, identity);
+                if (voteType) body.voteType = voteType;
+                return fetch('/.netlify/functions/save-reviews', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(body)
+                }).then(r => r.json());
+              }
+
+              // ── État initial (compteurs + mon vote si déjà voté) ──
+              //    Le skeleton (product-like-skel, même forme que les
+              //    vrais boutons) reste affiché jusqu'à ce que get-likes
+              //    aboutisse — succès ou échec, sinon il resterait figé
+              //    indéfiniment en cas d'erreur réseau. ──
+              callLikeApi('get-likes').then(data => {
+                if (data && data.success) {
+                  renderCounts(data.likes, data.dislikes);
+                  renderMyVote(data.myVote);
+                }
+              }).catch(() => {}).finally(() => {
+                widget.classList.add('is-loaded');
+                const skel = document.getElementById('product-like-skel');
+                if (skel) skel.classList.add('is-loaded');
+              });
+
+              // ── Rafraîchissement des compteurs en quasi temps réel,
+              //    même esprit que le polling des stats affiliées
+              //    (script.js, syncFromSheet) — ne retouche jamais l'état
+              //    "mon vote", qui ne change que sur clic local. ──
+              const pollInterval = setInterval(() => {
+                callLikeApi('get-likes').then(data => {
+                  if (!data || !data.success) return;
+                  renderCounts(data.likes, data.dislikes);
+                }).catch(() => {});
+              }, 45000);
+              window.addEventListener('beforeunload', () => clearInterval(pollInterval));
+
+              // ── Clic sur un pouce ──
+              let voting = false;
+              function handleVote(voteType) {
+                if (voting) return;
+                voting = true;
+                likeBtn.disabled = true;
+                dislikeBtn.disabled = true;
+                callLikeApi('like-vote', voteType).then(data => {
+                  if (data && data.success) {
+                    renderCounts(data.likes, data.dislikes);
+                    renderMyVote(data.myVote);
+                  }
+                }).catch(() => {}).finally(() => {
+                  voting = false;
+                  likeBtn.disabled = false;
+                  dislikeBtn.disabled = false;
+                });
+              }
+
+              likeBtn.addEventListener('click', () => handleVote('like'));
+              dislikeBtn.addEventListener('click', () => handleVote('dislike'));
+            })();
+
+
           // ── INJECT PRODUCT BADGE FROM JSON ──
           const badgeEl = document.querySelector('.product-badge');
           if (badgeEl) {
@@ -3979,7 +4096,7 @@ function showErrorPopup(message) {
               }
             };
             const moveZoom = (e) => {
-              if (e.target.closest('.slider-arrow')) { hideZoom(); return; }
+              if (e.target.closest('.slider-arrow, .product-like-widget')) { hideZoom(); return; }
               if (!lens.classList.contains('is-active')) showZoom();
               const rect = mainSlider.getBoundingClientRect();
               const lensW = lens.offsetWidth, lensH = lens.offsetHeight;
@@ -7096,6 +7213,8 @@ if (rcCheckoutBtn) {
         const satcImg     = document.getElementById('satc-img');
         const satcTitle   = document.getElementById('satc-title');
         const satcPrice   = document.getElementById('satc-price');
+        const satcComparePrice = document.getElementById('satc-compare-price');
+        const satcWishlist = document.getElementById('satc-wishlist');
         const satcSwatches= document.getElementById('satc-swatches');
         const satcColorName = document.getElementById('satc-color-name');
         const satcColorField= document.getElementById('satc-color-field');
@@ -7138,6 +7257,33 @@ if (rcCheckoutBtn) {
         // ── Remplir le titre ──
         satcTitle.textContent = product.title;
 
+        // ── Wishlist : réutilise le système global (toggleWishlist /
+        //    updateWishlistIcons dans script.js) — juste un nouvel icône
+        //    au même format que .mini-wishlist-icon ailleurs sur le site. ──
+        if (satcWishlist) {
+            satcWishlist.classList.add('mini-wishlist-icon');
+            satcWishlist.dataset.id = product.id;
+            satcWishlist.innerHTML =
+                '<svg class="wishlist-icon-empty" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                  '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>' +
+                '</svg>' +
+                '<svg class="wishlist-icon-filled" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">' +
+                  '<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>' +
+                '</svg>';
+            satcWishlist.addEventListener('click', function (e) {
+                e.preventDefault();
+                toggleWishlist(e);
+            });
+            // updateWishlistIcons() n'est pas encore appelable ici : `wishlist`
+            // (let, ligne ~8116, plus loin dans ce même fichier) est encore en
+            // zone morte temporelle à ce stade de l'exécution — l'appeler
+            // provoquerait une ReferenceError qui interromprait tout le reste
+            // de initStickyATC() (donc aussi le listener scroll un peu plus
+            // bas). L'état visuel initial (vide/rempli) est de toute façon
+            // appliqué par l'appel global updateWishlistIcons() plus tard
+            // dans le fichier, une fois le DOM entièrement construit.
+        }
+
         // ── Image par défaut ──
         const defaultImg = (hasColors && product.colors[0].image) ? product.colors[0].image : product.image;
         satcImg.src = upgradeShopifyImageUrl(defaultImg);
@@ -7152,10 +7298,21 @@ if (rcCheckoutBtn) {
         function updateSatcPrice() {
             const p = getSatcPrice(satcSelectedColor, satcSelectedSize);
             satcPrice.textContent = '$' + p.toFixed(2);
+            if (satcComparePrice) {
+                const ratio = product.compare_price / product.price;
+                const compare = p * ratio;
+                if (compare > p) {
+                    satcComparePrice.textContent = '$' + compare.toFixed(2);
+                    satcComparePrice.style.display = '';
+                } else {
+                    satcComparePrice.textContent = '';
+                    satcComparePrice.style.display = 'none';
+                }
+            }
         }
 
         // ── Init prix ──
-        satcPrice.textContent = '$' + product.price.toFixed(2);
+        updateSatcPrice();
 
         // ── Couleurs ──
         if (hasColors) {
@@ -7374,19 +7531,9 @@ if (rcCheckoutBtn) {
             }
         }
 
-        // ── Espace réservé pour le footer (products.css, --satc-footer-space) :
-        //    mesuré en vrai (offsetHeight) sur ce qui est réellement affiché
-        //    en bas d'écran à cet instant — jamais une valeur devinée à
-        //    l'avance. transform (utilisé pour cacher bar/teaser) ne change
-        //    pas offsetHeight, donc la mesure reste fiable même caché.
-        //    Uniquement mobile : desktop garde son 60px fixe en CSS,
-        //    on ne touche jamais à la variable en dehors du mobile. ──
-        if (isMobileStickyAtc) {
-            const satcSpace = (satcUseCollapse && satcCollapsed)
-                ? (satcTeaser.offsetHeight || 44)
-                : (bar.offsetHeight || 210);
-            document.documentElement.style.setProperty('--satc-footer-space', satcSpace + 'px');
-        }
+        // ── Espace réservé pour le footer : géré entièrement en CSS
+        //    (products.css, sélecteurs :has(.sticky-atc-teaser.visible) /
+        //    :has(.sticky-atc.visible)) — rien à faire ici en JS. ──
     }
 
         window.addEventListener('scroll', checkStickyVisibility, { passive: true });

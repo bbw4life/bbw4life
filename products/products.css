@@ -5,6 +5,96 @@
     --product-media-h-mobile: 370px;
 }
 
+/* ════════════════════════════════════════════════════════════
+   SCROLL REVEAL — même règle que search-results.css. Le JS
+   (script.js, IntersectionObserver sur [data-scroll-reveal]) ajoute
+   .revealed quand l'élément entre dans le viewport ; sans ce CSS
+   propre aux pages produit, l'attribut posé en dur dans le HTML
+   n'a aucun effet visuel.
+════════════════════════════════════════════════════════════ */
+[data-scroll-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+[data-scroll-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── SKELETON pour les BLOCS [data-scroll-reveal] (div, pas les
+   <section> comme #mini-product-slider/#rv-section/#reviews-section
+   etc., qui gardent juste leur fondu simple, sans skeleton), pages
+   produit uniquement — Au premier chargement / refresh, avant qu'un
+   bloc soit révélé au scroll, on affiche un petit skeleton (plusieurs
+   traits + ronds qui scintillent, empilés comme du vrai contenu) à sa
+   place, pour que la page ne paraisse pas vide. Overlay CSS pur
+   (::before), le VRAI contenu du bloc n'est jamais touché/retiré du
+   DOM — seulement rendu invisible (visibility). */
+body:has(.product-section) div[data-scroll-reveal]:not(.revealed) {
+    opacity: 1;
+    position: relative;
+    min-height: 96px;
+}
+body:has(.product-section) div[data-scroll-reveal]:not(.revealed) > * {
+    visibility: hidden;
+}
+body:has(.product-section) div[data-scroll-reveal]:not(.revealed)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 10px;
+    background-color: rgba(184,146,90,0.03);
+    background-repeat: no-repeat;
+    /* Ligne 1 : rond + 2 traits (titre court) */
+    background-image:
+        radial-gradient(circle 11px at 17px 17px, var(--bbw-gold-pale-mid, rgba(184,146,90,0.18)) 98%, transparent 100%),
+        linear-gradient(90deg, var(--bbw-gold-pale, rgba(184,146,90,0.12)) 0 60%, transparent 60%),
+        linear-gradient(90deg, var(--bbw-gold-pale-mid, rgba(184,146,90,0.16)) 0 35%, transparent 35%),
+        linear-gradient(90deg, var(--bbw-gold-pale, rgba(184,146,90,0.12)) 0 78%, transparent 78%),
+        linear-gradient(90deg, var(--bbw-gold-pale-mid, rgba(184,146,90,0.16)) 0 46%, transparent 46%);
+    background-position:
+        0 4px,
+        44px 6px,
+        44px 24px,
+        0 50px,
+        0 68px;
+    background-size:
+        36px 36px,
+        calc(100% - 44px) 14px,
+        calc(100% - 44px) 14px,
+        100% 12px,
+        100% 12px;
+    animation: bbwSkelShimmer 1.6s ease-in-out infinite;
+}
+@media (max-width: 768px) {
+    body:has(.product-section) div[data-scroll-reveal]:not(.revealed) {
+        min-height: 74px;
+    }
+    body:has(.product-section) div[data-scroll-reveal]:not(.revealed)::before {
+        background-image:
+            radial-gradient(circle 9px at 13px 13px, var(--bbw-gold-pale-mid, rgba(184,146,90,0.18)) 98%, transparent 100%),
+            linear-gradient(90deg, var(--bbw-gold-pale, rgba(184,146,90,0.12)) 0 65%, transparent 65%),
+            linear-gradient(90deg, var(--bbw-gold-pale-mid, rgba(184,146,90,0.16)) 0 40%, transparent 40%),
+            linear-gradient(90deg, var(--bbw-gold-pale, rgba(184,146,90,0.12)) 0 82%, transparent 82%),
+            linear-gradient(90deg, var(--bbw-gold-pale-mid, rgba(184,146,90,0.16)) 0 50%, transparent 50%);
+        background-position:
+            0 3px,
+            32px 4px,
+            32px 18px,
+            0 38px,
+            0 52px;
+        background-size:
+            26px 26px,
+            calc(100% - 32px) 11px,
+            calc(100% - 32px) 11px,
+            100% 10px,
+            100% 10px;
+    }
+}
+
+
 @keyframes shimmerBar {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(400%); }
@@ -521,6 +611,133 @@
     padding: 3px 10px;
     top: 8px;
     left: 8px;
+  }
+}
+
+/* ════════════════════════════
+   LIKE / DISLIKE WIDGET — sous .product-badge, coin superieur gauche
+   de l'image principale. 2 boutons empiles (pouce haut = like positif,
+   pouce bas = like negatif), avec le compteur au-dessus de chaque icone.
+════════════════════════════ */
+.product-like-widget,
+.product-like-skel {
+    position: absolute;
+    top: 52px; left: 14px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Widget réel masqué tant que get-likes n'a pas répondu (script.js retire
+   is-skeleton du widget et le skeleton lui-même à ce moment). */
+.product-like-widget {
+    display: none;
+}
+.product-like-widget.is-loaded {
+    display: flex;
+}
+.product-like-skel.is-loaded {
+    display: none;
+}
+
+.product-like-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #fdfaf5;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+}
+
+.product-like-count {
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: #15110E;
+    text-shadow: none;
+}
+
+.product-like-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(21,17,14,0.55);
+    border: 1px solid rgba(255,255,255,0.30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.product-like-btn:hover .product-like-icon {
+    transform: scale(1.08);
+}
+
+.product-like-btn--like.active .product-like-icon {
+    background: var(--bbw-gold);
+    border-color: var(--bbw-gold);
+    color: #15110E;
+}
+
+.product-like-btn--dislike.active .product-like-icon {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fdfaf5;
+}
+
+@media (max-width: 768px) {
+  .product-like-widget,
+  .product-like-skel {
+    top: 38px;
+    left: 8px;
+    gap: 6px;
+  }
+  .product-like-count {
+    font-size: 0.56rem;
+  }
+  .product-like-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 0.68rem;
+  }
+}
+
+/* ════════════════════════════
+   LIKE / DISLIKE WIDGET — SKELETON
+   Même forme exacte que les vrais boutons (cercle 30px/24px + petite
+   barre pour le compteur), affiché pendant le chargement de get-likes.
+   .skel-shimmer = animation partagée (style.css) réutilisée telle quelle.
+════════════════════════════ */
+.product-like-skel-count {
+    width: 14px;
+    height: 8px;
+    border-radius: 3px;
+}
+
+.product-like-skel-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+}
+
+@media (max-width: 768px) {
+  .product-like-skel-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .product-like-skel-count {
+    width: 12px;
+    height: 7px;
   }
 }
 
@@ -3573,7 +3790,15 @@ details[open] .chevron {
   body,
   html {
     overflow: visible !important;
-    overflow-x: clip !important;
+    /* hidden plutôt que clip : clip désactive tout scroll programmatique
+       sur cet axe et, combiné à overflow-y:visible sur html/body, empêche
+       le navigateur de recalculer correctement scrollHeight quand le
+       contenu change après le premier rendu (ex: margin-bottom dynamique
+       du footer selon l'état ouvert/fermé du sticky ATC — cf. règles
+       :has(.sticky-atc.visible)/:has(.sticky-atc-teaser.visible) plus
+       bas dans ce fichier). hidden bloque le débordement horizontal visé
+       ici sans ce comportement cassé. */
+    overflow-x: hidden !important;
   }
 }
 
@@ -5183,8 +5408,10 @@ details[open] .chevron {
         opacity: 1;
         transition: opacity 0.18s ease, background 0.18s ease;
     }
+    .mz-nav-arrow:hover,
     .mz-nav-arrow:active {
         background: rgba(21,17,14,0.60);
+        color: #15110E;
     }
     .mz-nav-arrow svg {
         width: 16px;
@@ -5635,6 +5862,39 @@ details[open] .chevron {
     color: var(--bbw-gold);
 }
 
+.sticky-atc__price-row {
+    display: flex;
+    align-items: center;
+}
+
+.sticky-atc__compare-price {
+    text-decoration: line-through;
+    color: rgba(21,17,14,0.38);
+    font-size: 11px;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.sticky-atc__wishlist {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 6px;
+    color: rgba(21,17,14,0.55);
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.sticky-atc__wishlist .wishlist-icon-filled { display: none; }
+
+.sticky-atc__wishlist.active {
+    color: var(--bbw-gold);
+}
+.sticky-atc__wishlist.active .wishlist-icon-empty  { display: none; }
+.sticky-atc__wishlist.active .wishlist-icon-filled { display: inline-block; }
+
 .sticky-atc__product::after {
     content: '';
     display: block;
@@ -5938,8 +6198,17 @@ body:has(.product-section) .bbw-footer {
 }
 
 @media (max-width: 768px) {
+    /* Espace par défaut (aucune barre sticky ATC visible) */
     body:has(.product-section) .bbw-footer {
-        margin-bottom: var(--satc-footer-space, 210px) !important;
+        margin-bottom: 10px !important;
+    }
+  
+    body:has(.product-section):has(.sticky-atc-teaser.visible) .bbw-footer {
+        margin-bottom: 40px !important;
+    }
+
+    body:has(.product-section):has(.sticky-atc.visible) .bbw-footer {
+        margin-bottom: 240px !important;
     }
 }
 

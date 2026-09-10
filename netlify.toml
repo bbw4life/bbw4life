@@ -800,3 +800,11 @@
   from = "/bbw4life/cart"
   to = "/cart.html"
   status = 200
+
+# ─────────────────────────────────────────────
+# ACCOUNT
+# ─────────────────────────────────────────────
+[[redirects]]
+  from = "/bbw4life/my-account"
+  to = "/account.html"
+  status = 200

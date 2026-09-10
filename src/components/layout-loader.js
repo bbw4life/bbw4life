@@ -138,8 +138,16 @@
   })();
 
   // ── Footer ──
+  // Même garde que le header ci-dessus : loadFragment peut appeler ce
+  // callback deux fois (injection immédiate depuis un cache périmé, puis
+  // re-injection après revalidation réseau si le HTML a changé) — charger
+  // footer.js deux fois créerait deux jeux de listeners/IIFE concurrents
+  // sur le nouveau DOM du footer.
+  var footerScriptLoaded = false;
   loadFragment('/src/components/footer.html', 'footer-container', function () {
     document.dispatchEvent(new Event('footer:loaded'));
+    if (footerScriptLoaded) return;
+    footerScriptLoaded = true;
     appendScript('/src/components/footer.js');
   });
 
