@@ -203,6 +203,234 @@
     });
   }
 
+  /* ── Product page : 6 premiers blocs de .product-content (titre,
+     tagline, avis, prix, arguments produit, bundles). Contrairement à
+     la galerie ci-dessous, ces blocs sont remplis en JS via textContent
+     (products.js) sur des éléments qui existent déjà dans le HTML — donc
+     jamais "vides" au sens innerHTML, et fillIfEmpty ne s'applique pas.
+     On affiche un overlay skeleton statique par-dessus .product-content
+     et on le retire dès que le titre réel (.paul-main-title) est posé,
+     seul signal fiable et commun à toutes les pages produit. ── */
+  function buildFbsTagline() {
+    var tagline = document.createElement('div');
+    tagline.className = 'pp-fbs-tagline';
+    tagline.appendChild(shimmerDiv('skel-circle'));
+    tagline.appendChild(shimmerDiv('skel-line'));
+    return tagline;
+  }
+
+  function buildFbsRating() {
+    var rating = document.createElement('div');
+    rating.className = 'pp-fbs-rating';
+    rating.appendChild(shimmerDiv('skel-line'));
+    rating.appendChild(shimmerDiv('skel-line skel-line--sm'));
+    return rating;
+  }
+
+  function buildFbsPrice() {
+    var price = document.createElement('div');
+    price.className = 'pp-fbs-price';
+    price.appendChild(shimmerDiv('skel-line'));
+    return price;
+  }
+
+  function buildFbsValueProps() {
+    var valueProps = document.createElement('div');
+    valueProps.className = 'pp-fbs-value-props';
+    for (var i = 0; i < 3; i++) {
+      var vpItem = document.createElement('div');
+      vpItem.className = 'pp-fbs-vp-item';
+      vpItem.appendChild(shimmerDiv('skel-line'));
+      vpItem.appendChild(shimmerDiv('skel-line'));
+      valueProps.appendChild(vpItem);
+    }
+    return valueProps;
+  }
+
+  function buildFbsBundles() {
+    var bundles = document.createElement('div');
+    bundles.className = 'pp-fbs-bundles';
+    for (var b = 0; b < 3; b++) {
+      var row = document.createElement('div');
+      row.className = 'pp-fbs-bundle-row';
+      row.appendChild(shimmerDiv('skel-circle'));
+      var text = document.createElement('div');
+      text.className = 'pp-fbs-bundle-text';
+      text.appendChild(shimmerDiv('skel-line'));
+      text.appendChild(shimmerDiv('skel-line'));
+      row.appendChild(text);
+      row.appendChild(shimmerDiv('skel-line--price'));
+      bundles.appendChild(row);
+    }
+    return bundles;
+  }
+
+  /* Chaque entrée : sélecteur du bloc réel + builder du placeholder
+     correspondant. Le skeleton ne construit que les blocs réellement
+     présents sur la page (certaines pages produit n'ont pas de bundles/
+     value-props), pour ne jamais afficher un placeholder sans contenu
+     réel à masquer derrière. */
+  var FBS_SECTIONS = [
+    { sel: '.bbw-soul-message', build: buildFbsTagline },
+    { sel: '.unique-star-rating-container', build: buildFbsRating },
+    { sel: '.product-price-wrapper', build: buildFbsPrice },
+    { sel: '.pp-value-props', build: buildFbsValueProps },
+    { sel: '.bundle-save-container', build: buildFbsBundles }
+  ];
+
+  /* ── Suite du skeleton : reste de .product-content sous le bloc stock
+     (options taille/couleur, quantité+CTA, paiement, livraison, upsell,
+     accordéons, FAQ, trust strip, lien collection). Même logique que
+     FBS_SECTIONS ci-dessus : un builder par bloc réellement présent. ── */
+  function buildFbsOptions() {
+    var wrap = document.createElement('div');
+    wrap.className = 'pp-fbs-options';
+    wrap.appendChild(shimmerDiv('skel-line skel-line--label'));
+    wrap.appendChild(shimmerDiv('skel-line skel-line--select'));
+    var swatches = document.createElement('div');
+    swatches.className = 'pp-fbs-swatches';
+    for (var i = 0; i < 4; i++) swatches.appendChild(shimmerDiv('skel-circle'));
+    wrap.appendChild(swatches);
+    return wrap;
+  }
+
+  function buildFbsQuantityRow() {
+    var row = document.createElement('div');
+    row.className = 'pp-fbs-quantity-row';
+    row.appendChild(shimmerDiv('skel-line--qty'));
+    row.appendChild(shimmerDiv('skel-line--cta'));
+    return row;
+  }
+
+  function buildFbsPaymentIcons() {
+    var row = document.createElement('div');
+    row.className = 'pp-fbs-payment-icons';
+    for (var i = 0; i < 5; i++) row.appendChild(shimmerDiv('skel-line--icon'));
+    return row;
+  }
+
+  function buildFbsDelivery() {
+    var wrap = document.createElement('div');
+    wrap.className = 'pp-fbs-delivery';
+    wrap.appendChild(shimmerDiv('skel-line'));
+    return wrap;
+  }
+
+  function buildFbsUpsell() {
+    var wrap = document.createElement('div');
+    wrap.className = 'pp-fbs-upsell';
+    wrap.appendChild(shimmerDiv('skel-line'));
+    return wrap;
+  }
+
+  function buildFbsRows(className, count) {
+    var wrap = document.createElement('div');
+    wrap.className = className;
+    for (var i = 0; i < count; i++) {
+      var row = document.createElement('div');
+      row.className = className === 'pp-fbs-accordion-rows' ? 'pp-fbs-accordion-row' : 'pp-fbs-faq-row';
+      row.appendChild(shimmerDiv('skel-line'));
+      wrap.appendChild(row);
+    }
+    return wrap;
+  }
+  function buildFbsAccordionRows() { return buildFbsRows('pp-fbs-accordion-rows', 3); }
+  function buildFbsFaqRows() { return buildFbsRows('pp-fbs-faq-rows', 4); }
+
+  function buildFbsTrustStrip() {
+    var wrap = document.createElement('div');
+    wrap.className = 'pp-fbs-trust-strip';
+    wrap.appendChild(shimmerDiv('skel-line'));
+    return wrap;
+  }
+
+  function buildFbsCollectionCta() {
+    var wrap = document.createElement('div');
+    wrap.className = 'pp-fbs-collection-cta';
+    wrap.appendChild(shimmerDiv('skel-line'));
+    return wrap;
+  }
+
+  var LBS_SECTIONS = [
+    { sel: '.product-options', build: buildFbsOptions },
+    { sel: '.quantity-add-wrapper', build: buildFbsQuantityRow },
+    { sel: '.pp-trust-payment-icons', build: buildFbsPaymentIcons },
+    { sel: '.delivery-info', build: buildFbsDelivery },
+    { sel: '.p2-upsell-block', build: buildFbsUpsell },
+    { sel: '.paul-details-accordion', build: buildFbsAccordionRows },
+    { sel: '.paul-faq-block', build: buildFbsFaqRows },
+    { sel: '.pp-trust-strip', build: buildFbsTrustStrip },
+    { sel: '.pp-collection-cta', build: buildFbsCollectionCta }
+  ];
+
+  function initFirstBlocksSkeleton() {
+    var content = document.querySelector('.product-content');
+    var titleBlock = document.querySelector('.paul-title-block');
+    if (!content || !titleBlock) return;
+    var titleEl = content.querySelector('.paul-main-title');
+
+    /* .bbw-soul-message / .unique-star-rating-container / .pp-value-props /
+       .bundle-save-container / .pp-reassurance-row et tous les blocs de
+       LBS_SECTIONS sont masqués PAR DÉFAUT en CSS pur (règles
+       .product-content:not(.pp-fbs-ready) dans products.css) — appliqué
+       dès le premier paint, sans dépendre du timing JS, puisqu'ils
+       contiennent du texte écrit en dur dans le HTML statique et se
+       peindraient sinon avant même que ce script (exécuté à
+       DOMContentLoaded) n'ait la moindre chance d'agir. On les révèle
+       donc TOUJOURS via .pp-fbs-ready, y compris si le titre est déjà
+       rempli (skeleton inutile dans ce cas) — sinon ils resteraient
+       cachés indéfiniment. */
+    if (titleEl && titleEl.textContent.trim() !== '') {
+      content.classList.add('pp-fbs-ready');
+      return;
+    }
+
+    var present = FBS_SECTIONS
+      .map(function (s) { return { el: content.querySelector(s.sel), build: s.build }; })
+      .filter(function (s) { return !!s.el; });
+
+    var wrap = document.createElement('div');
+    wrap.className = 'pp-first-blocks-skel is-skeleton';
+    wrap.setAttribute('aria-hidden', 'true');
+    var title = document.createElement('div');
+    title.className = 'pp-fbs-title';
+    title.appendChild(shimmerDiv('skel-line'));
+    title.appendChild(shimmerDiv('skel-line'));
+    wrap.appendChild(title);
+    present.forEach(function (s) { wrap.appendChild(s.build()); });
+
+    content.insertBefore(wrap, titleBlock);
+    titleBlock.style.display = 'none';
+
+    var lowerPresent = LBS_SECTIONS
+      .map(function (s) { return { el: content.querySelector(s.sel), build: s.build }; })
+      .filter(function (s) { return !!s.el; });
+    var lowerWrap = null;
+    if (lowerPresent.length) {
+      lowerWrap = document.createElement('div');
+      lowerWrap.className = 'pp-lower-blocks-skel is-skeleton';
+      lowerWrap.setAttribute('aria-hidden', 'true');
+      lowerPresent.forEach(function (s) { lowerWrap.appendChild(s.build()); });
+      content.insertBefore(lowerWrap, lowerPresent[0].el);
+    }
+
+    var done = false;
+    function reveal() {
+      if (done) return;
+      done = true;
+      if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      titleBlock.style.display = '';
+      if (lowerWrap && lowerWrap.parentNode) lowerWrap.parentNode.removeChild(lowerWrap);
+      content.classList.add('pp-fbs-ready');
+      obs.disconnect();
+    }
+    var obs = new MutationObserver(function () {
+      if (titleEl && titleEl.textContent.trim() !== '') reveal();
+    });
+    if (titleEl) obs.observe(titleEl, { childList: true, characterData: true, subtree: true });
+    setTimeout(reveal, TEXT_FILL_TIMEOUT_MS);
+  }
+
   /* ── Product page : galerie image principale + miniatures ── */
   function initProductGallerySkeleton() {
     var mainSlider = document.getElementById('main-image-slider');
@@ -324,6 +552,7 @@
     initGalleryMosaicSkeleton();
     initHeroTextSkeleton();
     initFeaturedSpotlightSkeleton();
+    initFirstBlocksSkeleton();
     initProductGallerySkeleton();
     initCollectionsSkeleton();
     initBlogHubSkeleton();

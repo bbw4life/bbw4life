@@ -18171,7 +18171,7 @@
       "banner_slide_duration_ms": 5000
     },
     "preloader": {
-      "show": "no",
+      "show": "yes",
       "style_pulse_logo": "no",
       "style_progress_bar": "no",
       "style_spinner_ring": "no",
@@ -21578,7 +21578,6 @@
       "jackpot_reward_amount": 150,
       "promo_code_unlock_percent": 90,
       "promo_code_prefix": "Francenel467",
-      "promo_code_balance_usd": 70,
       "pay_per_click": "yes",
       "clicks_per_reward": 4000,
       "click_reward_amount": 5
@@ -21622,7 +21621,7 @@
       ]
     },
     "content_protection": {
-      "disable_right_click": "no",
+      "disable_right_click": "yes",
       "disable_text_selection": "yes",
       "disable_image_download": "yes",
       "disable_video_download": "yes",

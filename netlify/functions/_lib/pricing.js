@@ -23,12 +23,14 @@ async function getAllProductsData() {
   }
 }
 
-// ── Codes affiliés (Sheet "PromoCodes") — solde en $ restant, source
-//    unique de vérité côté serveur, indépendante de settings.promos[].
-//    Le code est un porte-monnaie qui se dépense commande après commande
-//    (voir validate-promo-code.js) : seul le statut "active" (solde > 0)
-//    renvoie un solde utilisable ; "used" = solde épuisé, plus rien à
-//    donner. ──
+// ── Codes affiliés — le solde utilisable EST le solde d'affilié réel
+//    (bbw4life-accounts!U, "Earnings" — clics payés + % commission sur
+//    commandes des filleuls, même valeur que le dashboard affilié et le
+//    retrait PayPal), pas un solde séparé. La feuille "PromoCodes" ne
+//    sert plus qu'à retrouver le username associé au code (voir
+//    validate-promo-code.js pour la même logique côté validate/consume
+//    — ne pas diverger). Le code est un porte-monnaie qui se dépense
+//    commande après commande : solde à 0 = plus rien à donner. ──
 async function getAffiliatePromoBalance(code) {
   try {
     const auth = new google.auth.GoogleAuth({
@@ -41,20 +43,31 @@ async function getAffiliatePromoBalance(code) {
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.SHEET_ID_BBW4LIFE_ACCOUNTS;
 
-    const res = await sheets.spreadsheets.values.get({
+    const promoRes = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: 'PromoCodes!A:D'
+      range: 'PromoCodes!A:B'
     });
-    const rows = res.data.values || [];
+    const promoRows = promoRes.data.values || [];
     const target = (code || '').trim().toUpperCase();
 
-    for (let i = 1; i < rows.length; i++) {
-      const rowCode = (rows[i][0] || '').trim().toUpperCase();
-      if (rowCode === target) {
-        const status  = (rows[i][3] || '').trim().toLowerCase();
-        const balance = parseFloat(rows[i][2]) || 0;
-        if (status !== 'active' || balance <= 0) return 0;
-        return balance;
+    let username = null;
+    for (let i = 1; i < promoRows.length; i++) {
+      const rowCode = (promoRows[i][0] || '').trim().toUpperCase();
+      if (rowCode === target) { username = promoRows[i][1] || ''; break; }
+    }
+    if (!username) return 0;
+
+    const accountsRes = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: 'bbw4life-accounts!A:Y'
+    });
+    const accountRows = accountsRes.data.values || [];
+    const targetUsername = username.trim().toLowerCase();
+
+    for (let i = 1; i < accountRows.length; i++) {
+      const rowUsername = (accountRows[i][18] || '').trim().toLowerCase(); // S=Username(18)
+      if (rowUsername === targetUsername) {
+        return parseFloat(accountRows[i][20] || 0) || 0; // U=Earnings(20)
       }
     }
     return 0;

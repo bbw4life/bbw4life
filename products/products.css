@@ -5,13 +5,6 @@
     --product-media-h-mobile: 370px;
 }
 
-/* ════════════════════════════════════════════════════════════
-   SCROLL REVEAL — même règle que search-results.css. Le JS
-   (script.js, IntersectionObserver sur [data-scroll-reveal]) ajoute
-   .revealed quand l'élément entre dans le viewport ; sans ce CSS
-   propre aux pages produit, l'attribut posé en dur dans le HTML
-   n'a aucun effet visuel.
-════════════════════════════════════════════════════════════ */
 [data-scroll-reveal] {
     opacity: 0;
     transform: translateY(28px);
@@ -22,77 +15,6 @@
     transform: translateY(0);
 }
 
-/* ── SKELETON pour les BLOCS [data-scroll-reveal] (div, pas les
-   <section> comme #mini-product-slider/#rv-section/#reviews-section
-   etc., qui gardent juste leur fondu simple, sans skeleton), pages
-   produit uniquement — Au premier chargement / refresh, avant qu'un
-   bloc soit révélé au scroll, on affiche un petit skeleton (plusieurs
-   traits + ronds qui scintillent, empilés comme du vrai contenu) à sa
-   place, pour que la page ne paraisse pas vide. Overlay CSS pur
-   (::before), le VRAI contenu du bloc n'est jamais touché/retiré du
-   DOM — seulement rendu invisible (visibility). */
-body:has(.product-section) div[data-scroll-reveal]:not(.revealed) {
-    opacity: 1;
-    position: relative;
-    min-height: 96px;
-}
-body:has(.product-section) div[data-scroll-reveal]:not(.revealed) > * {
-    visibility: hidden;
-}
-body:has(.product-section) div[data-scroll-reveal]:not(.revealed)::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    border-radius: 10px;
-    background-color: rgba(184,146,90,0.03);
-    background-repeat: no-repeat;
-    /* Ligne 1 : rond + 2 traits (titre court) */
-    background-image:
-        radial-gradient(circle 11px at 17px 17px, var(--bbw-gold-pale-mid, rgba(184,146,90,0.18)) 98%, transparent 100%),
-        linear-gradient(90deg, var(--bbw-gold-pale, rgba(184,146,90,0.12)) 0 60%, transparent 60%),
-        linear-gradient(90deg, var(--bbw-gold-pale-mid, rgba(184,146,90,0.16)) 0 35%, transparent 35%),
-        linear-gradient(90deg, var(--bbw-gold-pale, rgba(184,146,90,0.12)) 0 78%, transparent 78%),
-        linear-gradient(90deg, var(--bbw-gold-pale-mid, rgba(184,146,90,0.16)) 0 46%, transparent 46%);
-    background-position:
-        0 4px,
-        44px 6px,
-        44px 24px,
-        0 50px,
-        0 68px;
-    background-size:
-        36px 36px,
-        calc(100% - 44px) 14px,
-        calc(100% - 44px) 14px,
-        100% 12px,
-        100% 12px;
-    animation: bbwSkelShimmer 1.6s ease-in-out infinite;
-}
-@media (max-width: 768px) {
-    body:has(.product-section) div[data-scroll-reveal]:not(.revealed) {
-        min-height: 74px;
-    }
-    body:has(.product-section) div[data-scroll-reveal]:not(.revealed)::before {
-        background-image:
-            radial-gradient(circle 9px at 13px 13px, var(--bbw-gold-pale-mid, rgba(184,146,90,0.18)) 98%, transparent 100%),
-            linear-gradient(90deg, var(--bbw-gold-pale, rgba(184,146,90,0.12)) 0 65%, transparent 65%),
-            linear-gradient(90deg, var(--bbw-gold-pale-mid, rgba(184,146,90,0.16)) 0 40%, transparent 40%),
-            linear-gradient(90deg, var(--bbw-gold-pale, rgba(184,146,90,0.12)) 0 82%, transparent 82%),
-            linear-gradient(90deg, var(--bbw-gold-pale-mid, rgba(184,146,90,0.16)) 0 50%, transparent 50%);
-        background-position:
-            0 3px,
-            32px 4px,
-            32px 18px,
-            0 38px,
-            0 52px;
-        background-size:
-            26px 26px,
-            calc(100% - 32px) 11px,
-            calc(100% - 32px) 11px,
-            100% 10px,
-            100% 10px;
-    }
-}
 
 
 @keyframes shimmerBar {
@@ -206,7 +128,7 @@ body:has(.product-section) div[data-scroll-reveal]:not(.revealed)::before {
 }
 
 .product-section {
-    padding: 5px 0px;
+    padding: 2px 0px 4px;
 }
 
 
@@ -750,7 +672,7 @@ body:has(.product-section) div[data-scroll-reveal]:not(.revealed)::before {
     display: flex;
     position: absolute;
     top: 38px;
-    left: 8px;
+    right: 8px;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -3790,14 +3712,6 @@ details[open] .chevron {
   body,
   html {
     overflow: visible !important;
-    /* hidden plutôt que clip : clip désactive tout scroll programmatique
-       sur cet axe et, combiné à overflow-y:visible sur html/body, empêche
-       le navigateur de recalculer correctement scrollHeight quand le
-       contenu change après le premier rendu (ex: margin-bottom dynamique
-       du footer selon l'état ouvert/fermé du sticky ATC — cf. règles
-       :has(.sticky-atc.visible)/:has(.sticky-atc-teaser.visible) plus
-       bas dans ce fichier). hidden bloque le débordement horizontal visé
-       ici sans ce comportement cassé. */
     overflow-x: hidden !important;
   }
 }
@@ -5035,7 +4949,7 @@ details[open] .chevron {
 .sanaica-video-sound-toggle:not(.muted) .sound-on { display: block; }
 .sanaica-video-sound-toggle:not(.muted) .sound-off { display: none; }
 @media (max-width: 768px) {
-    #sanaica-banner-paul { height: 80px !important; }
+    #sanaica-banner-paul { height: 70px !important; }
     .sanaica-banner-paul-indicators.dots .sanaica-banner-paul-indicator { width: 10px; height: 10px; }
     #sanaica-banner-paul.image-mode .sanaica-banner-paul-indicators { bottom: 25px;}
 
@@ -6208,7 +6122,7 @@ body:has(.product-section) .bbw-footer {
     }
 
     body:has(.product-section):has(.sticky-atc.visible) .bbw-footer {
-        margin-bottom: 240px !important;
+        margin-bottom: 220px !important;
     }
 }
 
@@ -7262,6 +7176,213 @@ body:has(.product-section) .bbw-footer {
     border: none;
     margin: 0;
 }
+/* ════════════════════════════════════════════════════════════
+   PP FIRST-BLOCKS SKELETON — placeholder affiché au premier
+   chargement (ou refresh) de la page produit, le temps que
+   products.js remplise .product-content (titre, prix, etc. sont
+   posés en textContent, donc aucun élément DOM n'y apparaît
+   jamais vide — un vrai skeleton HTML statique est donc requis
+   ici, contrairement aux grilles/carrousels qui se remplissent
+   par innerHTML). Couvre les 6 premiers blocs : titre, tagline,
+   avis, prix, arguments produit, offres bundle. Retiré par JS
+   (skeleton.js) dès que le titre réel est posé. ════════════════ */
+/* Les blocs ci-dessous contiennent du texte écrit EN DUR dans le HTML
+   statique (tagline, étoiles, value-props, offres bundle, bloc stock —
+   pas remplis en JS comme le titre/prix), donc le navigateur les peint
+   dès le parsing du DOM, bien avant que skeleton.js (qui n'agit qu'au
+   DOMContentLoaded, chargé en fin de <body>) n'ait la moindre chance de
+   les masquer. .pp-reassurance-row (bloc stock "Checking availability…")
+   n'a pas de data-scroll-reveal et se retrouvait donc visible dès le
+   début, chevauchant visuellement le skeleton au-dessus de lui qui
+   occupe une hauteur différente des vrais 6 blocs masqués — on l'inclut
+   ici pour qu'il apparaisse en même temps que le reste, pas avant.
+   On cache tout par défaut en CSS pur (donc dès le premier paint, sans
+   dépendre du timing JS) et on ne les révèle qu'une fois .product-content
+   marqué .pp-fbs-ready par skeleton.js (initFirstBlocksSkeleton), dans
+   tous ses chemins de sortie. Filet de sécurité : si JS est
+   indisponible/bloqué, .pp-fbs-ready n'est jamais posée — le <noscript>
+   ci-dessous republie une règle plus forte qui republie ces blocs, pour
+   ne jamais les laisser cachés pour toujours en l'absence de JS. */
+.product-content:not(.pp-fbs-ready) .bbw-soul-message,
+.product-content:not(.pp-fbs-ready) .unique-star-rating-container,
+.product-content:not(.pp-fbs-ready) .pp-value-props,
+.product-content:not(.pp-fbs-ready) .bundle-save-container,
+.product-content:not(.pp-fbs-ready) .pp-reassurance-row {
+    display: none !important;
+}
+
+.pp-first-blocks-skel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+.pp-first-blocks-skel .skel-line { margin: 0; }
+
+.pp-fbs-title .skel-line { height: 22px; width: 88%; }
+.pp-fbs-title .skel-line + .skel-line { margin-top: 8px; width: 56%; }
+
+.pp-fbs-tagline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.6);
+}
+.pp-fbs-tagline .skel-circle { width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; }
+.pp-fbs-tagline .skel-line { flex: 1; height: 12px; }
+
+.pp-fbs-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.6);
+}
+.pp-fbs-rating .skel-line { height: 16px; width: 96px; margin: 0 !important; }
+.pp-fbs-rating .skel-line--sm { height: 12px; width: 70px; }
+
+.pp-fbs-price {
+    padding: 8px 16px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.6);
+}
+.pp-fbs-price .skel-line { height: 26px; width: 120px; }
+
+.pp-fbs-value-props {
+    display: flex;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.6);
+}
+.pp-fbs-value-props .pp-fbs-vp-item {
+    flex: 1;
+    padding: 14px 10px;
+    border-right: 1px solid rgba(184,146,90,0.14);
+}
+.pp-fbs-value-props .pp-fbs-vp-item:last-child { border-right: none; }
+.pp-fbs-value-props .skel-line { height: 10px; }
+.pp-fbs-value-props .skel-line + .skel-line { margin-top: 6px; width: 80%; height: 8px; }
+
+.pp-fbs-bundles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.pp-fbs-bundle-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 12px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(184,146,90,0.14);
+    background: rgba(255,255,255,0.6);
+}
+.pp-fbs-bundle-row .skel-circle { width: 19px; height: 19px; flex-shrink: 0; border-radius: 50%; }
+.pp-fbs-bundle-row .pp-fbs-bundle-text { flex: 1; }
+.pp-fbs-bundle-row .skel-line { height: 11px; width: 55%; }
+.pp-fbs-bundle-row .skel-line + .skel-line { margin-top: 6px; width: 80%; height: 9px; }
+.pp-fbs-bundle-row .skel-line--price { height: 16px; width: 46px; margin: 0 !important; }
+
+@media (max-width: 768px) {
+    .pp-first-blocks-skel { gap: 11px; margin-bottom: 11px; }
+    .pp-fbs-title .skel-line { height: 18px; }
+    .pp-fbs-tagline { padding: 11px 13px; }
+    .pp-fbs-value-props { flex-direction: column; }
+    .pp-fbs-value-props .pp-fbs-vp-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(184,146,90,0.14);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+    }
+    .pp-fbs-value-props .pp-fbs-vp-item:last-child { border-bottom: none; }
+    .pp-fbs-value-props .skel-line { flex: 1; margin: 0 !important; }
+    .pp-fbs-value-props .skel-line + .skel-line { display: none; }
+    .pp-fbs-bundle-row { padding: 12px 10px; }
+}
+
+/* ── PP LOWER-BLOCKS SKELETON — suite du skeleton ci-dessus : couvre le
+   reste de .product-content sous le bloc stock (options taille/couleur,
+   quantité + CTA, icônes paiement, livraison, upsell, accordéons infos
+   produit, FAQ, trust strip, lien collection). Même mécanisme exact :
+   masqué par défaut en CSS pur tant que .product-content n'a pas
+   .pp-fbs-ready, révélé par skeleton.js. ── */
+.product-content:not(.pp-fbs-ready) .product-options,
+.product-content:not(.pp-fbs-ready) .quantity-add-wrapper,
+.product-content:not(.pp-fbs-ready) .pp-trust-payment-icons,
+.product-content:not(.pp-fbs-ready) .delivery-info,
+.product-content:not(.pp-fbs-ready) .p2-upsell-block,
+.product-content:not(.pp-fbs-ready) .paul-details-accordion,
+.product-content:not(.pp-fbs-ready) .paul-faq-block,
+.product-content:not(.pp-fbs-ready) .pp-trust-strip,
+.product-content:not(.pp-fbs-ready) .pp-collection-cta {
+    display: none !important;
+}
+
+.pp-lower-blocks-skel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+.pp-lower-blocks-skel .skel-line { margin: 0; }
+
+.pp-fbs-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.pp-fbs-options .skel-line--label { height: 9px; width: 90px; }
+.pp-fbs-options .skel-line--select { height: 40px; width: 200px; border-radius: 12px; }
+.pp-fbs-options .pp-fbs-swatches { display: flex; gap: 10px; }
+.pp-fbs-options .skel-circle { width: 38px; height: 38px; border-radius: 50%; }
+
+.pp-fbs-quantity-row {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+}
+.pp-fbs-quantity-row .skel-line--qty { height: 44px; width: 96px; border-radius: 12px; margin: 0 !important; flex-shrink: 0; }
+.pp-fbs-quantity-row .skel-line--cta { flex: 1; height: 44px; border-radius: 12px; margin: 0 !important; }
+
+.pp-fbs-payment-icons { display: flex; gap: 6px; justify-content: center; }
+.pp-fbs-payment-icons .skel-line--icon { width: 34px; height: 22px; border-radius: 5px; margin: 0 !important; }
+
+.pp-fbs-delivery { padding: 8px 14px; border-radius: 12px; background: rgba(220,252,231,0.5); }
+.pp-fbs-delivery .skel-line { height: 13px; width: 75%; }
+
+.pp-fbs-upsell { padding: 14px 16px; border-radius: 20px; background: rgba(255,255,255,0.6); }
+.pp-fbs-upsell .skel-line { height: 12px; width: 65%; }
+
+.pp-fbs-accordion-rows,
+.pp-fbs-faq-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.pp-fbs-accordion-row,
+.pp-fbs-faq-row {
+    padding: 14px 18px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.6);
+}
+.pp-fbs-accordion-row .skel-line,
+.pp-fbs-faq-row .skel-line { height: 12px; width: 70%; }
+
+.pp-fbs-trust-strip { display: flex; justify-content: center; }
+.pp-fbs-trust-strip .skel-line { height: 12px; width: 220px; }
+
+.pp-fbs-collection-cta .skel-line { height: 44px; border-radius: 12px; }
+
+@media (max-width: 768px) {
+    .pp-lower-blocks-skel { gap: 11px; margin-bottom: 11px; }
+    .pp-fbs-options .skel-line--select { width: 140px; }
+}
+
 .pp-image-block img {
     display: block;
     width: 100%;

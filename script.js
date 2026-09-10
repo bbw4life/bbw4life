@@ -12209,7 +12209,6 @@ function loadProfilePhoto() {
       jackpotAmt:     parseFloat(affCfg.jackpot_reward_amount)       || 100,
       unlockPct:      parseFloat(affCfg.promo_code_unlock_percent)   || 50,
       promoPrefix:    affCfg.promo_code_prefix                       || 'AFF',
-      promoBalance:   parseFloat(affCfg.promo_code_balance_usd)      || 100,
       payPerClick:    affCfg.pay_per_click                           || 'no',
       clicksPerReward: parseInt(affCfg.clicks_per_reward)            || 1000,
       clickRewardAmt:  parseFloat(affCfg.click_reward_amount)        || 2
@@ -12384,7 +12383,9 @@ function loadProfilePhoto() {
     const jackpotAmt  = cfg.jackpotAmt;
     const unlockPct   = cfg.unlockPct;
     const promoPrefix  = cfg.promoPrefix;
-    const promoBalance = cfg.promoBalance;
+    // Le solde du code promo EST le solde d'affilié réel (aff.totalMoney,
+    // bbw4life-accounts!U) — pas une valeur forfaitaire de settings.
+    const promoBalance = parseFloat(aff.totalMoney) || 0;
     const commPct      = cfg.commPct;
 
     const totalOrders    = parseInt(aff.totalOrders || 0);
@@ -12477,7 +12478,9 @@ function loadProfilePhoto() {
     copyPromoBtn.innerHTML = '<i class="fi fi-rr-check"></i> Copied!';
     setTimeout(function () { copyPromoBtn.innerHTML = orig; }, 2000);
  
-    // Enregistrer dans Google Sheets (une seule fois)
+    // Enregistrer le lien code → username dans Google Sheets (une seule
+    // fois) — aucun solde à envoyer, il vient toujours de
+    // bbw4life-accounts!U pour ce username (voir validate-promo-code.js).
     if (!localStorage.getItem('bbw_promo_registered_' + code)) {
       try {
         await fetch('/.netlify/functions/validate-promo-code', {
@@ -12486,8 +12489,7 @@ function loadProfilePhoto() {
           body: JSON.stringify({
             action:   'register',
             code:     code,
-            username: aff.username || '',
-            balance:  cfg.promoBalance || 100
+            username: aff.username || ''
           })
         });
         localStorage.setItem('bbw_promo_registered_' + code, '1');
@@ -12496,8 +12498,8 @@ function loadProfilePhoto() {
       }
     }
 
-    // Afficher le popup premium (solde en $, usage multi-commandes)
-    bbwShowPromoWarningPopup(code, cfg.promoBalance || 100);
+    // Afficher le popup premium (solde en $ réel de l'affilié, usage multi-commandes)
+    bbwShowPromoWarningPopup(code, promoBalance);
  
     // Enregistrer le choix seulement si pas encore fait
     if (!localStorage.getItem(storageKey)) {
@@ -12751,16 +12753,19 @@ function loadProfilePhoto() {
 
         const cfg = getAffCfg();
         const el  = (id) => document.getElementById(id);
+        // Solde réel de l'affilié (bbw4life-accounts!U) — même valeur que
+        // le code promo peut dépenser, pas une valeur forfaitaire.
+        const realBalance = parseFloat(data.affiliates[0].totalMoney) || 0;
 
         if (el('aff-txt-commission'))  el('aff-txt-commission').textContent  = cfg.commPct + '%';
         if (el('aff-txt-commission2')) el('aff-txt-commission2').textContent = cfg.commPct + '%';
         if (el('aff-txt-unlock'))      el('aff-txt-unlock').textContent      = cfg.unlockPct + '%';
-        if (el('aff-txt-promo-disc'))  el('aff-txt-promo-disc').textContent  = '$' + cfg.promoBalance.toFixed(2);
+        if (el('aff-txt-promo-disc'))  el('aff-txt-promo-disc').textContent  = '$' + realBalance.toFixed(2);
         if (el('aff-th-commission'))   el('aff-th-commission').textContent   = cfg.commPct;
         if (el('aff-txt-jackpot-qty')) el('aff-txt-jackpot-qty').textContent = cfg.jackpotQty;
         if (el('aff-txt-jackpot-amt')) el('aff-txt-jackpot-amt').textContent = '$' + cfg.jackpotAmt.toFixed(2);
-        if (el('aff-txt-promo-badge')) el('aff-txt-promo-badge').textContent = '$' + cfg.promoBalance.toFixed(2);
-        if (el('aff-promo-note'))      el('aff-promo-note').textContent      = 'Use this code — $' + cfg.promoBalance.toFixed(2) + ' balance, usable across multiple orders';
+        if (el('aff-txt-promo-badge')) el('aff-txt-promo-badge').textContent = '$' + realBalance.toFixed(2);
+        if (el('aff-promo-note'))      el('aff-promo-note').textContent      = 'Use this code — $' + realBalance.toFixed(2) + ' balance, usable across multiple orders';
         // ── Pay-per-click config ──
         const payPerClick      = (cfg.payPerClick || 'no').toLowerCase() === 'yes';
         const clicksPerReward  = parseInt(cfg.clicksPerReward)  || 1000;
