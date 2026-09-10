@@ -122,9 +122,13 @@ exports.handler = async (event) => {
     // ── LIKE / DISLIKE PRODUIT ─────────────────────────────────────
     // Même feuille que les avis (bbw4life-customers-reviews) — une ligne
     // dédiée par produit (identifiée par G=productId, A=fullName vide)
-    // porte le compteur cumulatif : I=likes, J=dislikes, K=voters (JSON
-    // stringifié { "email_ou_anonId": "like"|"dislike" }), pour permettre
-    // à un votant de changer d'avis sans compter deux fois.
+    // porte le compteur cumulatif, sans toucher à la colonne I existante
+    // (REVIEWSWRITTEN) :
+    //   J = total (likes + dislikes combinés)
+    //   K = likes
+    //   L = dislikes
+    //   M = voters, JSON stringifié { "email_ou_anonId": "like"|"dislike" },
+    //       pour permettre à un votant de changer d'avis sans compter deux fois.
     if (action === 'like-vote' || action === 'get-likes') {
       const { voteType, anonId } = body;
       const token = body.token;
@@ -146,7 +150,7 @@ exports.handler = async (event) => {
 
       const res = await sheets.spreadsheets.values.get({
         spreadsheetId: reviewsSpreadsheetId,
-        range: "bbw4life-customers-reviews!A:K"
+        range: "bbw4life-customers-reviews!A:M"
       });
       const rows = res.data.values || [];
 
@@ -156,9 +160,9 @@ exports.handler = async (event) => {
       let likes = 0, dislikes = 0, voters = {};
       if (likeRowIndex !== -1) {
         const row = rows[likeRowIndex];
-        likes    = parseInt(row[8]  || 0) || 0;
-        dislikes = parseInt(row[9]  || 0) || 0;
-        try { voters = row[10] ? JSON.parse(row[10]) : {}; } catch (e) { voters = {}; }
+        likes    = parseInt(row[10] || 0) || 0; // K
+        dislikes = parseInt(row[11] || 0) || 0; // L
+        try { voters = row[12] ? JSON.parse(row[12]) : {}; } catch (e) { voters = {}; } // M
       }
 
       if (action === 'get-likes') {
@@ -185,23 +189,26 @@ exports.handler = async (event) => {
       if (voteType === 'dislike') dislikes += 1;
       voters[voterKey] = voteType;
 
+      const total = likes + dislikes;
+
       if (likeRowIndex !== -1) {
         const rowNum = likeRowIndex + 1;
         await sheets.spreadsheets.values.update({
           spreadsheetId: reviewsSpreadsheetId,
-          range: `bbw4life-customers-reviews!I${rowNum}:K${rowNum}`,
+          range: `bbw4life-customers-reviews!J${rowNum}:M${rowNum}`,
           valueInputOption: "RAW",
-          resource: { values: [[likes, dislikes, JSON.stringify(voters)]] }
+          resource: { values: [[total, likes, dislikes, JSON.stringify(voters)]] }
         });
       } else {
         // Première interaction sur ce produit : crée la ligne compteur.
-        // A-F et H vides (ce n'est pas un avis), G=productId, I/J/K remplis.
+        // A-F, H, I vides (ce n'est pas un avis, I=REVIEWSWRITTEN ne
+        // s'applique pas ici), G=productId, J-M remplis.
         await sheets.spreadsheets.values.append({
           spreadsheetId: reviewsSpreadsheetId,
-          range: "bbw4life-customers-reviews!A:K",
+          range: "bbw4life-customers-reviews!A:M",
           valueInputOption: "RAW",
           insertDataOption: "INSERT_ROWS",
-          resource: { values: [["", "", "", "", "", "", productId, "", likes, dislikes, JSON.stringify(voters)]] }
+          resource: { values: [["", "", "", "", "", "", productId, "", "", total, likes, dislikes, JSON.stringify(voters)]] }
         });
       }
 
