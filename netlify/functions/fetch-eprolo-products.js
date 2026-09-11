@@ -58,6 +58,12 @@ CATEGORIES.forEach(cat => {
 const SEP  = "═".repeat(80);
 const SEP2 = "─".repeat(80);
 
+// 90 produits en Promise.all simultané dépassait le timeout de 30s de la
+// fonction Netlify (mesuré en production) — même sans shipping, autant de
+// connexions HTTP concurrentes vers Eprolo est trop lent/instable. Découpé
+// en lots paginés (offset/limit), même pattern que fetch-cj-products.js.
+const BATCH_SIZE = 15;
+
 // ── Shipping cost — Eprolo "Shipping Rate Inquiry API"
 //    (get_product_shiping_fees.html). Isolé dans sa propre fonction et
 //    son propre try/catch dans l'appelant : une erreur ici ne doit
@@ -103,18 +109,23 @@ exports.handler = async (event) => {
   const logs = [];
   const log = (msg) => { console.log(msg); logs.push(msg); };
 
+  const params = event.queryStringParameters || {};
+  const offset = Math.max(0, parseInt(params.offset, 10) || 0);
+  const limit  = Math.max(1, parseInt(params.limit, 10) || BATCH_SIZE);
+  const batch  = ALL_PRODUCT_ENTRIES.slice(offset, offset + limit);
+  const hasMore = offset + limit < ALL_PRODUCT_ENTRIES.length;
+
   log(SEP);
-  log("  EPROLO — RÉCUPÉRATION DES PRODUITS");
-  log(`  Liste : ${ALL_PRODUCT_ENTRIES.length} produits`);
+  log(`  EPROLO — LOT ${offset + 1}-${offset + batch.length} / ${ALL_PRODUCT_ENTRIES.length}`);
   log(SEP);
 
   try {
     const apiKey    = process.env.EPROLO_API_KEY;
     const apiSecret = process.env.EPROLO_API_SECRET;
 
-    // Fetch all products in parallel
+    // Fetch this batch's products in parallel (petit lot, pas les 90 d'un coup)
     const results = await Promise.all(
-      ALL_PRODUCT_ENTRIES.map(async (entry) => {
+      batch.map(async (entry) => {
         const { id: productId, category, subcategory } = entry;
         try {
           const timestamp = Date.now();
@@ -158,7 +169,7 @@ exports.handler = async (event) => {
     const allProducts = results.filter(Boolean);
 
     log(SEP);
-    log(`  TOTAL RÉCUPÉRÉS : ${allProducts.length} / ${ALL_PRODUCT_ENTRIES.length}`);
+    log(`  LOT TERMINÉ : ${allProducts.length} / ${batch.length}  (global : ${offset + batch.length} / ${ALL_PRODUCT_ENTRIES.length})`);
     log(SEP);
 
     allProducts.forEach((product, index) => {
@@ -219,11 +230,14 @@ exports.handler = async (event) => {
         "Access-Control-Allow-Origin": "*"
       },
       body: JSON.stringify({
-        success:     true,
-        total:       allProducts.length,
-        logs:        logs,
-        products:    allProducts,
-        categories:  CATEGORIES.map(cat => cat.category),
+        success:      true,
+        total:        allProducts.length,
+        totalOverall: ALL_PRODUCT_ENTRIES.length,
+        hasMore:      hasMore,
+        nextOffset:   offset + limit,
+        logs:         logs,
+        products:     allProducts,
+        categories:   CATEGORIES.map(cat => cat.category),
       })
     };
 

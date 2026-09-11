@@ -868,6 +868,13 @@
     return COLOR_MAP[key] || `hsl(${Math.abs(colorName.charCodeAt(0)*37 + colorName.charCodeAt(1)*17) % 360},55%,55%)`;
   }
 
+  // Nombre de produits par lot côté frontend (doit correspondre au défaut
+  // du backend) — 90 produits en un seul appel dépassait le timeout de 30s
+  // de la fonction Netlify (mesuré en production, même sans shipping :
+  // trop de connexions HTTP concurrentes vers Eprolo). Découpé en lots
+  // paginés (offset/limit), même pattern que fetch-cj-products.js.
+  const EPROLO_PRODUCTS_BATCH_SIZE = 15;
+
   async function fetchProducts() {
     const runBtn  = document.getElementById('run-btn');
     const copyBtn = document.getElementById('copy-btn');
@@ -875,9 +882,7 @@
     activeCategoriesDef = CATEGORIES;
 
     runBtn.disabled    = true;
-    runBtn.textContent = '⏳  Chargement...';
     copyBtn.style.display = 'none';
-    setStatus('running', 'Appel en cours vers Netlify...');
 
     document.getElementById('product-view').style.display  = 'none';
     document.getElementById('product-view').innerHTML      = '';
@@ -892,37 +897,59 @@
     activeCategory    = 'ALL';
     activeSubcategory = 'ALL';
 
+    let rawProducts = [];
+    let offset = 0;
+    let hasMore = true;
+    let batchNum = 0;
+    let hadError = false;
+
     try {
-      const res  = await fetch('/.netlify/functions/fetch-eprolo-products');
-      const data = await res.json();
+      while (hasMore) {
+        batchNum++;
+        setStatus('running', `Récupération lot ${batchNum} (produits ${offset + 1} à ${offset + EPROLO_PRODUCTS_BATCH_SIZE})...`);
+        runBtn.textContent = `⏳  Lot ${batchNum}...`;
 
-      document.getElementById('skeleton-view').style.display = 'none';
-      rawLogs = data.logs || [];
+        const res  = await fetch(`/.netlify/functions/fetch-eprolo-products?offset=${offset}&limit=${EPROLO_PRODUCTS_BATCH_SIZE}`);
+        const data = await res.json();
 
-      if (data.success) {
-        allProducts = parseProducts(data);
+        if (!data.success) {
+          rawLogs = rawLogs.concat(data.logs || []);
+          setStatus('err', 'Erreur : ' + (data.error || 'Vérifie la fonction Netlify.'));
+          renderRawLog(rawLogs);
+          document.getElementById('log-section').style.display = 'block';
+          hadError = true;
+          break;
+        }
+
+        rawLogs = rawLogs.concat(data.logs || []);
+        rawProducts = rawProducts.concat(data.products || []);
+        allProducts = parseProducts({ products: rawProducts });
+
+        document.getElementById('skeleton-view').style.display = 'none';
         renderCategoryTabs();
         renderSubcatChips();
         renderProductCards();
         renderRawLog(rawLogs);
 
         const variantTotal = allProducts.reduce((s, p) => s + p.variants.length, 0);
-        const errCount     = rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
-
         document.getElementById('stat-total').textContent    = allProducts.length;
         document.getElementById('stat-variants').textContent = variantTotal;
-        document.getElementById('stat-errors').textContent   = errCount;
+        document.getElementById('stat-errors').textContent   = rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
         document.getElementById('stats-row').style.display   = 'flex';
         document.getElementById('header-subtitle').textContent =
-          `${allProducts.length} produits · 3 catégories · Netlify Function`;
+          `${allProducts.length} / ${data.totalOverall || allProducts.length} produits · 3 catégories · Netlify Function`;
 
+        hasMore = !!data.hasMore;
+        offset  = data.nextOffset;
+      }
+
+      if (!hadError) {
+        const variantTotal = allProducts.reduce((s, p) => s + p.variants.length, 0);
         setStatus('ok', `${allProducts.length} produits récupérés · ${variantTotal} variants au total`);
         copyBtn.style.display = 'inline-flex';
         copyBtn.textContent   = '⧉  Copier le log brut';
         copyBtn.classList.remove('copied');
         document.getElementById('log-section').style.display = 'block';
-      } else {
-        setStatus('err', 'Aucune donnée retournée. Vérifie la fonction Netlify.');
       }
     } catch (err) {
       document.getElementById('skeleton-view').style.display = 'none';

@@ -224,22 +224,13 @@ exports.handler = async (event) => {
             log(`        ⚠️  Titre : EXCEPTION : ${titleErr.message}`);
           }
 
-          // ── Shipping cost estimatif (CN → US) sur le 1er variant
-          //    disponible, comme aperçu — le vrai calcul au checkout se
-          //    fait par commande réelle (create-cj-order.js). ──
-          let shipping = null;
-          const firstVid = data.data[0]?.vid;
-          if (firstVid) {
-            await sleep(CJ_REQUEST_DELAY_MS);
-            try {
-              shipping = await getCJShippingCost(token, firstVid);
-              log(shipping
-                ? `        🚚  Shipping (${CJ_SHIPPING_FROM}→${CJ_SHIPPING_TO}) : $${shipping.price} via ${shipping.logisticName}`
-                : `        ⚠️  Shipping introuvable pour ${pid}`);
-            } catch (shipErr) {
-              log(`        ⚠️  Shipping : EXCEPTION : ${shipErr.message}`);
-            }
-          }
+          // ── Shipping cost désactivé ICI (viewer admin) : mesuré à 13s
+          //    pour un seul appel CJ (log Netlify réel), ce qui faisait à
+          //    lui seul dépasser les 30s de timeout dur de la fonction
+          //    dès 2 produits sur un lot de 3. Le vrai calcul au checkout
+          //    reste inchangé, fait par commande réelle
+          //    (create-cj-order.js) — ne dépend pas de ce fichier. ──
+          const shipping = null;
 
           allProducts.push({ pid, label, title, shipping, variants: data.data });
         } else {

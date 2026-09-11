@@ -607,15 +607,17 @@
     { category: "Plus Size Woman", subcategories: ["Shoes","Dresses","Bathrobe","Sexy","Breathable","Bikini","Plus Size Top"] },
   ];
 
+  // 90 produits en un seul appel dépassait le timeout de 30s de la
+  // fonction Netlify (mesuré en production) — même pagination que CJ.
+  const EPROLO_PRODUCTS_BATCH_SIZE = 15;
+
   async function fetchEprolo() {
     const s = state.eprolo;
     const runBtn  = document.getElementById('run-btn-eprolo');
     const copyBtn = document.getElementById('copy-btn-eprolo');
 
     runBtn.disabled = true;
-    runBtn.textContent = '⏳  Chargement...';
     copyBtn.style.display = 'none';
-    setStatus('eprolo', 'running', 'Appel en cours vers Netlify...');
 
     document.getElementById('product-view-eprolo').style.display = 'none';
     document.getElementById('product-view-eprolo').innerHTML = '';
@@ -627,36 +629,58 @@
     document.getElementById('log-output-eprolo').innerHTML = '';
     s.rawLogs = []; s.allProducts = []; s.activeCategory = 'ALL'; s.activeSubcategory = 'ALL';
 
+    let rawProducts = [];
+    let offset = 0;
+    let hasMore = true;
+    let batchNum = 0;
+    let hadError = false;
+
     try {
-      const res  = await fetch('/.netlify/functions/fetch-eprolo-products');
-      const data = await res.json();
+      while (hasMore) {
+        batchNum++;
+        setStatus('eprolo', 'running', `Récupération lot ${batchNum} (produits ${offset + 1} à ${offset + EPROLO_PRODUCTS_BATCH_SIZE})...`);
+        runBtn.textContent = `⏳  Lot ${batchNum}...`;
 
-      document.getElementById('skeleton-view-eprolo').style.display = 'none';
-      s.rawLogs = data.logs || [];
+        const res  = await fetch(`/.netlify/functions/fetch-eprolo-products?offset=${offset}&limit=${EPROLO_PRODUCTS_BATCH_SIZE}`);
+        const data = await res.json();
 
-      if (data.success) {
-        s.allProducts = parseEprolo(data);
+        if (!data.success) {
+          s.rawLogs = s.rawLogs.concat(data.logs || []);
+          setStatus('eprolo', 'err', 'Erreur : ' + (data.error || 'Vérifie la fonction Netlify.'));
+          renderRawLog('eprolo', s.rawLogs);
+          document.getElementById('log-section-eprolo').style.display = 'block';
+          hadError = true;
+          break;
+        }
+
+        s.rawLogs = s.rawLogs.concat(data.logs || []);
+        rawProducts = rawProducts.concat(data.products || []);
+        s.allProducts = parseEprolo({ products: rawProducts });
+
+        document.getElementById('skeleton-view-eprolo').style.display = 'none';
         renderEprolCatTabs();
         renderEprolSubcatChips();
         renderEprolCards();
         renderRawLog('eprolo', s.rawLogs);
 
         const variantTotal = s.allProducts.reduce((sum, p) => sum + p.variants.length, 0);
-        const errCount = s.rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
-
         document.getElementById('stat-total-eprolo').textContent = s.allProducts.length;
         document.getElementById('stat-variants-eprolo').textContent = variantTotal;
-        document.getElementById('stat-errors-eprolo').textContent = errCount;
+        document.getElementById('stat-errors-eprolo').textContent = s.rawLogs.filter(l => l.includes('⚠️') || l.includes('❌')).length;
         document.getElementById('stats-row-eprolo').style.display = 'flex';
-        document.getElementById('header-subtitle').textContent = `${s.allProducts.length} produits Eprolo · 3 catégories`;
+        document.getElementById('header-subtitle').textContent = `${s.allProducts.length} / ${data.totalOverall || s.allProducts.length} produits Eprolo · 3 catégories`;
 
+        hasMore = !!data.hasMore;
+        offset  = data.nextOffset;
+      }
+
+      if (!hadError) {
+        const variantTotal = s.allProducts.reduce((sum, p) => sum + p.variants.length, 0);
         setStatus('eprolo', 'ok', `${s.allProducts.length} produits récupérés · ${variantTotal} variants au total`);
         copyBtn.style.display = 'inline-flex';
         copyBtn.textContent = '⧉  Copier le log brut';
         copyBtn.classList.remove('copied');
         document.getElementById('log-section-eprolo').style.display = 'block';
-      } else {
-        setStatus('eprolo', 'err', 'Aucune donnée retournée. Vérifie la fonction Netlify.');
       }
     } catch (err) {
       document.getElementById('skeleton-view-eprolo').style.display = 'none';
