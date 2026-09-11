@@ -874,7 +874,9 @@
   }
 
   // Nombre de produits par lot côté frontend (doit correspondre au défaut du backend)
-  const CJ_PRODUCTS_BATCH_SIZE = 6;
+  // 3 (pas 6) : chaque produit CJ fait 3 appels séquentiels espacés d'1.1s
+  // (rate-limit) — un lot de 6 dépassait le timeout de la fonction Netlify.
+  const CJ_PRODUCTS_BATCH_SIZE = 3;
   // Nombre de variants par lot pour le stock (doit rester <= MAX_VIDS_PER_CALL côté backend)
   const CJ_STOCK_BATCH_SIZE = 8;
 

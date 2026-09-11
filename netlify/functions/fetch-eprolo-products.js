@@ -134,22 +134,14 @@ exports.handler = async (event) => {
           if ((data.code === 0 || data.code === "0") && data.data) {
             log(`  ✅  ${productId}  →  OK  [${category} > ${subcategory}]`);
 
-            // ── Shipping cost (appel séparé, best-effort) — ne doit
-            //    jamais faire échouer le produit si ça rate. ──
-            let shipping = null;
-            const firstVariantId = data.data.variantlist?.[0]?.id;
-            if (firstVariantId) {
-              try {
-                shipping = await getEproloShippingCost(apiKey, apiSecret, productId, firstVariantId);
-                log(shipping
-                  ? `        🚚  Shipping (→${EPROLO_SHIPPING_COUNTRY}) : $${shipping.price} via ${shipping.method}`
-                  : `        ⚠️  Shipping introuvable pour ${productId}`);
-              } catch (shipErr) {
-                log(`        ⚠️  Shipping : EXCEPTION : ${shipErr.message}`);
-              }
-            }
-
-            return { ...data.data, category, subcategory, shipping };
+            // ── Shipping cost désactivé ICI : cette fonction liste les 90
+            //    produits, chacun ferait alors 2 appels réseau vers Eprolo
+            //    (produit + shipping) — ce doublement du volume dépassait
+            //    le timeout de la fonction Netlify (mesuré : 30s+ sans
+            //    réponse en production). Reste actif dans
+            //    fetch-eprolo-new-products.js (liste courte, ~10 produits,
+            //    pas de risque de timeout là-bas). ──
+            return { ...data.data, category, subcategory, shipping: null };
           } else {
             const errMsg = data.msg || 'réponse invalide';
             log(`  ⚠️  ${productId}  →  ERREUR : ${errMsg}  [${category} > ${subcategory}]`);

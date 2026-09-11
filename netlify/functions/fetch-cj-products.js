@@ -23,7 +23,13 @@ const SEP2 = "─".repeat(80);
 const CJ_REQUEST_DELAY_MS = 1100;
 
 
-const BATCH_SIZE = 6;
+// Chaque produit fait 3 appels séquentiels (variant + titre + shipping)
+// avec un sleep(CJ_REQUEST_DELAY_MS) avant chacun pour respecter le
+// rate-limit CJ — un lot de 6 dépassait le timeout de la fonction Netlify
+// (mesuré : 30s+ sans réponse en production, ~20s rien qu'en délais
+// artificiels avant même le temps réseau réel). 3 produits reste sous ce
+// seuil tout en gardant le même rythme d'appels vers CJ.
+const BATCH_SIZE = 3;
 
 // ── Auth : Access Token CJ (même logique que create-cj-order.js) ──
 async function getCJAccessToken() {
