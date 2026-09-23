@@ -9211,7 +9211,12 @@
       ],
       "banner_slide_duration_ms": 5000
     },
-    "preloader": { "show": "yes", "style_pulse_logo": "no", "style_progress_bar": "no", "style_spinner_ring": "yes", "style_dots_wave": "no", "style_morph_text": "no" },
+    "preloader": { "show": "yes", 
+    "style_pulse_logo": "no", 
+    "style_progress_bar": "yes", 
+    "style_spinner_ring": "no", 
+    "style_dots_wave": "no", 
+    "style_morph_text": "no" },
     "remember_cart_popup": { "show": "yes", "avatar_image": "https://cdn.shopify.com/s/files/1/0978/0353/4627/files/curva_AI.png?v=1775586792", "avatar_video_url": "", "position_bottom_right": "yes", "position_bottom_left": "no", "position_top_right": "no", "position_top_left": "no", "initial_delay_ms": 5000, "display_duration_ms": 5000, "interval_ms": 40000, "subtitle_text": "Don't forget!", "title_text": "You have [COUNT] item(s) in your cart", "description_text": "Complete your order before it's gone!", "button_text": "Complete My Purchase" },
     "sanaica_banner": {
       "show": "yes",

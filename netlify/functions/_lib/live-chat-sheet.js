@@ -34,7 +34,20 @@ function getSpreadsheetId() {
   return process.env.SHEET_ID_BBW4LIFE_ACCOUNTS;
 }
 
+// ── Cache : une fois l'onglet confirmé existant sur ce process, on ne
+//    refait plus jamais l'appel sheets.spreadsheets.get() qui suit. Avant ce
+//    cache, CHAQUE message client (appendLiveChatRow) ET CHAQUE poll
+//    automatique du frontend (toutes les 4s tant qu'un chat est ouvert, via
+//    getAllLiveChatRows/setLiveChatStatus) déclenchait un appel Google
+//    Sheets rien que pour vérifier l'existence de l'onglet — alors qu'il
+//    n'est créé qu'une seule fois dans la vie du projet. Avec plusieurs
+//    sessions de chat actives en parallèle, ça consomme vite le quota
+//    "Read requests per minute" de Google Sheets API et peut faire échouer
+//    silencieusement certains messages/mises à jour de statut. ──
+let _sheetConfirmedExisting = false;
+
 async function ensureLiveChatSheet(sheets, spreadsheetId) {
+  if (_sheetConfirmedExisting) return;
   try {
     const meta = await sheets.spreadsheets.get({ spreadsheetId, fields: 'sheets.properties.title' });
     const exists = (meta.data.sheets || []).some(s => s.properties.title === SHEET_NAME);
@@ -50,6 +63,7 @@ async function ensureLiveChatSheet(sheets, spreadsheetId) {
         resource: { values: [HEADERS] }
       });
     }
+    _sheetConfirmedExisting = true;
   } catch (e) {
     console.error('[live-chat] ensureLiveChatSheet FAILED:', e.message);
     throw e;
@@ -101,6 +115,15 @@ async function getLiveChatRowsFor(chatId) {
  * Marque le statut de la session (posé sur la ligne d'ouverture, celle
  * qui a chat_id + sender="client" + un status non vide dans la colonne E).
  * Réécrit uniquement la colonne E de cette ligne précise.
+ *
+ * ⚠️ FILET DE SÉCURITÉ : si la ligne d'ouverture est introuvable (parce que
+ * son écriture initiale — appendLiveChatRow(..., 'pending', ...) dans
+ * chat.js — a échoué silencieusement, ex: quota Google Sheets momentanément
+ * dépassé), on n'échoue plus silencieusement : on recrée cette ligne
+ * manquante avec le statut demandé. Sans ça, toute la session reste bloquée
+ * pour toujours (le client ne voit jamais "answered"/"closed", CLOSE ne
+ * fonctionne jamais), alors que les messages agent/client individuels,
+ * eux, continuent d'être écrits normalement.
  */
 async function setLiveChatStatus(chatId, status) {
   const sheets = getSheetsClient();
@@ -110,7 +133,18 @@ async function setLiveChatStatus(chatId, status) {
   const res = await sheets.spreadsheets.values.get({ spreadsheetId, range: `${SHEET_NAME}!A2:F` });
   const rows = res.data.values || [];
   const rowIndex = rows.findIndex(r => r[0] === chatId && (r[4] || '').length > 0);
-  if (rowIndex === -1) return false;
+
+  if (rowIndex === -1) {
+    console.warn(`[live-chat] setLiveChatStatus: ligne d'ouverture introuvable pour ${chatId} — recréation avec status="${status}"`);
+    await sheets.spreadsheets.values.append({
+      spreadsheetId,
+      range: `${SHEET_NAME}!A:F`,
+      valueInputOption: 'RAW',
+      insertDataOption: 'INSERT_ROWS',
+      resource: { values: [[chatId, 'client', '[Session recovered]', new Date().toISOString(), status, '']] }
+    });
+    return true;
+  }
 
   const rowNum = rowIndex + 2; // +2 : offset header + index 0-based → 1-based
   await sheets.spreadsheets.values.update({

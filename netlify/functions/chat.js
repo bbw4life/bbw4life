@@ -1403,12 +1403,21 @@ async function handleHumanEscalation(body, headers) {
   // setLiveChatStatus() met à jour ensuite (pending → answered → closed).
   // deviceId permet au webhook de retrouver la Push_Subscriptions du bon
   // visiteur pour le notifier quand l'agent répond.
-  try {
-    await appendLiveChatRow(chatId, 'client', `[Live chat started by ${fullName}]`, 'pending', deviceId);
-  } catch (e) {
-    console.error('[live-chat] Failed to open session in sheet:', e.message);
-    // On continue quand même — le client aura au moins reçu la notification
-    // Telegram, même si le suivi live (polling/replies) ne fonctionnera pas.
+  // ⚠️ Cette écriture est critique : sans elle, setLiveChatStatus() ne
+  // retrouve plus jamais la session (statut bloqué pour toujours côté
+  // client, CLOSE sans effet — bug observé en prod, cause : quota Google
+  // Sheets momentanément dépassé). 2 tentatives avant d'abandonner
+  // (setLiveChatStatus a maintenant aussi un filet de secours qui recrée
+  // la ligne si elle manque malgré tout).
+  let openedOk = false;
+  for (let attempt = 1; attempt <= 2 && !openedOk; attempt++) {
+    try {
+      await appendLiveChatRow(chatId, 'client', `[Live chat started by ${fullName}]`, 'pending', deviceId);
+      openedOk = true;
+    } catch (e) {
+      console.error(`[live-chat] Failed to open session in sheet (attempt ${attempt}):`, e.message);
+      if (attempt < 2) await new Promise(r => setTimeout(r, 800));
+    }
   }
 
   const message =
