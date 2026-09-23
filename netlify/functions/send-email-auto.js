@@ -39,15 +39,18 @@ const T = {
 // ════════════════════════════════════════════════════════════════
 const GROQ_MODELS = [
   'llama-3.3-70b-versatile',
-  'llama-3.1-70b-versatile',
-  'mixtral-8x7b-32768',
-  'gemma2-9b-it',
-  'llama3-70b-8192',
-  'llama3-8b-8192',
+  'moonshotai/kimi-k2-instruct-0905',
+  'meta-llama/llama-4-scout-17b-16e-instruct',
+  'qwen/qwen3-32b',
+  'openai/gpt-oss-120b',
+  'openai/gpt-oss-20b',
   'llama-3.1-8b-instant',
 ];
 let modelIdx = 0;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
+const GEMINI_MODEL    = 'gemini-3.5-flash-lite';
 
 const BBW_SYSTEM_PROMPT = `You are the senior email copywriter for BBW4LIFE — a premium plus-size fashion and lifestyle brand built for curvy women with the tagline "Beauty Has No Sizes".
 
@@ -67,10 +70,70 @@ WRITING RULES:
 7. Output: Plain text only. Separate paragraphs with a blank line.
 8. ALWAYS reflect: Beauty Has No Sizes — every woman deserves to feel beautiful`;
 
+// ── 1. Claude (primary) ───────────────────────────────────────
+async function callClaude(userPrompt) {
+  if (!process.env.ANTHROPIC_API_KEY) return null;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key':         process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'Content-Type':      'application/json',
+      },
+      body: JSON.stringify({
+        model:       ANTHROPIC_MODEL,
+        max_tokens:  500,
+        temperature: 0.70,
+        system:      BBW_SYSTEM_PROMPT,
+        messages:    [{ role: 'user', content: userPrompt }],
+      }),
+    });
+    if (!res.ok) { console.warn(`[Claude] HTTP ${res.status}`); return null; }
+    const data    = await res.json();
+    const content = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+    return content.length >= 20 ? content : null;
+  } catch (e) {
+    console.warn('[Claude] Error:', e.message);
+    return null;
+  }
+}
+
+// ── 2. Gemini (secondary) ─────────────────────────────────────
+async function callGemini(userPrompt) {
+  if (!process.env.GOOGLE_AI_API_KEY) return null;
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${process.env.GOOGLE_AI_API_KEY}`,
+      {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: BBW_SYSTEM_PROMPT }] },
+          contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+          generationConfig: { maxOutputTokens: 500, temperature: 0.70 },
+        }),
+      }
+    );
+    if (!res.ok) { console.warn(`[Gemini] HTTP ${res.status}`); return null; }
+    const data    = await res.json();
+    const content = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('').trim();
+    return content.length >= 20 ? content : null;
+  } catch (e) {
+    console.warn('[Gemini] Error:', e.message);
+    return null;
+  }
+}
+
+// ── 3. Groq (last resort before hardcoded fallback) ────────────
 async function callGroq(userPrompt) {
   for (let attempt = 0; attempt < GROQ_MODELS.length; attempt++) {
     const idx   = (modelIdx + attempt) % GROQ_MODELS.length;
     const model = GROQ_MODELS[idx];
+    // Les modèles "reasoning" openai/gpt-oss-* consomment max_tokens sur un
+    // raisonnement interne caché avant la réponse finale — reasoning_effort
+    // "low" réduit ce raisonnement pour laisser assez de budget à la réponse.
+    const isReasoningModel = model.startsWith('openai/gpt-oss');
     for (let retry = 1; retry <= 2; retry++) {
       try {
         const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -88,6 +151,7 @@ async function callGroq(userPrompt) {
             max_tokens:  500,
             temperature: 0.70,
             top_p:       0.92,
+            ...(isReasoningModel ? { reasoning_effort: 'low' } : {}),
           }),
         });
         if (res.status === 429) {
@@ -108,6 +172,23 @@ async function callGroq(userPrompt) {
       }
     }
   }
+  return null;
+}
+
+// ── Cascade: Claude → Gemini → Groq ─────────────────────────────
+async function callAI(userPrompt) {
+  const claude = await callClaude(userPrompt);
+  if (claude) return claude;
+  console.warn('[AI] Claude failed — trying Gemini');
+
+  const gemini = await callGemini(userPrompt);
+  if (gemini) return gemini;
+  console.warn('[AI] Gemini failed — trying Groq');
+
+  const groq = await callGroq(userPrompt);
+  if (groq) return groq;
+  console.warn('[AI] Groq failed — using hardcoded fallback');
+
   return null;
 }
 
@@ -1039,7 +1120,7 @@ function cPromoBlock(code, percent, items, label) {
 // ════════════════════════════════════════════════════════════════
 
 async function genWelcomeCopy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Welcome — new BBW4LIFE customer created their account.
 RECIPIENT: ${name}
 Write 2 short paragraphs (blank line between):
@@ -1051,7 +1132,7 @@ Plain text only, no greeting, no sign-off.`
 }
 
 async function genOrderConfirmCopy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Order confirmation for BBW4LIFE.
 RECIPIENT: ${name}
 Write 1 paragraph (2-3 sentences): Thank her for the order. Express genuine excitement. Mention order is being prepared.
@@ -1061,7 +1142,7 @@ Plain text only.`
 }
 
 async function genTrackingCopy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Shipping notification with tracking number — BBW4LIFE.
 RECIPIENT: ${name}
 Write 1 paragraph (2 sentences): Great news, order is on the way. Warm, excited tone.
@@ -1071,7 +1152,7 @@ Plain text only.`
 }
 
 async function genNewsletter1Copy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Newsletter welcome #1 — BBW4LIFE subscriber confirmation.
 RECIPIENT: ${name || 'Beautiful'}
 Write 2 paragraphs: Welcome to the family, explain what they'll receive (deals, new arrivals, stories, tips). Warm and excited.
@@ -1081,7 +1162,7 @@ Plain text only.`
 }
 
 async function genNewsletter2Copy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Newsletter follow-up day 3 — BBW4LIFE. Emotional connection email.
 RECIPIENT: ${name || 'Beautiful'}
 Write 2 paragraphs: Check in warmly. Ask about their browsing experience. Invite feedback. Create genuine conversation.
@@ -1091,7 +1172,7 @@ Plain text only.`
 }
 
 async function genNewsletter3Copy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Newsletter day 5 — BBW4LIFE bundle & favorites email.
 RECIPIENT: ${name || 'Beautiful'}
 Write 2 paragraphs: Make her feel valued. Highlight that BBW4LIFE has bundles and customer favorites. Encourage first purchase warmly.
@@ -1101,7 +1182,7 @@ Plain text only.`
 }
 
 async function genNewsletter4BuyerCopy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Newsletter day 10 — BBW4LIFE appreciation email for existing buyer.
 RECIPIENT: ${name || 'Beautiful'}
 Write 2 paragraphs: Thank her for her purchase. Ask about experience. Invite to share feedback. Recommend exploring more.
@@ -1111,7 +1192,7 @@ Plain text only.`
 }
 
 async function genNewsletter4NewCopy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Newsletter day 10 — BBW4LIFE conversion email for non-buyer.
 RECIPIENT: ${name || 'Beautiful'}
 Write 2 paragraphs: Encourage first purchase gently. Mention exclusive discount below. Create soft urgency without pressure.
@@ -1121,7 +1202,7 @@ Plain text only.`
 }
 
 async function genContactReplyCopy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Contact form auto-reply — BBW4LIFE.
 RECIPIENT: ${name || 'Beautiful'}
 Write 1 paragraph (2-3 sentences): Confirm message received. Reassure them. Team will respond within 24-48 hours. Professional and caring.
@@ -1131,7 +1212,7 @@ Plain text only.`
 }
 
 async function genPlanRequestCopy(name, program) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Product reservation/plan request confirmation — BBW4LIFE.
 RECIPIENT: ${name || 'Beautiful'} PRODUCT: ${program}
 Write 2 paragraphs: Confirm request received for ${program}. Make her feel great. Team will review and contact her soon.
@@ -1141,7 +1222,7 @@ Plain text only.`
 }
 
 async function genCustomProductCopy(name, productTitle) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Custom/personalized product request confirmation — BBW4LIFE.
 RECIPIENT: ${name || 'Beautiful'} PRODUCT: ${productTitle}
 Write 2 paragraphs: Confirm receipt of personalized product request. Excite them. Design team will review. BBW4LIFE evaluating possibility.
@@ -1151,7 +1232,7 @@ Plain text only.`
 }
 
 async function genCartAbandonedCopy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Abandoned cart recovery — BBW4LIFE.
 RECIPIENT: ${name}
 Write 2 short paragraphs (blank line between):
@@ -1215,7 +1296,7 @@ Write a short sincere apology (2 paragraphs max). Address their EXACT issue from
 Ask them kindly to reach us on WhatsApp: ${whatsapp} or contact page: ${contactPage} to resolve personally.
 Warm, humble, genuine. No excuses. Plain text only.`;
 
-  const copy = await callGroq(userPrompt);
+  const copy = await callAI(userPrompt);
   return copy || (sentiment === 'positive'
     ? `Thank you so much for your kind words about ${productName} — it means everything to us to know you love it. You just made our whole team smile.\n\nAs a small thank-you, here's an exclusive gift for you: use code ${promo ? promo.code : ''} for ${promo ? promo.percent + '% off' : 'a special discount'}. We can't wait to see what you pick next.`
     : `We're truly sorry about your experience with ${productName} — this is not the standard we hold ourselves to, and we completely understand your frustration.\n\nPlease reach out to us on WhatsApp (${whatsapp}) or through our contact page (${contactPage}) so we can personally make this right for you.`
@@ -1223,7 +1304,7 @@ Warm, humble, genuine. No excuses. Plain text only.`;
 }
 
 async function genStoryReceivedCopy(name) {
-  const copy = await callGroq(
+  const copy = await callAI(
     `EMAIL TYPE: Story submission confirmation — BBW4LIFE community page.
 RECIPIENT: ${name}
 Write 2 short paragraphs (blank line between):

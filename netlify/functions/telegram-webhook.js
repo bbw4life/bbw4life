@@ -20,9 +20,14 @@ const {
   getDeviceIdFor
 } = require('./_lib/live-chat-sheet');
 
+// Clé publique VAPID — non secrète (déjà exposée au navigateur du client
+// dans script.js), codée en dur pour ne pas consommer de budget sur la
+// limite AWS Lambda de 4KB de variables d'environnement par fonction.
+const VAPID_PUBLIC_KEY = 'BPAy2x7jsTHvHMYA5uLWKZAbmwpAtUlFtCbgSiALsYFH4EKhSTxUemonrVf-xzg5FxsQIB4GXZdA_N5gwvLWF8Y';
+
 webpush.setVapidDetails(
   process.env.VAPID_SUBJECT,
-  process.env.VAPID_PUBLIC_KEY,
+  VAPID_PUBLIC_KEY,
   process.env.VAPID_PRIVATE_KEY
 );
 

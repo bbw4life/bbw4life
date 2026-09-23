@@ -1456,15 +1456,12 @@ async function handleLiveChatMessage(body, headers) {
 ══════════════════════════════════════════════════════ */
 const MODELS = [
   'llama-3.3-70b-versatile',
-  'moonshotai/kimi-k2-instruct',
+  'moonshotai/kimi-k2-instruct-0905',
   'meta-llama/llama-4-scout-17b-16e-instruct',
   'qwen/qwen3-32b',
   'openai/gpt-oss-120b',
   'openai/gpt-oss-20b',
-  'moonshotai/kimi-k2-instruct-0905',
-  'openai/gpt-oss-safeguard-20b',
   'llama-3.1-8b-instant',
-  'meta-llama/llama-prompt-guard-2-22m',
 ];
 let currentModelIndex = 0;
 
@@ -1683,12 +1680,20 @@ exports.handler = async (event, context) => {
         const model = MODELS[idx];
         let modelOk = false;
 
+        // Les modèles "reasoning" openai/gpt-oss-* consomment max_tokens sur un
+        // raisonnement interne caché avant la réponse finale — reasoning_effort
+        // "low" réduit ce raisonnement pour laisser assez de budget à la réponse.
+        const isReasoningModel = model.startsWith('openai/gpt-oss');
+
         for (let retry = 1; retry <= 2; retry++) {
           try {
             groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
               method: 'POST',
               headers: { 'Authorization': `Bearer ${process.env.GROQ_API_KEY}`, 'Content-Type': 'application/json' },
-              body: JSON.stringify({ model, messages: groqMessages, max_tokens: 400, temperature: 0.70, stream: false })
+              body: JSON.stringify({
+                model, messages: groqMessages, max_tokens: 400, temperature: 0.70, stream: false,
+                ...(isReasoningModel ? { reasoning_effort: 'low' } : {}),
+              })
             });
 
             if (groqResponse.status === 429) {

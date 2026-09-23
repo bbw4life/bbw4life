@@ -10,13 +10,18 @@ const FROM_EMAIL = process.env.FROM_EMAIL || 'BBW4LIFE <hello@bbw4life.com>';
 
 const GROQ_MODELS = [
   'llama-3.3-70b-versatile',
-  'llama-3.1-70b-versatile',
-  'mixtral-8x7b-32768',
-  'gemma2-9b-it',
-  'llama3-70b-8192',
+  'moonshotai/kimi-k2-instruct-0905',
+  'meta-llama/llama-4-scout-17b-16e-instruct',
+  'qwen/qwen3-32b',
+  'openai/gpt-oss-120b',
+  'openai/gpt-oss-20b',
+  'llama-3.1-8b-instant',
 ];
 let modelIdx = 0;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
+const GEMINI_MODEL    = 'gemini-3.5-flash-lite';
 
 // ── Brand colors ───────────────────────────────────────────────
 const BBW = {
@@ -55,25 +60,7 @@ const BASE_CSS = `
   }
 `;
 
-// ── Groq ───────────────────────────────────────────────────────
-async function callGroq(userPrompt) {
-  for (let attempt = 0; attempt < GROQ_MODELS.length; attempt++) {
-    const idx   = (modelIdx + attempt) % GROQ_MODELS.length;
-    const model = GROQ_MODELS[idx];
-    for (let retry = 1; retry <= 2; retry++) {
-      try {
-        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-            'Content-Type':  'application/json',
-          },
-          body: JSON.stringify({
-            model,
-            messages: [
-              {
-                role: 'system',
-                content: `You are the senior customer support email writer for BBW4LIFE — a premium plus-size fashion and lifestyle brand with the tagline "Beauty Has No Sizes".
+const SUPPORT_SYSTEM_PROMPT = `You are the senior customer support email writer for BBW4LIFE — a premium plus-size fashion and lifestyle brand with the tagline "Beauty Has No Sizes".
 
 BRAND VOICE:
 - Warm, professional, deeply human — like a best friend who genuinely cares
@@ -90,13 +77,90 @@ WRITING RULES:
 8. Output: Plain text only. Separate paragraphs with a blank line.
 9. Start with a warm personal greeting using the customer's first name
 10. End with a warm sign-off from the BBW4LIFE team
-11. IMPORTANT: Only address what is in the support notes. Do not invent details, promises, or topics not mentioned.`
-              },
+11. IMPORTANT: Only address what is in the support notes. Do not invent details, promises, or topics not mentioned.`;
+
+// ── 1. Claude (primary) ───────────────────────────────────────
+async function callClaude(userPrompt) {
+  if (!process.env.ANTHROPIC_API_KEY) return null;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key':          process.env.ANTHROPIC_API_KEY,
+        'anthropic-version':  '2023-06-01',
+        'Content-Type':       'application/json',
+      },
+      body: JSON.stringify({
+        model:       ANTHROPIC_MODEL,
+        max_tokens:  500,
+        temperature: 0.60,
+        system:      SUPPORT_SYSTEM_PROMPT,
+        messages:    [{ role: 'user', content: userPrompt }],
+      }),
+    });
+    if (!res.ok) { console.warn(`[Claude] HTTP ${res.status}`); return null; }
+    const data    = await res.json();
+    const content = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+    return content.length >= 20 ? content : null;
+  } catch (e) {
+    console.warn('[Claude] Error:', e.message);
+    return null;
+  }
+}
+
+// ── 2. Gemini (secondary) ─────────────────────────────────────
+async function callGemini(userPrompt) {
+  if (!process.env.GOOGLE_AI_API_KEY) return null;
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${process.env.GOOGLE_AI_API_KEY}`,
+      {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SUPPORT_SYSTEM_PROMPT }] },
+          contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+          generationConfig: { maxOutputTokens: 500, temperature: 0.60 },
+        }),
+      }
+    );
+    if (!res.ok) { console.warn(`[Gemini] HTTP ${res.status}`); return null; }
+    const data    = await res.json();
+    const content = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('').trim();
+    return content.length >= 20 ? content : null;
+  } catch (e) {
+    console.warn('[Gemini] Error:', e.message);
+    return null;
+  }
+}
+
+// ── 3. Groq (last resort before hardcoded fallback) ────────────
+async function callGroq(userPrompt) {
+  for (let attempt = 0; attempt < GROQ_MODELS.length; attempt++) {
+    const idx   = (modelIdx + attempt) % GROQ_MODELS.length;
+    const model = GROQ_MODELS[idx];
+    // Les modèles "reasoning" openai/gpt-oss-* consomment max_tokens sur un
+    // raisonnement interne caché avant la réponse finale — reasoning_effort
+    // "low" réduit ce raisonnement pour laisser assez de budget à la réponse.
+    const isReasoningModel = model.startsWith('openai/gpt-oss');
+    for (let retry = 1; retry <= 2; retry++) {
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+            'Content-Type':  'application/json',
+          },
+          body: JSON.stringify({
+            model,
+            messages: [
+              { role: 'system', content: SUPPORT_SYSTEM_PROMPT },
               { role: 'user', content: userPrompt }
             ],
             max_tokens:  500,
             temperature: 0.60,
             top_p:       0.88,
+            ...(isReasoningModel ? { reasoning_effort: 'low' } : {}),
           }),
         });
         if (res.status === 429) {
@@ -117,6 +181,23 @@ WRITING RULES:
       }
     }
   }
+  return null;
+}
+
+// ── Cascade: Claude → Gemini → Groq ─────────────────────────────
+async function callAI(userPrompt) {
+  const claude = await callClaude(userPrompt);
+  if (claude) return claude;
+  console.warn('[AI] Claude failed — trying Gemini');
+
+  const gemini = await callGemini(userPrompt);
+  if (gemini) return gemini;
+  console.warn('[AI] Gemini failed — trying Groq');
+
+  const groq = await callGroq(userPrompt);
+  if (groq) return groq;
+  console.warn('[AI] Groq failed — using hardcoded fallback');
+
   return null;
 }
 
@@ -507,7 +588,7 @@ SUPPORT TEAM NOTES: ${response}
 
 Write a warm, professional email body. Use ONLY the support notes as your basis. Do not add anything not mentioned in the notes. Address the customer by first name. Keep it focused and on-topic.`;
 
-        const aiBody = await callGroq(aiPrompt) || response;
+        const aiBody = await callAI(aiPrompt) || response;
         const html   = buildEmailHTML(subjectResp, aiBody, settings);
         const ok     = await deliver(email, subjectResp, html);
 
