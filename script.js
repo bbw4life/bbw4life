@@ -124,9 +124,11 @@ function bbwUrlBase64ToUint8Array(base64String) {
 }
 
 let bbwPushInitInProgress = false;
+let bbwPushInitQueued = false;
+
 
 async function bbwInitCartPushReminder() {
-  if (bbwPushInitInProgress) return;
+  if (bbwPushInitInProgress) { bbwPushInitQueued = true; return; }
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
   if (Notification.permission === 'denied') return;
 
@@ -162,8 +164,15 @@ async function bbwInitCartPushReminder() {
   }
 
   bbwPushInitInProgress = false;
-}
 
+  // Un appel a été bloqué pendant que celui-ci était en cours — on relance
+  // immédiatement avec le panier le plus à jour (quantité/produits gratuits
+  // ajoutés entre-temps), au lieu de perdre cet instantané.
+  if (bbwPushInitQueued) {
+    bbwPushInitQueued = false;
+    bbwInitCartPushReminder();
+  }
+ }
 
 async function bbwSubscribeGeneral() {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
@@ -14696,7 +14705,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!badge) {
           badge = document.createElement('span');
           badge.className = 'cf-live-chat-badge';
-          badge.innerHTML = '<span class="cf-live-dot"></span> Agent en ligne';
+          badge.innerHTML = '<span class="cf-live-dot"></span> Agent online';
           header.appendChild(badge);
         }
       } else if (badge) {
@@ -14722,7 +14731,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (data.status === 'closed') {
-          addMessage("Cette conversation en direct est terminée. Je reprends le relais — n'hésite pas si tu as d'autres questions ! 😊", 'ai', [], null, []);
+          addMessage("This live conversation has ended. I'm back in charge — feel free to ask if you have any other questions! 😊", 'ai', [], null, []);
           stopLiveChat();
         }
       } catch (err) {
@@ -14752,7 +14761,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const bubble = document.createElement('div');
       bubble.className = 'cf-msg-bubble';
-      bubble.innerHTML = '<span class="cf-live-chat-title">💬 Live Chat</span>Laisse-moi te connecter à notre équipe — donne-moi juste quelques minutes. Peux-tu me laisser tes coordonnées ? 🙏';
+      bubble.innerHTML = '<span class="cf-live-chat-title">💬 Live Chat</span>Let me connect you with our team — just give me a few minutes. Can you leave me your contact details? 🙏';
       msgEl.appendChild(bubble);
 
       const form = document.createElement('form');
@@ -14791,14 +14800,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
           try { sessionStorage.setItem('cf_escalated', 'true'); } catch(e) {}
           form.remove();
-          addMessage("Merci ! 🙏 J'ai prévenu notre équipe, ils te contactent très bientôt.", 'ai', [], null, []);
+          addMessage("Thank you! 🙏 I've let our team know — they'll reach out to you very soon.", 'ai', [], null, []);
 
           if (data.chatId) startLiveChat(data.chatId);
         } catch (err) {
           console.error('Escalation error:', err);
           submitBtn.disabled = false;
           submitBtn.textContent = 'Send to the team';
-          addMessage("Désolée, un petit souci technique. Réessaie dans un instant ! 🙏", 'ai', [], null, []);
+          addMessage("Sorry, a small technical issue. Please try again in a moment! 🙏", 'ai', [], null, []);
         }
       });
 

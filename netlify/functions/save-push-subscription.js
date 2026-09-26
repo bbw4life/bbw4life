@@ -11,7 +11,7 @@ function getSheetsClient() {
   });
   return google.sheets({ version: 'v4', auth });
 }
-
+ 
 const SPREADSHEET_ID = process.env.SHEET_ID_BBW4LIFE_PENDING_ORDERS;
 const TAB   = 'Push_Subscriptions';
 const RANGE = `${TAB}!A:I`;
