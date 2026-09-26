@@ -165,14 +165,11 @@ async function bbwInitCartPushReminder() {
 
   bbwPushInitInProgress = false;
 
-  // Un appel a été bloqué pendant que celui-ci était en cours — on relance
-  // immédiatement avec le panier le plus à jour (quantité/produits gratuits
-  // ajoutés entre-temps), au lieu de perdre cet instantané.
   if (bbwPushInitQueued) {
     bbwPushInitQueued = false;
     bbwInitCartPushReminder();
   }
- }
+}
 
 async function bbwSubscribeGeneral() {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
