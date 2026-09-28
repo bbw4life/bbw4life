@@ -95,7 +95,7 @@
       <div class="marquee-content">
         <span>Free Shipping on Orders Over <span class="col-marquee-free-shipping"></span>+</span>
         <span>Secure Checkout Guaranteed!</span>
-        <span>30-Day Money Back Guarantee!</span>
+        <span>30-Day Returns (Conditions Apply)</span>
         <span>Shop Now and Save Big!</span>
       </div>
     </div>

@@ -10,7 +10,7 @@ const SEO_MAP = {
     // ─────────────────────────────────────────────────────
     '/index': {
         title: 'BBW4LIFE — Beauty Has No Size | Plus Size Fashion for Curvy Women',
-        description: 'BBW4LIFE — the #1 plus size fashion brand for curvy women. Shop bold dresses, swimwear, beauty & more in sizes XL to 6XL. Free shipping. 30-day returns. Beauty Has No Size.',
+        description: 'BBW4LIFE — the #1 plus size fashion brand for curvy women. Shop bold dresses, swimwear, beauty & more in sizes XL to 6XL. Free shipping. 30-day returns; conditions apply. Beauty Has No Size.',
         keywords: 'plus size fashion, curvy women clothing, BBW4LIFE, body positive fashion, plus size dresses, BBW clothing, curvy fashion 2026, plus size swimwear, plus size beauty, BBW style, big beautiful women fashion, body positive brand, plus size store, plus size store online, online store plus size, store fashion for plus size, plus size fashion store, plus size clothing store, plus size boutique, plus size local store, sexy dress for woman plus size, sexy dress plus size, sexy plus size dress, long dress plus size, long dress for woman plus size, bbw model, bbw fashion, bbw dresses, bbw clothes, bbw store, curvy model, curvy store, curvy boutique, plus size women store, plus size clothes for woman, plus size outfit ideas, plus size clothing online, big size dress woman, big size clothing store, XL to 6XL store, plus size fashion shop, plus size apparel store, curvy fashion online, women plus size clothing store, shop plus size dresses online',
         og_image: 'https://bbw4life.com/public/og-home.jpg',
         canonical: 'https://bbw4life.com/'
@@ -20,7 +20,7 @@ const SEO_MAP = {
     // ─────────────────────────────────────────────────────
     '/collections/bbw4life-all-product.html': {
         title: 'Shop All — Complete Plus Size Fashion Catalog | BBW4LIFE',
-        description: 'Browse the complete BBW4LIFE catalog — hundreds of plus size styles for curvy women. Dresses, swimwear, tops, pants, beauty & more in sizes XL to 6XL. Free shipping. 30-day returns. New arrivals every week.',
+        description: 'Browse the complete BBW4LIFE catalog — hundreds of plus size styles for curvy women. Dresses, swimwear, tops, pants, beauty & more in sizes XL to 6XL. Free shipping. 30-day returns; conditions apply. New arrivals every week.',
         keywords: 'shop plus size, curvy fashion catalog, BBW4LIFE all products, plus size collection, curvy women shop, BBW clothing catalog, plus size dresses shop, curvy fashion store, BBW boutique, plus size swimwear shop, curvy woman outfits, size XL 6XL shop',
         og_image: 'https://bbw4life.com/public/og-shop.jpg',
         canonical: 'https://bbw4life.com/collections/bbw4life-all-product.html'
@@ -28,7 +28,7 @@ const SEO_MAP = {
 
     '/collections/curvy-dresses.html': {
         title: 'Plus Size Dresses — Curvy & Beautiful | BBW4LIFE | Sizes XL–6XL',
-        description: 'Shop stunning plus size dresses at BBW4LIFE. Maxi dresses, bodycon, wrap dresses, cocktail & evening gowns — all designed to celebrate your curves. Sizes XL to 6XL. Free shipping on $50+. 30-day returns.',
+        description: 'Shop stunning plus size dresses at BBW4LIFE. Maxi dresses, bodycon, wrap dresses, cocktail & evening gowns — all designed to celebrate your curves. Sizes XL to 6XL. Free shipping on $50+. 30-day returns; conditions apply.',
         keywords: 'plus size dresses, curvy dresses, maxi dress plus size, bodycon plus size, BBW dresses, wrap dress curvy, plus size evening dress, curvy woman dress, plus size cocktail dress, BBW4LIFE dresses, plus size maxi dress, curvy formal dress',
         og_image: 'https://bbw4life.com/public/og-dresses.jpg',
         canonical: 'https://bbw4life.com/collections/curvy-dresses.html'
@@ -44,7 +44,7 @@ const SEO_MAP = {
 
     '/collections/curvy-woman.html': {
         title: 'Plus Size Women\'s Clothing — Tops, Bottoms & Sets | BBW4LIFE | XL–6XL',
-        description: 'Bold plus size clothing for real women at BBW4LIFE. Shop tops, bottoms, sets, activewear and more — from XL to 6XL. Designed for curvy bodies. Free shipping on $50+. 30-day hassle-free returns.',
+        description: 'Bold plus size clothing for real women at BBW4LIFE. Shop tops, bottoms, sets, activewear and more — from XL to 6XL. Designed for curvy bodies. Free shipping on $50+. 30-day returns; conditions apply.',
         keywords: 'plus size women clothing, curvy fashion, XL to 6XL, BBW4LIFE women, plus size tops, curvy woman tops, plus size bottoms, curvy woman bottoms, BBW clothing, plus size sets, curvy matching sets, BBW4LIFE curvy woman',
         og_image: 'https://bbw4life.com/public/og-women.jpg',
         canonical: 'https://bbw4life.com/collections/curvy-woman.html'
@@ -52,7 +52,7 @@ const SEO_MAP = {
 
     '/collections/bbw4life-all-collections.html': {
         title: 'All Collections — Plus Size Fashion for Every Style | BBW4LIFE',
-        description: 'Explore all BBW4LIFE collections — dresses, beauty, swimwear, pants, shoes and more for curvy women. Every collection designed to celebrate your body. Sizes S to 6XL. Free shipping. 30-day returns.',
+        description: 'Explore all BBW4LIFE collections — dresses, beauty, swimwear, pants, shoes and more for curvy women. Every collection designed to celebrate your body. Sizes S to 6XL. Free shipping. 30-day returns; conditions apply.',
         keywords: 'BBW4LIFE collections, plus size collections, curvy clothing collections, BBW4LIFE all collections, plus size fashion collections, curvy woman collections, BBW collections 2026, plus size swimwear collection, curvy dresses collection, BBW beauty collection, plus size pants collection, curvy shoes collection',
         og_image: 'https://bbw4life.com/public/og-collections.jpg',
         canonical: 'https://bbw4life.com/collections/bbw4life-all-collections.html'
@@ -68,7 +68,7 @@ const SEO_MAP = {
 
     '/collections/bbw4life-pants-skirts.html': {
         title: 'Plus Size Pants & Skirts — Curvy Bottoms | BBW4LIFE | Sizes S–6XL',
-        description: 'Shop BBW4LIFE\'s plus size pants and skirts collection. Wide leg pants, midi skirts, flare pants, pencil skirts — designed for curvy women. Sizes S to 6XL. Free shipping. 30-day hassle-free returns.',
+        description: 'Shop BBW4LIFE\'s plus size pants and skirts collection. Wide leg pants, midi skirts, flare pants, pencil skirts — designed for curvy women. Sizes S to 6XL. Free shipping. 30-day returns; conditions apply.',
         keywords: 'plus size pants, curvy skirts, BBW4LIFE bottoms, plus size fashion bottoms, size 6XL, plus size wide leg pants, curvy midi skirt, BBW pants, plus size flare pants, curvy pencil skirt, BBW4LIFE pants skirts, plus size skirt',
         og_image: 'https://bbw4life.com/public/og-home.jpg',
         canonical: 'https://bbw4life.com/collections/bbw4life-pants-skirts.html'
@@ -76,7 +76,7 @@ const SEO_MAP = {
 
     '/collections/men-plus-size.html': {
         title: 'Men Plus Size Collection — Men | BBW4LIFE | Sizes M–5XL',
-        description: 'The biggest plus size selection at BBW4LIFE for men. Pants, shoes, shirts, sweaters, accessories — sizes M to 5XL. Bold, comfortable and made for real bodies. Free shipping. 30-day returns.',
+        description: 'The biggest plus size selection at BBW4LIFE for men. Pants, shoes, shirts, sweaters, accessories — sizes M to 5XL. Bold, comfortable and made for real bodies. Free shipping. 30-day returns; conditions apply.',
         keywords: 'plus size fashion, BBW clothing, plus size men, plus size women, big sizes, 5XL clothing, main plus size collection, BBW4LIFE main, plus size men clothing, curvy women main collection, plus size shirts, BBW sweaters',
         og_image: 'https://bbw4life.com/public/og-home.jpg',
         canonical: 'https://bbw4life.com/collections/men-plus-size.html'
@@ -84,7 +84,7 @@ const SEO_MAP = {
 
     '/collections/most-popular.html': {
         title: 'Most Popular — Best Selling Plus Size Fashion | BBW4LIFE',
-        description: 'Shop BBW4LIFE\'s most popular plus size products — loved and reviewed by thousands of curvy women worldwide. Our best sellers in dresses, tops, swimwear and beauty. Free shipping on $50+. 30-day returns.',
+        description: 'Shop BBW4LIFE\'s most popular plus size products — loved and reviewed by thousands of curvy women worldwide. Our best sellers in dresses, tops, swimwear and beauty. Free shipping on $50+. 30-day returns; conditions apply.',
         keywords: 'most popular BBW4LIFE, best sellers plus size, plus size fashion trending, curvy women best sellers, BBW top products, trending plus size, BBW4LIFE top picks, popular curvy fashion, best rated plus size, curvy woman favorites, BBW best sellers, plus size most loved',
         og_image: 'https://bbw4life.com/public/og-home.jpg',
         canonical: 'https://bbw4life.com/collections/most-popular.html'
@@ -92,7 +92,7 @@ const SEO_MAP = {
 
     '/collections/shoes-sandals.html': {
         title: 'Plus Size Shoes & Sandals — Heels, Sandals & Sneakers for Curvy Women | BBW4LIFE',
-        description: 'Step into confidence with BBW4LIFE\'s plus size footwear collection. Stiletto heels, platform sandals, sneakers, ankle boots and loafers — designed for curvy women in sizes 3 to 12. Free shipping on $50+. 30-day returns.',
+        description: 'Step into confidence with BBW4LIFE\'s plus size footwear collection. Stiletto heels, platform sandals, sneakers, ankle boots and loafers — designed for curvy women in sizes 3 to 12. Free shipping on $50+. 30-day returns; conditions apply.',
         keywords: 'plus size shoes, curvy women shoes, BBW heels, plus size sandals, wide width shoes, curvy woman heels, BBW4LIFE shoes, plus size stiletto, curvy sandals, BBW sneakers, plus size ankle boots, curvy woman footwear',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_1_1.png?v=1778102174',
         canonical: 'https://bbw4life.com/collections/shoes-sandals.html'
@@ -100,7 +100,7 @@ const SEO_MAP = {
 
     '/collections/bbw4life-new-arrivals.html': {
         title: 'New Arrivals — Fresh Plus Size Fashion Every Week | BBW4LIFE',
-        description: 'Discover BBW4LIFE\'s newest plus size arrivals — bold dresses, swimwear, tops, beauty & more added every week. Sizes XL to 6XL. Be the first to wear what\'s new. Free worldwide shipping. 30-day returns.',
+        description: 'Discover BBW4LIFE\'s newest plus size arrivals — bold dresses, swimwear, tops, beauty & more added every week. Sizes XL to 6XL. Be the first to wear what\'s new. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'new arrivals plus size, new curvy fashion, BBW4LIFE new arrivals, plus size new styles 2026, curvy fashion drops, BBW new collection, plus size trending, new curvy dresses, BBW4LIFE weekly drops, fresh plus size styles, curvy woman new arrivals, BBW new styles',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/BBW_Original_Coming_Soon.png?v=1777936945',
         canonical: 'https://bbw4life.com/collections/bbw4life-new-arrivals.html'
@@ -108,7 +108,7 @@ const SEO_MAP = {
     
         '/collections/sets.html': {
         title: 'Matching Outfit Sets — Two & Three Piece Sets for Curvy Women | BBW4LIFE',
-        description: 'Shop BBW4LIFE\'s Sets collection — matching two-piece and three-piece outfit sets for curvy women. Coordinated tops, pants, skirts and loungewear. Sizes S to 6XL. Free worldwide shipping. 30-day returns.',
+        description: 'Shop BBW4LIFE\'s Sets collection — matching two-piece and three-piece outfit sets for curvy women. Coordinated tops, pants, skirts and loungewear. Sizes S to 6XL. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size outfit sets, matching sets curvy women, two piece set plus size, three piece set plus size, BBW4LIFE sets, curvy women coordinated outfits, plus size loungewear set, BBW matching outfit, curvy fashion sets, plus size two piece outfit, BBW4LIFE two piece, plus size set collection',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/sets_collection.png?v=1789170659',
         canonical: 'https://bbw4life.com/collections/sets.html'
@@ -134,8 +134,8 @@ const SEO_MAP = {
     },
 
     '/page/contact.html': {
-        title: 'Contact BBW4LIFE — Real Support Within 24 Hours | Customer Service',
-        description: 'Contact the BBW4LIFE team — real people, real answers within 24 hours. Order support, returns, billing, style advice and community help. Mon–Sat 9AM–6PM EST. English, French & Spanish support.',
+        title: 'Contact BBW4LIFE — Customer Support | Customer Service',
+        description: 'Contact BBW4LIFE customer support for help with orders, returns, billing, style advice and community questions. We usually reply within 24–48 business hours. English, French & Spanish support.',
         keywords: 'contact BBW4LIFE, BBW4LIFE customer service, BBW4LIFE support, plus size fashion support, curvy women style help, BBW4LIFE help, BBW4LIFE email, customer care BBW, plus size order help, BBW4LIFE contact page, curvy fashion support, BBW4LIFE refund help',
         og_image: 'https://bbw4life.com/public/og-contact.jpg',
         canonical: 'https://bbw4life.com/page/contact.html'
@@ -221,9 +221,9 @@ const SEO_MAP = {
     },
 
     '/policies/refund.html': {
-        title: 'Return & Refund Policy — 30-Day Hassle-Free Returns | BBW4LIFE',
-        description: 'BBW4LIFE offers 30-day hassle-free returns. Not in love with your purchase? Return it for a full refund — no questions asked, no stress, no judgment. Shop with complete confidence.',
-        keywords: 'refund policy BBW4LIFE, return policy BBW4LIFE, 30 day returns BBW4LIFE, BBW4LIFE hassle free returns, plus size return policy, curvy fashion returns, BBW4LIFE refund, free returns BBW4LIFE, plus size refund policy, BBW4LIFE money back, curvy fashion refund, BBW4LIFE easy returns',
+        title: 'Returns & Refund Policy | BBW4LIFE',
+        description: 'Read the BBW4LIFE return policy, including the usual 30-day request period, item condition requirements, exclusions, and refund processing times.',
+        keywords: 'refund policy BBW4LIFE, return policy BBW4LIFE, 14 day return request BBW4LIFE, plus size return policy, curvy fashion returns, BBW4LIFE refund, plus size refund policy, BBW4LIFE money back',
         og_image: 'https://bbw4life.com/public/og-home.jpg',
         canonical: 'https://bbw4life.com/policies/refund.html'
     },
@@ -405,7 +405,7 @@ const SEO_MAP = {
 
     '/products/product3.html': {
         title: 'BohoFlip Sandals — Embroidered Boho Flip Flops for Plus Size Queens | BBW4LIFE',
-        description: 'Slip on the BohoFlip Sandals by BBW4LIFE — electric embroidery, effortless slip-on design, 4 bold colors (Black, Pink, Blue, Brown) and sizes 35 to 43. Made for curvy queens who refuse to hide their style. Free worldwide shipping. 30-day returns.',
+        description: 'Slip on the BohoFlip Sandals by BBW4LIFE — electric embroidery, effortless slip-on design, 4 bold colors (Black, Pink, Blue, Brown) and sizes 35 to 43. Made for curvy queens who refuse to hide their style. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'boho flip flop sandals, plus size sandals, BBW4LIFE sandals, embroidered sandals, curvy women sandals, boho sandals plus size, flip flop sandals BBW, plus size flip flops, embroidered flip flops, BBW4LIFE shoes, curvy woman sandals, boho sandals sizes 35 43',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_3_1.png?v=1778181127',
         canonical: 'https://bbw4life.com/products/product3.html'
@@ -413,7 +413,7 @@ const SEO_MAP = {
 
     '/products/product4.html': {
         title: 'PowerHeels — 12cm Stiletto Pumps for Plus Size Queens | BBW4LIFE',
-        description: 'Stand tall and own every room in the PowerHeels by BBW4LIFE. Dramatic 12cm stiletto pumps in Black, Green, Orange & Lavender — designed for curvy queens. Sizes 5 to 10.5. Free worldwide shipping. 30-day returns.',
+        description: 'Stand tall and own every room in the PowerHeels by BBW4LIFE. Dramatic 12cm stiletto pumps in Black, Green, Orange & Lavender — designed for curvy queens. Sizes 5 to 10.5. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size stiletto heels, BBW heels 12cm, curvy women pumps, high heels plus size, BBW4LIFE heels, stiletto pumps curvy, plus size formal heels, high heels BBW, curvy queen heels, plus size party shoes, stiletto pumps BBW, sizes 5 to 10.5 heels',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_4_1.png?v=1778183863',
         canonical: 'https://bbw4life.com/products/product4.html'
@@ -421,7 +421,7 @@ const SEO_MAP = {
 
     '/products/product5.html': {
         title: 'WinterBoost Boots — Ankle Boots for Plus Size Queens | BBW4LIFE',
-        description: 'Walk taller every day in the WinterBoost Boots by BBW4LIFE. Cozy, chic ankle boots in Black, Brown & Gray — designed for curvy queens who want style and comfort all year. Sizes 36 to 43. Free worldwide shipping. 30-day returns.',
+        description: 'Walk taller every day in the WinterBoost Boots by BBW4LIFE. Cozy, chic ankle boots in Black, Brown & Gray — designed for curvy queens who want style and comfort all year. Sizes 36 to 43. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size ankle boots, BBW ankle boots, curvy women boots, winter boots plus size, BBW4LIFE boots, ankle boots curvy queen, plus size winter boots, WinterBoost boots BBW, curvy woman ankle boots, plus size everyday boots, boots for BBW women, ankle boots sizes 36 to 43',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_5_1.png?v=1778185883',
         canonical: 'https://bbw4life.com/products/product5.html'
@@ -429,7 +429,7 @@ const SEO_MAP = {
 
     '/products/product6.html': {
         title: 'ColorStilettos — Vibrant Stiletto Flip Flops for Plus Size Queens | BBW4LIFE',
-        description: 'Slip on the ColorStilettos by BBW4LIFE — bold multicolor design, stiletto drama, flip flop ease. Designed for curvy queens who refuse to be invisible. Sizes EU 36 to 42. Free worldwide shipping. 30-day returns.',
+        description: 'Slip on the ColorStilettos by BBW4LIFE — bold multicolor design, stiletto drama, flip flop ease. Designed for curvy queens who refuse to be invisible. Sizes EU 36 to 42. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size stiletto flip flops, BBW stiletto sandals, curvy women heels, multicolor stilettos, plus size flip flop heels, BBW4LIFE shoes, stiletto flip flop curvy, plus size beach heels, colorful stilettos BBW, curvy queen heels, vibrant stiletto sandals, plus size party heels',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_6_1.png?v=1778192496',
         canonical: 'https://bbw4life.com/products/product6.html'
@@ -437,7 +437,7 @@ const SEO_MAP = {
 
     '/products/product7.html': {
         title: 'NightChic Dress — Mock Neck Long Sleeve Printed Dress for Plus Size Queens | BBW4LIFE',
-        description: 'Own every room in the NightChic Dress by BBW4LIFE — elevated mock neck silhouette, bold printed fabric, long sleeves designed for curvy queens who command elegance effortlessly. Sizes 1XL to 4XL. Free worldwide shipping. 30-day returns.',
+        description: 'Own every room in the NightChic Dress by BBW4LIFE — elevated mock neck silhouette, bold printed fabric, long sleeves designed for curvy queens who command elegance effortlessly. Sizes 1XL to 4XL. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size mock neck dress, BBW printed dress, curvy women evening dress, plus size long sleeve dress, mock neck plus size, BBW4LIFE dress, curvy queen evening wear, plus size dinner dress, printed dress BBW, plus size elegant dress, curvy woman formal dress, BBW NightChic dress',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_7_1.png?v=1778193936',
         canonical: 'https://bbw4life.com/products/product7.html'
@@ -445,7 +445,7 @@ const SEO_MAP = {
 
     '/products/product8.html': {
         title: 'SlitLux Dress — Cutout Slit Round Neck Plus Size Dress | BBW4LIFE',
-        description: 'Own every room in the SlitLux Dress by BBW4LIFE — daring cutout detail, bold front slit hemline, and a flattering round neck long sleeve silhouette. Designed for curvy queens who are done hiding. Sizes 1XL to 4XL. Free worldwide shipping. 30-day returns.',
+        description: 'Own every room in the SlitLux Dress by BBW4LIFE — daring cutout detail, bold front slit hemline, and a flattering round neck long sleeve silhouette. Designed for curvy queens who are done hiding. Sizes 1XL to 4XL. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size cutout dress, BBW slit dress, curvy woman black dress, cutout slit dress plus size, BBW4LIFE SlitLux, curvy queen evening dress, plus size long sleeve dress, round neck cutout dress BBW, black plus size dress 1XL 4XL, curvy woman gala dress, plus size night out dress, daring plus size dress',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_8_1.png?v=1778195422',
         canonical: 'https://bbw4life.com/products/product8.html'
@@ -453,7 +453,7 @@ const SEO_MAP = {
 
     '/products/product9.html': {
         title: 'PlaidOverall Dress — Wide Strap Dungaree for Curvy Women | BBW4LIFE',
-        description: 'Rock the PlaidOverall Dress by BBW4LIFE — charming plaid patterns on a wide-strap overall dungaree style. Playful, casual and made for women who love comfortable chic. Available in Dark Green, Black & Caramel. Sizes 1XL to 4XL. Free worldwide shipping. 30-day returns.',
+        description: 'Rock the PlaidOverall Dress by BBW4LIFE — charming plaid patterns on a wide-strap overall dungaree style. Playful, casual and made for women who love comfortable chic. Available in Dark Green, Black & Caramel. Sizes 1XL to 4XL. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size plaid overall dress, BBW dungaree dress, curvy woman overall, wide strap plus size dress, plaid dress curvy queen, BBW4LIFE plaid dress, plus size dungaree style, curvy casual dress, plus size dark green dress, BBW plaid overall, curvy woman caramel dress, plus size black overall dress',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_9_1.png?v=1778198010',
         canonical: 'https://bbw4life.com/products/product9.html'
@@ -461,7 +461,7 @@ const SEO_MAP = {
 
     '/products/product10.html': {
         title: 'FloralFlounce Dress — Surplice Flounce Sleeve Plus Size Maxi | BBW4LIFE',
-        description: 'Slip into the FloralFlounce Dress by BBW4LIFE — a stunning surplice-neck printed maxi with flounce sleeves that flatters every curve. Feminine, flowing and made to impress. Sizes 1XL to 4XL. Free worldwide shipping. 30-day returns.',
+        description: 'Slip into the FloralFlounce Dress by BBW4LIFE — a stunning surplice-neck printed maxi with flounce sleeves that flatters every curve. Feminine, flowing and made to impress. Sizes 1XL to 4XL. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size floral dress, BBW flounce dress, curvy woman maxi dress, surplice neck plus size, flounce sleeve dress curvy, plus size printed dress, BBW4LIFE floral dress, curvy woman floral maxi, plus size white dress, BBW surplice dress, flounce sleeve curvy queen, plus size sizes 1XL 4XL',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_10_1.png?v=1778199463',
         canonical: 'https://bbw4life.com/products/product10.html'
@@ -525,7 +525,7 @@ const SEO_MAP = {
 
     '/products/product18.html': {
         title: 'LaceNight Dress — Sexy Short Strap Lace Nightdress | BBW4LIFE',
-        description: 'Feel irresistibly beautiful in the LaceNight Dress by BBW4LIFE. Sexy short strap lace nightdress designed for curvy queens who embrace their sensuality. Wine Red. Sizes 1XL to 5XL. Free worldwide shipping. 30-day returns.',
+        description: 'Feel irresistibly beautiful in the LaceNight Dress by BBW4LIFE. Sexy short strap lace nightdress designed for curvy queens who embrace their sensuality. Wine Red. Sizes 1XL to 5XL. Free worldwide shipping. 30-day returns; conditions apply.',
         keywords: 'plus size lace nightdress, BBW sexy lingerie dress, curvy women nightwear, lace strap dress plus size, BBW4LIFE LaceNight, plus size sleepwear, curvy woman lingerie, sexy nightdress BBW, wine red lace dress, plus size lace dress, BBW4LIFE nightwear, curvy lace nightgown',
         og_image: 'https://cdn.shopify.com/s/files/1/0746/5346/6724/files/Pdg-Francenel-Product_18_1.png?v=1778284939',
         canonical: 'https://bbw4life.com/products/product18.html'
@@ -1778,7 +1778,7 @@ function injectGlobalHead() {
     if (!seo && /\/products\/product\d+\.html/.test(path)) {
         seo = {
             title: 'Product | BBW4LIFE — Plus Size Fashion',
-            description: 'Discover this stunning plus size piece at BBW4LIFE. Bold, beautiful and made for your curves. Sizes XL to 6XL. Free shipping. 30-day returns.',
+            description: 'Discover this stunning plus size piece at BBW4LIFE. Bold, beautiful and made for your curves. Sizes XL to 6XL. Free shipping. 30-day returns; conditions apply.',
             keywords: 'plus size product, curvy fashion, BBW4LIFE, plus size clothing, curvy woman outfit, body positive fashion',
             og_image: 'https://bbw4life.com/public/og-home.jpg'
         };

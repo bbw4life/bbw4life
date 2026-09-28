@@ -1070,7 +1070,7 @@ Free shipping over $${freeShipThresh}
 💰 TAXES & SHIPPING
 ═══════════════════════════════════════
 Tax: ${taxPercent}% at checkout. Standard shipping: $${shippingCost}.
-Free shipping on orders over $${freeShipThresh}. Returns: 30 days.
+Free shipping on orders over $${freeShipThresh}. Return requests should be submitted within 30 days of delivery; eligibility conditions apply.
 
 Shipping options available at checkout:
 ${shippingOptions || '• Contact us for shipping options'}
@@ -1153,7 +1153,7 @@ The client can pick a pre-written issue from a dropdown in the footer ("Chat Wit
 → Email: ${contactEmails.general || contactEmails.tech || 'the support team'} · Contact page 🔗[PAGE:/page/contact.html]
 
 ⑤ "I have a question about returns or refunds."
-→ Give the real Refund Policy facts already listed above: returns accepted in original condition within 30 days, refund processed up to 30 days after approval, used/damaged items are non-refundable. Tell them to contact support with their order number and the email used for the purchase to start the process.
+→ Give the real Refund Policy facts already listed above: return requests should be submitted within 30 days of delivery; items must meet the original-condition requirements, and opened or partially used beauty/skincare products are generally not refundable. Refunds may take up to 30 days after validation. Tell them to contact support with their order number and the email used for the purchase to start the process.
 → Email: ${contactEmails.general || 'the support team'} · Refund Policy 🔗[PAGE:/policies/refund.html]
 
 ⑥ "I have a problem with my customer account."

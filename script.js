@@ -13614,15 +13614,23 @@ if (storyForm) {
   storyForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    const fileInput = storyForm.querySelector('input[type="file"]');
+    const photoConsent = document.getElementById('photo-consent-checkbox');
+    const photoConsentError = document.getElementById('photo-consent-error');
+    if (fileInput?.files?.length && !photoConsent?.checked) {
+      if (photoConsentError) photoConsentError.hidden = false;
+      photoConsent?.focus();
+      return;
+    }
+    if (photoConsentError) photoConsentError.hidden = true;
+
     const btn = storyForm.querySelector('button[type="submit"]');
     const original = btn.textContent;
     btn.textContent = 'Sending...';
     btn.disabled = true;
 
-    const fileInput = storyForm.querySelector('input[type="file"]');
-
     let photoBase64 = '';
-    if (fileInput && fileInput.files && fileInput.files[0]) {
+    if (fileInput && fileInput.files && fileInput.files[0] && photoConsent?.checked) {
       photoBase64 = await new Promise((resolve) => {
         const file = fileInput.files[0];
         const img  = new Image();

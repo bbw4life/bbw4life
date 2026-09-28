@@ -950,13 +950,19 @@
                     <label class="form-checkbox">
                         <input type="checkbox" id="consent-checkbox" required>
                         <span class="sf-check-box"></span>
-                        <span>I consent to my story being published on the BBW4LIFE website.</span>
+                        <span>I confirm I am 18 or older and give BBW4LIFE permission to review and publish my story and submitted answers. If I choose anonymity, my display name will be “Anonymous”; my age and country may still appear. My email will not be published. I can request removal by contacting <a href="mailto:support@bbw4life.com" data-email-key="general">support</a>.</span>
                     </label>
                     <label class="form-checkbox">
                         <input type="checkbox" id="anonymous-checkbox">
                         <span class="sf-check-box"></span>
-                        <span>Publish me anonymously — only my first name initial will appear, not my full name.</span>
+                        <span>Publish me as Anonymous. My display name will be “Anonymous”; my age and country may still appear, and a separately approved photo may identify me.</span>
                     </label>
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="photo-consent-checkbox">
+                        <span class="sf-check-box"></span>
+                        <span>Separate optional permission: I agree that the photo I upload may be displayed with my published story. If unchecked, my photo will not be published.</span>
+                    </label>
+                    <p id="photo-consent-error" role="alert" hidden>Please check the separate photo permission box or remove the photo before submitting.</p>
                     </div>
 
                     <button type="submit" class="cta button-3d sf-submit-btn">
@@ -989,7 +995,7 @@
                     </div>
                     <div class="sw-item">
                         <div class="sw-icon-wrap"><i class="fi fi-rr-lock"></i></div>
-                        <p>You can request full anonymity — only your first initial will appear if you prefer.</p>
+                        <p>You can request anonymity — your display name will be Anonymous; age and country may still appear.</p>
                     </div>
                     </div>
                     <div class="sw-quote">

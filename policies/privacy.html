@@ -196,6 +196,11 @@
                                     <td data-label="Required">When you contact us</td>
                                 </tr>
                                 <tr>
+                                    <td data-label="Data">Story submission details</td>
+                                    <td data-label="Why">Review and, with your publication consent, publish your story and submitted answers. This may include your name, age, country, body-image experiences, and an optional photo. Your email is used to manage the submission and is not published.</td>
+                                    <td data-label="Required">Optional submission; publication consent required</td>
+                                </tr>
+                                <tr>
                                     <td data-label="Data">IP address</td>
                                     <td data-label="Why">Security, fraud prevention, and approximate geographic region (country level only)</td>
                                     <td data-label="Required">Automatic</td>
@@ -230,6 +235,7 @@
                             <li><strong>Support:</strong> Read and respond to your questions, technical issues, or return requests with care and accuracy</li>
                             <li><strong>Order confirmation emails:</strong> Send transactional emails that are part of your purchase experience — these are not marketing, they are service communications</li>
                             <li><strong>Newsletter:</strong> Share style inspiration, community stories, and exclusive member offers — only if you explicitly subscribed, always with a one-click unsubscribe link</li>
+                            <li><strong>Community story submissions:</strong> Review submissions and publish the story and answers after you give consent and an administrator approves them. A submitted photo is published only when you separately consent to its publication. You may request removal at any time by emailing <a href="mailto:support@bbw4life.com" data-email-key="general">support@bbw4life.com</a>.</li>
                             <li><strong>Return &amp; refund verification:</strong> In return or refund cases, review the information you voluntarily provide (proof of purchase, photos of item condition)</li>
                             <li><strong>Site improvement:</strong> Analyze anonymized, aggregated usage data to improve the shopping experience and content quality</li>
                             <li><strong>Fraud prevention:</strong> Use IP addresses and purchase patterns to detect and prevent fraudulent transactions</li>
@@ -255,7 +261,7 @@
                         <p>Stripe privacy policy: <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--rose);">stripe.com/privacy</a> &nbsp;&bull;&nbsp; PayPal privacy policy: <a href="https://www.paypal.com/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--rose);">paypal.com/privacy</a></p>
                         <div class="contact-info">
                             <p><strong>Refund requests:</strong> <a href="mailto:billing@bbw4life.com" data-email-key="billing">billing@bbw4life.com</a></p>
-                            <p><strong>Standard refund:</strong> Items must be returned in their original, unworn condition within the stated return window. Refunds are processed within up to 30 days (may vary depending on our logistics partners).</p>
+                            <p><strong>Standard refund:</strong> Items must be returned in their original, unworn condition within the stated return window. Approved refunds are initiated within up to 30 days after validation; banks or payment providers may need an additional 3–10 business days to post the funds. See our <a href="/policies/refund.html">Refund Policy</a> for details.</p>
                             <p><strong>Dispute or damaged item:</strong> Please contact us with photos of the item and your order number. Our team reviews every case with care and responds within 5 business days.</p>
                             <p><strong>Subscription cancellation:</strong> You may cancel at any time. Processing takes up to 10 days. A partial refund for unused time may be issued via your original payment method — or another method if requested at least 5 days before processing begins.</p>
                             <p><strong>Include in all requests:</strong> Your purchase email and order number for faster processing.</p>
@@ -322,7 +328,17 @@
                                 <tr>
                                     <td data-label="Party"><strong>Email provider</strong></td>
                                     <td data-label="What">Your name and email address</td>
-                                    <td data-label="Why">Send order confirmations, shipping updates, and newsletter</td>
+                                    <td data-label="Why">Send order confirmations, shipping updates, newsletters, and story-submission acknowledgements</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Party"><strong>Google Sheets (Google)</strong></td>
+                                    <td data-label="What">Story submission details, contact information, and any photo submitted with the story</td>
+                                    <td data-label="Why">Store and review story submissions and manage publication status</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Party"><strong>Telegram</strong></td>
+                                    <td data-label="What">Submitter's first name, email, country, and rating</td>
+                                    <td data-label="Why">Notify the BBW4LIFE team that a story is awaiting review</td>
                                 </tr>
                                 <tr>
                                     <td data-label="Party"><strong>Google Analytics</strong></td>
@@ -387,6 +403,11 @@
                                     <td data-label="Reason">Context for follow-up support</td>
                                 </tr>
                                 <tr>
+                                    <td data-label="Data">Story submissions</td>
+                                    <td data-label="Period">Submissions not approved for publication are deleted within 90 days. Approved stories remain published only while consent is active; on a removal request, the story and photo are removed and the submission record is deleted within 30 days, except for records we must retain by law.</td>
+                                    <td data-label="Reason">Review submissions and manage publication and removal requests</td>
+                                </tr>
+                                <tr>
                                     <td data-label="Data">Return &amp; refund documentation</td>
                                     <td data-label="Period">Deleted within 30 days after decision</td>
                                     <td data-label="Reason">Return evaluation only</td>
@@ -449,7 +470,7 @@
                         </div>
 
                         <h3>How to Exercise Your Rights</h3>
-                        <p>Email <a href="mailto:support@bbw4life.com" data-email-key="general" style="color:var(--rose);font-weight:600;">support@bbw4life.com</a> with your full name, the email address on your account, and a description of the right you wish to exercise. We confirm receipt within 48 hours and fulfill the request within 30 days.</p>
+                        <p>Email <a href="mailto:support@bbw4life.com" data-email-key="general" style="color:var(--rose);font-weight:600;">support@bbw4life.com</a> with your full name, the email address on your account, and a description of the right you wish to exercise. We confirm receipt within 2 business days and respond to your request within 30 days.</p>
                         <p>If you believe we have not handled your data correctly, you have the right to lodge a complaint with your national data protection authority (e.g. ICO in the UK, CNIL in France, or the equivalent in your country).</p>
                     </section>
 
