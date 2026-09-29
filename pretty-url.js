@@ -159,6 +159,11 @@
     '/products/product150.html': '/bbw4life/striped-tie-front-bbw4life-shirt-and-pleated-wide-leg-pants-set',
     '/products/product151.html': '/bbw4life/diagonal-sash-bbw4life-pearl-button-maxi-dress',
     '/products/product152.html': '/bbw4life/sunflower-ankara-bbw4life-godet-maxi-dress',
+    '/products/product153.html': '/bbw4life/sculpting-one-piece-shaping-jumpsuit',
+    '/products/product154.html': '/bbw4life/zip-front-tummy-control-shapewear-bodysuit',
+    '/products/product155.html': '/bbw4life/buckle-front-shaping-bra',
+    '/products/product156.html': '/bbw4life/adjustable-posture-support-strap',
+    '/products/product157.html': '/bbw4life/zip-front-neoprene-waist-shaper',
 
     // ── BLOG ARTICLES ─────────────────────────────────────
     '/blog/article-featured.html': '/bbw4life/journal/beauty-has-no-sizes-movement-redefining-beauty',

@@ -3749,6 +3749,11 @@ function showErrorPopup(message) {
               'Pdg-Francenel-product150': 'striped-tie-front-bbw4life-shirt-and-pleated-wide-leg-pants-set',
               'Pdg-Francenel-product151': 'diagonal-sash-bbw4life-pearl-button-maxi-dress',
               'Pdg-Francenel-product152': 'sunflower-ankara-bbw4life-godet-maxi-dress',
+              'Pdg-Francenel-product153': 'sculpting-one-piece-shaping-jumpsuit',
+              'Pdg-Francenel-product154': 'zip-front-tummy-control-shapewear-bodysuit',
+              'Pdg-Francenel-product155': 'buckle-front-shaping-bra',
+              'Pdg-Francenel-product156': 'adjustable-posture-support-strap',
+              'Pdg-Francenel-product157': 'zip-front-neoprene-waist-shaper',
             };
 
               // ── Récupérer les données du produit courant
@@ -10042,6 +10047,11 @@ const BBW_WISHLIST_SLUG_MAP = {
   'Pdg-Francenel-product150': 'striped-tie-front-bbw4life-shirt-and-pleated-wide-leg-pants-set',
   'Pdg-Francenel-product151': 'diagonal-sash-bbw4life-pearl-button-maxi-dress',
   'Pdg-Francenel-product152': 'sunflower-ankara-bbw4life-godet-maxi-dress',
+  'Pdg-Francenel-product153': 'sculpting-one-piece-shaping-jumpsuit',
+  'Pdg-Francenel-product154': 'zip-front-tummy-control-shapewear-bodysuit',
+  'Pdg-Francenel-product155': 'buckle-front-shaping-bra',
+  'Pdg-Francenel-product156': 'adjustable-posture-support-strap',
+  'Pdg-Francenel-product157': 'zip-front-neoprene-waist-shaper',
 };
 // Exposé sur window : un `const` de niveau script n'est visible que dans
 // CE fichier — un autre <script> classique séparé (ex: collections.js,

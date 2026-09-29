@@ -855,6 +855,31 @@
   to = "/products/product152.html"
   status = 200
 
+[[redirects]]
+  from = "/bbw4life/sculpting-one-piece-shaping-jumpsuit"
+  to = "/products/product153.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/zip-front-tummy-control-shapewear-bodysuit"
+  to = "/products/product154.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/buckle-front-shaping-bra"
+  to = "/products/product155.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/adjustable-posture-support-strap"
+  to = "/products/product156.html"
+  status = 200
+
+[[redirects]]
+  from = "/bbw4life/zip-front-neoprene-waist-shaper"
+  to = "/products/product157.html"
+  status = 200
+
 # ─────────────────────────────────────────────
 # BLOG ARTICLES — Pretty URLs
 # ─────────────────────────────────────────────

@@ -287,7 +287,7 @@
       if (['all', 'bestsellers', 'new'].includes(key)) return;
       if (!CATEGORY_MAP[key] || CATEGORY_MAP[key].length === 0) return;
 
-      const label = key.charAt(0).toUpperCase() + key.slice(1);
+      const label = key === 'bellysexy' ? 'Belly Sexy' : key.charAt(0).toUpperCase() + key.slice(1);
       const icon  = ICON_MAP[key] || ICON_MAP.default;
 
       const btn = document.createElement('button');

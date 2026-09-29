@@ -1187,6 +1187,41 @@ const SEO_MAP = {
         og_image: '',
         canonical: 'https://bbw4life.com/products/product152.html'
     },
+    '/products/product153.html': {
+        title: 'Sculpting One-Piece Shaping Jumpsuit | BBW4LIFE',
+        description: 'A sleek one-piece jumpsuit with a shaping fit, offered in Black and Skin Tone from S through XXXL.',
+        keywords: 'shaping jumpsuit, one-piece shapewear, sculpting jumpsuit, tummy control jumpsuit, BBW4LIFE',
+        og_image: '',
+        canonical: 'https://bbw4life.com/products/product153.html'
+    },
+    '/products/product154.html': {
+        title: 'Zip-Front Tummy-Control Shapewear Bodysuit | BBW4LIFE',
+        description: 'Zip-front shapewear with tummy-control and butt-lifting design details, offered in Beige and Black from XS through 3XL.',
+        keywords: 'zip front shapewear, tummy control bodysuit, butt lifting shapewear, shapewear bodysuit, BBW4LIFE',
+        og_image: '',
+        canonical: 'https://bbw4life.com/products/product154.html'
+    },
+    '/products/product155.html': {
+        title: 'Buckle-Front Shaping Bra | BBW4LIFE',
+        description: 'A buckle-front shaping bra with multiple color and pack options, including selected sizes through 4XL.',
+        keywords: 'buckle front shaping bra, shaping bra, plus size shaping bra, bra up to 4XL, BBW4LIFE',
+        og_image: '',
+        canonical: 'https://bbw4life.com/products/product155.html'
+    },
+    '/products/product156.html': {
+        title: 'Adjustable Posture Support Strap | BBW4LIFE',
+        description: 'A posture-support strap with standard sizes from S through XXXL, plus additional CJ options. Check the selected option carefully before ordering.',
+        keywords: 'adjustable posture support strap, posture support, back support strap, posture corrector, BBW4LIFE',
+        og_image: '',
+        canonical: 'https://bbw4life.com/products/product156.html'
+    },
+    '/products/product157.html': {
+        title: 'Zip-Front Neoprene Waist Shaper | BBW4LIFE',
+        description: 'A zip-front neoprene waist shaper in Black, Rose Red, or Gray, available from S through XXXL for training or everyday wear.',
+        keywords: 'zip front waist shaper, neoprene waist shaper, waist trainer, tummy shaper, BBW4LIFE',
+        og_image: '',
+        canonical: 'https://bbw4life.com/products/product157.html'
+    },
 
     '/products/product69.html': {
         title: 'GlamSatin Dress — BBW4LIFE Black Halter Ruched Maxi | BBW4LIFE',
