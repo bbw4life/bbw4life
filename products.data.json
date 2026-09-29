@@ -10707,41 +10707,41 @@
       "product153": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product115" },
-          { "product_id": "Pdg-Francenel-product114" },
-          { "product_id": "Pdg-Francenel-product111" }
+          { "product_id": "Pdg-Francenel-product80" },
+          { "product_id": "Pdg-Francenel-product156" },
+          { "product_id": "Pdg-Francenel-product24" }
         ]
       },
       "product154": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product115" },
-          { "product_id": "Pdg-Francenel-product114" },
-          { "product_id": "Pdg-Francenel-product111" }
+          { "product_id": "Pdg-Francenel-product156" },
+          { "product_id": "Pdg-Francenel-product14" },
+          { "product_id": "Pdg-Francenel-product155" }
         ]
       },
       "product155": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product115" },
-          { "product_id": "Pdg-Francenel-product114" },
-          { "product_id": "Pdg-Francenel-product111" }
+          { "product_id": "Pdg-Francenel-product156" },
+          { "product_id": "Pdg-Francenel-product7" },
+          { "product_id": "Pdg-Francenel-product157" }
         ]
       },
       "product156": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product115" },
-          { "product_id": "Pdg-Francenel-product114" },
-          { "product_id": "Pdg-Francenel-product111" }
+          { "product_id": "Pdg-Francenel-product153" },
+          { "product_id": "Pdg-Francenel-product14" },
+          { "product_id": "Pdg-Francenel-product157" }
         ]
       },
       "product157": {
         "discount_percent": 20,
         "items": [
-          { "product_id": "Pdg-Francenel-product115" },
-          { "product_id": "Pdg-Francenel-product114" },
-          { "product_id": "Pdg-Francenel-product111" }
+          { "product_id": "Pdg-Francenel-product156" },
+          { "product_id": "Pdg-Francenel-product154" },
+          { "product_id": "Pdg-Francenel-product1155" }
         ]
       }
     },
@@ -11797,7 +11797,7 @@
     "disable_image_download": "yes", 
     "disable_video_download": "yes", 
     "disable_copy": "yes", 
-    "disable_devtools_key": "no"
+    "disable_devtools_key": "yes"
     },
     "mini_product_slider": {
       "title": "Queens And Kings Also Love These",
