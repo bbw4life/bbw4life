@@ -212,6 +212,10 @@
   'Pdg-Francenel-product132': 'threepiece-set-mens-large-size-casual',
 };
 
+  function getCartShareSlugMap() {
+    return window.BBW_WISHLIST_SLUG_MAP || CART_SLUG_MAP;
+  }
+
   /* ════════════════════════════════════════════════════
      RENDER ITEMS
   ════════════════════════════════════════════════════ */
@@ -1158,8 +1162,9 @@
       // 1 pour chaque occurrence du même id dans la liste, donc c'est ici,
       // à la construction du lien, qu'il faut refléter la vraie quantité.
       var slugsList = [];
+      var slugMap = getCartShareSlugMap();
       cart.forEach(function (i) {
-        var slug = CART_SLUG_MAP[i.id] || i.id;
+        var slug = slugMap[i.id] || i.id;
         var qty  = i.quantity > 0 ? i.quantity : 1;
         for (var n = 0; n < qty; n++) slugsList.push(slug);
       });
@@ -1348,7 +1353,8 @@
     if (!ids.length) return;
 
     var reverseMap = {};
-    Object.keys(CART_SLUG_MAP).forEach(function(k) { reverseMap[CART_SLUG_MAP[k]] = k; });
+    var slugMap = getCartShareSlugMap();
+    Object.keys(slugMap).forEach(function(k) { reverseMap[slugMap[k]] = k; });
     ids = ids.map(function(s) { return reverseMap[s] || s; });
 
     function addSharedToCart() {

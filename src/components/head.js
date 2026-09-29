@@ -1209,9 +1209,9 @@ const SEO_MAP = {
         canonical: 'https://bbw4life.com/products/product155.html'
     },
     '/products/product156.html': {
-        title: 'Adjustable Posture Support Strap | BBW4LIFE',
-        description: 'A posture-support strap with standard sizes from S through XXXL, plus additional CJ options. Check the selected option carefully before ordering.',
-        keywords: 'adjustable posture support strap, posture support, back support strap, posture corrector, BBW4LIFE',
+        title: 'Essential Haven Back Support Belt | BBW4LIFE',
+        description: 'Back support belt offered in Pink, Skin, Black, Gray Thickened, and Skin Tone Thickened. Available sizes vary by option from S to 3XL.',
+        keywords: 'back support belt, posture support belt, back support, skin and black support belt, plus size back support, BBW4LIFE',
         og_image: '',
         canonical: 'https://bbw4life.com/products/product156.html'
     },

@@ -4308,7 +4308,14 @@
       "black beige boots",
       "workwear boots",
       "bottes montantes homme",
-      "product111"
+      "product111",
+      "bottes hautes en toile",
+      "bottes de travail homme",
+      "botas altas de lona",
+      "botas de trabajo para hombre",
+      "zapatos antideslizantes",
+      "bottes hautes homme",
+      "botas altas hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4323,7 +4330,13 @@
       "mens sneakers",
       "black white grey sneakers",
       "baskets sans lacet homme",
-      "product112"
+      "product112",
+      "baskets en cuir sans lacets",
+      "baskets homme style urbain",
+      "zapatillas de cuero sin cordones",
+      "zapatillas urbanas para hombre",
+      "baskets cuir homme",
+      "zapatillas de cuero hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4340,7 +4353,12 @@
       "bottes martin homme",
       "product113",
       "bottes kaki",
-      "botas caqui"
+      "botas caqui",
+      "bottes Martin homme",
+      "botas Martin para hombre",
+      "botas caqui antideslizantes",
+      "bottes homme antiderapantes",
+      "botas hombre antideslizantes"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4359,7 +4377,12 @@
       "baskets résille",
       "zapatillas de malla",
       "baskets respirantes",
-      "zapatillas transpirables"
+      "zapatillas transpirables",
+      "baskets en maille respirante",
+      "zapatillas de malla transpirable",
+      "zapatillas casuales para hombre",
+      "baskets maille homme",
+      "zapatillas de malla hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4374,7 +4397,12 @@
       "home slippers",
       "indoor slides",
       "chaussons homme",
-      "product115"
+      "product115",
+      "chaussons homme pour la maison",
+      "pantuflas de hombre para casa",
+      "zapatillas de interior",
+      "chaussons maison homme",
+      "pantuflas para hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4388,7 +4416,11 @@
       "mens slim fit tee",
       "basic tshirt",
       "tshirt homme",
-      "product116"
+      "product116",
+      "camiseta de manga corta para hombre",
+      "camiseta ajustada para hombre",
+      "tee shirt homme manches courtes",
+      "camiseta hombre manga corta"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4403,7 +4435,11 @@
       "fitness top",
       "gym tshirt",
       "tshirt sport homme",
-      "product117"
+      "product117",
+      "t-shirt homme col en V",
+      "camiseta deportiva de cuello en V",
+      "tee shirt sport homme",
+      "camiseta deportiva hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4417,7 +4453,13 @@
       "white black tshirt",
       "basic tee pack",
       "tshirt pack homme",
-      "product118"
+      "product118",
+      "lot de t-shirts col en V",
+      "t-shirts blancs et noirs homme",
+      "paquete de camisetas con cuello en V",
+      "camisetas blancas y negras para hombre",
+      "lot tee shirts homme",
+      "paquete de camisetas hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4451,7 +4493,12 @@
       "skin care mask",
       "beauty salon mask",
       "light therapy mask",
-      "product119"
+      "product119",
+      "masque facial LED",
+      "masque de soin du visage",
+      "mascarilla facial LED",
+      "mascarilla para el cuidado facial",
+      "masque facial lumiere LED"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4465,7 +4512,13 @@
       "microcurrent device",
       "beauty instrument",
       "skin tightening tool",
-      "product120"
+      "product120",
+      "appareil lifting visage et cou",
+      "appareil de raffermissement de la peau",
+      "dispositivo lifting facial y de cuello",
+      "dispositivo reafirmante para la piel",
+      "appareil lifting visage",
+      "dispositivo lifting facial"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4479,7 +4532,12 @@
       "face wash",
       "skincare cleanser",
       "facial cleanser",
-      "product121"
+      "product121",
+      "nettoyant hydratant pour la peau",
+      "limpiador facial con vitamina C",
+      "limpiador hidratante para la piel",
+      "nettoyant visage vitamine C",
+      "limpiador facial vitamina C"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4493,7 +4551,10 @@
       "spf",
       "sun protection",
       "water sensitive sunscreen",
-      "product122"
+      "product122",
+      "protector solar ligero SPF",
+      "protection solaire SPF",
+      "proteccion solar SPF"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4507,7 +4568,13 @@
       "face mist",
       "skin mist",
       "facial spray",
-      "product123"
+      "product123",
+      "brume hydratante pour le visage",
+      "spray hydratant pour la peau",
+      "bruma hidratante facial",
+      "spray hidratante para la piel",
+      "brume visage hydratante",
+      "bruma facial hidratante"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4545,7 +4612,10 @@
       "ensemble deux pièces",
       "conjunto de dos piezas",
       "pantalon jambe large",
-      "pantalón de pierna ancha"
+      "pantalón de pierna ancha",
+      "conjunto estampado negro y gris talla grande",
+      "ensemble pantalon large femme",
+      "conjunto pantalon ancho mujer"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4562,7 +4632,11 @@
       "ensemble grande taille",
       "product125",
       "ensemble deux pièces",
-      "conjunto de dos piezas"
+      "conjunto de dos piezas",
+      "ensemble assorti pour femme",
+      "conjunto a juego para mujer",
+      "ensemble femme grande taille",
+      "conjunto mujer talla grande"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4577,7 +4651,13 @@
       "plus size set",
       "matching set",
       "ensemble grande taille",
-      "product126"
+      "product126",
+      "ensemble jupe et robe avec veste en dentelle",
+      "robe col rond grande taille",
+      "conjunto de falda y vestido con chaqueta de encaje",
+      "vestido de cuello redondo talla grande",
+      "robe et jupe dentelle femme",
+      "vestido y falda de encaje mujer"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4594,7 +4674,10 @@
       "ensemble grande taille",
       "product127",
       "pantalon jambe large",
-      "pantalón de pierna ancha"
+      "pantalón de pierna ancha",
+      "conjunto casual talla grande de pierna ancha",
+      "ensemble pantalon taille haute",
+      "conjunto pantalon cintura alta"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4609,7 +4692,10 @@
       "plus size set",
       "loungewear",
       "ensemble grande taille",
-      "product128"
+      "product128",
+      "conjunto casual estampado talla grande",
+      "ensemble confort grande taille",
+      "conjunto comodo talla grande"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4626,7 +4712,11 @@
       "pyjama grande taille",
       "product129",
       "vêtement de nuit",
-      "ropa de dormir"
+      "ropa de dormir",
+      "pyjama grande taille avec short en dentelle",
+      "ensemble de nuit en satin",
+      "pyjama dentelle grande taille",
+      "pijama de encaje talla grande"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4641,7 +4731,13 @@
       "plus size set",
       "colorblock",
       "tenue de sport grande taille",
-      "product130"
+      "product130",
+      "ensemble de sport grande taille",
+      "ensemble sweat et pantalon jogging",
+      "conjunto deportivo talla grande",
+      "conjunto de sudadera y jogger",
+      "ensemble sport femme grande taille",
+      "conjunto deportivo mujer talla grande"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4658,7 +4754,11 @@
       "ensemble grande taille",
       "product131",
       "imprimé géométrique",
-      "estampado geométrico"
+      "estampado geométrico",
+      "ensemble assorti grande taille",
+      "conjunto a juego talla grande",
+      "chemise motif geometrique",
+      "camisa estampado geometrico"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4675,7 +4775,11 @@
       "costume homme grande taille",
       "product132",
       "ensemble tailleur",
-      "conjunto de traje"
+      "conjunto de traje",
+      "ensemble blazer gilet pantalon",
+      "traje de tres piezas para hombre talla grande",
+      "costume homme trois pieces",
+      "traje hombre tres piezas"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4692,7 +4796,10 @@
       "pantalon homme",
       "product133",
       "pantalon décontracté",
-      "pantalón casual"
+      "pantalón casual",
+      "pantalon de costume homme coupe droite",
+      "pantalon habille homme",
+      "pantalon vestir hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4707,7 +4814,11 @@
       "mens matching set",
       "printed tracksuit",
       "survetement homme",
-      "product134"
+      "product134",
+      "conjunto deportivo para hombre de cuello redondo",
+      "conjunto estampado de sudadera y jogger",
+      "ensemble survetement homme",
+      "conjunto deportivo hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4722,7 +4833,10 @@
       "BBW4LIFE sets",
       "woven shirt",
       "casual set",
-      "product135"
+      "product135",
+      "chemise color block et pantalon homme",
+      "chemise et pantalon homme",
+      "camisa y pantalon hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4736,7 +4850,11 @@
       "mens matching set",
       "BBW4LIFE sets",
       "tracksuit",
-      "product136"
+      "product136",
+      "conjunto de polo con cremallera diagonal y jogger",
+      "conjunto deportivo para hombre",
+      "ensemble polo et jogger homme",
+      "conjunto polo y jogger hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4750,7 +4868,10 @@
       "mens matching set",
       "BBW4LIFE sets",
       "summer outfit",
-      "product137"
+      "product137",
+      "ropa casual de verano para hombre",
+      "polo et short homme",
+      "polo y pantalon corto hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4763,7 +4884,11 @@
       "baroque shirt",
       "statement shirt",
       "BBW4LIFE mens",
-      "product138"
+      "product138",
+      "chemise homme originale",
+      "camisa llamativa para hombre",
+      "chemise baroque homme",
+      "camisa barroca hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4776,7 +4901,9 @@
       "diagonal zip sweater",
       "mens sweater",
       "BBW4LIFE mens",
-      "product139"
+      "product139",
+      "pull maille homme",
+      "sueter tejido hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4789,7 +4916,13 @@
       "crewneck jogger set",
       "mens matching set",
       "BBW4LIFE sets",
-      "product140"
+      "product140",
+      "ensemble sweat col rond et jogger tricolore",
+      "ensemble assorti homme",
+      "conjunto tricolor de sudadera de cuello redondo y jogger",
+      "conjunto a juego para hombre",
+      "ensemble sweat et jogger",
+      "conjunto sudadera y jogger"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4802,7 +4935,12 @@
       "hoodie jogger set",
       "mens matching set",
       "BBW4LIFE sets",
-      "product141"
+      "product141",
+      "ensemble de sport homme",
+      "conjunto de sudadera con capucha y jogger con parche de ante",
+      "conjunto deportivo para hombre",
+      "hoodie et jogger homme",
+      "sudadera con capucha y jogger hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4815,7 +4953,11 @@
       "gold trim blazer",
       "structured blazer",
       "BBW4LIFE mens",
-      "product142"
+      "product142",
+      "blazer efecto cuero con ribete dorado",
+      "blazer estructurado para hombre",
+      "blazer effet cuir homme",
+      "blazer efecto cuero hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4829,7 +4971,10 @@
       "music print set",
       "mens matching set",
       "BBW4LIFE sets",
-      "product143"
+      "product143",
+      "camisa con clave de sol",
+      "chemise imprimee musique",
+      "camisa estampada musica"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4842,7 +4987,11 @@
       "tee shorts set",
       "mens matching set",
       "BBW4LIFE sets",
-      "product144"
+      "product144",
+      "ensemble t-shirt color block et short",
+      "conjunto casual para hombre",
+      "tee shirt et short homme",
+      "camiseta y pantalon corto hombre"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4856,7 +5005,10 @@
       "sweater dress",
       "BBW4LIFE women",
       "robe pull",
-      "product145"
+      "product145",
+      "vestido de cuello con cremallera talla grande",
+      "robe pull femme",
+      "vestido sueter mujer"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4869,7 +5021,12 @@
       "pink hoodie set",
       "hoodie jogger set",
       "BBW4LIFE sets",
-      "product146"
+      "product146",
+      "ensemble sweat grande taille",
+      "conjunto de sudadera rosa acolchada y jogger",
+      "conjunto de sudadera talla grande",
+      "ensemble sweat rose et jogger",
+      "conjunto sudadera rosa y jogger"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4882,7 +5039,11 @@
       "skirt vest set",
       "pleated skirt",
       "BBW4LIFE women",
-      "product147"
+      "product147",
+      "conjunto de falda plisada y chaleco",
+      "falda plisada para mujer",
+      "ensemble jupe plissee femme",
+      "conjunto falda plisada mujer"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4895,7 +5056,11 @@
       "blazer skirt set",
       "tailored set",
       "BBW4LIFE women",
-      "product148"
+      "product148",
+      "conjunto de blazer y falda con bordado floral",
+      "conjunto de traje entallado",
+      "ensemble blazer et jupe femme",
+      "conjunto blazer y falda mujer"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4909,7 +5074,11 @@
       "evening gown",
       "BBW4LIFE women",
       "robe de soirée",
-      "product149"
+      "product149",
+      "vestido de noche de tul floral con hombros descubiertos",
+      "vestido elegante de gala",
+      "robe de soiree tulle floral",
+      "vestido de noche tul floral"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4922,7 +5091,10 @@
       "pleated wide leg pants",
       "shirt pants set",
       "BBW4LIFE sets",
-      "product150"
+      "product150",
+      "camisa a rayas anudada al frente",
+      "chemise rayee a nouer",
+      "camisa rayada para anudar"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4936,7 +5108,11 @@
       "maxi dress",
       "BBW4LIFE women",
       "robe maxi",
-      "product151"
+      "product151",
+      "robe maxi femme",
+      "vestido maxi para mujer",
+      "robe maxi boutons perles",
+      "vestido maxi botones perla"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4949,7 +5125,11 @@
       "sunflower print dress",
       "godet maxi dress",
       "BBW4LIFE women",
-      "product152"
+      "product152",
+      "vestido maxi Ankara con estampado de girasoles",
+      "vestido de corte godet",
+      "robe maxi tournesol",
+      "vestido maxi girasoles"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4962,7 +5142,12 @@
       "one piece shapewear",
       "sculpting jumpsuit",
       "tummy control",
-      "product153"
+      "product153",
+      "combinaison gainante ventre plat",
+      "mono moldeador de una pieza",
+      "mono reductor con control de abdomen",
+      "combinaison sculptante femme",
+      "mono moldeador mujer"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4975,7 +5160,12 @@
       "tummy control bodysuit",
       "butt lifting",
       "shapewear bodysuit",
-      "product154"
+      "product154",
+      "body sculptant ventre plat",
+      "body moldeador con cremallera frontal",
+      "body reductor con control de abdomen",
+      "body gainant fermeture devant",
+      "body moldeador cierre frontal"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -4987,19 +5177,29 @@
       "buckle front bra",
       "shaping bra",
       "plus size bra",
-      "product155"
+      "product155",
+      "soutien-gorge grande taille",
+      "sujetador moldeador con hebilla frontal",
+      "sujetador talla grande",
+      "soutien gorge sculptant",
+      "sujetador moldeador"
     ],
     "type": "product",
     "icon": "fas fa-tag"
   },
   {
-    "title": "Adjustable Posture Support Strap",
+    "title": "Essential Haven Back Support Belt",
     "url": "/products/product156.html",
     "keywords": [
-      "posture support",
-      "adjustable posture strap",
-      "back support",
-      "product156"
+      "back support belt",
+      "posture support belt",
+      "back brace",
+      "product156",
+      "product156",
+      "ceinture de maintien du dos et de la posture",
+      "faja de soporte para la espalda y la postura",
+      "ceinture maintien du dos",
+      "faja soporte de espalda"
     ],
     "type": "product",
     "icon": "fas fa-tag"
@@ -5011,7 +5211,11 @@
       "neoprene waist shaper",
       "zip front waist trainer",
       "waist shaper",
-      "product157"
+      "product157",
+      "faja moldeadora de neopreno",
+      "faja reductora con cremallera",
+      "gaine taille neoprene",
+      "faja moldeadora neopreno"
     ],
     "type": "product",
     "icon": "fas fa-tag"

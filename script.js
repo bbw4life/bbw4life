@@ -2053,12 +2053,8 @@ function showErrorPopup(message) {
           return;
         }
 
-        // Pages BBW Features (design "Vote For This Design", repérées via
-        // .bbw-heart-banner) : le CSS masque déjà ce banner par défaut
-        // (règle body:has(.bbw-heart-banner) #sanaica-banner-paul dans
-        // products.css) pour garantir zéro flash quel que soit ce setting.
-        // Ici on ne fait que le RÉAFFICHER si show_on_bbw_features==="yes" —
-        // jamais l'inverse, pour ne jamais court-circuiter la protection CSS.
+        // Le CSS masque le banner avant le chargement des settings pour éviter
+        // tout flash quand show="no". On ne le révèle qu'après ces contrôles.
         const isBbwFeaturesPage = !!document.querySelector('.bbw-heart-banner');
         if (isBbwFeaturesPage) {
           const showOnBbwFeatures = (sb.show_on_bbw_features || 'yes').toLowerCase() === 'yes';
@@ -2071,6 +2067,8 @@ function showErrorPopup(message) {
           // continue de s'appliquer (un style inline VIDE n'a aucune
           // priorité sur une règle externe dont le sélecteur matche encore).
           // Il faut une valeur explicite pour la contrer.
+          banner.style.display = 'block';
+        } else {
           banner.style.display = 'block';
         }
 
@@ -3752,7 +3750,7 @@ function showErrorPopup(message) {
               'Pdg-Francenel-product153': 'sculpting-one-piece-shaping-jumpsuit',
               'Pdg-Francenel-product154': 'zip-front-tummy-control-shapewear-bodysuit',
               'Pdg-Francenel-product155': 'buckle-front-shaping-bra',
-              'Pdg-Francenel-product156': 'adjustable-posture-support-strap',
+              'Pdg-Francenel-product156': 'essential-haven-back-support-belt',
               'Pdg-Francenel-product157': 'zip-front-neoprene-waist-shaper',
             };
 
@@ -5685,12 +5683,99 @@ initAnnouncementBar();
 
     function populateProductSelect() {
       const selectEl = document.getElementById('plan-program');
-      if (!selectEl) return;
+      const searchEl = document.getElementById('plan-program-search');
+      const resultsEl = document.getElementById('plan-program-results');
+      if (!selectEl || !searchEl || !resultsEl) return;
 
       const allProds = window.__allProducts || [];
       const featuredProds = BBW_FEATURED_IDS
         .map(id => allProds.find(p => p.id === id))
         .filter(Boolean);
+
+      function normalizeTitle(value) {
+        return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+      }
+
+      function titleRelevance(title, query) {
+        if (!query) return 0;
+        const normalizedTitle = normalizeTitle(title);
+        if (normalizedTitle === query) return 10000;
+        if (normalizedTitle.startsWith(query)) return 9000 - normalizedTitle.length;
+        const phraseIndex = normalizedTitle.indexOf(query);
+        if (phraseIndex !== -1) return 8000 - phraseIndex;
+
+        let score = 0;
+        let matchedWords = 0;
+        let missingWords = 0;
+        for (const word of query.split(' ')) {
+          const wordIndex = normalizedTitle.indexOf(word);
+          if (wordIndex !== -1) {
+            score += 500 - Math.min(wordIndex, 200);
+            matchedWords++;
+            continue;
+          }
+
+          // Allow small spelling differences when the typed letters appear in order.
+          let wordIndexInTitle = 0;
+          let firstMatch = -1;
+          let lastMatch = -1;
+          for (const character of word) {
+            const matchIndex = normalizedTitle.indexOf(character, wordIndexInTitle);
+            if (matchIndex === -1) { firstMatch = -1; break; }
+            if (firstMatch === -1) firstMatch = matchIndex;
+            lastMatch = matchIndex;
+            wordIndexInTitle = matchIndex + 1;
+          }
+          if (firstMatch === -1 || word.length < 3) {
+            missingWords++;
+            continue;
+          }
+          score += Math.max(1, 150 - (lastMatch - firstMatch));
+          matchedWords++;
+        }
+        return matchedWords ? Math.max(1, score - (missingWords * 250)) : 0;
+      }
+
+      function renderProductResults(searchTerm) {
+        const query = normalizeTitle(searchTerm);
+        const rankedProducts = featuredProds
+          .map((prod, index) => ({ prod, index, score: titleRelevance(prod.title, query) }))
+          .sort((a, b) => (b.score - a.score) || (a.index - b.index));
+
+        resultsEl.replaceChildren();
+
+        function appendGroup(label, products) {
+          if (!products.length) return;
+          if (label) {
+            const heading = document.createElement('div');
+            heading.className = 'plan-product-search-heading';
+            heading.textContent = label;
+            resultsEl.appendChild(heading);
+          }
+          products.forEach(({ prod, score }) => {
+            const option = document.createElement('button');
+            option.type = 'button';
+            option.className = 'plan-product-search-option' + (query && score > 0 ? ' is-match' : '');
+            option.setAttribute('role', 'option');
+            option.dataset.productId = prod.id;
+            option.textContent = prod.title;
+            option.addEventListener('click', () => {
+              selectEl.value = prod.id;
+              selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+            resultsEl.appendChild(option);
+          });
+        }
+
+        if (!query) {
+          appendGroup('', rankedProducts);
+        } else {
+          appendGroup('Closest matches', rankedProducts.filter(item => item.score > 0));
+          appendGroup('Other products', rankedProducts.filter(item => item.score === 0));
+        }
+        resultsEl.hidden = false;
+        searchEl.setAttribute('aria-expanded', 'true');
+      }
 
       selectEl.innerHTML = '<option value="" disabled selected>Choose a product...</option>';
       featuredProds.forEach(prod => {
@@ -5701,7 +5786,51 @@ initAnnouncementBar();
         selectEl.appendChild(opt);
       });
 
-      selectEl.addEventListener('change', function() {
+      searchEl.value = '';
+      resultsEl.hidden = true;
+      searchEl.setAttribute('aria-expanded', 'false');
+      let suppressFocusOpen = false;
+      searchEl.onfocus = () => {
+        if (suppressFocusOpen) { suppressFocusOpen = false; return; }
+        renderProductResults(searchEl.value);
+      };
+      searchEl.oninput = function() {
+        // Require a fresh product choice if the customer edits a previous search.
+        selectEl.value = '';
+        renderProductResults(this.value);
+      };
+      searchEl.onblur = function() {
+        setTimeout(() => {
+          const searchWrap = searchEl.closest('.plan-product-search-wrap');
+          if (!searchWrap || !searchWrap.contains(document.activeElement)) {
+            resultsEl.hidden = true;
+            searchEl.setAttribute('aria-expanded', 'false');
+          }
+        }, 100);
+      };
+      searchEl.onkeydown = function(event) {
+        if (event.key === 'Escape') {
+          resultsEl.hidden = true;
+          searchEl.setAttribute('aria-expanded', 'false');
+        } else if (event.key === 'ArrowDown' && !resultsEl.hidden) {
+          const firstOption = resultsEl.querySelector('.plan-product-search-option');
+          if (firstOption) { event.preventDefault(); firstOption.focus(); }
+        } else if (event.key === 'Enter' && !resultsEl.hidden) {
+          const firstOption = resultsEl.querySelector('.plan-product-search-option');
+          if (firstOption) { event.preventDefault(); firstOption.click(); }
+        }
+      };
+      resultsEl.onkeydown = function(event) {
+        if (event.key === 'Escape') {
+          resultsEl.hidden = true;
+          searchEl.setAttribute('aria-expanded', 'false');
+          suppressFocusOpen = true;
+          searchEl.focus();
+        }
+      };
+      resultsEl.onmousedown = event => event.preventDefault();
+
+      selectEl.onchange = function() {
         const pid = this.value;
         const prod = allProds.find(p => p.id === pid);
         if (prod) {
@@ -5712,8 +5841,11 @@ initAnnouncementBar();
             : upgradeShopifyImageUrl(prod.image, 600);
           populateSizeSelect(prod);
           populateColorSelect(prod);
+          searchEl.value = prod.title;
+          resultsEl.hidden = true;
+          searchEl.setAttribute('aria-expanded', 'false');
         }
-      });
+      };
     }
 
     function populateSizeSelect(prod) {
@@ -10050,7 +10182,7 @@ const BBW_WISHLIST_SLUG_MAP = {
   'Pdg-Francenel-product153': 'sculpting-one-piece-shaping-jumpsuit',
   'Pdg-Francenel-product154': 'zip-front-tummy-control-shapewear-bodysuit',
   'Pdg-Francenel-product155': 'buckle-front-shaping-bra',
-  'Pdg-Francenel-product156': 'adjustable-posture-support-strap',
+  'Pdg-Francenel-product156': 'essential-haven-back-support-belt',
   'Pdg-Francenel-product157': 'zip-front-neoprene-waist-shaper',
 };
 // Exposé sur window : un `const` de niveau script n'est visible que dans
@@ -10059,6 +10191,68 @@ const BBW_WISHLIST_SLUG_MAP = {
 // lisibles) ne peut pas résoudre l'identifiant `BBW_WISHLIST_SLUG_MAP`
 // sans ce miroir explicite sur window.
 window.BBW_WISHLIST_SLUG_MAP = BBW_WISHLIST_SLUG_MAP;
+
+// Native cart sharing from the drawer, using the same URL and payload as cart.html.
+(function initCartDrawerNativeShare() {
+    const shareBtn = document.getElementById('cart-drawer-share');
+    if (!shareBtn || !navigator.share) return;
+
+    shareBtn.style.display = 'flex';
+    shareBtn.addEventListener('click', function () {
+        if (typeof window.handleCartShare === 'function') {
+            window.handleCartShare('native');
+            return;
+        }
+
+        let cart = [];
+        try {
+            cart = typeof window.__getCart === 'function'
+                ? window.__getCart()
+                : JSON.parse(localStorage.getItem('cart') || '[]');
+        } catch (err) {
+            cart = [];
+        }
+        if (!Array.isArray(cart) || !cart.length) return;
+
+        const sharedIds = [];
+        cart.forEach(function (item) {
+            const slug = BBW_WISHLIST_SLUG_MAP[item.id] || item.id;
+            const quantity = Math.max(1, Number(item.quantity) || 1);
+            for (let i = 0; i < quantity; i++) sharedIds.push(slug);
+        });
+
+        const count = cart.reduce(function (sum, item) {
+            return sum + Math.max(1, Number(item.quantity) || 1);
+        }, 0);
+        const productLines = cart.map(function (item, index) {
+            const options = [item.color, item.size].filter(Boolean).join(' / ');
+            const quantity = Number(item.quantity) || 1;
+            const price = Number.parseFloat(item.price) || 0;
+            return '(' + (index + 1) + ') ' + item.title +
+                (options ? ' - ' + options : '') +
+                (quantity > 1 ? ' x' + quantity : '') +
+                ' — $' + price.toFixed(2);
+        }).join('\n');
+        const subtotal = cart.reduce(function (sum, item) {
+            return sum + (Number.parseFloat(item.price) || 0) * (Number(item.quantity) || 1);
+        }, 0);
+        const shareUrl = window.location.origin + '/bbw4life/cart?cart_share=' +
+            encodeURIComponent(sharedIds.join(','));
+        const message = 'Hey my friend! I am on BBW4LIFE.com and I put these ' + count +
+            ' beautiful product' + (count > 1 ? 's' : '') + ' in my cart!\n' +
+            'I am sharing them with you — click the link and they will be automatically added to your cart!\n\n' +
+            'My cart (' + count + ' item' + (count > 1 ? 's' : '') + ' — $' + subtotal.toFixed(2) + '):\n' +
+            productLines + '\n\nClick here to see my cart:\n' + shareUrl +
+            '\n\nBBW4LIFE — Beauty Has No Sizes | bbw4life.com';
+
+        navigator.share({ title: 'My BBW4LIFE Cart', text: message, url: shareUrl })
+            .catch(function (err) {
+                if (err && err.name !== 'AbortError') {
+                    console.error('Could not share cart:', err);
+                }
+            });
+    });
+})();
 
 // ================================================================
 //   WISHLIST SHARE SYSTEM

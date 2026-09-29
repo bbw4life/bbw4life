@@ -1068,16 +1068,16 @@
     font-size: 11.5px;
     font-weight: 700;
     color: var(--bbw-black);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
 }
 .pp-value-props__text span {
     font-size: 10px;
     color: rgba(21,17,14,0.55);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
 }
 @media (max-width: 640px) {
     .pp-value-props__item {
@@ -4893,6 +4893,7 @@ body:has(.bbw-heart-banner) #sanaica-banner-paul {
 }
 
 #sanaica-banner-paul {
+    display: none;
     position: relative;
     height: 90px;
     overflow: hidden;
@@ -7525,4 +7526,38 @@ body:has(.product-section) .bbw-footer {
     width: 100%;
     height: auto;
     border-radius: 8px;
+}
+
+/* Shared empty review state for product pages. */
+#reviews-section .reviews-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    min-height: 150px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 28px;
+    padding: 30px 24px;
+    border: 1px dashed rgba(184, 146, 90, 0.48);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fffdf9 0%, #faf4ec 100%);
+    box-shadow: 0 8px 24px rgba(21, 17, 14, 0.06);
+    color: #67594b;
+    font-family: var(--font-body, sans-serif);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.65;
+    text-align: center;
+}
+
+/* products.js appends a review-card when reviews are loaded or submitted. */
+#reviews-section .reviews-list:has(.review-card:not(.hidden)) .reviews-empty {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    #reviews-section .reviews-empty {
+        min-height: 120px;
+        padding: 24px 18px;
+        font-size: 14px;
+    }
 }

@@ -84,8 +84,12 @@
 
           
           <div class="plan-form-group plan-form-group--full">
-            <label for="plan-program">Which Design Are You Voting For? *</label>
-            <select id="plan-program">
+            <label for="plan-program-search">Which Design Are You Voting For? *</label>
+            <div class="plan-product-search-wrap">
+              <input type="search" id="plan-program-search" placeholder="Search product titles..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-required="true" aria-expanded="false" aria-controls="plan-program-results">
+              <div id="plan-program-results" class="plan-product-search-results" role="listbox" aria-label="Product titles" hidden></div>
+            </div>
+            <select id="plan-program" class="plan-program-native-select" aria-hidden="true" tabindex="-1">
               <option value="" disabled selected>Choose the design...</option>
               
             </select>

@@ -162,7 +162,7 @@
     '/products/product153.html': '/bbw4life/sculpting-one-piece-shaping-jumpsuit',
     '/products/product154.html': '/bbw4life/zip-front-tummy-control-shapewear-bodysuit',
     '/products/product155.html': '/bbw4life/buckle-front-shaping-bra',
-    '/products/product156.html': '/bbw4life/adjustable-posture-support-strap',
+    '/products/product156.html': '/bbw4life/essential-haven-back-support-belt',
     '/products/product157.html': '/bbw4life/zip-front-neoprene-waist-shaper',
 
     // ── BLOG ARTICLES ─────────────────────────────────────
