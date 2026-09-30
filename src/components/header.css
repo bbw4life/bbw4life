@@ -4162,7 +4162,7 @@ a.plan-close-thanks-btn {
 
 .img-marquee-section {
   position: relative;
-  background: linear-gradient(160deg, #F6EFE5 0%, #f9f2e6 50%, #F6EFE5 100%);
+  background: #ffffff;
   overflow: hidden;
   padding: 10px 0 15px;
   isolation: isolate;
